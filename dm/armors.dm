@@ -1,5 +1,3 @@
-//the way this works is just weird.  this was one of the first things I wrote with byond.  i wouldn't suggest using this method for equipping, calculating damage, and stuff.
-//i'm not even going to comment this much; it's just too ugly.
 
 obj
 	items

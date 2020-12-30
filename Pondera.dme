@@ -10,6 +10,7 @@
 #define FILE_DIR "dmi"
 #define FILE_DIR "dmi/64"
 #define FILE_DIR "imgs"
+#define FILE_DIR "libs"
 #define FILE_DIR "snd"
 #define FILE_DIR "snd/cleaned"
 // END_FILE_DIR
@@ -70,6 +71,7 @@
 #include "dm\Weapons.dm"
 #include "dm\Zoom.dm"
 #include "dm\Interface.dmf"
+#include "libs\BaseCamp.dm"
 #include "libs\Compas.dm"
 #include "libs\Fl_AtomSystem.dm"
 #include "libs\Fl_ElevationSystem.dm"

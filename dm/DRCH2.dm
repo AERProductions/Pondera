@@ -12,7 +12,7 @@
  don't bug me about it, it's not my problem.
 */
 
-#include <deadron/basecamp>
+
 #define BASE_MENU_CHOOSE_CHARACTER  "Choose Character"//ChooseCharacterMenu()
 #define BASE_MENU_CREATE_CHARACTER	"Create New Link"
 #define BASE_MENU_DELETE_CHARACTER	"Delete Link"

@@ -2,7 +2,7 @@
 /*
 
 What is taken shall be given too.
-[Note: 95-99% of the commentation is not mine]
+[Note: 95-99% of the commentation is not mine, a lot of it is butchered from the find & replace]
 
 */
 var
