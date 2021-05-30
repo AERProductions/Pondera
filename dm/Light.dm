@@ -1413,7 +1413,7 @@ obj
 						src:name="Lit Fire"
 						M<<"You light the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>Fire."
 						new /light/circle(src, 6)
-						light.on()
+						//light.on(src)
 						M.listenSoundmob(f3)
 						//src:name="Unfueled Fire"
 						//if(src.sleeptime > 120)
@@ -1452,7 +1452,7 @@ obj
 
 						sleep(src.sleeptime)
 						//light.off()
-						light.off()
+						light.off(src)
 						//light.off(src)
 						M.unlistenSoundmob(f3)
 						//light.off()
