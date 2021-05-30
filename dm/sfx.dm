@@ -60,6 +60,25 @@ var/tmp/ref/soundmob/rv2 = soundmob(river2, 160, 'snd/creek.ogg', FALSE, 0, 40, 
 		///mob/snd/sfx/apof/waterfall
 
 
+//radius = 0, file, autotune = TRUE, channel = null, volume = 100, repeat = FALSE) Sound settings
+obj
+	soundmob
+		SFX
+			no_save = TRUE
+			fire3
+				//Read()
+					//return
+				//Write()
+					//return
+				icon = 'dmi/64/blank.dmi'
+				New()
+					..()
+					//soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40)
+					soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 40, TRUE)
+
+
+
+
 obj
 
 	snd
@@ -85,7 +104,7 @@ obj
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
-
+//radius = 0, file, autotune = TRUE, channel = null, volume = 100, repeat = FALSE) Sound settings
 					soundmob(src, 30, 'snd/nightcrickets.ogg', TRUE, 0, 40, TRUE)
 
 			waves
@@ -101,7 +120,7 @@ obj
 						//var/global/tmp/ref/soundmob/wv = soundmob(waves, 60, 'snd/waterfall.ogg', FALSE, 0, 40, TRUE)
 					//else
 						//call(/soundmob/Del)()
-					soundmob(src, 40, 'snd/waterfall.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 40, 'snd/waterfall.ogg', TRUE, 0, 30, TRUE)
 
 			fire
 				//Read()
@@ -130,7 +149,8 @@ obj
 				New()
 					..()
 					//soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40)
-					soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 15, 'snd/cleaned/fire2.ogg', FALSE, 0, 40, TRUE)
+
 			river
 				//Read()
 					//return
@@ -164,7 +184,7 @@ obj
 
 					New()
 						..()
-						soundmob(src, 30, 'snd/waterfalldeep.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 30, 'snd/waterfalldeep.ogg', TRUE, 0, 30, TRUE)
 						//if(/client in range(30,src))
 							//listenSoundmob(s)
 						/*var/mob/players/M = client plays sound but breaks saving...
@@ -200,7 +220,7 @@ obj
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 30, 'snd/hollowwind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 60, 'snd/hollowwind.ogg', TRUE, 0, 30, TRUE)
 				forestbirds
 					Read()
 						return
@@ -208,12 +228,17 @@ obj
 						return
 					icon = 'dmi/64/blank.dmi'
 					//var/mob/players/M
+					Del()
+						if(src)
+							if(global.season=="Winter")
+								del src
+						..()
 					New()
 						..()
 						//if(client in world)
 						//if(client in range(100,src))
 								//var/waterfall = locate(510,645,2)
-						soundmob(src, 60, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 100, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
 						//var/soundmob/s = soundmob(src, 100, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
 						//if(src in range(100,/client))
 						//	listenSoundmob(s)

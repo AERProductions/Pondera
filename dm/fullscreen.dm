@@ -22,6 +22,7 @@ mob/verb
 			image=/imgs/bckgrnd2.jpg;
 			"})
 
+
 /*
 mob/var/talk=0
 mob/verb/talk()

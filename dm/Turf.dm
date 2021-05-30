@@ -40,10 +40,10 @@ turf
 	drkgrss4 {icon = 'dmi/64/drkgrss.dmi'; icon_state = "4"}
 	drkgrss5 {icon = 'dmi/64/drkgrss.dmi'; icon_state = "5"}
 	drkgrss6 {icon = 'dmi/64/drkgrss.dmi'; icon_state = "6"}
-	mntn {name = "mntns"; icon = 'dmi/64/mntns.dmi'; icon_state = "1"; density = 1}
+	mntn {name = "mntns"; icon = 'dmi/64/mntn.dmi'; icon_state = "1"; density = 1}
 
 	caves
-		caveent1 {name = "caves1"; icon = 'dmi/64/mntns.dmi'; icon_state = "c1"; density = 1}
+		caveent1 {name = "caves1"; icon = 'dmi/64/mntn.dmi'; icon_state = "c1"; density = 1}
 		caveent2 {name = "caves2"; icon = 'mn.dmi'; icon_state = "c2"; density = 1; plane = MOB_LAYER+3}
 		caveent3 {name = "caves3"; icon = 'mn.dmi'; icon_state = "c3"; density = 1; plane = MOB_LAYER+3}
 		caveent4 {name = "caves4"; icon = 'mn.dmi'; icon_state = "c4"; density = 1; plane = MOB_LAYER+3}
@@ -636,7 +636,7 @@ turf
 		icon_state = "rosw"
 		Entered(O)
 			if(istype(usr,/mob/players))
-				usr.loc = locate(16,6,1)
+				usr.loc = locate(16,9,12)
 				var/mob/players/M = usr
 				M.location = "Sheol"
 	rost2
@@ -645,7 +645,7 @@ turf
 		icon_state = "rosw"
 		Entered(O)
 			if(istype(usr,/mob/players))
-				usr.loc = locate(16,95,1)
+				usr.loc = locate(16,95,12)
 				var/mob/players/M = usr
 				M.location = "Sheol"
 	Dune1
@@ -757,12 +757,16 @@ turf
 				if(istype(usr,/mob/players))
 					winset(usr,"default.talk","is-visible=true")
 				..()
-		talkex
-			//plane = 5
-			Entered(S)
+			Exited(S)
 				if(istype(usr,/mob/players))
 					winset(usr,"default.talk","is-visible=false")
 				..()
+		//talkex
+			//plane = 5
+			//Entered(S)
+				//if(istype(usr,/mob/players))
+				//	winset(usr,"default.talk","is-visible=false")
+				//..()
 		shopen
 			//plane = 5
 			Entered(S)
@@ -1642,6 +1646,7 @@ obj
 			sleep(2)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(2)
 			M << "Ahh, Refreshing. <b>[amount] energy recovered."
 	PoisonVines
@@ -1758,6 +1763,7 @@ obj
 				sleep(2)
 				M.energy += amount
 				M.updateEN()
+				M.hydrated=1
 				sleep(2)
 				M << "Ahh, Refreshing. <b>[amount] energy recovered."
 		PoisonCactus
@@ -1863,6 +1869,7 @@ obj
 			sleep(12)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(6)
 			M << "Ahh, Refreshing. <b>[amount] energy recovered."
 	HealingFountain
@@ -1934,8 +1941,8 @@ obj
 				M.nomotion=0
 				usr.loc = locate(/turf/townin31)
 				M.location = "Zenith"
-				if(!(M.cities.Find("Zenith")))
-					M.cities+="Zenith"
+				if(!(M.forts.Find("Zenith")))
+					M.forts+="Zenith"
 				M.PlayMusic(MUSIC_ZENITH)
 	townin31
 		name = "snow"

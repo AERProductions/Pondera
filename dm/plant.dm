@@ -71,7 +71,7 @@ obj
 				description = "<b>Raspberry</b>  Restores 10 Health"
 				verb/Use()
 					set popup_menu = 1
-					set category = "Commands"
+					//set category = "Commands"
 					set src in usr
 					heal(src,10)
 					//src.stack -= 1
@@ -91,7 +91,7 @@ obj
 				description = "<b>Blueberry</b>  A ripe sapphire colored berry; Restores 10 Energy"
 				verb/Use()
 					set popup_menu = 1
-					set category = "Commands"
+					//set category = "Commands"
 					set src in usr
 					mana(src,10)
 					//src.stack -= 1
@@ -132,7 +132,7 @@ obj
 				description = "<b>Potato</b>  A golden brown Potato; Restores 10 Health"
 				verb/Use()
 					set popup_menu = 1
-					set category = "Commands"
+					//set category = "Commands"
 					set src in usr
 					heal2(src,10)
 				verb/Description()
@@ -151,7 +151,7 @@ obj
 				description = "<b>Onion</b>  A crisp stalk of Onion; Restores 10 Health"
 				verb/Use()
 					set popup_menu = 1
-					set category = "Commands"
+					//set category = "Commands"
 					set src in usr
 					heal2(src,10)
 				verb/Description()
@@ -169,7 +169,7 @@ obj
 				description = "<b>Carrot</b>  A dense Carrot; Restores 10 Health"
 				verb/Use()
 					set popup_menu = 1
-					set category = "Commands"
+					//set category = "Commands"
 					set src in usr
 					heal2(src,10)
 				verb/Description()
@@ -187,7 +187,7 @@ obj
 				description = "<b>Tomato</b>  A juicy red Tomato; Restores 10 Health"
 				verb/Use()
 					set popup_menu = 1
-					set category = "Commands"
+					//set category = "Commands"
 					set src in usr
 					heal2(src,10)
 				verb/Description()
@@ -205,7 +205,7 @@ obj
 				description = "<b>Pumpkin</b>  A large Pumpkin; Restores 10 Health"
 				verb/Use()
 					set popup_menu = 1
-					set category = "Commands"
+					//set category = "Commands"
 					set src in usr
 					heal2(src,10)
 				verb/Description()
@@ -544,9 +544,10 @@ obj
 					M.energy -= 3	//Depletes one energy
 					M.updateEN()
 					if(prob(Rarity+grank))		//Takes the rarity of the tree and your woodcutting lvl
+						src.icon_state="picked"
 						Picker<<"You Finish working the [FruitType] plant and receive [FruitType]!"		//You get "tree being cut" Logs!
 						M.overlays -= image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
-						new fruit(usr)			//Remember log=obj/items/Log/Oak???  Heres where this creates a log into invetory
+						new fruit(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 						new seed(usr)
 						grankEXP+=GiveXP				//  Add The exp from tree to you.
 						M.GNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
@@ -554,13 +555,13 @@ obj
 						FruitAmount--
 						SeedAmount--							//Depletes one log from the Amount.
 						if(FruitAmount==0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
-							src.icon_state="picked"
-							sleep(src.spawntime)		//Waiting the spawntime you set for your trees
-							src.icon_state= initial(icon_state)		//Makes your trees come back to live
-							src.FruitAmount=rand(MinFruit,MaxFruit)			//Redefines new FruitAmounts.
-							src.SeedAmount=rand(MinSeed,MaxSeed)
+							//src.icon_state="picked"
+							//sleep(src.spawntime)		//Waiting the spawntime you set for your trees
+							//src.icon_state= initial(icon_state)		//Makes your trees come back to live
+							//src.FruitAmount=rand(MinFruit,MaxFruit)			//Redefines new FruitAmounts.
+							//src.SeedAmount=rand(MinSeed,MaxSeed)
 							//del src
-						else return
+							return
 					else
 						M.overlays -= image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
 						Picker<<"You missed the [FruitType] plant."
@@ -678,7 +679,7 @@ obj
 							src.icon_state="picked"
 							src.vgrowstate = 7
 							src.name = "Picked"
-							new vegetable(usr)			//Remember log=obj/items/Log/Oak???  Heres where this creates a log into invetory
+							new vegetable(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 							new seed(usr)
 							grankEXP+=GiveXP				//  Add The exp from tree to you.
 							M.GNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
@@ -713,7 +714,7 @@ obj
 	//				for(R in world)
 					if(src.vgrowstate == 8||src.vgrowstate == 7)
 						return
-					if (month == "Shevat"&&day>=1&&day<=9)
+					if (month == "Shevat"&&day>=1||month == "Shevat"&&day<=9)//have to check the month after the || (or) call otherwise it just detects the day
 
 						src:vgrowstate = 1//seed
 						if(src.vgrowstate == 8)
@@ -728,11 +729,17 @@ obj
 						src:vgrowstate = 3//bloom
 						if(src.vgrowstate == 8)
 							return
-					if (month == "Nissan"&&day>=15)
+					if (month == "Nisan"&&day>=15)
 
 						src:vgrowstate = 4//ripe
 						if(src.vgrowstate == 8)
 							return
+					if (season == "Summer")
+
+						src:vgrowstate = 4//ripe
+						if(src.vgrowstate == 8)
+							return
+
 					if (season == "Autumn")
 
 						src:vgrowstate = 5//ripe fall
@@ -1024,7 +1031,7 @@ obj
 							src.icon_state="picked"
 							src.ggrowstate=7
 							src.name = "Picked"
-							new grain(usr)			//Remember log=obj/items/Log/Oak???  Heres where this creates a log into invetory
+							new grain(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 							new seed(usr)
 							grankEXP+=GiveXP				//  Add The exp from tree to you.
 							M.GNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
@@ -1056,7 +1063,7 @@ obj
 						//src:bgrowstate = 1
 					if(src.ggrowstate == 8||src.ggrowstate == 7)
 						return
-					if (month == "Shevat"&&day>=10&&day<=19)
+					if (month == "Shevat"&&day>=10||month == "Shevat"&&day<=19)
 
 						src:ggrowstate = 1//seed
 						if(src.ggrowstate == 8)
@@ -1076,6 +1083,12 @@ obj
 						src:ggrowstate = 4//ripe
 						if(src.ggrowstate == 8)
 							return
+
+					if (season == "Summer")
+						src:ggrowstate = 4//ripe
+						if(src.ggrowstate == 8)
+							return
+
 					if (season == "Autumn")
 
 						src:ggrowstate = 5//ripe fall
@@ -1271,7 +1284,11 @@ obj
 
 						src:bgrowstate = 3//bloom
 
-					if (month == "Nissan"&&day>=16)
+					if (month == "Nisan"&&day>=16)
+
+						src:bgrowstate = 4//ripe
+
+					if (season == "Summer")
 
 						src:bgrowstate = 4//ripe
 
@@ -1404,12 +1421,11 @@ obj
 			//var/S
 			//S = /obj/items/Seeds
 
-			plane = 2
+			plane = 1
 			Sowed = 0
-			Click()
+			Click()//does this need to block multiple menu instances opening? Need to test
 
-				if (!(src in range(1, usr))) return//Checking if user is in range of 1
-					Plant()
+				Plant()
 			verb/Plant()
 				 //change to seed
 
@@ -1418,82 +1434,92 @@ obj
 				//var/obj/items/Seeds/F = locate() in M.contents
 				//if (!(src in range(1, usr)))
 					//return
+				var/obj/DeedToken/dt//remove this section---------------
+				dt = locate(oview(src,15))
+				if(!dt)
+					goto NXT
+				for(dt)
+					if(M.canbuild==1)
+						goto NEXT
+					else
+						M << "You do not have permission to build"
+						return
+				NEXT//to disable deeds----------------------------------
+				NXT
 				if (Sowed==1)
 					usr << "Already sown."
 					return
 				if(M.HOequipped==0)//Checking if the tool is equipped
 					M<<"Need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hoe'>Hoe to plant the seed properly."
 					return
-				else
-					if(get_dist(src,M)>=1)//Checking to make sure the user didn't walk away
-						M<<"Stand on the spot where you want to plant the seed."
-						return
-					//if(month != "Shevat")
-						//M << "Can only plant in the month of Shevat."
-						//return
-					if(M.energy == 0)//Checking user's energy level
-						M<<"Low Energy."
-						return
+				if(get_dist(src,M)>=1)//Checking to make sure the user didn't walk away
+					M<<"Stand on the spot where you want to plant the seed."
+					return
+				//if(month != "Shevat")
+					//M << "Can only plant in the month of Shevat."
+					//return
+				if(M.energy == 0)//Checking user's energy level
+					M<<"Low Energy."
+					return
 
-					//if(F)
+				//if(F)
 
-					var/obj/items/Seeds/S//variable reference to the seed in question
-					for(S in usr.contents)//checking for seed object in user contents
+				var/obj/items/Seeds/S = locate() in M.contents//variable reference to the seed in question
+				for(S)//checking for seed object in user contents
 
-						if(istype(S,/obj/items/Seeds))//checking if that reference is indeed the right type of object
-							locate(S in usr.contents)//locating the desired object in user contents
-							if(M.grank >= S:greq)
-								STL.Add(S)//adding that object in user contents to the list
-							if(S:greq > M.grank)//compare player gardening rank to the gardening requirement level of the plant
-								//usr << "Your gardening acuity is too low to plant [S]."
-								STL.Remove(S)
-							if(STL.len >=2)//checking if the list contents is greater than or equal to 2
+					if(istype(S,/obj/items/Seeds))//checking if that reference is indeed the right type of object
+						locate(S in usr.contents)//locating the desired object in user contents
+						if(M.grank >= S:greq)
+							STL.Add(S)//adding that object in user contents to the list
+						if(S:greq > M.grank)//compare player gardening rank to the gardening requirement level of the plant
+							//usr << "Your gardening acuity is too low to plant [S]."
+							STL.Remove(S)
+						if(STL.len >=2)//checking if the list contents is greater than or equal to 2
 
-								var/ST = input("Select Seed","Gardening") as anything in STL//If it is greater than or equal to 2, return a list of options
+							var/ST = input("Select Seed","Gardening") as anything in STL//If it is greater than or equal to 2, return a list of options
 
-								//usr << ST
-									//if(ST)
-								if(ST)//if there is a choice made in that list
-									//F.RemoveFromStack(1)
-									M<<"You plant the [S] at your feet."
-									S.Sown = 1
-									var/obj/Plants/Vegetables/vs
-									var/obj/Plants/Grain/gs
-									//M<<"You plant the [src] at your feet."//notify
-									if((S.Sown==1)&&(month != "Shevat"))
-										new S.plantbs(usr.loc)
-										for(vs in view(src,1))
-											vs.vgrowstate=8
-									if(S.Sown==1&&month != "Shevat"&&istype(gs,/obj/Plants/Grain) in view(src,1))
-										new S.plantbs(usr.loc)
-										gs.ggrowstate=8
-									else if(S.Sown==1&&month=="Shevat")
-										new S.plantbs(usr.loc)//plant that choice
-										//call(/obj/Plants/Grow)()
-										M.grankEXP += S.gxpg
-										S.RemoveFromStack(1)//remove from stack
-										Sowed = 1//mark soil and sown
-										M.energy -= 8//remove energy
-										M.updateEN()
-									if(M.MAXgrankLVL==1)
+							//usr << ST
+								//if(ST)
+							if(ST)//if there is a choice made in that list
+								//F.RemoveFromStack(1)
+								M<<"You plant the [S] at your feet."
+								S.Sown = 1
+								var/obj/Plants/Vegetables/vs
+								var/obj/Plants/Grain/gs
+								//M<<"You plant the [src] at your feet."//notify
+								if((S.Sown==1)&&(month != "Shevat"))
+									new S.plantbs(usr.loc)
+									for(vs in view(src,1))
+										vs.vgrowstate=8
+								if(S.Sown==1&&month != "Shevat"&&istype(gs,/obj/Plants/Grain) in view(src,1))
+									new S.plantbs(usr.loc)
+									gs.ggrowstate=8
+								else if(S.Sown==1&&month=="Shevat")
+									new S.plantbs(usr.loc)//plant that choice
+									//call(/obj/Plants/Grow)()
+									M.grankEXP += S.gxpg
+									S.RemoveFromStack(1)//remove from stack
+									Sowed = 1//mark soil and sown
+									M.energy -= 8//remove energy
+									M.updateEN()
+								if(M.MAXgrankLVL==1)
+									return
+								else
+									if(M.grankEXP >= M.grankMAXEXP)
+										M.GNLvl()
 										return
-									else
-										if(M.grankEXP >= M.grankMAXEXP)
-											M.GNLvl()
-											return
-									//notify
-									return//return haha
+								//notify
+								return//return haha
 
 		richsoil
 			icon_state = "richsoil"
 			icon = 'dmi/64/gen.dmi'
-			plane = 2
+			plane = 1
 			Sowed = 0
 
-			Click()
+			Click()//does this need to block multiple menu instances opening? Need to test
 
-				if (!(src in range(1, usr))) return//Checking if user is in range of 1
-					Plant()
+				Plant()
 			verb/Plant()
 				 //change to seed
 
@@ -1502,73 +1528,82 @@ obj
 				//var/obj/items/Seeds/F = locate() in M.contents
 				//if (!(src in range(1, usr)))
 					//return
+				var/obj/DeedToken/dt//remove this section---------------
+				dt = locate(oview(src,15))
+				if(!dt)
+					goto NXT
+				for(dt)
+					if(M.canbuild==1)
+						goto NEXT
+					else
+						M << "You do not have permission to build"
+						return
+				NEXT//to disable deeds----------------------------------
+				NXT
 				if (Sowed==1)
 					usr << "Already sown."
 					return
 				if(M.HOequipped==0)//Checking if the tool is equipped
 					M<<"Need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hoe'>Hoe to plant the seed properly."
 					return
-				else
-					if(get_dist(src,M)>=1)//Checking to make sure the user didn't walk away
-						M<<"Stand on the spot where you want to plant the seed."
-						return
-					//if(month != "Shevat")
-						//M << "Can only plant in the month of Shevat."
-						//return
-					if(M.energy == 0)//Checking user's energy level
-						M<<"Low Energy."
-						return
+				if(get_dist(src,M)>=1)//Checking to make sure the user didn't walk away
+					M<<"Stand on the spot where you want to plant the seed."
+					return
+				//if(month != "Shevat")
+					//M << "Can only plant in the month of Shevat."
+					//return
+				if(M.energy == 0)//Checking user's energy level
+					M<<"Low Energy."
+					return
 
-					//if(F)
+				//if(F)
 
-					var/obj/items/Seeds/S//variable reference to the seed in question
-					for(S in usr.contents)//checking for seed object in user contents
+				var/obj/items/Seeds/S = locate() in M.contents//variable reference to the seed in question
+				for(S)//checking for seed object in user contents
 
-						if(istype(S,/obj/items/Seeds))//checking if that reference is indeed the right type of object
-							locate(S in usr.contents)//locating the desired object in user contents
-							if(M.grank >= S:greq)
-								STL.Add(S)//adding that object in user contents to the list
-							if(S:greq > M.grank)//compare player gardening rank to the gardening requirement level of the plant
-								//usr << "Your gardening acuity is too low to plant [S]."
-								STL.Remove(S)
-							if(STL.len >=2)//checking if the list contents is greater than or equal to 2
+					if(istype(S,/obj/items/Seeds))//checking if that reference is indeed the right type of object
+						locate(S in usr.contents)//locating the desired object in user contents
+						if(M.grank >= S:greq)
+							STL.Add(S)//adding that object in user contents to the list
+						if(S:greq > M.grank)//compare player gardening rank to the gardening requirement level of the plant
+							//usr << "Your gardening acuity is too low to plant [S]."
+							STL.Remove(S)
+						if(STL.len >=2)//checking if the list contents is greater than or equal to 2
 
-								var/ST = input("Select Seed","Gardening") as anything in STL//If it is greater than or equal to 2, return a list of options
+							var/ST = input("Select Seed","Gardening") as anything in STL//If it is greater than or equal to 2, return a list of options
 
-								//usr << ST
-									//if(ST)
-								if(ST)//if there is a choice made in that list
-									//F.RemoveFromStack(1)
-									M<<"You plant the [S] at your feet."
-									S.Sown = 1
-									var/obj/Plants/Vegetables/vs
-									var/obj/Plants/Grain/gs
-									//M<<"You plant the [src] at your feet."//notify
-									if((S.Sown==1)&&(month != "Shevat"))
-										new S.plantbs(usr.loc)
-										for(vs in view(src,1))
-											vs.vgrowstate=8
-									if(S.Sown==1&&month != "Shevat"&&istype(gs,/obj/Plants/Grain) in view(src,1))
-										new S.plantbs(usr.loc)
-										gs.ggrowstate=8
-									else if(S.Sown==1&&month=="Shevat")
-										new S.plantbs(usr.loc)//plant that choice
-										//call(/obj/Plants/Grow)()
-										M.grankEXP += S.gxpg
-										S.RemoveFromStack(1)//remove from stack
-										Sowed = 1//mark soil and sown
-										M.energy -= 8//remove energy
-										M.updateEN()//update energy
-
-									if(M.MAXgrankLVL==1)
+							//usr << ST
+								//if(ST)
+							if(ST)//if there is a choice made in that list
+								//F.RemoveFromStack(1)
+								M<<"You plant the [S] at your feet."
+								S.Sown = 1
+								var/obj/Plants/Vegetables/vs
+								var/obj/Plants/Grain/gs
+								//M<<"You plant the [src] at your feet."//notify
+								if((S.Sown==1)&&(month != "Shevat"))
+									new S.plantbs(usr.loc)
+									for(vs in view(src,1))
+										vs.vgrowstate=8
+								if(S.Sown==1&&month != "Shevat"&&istype(gs,/obj/Plants/Grain) in view(src,1))
+									new S.plantbs(usr.loc)
+									gs.ggrowstate=8
+								else if(S.Sown==1&&month=="Shevat")
+									new S.plantbs(usr.loc)//plant that choice
+									//call(/obj/Plants/Grow)()
+									M.grankEXP += S.gxpg
+									S.RemoveFromStack(1)//remove from stack
+									Sowed = 1//mark soil and sown
+									M.energy -= 8//remove energy
+									M.updateEN()
+								if(M.MAXgrankLVL==1)
+									return
+								else
+									if(M.grankEXP >= M.grankMAXEXP)
+										M.GNLvl()
 										return
-									else
-										if(M.grankEXP >= M.grankMAXEXP)
-											M.GNLvl()
-											return
-
-
-									return//return haha
+								//notify
+								return//return haha
 
 
 mob/players
@@ -1579,6 +1614,15 @@ mob/players
 		//	set hidden = 1
 			set category=null
 			var/mob/players/M = usr
+			var/obj/DeedToken/dt//remove this section---------------
+			dt = locate(oview(src,15))
+			for(dt)
+				if(M.canbuild==1)
+					goto NEXT
+				else
+					M << "You do not have permission to build"
+					return
+			NEXT//to disable deeds----------------------------------
 			if(Doing==1)
 				usr << "You are currently sowing."
 				return
@@ -1601,7 +1645,7 @@ mob/players
 							sleep(15)
 							a = new/obj/Soil/richsoil(src.loc)
 							M<<"You sow rich soil."
-							a:buildingowner = "[usr.key]"
+							a:buildingowner = ckeyEx("[usr.key]")
 							M.energy -= 5
 							M.updateEN()
 							M.Doing=0
@@ -1620,7 +1664,7 @@ mob/players
 							sleep(15)
 							a = new/obj/Soil/soil(src.loc)
 							M<<"You Finish sowing the soil."
-							a:buildingowner = "[usr.key]"
+							a:buildingowner = ckeyEx("[usr.key]")
 							M.energy -= 5
 							M.updateEN()
 							M.Doing=0
@@ -1639,11 +1683,11 @@ mob/players
 							switch(input("Which direction?","Dirt Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner"))
 								if("NorthWest Corner")
 									a = new/turf/NWCRoad(src.loc)
-									a:buildingowner = "[usr.key]"
+									a:buildingowner = ckeyEx("[usr.key]")
 									M.buildexp += 5
 								if("NorthEast Corner")
 									a = new/turf/NECRoad(src.loc)
-									a:buildingowner = "[usr.key]"
+									a:buildingowner = ckeyEx("[usr.key]")
 									M.buildexp += 5*/
 						//call(/proc/buildlevel)(M)
 

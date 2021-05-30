@@ -29,6 +29,59 @@ turf
 		var/mob/players/M
 		DblClick()
 			set popup_menu = 1
+			M = usr
+			if (!(src in range(1, usr))) return
+			if (M.Doing==1)
+				return
+			else
+				Fill_(M)
+				sleep(2)
+		proc
+			FindJar(mob/players/M)
+				for(var/obj/items/tools/Containers/Jar/J in M.contents)
+					locate(J)
+					if(J.suffix=="Equipped"&&J.CType=="Empty"&&J.filled==0)
+						return J
+			Fill_()
+				set waitfor = 0
+				set popup_menu = 1
+				set src in oview(1)
+				var/mob/players/M
+				M = usr
+
+				//set category = "Commands"
+				//if(M.JRequipped==1)
+				//if(J.CType=="")
+				//	J.CType=0
+				//if(Fill(M))//Need to switch all of these fills over to the new 'detect container and fill volume' system
+					//var/obj/items/tools/Containers/Jar/J = FindJar(M)
+				var/obj/items/tools/Containers/Jar/J = FindJar(M)
+				//var/obj/items/tools/Containers/Vessel/J2 = FindVes(M)
+				//if(!J)
+					//return
+				if(J&&M.JRequipped==1)
+					M.Doing = 1
+					M<<"You begin filling the Jar with Tar."
+					sleep(2)
+
+					J.icon_state = "Jart"
+					J.name="Filled Jar"
+					J.filled=1
+					J.CType="Tar"
+					J.volume=25
+					sleep(1)
+					//usr << "Ctype[J.CType] & Volume [J.volume]"//call(/obj/items/tools/Containers/Jar/proc/descr)(J)
+					M<<"You Filled the Jar with Tar."
+					M.Doing = 0
+					return
+				else if(!J&&M.JRequipped==0)
+					M<<"Need to hold an empty Jar to collect Tar."
+					M.Doing = 0
+					return
+
+		/*
+		DblClick()
+			set popup_menu = 1
 			if (!(src in range(1, usr))) return
 			if (Carving==1)
 				return
@@ -48,7 +101,7 @@ turf
 			new /obj/items/Tar(M, 1)
 			sleep(1)
 			Carving=0
-			M << "You've collected some Tar"
+			M << "You've collected some Tar"*/
 	Sand2
 		icon_state = "sandb"
 		icon = 'dmi/64/sand.dmi'
@@ -56,21 +109,74 @@ turf
 		name = "Sand"
 		var/mob/players/M//these need lots of work
 		DblClick()
+			set popup_menu = 1
+			M = usr
+			if (!(src in range(1, usr))) return
+			if (M.Doing==1)
+				return
+			else
+				Fill_(M)
+				sleep(2)
+		proc
+			FindJar(mob/players/M)
+				for(var/obj/items/tools/Containers/Jar/J in M.contents)
+					locate(J)
+					if(J.suffix=="Equipped"&&J.CType=="Empty"&&J.filled==0)
+						return J
+
+			Fill_()
+				set waitfor = 0
+				set popup_menu = 1
+				set src in oview(1)
+				var/mob/players/M
+				M = usr
+
+				//set category = "Commands"
+				//if(M.JRequipped==1)
+				//if(J.CType=="")
+				//	J.CType=0
+				//if(Fill(M))//Need to switch all of these fills over to the new 'detect container and fill volume' system
+					//var/obj/items/tools/Containers/Jar/J = FindJar(M)
+				var/obj/items/tools/Containers/Jar/J = FindJar(M)
+				//var/obj/items/tools/Containers/Vessel/J2 = FindVes(M)
+				//if(!J)
+					//return
+				if(M.JRequipped==1)
+					M.Doing = 1
+					M<<"You begin filling the Jar with Sand."
+					sleep(2)
+
+					J.icon_state = "Jars"
+					J.name="Filled Jar"
+					J.filled=1
+					J.CType="Sand"
+					J.volume=25
+					sleep(1)
+					//usr << "Ctype[J.CType] & Volume [J.volume]"//call(/obj/items/tools/Containers/Jar/proc/descr)(J)
+					M<<"You Filled the Jar with Sand."
+					M.Doing = 0
+					return
+				else if(M.JRequipped==0)
+					M<<"Need to hold an empty Jar to fill it."
+					M.Doing = 0
+					return
+		/*
+		DblClick()
 
 			set popup_menu = 1
 			var/mob/players/M
 			M = usr
-			locate(/obj/items/tools/Shovel) in M.contents
+			locate(/obj/items/tools/Containers/Jar) in M.contents
 			if (!(src in range(1, usr))) return
 			if (M.UED==1)
 				return
 			else
-				if(M.SHequipped==1)
+				if(M.JRequipped==1)
 					digsand(M)
 					sleep(2)
 					return
 				else
-					M<<"You need to use the shovel to dig sand."
+					M<<"You need to use a Jar to gather sand."
 					return
 		proc/digsand(var/turf/Sand,amount)
 			set waitfor = 0
@@ -79,14 +185,14 @@ turf
 			//var/obj/items/Sand/S = new(usr, 1)
 			M = usr
 			M.UED=1
-			M << "You Begin digging some Sand..."
+			M << "You Begin collecting some Sand in the Jar..."
 			sleep(9)
 			//S += M.contents
 			new /obj/items/Sand(M, 1)
 			sleep(1)
 			M.UED=0
-			M << "You dig up some Sand"
-			return
+			M << "You gather some Sand"
+			return*/
 	ClayDeposit
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "clay"
@@ -152,34 +258,34 @@ turf
 			Cast_Line() //...
 				set popup_menu = 1
 				set src in oview(1) //...
-				set category = "Commands"
+				//set category = "Commands"
 				Fishing(M) //calls the fishing proc
 			/*Drink()
-				set category = "Commands"
+				//set category = "Commands"
 				set src in oview(1)
 				usingmana(src,100)*/
 			Fill_Jar()
 				set waitfor = 0
 				set popup_menu = 1
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				if(Fill(M))
-					var/obj/items/tools/Jar/J = locate() in M.contents
+					var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 					if(M.JRequipped==1)
 						M<<"You begin filling the Jar."
 						sleep(2)
 						J.overlays += /obj/liquid
-						J.name="Filled Jar"
+						J.filled=1
 						sleep(1)
 						M<<"You Filled the Jar."
 					else
 						M<<"Need to hold the Jar to fill it."
-					if(J.name=="Filled Jar")
+					if(J.filled==1)
 						M<<"You already filled the Jar."
 						return 0
 			/*Hydrate()
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				usingmana(M,100)*/
 
 		proc/usingmana(var/turf/Water/J,amount)
@@ -192,6 +298,7 @@ turf
 			sleep(2)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(2)
 			M << "Ahh, Refreshing. <b>[amount] energy recovered."
 		pbord1
@@ -253,34 +360,34 @@ turf
 				set popup_menu = 1
 			//	set src in oview(1) //...
 				//set hidden = 1
-				set category = "Commands"
-				Fishing(M) //calls the fishing proc
+				//set category = "Commands"
+				Fishing(M) //calls the fishing proc might need some checks to prevent double actions
 			/*Drink()
-				set category = "Commands"
+				//set category = "Commands"
 				set src in oview(1)
 				usingmana(src,100)*/
 			Fill_Jar()
 				set waitfor = 0
 				set popup_menu = 1
 				set src in oview(1)
-				set category = "Commands"
-				if(Fill(M))
-					var/obj/items/tools/Jar/J = locate() in M.contents
+				//set category = "Commands"
+				if(Fill(M))//Need to switch all of these fills over to the new 'detect container and fill volume' system
+					var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 					if(M.JRequipped==1)
 						M<<"You begin filling the Jar."
 						sleep(2)
 						J.overlays += /obj/liquid
-						J.name="Filled Jar"
+						J.filled=1
 						sleep(1)
 						M<<"You Filled the Jar."
 					else
 						M<<"Need to hold the Jar to fill it."
-					if(J.name=="Filled Jar")
+					if(J.filled==1)
 						M<<"You already filled the Jar."
 						return 0
 			/*Hydrate()
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				usingmana(M,100)*/
 
 		proc/usingmana(var/turf/Water/J,amount)
@@ -293,6 +400,7 @@ turf
 			sleep(2)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(2)
 			M << "Ahh, Refreshing. <b>[amount] energy recovered."
 	OasisWater
@@ -310,19 +418,19 @@ turf
 				set waitfor = 0
 				set popup_menu = 1
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				if(Fill(M))
-					var/obj/items/tools/Jar/J = locate() in M.contents
+					var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 					if(M.JRequipped==1)
 						M<<"You begin filling the Jar."
 						sleep(2)
 						J.overlays += /obj/liquid
-						J.name="Filled Jar"
+						J.filled=1
 						sleep(1)
 						M<<"You Filled the Jar."
 					else
 						M<<"Need to hold the Jar to fill it."
-					if(J.name=="Filled Jar")
+					if(J.filled==1)
 						M<<"You already filled the Jar."
 						return 0
 		proc/usingmana(var/turf/OasisWater/J,amount)
@@ -335,6 +443,7 @@ turf
 			sleep(2)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(2)
 			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 	OasisWaterc1
@@ -352,19 +461,19 @@ turf
 				set waitfor = 0
 				set popup_menu = 1
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				if(Fill(M))
-					var/obj/items/tools/Jar/J = locate() in M.contents
+					var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 					if(M.JRequipped==1)
 						M<<"You begin filling the Jar."
 						sleep(2)
 						J.overlays += /obj/liquid
-						J.name="Filled Jar"
+						J.filled=1
 						sleep(1)
 						M<<"You Filled the Jar."
 					else
 						M<<"Need to hold the Jar to fill it."
-					if(J.name=="Filled Jar")
+					if(J.filled==1)
 						M<<"You already filled the Jar."
 						return 0
 		proc/usingmana(var/turf/OasisWaterc1/J,amount)
@@ -377,6 +486,7 @@ turf
 			sleep(2)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(2)
 			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 	OasisWaterc2
@@ -394,19 +504,19 @@ turf
 				set waitfor = 0
 				set popup_menu = 1
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				if(Fill(M))
-					var/obj/items/tools/Jar/J = locate() in M.contents
+					var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 					if(M.JRequipped==1)
 						M<<"You begin filling the Jar."
 						sleep(2)
 						J.overlays += /obj/liquid
-						J.name="Filled Jar"
+						J.filled=1
 						sleep(1)
 						M<<"You Filled the Jar."
 					else
 						M<<"Need to hold the Jar to fill it."
-					if(J.name=="Filled Jar")
+					if(J.filled==1)
 						M<<"You already filled the Jar."
 						return 0
 		proc/usingmana(var/turf/OasisWaterc2/J,amount)
@@ -419,6 +529,7 @@ turf
 			sleep(2)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(2)
 			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 	OasisWaterc3
@@ -436,19 +547,19 @@ turf
 				set waitfor = 0
 				set popup_menu = 1
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				if(Fill(M))
-					var/obj/items/tools/Jar/J = locate() in M.contents
+					var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 					if(M.JRequipped==1)
 						M<<"You begin filling the Jar."
 						sleep(2)
 						J.overlays += /obj/liquid
-						J.name="Filled Jar"
+						J.filled=1
 						sleep(1)
 						M<<"You Filled the Jar."
 					else
 						M<<"Need to hold the Jar to fill it."
-					if(J.name=="Filled Jar")
+					if(J.filled==1)
 						M<<"You already filled the Jar."
 						return 0
 		proc/usingmana(var/turf/OasisWaterc3/J,amount)
@@ -461,6 +572,7 @@ turf
 			sleep(2)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(2)
 			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 	OasisWaterc4
@@ -478,19 +590,19 @@ turf
 				set waitfor = 0
 				set popup_menu = 1
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				if(Fill(M))
-					var/obj/items/tools/Jar/J = locate() in M.contents
+					var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 					if(M.JRequipped==1)
 						M<<"You begin filling the Jar."
 						sleep(2)
 						J.overlays += /obj/liquid
-						J.name="Filled Jar"
+						J.filled=1
 						sleep(1)
 						M<<"You Filled the Jar."
 					else
 						M<<"Need to hold the Jar to fill it."
-					if(J.name=="Filled Jar")
+					if(J.filled==1)
 						M<<"You already filled the Jar."
 						return 0
 		proc/usingmana(var/turf/OasisWaterc4/J,amount)
@@ -503,6 +615,7 @@ turf
 			sleep(2)
 			M.energy += amount
 			M.updateEN()
+			M.hydrated=1
 			sleep(2)
 			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 	JungleWat
@@ -521,19 +634,19 @@ turf
 					set waitfor = 0
 					set popup_menu = 1
 					set src in oview(1)
-					set category = "Commands"
+					//set category = "Commands"
 					if(Fill(M))
-						var/obj/items/tools/Jar/J = locate() in M.contents
+						var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 						if(M.JRequipped==1)
 							M<<"You begin filling the Jar."
 							sleep(2)
 							J.overlays += /obj/liquid
-							J.name="Filled Jar"
+							J.filled=1
 							sleep(1)
 							M<<"You Filled the Jar."
 						else
 							M<<"Need to hold the Jar to fill it."
-						if(J.name=="Filled Jar")
+						if(J.filled==1)
 							M<<"You already filled the Jar."
 							return 0
 			proc/usingmana(var/turf/JungleWater/J,amount)
@@ -546,6 +659,7 @@ turf
 				sleep(2)
 				M.energy += amount
 				M.updateEN()
+				M.hydrated=1
 				sleep(2)
 				M << "It is not that refreshing... <b>[amount] energy recovered."
 		JungleWaterc1
@@ -562,19 +676,19 @@ turf
 					set waitfor = 0
 					set popup_menu = 1
 					set src in oview(1)
-					set category = "Commands"
+					//set category = "Commands"
 					if(Fill(M))
-						var/obj/items/tools/Jar/J = locate() in M.contents
+						var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 						if(M.JRequipped==1)
 							M<<"You begin filling the Jar."
 							sleep(2)
 							J.overlays += /obj/liquid
-							J.name="Filled Jar"
+							J.filled=1
 							sleep(1)
 							M<<"You Filled the Jar."
 						else
 							M<<"Need to hold the Jar to fill it."
-						if(J.name=="Filled Jar")
+						if(J.filled==1)
 							M<<"You already filled the Jar."
 							return 0
 			proc/usingmana(var/turf/JungleWaterc1/J,amount)
@@ -587,6 +701,7 @@ turf
 				sleep(2)
 				M.energy += amount
 				M.updateEN()
+				M.hydrated=1
 				sleep(2)
 				M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 		JungleWaterc2
@@ -603,19 +718,19 @@ turf
 					set waitfor = 0
 					set popup_menu = 1
 					set src in oview(1)
-					set category = "Commands"
+					//set category = "Commands"
 					if(Fill(M))
-						var/obj/items/tools/Jar/J = locate() in M.contents
+						var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 						if(M.JRequipped==1)
 							M<<"You begin filling the Jar."
 							sleep(2)
 							J.overlays += /obj/liquid
-							J.name="Filled Jar"
+							J.filled=1
 							sleep(1)
 							M<<"You Filled the Jar."
 						else
 							M<<"Need to hold the Jar to fill it."
-						if(J.name=="Filled Jar")
+						if(J.filled==1)
 							M<<"You already filled the Jar."
 							return 0
 			proc/usingmana(var/turf/JungleWaterc2/J,amount)
@@ -628,6 +743,7 @@ turf
 				sleep(2)
 				M.energy += amount
 				M.updateEN()
+				M.hydrated=1
 				sleep(2)
 				M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 		JungleWaterc3
@@ -644,19 +760,19 @@ turf
 					set waitfor = 0
 					set popup_menu = 1
 					set src in oview(1)
-					set category = "Commands"
+					//set category = "Commands"
 					if(Fill(M))
-						var/obj/items/tools/Jar/J = locate() in M.contents
+						var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 						if(M.JRequipped==1)
 							M<<"You begin filling the Jar."
 							sleep(2)
 							J.overlays += /obj/liquid
-							J.name="Filled Jar"
+							J.filled=1
 							sleep(1)
 							M<<"You Filled the Jar."
 						else
 							M<<"Need to hold the Jar to fill it."
-						if(J.name=="Filled Jar")
+						if(J.filled==1)
 							M<<"You already filled the Jar."
 							return 0
 			proc/usingmana(var/turf/JungleWaterc3/J,amount)
@@ -669,6 +785,7 @@ turf
 				sleep(2)
 				M.energy += amount
 				M.updateEN()
+				M.hydrated=1
 				sleep(2)
 				M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 		JungleWaterc4
@@ -685,19 +802,19 @@ turf
 					set waitfor = 0
 					set popup_menu = 1
 					set src in oview(1)
-					set category = "Commands"
+					//set category = "Commands"
 					if(Fill(M))
-						var/obj/items/tools/Jar/J = locate() in M.contents
+						var/obj/items/tools/Containers/Jar/J = locate() in M.contents
 						if(M.JRequipped==1)
 							M<<"You begin filling the Jar."
 							sleep(2)
 							J.overlays += /obj/liquid
-							J.name="Filled Jar"
+							J.filled=1
 							sleep(1)
 							M<<"You Filled the Jar."
 						else
 							M<<"Need to hold the Jar to fill it."
-						if(J.name=="Filled Jar")
+						if(J.filled==1)
 							M<<"You already filled the Jar."
 							return 0
 			proc/usingmana(var/turf/JungleWaterc4/J,amount)
@@ -710,6 +827,7 @@ turf
 				sleep(2)
 				M.energy += amount
 				M.updateEN()
+				M.hydrated=1
 				sleep(2)
 				M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
 obj
@@ -718,6 +836,65 @@ obj
 		icon = 'dmi/64/creation.dmi'
 		icon_state = "liquid"
 		plane = 10
+	liquidt
+		icon = 'dmi/64/creation.dmi'
+		icon_state = "liquidt"
+		plane = 10
+	liquido
+		icon = 'dmi/64/creation.dmi'
+		icon_state = "liquido"
+		plane = 10
+	vliquid
+		icon = 'dmi/64/creation.dmi'//vessel
+		icon_state = "vliquid"
+		plane = 10
+	vliquidt
+		icon = 'dmi/64/creation.dmi'//vessel
+		icon_state = "vliquidt"
+		plane = 10
+	vliquido
+		icon = 'dmi/64/creation.dmi'//vessel
+		icon_state = "vliquido"
+		plane = 10
+	vliquidHF
+		icon = 'dmi/64/creation.dmi'//vessel
+		icon_state = "vliquidHF"
+		plane = 10
+	vliquidHFt
+		icon = 'dmi/64/creation.dmi'//vessel
+		icon_state = "vliquidHFt"
+		plane = 10
+	vliquidHFo
+		icon = 'dmi/64/creation.dmi'//vessel
+		icon_state = "vliquidHFo"
+		plane = 10
+	bliquid
+		icon = 'dmi/64/creation.dmi'//barrel
+		icon_state = "bliquidw"
+		plane = 10
+	bliquidt
+		icon = 'dmi/64/creation.dmi'//barrel
+		icon_state = "bliquidt"
+		plane = 10
+	bliquido
+		icon = 'dmi/64/creation.dmi'//barrel
+		icon_state = "bliquido"
+		plane = 10
+	qbliquid
+		icon = 'dmi/64/creation.dmi'//barrel
+		icon_state = "qbliquid"
+		plane = 10
+	qbliquidt
+		icon = 'dmi/64/creation.dmi'//barrel
+		icon_state = "qbliquidt"
+		plane = 10
+	qbliquido
+		icon = 'dmi/64/creation.dmi'//barrel
+		icon_state = "qbliquido"
+		plane = 10
+
+		//plane = 10
+
 	seed
 		icon = 'dmi/64/blank.dmi'
 		var/list/Spots = list(1)
@@ -729,13 +906,13 @@ obj
 				set category=null
 				set popup_menu = 1
 				set src in oview(1) //...
-				//set category = "Commands"
+				////set category = "Commands"
 				Weed1(usr)
 			Search() //...
 				set category=null
 				set popup_menu = 1
 				set src in oview(1) //...
-				//set category = "Commands"
+				////set category = "Commands"
 				Searching(usr) //calls the fishing proc
 		icon = 'dmi/64/plants.dmi'
 		Redflower
@@ -812,6 +989,7 @@ mob
 			var/HP = 30
 			New()
 				.=..()
+				src.color = rgb(rand(0,255),rand(0,255),rand(0,255))
 				spawn(1)
 					Wander(Speed)
 
@@ -1487,12 +1665,12 @@ proc
 					//J4.light.on()
 					//J4.Lit = 1
 			J4.overlays += icon('dmi/64/fire.dmi',icon_state="8")
-		for(var/obj/castlwll5a/J5a)
+		for(var/obj/TownTorches/castlwll5a/J5a)
 		//	if(J5a.Lit == 0)
 					//J5a.light.on()
 				//J5a.Lit = 1
 			J5a.overlays += icon('dmi/64/fire.dmi',icon_state="8")
-		for(var/obj/btmwll1a/J6a)
+		for(var/obj/TownTorches/btmwll1a/J6a)
 			//if(J6a.Lit == 0)
 					//J6a.light.on()
 					//J6a.Lit = 1
@@ -1650,7 +1828,7 @@ proc
 					//return 0
 			//	if(G)
 				if(prob(0.1))
-					new/obj/items/LogUeikLog(G)
+					new/obj/items/LogsUeikLog(G)
 					//for(G as icon)
 						//G.override += image('dmi/64/plants.dmi',icon_state="tg3")
 						//new/obj/Flowers/Tllgras(G)
@@ -1783,7 +1961,7 @@ proc
 				return 0
 			else if(G==G)
 				if(prob(0.2))
-					new/obj/items/LogUeikLog(G)
+					new/obj/items/LogsUeikLog(G)
 		for(var/turf/Grass/G in world)
 			if(G!=G)
 				return 0
@@ -1876,7 +2054,7 @@ mob/players
 				return 0
 			else if(G==G)
 				if(prob(0.2))
-					new/obj/items/LogUeikLog(G)
+					new/obj/items/LogsUeikLog(G)
 		for(var/turf/Grass/G in world)
 			if(G!=G)
 				return 0
@@ -1960,7 +2138,7 @@ mob/players
 				return 0
 			else if(G==G)
 				if(prob(0.2))
-					new/obj/items/LogUeikLog(G)
+					new/obj/items/LogsUeikLog(G)
 		for(var/turf/Grass/G in world)
 			if(G!=G)
 				return 0
@@ -2045,7 +2223,7 @@ mob/players
 				return 0
 			else if(G==G)
 				if(prob(0.2))
-					new/obj/items/LogUeikLog(G)
+					new/obj/items/LogsUeikLog(G)
 		for(var/turf/Grass/G in world)
 			if(G!=G)
 				return 0
@@ -2130,7 +2308,7 @@ mob/players
 				return 0
 			else if(G==G)
 				if(prob(0.2))
-					new/obj/items/LogUeikLog(G)
+					new/obj/items/LogsUeikLog(G)
 		for(var/turf/Grass/G in world)
 			if(G!=G)
 				return 0
@@ -2215,7 +2393,7 @@ mob/players
 				return 0
 			else if(G==G)
 				if(prob(0.2))
-					new/obj/items/LogUeikLog(G)
+					new/obj/items/LogsUeikLog(G)
 		for(var/turf/Grass/G in world)
 			if(G!=G)
 				return 0

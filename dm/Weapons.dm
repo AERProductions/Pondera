@@ -1,4 +1,5 @@
 mob
+
 	var
 		Wequipped = 0//these control the weapon/tool equip system
 		Aequipped = 0
@@ -22,6 +23,10 @@ mob
 		SHMequipped = 0
 		UPKequipped = 0
 		CHequipped = 0
+		FIequipped = 0
+		SWequipped = 0
+		WSequipped = 0
+		SAXequipped = 0
 		tempdefense = 0
 		tempevade = 0
 		tempdamagemin = 1
@@ -58,7 +63,7 @@ obj
 	items
 		ancscrlls
 			can_stack = TRUE
-			icon = 'dmi/64/anctxt.dmi'
+			icon = 'dmi/64/at32.dmi'
 			//Del()
 				//..()
 				//usr << "<font color=#40e0d0><b>The [src.name] dissipates out of this world..."
@@ -611,149 +616,167 @@ obj
 		var
 			description
 			owner = ""
+			blockcarry
 		verb
-			GetAll()
+			/*GetAll()//get all sets an item stack to one (this problem has only been tested on olives, unknown if it happens on anything else)
 				set category=null
 				set popup_menu=1
-				set src in oview(1)
+				set src in range(1)
 				//set hidden = 1
-				var/mob/players/M = usr
-				var/obj/DeedToken/dt
+				var/mob/players/M
+				M = usr
+				/*var/obj/DeedToken/dt
 				dt = locate(oview(src,15))
-				for(dt)
+				for(dt)//might be related to these deed implementations of mine
 					if(M.canpickup==1)
 						set src in range(1)
-						SplitStack(usr, stack_amount)
+						src.SplitStack(usr, stack_amount)
 						return
 					else
 						M << "You do not have permission to pickup"
 						return
-				if(!dt)
-					if(src.type==/obj/items/questitem)
-						var/C=0
-						var/obj/items/o
+				if(!dt)*/
+				if(src.blockcarry==1)
+					M << "You can't carry that!"
+					return
+				if(src.type==/obj/items/questitem)
+					var/C=0
+					var/obj/items/o
 
-						if(M.quest==0)
-							for(o as obj in M.contents)
-								if(o.type==/obj/items/questitem&&C==0)
-									C=1
-									return
-								else if(o.type==/obj/items/questitem)
-									M << "You don't need that"
-									return
-							if(C==0)
-								//src.Move(usr, 1)
-								set src in range(1)
-								SplitStack(usr, stack_amount)
+					if(M.quest==0)
+						for(o as obj in M.contents)
+							if(o.type==/obj/items/questitem&&C==0)
+								C=1
 								return
+							else if(o.type==/obj/items/questitem)
+								M << "You don't need that"
+								return
+						if(C==0)
+							//src.Move(usr, 1)
+							//set src in range(1)
+							SplitStack(usr, stack_amount)
 
-						else
-							M << "You don't need that"
-							return
+							//return
+
 					else
-						var/obj/O = src
-						set src in oview(1)
+						M << "You don't need that"
+						return
+				else
+					var/obj/items/O = src
+					set src in range(1)
 
-						for(O as obj in view(3)) // only people you can SEE
-							if(istype(O,/obj))
-								//src.Move(usr, 1)
-								set src in range(1)
-								SplitStack(usr, stack_amount)
-								return
+					for(O as obj in view(3)) // only people you can SEE
+						if(istype(O,/obj)&&src.blockcarry!=1)
+							//src.Move(usr, 1)
+							SplitStack(usr, stack_amount)
+							//return
+						else if(src.blockcarry==1)
+							M << "You can't carry that!"
+							return*/
 			Get()
 				set category=null
 				set popup_menu=1
-				set src in oview(1)
+				set src in range(1)
 				//set hidden = 1
-				var/mob/players/M = usr
-				var/obj/DeedToken/dt
+				var/mob/players/M
+				M = usr
+				/*var/obj/DeedToken/dt
 				dt = locate(oview(src,15))
 				for(dt)
 					if(M.canpickup==1)
 						set src in range(1)
-						SplitStack(usr, stack_amount)
+						src.SplitStack(usr, stack_amount)
 						return
 					else
 						M << "You do not have permission to pickup"
 						return
-				if(!dt)
-					if(src.type==/obj/items/questitem)
-						var/C=0
-						var/obj/items/o
-						if(M.quest==0)
-							for(o as obj in M.contents)
-								if(o.type==/obj/items/questitem&&C==0)
-									C=1
-									return
-								else if(o.type==/obj/items/questitem)
-									M << "You don't need that"
-									return
-							if(C==0)
-								src.SplitStack(usr, 1)
+				if(!dt)*/
+				if(src.blockcarry==1)
+					M << "You can't carry that!"
+					return
+				if(src.type==/obj/items/questitem)
+					var/C=0
+					var/obj/items/o
+					if(M.quest==0)
+						for(o as obj in M.contents)
+							if(o.type==/obj/items/questitem&&C==0)
+								C=1
 								return
-						else
-							M << "You don't need that"
+							else if(o.type==/obj/items/questitem)
+								M << "You don't need that"
+								return
+						if(C==0)
+							SplitStack(M, 1)
+							//return
+					else
+						M << "You don't need that"
+						return
+				else
+					var/obj/O = src
+					set src in oview(1)
+					for(O as obj in view(3)) // only people you can SEE
+						if(istype(O,/obj)&&src.blockcarry!=1)
+							SplitStack(M, 1)
+							//return
+						else if(src.blockcarry==1)
+							M << "You can't carry that!"
 							return
-					else
-						var/obj/O = src
-						set src in oview(1)
-						for(O as obj in view(3)) // only people you can SEE
-							if(istype(O,/obj))
-								src.SplitStack(usr, 1)
-								return
-
-			DropAll()
+//still some kind of stacking problem with GetAll
+			/*DropAll()//drop all sets item stack to 1, that's a problem
 				set category=null
 				set popup_menu=1
 				set src in usr
-				var/mob/players/M = usr
+				//var/mob/players/M
+				//M = usr
 				//var/region/deed/dz
 				//dz = locate(oview(src,10))
-				var/obj/DeedToken/dt
+				/*var/obj/DeedToken/dt
 				dt = locate(oview(src,15))
 				for(dt)
 					if(M.candrop==1)
 						//set src in range(1)
-						SplitStack(usr.loc, stack_amount)
+						src.SplitStack(usr.loc, stack_amount)
 						return
 					else
 						M << "You do not have permission to drop"
 						return
-				if(!dt)
-					if(src.suffix == "Equipped")
-						usr << "<font color = teal>Un-equip [src] first!"
-						return
-					else
-						//src.Move(usr.loc, 1)
-						//set src in usr
-						SplitStack(usr.loc, stack_amount)
-						return
+				if(!dt)*/
+				if(src.suffix == "Equipped")
+					usr << "<font color = teal>Un-equip [src] first!"
+					return
+				else
+					//src.Move(usr.loc, 1)
+					//set src in usr
+					SplitStack(usr.loc, stack_amount)
+					del src*/
+					//return
 
-			Drop()
+			Drop()//drop works fine -- drops one at a time and they stack -- its just get all and drop all that don't work
 				set category=null
 				set popup_menu=1
 				set src in usr
-				var/mob/players/M = usr
+				var/mob/players/M
+				M = usr
 				//var/region/deed/dz
 				//dz = locate(oview(src,10))
-				var/obj/DeedToken/dt
+				/*var/obj/DeedToken/dt
 				dt = locate(oview(src,15))
 				for(dt)
 					if(M.candrop==1)
 						//set src in range(1)
-						SplitStack(usr.loc, stack_amount)
+						src.SplitStack(usr.loc, stack_amount)
 						return
 					else
 						M << "You do not have permission to drop"
 						return
 
-				if(!dt)
-					if(src.suffix == "Equipped")
-						src << "<font color = teal>Un-equip [src] first!"
-						return
-					else
-						src.SplitStack(usr.loc, 1)
-						return
+				if(!dt)*/
+				if(src.suffix == "Equipped")
+					src << "<font color = teal>Un-equip [src] first!"
+					return
+				else
+					SplitStack(M.loc, 1)
+					//return
 
 		proc/usingheal(var/obj/items/J,num)
 			var/mob/players/M
@@ -766,6 +789,10 @@ obj
 			M = usr
 			if (num > (M.MAXHP-M.HP))
 				num = (M.MAXHP-M.HP)
+			if(istype(J,/obj/items/Food))
+				M.fed=1
+			if(istype(J,/obj/items/Tonics))
+				M.hydrated=1
 			M.HP += num
 			M.updateHP()
 			M << "You used a [J]; <b>[num] Health recovered."
@@ -776,6 +803,8 @@ obj
 			M = usr
 			if (num > (M.MAXenergy-M.energy))
 				num = (M.MAXenergy-M.energy)
+			if(istype(J,/obj/items/Tonics))
+				M.hydrated=1
 			M.energy += num
 			M.updateEN()
 			M << "You used a [J]; <b>[num] energy recovered."
@@ -784,26 +813,31 @@ obj
 		questitem
 			name = "questitemname"
 			icon_state = "questicon"
-			description = "<b>Quest description"
+			//description = "<b>Quest description"
 			Worth = 0
+
+
+
+
+
 		Activated_Carbon
 			name = "Activated Carbon"
 			icon_state = "charcoal"
-			description = "<b>Used with Iron to make Steel"
+			//description = "<b>Used with Iron to make Steel"
 			Worth = 100
 			can_stack = TRUE
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Activated Carbon:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ib'>Iron to make <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='sb'> Steel."
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Activated Carbon:</b>  <br>Used with <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ib'>Iron to make <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='sb'> Steel."
 				return
-			verb
-				Create(obj/items/Ingots/ironbar/J)
+			/*verb//temporary testing verb, steel is smeltable by rank 7 smelting
+				Create_Steel(obj/items/Ingots/ironbar/J)//temporary verb -- remove after done testing
 					set waitfor = 0
 					//set src in oview(1)
-					set src = usr.contents
-					set category = "Commands"
+					set src in usr
+					//set category = "Commands"
 					var/mob/players/M
 					//var/random/R = rand(1,5) //1 in 5 chance to smith
 					M = usr
@@ -811,7 +845,7 @@ obj
 						input("Combine?","Combine") in list(J in M.contents)
 						for(J in M.contents)
 							if((J.name=="Iron")&&(J.Tname=="Hot"))
-								M<<"You start to combine the \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ib'>[J] with the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Activated Carbon..."
+								M<<"For testing purposes - You start to combine the \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ib'>[J] with the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Activated Carbon..."
 								//sleep(5)
 								var/dice = "1d8"
 								var/R = roll(dice)
@@ -820,7 +854,7 @@ obj
 										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 									sleep(15)
 									//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-									M<<"You finish combining the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Activated Carbon with the <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ib'> Iron and create <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='sb'> Steel"
+									M<<"For testing purposes - You finish combining the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Activated Carbon with the <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ib'> Iron and create <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='sb'> Steel"
 									new /obj/items/Ingots/steelbar(M)
 									del src
 									return
@@ -830,11 +864,11 @@ obj
 									sleep(15)
 									del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 									M<<"The materials fail at combining and are lost in the process."
-									return
+									return*/
 		Carbon
 			name = "Carbon"
 			icon_state = "Carbon"
-			description = "<b>Used with Fire to make Activated Carbon"
+			//description = "<b>Used with Fire to make Activated Carbon"
 			Worth = 100
 			plane = 5
 			can_stack = TRUE
@@ -842,53 +876,100 @@ obj
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Carbon:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'> Fire to make <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='charcoal'> Activated Carbon."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Carbon:</b><br>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'> Fire to make <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='charcoal'> Activated Carbon."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		Tar
 			name = "Tar"
 			icon_state = "tar"
-			description = "<b>Used to Fuel Lamps and Torches"
+			//description = "<b>Used to Fuel Lamps and Torches"
 			Worth = 20
 			can_stack = TRUE
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Tar:</b>  Used to fuel <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ironhandlamp'> <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ironlamp'> Lamps and <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'> Torches."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Tar:</b>  <br>Used to fuel <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ironhandlamp'> <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ironlamp'> Lamps and <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'> Torches."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
+			proc/FindJ(mob/players/M)
+				for(var/obj/items/tools/Containers/Jar/J in M.contents)
+					if(J.suffix=="Equipped")
+						return J
+			proc/FindV(mob/players/M)
+				for(var/obj/items/tools/Containers/Vessel/J2 in M.contents)
+					if(J2.name=="Vessel")
+						return J2
+			verb/Place_in_Container()//fixed?
+				set category=null
+				set popup_menu=1
+				var/mob/players/M = usr
+				var/obj/items/tools/Containers/Jar/J = FindJ(M)//need to check out if this works or not
+				var/obj/items/tools/Containers/Jar/J2 = FindV(M)
+				if(J)
+					if(J.name=="Jar")
+						if(stack_amount>=1)
+							if(J.volume==0&&J.CType=="Empty")
+								J.CType="Tar"
+								J.volume = J.volumecap
+								J.icon_state="Jart"
+								J.name="Filled Jar"
+								J.RemoveFromStack(1)
+								return
+							else
+								M << "You need an Empty Jar."
+								return
+						else
+							M << "You need more tar."
+							return
+				else if(J2)
+					if(J2.name=="Vessel")
+						if(stack_amount>=2)
+							if(J2.volume==0&&J2.CType=="Empty")
+								J2.CType="Tar"
+								//J2.RemoveFromStack(2)
+								J2.volume = J2.volumecap
+								J2.icon_state="Vesselt"
+								J2.name="Filled Vessel"
+								J2.RemoveFromStack(2)
+								return
+							else
+								M << "You need an Empty Vessel."
+								return
+						else
+							M << "You need more tar."
+							return
 		Salve
 			name = "Salve"
 			icon_state = "salve"
-			description = "<b>Used to Heal wounds and restore Energy"
+			//description = "<b>Used to Heal wounds and restore Energy"
 			Worth = 20
 			can_stack = TRUE
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Salve:</b>  Used to Heal wounds and restore energy. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Salve:</b>  <br>Used to Heal wounds and restore energy. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 			verb/Use()
-				set category = "Commands"
+				//set category = "Commands"
 				set src in usr
 				usingheal(src,20)
 				usingmana(src,20)
 		Mortar
 			name = "Mortar"
 			icon_state = "Mortar"
-			description = "<b>Used with stone bricks to create Stone Walls"
+			//description = "<b>Used with stone bricks to create Stone Walls"
 			Worth = 20
 			can_stack = TRUE
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Mortar:</b>  Used with stone bricks to create Stone Walls. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Mortar:</b>  <br>Used with stone bricks to create Stone Walls. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		Obsidian
 			name = "Obsidian"
 			icon_state = "obsidian"
-			description = "<b>Used with Wooden Haunch to create an Obisidian Knife"
+			//description = "<b>Used with Wooden Haunch to create an Obisidian Knife"
 			Worth = 5
 			Tname="Cool"
 			can_stack = TRUE
@@ -896,12 +977,12 @@ obj
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Obsidian:</b>  Combined with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obisidian Knife. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Obsidian:</b>  <br>Combined with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obisidian Knife. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		Rock
 			name = "Rock"
 			icon_state = "rock"
-			description = "<b>Used with Wooden Haunch to create a Stone Hammer."
+			//description = "<b>Used with Wooden Haunch to create a Stone Hammer."
 			Worth = 0
 			Tname="Cool"
 			can_stack = TRUE
@@ -909,12 +990,12 @@ obj
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Rock:</b>  Combined with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'>Stone Hammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Rock:</b>  <br>Combined with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'>Stone Hammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		UeikThorn
 			name = "Ueik Thorn"
 			icon_state = "UeikThorn"
-			description = "<b>Used with Wooden Haunch to create a Ueik Pickaxe."
+			//description = "<b>Used with Wooden Haunch to create a Ueik Pickaxe."
 			Worth = 0
 			Tname="Cool"
 			can_stack = TRUE
@@ -922,12 +1003,12 @@ obj
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Ueik Thorn:</b>  Combined with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>Ueik Pickaxe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Ueik Thorn:</b>  <br>Combined with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>Ueik Pickaxe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		AUS
 			name = "Ancient Ueik Splinter"
 			icon_state = "AUS"
-			description = "<b>Used with Ueik Fir to create Gloves."
+			//description = "<b>Used with Ueik Fir to create Gloves."
 			Worth = 0
 			Tname="Cool"
 			can_stack = TRUE
@@ -935,28 +1016,904 @@ obj
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Ancient Ueik Splinter:</b>  Utilized to sew <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikFir'>Ueik Fir to create a set of<IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>Gloves. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Ancient Ueik Splinter:</b>  <br>Utilized to sew <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikFir'>Ueik Fir to create a set of<IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>Gloves. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		UeikFir
 			name = "Ueik Fir"
 			icon_state = "UeikFir"
-			description = "<b>Used with Ancient Ueik Splinter to create Gloves."
+			//description = "<b>Used with Ancient Ueik Splinter to create Gloves."
 			Worth = 0
 			Tname="Cool"
 			can_stack = TRUE
-			verb/Description()
+			verb/Description()//Fixes description
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Ueik Fir:</b>  Utilized with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='AUS'>Ancient Ueik Splinter to create a set of <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>Gloves. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-			verb/Create_Gloves()
+				//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				//return
+				usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b><br> Utilized for polishing tool parts or creating gloves."
+
+			New()
+				..()
+				Description()//description = "<br><font color = #e6e8fa><center><b>[name]</b><br>Tool Level [tlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+//Tool Parts "Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Saw blade","Sickle blade","Chisel Blade","Trowel blade"
+			proc/FindHMf(mob/players/M)
+				for(var/obj/items/Crafting/Created/HammerHead/J in M.contents)//Hammer Head
+					locate(J)
+					if(J:needspolished==1)
+						return J
+			proc/FindCKf(mob/players/M)
+				for(var/obj/items/Crafting/Created/CKnifeblade/J1 in M.contents)//Carving Knife
+					locate(J1)
+					if(J1:needspolished==1)
+						return J1
+			proc/FindSBf(mob/players/M)
+				for(var/obj/items/Crafting/Created/SickleBlade/J2 in M.contents)//Sickle
+					locate(J2)
+					if(J2:needspolished==1)
+						return J2
+			proc/FindTWBf(mob/players/M)
+				for(var/obj/items/Crafting/Created/TrowelBlade/J3 in M.contents)//Trowel
+					locate(J3)
+					if(J3:needspolished==1)
+						return J3
+			proc/FindCBf(mob/players/M)
+				for(var/obj/items/Crafting/Created/ChiselBlade/J4 in M.contents)//Chisel
+					locate(J4)
+					if(J4:needspolished==1)
+						return J4
+			proc/FindAHf(mob/players/M)
+				for(var/obj/items/Crafting/Created/AxeHead/J5 in M.contents)//Axe
+					locate(J5)
+					if(J5:needspolished==1)
+						return J5
+			proc/FindFBf(mob/players/M)
+				for(var/obj/items/Crafting/Created/FileBlade/J6 in M.contents)//File
+					locate(J6)
+					if(J6:needspolished==1)
+						return J6
+			proc/FindSHf(mob/players/M)
+				for(var/obj/items/Crafting/Created/ShovelHead/J7 in M.contents)//Shovel
+					locate(J7)
+					if(J7:needspolished==1)
+						return J7
+			proc/FindHOf(mob/players/M)
+				for(var/obj/items/Crafting/Created/HoeBlade/J8 in M.contents)//Hoe
+					locate(J8)
+					if(J8:needspolished==1)
+						return J8
+			proc/FindPXf(mob/players/M)
+				for(var/obj/items/Crafting/Created/PickaxeHead/J9 in M.contents)//Pickaxe
+					locate(J9)
+					if(J9:needspolished==1)
+						return J9
+			proc/FindSWf(mob/players/M)
+				for(var/obj/items/Crafting/Created/SawBlade/J10 in M.contents)//Saw
+					locate(J10)
+					if(J10:needspolished==1)
+						return J10
+//Weapon Check   "Broad Sword","War Sword","Battle Sword","Long Sword","War Maul","Battle Hammer","War Axe","Battle Axe","Battle Scythe","War Scythe"
+
+			proc/FindBSf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Broadswordblade/J11 in M.contents)//Broad Sword
+					locate(J11)
+					if(J11:needspolished==1)
+						return J11
+			proc/FindWSf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Warswordblade/J12 in M.contents)//War Sword
+					locate(J12)
+					if(J12:needspolished==1)
+						return J12
+			proc/FindBSWf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Battleswordblade/J13 in M.contents)//Battle Sword
+					locate(J13)
+					if(J13:needspolished==1)
+						return J13
+			proc/FindLSf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Longswordblade/J14 in M.contents)//Long Sword
+					locate(J14)
+					if(J14:needspolished==1)
+						return J14
+			proc/FindWMf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Warmaulhead/J15 in M.contents)//War Maul
+					locate(J15)
+					if(J15:needspolished==1)
+						return J15
+			proc/FindBHf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Battlehammersledge/J16 in M.contents)//Battle Hammer
+					locate(J16)
+					if(J16:needspolished==1)
+						return J16
+			proc/FindWXf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Waraxeblade/J17 in M.contents)//War Axe
+					locate(J17)
+					if(J17:needspolished==1)
+						return J17
+			proc/FindBXf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Battleaxeblade/J18 in M.contents)//Battle Axe
+					locate(J18)
+					if(J18:needspolished==1)
+						return J18
+			proc/FindWSYf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Warscytheblade/J19 in M.contents)//War Scythe
+					locate(J19)
+					if(J19:needspolished==1)
+						return J19
+			proc/FindBSYf(mob/players/M)
+				for(var/obj/items/Crafting/Created/Battlescytheblade/J20 in M.contents)//Battle Scythe
+					locate(J20)
+					if(J20:needspolished==1)
+						return J20
+
+//Lamp
+
+			proc/FindILf(mob/players/M)
+				for(var/obj/items/Crafting/Created/IronLampHead/J21 in M.contents)//Iron Lamp Head
+					locate(J21)
+					if(J21:needspolished==1)
+						return J21
+			proc/FindCLf(mob/players/M)
+				for(var/obj/items/Crafting/Created/CopperLampHead/J22 in M.contents)//Copper Lamp Head
+					locate(J22)
+					if(J22:needspolished==1)
+						return J22
+			proc/FindBRLf(mob/players/M)
+				for(var/obj/items/Crafting/Created/BronzeLampHead/J23 in M.contents)//Bronze Lamp Head
+					locate(J23)
+					if(J23:needspolished==1)
+						return J23
+			proc/FindBSLf(mob/players/M)
+				for(var/obj/items/Crafting/Created/BrassLampHead/J24 in M.contents)//Brass Lamp Head
+					locate(J24)
+					if(J24:needspolished==1)
+						return J24
+			proc/FindSLf(mob/players/M)
+				for(var/obj/items/Crafting/Created/SteelLampHead/J25 in M.contents)//Steel Lamp Head
+					locate(J25)
+					if(J25:needspolished==1)
+						return J25
+//Misc Parts
+			proc/FindAVf(mob/players/M)
+				for(var/obj/items/Crafting/Created/AnvilHead/J26 in M.contents)//Anvil Head
+					locate(J26)
+					if(J26:needspolished==1)
+						return J26
+
+			proc/Plish()//working confirmed
+				set src in usr
+				var/mob/players/M
+				M = usr
+				//var/obj/items/Crafting/Created/Whetstone/S = locate() in M.contents
+				if(M.energy<=0)
+					M << "You are too tired, hydrate to regain energy"
+					return
+//Tool Call
+				var/obj/items/Crafting/Created/HammerHead/J = call(/obj/items/UeikFir/proc/FindHMf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/CKnifeblade/J1 = call(/obj/items/UeikFir/proc/FindCKf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/SickleBlade/J2 = call(/obj/items/UeikFir/proc/FindSBf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/TrowelBlade/J3 = call(/obj/items/UeikFir/proc/FindTWBf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/ChiselBlade/J4 = call(/obj/items/UeikFir/proc/FindCBf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/AxeHead/J5 = call(/obj/items/UeikFir/proc/FindAHf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/FileBlade/J6 = call(/obj/items/UeikFir/proc/FindFBf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/ShovelHead/J7 = call(/obj/items/UeikFir/proc/FindSHf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/HoeBlade/J8 = call(/obj/items/UeikFir/proc/FindHOf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/PickaxeHead/J9 = call(/obj/items/UeikFir/proc/FindPXf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/SawBlade/J10 = call(/obj/items/UeikFir/proc/FindSWf)(M)//locate() in M.contents
+//Weapon Call
+
+				var/obj/items/Crafting/Created/Broadswordblade/J11 = call(/obj/items/UeikFir/proc/FindBSf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Warswordblade/J12 = call(/obj/items/UeikFir/proc/FindWSf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Battleswordblade/J13 = call(/obj/items/UeikFir/proc/FindBSWf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Longswordblade/J14 = call(/obj/items/UeikFir/proc/FindLSf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Warmaulhead/J15 = call(/obj/items/UeikFir/proc/FindWMf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Battlehammersledge/J16 = call(/obj/items/UeikFir/proc/FindBHf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Waraxeblade/J17 = call(/obj/items/UeikFir/proc/FindWXf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Battleaxeblade/J18 = call(/obj/items/UeikFir/proc/FindBXf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Warscytheblade/J19 = call(/obj/items/UeikFir/proc/FindWSYf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/Battlescytheblade/J20 = call(/obj/items/UeikFir/proc/FindBSYf)(M)//locate() in M.contents
+
+//Lamp Call
+
+				var/obj/items/Crafting/Created/IronLampHead/J21 = call(/obj/items/UeikFir/proc/FindILf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/CopperLampHead/J22 = call(/obj/items/UeikFir/proc/FindCLf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/BronzeLampHead/J23 = call(/obj/items/UeikFir/proc/FindBRLf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/BrassLampHead/J24 = call(/obj/items/UeikFir/proc/FindBSLf)(M)//locate() in M.contents
+				var/obj/items/Crafting/Created/SteelLampHead/J25 = call(/obj/items/UeikFir/proc/FindSLf)(M)//locate() in M.contents
+
+//Misc Parts
+				var/obj/items/Crafting/Created/AnvilHead/J26 = call(/obj/items/UeikFir/proc/FindSLf)(M)//locate() in M.contents
+
+//Tool File Check
+				if(J)
+					if(J.needsfiled==1)
+						M << "[J] needs to be filed before polishing."
+						return
+					else if(J.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J1)
+					if(J1.needsfiled==1)
+						M << "[J1] needs to be filed before polishing."
+						return
+					else if(J1.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J2)
+					if(J2.needsfiled==1)
+						M << "[J2] needs to be filed before polishing."
+						return
+					else if(J2.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J3)
+					if(J3.needsfiled==1)
+						M << "[J3] needs to be filed before polishing."
+						return
+					else if(J3.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J4)
+					if(J4.needsfiled==1)
+						M << "[J4] needs to be filed before polishing."
+						return
+					else if(J4.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J5)
+					if(J5.needsfiled==1)
+						M << "[J5] needs to be filed before polishing."
+						return
+					else if(J5.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J6)
+					if(J6.needsfiled==1)
+						M << "[J6] needs to be filed before polishing."
+						return
+					else if(J6.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J7)
+					if(J7.needsfiled==1)
+						M << "[J7] needs to be filed before polishing."
+						return
+					else if(J7.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J8)
+					if(J8.needsfiled==1)
+						M << "[J8] needs to be filed before polishing."
+						return
+					else if(J8.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J9)
+					if(J9.needsfiled==1)
+						M << "[J9] needs to be filed before polishing."
+						return
+					else if(J9.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J10)
+					if(J10.needsfiled==1)
+						M << "[J10] needs to be filed before polishing."
+						return
+					else if(J10.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+//Weapon File Check
+				if(J11)
+					if(J11.needsfiled==1)
+						M << "[J11] needs to be filed before polishing."
+						return
+					else if(J11.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J12)
+					if(J12.needsfiled==1)
+						M << "[J12] needs to be filed before polishing."
+						return
+					else if(J12.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J13)
+					if(J13.needsfiled==1)
+						M << "[J13] needs to be filed before polishing."
+						return
+					else if(J13.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J14)
+					if(J14.needsfiled==1)
+						M << "[J14] needs to be filed before polishing."
+						return
+					else if(J14.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J15)
+					if(J15.needsfiled==1)
+						M << "[J15] needs to be filed before polishing."
+						return
+					else if(J15.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J16)
+					if(J16.needsfiled==1)
+						M << "[J16] needs to be filed before polishing."
+						return
+					else if(J16.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J17)
+					if(J17.needsfiled==1)
+						M << "[J17] needs to be filed before polishing."
+						return
+					else if(J17.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J18)
+					if(J18.needsfiled==1)
+						M << "[J18] needs to be filed before polishing."
+						return
+					else if(J18.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J19)
+					if(J19.needsfiled==1)
+						M << "[J19] needs to be filed before polishing."
+						return
+					else if(J19.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J20)
+					if(J20.needsfiled==1)
+						M << "[J20] needs to be filed before polishing."
+						return
+					else if(J20.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+//Lamp Check
+				else if(J21)
+					if(J21.needsfiled==1)
+						M << "[J21] needs to be filed before polishing."
+						return
+					else if(J21.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J22)
+					if(J22.needsfiled==1)
+						M << "[J22] needs to be filed before polishing."
+						return
+					else if(J22.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J23)
+					if(J23.needsfiled==1)
+						M << "[J23] needs to be filed before polishing."
+						return
+					else if(J23.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J24)
+					if(J24.needsfiled==1)
+						M << "[J24] needs to be filed before polishing."
+						return
+					else if(J24.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+				else if(J25)
+					if(J25.needsfiled==1)
+						M << "[J25] needs to be filed before polishing."
+						return
+					else if(J25.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+//Misc Parts
+				else if(J26)
+					if(J26.needsfiled==1)
+						M << "[J26] needs to be filed before polishing."
+						return
+					else if(J26.needspolished==0)
+						M << "This item doesn't need polished."
+						return
+//Tool Process
+				if(J)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J]."
+						J.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J] could use more polishing."
+						J.needspolished=1
+						return
+				else if(J1)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J1]."
+						J1.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J1] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J1]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J1] could use more polishing."
+						J1.needspolished=1
+						return
+				else if(J2)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J2]."
+						J2.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J2] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J2]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J2] could use more polishing."
+						J2.needspolished=1
+						return
+				else if(J3)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J3]."
+						J3.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J3] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J3]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J3] could use more polishing."
+						J3.needspolished=1
+						return
+				else if(J4)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J4]."
+						J4.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J4] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J4]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J4] could use more polishing."
+						J4.needspolished=1
+						return
+				else if(J5)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J5]."
+						J5.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J5] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J5]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J5] could use more polishing."
+						J5.needspolished=1
+						return
+				else if(J6)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J6]."
+						J6.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J6] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J6]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J6] could use more polishing."
+						J6.needspolished=1
+						return
+				else if(J7)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J7]."
+						J7.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J7] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J7]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J7] could use more polishing."
+						J7.needspolished=1
+						return
+				else if(J8)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J8]."
+						J8.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J8] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J8]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J8] could use more polishing."
+						J8.needspolished=1
+						return
+				else if(J9)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J9]."
+						J9.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J9] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J9]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J9] could use more polishing."
+						J9.needspolished=1
+						return
+				else if(J10)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J10]."
+						J10.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J10] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J10]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J10] could use more polishing."
+						J10.needspolished=1
+						return
+//Weapon Process
+				else if(J11)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J11]."
+						J11.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J11] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J11]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J11] could use more polishing."
+						J11.needspolished=1
+						return
+				else if(J12)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J12]."
+						J12.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J12] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J12]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J12] could use more polishing."
+						J12.needspolished=1
+						return
+				else if(J13)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J13]."
+						J13.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J13] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J13]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J13] could use more polishing."
+						J13.needspolished=1
+						return
+				else if(J14)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J14]."
+						J14.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J14] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J14]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J14] could use more polishing."
+						J14.needspolished=1
+						return
+				else if(J15)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J15]."
+						J15.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J15] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J15]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J15] could use more polishing."
+						J15.needspolished=1
+						return
+				else if(J16)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J16]."
+						J6.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J16] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J16]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J16] could use more polishing."
+						J16.needspolished=1
+						return
+				else if(J17)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J17]."
+						J17.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J17] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J17]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J17] could use more polishing."
+						J17.needspolished=1
+						return
+				else if(J18)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J18]."
+						J18.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J18] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J18]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J18] could use more polishing."
+						J18.needspolished=1
+						return
+				else if(J19)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J19]."
+						J19.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J19] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J19]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J19] could use more polishing."
+						J19.needspolished=1
+						return
+				else if(J20)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J20]."
+						J20.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J20] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J20]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J20] could use more polishing."
+						J20.needspolished=1
+						return
+//Lamp Process
+				else if(J21)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J21]."
+						J21.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J21] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J21]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J21] could use more polishing."
+						J21.needspolished=1
+						return
+				else if(J22)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J22]."
+						J22.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J22] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J22]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J22] could use more polishing."
+						J22.needspolished=1
+						return
+				else if(J23)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J23]."
+						J23.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J23] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J23]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J23] could use more polishing."
+						J23.needspolished=1
+						return
+				else if(J24)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J24]."
+						J24.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J24] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J24]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J24] could use more polishing."
+						J24.needspolished=1
+						return
+				else if(J25)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J25]."
+						J25.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J25] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J25]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J25] could use more polishing."
+						J25.needspolished=1
+						return
+//Misc Parts
+				else if(J26)
+					if(prob(50))
+						M<<"You run the Ueik Fir across the [J26]."
+						J26.needspolished=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"[J26] has been polished to a shine!"
+						return
+					else
+						M<<"You run the Ueik Fir across the [J26]."
+						//J.needsfiled=0
+						sleep(3)
+						M.energy -= 2
+						M.updateEN()//insert sfx and flick an animation
+						M<<"The [J26] could use more polishing."
+						J26.needspolished=1
+						return
+
+			verb/Create_Gloves()//fixed?
 				set waitfor = 0
-				set category = "Commands"
+				//set category = "Commands"
 				var/mob/players/M
 				M = usr
 				var/obj/items/AUS/J = locate() in M.contents
-				var/obj/items/UeikFir/UF = locate() in M.contents
+				//var/obj/items/UeikFir/UF = locate() in M.contents
 				//var/random/R = rand(1,5) //1 in 5 chance to smith
 				if(J in M.contents)
 					if(M.energy==0)
@@ -964,13 +1921,13 @@ obj
 						return
 					else
 					//if(M.Cutting==1)
-						if(J.Tname!="Cool")
-							M<<"Wait for it to cool before affixing."
-							return
-						else switch(input("Sew?","Sew") in list("Ancient Ueik Splinter"))
+						//if(J.Tname!="Cool")
+						//	M<<"Wait for it to cool before affixing."
+						//	return
+						switch(input("Sew?","Sew") in list("Ancient Ueik Splinter"))
 							if("Ancient Ueik Splinter")
 								//var/random/R = rand(1,5)
-								M<<"You start to Sew the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='AUS'>[J] with the <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikFir'>Ueik Fir..."
+								M<<"You start to Sew the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='AUS'>Ancient Ueik Splinter with the <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikFir'>Ueik Fir..."
 								//sleep(5)
 								var/dice = "1d4"
 								var/R = roll(dice)
@@ -981,22 +1938,24 @@ obj
 									//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 									M<<"You finish Sewing the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='AUS'>Ancient Ueik Splinter into the <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikFir'>Ueik Fir and create <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>Gloves."
 									new /obj/items/tools/Gloves(M)
-									UF.RemoveFromStack(1)//del src
+									src.RemoveFromStack(1)//del src
 									return
 								else
 									if(R<=2)
 										J.RemoveFromStack(1)
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
-										UF.RemoveFromStack(1)//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+										src.RemoveFromStack(1)//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										M<<"The materials fail at combining and are lost in the process."
 										return
 				else
 					M<<"You need an \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='AUS'>Ancient Ueik Splinter to proceed."
+					return
 		WDHNCH
 			name = "Wooden Haunch"
+
 			icon_state = "WDHNCH"
-			description = "<b>Used to create rudimentary Tools and Materials."
+			//description = "<b>Used to create rudimentary Tools and Materials."
 			Worth = 10
 			can_stack = TRUE
 			var/mob/players/M
@@ -1004,52 +1963,69 @@ obj
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Wooden Haunch:</b>  Carved into <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch, <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle or <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'>Kindling by <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife and <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife. <br>Utilized with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='rock'>Rock to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'>Stone Hammer, <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='Obsidian'>Obsidian to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife, or <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikThorn'>Ueik Thorn to create a<IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>Ueik Pickaxe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Wooden Haunch:</b>  <br>Carved into <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch, <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle or <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'>Kindling by <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife and <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife. <br>Utilized with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='rock'>Rock to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'>Stone Hammer, <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='Obsidian'>Obsidian to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife, or <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikThorn'>Ueik Thorn to create a<IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>Ueik Pickaxe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 			verb/Create_Torch()
 				set waitfor = 0
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				givetrch(M)
-				sleep(2)
+				else
+					givetrch(M)
+					sleep(2)
+					return
 			proc/givetrch()
 				set waitfor = 0
 				var/mob/players/M = usr
-				var/random/R = new()
-				var/obj/items/Tar/J = locate() in M.contents
+				var/dice = "1d4"
+				var/R = roll(dice)
+				//var/obj/items/Tar/J = locate() in M.contents
 				var/obj/items/WDHNCH/W = locate() in M.contents
 				M = usr
-				if(energy<=0)
+				if(M.energy<=0)
 					M<<"You are too tired."
 					return
-				if(src in usr)
-					M << "You Begin carving and affixing the materials..."
-					Carving=1
-					if(R.chance(81))
-						sleep(2)
-						J.RemoveFromStack(1)
-						W.RemoveFromStack(1)
-						new /obj/items/torches/Handtorch(M, 1)
-						M.energy -= 5	//Depletes one energy
-						M.updateEN()
-						sleep(2)
-						M << "You've created a \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Hand Torch."
-						Carving=0
+				if(M.OKequipped==1||M.CKequipped==1)
+					if(W)
+						for(W)
+							if(R>=2)
+								M.Carving=1
+								sleep(2)
+								M << "You start carving a suitable torch..."
+								//J.RemoveFromStack(1)
+								W.RemoveFromStack(1)
+								new /obj/items/torches/Handtorch(M, 1)
+								M.energy -= 2	//Depletes one energy
+								M.updateEN()
+								sleep(2)
+								M << "You've created a \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Hand Torch."
+								M.Carving=0
+								return
+							else
+								M<<"\ The <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Wooden Haunch just wasn't suitable, so you discard it."
+								W.RemoveFromStack(1)
+								//M.Carving=0
+								M.energy -= 2	//Depletes one energy
+								M.updateEN()
+								return
 					else
-						M<<"\ The <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar failed to Affix to the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Haunch."
+						M<<"You need \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Wooden Haunch to continue..."
+						return
 				else
-					M<<"You need \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch and <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar to continue..."
+					M<<"You need to use an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife or <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife to carve the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch."
+					//M.Carving = 0
 					return
-			verb/Carve_Tinder()
+			verb/Carve_Kindling()
 				set waitfor = 0
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				givetndr(M)
-				sleep(2)
+				else
+					givetndr(M)
+					sleep(2)
+					return
 			proc/givetndr()
 				set waitfor = 0
 				var/mob/players/M
-				var/random/R = new()
+				//var/random/R = new()
 				M = usr
 				//var/obj/items/tools/ObsidianKnife/OK = locate() in M.contents
 				//var/obj/items/Kindling/ueikkindling/UK = new(usr, 1)
@@ -1057,29 +2033,32 @@ obj
 				if(M.energy==0)
 					M<<"You are too tired."
 					return
-				if(M.OKequipped==1)
-					if(energy==0)		//Is your energy to low???
-						M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
-						return
-					if(WH in M.contents)
-						M << "You Begin carving the materials..."
-						Carving=1
-						if(R.chance(81))
-							sleep(2)
-							//UK += M.contents
-							new /obj/items/Kindling/ueikkindling(M, 1)
-							M.energy -= 5	//Depletes one energy
-							M.updateEN()
-							sleep(2)
-							M << "You've carved \  <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'>Tinder."
-							WH.RemoveFromStack(1) //del src
-							Carving=0
-						else
-							M<<"The materials failed to create \  <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'>Tinder."
+				if(M.OKequipped==1||M.CKequipped==1)
+					if(WH)
+						for(WH)
+							M << "You Begin carving the materials..."
+							M.Carving=1
+							if(prob(81))
+								sleep(2)
+								//UK += M.contents
+								new /obj/items/Kindling/ueikkindling(M, 1)
+								M.energy -= 2	//Depletes one energy
+								M.updateEN()
+								sleep(2)
+								M << "You've carved \  <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'>Kindling."
+								WH.RemoveFromStack(1) //del src
+								M.Carving=0
+								return
+							else
+								M<<"The materials failed to create \  <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'>Kindling."
+								M.Carving=0
+								return
 					else
-						M << "Need a \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch to continue..."
+						M<<"You need \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Wooden Haunch to continue..."
+						return
 				else
-					M<<"You need to use an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife to carve the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch."
+					M<<"You need to use an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife or <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife to carve the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch."
+					//M.Carving = 0
 					return
 			verb/SetCarvingZero()
 				set hidden = 1
@@ -1099,40 +2078,46 @@ obj
 				M = usr
 				var/obj/items/WDHNCH/WH = locate() in M.contents
 				//var/obj/items/Crafting/Created/Handle/H = new(usr, 1)
-				var/random/R = new()
+				//var/random/R = new()
+				var/dice = "1d4"
+				var/R = roll(dice)
 				//if(energy<=0)
 				//	M<<"You are too tired."
 				//	return
-				if(M.OKequipped==1)
+				if(M.OKequipped==1||M.CKequipped==1)
 					if(M.energy==0)		//Is your energy to low???
 						M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 						return
 					else
-						for(WH in M.contents)
-							//M << "You Begin carving the materials..."
-							if(R.chance(81))
-								M << "You Begin carving the materials..."
-								Carving=1
-								sleep(2)
-								new /obj/items/Crafting/Created/Handle(M, 1)
-								sleep(2)
-								M << "You've carved a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle."
-								//WH.RemoveFromStack(1) //del src
-								Carving=0
-								WH.RemoveFromStack(1)
-								return
-							else
-								M<<"The materials fail to create a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle."
-								Carving=0
-						//else
-							//M << "Need a Wooden Haunch to continue..."
+						if(WH)
+							for(WH in M.contents)
+								//M << "You Begin carving the materials..."
+								if(R>=2)
+									M << "You Begin carving the materials..."
+									M.Carving=1
+									sleep(2)
+									new /obj/items/Crafting/Created/Handle(M, 1)
+									sleep(2)
+									M << "You've carved a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle."
+									//WH.RemoveFromStack(1) //del src
+									M.Carving=0
+									WH.RemoveFromStack(1)
+									return
+								else
+									M<<"The materials fail to create a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle."
+									M.Carving=0
+									return
+						else
+							M<<"You need \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Wooden Haunch to continue..."
+							return
 				else
-					M<<"You need to use an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife to carve the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch."
+					M<<"You need to use an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife or <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife to carve the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch."
+					//M.Carving = 0
 					return
 			verb/Affix()
 				set waitfor = 0
 				//set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				var/mob/players/M
 				//var/obj/items/J0
 				//var/obj/items/Obsidian/J
@@ -1155,7 +2140,7 @@ obj
 					return
 				else
 					if(S.stack_amount==0)
-						M<<"You need \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch to continue..."
+						M<<"You need \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to continue..."
 						return
 					else
 						//input("Affix?","Affix") in list("Obsidian","Rock","Ueik Thorn")
@@ -1173,12 +2158,12 @@ obj
 							if("Obsidian")
 								if(J in M.contents)
 									if(("Obsidian") && (J.name == "Obsidian"))
-										for(J in M.contents)
+										for(J)
 											//M<<"You need Obsidian to continue..."
 										//	return	//var/random/R = rand(1,5)
 
 											if(R>=3)
-												M<<"You start to affix the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch..."
+												M<<"You start to affix the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch..."
 												J.RemoveFromStack(1)
 												Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -1190,16 +2175,16 @@ obj
 												S.RemoveFromStack(1)
 												return
 											else
-												if(R<=2)
-													M<<"You start to affix the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch..."
-													J.RemoveFromStack(1)
-													S.RemoveFromStack(1)
-													Carving=1		//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-													sleep(5)
-													//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-													M<<"The materials fail at combining and are lost in the process."
-													Carving=0
-													return
+												M<<"You start to affix the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch..."
+												J.RemoveFromStack(1)
+
+												Carving=1		//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+												sleep(5)
+												//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+												M<<"The materials fail at combining and are lost in the process."
+												S.RemoveFromStack(1)
+												Carving=0
+												return
 								else
 									M<<"You need \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='Obsidian'>Obsidian to continue..."
 									return
@@ -1224,18 +2209,17 @@ obj
 												S.RemoveFromStack(1)
 												return
 											else
-												if(R<=2)
-													M<<"You start to affix the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch..."
-													J1.RemoveFromStack(1)
-													//S.RemoveFromStack(1)
-													Carving=1		//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-													sleep(5)
-														//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-													M<<"The materials fail at combining and are lost in the process."
-													//crankexp +?
-													Carving=0
-													S.RemoveFromStack(1)
-													return
+												M<<"You start to affix the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch..."
+												J1.RemoveFromStack(1)
+												//S.RemoveFromStack(1)
+												Carving=1		//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+												sleep(5)
+													//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+												M<<"The materials fail at combining and are lost in the process."
+												//crankexp +?
+												Carving=0
+												S.RemoveFromStack(1)
+												return
 								else
 									M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='rock'>Rock to continue..."
 									return
@@ -1260,36 +2244,35 @@ obj
 													S.RemoveFromStack(1)
 													return
 												else
-													if(R<=2)
-														M<<"You start to affix the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch..."
-														J2.RemoveFromStack(1)
-														//S.RemoveFromStack(1)
-														Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-														sleep(5)
-														M<<"The materials fail at combining and are lost in the process."
-														//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-														Carving=0
-														S.RemoveFromStack(1)
-														return
+													M<<"You start to affix the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Wooden Haunch..."
+													J2.RemoveFromStack(1)
+													//S.RemoveFromStack(1)
+													Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+													sleep(5)
+													M<<"The materials fail at combining and are lost in the process."
+													//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+													Carving=0
+													S.RemoveFromStack(1)
+													return
 									else
 										M<<"You need \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikThorn'>Ueik Thorn to continue..."
 										return
 		Lockpick
 			name = "Lockpick"
 			icon_state = "Lockpick"
-			description = "<b>Used on Doors to permit entrance"
+			//description = "<b>Used on Doors to permit entrance"
 			Worth = 10
 			can_stack = TRUE
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Lockpick:</b>  Utilize to gain entry into secured areas."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Lockpick:</b>  <br>Utilize to gain entry into secured areas."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		DoorKey
 			icon_state = "Key"
 			name = "Key"
-			description = "<b>Used to lock or unlock Doors"
+			//description = "<b>Used to lock or unlock Doors"
 			Worth = 1
 			can_stack = TRUE
 			buildingowner = ""
@@ -1297,7 +2280,7 @@ obj
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Door Key:</b>  Unlocks locked doors for the building owner."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Door Key:</b>  <br>Unlocks locked doors for the building owner."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		//Clay
 		//	name = "Clay"
@@ -1311,12 +2294,12 @@ obj
 			Worth = 7
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Giu Hide</b> Odd Hide that can be used for creating Armor."
+			//description = "<b>Giu Hide</b> Odd Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Giu Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giu'>Giu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giu'>Giu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GouHide
 			name = "Gou Hide"
@@ -1324,12 +2307,12 @@ obj
 			Worth = 14
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gou Hide</b> Different Hide that can be used for creating Armor."
+			//description = "<b>Gou Hide</b> Different Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gou Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gou'>Gou."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gou Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gou'>Gou."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GowHide
 			name = "Gow Hide"
@@ -1337,12 +2320,12 @@ obj
 			Worth = 21
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gow Hide</b> Weird Hide that can be used for creating Armor."
+			//description = "<b>Gow Hide</b> Weird Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gow Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gow'>Gow."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gow Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gow'>Gow."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GuwiHide
 			name = "Guwi Hide"
@@ -1350,12 +2333,12 @@ obj
 			Worth = 24
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Guwi Hide</b> Strange Hide that can be used for creating Armor."
+			//description = "<b>Guwi Hide</b> Strange Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Guwi Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwi'>Guwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwi'>Guwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GowuHide
 			name = "Gowu Hide"
@@ -1363,12 +2346,12 @@ obj
 			Worth = 33
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gowu Hide</b> Mysterious Hide that can be used for creating Armor."
+			//description = "<b>Gowu Hide</b> Mysterious Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowu Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowu'>Gowu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowu'>Gowu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GiuwoHide
 			name = "Giuwo Hide"
@@ -1376,12 +2359,12 @@ obj
 			Worth = 42
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Giuwo Hide</b> Mysterious Hide that can be used for creating Armor."
+			//description = "<b>Giuwo Hide</b> Mysterious Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Giuwo Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giuwo'>Giuwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giuwo Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giuwo'>Giuwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GouwoHide
 			name = "Gouwo Hide"
@@ -1389,12 +2372,12 @@ obj
 			Worth = 62
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gouwo Hide</b> Mysterious Hide that can be used for creating Armor."
+			//description = "<b>Gouwo Hide</b> Mysterious Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gouwu Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gouwu'>Gouwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gouwu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gouwu'>Gouwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GowwiHide
 			name = "Gowwi Hide"
@@ -1402,12 +2385,12 @@ obj
 			Worth = 62
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gowwi Hide</b> Mysterious Hide that can be used for creating Armor."
+			//description = "<b>Gowwi Hide</b> Mysterious Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowwi Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwi'>Gowwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwi'>Gowwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GuwwiHide
 			name = "Guwwi Hide"
@@ -1415,12 +2398,12 @@ obj
 			Worth = 62
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Guwwi Hide</b> Mysterious Hide that can be used for creating Armor."
+			//description = "<b>Guwwi Hide</b> Mysterious Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Guwwi Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwwi'>Guwwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwwi'>Guwwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GowwuHide
 			name = "Gowwu Hide"
@@ -1428,12 +2411,12 @@ obj
 			Worth = 62
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gowwu Hide</b> Mysterious Hide that can be used for creating Armor."
+			//description = "<b>Gowwu Hide</b> Mysterious Hide that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowwu Hide:</b>  The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwu'>Gowwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwu'>Gowwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GiuShell
 			name = "Giu Shell"
@@ -1441,12 +2424,12 @@ obj
 			Worth = 7
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Giu Shell</b> Odd shell that can be used for creating Armor."
+			//description = "<b>Giu Shell</b> Odd shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Giu Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giu'>Giu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giu'>Giu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GouShell
 			name = "Gou Shell"
@@ -1454,12 +2437,12 @@ obj
 			Worth = 14
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gou Shell</b> Different shell that can be used for creating Armor."
+			//description = "<b>Gou Shell</b> Different shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gou Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gou'>Gou."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gou Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gou'>Gou."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GowShell
 			name = "Gow Shell"
@@ -1467,12 +2450,12 @@ obj
 			Worth = 21
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gow Shell</b> Weird shell that can be used for creating Armor."
+			//description = "<b>Gow Shell</b> Weird shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gow Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gow'>Gow."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gow Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gow'>Gow."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GuwiShell
 			name = "Guwi Shell"
@@ -1480,12 +2463,12 @@ obj
 			Worth = 24
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Guwi Shell</b> Strange shell that can be used for creating Armor."
+			//description = "<b>Guwi Shell</b> Strange shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Guwi Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwi'>Guwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwi'>Guwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GowuShell
 			name = "Gowu Shell"
@@ -1493,12 +2476,12 @@ obj
 			Worth = 33
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gowu Shell</b> Mysterious shell that can be used for creating Armor."
+			//description = "<b>Gowu Shell</b> Mysterious shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowu Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowu'>Gowu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowu'>Gowu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GiuwoShell
 			name = "Giuwo Shell"
@@ -1506,12 +2489,12 @@ obj
 			Worth = 42
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Giuwo Shell</b> Mysterious shell that can be used for creating Armor."
+			//description = "<b>Giuwo Shell</b> Mysterious shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Giuwo Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giuwo'>Giuwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giuwo Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giuwo'>Giuwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GouwoShell
 			name = "Gouwo Shell"
@@ -1519,12 +2502,12 @@ obj
 			Worth = 62
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gouwo Shell</b> Mysterious shell that can be used for creating Armor."
+			//description = "<b>Gouwo Shell</b> Mysterious shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gouwo Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gouwo'>Gouwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gouwo Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gouwo'>Gouwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GowwiShell
 			name = "Gowwi Shell"
@@ -1532,12 +2515,12 @@ obj
 			Worth = 62
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gowwi Shell</b> Mysterious shell that can be used for creating Armor."
+			//description = "<b>Gowwi Shell</b> Mysterious shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowwi Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwi'>Gowwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwi'>Gowwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GuwwiShell
 			name = "Guwwi Shell"
@@ -1545,12 +2528,12 @@ obj
 			Worth = 62
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Guwwi Shell</b> Mysterious shell that can be used for creating Armor."
+			//description = "<b>Guwwi Shell</b> Mysterious shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Guwwi Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwwi'>Guwwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwwi'>Guwwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		GowwuShell
 			name = "Gowwu Shell"
@@ -1558,18 +2541,18 @@ obj
 			Worth = 62
 			can_stack = TRUE
 			//var/stack = 1
-			description = "<b>Gowwu Shell</b> Mysterious shell that can be used for creating Armor."
+			//description = "<b>Gowwu Shell</b> Mysterious shell that can be used for creating Armor."
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowwu Shell:</b>  The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwu'>Gowwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwu'>Gowwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		Food
 			food = 1
 			//stack = 1
-			plane = 5
-			can_stack = TRUE
+			plane = 4
+
 			trout
 				name = "Trout"
 				icon_state = "trout"
@@ -1577,15 +2560,15 @@ obj
 				//can_stack = TRUE
 				food = 1
 				//var/stack = 1
-				description = "<b>Trout</b> Must Be Cooked to be eaten"
+				//description = "<b>Trout</b> Must Be Cooked to be eaten"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Trout:</b>  A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Trout:</b>  <br>A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				//verb/Use()
-				//	set category = "Commands"
+				//	//set category = "Commands"
 				//	set src in usr
 				//	usingheal(src,70)
 			salmon
@@ -1594,15 +2577,15 @@ obj
 				Worth = 87
 				food = 1
 				//var/stack = 1
-				description = "<b>Salmon</b>Must Be Cooked to be eaten"
+				//description = "<b>Salmon</b>Must Be Cooked to be eaten"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Salmon:</b>  A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Salmon:</b>  <br>A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				//verb/Use()
-				//	set category = "Commands"
+				//	//set category = "Commands"
 				//	set src in usr
 				//	usingheal(src,90)
 			perch
@@ -1610,16 +2593,17 @@ obj
 				icon_state = "perch"
 				Worth = 27
 				food = 1
+				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Perch</b>Must Be Cooked to be eaten"
+				//description = "<b>Perch</b>Must Be Cooked to be eaten"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Perch:</b>  A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Perch:</b>  <br>A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 			//	verb/Use()
-				//	set category = "Commands"
+				//	//set category = "Commands"
 				//	set src in usr
 				//	usingheal(src,20)
 			bass
@@ -1628,15 +2612,15 @@ obj
 				Worth = 57
 				food = 1
 				//var/stack = 1
-				description = "<b>Bass</b>Must Be Cooked to be eaten"
+				//description = "<b>Bass</b>Must Be Cooked to be eaten"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Bass:</b>  A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Bass:</b>  <br>A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				//verb/Use()
-				//	set category = "Commands"
+				//	//set category = "Commands"
 				//	set src in usr
 				//	usingheal(src,50)
 			catfish
@@ -1644,16 +2628,17 @@ obj
 				icon_state = "catfish"
 				Worth = 47
 				food = 1
+				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Catfish</b>Must Be Cooked to be eaten"
+				//description = "<b>Catfish</b>Must Be Cooked to be eaten"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Catfish:</b>  A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Catfish:</b>  <br>A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				//verb/Use()
-				//	set category = "Commands"
+				//	//set category = "Commands"
 				//	set src in usr
 				//	usingheal(src,40)
 			carp
@@ -1661,16 +2646,18 @@ obj
 				icon_state = "carp"
 				Worth = 37
 				food = 1
+				can_stack = TRUE
+
 				//var/stack = 1
-				description = "<b>Carp</b>Must Be Cooked to be eaten"
+				//description = "<b>Carp</b>Must Be Cooked to be eaten"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Carp:</b>  A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Carp:</b>  <br>A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				//verb/Use()
-				//	set category = "Commands"
+				//	//set category = "Commands"
 				//	set src in usr
 				//	usingheal(src,30)
 			sunfish
@@ -1678,18 +2665,20 @@ obj
 				icon_state = "sunfish"
 				Worth = 7
 				food = 1
+				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Sunfish</b>Must Be Cooked to be eaten"
+				//description = "<b>Sunfish</b>Must Be Cooked to be eaten"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Sunfish:</b>  A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Sunfish:</b>  <br>A fish, may be cooked and eaten to regain health. [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				//verb/Use()
-				//	set category = "Commands"
+				//	//set category = "Commands"
 				//	set src in usr
 				//	usingheal(src,10)
+//need to finish adding can_stack = TRUE onto the other foods
 			GiuMeat
 				name = "Giu Meat"
 				icon_state = "GiuMeat"
@@ -1697,12 +2686,12 @@ obj
 				can_stack = TRUE
 				plane = 6
 				//var/stack = 1
-				description = "<b>Giu Meat:</b> Odd meat that can be eaten raw or cooked for better quality; Restores 20 Health."
+				//description = "<b>Giu Meat:</b> Odd meat that can be eaten raw or cooked for better quality; Restores 20 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Giu Meat:</b>  Odd meat that can be cooked or eaten raw; Restores 20 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giu Meat:</b>  <br>Odd meat that can be cooked or eaten raw; Restores 20 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1716,12 +2705,12 @@ obj
 				Worth = 14
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Gou Meat</b> Different meat that can be eaten raw or cooked for better quality; Restores 30 Health."
+				//description = "<b>Gou Meat</b> Different meat that can be eaten raw or cooked for better quality; Restores 30 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gou Meat:</b>  Different meat that can be cooked or eaten raw; Restores 30 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gou Meat:</b>  <br>Different meat that can be cooked or eaten raw; Restores 30 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1736,12 +2725,12 @@ obj
 				can_stack = TRUE
 				plane = 4
 				//var/stack = 1
-				description = "<b>Gow Meat</b> Weird meat that can be eaten raw or cooked for better quality; Restores 40 Health."
+				//description = "<b>Gow Meat</b> Weird meat that can be eaten raw or cooked for better quality; Restores 40 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gow Meat:</b>  Weird meat that can be cooked or eaten raw; Restores 40 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gow Meat:</b>  <br>Weird meat that can be cooked or eaten raw; Restores 40 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1754,12 +2743,12 @@ obj
 				Worth = 24
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Guwi Meat</b> Strange meat that can be eaten raw or cooked for better quality; Restores 50 Health."
+				//description = "<b>Guwi Meat</b> Strange meat that can be eaten raw or cooked for better quality; Restores 50 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Guwi Meat:</b>  Strange meat that can be cooked or eaten raw; Restores 50 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwi Meat:</b>  <br>Strange meat that can be cooked or eaten raw; Restores 50 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1772,12 +2761,12 @@ obj
 				Worth = 33
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Gowu Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 60 Health."
+				//description = "<b>Gowu Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 60 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowu Meat:</b>  Mysterious meat that can be cooked or eaten raw; Restores 60 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowu Meat:</b>  <br>Mysterious meat that can be cooked or eaten raw; Restores 60 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1790,12 +2779,12 @@ obj
 				Worth = 33
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Giuwo Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 80 Health."
+				//description = "<b>Giuwo Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 80 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Giuwo Meat:</b>  Mysterious meat that can be cooked or eaten raw; Restores 80 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giuwo Meat:</b>  <br>Mysterious meat that can be cooked or eaten raw; Restores 80 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1808,12 +2797,12 @@ obj
 				Worth = 33
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Gouwo Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 120 Health."
+				//description = "<b>Gouwo Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 120 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gouwo Meat:</b>  Mysterious meat that can be cooked or eaten raw; Restores 120 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gouwo Meat:</b>  <br>Mysterious meat that can be cooked or eaten raw; Restores 120 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1826,12 +2815,12 @@ obj
 				Worth = 42
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Gowwi Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 180 Health."
+				//description = "<b>Gowwi Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 180 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowwi Meat:</b>  Mysterious meat that can be cooked or eaten raw; Restores 180 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwi Meat:</b>  <br>Mysterious meat that can be cooked or eaten raw; Restores 180 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1844,12 +2833,12 @@ obj
 				Worth = 54
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Guwwi Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 213 Health."
+				//description = "<b>Guwwi Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 213 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Guwwi Meat:</b>  Mysterious meat that can be cooked or eaten raw; Restores 213 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwwi Meat:</b>  <br>Mysterious meat that can be cooked or eaten raw; Restores 213 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1862,12 +2851,12 @@ obj
 				Worth = 64
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Gowwu Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 264 Health."
+				//description = "<b>Gowwu Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 264 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Gowwu Meat:</b>  Mysterious meat that can be cooked or eaten raw; Restores 264 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwu Meat:</b>  <br>Mysterious meat that can be cooked or eaten raw; Restores 264 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1881,12 +2870,12 @@ obj
 				can_stack = TRUE
 				food = 1
 				//var/stack = 1
-				description = "<b>Cooked Trout</b>  Restores 80 HP"
+				//description = "<b>Cooked Trout</b>  Restores 80 HP"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Trout:</b>  Fish that has been cooked; Restores 80 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Trout:</b>  <br>Fish that has been cooked; Restores 80 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1899,12 +2888,12 @@ obj
 				Worth = 87
 				food = 1
 				//var/stack = 1
-				description = "<b>Cooked Salmon</b>  Restores 100 HP"
+				//description = "<b>Cooked Salmon</b>  Restores 100 HP"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Salmon:</b>  Fish that has been cooked; Restores 100 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Salmon:</b>  <br>Fish that has been cooked; Restores 100 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1916,13 +2905,14 @@ obj
 				icon_state = "cookedperch"
 				Worth = 27
 				food = 1
+				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Cooked Perch</b>  Restores 30 HP"
+				//description = "<b>Cooked Perch</b>  Restores 30 HP"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Perch:</b>  Fish that has been cooked; Restores 30 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Perch:</b>  <br>Fish that has been cooked; Restores 30 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1935,12 +2925,12 @@ obj
 				Worth = 57
 				food = 1
 				//var/stack = 1
-				description = "<b>Cooked Bass</b>  Restores 60 HP"
+				//description = "<b>Cooked Bass</b>  Restores 60 HP"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Bass:</b>  Fish that has been cooked; Restores 60 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Bass:</b>  <br>Fish that has been cooked; Restores 60 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1953,12 +2943,12 @@ obj
 				Worth = 47
 				food = 1
 				//var/stack = 1
-				description = "<b>Cooked Catfish</b>  Restores 50 HP"
+				//description = "<b>Cooked Catfish</b>  Restores 50 HP"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Catfish:</b>  Fish that has been cooked; Restores 50 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Catfish:</b>  <br>Fish that has been cooked; Restores 50 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -1970,18 +2960,20 @@ obj
 				icon_state = "cookedcarp"
 				Worth = 37
 				food = 1
+				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Cooked Carp</b>  Restores 40 HP"
+				//description = "<b>Cooked Carp</b>  Restores 40 HP"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Carp:</b>  Fish that has been cooked; Restores 40 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Carp:</b>  <br>Fish that has been cooked; Restores 40 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
 					set popup_menu=1
 					set src in usr
+					can_stack = TRUE
 					usingheal(src,40)
 			sunfishC
 				name = "Cooked Sunfish"
@@ -1990,12 +2982,12 @@ obj
 				food = 1
 				//plane = 5
 				//var/stack = 1
-				description = "<b>Cooked Sunfish</b>  Restores 20 HP"
+				//description = "<b>Cooked Sunfish</b>  Restores 20 HP"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Sunfish:</b>  Fish that has been cooked; Restores 20 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Sunfish:</b>  <br>Fish that has been cooked; Restores 20 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -2009,12 +3001,12 @@ obj
 				plane = 6
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Cooked Giu Meat</b> Odd meat that can be eaten raw or cooked for better quality; Restores 40 Health."
+				//description = "<b>Cooked Giu Meat</b> Odd meat that can be eaten raw or cooked for better quality; Restores 40 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Giu Meat:</b>  Odd meat that has been cooked; Restores 40 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Giu Meat:</b>  <br>Odd meat that has been cooked; Restores 40 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -2028,12 +3020,12 @@ obj
 				Worth = 14
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Cooked Gou Meat</b> Different meat that can be eaten raw or cooked for better quality; Restores 60 Health."
+				//description = "<b>Cooked Gou Meat</b> Different meat that can be eaten raw or cooked for better quality; Restores 60 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Gou Meat:</b>  Different meat that has been cooked; Restores 60 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Gou Meat:</b>  <br>Different meat that has been cooked; Restores 60 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -2046,12 +3038,12 @@ obj
 				Worth = 21
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Cooked Gow Meat</b> Weird meat that can be eaten raw or cooked for better quality; Restores 80 Health."
+				//description = "<b>Cooked Gow Meat</b> Weird meat that can be eaten raw or cooked for better quality; Restores 80 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Gow Meat:</b>  Weird meat that has been cooked; Restores 80 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Gow Meat:</b>  <br>Weird meat that has been cooked; Restores 80 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -2064,12 +3056,12 @@ obj
 				Worth = 24
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Cooked Guwi Meat</b> Strange meat that can be eaten raw or cooked for better quality; Restores 100 Health."
+				//description = "<b>Cooked Guwi Meat</b> Strange meat that can be eaten raw or cooked for better quality; Restores 100 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Guwi Meat:</b>  Strange meat that has been cooked; Restores 100 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Guwi Meat:</b>  <br>Strange meat that has been cooked; Restores 100 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -2082,12 +3074,12 @@ obj
 				Worth = 33
 				can_stack = TRUE
 				//var/stack = 1
-				description = "<b>Cooked Gowu Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 120 Health."
+				//description = "<b>Cooked Gowu Meat</b> Mysterious meat can be eaten raw or cooked for better quality; Restores 120 Health."
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Cooked Gowu Meat:</b>  Mysterious meat that has been cooked; Restores 120 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Cooked Gowu Meat:</b>  <br>Mysterious meat that has been cooked; Restores 120 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -2104,7 +3096,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Overcooked Meat:</b>  Used to lure creatures."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Overcooked Meat:</b>  <br>Used to lure creatures."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				//var/stack = 1
 		Tonics
@@ -2112,13 +3104,13 @@ obj
 				name = "Antitoxin"
 				icon_state = "antitoxin"
 				Worth = 150
-				description = "<b>Antitoxin</b>  Relieves Acid"
+				//description = "<b>Antitoxin</b>  Relieves Acid"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Antitoxin:</b>  Relieves <IMG CLASS=icon SRC=\ref'dmi/64/magi.dmi' ICONSTATE='acid' ICONFRAME=10>Acid."
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Antitoxin:</b>  <br>Relieves <IMG CLASS=icon SRC=\ref'dmi/64/magi.dmi' ICONSTATE='acid' ICONFRAME=10>Acid."
 					return
 				verb/Use()
 					set category = null
@@ -2129,19 +3121,19 @@ obj
 					P.poisonDMG=0
 					P.overlays = null
 					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>You used an Antitoxin; <b> Acid removed."
-					Del(src)
+					del(src)
 			strngantitoxin
 				name = "Strong Antitoxin"
 				icon_state = "strngantitoxin"
 				Worth = 150
 				can_stack = TRUE
-				description = "<b>Strong Antitoxin</b>  Relieves Acid and Restores 100 HP"
+				//description = "<b>Strong Antitoxin</b>  Relieves Acid and Restores 100 HP"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Strong Antitoxin:</b>  Relieves <IMG CLASS=icon SRC=\ref'dmi/64/magi.dmi' ICONSTATE='acid' ICONFRAME=10>Acid and Restores 100 HP."
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Antitoxin:</b>  <br>Relieves <IMG CLASS=icon SRC=\ref'dmi/64/magi.dmi' ICONSTATE='acid' ICONFRAME=10>Acid and Restores 100 HP."
 					return
 				verb/Use()
 					set category = null
@@ -2153,7 +3145,7 @@ obj
 					P.overlays = null
 					usingheal()
 					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> You used a Strong Antitoxin; <b> <IMG CLASS=icon SRC=\ref'dmi/64/magi.dmi' ICONSTATE='acid' ICONFRAME=10>Acid removed."
-					Del(src)
+					del(src)
 			vitaevial
 				items = 1
 				name = "Vitae Vial"
@@ -2161,12 +3153,12 @@ obj
 				Worth = 42
 				//var/stack = 1
 				can_stack = TRUE
-				description = "<b>Vitae Vial</b>  Recovers up to 40 Health"
+				//description = "<b>Vitae Vial</b>  Recovers up to 40 Health"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Vitae Vial:</b>  A weak potion; Recovers 40 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Vitae Vial:</b>  <br>A weak potion; Recovers 40 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -2181,12 +3173,12 @@ obj
 				Worth = 33
 				//var/stack = 1
 				can_stack = TRUE
-				description = "<b>Energy Tonic</b>  Recovers up to 33 Energy"
+				//description = "<b>Energy Tonic</b>  Recovers up to 33 Energy"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Energy Tonic:</b>  A weak tonic; Recovers 33 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Energy Tonic:</b>  <br>A weak tonic; Recovers 33 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -2199,12 +3191,12 @@ obj
 				Worth = 59
 				//var/stack = 1
 				can_stack = TRUE
-				description = "<b>Large Vitae Vial</b>  Recovers up to 64 Health"
+				//description = "<b>Large Vitae Vial</b>  Recovers up to 64 Health"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Large Vitae Vial:</b>  Large vial of a weak potion; Recovers 64 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Large Vitae Vial:</b>  <br>Large vial of a weak potion; Recovers 64 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2216,13 +3208,13 @@ obj
 				icon_state = "strngenertonic"
 				Worth = 64
 				//var/stack = 1
-				description = "<b>Strong Energy Tonic</b>  Recovers up to 42 Energy"
+				//description = "<b>Strong Energy Tonic</b>  Recovers up to 42 Energy"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Strong Energy Tonic:</b>  A strong tonic; Recovers 64 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Energy Tonic:</b>  <br>A strong tonic; Recovers 64 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2234,13 +3226,13 @@ obj
 				icon_state = "vitaeliniments"
 				Worth = 88
 				//var/stack = 1
-				description = "<b>Healing Tonic</b>  Recovers up to 84 Health"
+				//description = "<b>Healing Tonic</b>  Recovers up to 84 Health"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Vitae Liniments:</b>  Healing leaves of a vitae plant; Recovers 84 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Vitae Liniments:</b>  <br>Healing leaves of a vitae plant; Recovers 84 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2252,13 +3244,13 @@ obj
 				icon_state = "enerspiri"
 				Worth = 93
 				//var/stack = 1
-				description = "<b>Magi Spirits</b>  Recovers up to 84 Energy"
+				//description = "<b>Magi Spirits</b>  Recovers up to 84 Energy"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Magi Spirits:</b>  Energy healing spirits; Recovers 84 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Magi Spirits:</b>  <br>Energy healing spirits; Recovers 84 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2269,13 +3261,13 @@ obj
 				icon_state = "quavitlin"
 				Worth = 118
 				//var/stack = 1
-				description = "<b>Quality Vitae Liniments</b>  Recovers up to 113 Health"
+				//description = "<b>Quality Vitae Liniments</b>  Recovers up to 113 Health"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Quality Vitae Liniments:</b>  Healing leaves of a vitae plant; Recovers 113 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Quality Vitae Liniments:</b>  <br>Healing leaves of a vitae plant; Recovers 113 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2287,13 +3279,13 @@ obj
 				icon_state = "strngenerspiri"
 				Worth = 124
 				//var/stack = 1
-				description = "<b>Strong Energy Spirits</b>  Recovers up to 104 Energy"
+				//description = "<b>Strong Energy Spirits</b>  Recovers up to 104 Energy"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Strong Energy Spirits:</b>  Energy healing spirits with a kick; Recovers 104 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Energy Spirits:</b>  <br>Energy healing spirits with a kick; Recovers 104 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2305,13 +3297,13 @@ obj
 				icon_state = "vitcur"
 				Worth = 190
 				//var/stack = 1
-				description = "<b>Vitae Curative</b>  Recovers up to 184 Health"
+				//description = "<b>Vitae Curative</b>  Recovers up to 184 Health"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Vitae Curative:</b> Recovers 184 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Vitae Curative:</b> Recovers 184 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2323,13 +3315,13 @@ obj
 				icon_state = "enerrestora"
 				Worth = 204
 				//var/stack = 1
-				description = "<b>Energy Restorative</b>  Recovers up to 168 Energy"
+				//description = "<b>Energy Restorative</b>  Recovers up to 168 Energy"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Energy Restorative:</b> Recovers 168 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Energy Restorative:</b> Recovers 168 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2340,13 +3332,13 @@ obj
 				icon_state = "qualvitcur"
 				Worth = 313
 				//var/stack = 1
-				description = "<b>Quality Vitae Curative</b>  Recovers up to 264 Health"
+				//description = "<b>Quality Vitae Curative</b>  Recovers up to 264 Health"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Quality Vitae Curative:</b> Recovers 264 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Quality Vitae Curative:</b> Recovers 264 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2358,13 +3350,13 @@ obj
 				icon_state = "strngenerrestor"
 				Worth = 324
 				//var/stack = 1
-				description = "<b>Strong Energy Restorative</b>  Recovers up to 224 Energy"
+				//description = "<b>Strong Energy Restorative</b>  Recovers up to 224 Energy"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Strong Energy Restorative:</b> Recovers 224 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Energy Restorative:</b> Recovers 224 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2376,13 +3368,13 @@ obj
 				icon_state = "cvc"
 				Worth = 420
 				//var/stack = 1
-				description = "<b>Vitae Curative Concentrate</b>  Recovers up to 464 Health"
+				//description = "<b>Vitae Curative Concentrate</b>  Recovers up to 464 Health"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Concentrated Vitae Curative:</b> Recovers 464 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Concentrated Vitae Curative:</b> Recovers 464 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2394,13 +3386,13 @@ obj
 				icon_state = "strnglrgenerrestor"
 				Worth = 444
 				//var/stack = 1
-				description = "<b>Strong Large Energy Restorative</b>  Recovers up to 324 Energy"
+				//description = "<b>Strong Large Energy Restorative</b>  Recovers up to 324 Energy"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Strong Large Energy Restorative:</b> Recovers 324 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Large Energy Restorative:</b> Recovers 324 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -2419,7 +3411,7 @@ obj
 			color = ""
 			add = 0
 			add2 = 0
-			description = ""
+			//description = ""
 			typi = ""
 			olditem = 0
 			//these vars are for actual variables on the items that affect gameplay
@@ -2460,7 +3452,7 @@ obj
 			color = ""
 			add = 0
 			add2 = 0
-			description = ""
+			//description = ""
 			typi = ""
 			olditem = 0
 			//these vars are for actual variables on the items that affect gameplay
@@ -2535,13 +3527,13 @@ obj
 				QUIETUSbonus = 0
 				wlvl
 				rarity = ""
-			verb
+			/*verb
 				Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
 					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-					return
+					return*/
 				/*Get()
 					set category=null
 					set popup_menu=1
@@ -2619,19 +3611,19 @@ obj
 										if(5)
 											add = rand(21,25)
 											src.of = " of Force"
-									src.adds = ", +[add] Strength"
+									src.adds = "+[add] Strength"
 									src.STRbonus = add
 								if(2)
 									switch(wlvl)
 										if(1)
 											add = rand(1,4)
 											src.of = " of Heat"
-											src.adds = ", +[add] Heat"
+											src.adds = "+[add] Heat"
 											src.HEATbonus = add
 										if(2)
 											add = rand(5,8)
 											src.of = " of Heat"
-											src.adds = ", +[add] Heat"
+											src.adds = "+[add] Heat"
 											src.HEATbonus = add
 										if(3)
 											var/F = rand(1,2)
@@ -2639,12 +3631,12 @@ obj
 												if(1)
 													add = rand(9,16)
 													src.of = " of Heat"
-													src.adds = ", +[add] Heat"
+													src.adds = "+[add] Heat"
 													src.HEATbonus = add
 												if(2)
 													add = rand(5,8)
 													src.of = " of Flame"
-													src.adds = ", +[add] Flame"
+													src.adds = "+[add] Flame"
 													src.FLAMEbonus = add
 										if(4)
 											var/F = rand(1,2)
@@ -2652,12 +3644,12 @@ obj
 												if(1)
 													add = rand(17,32)
 													src.of = " of Heat"
-													src.adds = ", +[add] Heat"
+													src.adds = "+[add] Heat"
 													src.HEATbonus = add
 												if(2)
 													add = rand(9,16)
 													src.of = " of Flame"
-													src.adds = ", +[add] Flame"
+													src.adds = "+[add] Flame"
 													src.FLAMEbonus = add
 										if(5)
 											var/F = rand(1,2)
@@ -2665,12 +3657,12 @@ obj
 												if(1)
 													add = rand(33,64)
 													src.of = " of Heat"
-													src.adds = ", +[add] Heat"
+													src.adds = "+[add] Heat"
 													src.HEATbonus = add
 												if(2)
 													add = rand(17,32)
 													src.of = " of Flame"
-													src.adds = ", +[add] Flame"
+													src.adds = "+[add] Flame"
 													src.FLAMEbonus = add
 						else if(color=="blue")
 							var/D = rand(1,2)
@@ -2692,19 +3684,19 @@ obj
 										if(5)
 											add = rand(21,25)
 											src.of = " of Insight"
-									src.adds = ", +[add] Energy"
+									src.adds = "+[add] Energy"
 									src.SPRTbonus = add
 								if(2)
 									switch(wlvl)
 										if(1)
 											add = rand(1,4)
 											src.of = " of ShardBurst"
-											src.adds = ", +[add] ShardBurst"
+											src.adds = "+[add] ShardBurst"
 											src.SHARDBURSTbonus = add
 										if(2)
 											add = rand(5,8)
 											src.of = " of IceStorm"
-											src.adds = ", +[add] IceStorm"
+											src.adds = "+[add] IceStorm"
 											src.SHARDBURSTbonus = add
 										if(3)
 											var/F = rand(1,2)
@@ -2712,12 +3704,12 @@ obj
 												if(1)
 													add = rand(9,16)
 													src.of = " of ShardBurst"
-													src.adds = ", +[add] ShardBurst"
+													src.adds = "+[add] ShardBurst"
 													src.SHARDBURSTbonus = add
 												if(2)
 													add = rand(5,8)
 													src.of = " of IceStorm"
-													src.adds = ", +[add] IceStorm"
+													src.adds = "+[add] IceStorm"
 													src.ICESTORMbonus = add
 										if(4)
 											var/F = rand(1,2)
@@ -2725,12 +3717,12 @@ obj
 												if(1)
 													add = rand(17,32)
 													src.of = " of ShardBurst"
-													src.adds = ", +[add] ShardBurst"
+													src.adds = "+[add] ShardBurst"
 													src.SHARDBURSTbonus = add
 												if(2)
 													add = rand(9,16)
 													src.of = " of IceStorm"
-													src.adds = ", +[add] IceStorm"
+													src.adds = "+[add] IceStorm"
 													src.ICESTORMbonus = add
 										if(5)
 											var/F = rand(1,2)
@@ -2738,12 +3730,12 @@ obj
 												if(1)
 													add = rand(33,64)
 													src.of = " of ShardBurst"
-													src.adds = ", +[add] ShardBurst"
+													src.adds = "+[add] ShardBurst"
 													src.SHARDBURSTbonus = add
 												if(2)
 													add = rand(17,32)
 													src.of = " of IceStorm"
-													src.adds = ", +[add] IceStorm"
+													src.adds = "+[add] IceStorm"
 													src.ICESTORMbonus = add
 						else if(color=="yellow")
 							var/D = rand(1,2)
@@ -2765,7 +3757,7 @@ obj
 										if(5)
 											add = rand(21,25)
 											src.of = " of Obscurity"
-									src.adds = ", +[add] energy, +[add] Strength"
+									src.adds = "+[add] energy, +[add] Strength"
 									src.STRbonus = add
 									src.SPRTbonus = add
 								if(2)
@@ -2773,12 +3765,12 @@ obj
 										if(1)
 											add = rand(1,4)
 											src.of = " of WaterShock"
-											src.adds = ", +[add] WaterShock"
+											src.adds = "+[add] WaterShock"
 											src.WATbonus = add
 										if(2)
 											add = rand(5,8)
 											src.of = " of CascadeLightning"
-											src.adds = ", +[add] CascadeLightning"
+											src.adds = "+[add] CascadeLightning"
 											src.WATbonus = add
 										if(3)
 											var/F = rand(1,2)
@@ -2786,12 +3778,12 @@ obj
 												if(1)
 													add = rand(9,16)
 													src.of = " of WaterShock"
-													src.adds = ", +[add] WaterShock"
+													src.adds = "+[add] WaterShock"
 													src.WATbonus = add
 												if(2)
 													add = rand(5,8)
 													src.of = " of CascadeLightning"
-													src.adds = ", +[add] CascadeLightning"
+													src.adds = "+[add] CascadeLightning"
 													src.CASCADELIGHTNINGbonus = add
 										if(4)
 											var/F = rand(1,2)
@@ -2799,12 +3791,12 @@ obj
 												if(1)
 													add = rand(17,32)
 													src.of = " of WaterShock"
-													src.adds = ", +[add] WaterShock"
+													src.adds = "+[add] WaterShock"
 													src.WATbonus = add
 												if(2)
 													add = rand(9,16)
 													src.of = " of CascadeLightning"
-													src.adds = ", +[add] CascadeLightning"
+													src.adds = "+[add] CascadeLightning"
 													src.CASCADELIGHTNINGbonus = add
 										if(5)
 											var/F = rand(1,2)
@@ -2812,12 +3804,12 @@ obj
 												if(1)
 													add = rand(33,64)
 													src.of = " of WaterShock"
-													src.adds = ", +[add] WaterShock"
+													src.adds = "+[add] WaterShock"
 													src.WATbonus = add
 												if(2)
 													add = rand(17,32)
 													src.of = " of CascadeLightning"
-													src.adds = ", +[add] CascadeLightning"
+													src.adds = "+[add] CascadeLightning"
 													src.CASCADELIGHTNINGbonus = add
 					if(A==2||A==3)
 						var/D = rand(1,2)
@@ -2842,7 +3834,7 @@ obj
 											if(5)
 												add2 = rand(47,50)
 												adj = "Titian "
-										src.adds2 = ", +[add2] Fire Proof"
+										src.adds2 = "+[add2] Fire Proof"
 										src.FIREres = add2
 									if(2)
 										switch(wlvl)
@@ -2861,7 +3853,7 @@ obj
 											if(5)
 												add2 = rand(47,50)
 												adj = "Azure "
-										src.adds2 = ", +[add2] Ice Proof"
+										src.adds2 = "+[add2] Ice Proof"
 										src.ICEres = add2
 									if(3)
 										switch(wlvl)
@@ -2880,7 +3872,7 @@ obj
 											if(5)
 												add2 = rand(47,50)
 												adj = "Aureate "
-										src.adds2 = ", +[add2] Water Proof"
+										src.adds2 = "+[add2] Water Proof"
 										src.WINDres = add2
 									if(4)
 										switch(wlvl)
@@ -2899,7 +3891,7 @@ obj
 											if(5)
 												add2 = rand(47,50)
 												adj = "Jade "
-										src.adds2 = ", +[add2] Acid Proof"
+										src.adds2 = "+[add2] Acid Proof"
 										src.WATres = add2
 									if(5)
 										switch(wlvl)
@@ -2918,7 +3910,7 @@ obj
 											if(5)
 												add2 = rand(47,50)
 												adj = "Atramentous "
-										src.adds2 = ", +[add2] Earth Proof"
+										src.adds2 = "+[add2] Earth Proof"
 										src.EARTHres = add2
 									if(6)
 										switch(wlvl)
@@ -2937,7 +3929,7 @@ obj
 											if(5)
 												add2 = rand(47,50)
 												adj = "Scintillating "
-										src.adds2 = ", +[add2] Omni-Proof"
+										src.adds2 = "+[add2] Omni-Proof"
 										src.FIREres = add2
 										src.ICEres = add2
 										src.WINDres = add2
@@ -2963,7 +3955,7 @@ obj
 											if(5)
 												add2 = rand(333,945)
 												adj = "Lion's "
-										src.adds2 = ", +[add2] HP"
+										src.adds2 = "+[add2] HP"
 										src.HEALTHbonus = add2
 									if(2)
 										switch(wlvl)
@@ -2982,7 +3974,7 @@ obj
 											if(5)
 												add2 = rand(301,800)
 												adj = "Tarragon's "
-										src.adds2 = ", +[add2] Energy"
+										src.adds2 = "+[add2] Energy"
 										src.ENERGYbonus = add2
 
 						src.adj = "[adj]"
@@ -3254,18 +4246,18 @@ obj
 
 			proc
 				SetRank(n)
-					n = clamp(n, 1, 6)
+					n = clamp(n, 1, 7)
 					wpnspd *= n
 					wlvl *= n
 					twohanded = "[src.twohanded?"Two Handed":"One Handed"]"
 					strreq *= n
 					DamageMin *= n
 					DamageMax *= n
-					//description = "<br><font color = #8C7853><center><b>[name]</b><br>[DamageMin]-[DamageMax] Damage,<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//description = "<br><font color = #8C7853><center><b>[name]</b><br>[DamageMin]-[DamageMax] Damage,<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					rarity = "{[num2rarity(n)]}"
 					icon_state = "[num2iconstate(n)][weapon_name]"
 					desc_color = "[num2desccolor(n)][desc_color]"
-					description = "<br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded]<br>Worth [Worth]"
+					//description = "<br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded]<br>Worth [Worth]"
 
 
 				num2rarity(n)
@@ -3286,6 +4278,7 @@ obj
 						if(4) return "choi"
 						if(5) return "ordi"
 						if(6) return "sin"
+						if(7) return "oak"
 
 				num2desccolor(n)
 					switch(n)
@@ -3295,6 +4288,7 @@ obj
 						if(4) return "#e6e8fa"
 						if(5) return "#4682b4"
 						if(6) return "#ffd700"
+						if(7) return "#a147a2"
 
 				num2hand(n)
 					switch(n)
@@ -3333,6 +4327,12 @@ obj
 													return "One Hand"
 												if(src.twohanded==1)
 													return "Two Hands"
+											else
+												if(7)
+													if(src.twohanded==0)
+														return "One Hand"
+													if(src.twohanded==1)
+														return "Two Hands"
 
 
 
@@ -3350,7 +4350,7 @@ obj
 				DamageMax = 4
 
 				New()
-					description = "<br><font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//description = "<br><font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					SetRank(rank||1)*/
 			anlace
 				name = "Anlace"
@@ -3365,10 +4365,18 @@ obj
 				DamageMin = 2
 				DamageMax = 4
 				//can_stack = TRUE
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
 					..()
-					//description = "<br><font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					SetRank(rank||1)
+					Description()
 			estoc
 				name = "Estoc"
 
@@ -3381,13 +4389,22 @@ obj
 				strreq = 2
 				DamageMin = 4
 				DamageMax = 8
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
-					//description = "<br><font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					..()
 					SetRank(rank||1)
+					Description()
 
 			kukri
 				name = "Kukri"
-				//description = "<font color = #8C7853><center><b>Henna Kukri:</b><br>3-8 Damage<br>2 Strength-Req"
+				//Description()//description = "<font color = #8C7853><center><b>Henna Kukri:</b><br>3-8 Damage<br>2 Strength-Req"
 				//icon_state = "avgkukri"
 				weapon_name = "kukri"
 				Worth = 8
@@ -3398,12 +4415,22 @@ obj
 				strreq = 2
 				DamageMin = 3
 				DamageMax = 8
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			brand
 				name = "Brand"
-				//description = "<font color = #8C7853><center><b>Russet (Brand):</b><br>8-10 Damage<br>Two-Handed<br>6 Strength-Req"
+				//Description()//description = "<font color = #8C7853><center><b>Russet (Brand):</b><br>8-10 Damage<br>Two-Handed<br>6 Strength-Req"
 				//icon_state = "avgbrand"
 				weapon_name = "brand"
 				Worth = 25
@@ -3415,12 +4442,22 @@ obj
 				DamageMin = 8
 				DamageMax = 10
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			ferule
 				name = "Ferule"
-				//description = "<font color = #8C7853><center><b>Blackjack (Ferule):</b><br>4-6 Damage<br>2 Strength-Req<br>Worth 25"
+				//Description()//description = "<font color = #8C7853><center><b>Blackjack (Ferule):</b><br>4-6 Damage<br>2 Strength-Req<br>Worth 25"
 				//icon_state = "avgferule"
 				weapon_name = "ferule"
 				Worth = 25
@@ -3433,12 +4470,22 @@ obj
 				DamageMax = 6
 				SPRTbonus = 5
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			marubo
 				name = "Marubo"
-				//description = "<font color = #8C7853><center><b>Firm (Marubo):</b><br>7-8 Damage<br>Two-Handed<br>3 Strength Required<br>Worth 15"
+				//Description()//description = "<font color = #8C7853><center><b>Firm (Marubo):</b><br>7-8 Damage<br>Two-Handed<br>3 Strength Required<br>Worth 15"
 				//icon_state = "avgmarubo"
 				weapon_name = "marubo"
 				Worth = 15
@@ -3450,12 +4497,22 @@ obj
 				DamageMin = 8
 				DamageMax = 9
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			tanto
 				name = "Tanto"
-				//description = "<font color = #8C7853><center><b>Worn (Tanto):</b><br>3-5 Damage<br>1 Strength Required<br>Worth 10"
+				//Description()//description = "<font color = #8C7853><center><b>Worn (Tanto):</b><br>3-5 Damage<br>1 Strength Required<br>Worth 10"
 				//icon_state = "avgtanto"
 				weapon_name = "tanto"
 				Worth = 10
@@ -3467,12 +4524,22 @@ obj
 				DamageMin = 3
 				DamageMax = 5
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			yawara
 				name = "Yawara"
-				//description = "<font color = #8C7853><center><b>Worn (Yawara):</b>6-11 Damage<br>10 Strength Required<br>Worth 30"
+				//Description()//description = "<font color = #8C7853><center><b>Worn (Yawara):</b>6-11 Damage<br>10 Strength Required<br>Worth 30"
 				//icon_state = "avgyawara"
 				weapon_name = "yawara"
 				Worth = 30
@@ -3485,12 +4552,22 @@ obj
 				DamageMax = 11
 				STRbonus = 5
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			eiku
 				name = "Eiku"
-				//description = "<font color = #8C7853><center><b>Elde (Eiku):</b><br>8-10 damage<br>5 Strength-Req<br>Worth 36"
+				//Description()//description = "<font color = #8C7853><center><b>Elde (Eiku):</b><br>8-10 damage<br>5 Strength-Req<br>Worth 36"
 				//icon_state = "avgeiku"
 				weapon_name = "eiku"
 				Worth = 36
@@ -3502,12 +4579,22 @@ obj
 				DamageMin = 8
 				DamageMax = 10
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			broadsword
 				name = "Broadsword"
-				//description = "<font color = #8C7853><center><b>Prismatic (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #8C7853><center><b>Prismatic (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "avgbroadsword"
 				weapon_name = "broadsword"
 				Worth = 20
@@ -3520,12 +4607,22 @@ obj
 				DamageMax = 12
 				STRbonus = 2
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			kakubo
 				name = "Kakubo"
-				//description = "<font color = #8C7853><center><b>Swift (Kakubo):</b><br>10-13 Damage<br>14 Strength-Req<br>Worth 66"
+				//Description()//description = "<font color = #8C7853><center><b>Swift (Kakubo):</b><br>10-13 Damage<br>14 Strength-Req<br>Worth 66"
 				//icon_state = "avgkakubo"
 				weapon_name = "kakubo"
 				Worth = 66
@@ -3538,12 +4635,22 @@ obj
 				DamageMax = 13
 				STRbonus = 4
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br><br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			tinberochin
 				name = "Tinberochin"
-				//description = "<font color = #8C7853><center><b>Butcher (Tinberochin):</b><br>5-11 Damage<br>22 Strength-Req<br>Two-Handed<br>Worth 130"
+				//Description()//description = "<font color = #8C7853><center><b>Butcher (Tinberochin):</b><br>5-11 Damage<br>22 Strength-Req<br>Two-Handed<br>Worth 130"
 				//icon_state = "avgtinberochin"
 				weapon_name = "tinberochin"
 				Worth = 130
@@ -3555,12 +4662,22 @@ obj
 				DamageMin = 15
 				DamageMax = 21
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			katar
 				name = "Katar"
-				//description = "<font color = #8C7853><center><b>Dull (Katar):</b><br>4-7 Damage<br>16 Strength-Req<br>Worth 93"
+				//Description()//description = "<font color = #8C7853><center><b>Dull (Katar):</b><br>4-7 Damage<br>16 Strength-Req<br>Worth 93"
 				//icon_state = "avgkatar"
 				weapon_name = "katar"
 				Worth = 93
@@ -3572,12 +4689,22 @@ obj
 				DamageMin = 8
 				DamageMax = 14
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			voulge
 				name = "Voulge"
-				//description = "<font color = #8C7853><center><b>Dull (Voulge):</b><br>13-24 Damage<br>28 Strength-Req<br>Two-Handed<br>Worth 175"
+				//Description()//description = "<font color = #8C7853><center><b>Dull (Voulge):</b><br>13-24 Damage<br>28 Strength-Req<br>Two-Handed<br>Worth 175"
 				//icon_state = "avgvoulge"
 				weapon_name = "voulge"
 				Worth = 175
@@ -3589,12 +4716,22 @@ obj
 				DamageMin = 13
 				DamageMax = 24
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			rakkakubo
 				name = "Rakkakubo"
-				//description = "<font color = #8C7853><center><b>Studded (Rakkakubo):</b><br>16-26 Damage<br>36 Strength-Req<br>Two-Handed<br>Worth 175"
+				//Description()//description = "<font color = #8C7853><center><b>Studded (Rakkakubo):</b><br>16-26 Damage<br>36 Strength-Req<br>Two-Handed<br>Worth 175"
 				//icon_state = "avgrakkakubo"
 				weapon_name = "rakkakubo"
 				Worth = 175
@@ -3606,12 +4743,22 @@ obj
 				DamageMin = 26
 				DamageMax = 26
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			kama
 				name = "Kama"
-				//description = "<font color = #8C7853><center><b>Harvest (Kama):</b><br>11-13 Damage<br>18 Strength-Req<br>Worth 80"
+				//Description()//description = "<font color = #8C7853><center><b>Harvest (Kama):</b><br>11-13 Damage<br>18 Strength-Req<br>Worth 80"
 				//icon_state = "avgkama"
 				weapon_name = "kama"
 				Worth = 60
@@ -3623,12 +4770,22 @@ obj
 				DamageMin = 11
 				DamageMax = 13
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			wakizashi
 				name = "Wakizashi"
-				//description = "<font color = #8C7853><center><b>Rustic (Wakizashi):</b><br>7-17 Damage<br>21 Strength-Req<br>Worth 100"
+				//Description()//description = "<font color = #8C7853><center><b>Rustic (Wakizashi):</b><br>7-17 Damage<br>21 Strength-Req<br>Worth 100"
 				//icon_state = "avgwakizashi"
 				weapon_name = "wakizashi"
 				Worth = 100
@@ -3640,12 +4797,22 @@ obj
 				DamageMin = 14
 				DamageMax = 17
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			nagamaki
 				name = "Nagamaki"
-				//description = "<font color = #8C7853><center><b>Worn (Nagamaki):</b><br>9-23 Damage<br>24 Strength-Req<br>Two-Handed<br>Worth 100"
+				//Description()//description = "<font color = #8C7853><center><b>Worn (Nagamaki):</b><br>9-23 Damage<br>24 Strength-Req<br>Two-Handed<br>Worth 100"
 				//icon_state = "avgnagamaki"
 				weapon_name = "nagamaki"
 				Worth = 100
@@ -3657,12 +4824,22 @@ obj
 				DamageMin = 9
 				DamageMax = 23
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			tachi
 				name = "Tachi"
-				//description = "<font color = #8C7853><center><b>Relic (Tachi):</b><br>11-19 Damage<br>28 Strength-Req<br>Two-Handed<br>Worth 100"
+				//Description()//description = "<font color = #8C7853><center><b>Relic (Tachi):</b><br>11-19 Damage<br>28 Strength-Req<br>Two-Handed<br>Worth 100"
 				//icon_state = "avgtachi"
 				weapon_name = "tachi"
 				Worth = 140
@@ -3674,8 +4851,18 @@ obj
 				DamageMin = 11
 				DamageMax = 19
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			uchigatana
 				name = "Uchigatana"
@@ -3691,8 +4878,18 @@ obj
 				DamageMin = 20
 				DamageMax = 28
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			naginata
 				name = "Naginata"
@@ -3708,8 +4905,18 @@ obj
 				DamageMin = 22
 				DamageMax = 24
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			hakkakubo
 				name = "Hakkakubo"
@@ -3725,12 +4932,22 @@ obj
 				DamageMin = 16
 				DamageMax = 20
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
+					Description()
 
 			katana
 				name = "Katana"
-				//description = "<font color = #ffd700><b>Katana (Average):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><b>Katana (Average):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "avgkatana"
 				weapon_name = "katana"
 				Worth = 100
@@ -3744,9 +4961,18 @@ obj
 				STRbonus = 2
 				SPRTbonus = 3
 				//rarity = "{Average}"
-				New()
-					SetRank(rank||1)
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>Worth [Worth]"
 
+				New()
+					..()
+					SetRank(rank||1)
+					Description()
 
 
 
@@ -3772,15 +4998,25 @@ obj
 				strreq = 1
 				DamageMin = 2
 				DamageMax = 4
-				//description = "<br><font color = #8C7853><center><b>[name]</b><br>[DamageMin]-[DamageMax] Damage,<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+				//description = "<br><font color = #8C7853><center><b>[name]</b><br>[DamageMin]-[DamageMax] Damage,<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<br><font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<br><font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unuanlace//working
 				name = "Titian (Anlace)"
-				//description = "<font color = #b87333><center><b>[name]</b><br>[DamageMin]-[DamageMax] Damage<br>+[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+				//Description()//description = "<font color = #b87333><center><b>[name]</b><br>[DamageMin]-[DamageMax] Damage<br>+[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 				//icon_state = "unuanlace"
 				weapon_name = "anlace"
 				Worth = 24
@@ -3794,17 +5030,27 @@ obj
 				STRbonus = 6
 				SPRTbonus = 5
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEALTHbonus] Health"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					..()
+					//Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					SetRank(rank||2)
 					if(usr!=null)
 						HEALTHbonus = rand(1,20)
-						var/addd1 = "+[HEALTHbonus] Health"
-						description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[HEALTHbonus] Health"
+						Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 			uncoanlace
 				name = "Argent (Anlace)"
 				weapon_name = "anlace"
-				//description = "<font color = #c0c0c0><b><center>Argent (Anlace):</b><br>8-10 Damage<br>+8 Strength<br>+4 Spirit<br>4 Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth 42"
+				//Description()//description = "<font color = #c0c0c0><b><center>Argent (Anlace):</b><br>8-10 Damage<br>+8 Strength<br>+4 Spirit<br>4 Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth 42"
 				//icon_state = "uncoanlace"
 				Worth = 42
 				typi = "weapon"
@@ -3817,18 +5063,28 @@ obj
 				STRbonus = 8
 				SPRTbonus = 4
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[VITAEbonus] Vitae"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					..()
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					SetRank(rank||3)
 					if(usr!=null)
 						VITAEbonus = rand(2,4)
-						var/addd = "+[VITAEbonus] Vitae"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[addd]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd = "+[VITAEbonus] Vitae"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[addd]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choianlace
 				name = "Ferrum (Anlace)"
 				weapon_name = "anlace"
-				//description = "<font color = #e6e8fa><center><b>Ferrum (Anlace):</b><br>10-14 Damage<br>+6 Spirit<br>5 Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth 64"
+				//Description()//description = "<font color = #e6e8fa><center><b>Ferrum (Anlace):</b><br>10-14 Damage<br>+6 Spirit<br>5 Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth 64"
 				//icon_state = "choianlace"
 				Worth = 64
 				typi = "weapon"
@@ -3840,17 +5096,27 @@ obj
 				DamageMax = 13
 				SPRTbonus = 6
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[ENERGYbonus] Energy"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
+
 				New()
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					..()
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					SetRank(rank||4)
 					if(usr!=null)
 						ENERGYbonus = rand(24,42)
-						var/addd = "+[ENERGYbonus] Energy"
-						description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[addd]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd = "+[ENERGYbonus] Energy"
+						Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[addd]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordianlace
 				name = "Ochre (Anlace)"
-				//description = "<font color= #4682b4><center><b>Ochre (Anlace):</b><br>7-11 Damage<br>4 Strength-Req<br>Extreme Speed"
+				//Description()//description = "<font color= #4682b4><center><b>Ochre (Anlace):</b><br>7-11 Damage<br>4 Strength-Req<br>Extreme Speed"
 				weapon_name = "anlace"
 				//icon_state = "ordianlace"
 				Worth = 84
@@ -3862,13 +5128,23 @@ obj
 				DamageMin = 7
 				DamageMax = 11
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 			sinanlace
 				name = "Aureate (Anlace)"
 				weapon_name = "anlace"
-				//description = "<font color = #ffd700><center><b>Aureate (Anlace):</b><br>17-19 Damage<br>+7 Strength<br>+11 Spirit<br>7 Strength-Req<br>Worth 101"
+				//Description()//description = "<font color = #ffd700><center><b>Aureate (Anlace):</b><br>17-19 Damage<br>+7 Strength<br>+11 Spirit<br>7 Strength-Req<br>Worth 101"
 				//icon_state = "sinanlace"
 				Worth = 101
 				typi = "weapon"
@@ -3881,22 +5157,33 @@ obj
 				STRbonus = 7
 				SPRTbonus = 11
 				//rarity = "{Singular}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus]Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus]Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					if(usr!=null)
-						var/resroll = rand(1,10)
+						resroll = rand(1,10)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/addd1 = "+[resroll] Omni-Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus]Strength<br>+[SPRTbonus] Spirit<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus]Strength<br>+[SPRTbonus] Spirit<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//anlace are done
 			avgestoc
 				name = "Ecru (Estoc)"
-				//description = "<font color = #8C7853><center><b>Ecru (Estoc):</b><br>4-8 Damage,<br>2 Strength-Req<br>Worth 6"
+				//Description()//description = "<font color = #8C7853><center><b>Ecru (Estoc):</b><br>4-8 Damage,<br>2 Strength-Req<br>Worth 6"
 				//icon_state = "avgestoc"
 				weapon_name = "estoc"
 				Worth = 6
@@ -3908,13 +5195,23 @@ obj
 				DamageMin = 4
 				DamageMax = 8
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unuestoc
 				name = "Sunder (Estoc)"
-				//description = "<font color = #b87333><center><b>Sunder (Estoc):</b><br>6-12 Damage<br>+2 Strength<br>+5 Spirit<br>4 Strength-Req<br>Worth 24"
+				//Description()//description = "<font color = #b87333><center><b>Sunder (Estoc):</b><br>6-12 Damage<br>+2 Strength<br>+5 Spirit<br>4 Strength-Req<br>Worth 24"
 				//icon_state = "unuestoc"
 				weapon_name = "estoc"
 				Worth = 24
@@ -3928,13 +5225,23 @@ obj
 				STRbonus = 2
 				SPRTbonus = 5
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus]Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus]Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncoestoc
 				name = "Incise (Estoc)"
-				//description = "<font color = #c0c0c0><b><center>Incise (Estoc):</b>  8-10 Damage, +6 Strength, +4 Spirit, 4 Strength-Req<br>Worth 42"
+				//Description()//description = "<font color = #c0c0c0><b><center>Incise (Estoc):</b>  <br>8-10 Damage, +6 Strength, +4 Spirit, 4 Strength-Req<br>Worth 42"
 				//icon_state = "uncoestoc"
 				weapon_name = "estoc"
 				Worth = 42
@@ -3948,13 +5255,23 @@ obj
 				STRbonus = 6
 				SPRTbonus = 4
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus]Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus]Strength<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choiestoc
 				name = "Asunder (Estoc)"
-				//description = "<font color = #e6e8fa><center><b>Asunder (Estoc):</b><br>11-15 Damage<br>+6 Spirit<br>6 Strength-Req<br>Worth 64"
+				//Description()//description = "<font color = #e6e8fa><center><b>Asunder (Estoc):</b><br>11-15 Damage<br>+6 Spirit<br>6 Strength-Req<br>Worth 64"
 				//icon_state = "choiestoc"
 				weapon_name = "estoc"
 				Worth = 64
@@ -3967,18 +5284,28 @@ obj
 				DamageMax = 15
 				SPRTbonus = 6
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[BLUDGEONbonus] Bludgeon"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						BLUDGEONbonus = rand(2,6)
-						var/ad2 = "+[BLUDGEONbonus] Bludgeon"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad2 = "+[BLUDGEONbonus] Bludgeon"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordiestoc
 				name = "Slash (Estoc)"
-				//description = "<font color= #4682b4><center><b>Slash (Estoc):</b><br>13-16 Damage<br>8 Strength-Req"
+				//Description()//description = "<font color= #4682b4><center><b>Slash (Estoc):</b><br>13-16 Damage<br>8 Strength-Req"
 				//icon_state = "ordiestoc"
 				weapon_name = "estoc"
 				Worth = 84
@@ -3990,13 +5317,23 @@ obj
 				DamageMin = 13
 				DamageMax = 16
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinestoc
 				name = "Rive (Estoc)"
-				//description = "<font color = #ffd700><center><b>Rive (Estoc):</b><br>17-19 Damage<br>+1 Spirit<br>11 Strength-Req<br>Worth 101"
+				//Description()//description = "<font color = #ffd700><center><b>Rive (Estoc):</b><br>17-19 Damage<br>+1 Spirit<br>11 Strength-Req<br>Worth 101"
 				//icon_state = "sinestoc"
 				Worth = 101
 				typi = "weapon"
@@ -4008,24 +5345,35 @@ obj
 				DamageMax = 19
 				SPRTbonus = 1
 				//rarity = "{Singular}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						var/resroll = rand(1,10)
+						resroll = rand(1,10)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/addd1 = "+[resroll] Omni-Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 	//estocs done
 			avgkukri
 				name = "Henna (Kukri)"
-				//description = "<font color = #8C7853><center><b>Henna Kukri:</b><br>3-8 Damage<br>2 Strength-Req"
+				//Description()//description = "<font color = #8C7853><center><b>Henna Kukri:</b><br>3-8 Damage<br>2 Strength-Req"
 				//icon_state = "avgkukri"
 				weapon_name = "kukri"
 				Worth = 8
@@ -4037,13 +5385,23 @@ obj
 				DamageMin = 3
 				DamageMax = 8
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unukukri
 				name = "Aithochrous (Kukri)"
-				//description = "<font color = #b87333><center><b>Aithochrous (Kukri):</b><br>6-13 Damage<br>+3 Spirit<br>4 Strength-Req<br>Worth 24"
+				//Description()//description = "<font color = #b87333><center><b>Aithochrous (Kukri):</b><br>6-13 Damage<br>+3 Spirit<br>4 Strength-Req<br>Worth 24"
 				//icon_state = "unukukri"
 				weapon_name = "kukri"
 				Worth = 24
@@ -4056,18 +5414,28 @@ obj
 				DamageMax = 13
 				SPRTbonus = 3
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEATbonus] Heat"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						HEATbonus = rand(1,15)
-						var/ad1 = "+[HEATbonus] Heat"
-						description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[ad1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad1 = "+[HEATbonus] Heat"
+						Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[ad1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncokukri
 				name = "Ashen (Kukri)"
-				//description = "<font color = #c0c0c0><center><b>Ashen (Kukri):</b><br>7-12 Damage<br>+6 Spirit<br>5 Strength-Req"
+				//Description()//description = "<font color = #c0c0c0><center><b>Ashen (Kukri):</b><br>7-12 Damage<br>+6 Spirit<br>5 Strength-Req"
 				//icon_state = "uncokukri"
 				weapon_name = "kukri"
 				Worth = 42
@@ -4080,23 +5448,34 @@ obj
 				DamageMax = 12
 				SPRTbonus = 6
 				//rarity = "{Uncommon}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						var/resroll = rand(1,10)
+						resroll = rand(1,10)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/addd1 = "+[resroll] Omni-Proof"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choikukri
 				name = "Coral (Kukri)"
-				//description = "<font color = #e6e8fa><center><b>Coral (Kukri):</b><br>10-14 Damage<br>+10 Spirit<br>7 Strength-Req"
+				//Description()//description = "<font color = #e6e8fa><center><b>Coral (Kukri):</b><br>10-14 Damage<br>+10 Spirit<br>7 Strength-Req"
 				//icon_state = "choikukri"
 				weapon_name = "kukri"
 				Worth = 64
@@ -4109,18 +5488,28 @@ obj
 				DamageMax = 14
 				SPRTbonus = 10
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[ACIDbonus] Acid"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						ACIDbonus = rand(1,4)
-						var/addd2 = ", +[ACIDbonus] Acid"
-						description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[addd2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd2 = "+[ACIDbonus] Acid"
+						Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br><+[SPRTbonus] Spirit<br>[addd2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordikukri
 				name = "Furious (Kukri)"
-				//description = "<font color= #4682b4><center><b>Furious (Kukri):</b><br>7-14 Damage<br>4 Strength-Req"
+				//Description()//description = "<font color= #4682b4><center><b>Furious (Kukri):</b><br>7-14 Damage<br>4 Strength-Req"
 				//icon_state = "ordikukri"
 				weapon_name = "kukri"
 				Worth = 84
@@ -4132,13 +5521,23 @@ obj
 				DamageMin = 7
 				DamageMax = 14
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinkukri
 				name = "Vim (Kukri)"
-				//description = "<font color = #ffd700><center><b>Vim (Kukri):</b><br>16-22 Damage<br>+7 Strength<br>+11 Spirit<br>9 Strength-Req<br>Worth 124"
+				//Description()//description = "<font color = #ffd700><center><b>Vim (Kukri):</b><br>16-22 Damage<br>+7 Strength<br>+11 Spirit<br>9 Strength-Req<br>Worth 124"
 				//icon_state = "sinkukri"
 				weapon_name = "kukri"
 				Worth = 124
@@ -4152,18 +5551,28 @@ obj
 				STRbonus = 7
 				SPRTbonus = 11
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEALTHbonus] Health"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						HEALTHbonus = rand(10,30)
-						var/addd1 = ", +[HEALTHbonus] Health"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[HEALTHbonus] Health"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//kukri done
 			avgbrand
 				name = "Russet (Brand)"
-				//description = "<font color = #8C7853><center><b>Russet (Brand):</b><br>8-10 Damage<br>Two-Handed<br>6 Strength-Req"
+				//Description()//description = "<font color = #8C7853><center><b>Russet (Brand):</b><br>8-10 Damage<br>Two-Handed<br>6 Strength-Req"
 				//icon_state = "avgbrand"
 				weapon_name = "brand"
 				Worth = 25
@@ -4175,13 +5584,23 @@ obj
 				DamageMin = 8
 				DamageMax = 10
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unubrand
 				name = "Aurous (Brand)"
-				//description = "<font color = #b87333><center><b>Aurous (Brand):</b><br>10-16 Damage<br>Two-Handed<br>+2 Spirit<br>9 Strength-Req<br>Worth 42"
+				//Description()//description = "<font color = #b87333><center><b>Aurous (Brand):</b><br>10-16 Damage<br>Two-Handed<br>+2 Spirit<br>9 Strength-Req<br>Worth 42"
 				//icon_state = "unubrand"
 				weapon_name = "brand"
 				Worth = 42
@@ -4194,13 +5613,23 @@ obj
 				DamageMax = 16
 				SPRTbonus = 2
 				//rarity = "{Unusual"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncobrand
 				name = "Argent (Brand)"
-				//description = "<font color = #c0c0c0><center><b>Argent (Brand):</b><br>14-18 Damage<br>+4 Spirit<br>13 Strength-Req<br>Worth 64"
+				//Description()//description = "<font color = #c0c0c0><center><b>Argent (Brand):</b><br>14-18 Damage<br>+4 Spirit<br>13 Strength-Req<br>Worth 64"
 				//icon_state = "uncobrand"
 				weapon_name = "brand"
 				Worth = 64
@@ -4212,13 +5641,23 @@ obj
 				DamageMin = 14
 				DamageMax = 18
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choibrand
 				name = "Precise (Brand)"
-				//description = "<font color = #e6e8fa><center><b>Precise (Brand):</b><br>18-18 Damage<br>20 Strength-Req<br>Two-Handed<br>Worth 84"
+				//Description()//description = "<font color = #e6e8fa><center><b>Precise (Brand):</b><br>18-18 Damage<br>20 Strength-Req<br>Two-Handed<br>Worth 84"
 				//icon_state = "choibrand"
 				weapon_name = "brand"
 				Worth = 84
@@ -4230,13 +5669,23 @@ obj
 				DamageMin = 18
 				DamageMax = 18
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordibrand
 				name = "Diem (Brand)"
-				//description = "<font color= #4682b4><center><b>Diem (Brand):</b><br>15-20 Damage<br>17 Strength-Req<br>Worth 74"
+				//Description()//description = "<font color= #4682b4><center><b>Diem (Brand):</b><br>15-20 Damage<br>17 Strength-Req<br>Worth 74"
 				//icon_state = "ordibrand"
 				weapon_name = "brand"
 				Worth = 74
@@ -4248,13 +5697,23 @@ obj
 				DamageMin = 15
 				DamageMax = 20
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinbrand
 				name = "Macabre (Brand)"
-				//description = "<font color = #ffd700><center><b>Macabre (Brand):</b><br>24-33 Damage<br>+6 Spirit<br>24 Strength-Req<br>Worth 242"
+				//Description()//description = "<font color = #ffd700><center><b>Macabre (Brand):</b><br>24-33 Damage<br>+6 Spirit<br>24 Strength-Req<br>Worth 242"
 				//icon_state = "sinbrand"
 				weapon_name = "brand"
 				Worth = 242
@@ -4267,25 +5726,37 @@ obj
 				DamageMax = 33
 				SPRTbonus = 6
 				//rarity = "{Singular}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[SHARDBURSTbonus] Shard Burst"
+					var/ad2 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						SHARDBURSTbonus = rand(15,25)
-						var/ad2 = "+[SHARDBURSTbonus] Shard Burst"
-						var/resroll = rand(10,20)
+						//var/ad2 = "+[SHARDBURSTbonus] Shard Burst"
+						resroll = rand(10,20)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/addd1 = "+[resroll] Omni-Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad2]<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad2]<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//brands done
 			avgferule
 				name = "Blackjack (Ferule)"
-				//description = "<font color = #8C7853><center><b>Blackjack (Ferule):</b><br>4-6 Damage<br>2 Strength-Req<br>Worth 25"
+				//Description()//description = "<font color = #8C7853><center><b>Blackjack (Ferule):</b><br>4-6 Damage<br>2 Strength-Req<br>Worth 25"
 				//icon_state = "avgferule"
 				weapon_name = "ferule"
 				Worth = 25
@@ -4298,13 +5769,23 @@ obj
 				DamageMax = 6
 				SPRTbonus = 5
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unuferule
 				name = "Pummel (Ferule)"
-				//description = "<font color = #b87333><center><b>Pummel (Ferule):</b><br>6-7 Damage<br>+8 Spirit<br>4 Strength-Req<br>Worth 42"
+				//Description()//description = "<font color = #b87333><center><b>Pummel (Ferule):</b><br>6-7 Damage<br>+8 Spirit<br>4 Strength-Req<br>Worth 42"
 				//icon_state = "unuferule"
 				weapon_name = "ferule"
 				Worth = 42
@@ -4317,13 +5798,23 @@ obj
 				DamageMax = 7
 				SPRTbonus = 8
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncoferule
 				name = "Vitae (Ferule)"
-				//description = "<font color = #c0c0c0><center><b>Vitae (Ferule):</b><br>4-9 Damage<br>+10 Spirit<br>6 Strength-Req<br>Worth 64"
+				//Description()//description = "<font color = #c0c0c0><center><b>Vitae (Ferule):</b><br>4-9 Damage<br>+10 Spirit<br>6 Strength-Req<br>Worth 64"
 				//icon_state = "uncoferule"
 				weapon_name = "ferule"
 				Worth = 64
@@ -4336,18 +5827,28 @@ obj
 				DamageMax = 9
 				SPRTbonus = 10
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[VITAEbonus] Vitae"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						VITAEbonus = rand(5,10)
-						var/addd = "+[VITAEbonus] Vitae"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[addd]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd = "+[VITAEbonus] Vitae"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[addd]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choiferule
 				name = "Clout (Ferule)"
-				//description = "<font color = #e6e8fa><center><b>Clout (Ferule):</b><br>7-11 Damage<br>+7 Spirit<br>8 Strength-Req<br>Worth 84"
+				//Description()//description = "<font color = #e6e8fa><center><b>Clout (Ferule):</b><br>7-11 Damage<br>+7 Spirit<br>8 Strength-Req<br>Worth 84"
 				//icon_state = "choiferule"
 				weapon_name = "ferule"
 				Worth = 84
@@ -4360,13 +5861,23 @@ obj
 				DamageMax = 18
 				SPRTbonus = 15
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordiferule
 				name = "Bludgeon (Ferule)"
-				//description = "<font color= #4682b4><center><b>Bludgeon (Ferule):</b><br>9-14 Damage<br>10 Strength-Req<br>Worth 74"
+				//Description()//description = "<font color= #4682b4><center><b>Bludgeon (Ferule):</b><br>9-14 Damage<br>10 Strength-Req<br>Worth 74"
 				//icon_state = "ordiferule"
 				weapon_name = "ferule"
 				Worth = 74
@@ -4379,13 +5890,23 @@ obj
 				DamageMax = 14
 				SPRTbonus = 12
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinferule
 				name = "Trauma (Ferule)"
-				//description = "<font color = #ffd700><center><b>Trauma (Ferule):</b><br>15-20 Damage<br>+10 Spirit<br>15 Strength-Req<br>Worth 142"
+				//Description()//description = "<font color = #ffd700><center><b>Trauma (Ferule):</b><br>15-20 Damage<br>+10 Spirit<br>15 Strength-Req<br>Worth 142"
 				//icon_state = "sinferule"
 				weapon_name = "ferule"
 				Worth = 142
@@ -4398,19 +5919,29 @@ obj
 				DamageMax = 20
 				SPRTbonus = 10
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[COSMOSbonus] Cosmos"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						COSMOSbonus = rand(5,10)
-						var/ad3 = "+[COSMOSbonus] Cosmos"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad3]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad3 = "+[COSMOSbonus] Cosmos"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad3]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 	//ferule done
 			avgmarubo
 				name = "Firm (Marubo)"
-				//description = "<font color = #8C7853><center><b>Firm (Marubo):</b><br>7-8 Damage<br>Two-Handed<br>3 Strength Required<br>Worth 15"
+				//Description()//description = "<font color = #8C7853><center><b>Firm (Marubo):</b><br>7-8 Damage<br>Two-Handed<br>3 Strength Required<br>Worth 15"
 				//icon_state = "avgmarubo"
 				weapon_name = "marubo"
 				Worth = 15
@@ -4422,13 +5953,23 @@ obj
 				DamageMin = 8
 				DamageMax = 9
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unumarubo
 				name = "Fanged (Marubo)"
-				//description = "<font color = #b87333><center><b>Fanged (Marubo):</b><br>9-12 Damage<br>Two-Handed<br>6 Strength Required<br>Worth 25"
+				//Description()//description = "<font color = #b87333><center><b>Fanged (Marubo):</b><br>9-12 Damage<br>Two-Handed<br>6 Strength Required<br>Worth 25"
 				//icon_state = "unumarubo"
 				weapon_name = "marubo"
 				Worth = 25
@@ -4440,13 +5981,23 @@ obj
 				DamageMin = 9
 				DamageMax = 12
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncomarubo
 				name = "Plated (Marubo)"
-				//description = "<font color = #c0c0c0><center><b>Plated (Marubo):</b><br>11-13 Damage<br>Two-Handed<br>8 Strength Required<br>Worth 35"
+				//Description()//description = "<font color = #c0c0c0><center><b>Plated (Marubo):</b><br>11-13 Damage<br>Two-Handed<br>8 Strength Required<br>Worth 35"
 				//icon_state = "uncomarubo"
 				weapon_name = "marubo"
 				Worth = 35
@@ -4458,13 +6009,23 @@ obj
 				DamageMin = 8
 				DamageMax = 9
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choimarubo
 				name = "Studded (Marubo)"
-				//description = "<font color = #e6e8fa><center><b>Firm (Marubo):</b><br>10-12 Damage<br>Two-Handed<br>10 Strength Required<br>Worth 45"
+				//Description()//description = "<font color = #e6e8fa><center><b>Firm (Marubo):</b><br>10-12 Damage<br>Two-Handed<br>10 Strength Required<br>Worth 45"
 				//icon_state = "choimarubo"
 				weapon_name = "marubo"
 				Worth = 45
@@ -4476,13 +6037,23 @@ obj
 				DamageMin = 10
 				DamageMax = 12
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordimarubo
 				name = "Battle (Marubo)"
-				//description = "<font color= #4682b4><center><b>Studded (Marubo):</b><br>13-16 Damage<br>Two-Handed<br>13 Strength Required<br>Worth 88"
+				//Description()//description = "<font color= #4682b4><center><b>Studded (Marubo):</b><br>13-16 Damage<br>Two-Handed<br>13 Strength Required<br>Worth 88"
 				//icon_state = "ordimarubo"
 				weapon_name = "marubo"
 				Worth = 88
@@ -4494,13 +6065,23 @@ obj
 				DamageMin = 13
 				DamageMax = 16
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinmarubo
 				name = "Violent (Marubo)"
-				//description = "<font color = #ffd700><center><b>Violent (Marubo):</b><br>20-24 Damage<br>Two-Handed<br>16 Strength Required<br>Worth 145"
+				//Description()//description = "<font color = #ffd700><center><b>Violent (Marubo):</b><br>20-24 Damage<br>Two-Handed<br>16 Strength Required<br>Worth 145"
 				//icon_state = "sinmarubo"
 				weapon_name = "marubo"
 				Worth = 145
@@ -4512,13 +6093,23 @@ obj
 				DamageMin = 20
 				DamageMax = 24
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//marubo done
 			avgtanto
 				name = "Relic (Tanto)"
-				//description = "<font color = #8C7853><center><b>Worn (Tanto):</b><br>3-5 Damage<br>1 Strength Required<br>Worth 10"
+				//Description()//description = "<font color = #8C7853><center><b>Worn (Tanto):</b><br>3-5 Damage<br>1 Strength Required<br>Worth 10"
 				//icon_state = "avgtanto"
 				weapon_name = "tanto"
 				Worth = 10
@@ -4530,13 +6121,23 @@ obj
 				DamageMin = 3
 				DamageMax = 5
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unutanto
 				name = "Ancient (Tanto)"
-				//description = "<font color = #b87333><center><b>Unrefinied (Tanto):</b><br>4-6 Damage<br>2 Strength Required<br>Worth 25"
+				//Description()//description = "<font color = #b87333><center><b>Unrefinied (Tanto):</b><br>4-6 Damage<br>2 Strength Required<br>Worth 25"
 				//icon_state = "unutanto"
 				weapon_name = "tanto"
 				Worth = 25
@@ -4548,13 +6149,23 @@ obj
 				DamageMin = 4
 				DamageMax = 6
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncotanto
 				name = "Classic (Tanto)"
-				//description = "<font color = #c0c0c0><center><b>Derived (Tanto):</b><br>4-7 Damage<br>3 Strength Required<br>Worth 35"
+				//Description()//description = "<font color = #c0c0c0><center><b>Derived (Tanto):</b><br>4-7 Damage<br>3 Strength Required<br>Worth 35"
 				//icon_state = "uncotanto"
 				weapon_name = "tanto"
 				Worth = 35
@@ -4566,13 +6177,23 @@ obj
 				DamageMin = 4
 				DamageMax = 7
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choitanto
 				name = "Refined (Tanto)"
-				//description = "<font color = #e6e8fa><center><b>Refined (Tanto):</b><br>6-8 Damage<br>4 Strength Required<br>Worth 45"
+				//Description()//description = "<font color = #e6e8fa><center><b>Refined (Tanto):</b><br>6-8 Damage<br>4 Strength Required<br>Worth 45"
 				//icon_state = "choitanto"
 				weapon_name = "tanto"
 				Worth = 45
@@ -4584,13 +6205,23 @@ obj
 				DamageMin = 6
 				DamageMax = 8
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			orditanto
 				name = "Current (Tanto)"
-				//description = "<font color= #4682b4><center><b>Veridical (Tanto):</b><br>7-9 Damage<br>4 Strength Required<br>Worth 88"
+				//Description()//description = "<font color= #4682b4><center><b>Veridical (Tanto):</b><br>7-9 Damage<br>4 Strength Required<br>Worth 88"
 				//icon_state = "orditanto"
 				weapon_name = "tanto"
 				Worth = 88
@@ -4602,13 +6233,23 @@ obj
 				DamageMin = 7
 				DamageMax = 9
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sintanto
 				name = "Foreyear (Tanto)"
-				//description = "<font color = #ffd700><center><b>Violent (Tanto):</b><br>10 Damage<br>5 Strength Required<br>Worth 145"
+				//Description()//description = "<font color = #ffd700><center><b>Violent (Tanto):</b><br>10 Damage<br>5 Strength Required<br>Worth 145"
 				//icon_state = "sintanto"
 				weapon_name = "tanto"
 				Worth = 145
@@ -4620,13 +6261,23 @@ obj
 				DamageMin = 10
 				DamageMax = 10
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//tanto done
 			avgyawara
 				name = "Worn (Yawara)"
-				//description = "<font color = #8C7853><center><b>Worn (Yawara):</b>6-11 Damage<br>10 Strength Required<br>Worth 30"
+				//Description()//description = "<font color = #8C7853><center><b>Worn (Yawara):</b>6-11 Damage<br>10 Strength Required<br>Worth 30"
 				//icon_state = "avgyawara"
 				weapon_name = "yawara"
 				Worth = 30
@@ -4639,13 +6290,23 @@ obj
 				DamageMax = 11
 				STRbonus = 5
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unuyawara
 				name = "Blunt (Yawara)"
-				//description = "<font color = #b87333><center><b>Blunt (Yawara):</b>  9-18 Damage, +11 Strength, 10 strength required<br>Worth 120"
+				//Description()//description = "<font color = #b87333><center><b>Blunt (Yawara):</b>  <br>9-18 Damage, +11 Strength, 10 strength required<br>Worth 120"
 				//icon_state = "unuyawara"
 				weapon_name = "yawara"
 				Worth = 120
@@ -4658,20 +6319,31 @@ obj
 				DamageMax = 18
 				STRbonus = 7
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEALTHbonus] Health"
+					var/ad2 = "+[HEATbonus] Heat"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						HEALTHbonus = rand(5,20)
-						var/addd1 = ", +[HEALTHbonus] Health"
+						//var/addd1 = "+[HEALTHbonus] Health"
 						HEATbonus = rand(1,2)
-						var/addd2 = ", +[HEATbonus] Heat"
-						description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd2 = "+[HEATbonus] Heat"
+						Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncoyawara
 				name = "Dense (Yawara)"
-				//description = "<font color = #c0c0c0><center><b>Dense (Yawara):</b>  11-16 Damage, +11 Strength, 11 strength required"
+				//Description()//description = "<font color = #c0c0c0><center><b>Dense (Yawara):</b>  <br>11-16 Damage, +11 Strength, 11 strength required"
 				//icon_state = "uncoyawara"
 				weapon_name = "yawara"
 				Worth = 50
@@ -4684,13 +6356,23 @@ obj
 				DamageMax = 22
 				STRbonus = 10
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choiyawara
 				name = "Ritual (Yawara)"
-				//description = "<font color = #e6e8fa><center><b>Ritual (Yawara):</b>  8-16 Damage, two-handed, +11 Spirit, 5 strength required<br>Worth 60"
+				//Description()//description = "<font color = #e6e8fa><center><b>Ritual (Yawara):</b>  <br>8-16 Damage, two-handed, +11 Spirit, 5 strength required<br>Worth 60"
 				//icon_state = "choiyawara"
 				weapon_name = "yawara"
 				Worth = 60
@@ -4704,20 +6386,31 @@ obj
 				STRbonus = 20
 				SPRTbonus = 11
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[WATbonus] Water Shock"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						ENERGYbonus = rand(5,20)
-						var/addd1 = ", +[ENERGYbonus] Energy"
+						//var/addd1 = "+[ENERGYbonus] Energy"
 						WATbonus = rand(1,6)
-						var/addd2 = ", +[WATbonus] Water Shock"
-						description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd2 = "+[WATbonus] Water Shock"
+						Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordiyawara
 				name = "Friar (Yawara)"
-				//description = "<font color = #4682b4><center><b>Friar (Yawara):</b>  8-16 Damage, two-handed, +11 Spirit, 5 strength required<br>Worth 45"
+				//Description()//description = "<font color = #4682b4><center><b>Friar (Yawara):</b>  <br>8-16 Damage, two-handed, +11 Spirit, 5 strength required<br>Worth 45"
 				//icon_state = "ordiyawara"
 				weapon_name = "yawara"
 				Worth = 45
@@ -4730,13 +6423,23 @@ obj
 				DamageMax = 8
 				STRbonus = 15
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinyawara
 				name = "Martial (Yawara)"
-				//description = "<font color = #ffd700><center><b>Martial (Yawara):</b>  14-25 Damage, two-handed, 5 strength required<br>Worth 200"
+				//Description()//description = "<font color = #ffd700><center><b>Martial (Yawara):</b>  <br>14-25 Damage, two-handed, 5 strength required<br>Worth 200"
 				//icon_state = "sinyawara"
 				weapon_name = "yawara"
 				Worth = 200
@@ -4749,13 +6452,23 @@ obj
 				DamageMax = 25
 				STRbonus = 20
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//yawara done
 			avgeiku
 				name = "Elde (Eiku)"
-				//description = "<font color = #8C7853><center><b>Elde (Eiku):</b><br>8-10 damage<br>5 Strength-Req<br>Worth 36"
+				//Description()//description = "<font color = #8C7853><center><b>Elde (Eiku):</b><br>8-10 damage<br>5 Strength-Req<br>Worth 36"
 				//icon_state = "avgeiku"
 				weapon_name = "eiku"
 				Worth = 36
@@ -4767,12 +6480,22 @@ obj
 				DamageMin = 8
 				DamageMax = 10
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 			unueiku
 				name = "Silic (Eiku)"
-				//description = "<font color = #b87333><center><b>Silic (Eiku):</b><br>7-12 damage<br>7 Strength-Req<br>Worth 47"
+				//Description()//description = "<font color = #b87333><center><b>Silic (Eiku):</b><br>7-12 damage<br>7 Strength-Req<br>Worth 47"
 				//icon_state = "unueiku"
 				weapon_name = "eiku"
 				Worth = 47
@@ -4784,12 +6507,22 @@ obj
 				DamageMin = 5
 				DamageMax = 11
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 			uncoeiku
 				name = "Iron (Eiku)"
-				//description = "<center><b>Long Staff:</b>  5-11 Damage, two-handed, 8 strength required, Worth: 30"
+				//description = "<center><b>Long Staff:</b>  <br>5-11 Damage, two-handed, 8 strength required, Worth: 30"
 				//icon_state = "uncoeiku"
 				weapon_name = "eiku"
 				Worth = 60
@@ -4801,12 +6534,22 @@ obj
 				DamageMin = 7
 				DamageMax = 12
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 			choieiku
 				name = "Shard (Eiku)"
-				//description = "<font color = #><center><b>Frost (Long Staff):</b>  10-22 Damage, two-handed, +2 Str, +9 Int, 8 strength required"
+				//Description()//description = "<font color = #><center><b>Frost (Long Staff):</b>  <br>10-22 Damage, two-handed, +2 Str, +9 Int, 8 strength required"
 				//icon_state = "choieiku"
 				weapon_name = "eiku"
 				Worth = 120
@@ -4820,17 +6563,30 @@ obj
 				STRbonus = 2
 				SPRTbonus = 9
 				//rarity = "{Choice}"
+				//var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[SHARDBURSTbonus] Shard Burst"
+					var/ad3 = "+[ICEres] Ice Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					if(usr!=null)
 						ENERGYbonus = rand(5,20)
-						var/addd1 = ", +[ENERGYbonus] Energy"
+						//var/addd1 = "+[ENERGYbonus] Energy"
 						SHARDBURSTbonus = rand(1,6)
-						var/addd2 = ", +[SHARDBURSTbonus] Shard Burst"
+						//var/addd2 = "+[SHARDBURSTbonus] Shard Burst"
 						ICEres = rand(1,10)
-						var/addd3 = ", +[ICEres] Ice Proof"
-						description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[addd3]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd3 = "+[ICEres] Ice Proof"
+						Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[addd3]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordieiku
 				name = "Razor (Eiku)"
@@ -4846,13 +6602,23 @@ obj
 				DamageMin = 5
 				DamageMax = 11
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sineiku
 				name = "Combat (Eiku)"
-				//description = "<center><b>Blade:</b>  10-13 damage, 14 strength required, Worth: 100"
+				//description = "<center><b>Blade:</b>  <br>10-13 damage, 14 strength required, Worth: 100"
 				//icon_state = "sineiku"
 				weapon_name = "eiku"
 				Worth = 200
@@ -4864,13 +6630,23 @@ obj
 				DamageMin = 10
 				DamageMax = 13
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//eiku done
 			avgbroadsword
 				name = "Dull (Broadsword)"
-				//description = "<font color = #8C7853><center><b>Prismatic (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #8C7853><center><b>Prismatic (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "avgbroadsword"
 				weapon_name = "broadsword"
 				Worth = 20
@@ -4883,13 +6659,23 @@ obj
 				DamageMax = 12
 				STRbonus = 2
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unubroadsword
 				name = "Chipped (Broadsword)"
-				//description = "<font color = #ffd700><center><b>Prismatic (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Prismatic (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "unubroadsword"
 				weapon_name = "broadsword"
 				Worth = 40
@@ -4902,13 +6688,23 @@ obj
 				DamageMax = 14
 				STRbonus = 3
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncobroadsword
 				name = "Edge (Broadsword)"
-				//description = "<font color = #ffd700><center><b>Prismatic (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Prismatic (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "uncobroadsword"
 				weapon_name = "broadsword"
 				Worth = 60
@@ -4921,23 +6717,34 @@ obj
 				DamageMax = 16
 				STRbonus = 5
 				//rarity = "{Uncommon}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						var/resroll = rand(10,30)
+						resroll = rand(10,30)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/addd1 = ", +[resroll] Omni-Proof"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choibroadsword
 				name = "Lode (Broadsword)"
-				//description = "<font color = #><center><b>Prismatic (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #><center><b>Prismatic (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "choibroadsword"
 				weapon_name = "broadsword"
 				Worth = 100
@@ -4950,13 +6757,23 @@ obj
 				DamageMax = 18
 				STRbonus = 10
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordibroadsword
 				name = "Knicked (Broadsword)"
-				//description = "<font color = #ffd700><center><b>Prismatic (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Prismatic (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "ordibroadsword"
 				weapon_name = "broadsword"
 				Worth = 80
@@ -4969,13 +6786,23 @@ obj
 				DamageMax = 18
 				STRbonus = 7
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinbroadsword
 				name = "Shimmer (Broadsword)"
-				//description = "<font color = #ffd700><center><b>Prismatic (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Prismatic (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "sinbroadsword"
 				weapon_name = "broadsword"
 				Worth = 200
@@ -4988,23 +6815,34 @@ obj
 				DamageMax = 26
 				STRbonus = 15
 				//rarity = "{Singular}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						var/resroll = rand(10,30)
+						resroll = rand(10,30)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/addd1 = ", +[resroll] Omni-Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//broadsword done
 			avgkakubo
 				name = "Swift (Kakubo)"
-				//description = "<font color = #8C7853><center><b>Swift (Kakubo):</b><br>10-13 Damage<br>14 Strength-Req<br>Worth 66"
+				//Description()//description = "<font color = #8C7853><center><b>Swift (Kakubo):</b><br>10-13 Damage<br>14 Strength-Req<br>Worth 66"
 				//icon_state = "avgkakubo"
 				weapon_name = "kakubo"
 				Worth = 66
@@ -5017,13 +6855,23 @@ obj
 				DamageMax = 13
 				STRbonus = 4
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unukakubo
 				name = "Steady (Kakubo)"
-				//description = "<center><b>Long Sword:</b>  14-17 damage, 24 strength required, Worth: 140"
+				//description = "<center><b>Long Sword:</b>  <br>14-17 damage, 24 strength required, Worth: 140"
 				//icon_state = "unukakubo"
 				weapon_name = "kakubo"
 				Worth = 80
@@ -5036,9 +6884,19 @@ obj
 				DamageMax = 17
 				STRbonus = 8
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncokakubo
 				name = "Sturdy (Kakubo)"
@@ -5055,12 +6913,22 @@ obj
 				DamageMax = 17
 				STRbonus = 10
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 			choikakubo
 				name = "Strong (Kakubo)"
-				//description = "<center><b>Broad Blade:</b>  19-22 damage, 30 strength required, Worth: 300"
+				//description = "<center><b>Broad Blade:</b>  <br>19-22 damage, 30 strength required, Worth: 300"
 				//icon_state = "choikakubo"
 				weapon_name = "kakubo"
 				Worth = 120
@@ -5073,13 +6941,23 @@ obj
 				DamageMax = 20
 				STRbonus = 12
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordikakubo
 				name = "Stout (Kakubo)"
-				//description = "<center><b>Broad Blade:</b>  19-22 damage, 30 strength required, Worth: 300"
+				//description = "<center><b>Broad Blade:</b>  <br>19-22 damage, 30 strength required, Worth: 300"
 				//icon_state = "ordikakubo"
 				weapon_name = "kakubo"
 				Worth = 130
@@ -5092,13 +6970,23 @@ obj
 				DamageMax = 22
 				STRbonus = 9
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinkakubo
 				name = "Solid (Kakubo)"
-				//description = "<center><font color = #ffd700><b>Pestilence (Broad Blade):</b>  30-32 Damage, +20 Spirit, 30 strength required"
+				//description = "<center><font color = #ffd700><b>Pestilence (Broad Blade):</b>  <br>30-32 Damage, +20 Spirit, 30 strength required"
 				//icon_state = "sinkakubo"
 				weapon_name = "kakubo"
 				Worth = 200
@@ -5112,20 +7000,32 @@ obj
 				STRbonus = 10
 				SPRTbonus = 20
 				//rarity = "{Singular}"
+				//var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[ACIDbonus] Acid"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						ENERGYbonus = rand(50,100)
-						var/addd1 = ", +[ENERGYbonus] Energy"
+						//var/addd1 = "+[ENERGYbonus] Energy"
 						ACIDbonus = rand(1,2)
-						var/addd2 = ", +[ACIDbonus] Acid"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd2 = "+[ACIDbonus] Acid"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//kakubo done
 			avgtinberochin
 				name = "Rust & Recoil (Tinberochin)"
-				//description = "<font color = #8C7853><center><b>Butcher (Tinberochin):</b><br>5-11 Damage<br>22 Strength-Req<br>Two-Handed<br>Worth 130"
+				//Description()//description = "<font color = #8C7853><center><b>Butcher (Tinberochin):</b><br>5-11 Damage<br>22 Strength-Req<br>Two-Handed<br>Worth 130"
 				//icon_state = "avgtinberochin"
 				weapon_name = "tinberochin"
 				Worth = 130
@@ -5137,13 +7037,23 @@ obj
 				DamageMin = 15
 				DamageMax = 21
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unutinberochin
 				name = "Reach & Reflex (Tinberochin)"
-				//description = "<center><b>Broad Sword:</b>  26-29 damage, two-handed, 42 strength required, Worth: 490"
+				//description = "<center><b>Broad Sword:</b>  <br>26-29 damage, two-handed, 42 strength required, Worth: 490"
 				//icon_state = "unutinberochin"
 				weapon_name = "tinberochin"
 				Worth = 190
@@ -5155,13 +7065,23 @@ obj
 				DamageMin = 16
 				DamageMax = 23
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncotinberochin
 				name = "Calcite & Seashell (Tinberochin)"
-				//description = "<font color = #ffd700><center><b>Mithra's Edge (Broad Sword):</b>  52-58 Damage, two-handed, +17 Str, +3 Int, 42 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Mithra's Edge (Broad Sword):</b>  <br>52-58 Damage, two-handed, +17 Str, +3 Int, 42 strength required"
 				//icon_state = "uncotinberochin"
 				weapon_name = "tinberochin"
 				Worth = 260
@@ -5175,23 +7095,34 @@ obj
 				STRbonus = 1
 				SPRTbonus = 3
 				//rarity = "{Uncommon}"
-				New()
-					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[resroll] Omni-proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
 
 				New()
+					..()
+					SetRank(rank||3)
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 					if(usr!=null)
-						FIREres = rand(5,20)
-						var/ad1 = ", +[FIREres] Fire Proof"
-						ICEres = rand(5,20)
-						var/ad2 = ", +[ICEres] Ice Proof"
-						WINDres = rand(5,20)
-						var/ad3 = ", +[WINDres] Wind Proof"
-						EARTHres = rand(5,20)
-						var/ad5 = ", +[EARTHres] Earth Proof"
-						WATres = rand(5,20)
-						var/ad4 = ", +[WATres] Water Proof"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[ad5]<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						resroll = rand(5,20)
+						FIREres = resroll//rand(5,20)
+						//var/ad1 = "+[FIREres] Fire Proof"
+						ICEres = resroll//rand(5,20)
+						//var/ad2 = "+[ICEres] Ice Proof"
+						WINDres = resroll//rand(5,20)
+						//var/ad3 = "+[WINDres] Wind Proof"
+						EARTHres = resroll//rand(5,20)
+						//var/ad5 = "+[EARTHres] Earth Proof"
+						WATres = resroll//rand(5,20)
+						//var/ad4 = "+[WATres] Water Proof"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[ad5]<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choitinberochin
 				name = "Rapier & Guard (Tinberochin)"
@@ -5207,13 +7138,23 @@ obj
 				DamageMin = 26
 				DamageMax = 29
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			orditinberochin
 				name = "Strike & Scale (Tinberochin)"
-				//description = "<center><b>Large Axe:</b>  20-25 damage, 38 strength required, Worth: 363"
+				//description = "<center><b>Large Axe:</b>  <br>20-25 damage, 38 strength required, Worth: 363"
 				//icon_state = "orditinberochin"
 				weapon_name = "tinberochin"
 				Worth = 263
@@ -5225,13 +7166,23 @@ obj
 				DamageMin = 25
 				DamageMax = 30
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sintinberochin
 				name = "Saint & Sage (Tinberochin)"
-				//description = "<center><font color = #ffd700><b>Amethyst (Large Axe):</b>  40-50 Damage, +12 Str, +8 Int, 38 strength required"
+				//description = "<center><font color = #ffd700><b>Amethyst (Large Axe):</b>  <br>40-50 Damage, +12 Str, +8 Int, 38 strength required"
 				//icon_state = "sintinberochin"
 				weapon_name = "tinberochin"
 				Worth = 450
@@ -5245,20 +7196,31 @@ obj
 				STRbonus = 6
 				SPRTbonus = 8
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad1 = "+[HEALTHbonus] Health"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						HEALTHbonus = rand(30,90)
-						var/ad1 = ", +[HEALTHbonus] Health"
+						//var/ad1 = "+[HEALTHbonus] Health"
 						ENERGYbonus = rand(30,90)
-						var/ad2 = ", +[ENERGYbonus] Energy"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad2 = "+[ENERGYbonus] Energy"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//tinberochin done
 			avgkatar
 				name = "Bronze (Katar)"
-				//description = "<font color = #8C7853><center><b>Dull (Katar):</b><br>4-7 Damage<br>16 Strength-Req<br>Worth 93"
+				//Description()//description = "<font color = #8C7853><center><b>Dull (Katar):</b><br>4-7 Damage<br>16 Strength-Req<br>Worth 93"
 				//icon_state = "avgkatar"
 				weapon_name = "katar"
 				Worth = 93
@@ -5270,13 +7232,23 @@ obj
 				DamageMin = 8
 				DamageMax = 14
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unukatar
 				name = "Stalactite (Katar)"
-				//description = "<center><b>Battle Axe:</b>  34-39 damage, two-handed, 55 strength required, Worth: 925"
+				//description = "<center><b>Battle Axe:</b>  <br>34-39 damage, two-handed, 55 strength required, Worth: 925"
 				//icon_state = "unukatar"
 				weapon_name = "katar"
 				Worth = 125
@@ -5288,13 +7260,23 @@ obj
 				DamageMin = 14
 				DamageMax = 19
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncokatar
 				name = "Horn (Katar)"
-				//description = "<font color = #ffd700><center><b>Soar (Battle Axe):</b>  68-78 Damage, two-handed, +20 Strength, 55 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Soar (Battle Axe):</b>  <br>68-78 Damage, two-handed, +20 Strength, 55 strength required"
 				//icon_state = "uncokatar"
 				weapon_name = "katar"
 				Worth = 170
@@ -5308,14 +7290,24 @@ obj
 				STRbonus = 3
 				SPRTbonus = 4
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEALTHbonus] Health"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						HEALTHbonus = rand(1,500)
-						var/ad1 = ", +[HEALTHbonus] Health"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						HEALTHbonus = rand(1,50)
+						//var/ad1 = "+[HEALTHbonus] Health"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choikatar
 				name = "Scissor (Katar)"
@@ -5331,13 +7323,23 @@ obj
 				DamageMin = 24
 				DamageMax = 29
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordikatar
 				name = "Copper (Katar)"
-				//description = "<center><b>Wand:</b>  15-16 damage, 20 strength required, Worth: 215"
+				//description = "<center><b>Wand:</b>  <br>15-16 damage, 20 strength required, Worth: 215"
 				//icon_state = "ordikatar"
 				weapon_name = "katar"
 				Worth = 215
@@ -5349,13 +7351,23 @@ obj
 				DamageMin = 25
 				DamageMax = 26
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinkatar
 				name = "Brass (Katar)"
-				//description = "<font color = #ffd700><center><b>Ruby (Wand):</b>  30-32 Damage,+3 Str, +17 Int, 20 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Ruby (Wand):</b>  <br>30-32 Damage,+3 Str, +17 Int, 20 strength required"
 				//icon_state = "sinkatar"
 				weapon_name = "katar"
 				Worth = 460
@@ -5369,20 +7381,32 @@ obj
 				STRbonus = 3
 				SPRTbonus = 17
 				//rarity = "{Singular}"
+				//var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[FIREres] Fire Proof"
+					var/ad2 = "+[HEALTHbonus] Health"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						FIREres = rand(20,30)
-						var/ad1 = ", +[FIREres] Fire Proof"
+						//var/ad1 = "+[FIREres] Fire Proof"
 						HEALTHbonus = rand(20,60)
-						var/ad2 = ", +[HEALTHbonus] Health"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad2 = "+[HEALTHbonus] Health"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//katar finished
 			avgvoulge
 				name = "Bronze (Voulge)"
-				//description = "<font color = #8C7853><center><b>Dull (Voulge):</b><br>13-24 Damage<br>28 Strength-Req<br>Two-Handed<br>Worth 175"
+				//Description()//description = "<font color = #8C7853><center><b>Dull (Voulge):</b><br>13-24 Damage<br>28 Strength-Req<br>Two-Handed<br>Worth 175"
 				//icon_state = "avgvoulge"
 				weapon_name = "voulge"
 				Worth = 175
@@ -5394,13 +7418,23 @@ obj
 				DamageMin = 13
 				DamageMax = 24
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unuvoulge
 				name = "Clan (Voulge)"
-				//description = "<center><b>Power Staff:</b>  16-22 damage, two-handed, 22 strength required, Worth: 200"
+				//description = "<center><b>Power Staff:</b>  <br>16-22 damage, two-handed, 22 strength required, Worth: 200"
 				//icon_state = "unuvoulge"
 				weapon_name = "voulge"
 				Worth = 200
@@ -5412,13 +7446,23 @@ obj
 				DamageMin = 16
 				DamageMax = 25
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncovoulge
 				name = "Hook (Voulge)"
-				//description = "<font color = #ffd700><center><b>Conflagration (Power Staff):</b>  32-44 Damage, two-handed, +6 Str, +14 Int, 22 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Conflagration (Power Staff):</b>  <br>32-44 Damage, two-handed, +6 Str, +14 Int, 22 strength required"
 				//icon_state = "uncovoulge"
 				weapon_name = "voulge"
 				Worth = 300
@@ -5431,16 +7475,27 @@ obj
 				DamageMax = 26
 				STRbonus = 4
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[FIREres] Fire Proof"
+					var/ad2 = "+[ENERGYbonus] Energy"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						FIREres = rand(5,10)
-						var/ad1 = ", +[FIREres] Fire Proof"
-						ENERGYbonus = rand(1,500)
-						var/ad2 = ", +[ENERGYbonus] Energy"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad1 = "+[FIREres] Fire Proof"
+						ENERGYbonus = rand(1,50)
+						//var/ad2 = "+[ENERGYbonus] Energy"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choivoulge
 				name = "Iron (Voulge)"
@@ -5457,13 +7512,23 @@ obj
 				DamageMax = 30
 				STRbonus = 6
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordivoulge
 				name = "Copper (Voulge)"
-				//description = "<center><b>Rapier:</b>  48-51 damage, 70 strength required, Worth: 1625"
+				//description = "<center><b>Rapier:</b>  <br>48-51 damage, 70 strength required, Worth: 1625"
 				//icon_state = "ordivoulge"
 				weapon_name = "voulge"
 				Worth = 525
@@ -5475,13 +7540,23 @@ obj
 				DamageMin = 28
 				DamageMax = 34
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinvoulge
 				name = "Brass (Voulge)"
-				//description = "<font color = #ffd700><center><b>Element (Rapier):</b>  96-102 damage, +15 Str, +25 Int, 70 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Element (Rapier):</b>  <br>96-102 damage, +15 Str, +25 Int, 70 strength required"
 				//icon_state = "sinvoulge"
 				weapon_name = "voulge"
 				Worth = 600
@@ -5495,28 +7570,44 @@ obj
 				SPRTbonus = 5
 				STRbonus = 5
 				//rarity = "{Singular}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEATbonus] Heat"
+					var/ad2 = "+[SHARDBURSTbonus] Shard Burst"
+					var/ad3 = "+[WATbonus] Water Shock"
+					var/ad4 = "+[FLAMEbonus] Flame"
+					var/ad5 = "+[ICESTORMbonus] Ice Storm"
+					var/ad6 = "+[CASCADELIGHTNINGbonus] Cascade Lightning"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[ad5]<br>[ad6]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						HEATbonus = rand(15,25)
-						var/ad1 = ", +[HEATbonus] Heat"
+						//var/ad1 = "+[HEATbonus] Heat"
 						SHARDBURSTbonus = rand(15,25)
-						var/ad2 = ", +[SHARDBURSTbonus] Shard Burst"
+						//var/ad2 = "+[SHARDBURSTbonus] Shard Burst"
 						WATbonus = rand(15,25)
-						var/ad3 = ", +[WATbonus] Water Shock"
+						//var/ad3 = "+[WATbonus] Water Shock"
 						FLAMEbonus = rand(5,15)
-						var/ad4 = ", +[FLAMEbonus] Flame"
+						//var/ad4 = "+[FLAMEbonus] Flame"
 						ICESTORMbonus = rand(5,15)
-						var/ad5 = ", +[ICESTORMbonus] Ice Storm"
+						//var/ad5 = "+[ICESTORMbonus] Ice Storm"
 						CASCADELIGHTNINGbonus = rand(5,15)
-						var/ad6 = ", +[CASCADELIGHTNINGbonus] Cascade Lightning"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[ad5]<br>[ad6]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad6 = "+[CASCADELIGHTNINGbonus] Cascade Lightning"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[ad5]<br>[ad6]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//voulge finished
 			avgrakkakubo
 				name = "Blunt (Rakkakubo)"
-				//description = "<font color = #8C7853><center><b>Studded (Rakkakubo):</b><br>16-26 Damage<br>36 Strength-Req<br>Two-Handed<br>Worth 175"
+				//Description()//description = "<font color = #8C7853><center><b>Studded (Rakkakubo):</b><br>16-26 Damage<br>36 Strength-Req<br>Two-Handed<br>Worth 175"
 				//icon_state = "avgrakkakubo"
 				weapon_name = "rakkakubo"
 				Worth = 175
@@ -5528,13 +7619,23 @@ obj
 				DamageMin = 26
 				DamageMax = 26
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unurakkakubo
 				name = "Studded (Rakkakubo)"
-				//description = "<center><b>Batblade:</b>  56-59 damage, 82 strength required, Worth: 2250"
+				//description = "<center><b>Batblade:</b>  <br>56-59 damage, 82 strength required, Worth: 2250"
 				//icon_state = "unurakkakubo"
 				weapon_name = "rakkakubo"
 				Worth = 250
@@ -5546,13 +7647,23 @@ obj
 				DamageMin = 26
 				DamageMax = 29
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncorakkakubo
 				name = "Iron (Rakkakubo)"
-				//description = "<font color = #ffd700><center><b>Bat's Seizure (Batblade):</b>  112-118 damage, +40 Strength, 82 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Bat's Seizure (Batblade):</b>  <br>112-118 damage, +40 Strength, 82 strength required"
 				//icon_state = "uncorakkakubo"
 				weapon_name = "rakkakubo"
 				Worth = 200
@@ -5564,16 +7675,28 @@ obj
 				DamageMin = 32
 				DamageMax = 38
 				//rarity = "{Uncommon}"
+				//var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[EARTHres] Earth Proof"
+					var/ad2 = "+[BLUDGEONbonus] Bludgeon"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						EARTHres = rand(15,30)
-						var/ad1 = ", +[EARTHres] Earth Proof"
+						//var/ad1 = "+[EARTHres] Earth Proof"
 						BLUDGEONbonus = rand(20,30)
-						var/ad2 = ", +[BLUDGEONbonus] Bludgeon"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad2 = "+[BLUDGEONbonus] Bludgeon"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choirakkakubo
 				name = "Club (Rakkakubo)"
@@ -5589,13 +7712,23 @@ obj
 				DamageMin = 28
 				DamageMax = 31
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordirakkakubo
 				name = "Strike (Rakkakubo)"
-				//description = "<center><b>Jade Staff:</b>  61-65 damage, 63 strength required, Worth: 3400"
+				//description = "<center><b>Jade Staff:</b>  <br>61-65 damage, 63 strength required, Worth: 3400"
 				//icon_state = "ordirakkakubo"
 				weapon_name = "rakkakubo"
 				Worth = 340
@@ -5607,13 +7740,23 @@ obj
 				DamageMin = 31
 				DamageMax = 35
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinrakkakubo
 				name = "Brass Plate (Rakkakubo)"
-				//description = "<font color = #ffd700><center><b>Jade Whirl (Jade Staff):</b>  122-130 damage, 63 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Jade Whirl (Jade Staff):</b>  <br>122-130 damage, 63 strength required"
 				//icon_state = "sinrakkakubo"
 				weapon_name = "rakkakubo"
 				Worth = 600
@@ -5626,22 +7769,35 @@ obj
 				DamageMax = 50
 				SPRTbonus = 5
 				//rarity = "{Singular}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[ICEres] Ice Proof"
+					var/ad3 = "+[WATres] Water Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						ENERGYbonus = rand(50,150)
-						var/ad1 = ", +[ENERGYbonus] Energy"
+						//var/ad1 = "+[ENERGYbonus] Energy"
 						ICEres = rand(15,30)
-						var/ad2 = ", +[ICEres] Ice Proof"
+						//var/ad2 = "+[ICEres] Ice Proof"
 						WATres = rand(15,30)
-						var/ad3 = ", +[WATres] Water Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad3 = "+[WATres] Water Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//rakkakubo finished
 			avgkama
 				name = "Harvest (Kama)"
-				//description = "<font color = #8C7853><center><b>Harvest (Kama):</b><br>11-13 Damage<br>18 Strength-Req<br>Worth 80"
+				//Description()//description = "<font color = #8C7853><center><b>Harvest (Kama):</b><br>11-13 Damage<br>18 Strength-Req<br>Worth 80"
 				//icon_state = "avgkama"
 				weapon_name = "kama"
 				Worth = 60
@@ -5653,13 +7809,23 @@ obj
 				DamageMin = 11
 				DamageMax = 13
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unukama
 				name = "Trim (Kama)"
-				//description = "<center><b>Triadic Orb:</b>  74-78 damage, two-handed, 77 strength required, Worth: 3750"
+				//description = "<center><b>Triadic Orb:</b>  <br>74-78 damage, two-handed, 77 strength required, Worth: 3750"
 				//icon_state = "unukama"
 				weapon_name = "kama"
 				Worth = 80
@@ -5671,13 +7837,23 @@ obj
 				DamageMin = 14
 				DamageMax = 18
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncokama
 				name = "Thrash (Kama)"
-				//description = "<font color = #ffd700><center><b>Kaleidoscope (Triadic Orb):</b>  148-156 damage, two-handed, +7 Str, +33 Int, 77 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Kaleidoscope (Triadic Orb):</b>  <br>148-156 damage, two-handed, +7 Str, +33 Int, 77 strength required"
 				//icon_state = "uncokama"
 				weapon_name = "kama"
 				Worth = 90
@@ -5689,21 +7865,33 @@ obj
 				DamageMin = 18
 				DamageMax = 22
 				//rarity = "{Uncommon}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEALTHbonus] Health"
+					var/ad2 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						HEALTHbonus = rand(150,250)
-						var/ad1 = ", +[HEALTHbonus] Health"
-						var/resroll = rand(20,30)
+						//var/ad1 = "+[HEALTHbonus] Health"
+						resroll = rand(20,30)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/ad2 = ", +[resroll] Omni-Proof"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad2 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choikama
 				name = "Edge (Kama)"
@@ -5719,13 +7907,23 @@ obj
 				DamageMin = 24
 				DamageMax = 25
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordikama
 				name = "Copper (Kama)"
-				//description = "<center><b>Icicle Blade:</b>  80-85 damage, two-handed, 118 strength required, Worth: 7860"
+				//description = "<center><b>Icicle Blade:</b>  <br>80-85 damage, two-handed, 118 strength required, Worth: 7860"
 				//icon_state = "ordikama"
 				weapon_name = "kama"
 				Worth = 160
@@ -5737,13 +7935,23 @@ obj
 				DamageMin = 23
 				DamageMax = 28
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinkama
 				name = "Brass (Kama)"
-				//description = "<font color = #ffd700><center><b>Blade of Karim (Icicle Blade):</b>  160-170 damage, two-handed, Increased Attack Speed, +35 Str, +5 Int, 118 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Blade of Karim (Icicle Blade):</b>  <br>160-170 damage, two-handed, Increased Attack Speed, +35 Str, +5 Int, 118 strength required"
 				//icon_state = "sinkama"
 				weapon_name = "kama"
 				Worth = 240
@@ -5756,30 +7964,43 @@ obj
 				DamageMax = 38
 				SPRTbonus = 5
 				//rarity = "{Singular}"
-				New()
-					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[BLUDGEONbonus] Bludgeon"
+					var/ad3 = "+[COSMOSbonus] Cosmos"
+					var/ad4 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>Worth [Worth]"
 
 				New()
+					..()
+					SetRank(rank||6)
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 					if(usr!=null)
 						ENERGYbonus = rand(200,300)
-						var/ad1 = ", +[ENERGYbonus] Energy"
+						//var/ad1 = "+[ENERGYbonus] Energy"
 						BLUDGEONbonus = rand(20,35)
-						var/ad2 = ", +[BLUDGEONbonus] Bludgeon"
+						//var/ad2 = "+[BLUDGEONbonus] Bludgeon"
 						COSMOSbonus = rand(5,10)
-						var/ad3 = ", +[COSMOSbonus] Cosmos"
-						var/resroll = rand(1,10)
+						//var/ad3 = "+[COSMOSbonus] Cosmos"
+						resroll = rand(1,10)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/ad4 = ", +[resroll] Omni-Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad4 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//kama finished
 			avgwakizashi
 				name = "Rustic (Wakizashi)"
-				//description = "<font color = #8C7853><center><b>Rustic (Wakizashi):</b><br>7-17 Damage<br>21 Strength-Req<br>Worth 100"
+				//Description()//description = "<font color = #8C7853><center><b>Rustic (Wakizashi):</b><br>7-17 Damage<br>21 Strength-Req<br>Worth 100"
 				//icon_state = "avgwakizashi"
 				weapon_name = "wakizashi"
 				Worth = 100
@@ -5791,13 +8012,23 @@ obj
 				DamageMin = 14
 				DamageMax = 17
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unuwakizashi
 				name = "Heirloom (Wakizashi)"
-				//description = "<center><b>Scorching Sword:</b>  94-97 damage, two-handed, 144 strength required, Worth: 12000"
+				//description = "<center><b>Scorching Sword:</b>  <br>94-97 damage, two-handed, 144 strength required, Worth: 12000"
 				//icon_state = "unuwakizashi"
 				weapon_name = "wakizashi"
 				Worth = 120
@@ -5809,13 +8040,23 @@ obj
 				DamageMin = 24
 				DamageMax = 27
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncowakizashi
 				name = "Keepsake (Wakizashi)"
-				//description = "<font color = #ffd700><center><b>Scourge (Scorching Sword):</b>  188-194 damage, two-handed, +24 Str, +16 Int, 144 strength required"
+				//Description()//description = "<font color = #ffd700><center><b>Scourge (Scorching Sword):</b>  <br>188-194 damage, two-handed, +24 Str, +16 Int, 144 strength required"
 				//icon_state = "uncowakizashi"
 				weapon_name = "wakizashi"
 				Worth = 140
@@ -5827,20 +8068,34 @@ obj
 				DamageMin = 24
 				DamageMax = 28
 				//rarity = "{Uncommon}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEALTHbonus] Health"
+					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad3 = "+[ACIDbonus] Acid"
+					var/ad4 = "+[WATres] Water Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						HEALTHbonus = rand(250,350)
-						var/ad1 = ", +[HEALTHbonus] Health"
+						//var/ad1 = "+[HEALTHbonus] Health"
 						ENERGYbonus = rand(150,250)
-						var/ad2 = ", +[ENERGYbonus] Energy"
+						//var/ad2 = "+[ENERGYbonus] Energy"
 						ACIDbonus = rand(10,15)
-						var/ad3 = ", +[ACIDbonus] Acid"
+						//var/ad3 = "+[ACIDbonus] Acid"
 						WATres = rand(20,30)
-						var/ad4 = ", +[WATres] Water Proof"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad4 = "+[WATres] Water Proof"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choiwakizashi
 				name = "Iron (Wakizashi)"
@@ -5856,13 +8111,23 @@ obj
 				DamageMin = 28
 				DamageMax = 34
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordiwakizashi
 				name = "Copper (Wakizashi)"
-				//description = "<font color = #4682b4><center><b>Steel Sword:</b>  174-195 damage, two-handed, 240 strength required, Worth: 46000"
+				//Description()//description = "<font color = #4682b4><center><b>Steel Sword:</b>  <br>174-195 damage, two-handed, 240 strength required, Worth: 46000"
 				//icon_state = "ordiwakizashi"
 				weapon_name = "wakizashi"
 				Worth = 220
@@ -5874,13 +8139,23 @@ obj
 				DamageMin = 24
 				DamageMax = 35
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinwakizashi
 				name = "Brass (Wakizashi)"
-				//description = "<font color = #4682b4><center><b>The Mmbahfather (Steel Sword):</b>  348-390 damage, one-handed, Increased Attack Speed, +60 Str, +20 Int,  240 strength required"
+				//Description()//description = "<font color = #4682b4><center><b>The Mmbahfather (Steel Sword):</b>  <br>348-390 damage, one-handed, Increased Attack Speed, +60 Str, +20 Int,  240 strength required"
 				//icon_state = "sinwakizashi"
 				weapon_name = "wakizashi"
 				Worth = 310
@@ -5893,29 +8168,43 @@ obj
 				DamageMax = 39
 				SPRTbonus = 5
 				//rarity = "{Singular}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEALTHbonus] Health"
+					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad3 = "+[QUIETUSbonus] Quietus"
+					var/ad4 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
 						HEALTHbonus = rand(600,1000)
-						var/ad1 = ", +[HEALTHbonus] Health"
+						//var/ad1 = "+[HEALTHbonus] Health"
 						ENERGYbonus = rand(600,1000)
-						var/ad2 = ", +[ENERGYbonus] Energy"
+						//var/ad2 = "+[ENERGYbonus] Energy"
 						QUIETUSbonus = rand(5,10)
-						var/ad3 = ", +[QUIETUSbonus] Quietus"
-						var/resroll = rand(24,33)
+						//var/ad3 = "+[QUIETUSbonus] Quietus"
+						resroll = rand(24,33)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/ad4 = ", +[resroll] Omni-Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad4 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//wakizashi done
 			avgnagamaki
 				name = "Worn (Nagamaki)"
-				//description = "<font color = #8C7853><center><b>Worn (Nagamaki):</b><br>9-23 Damage<br>24 Strength-Req<br>Two-Handed<br>Worth 100"
+				//Description()//description = "<font color = #8C7853><center><b>Worn (Nagamaki):</b><br>9-23 Damage<br>24 Strength-Req<br>Two-Handed<br>Worth 100"
 				//icon_state = "avgnagamaki"
 				weapon_name = "nagamaki"
 				Worth = 100
@@ -5927,13 +8216,23 @@ obj
 				DamageMin = 9
 				DamageMax = 23
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ununagamaki
 				name = "Bronze (Nagamaki)"
-				//description = "<font color = #ffd700><center><b>Gold Sword:</b>  170-178 damage, 195 strength required, Worth: 60000"
+				//Description()//description = "<font color = #ffd700><center><b>Gold Sword:</b>  <br>170-178 damage, 195 strength required, Worth: 60000"
 				//icon_state = "ununagamaki"
 				weapon_name = "nagamaki"
 				Worth = 120
@@ -5945,9 +8244,19 @@ obj
 				DamageMin = 10
 				DamageMax = 26
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unconagamaki
 				name = "Ceremonial (Nagamaki)"
@@ -5963,13 +8272,23 @@ obj
 				DamageMin = 12
 				DamageMax = 28
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choinagamaki
 				name = " (Nagamaki)"
-				//description = "<font color = #ffd700><center><b>Gold Wand:</b>  142-148 damage, 95 strength required, Worth: 32000"
+				//Description()//description = "<font color = #ffd700><center><b>Gold Wand:</b>  <br>142-148 damage, 95 strength required, Worth: 32000"
 				//icon_state = "choinagamaki"
 				weapon_name = "nagamaki"
 				Worth = 200
@@ -5981,9 +8300,19 @@ obj
 				DamageMin = 16
 				DamageMax = 30
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordinagamaki
 				name = "Copper (Nagamaki)"
@@ -5999,13 +8328,23 @@ obj
 				DamageMin = 22
 				DamageMax = 34
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinnagamaki
 				name = "Brass (Nagamaki)"
-				//description = "<font color = #ffd700><center><b>Gold Staff:</b>  160-171 damage, two-handed, 112 strength required, Worth: 35000"
+				//Description()//description = "<font color = #ffd700><center><b>Gold Staff:</b>  <br>160-171 damage, two-handed, 112 strength required, Worth: 35000"
 				//icon_state = "sinnagamaki"
 				weapon_name = "nagamaki"
 				Worth = 250
@@ -6017,13 +8356,23 @@ obj
 				DamageMin = 26
 				DamageMax = 37
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//Nagamaki done
 			avgtachi
 				name = "Relic (Tachi)"
-				//description = "<font color = #8C7853><center><b>Relic (Tachi):</b><br>11-19 Damage<br>28 Strength-Req<br>Two-Handed<br>Worth 100"
+				//Description()//description = "<font color = #8C7853><center><b>Relic (Tachi):</b><br>11-19 Damage<br>28 Strength-Req<br>Two-Handed<br>Worth 100"
 				//icon_state = "avgtachi"
 				weapon_name = "tachi"
 				Worth = 140
@@ -6035,13 +8384,23 @@ obj
 				DamageMin = 11
 				DamageMax = 19
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unutachi
 				name = "Worn (Tachi)"
-				//description = "<font color = #ffd700><center><b>Gold Axe:</b>  290-334 damage, two-handed, 380 strength required, Worth: 98000"
+				//Description()//description = "<font color = #ffd700><center><b>Gold Axe:</b>  <br>290-334 damage, two-handed, 380 strength required, Worth: 98000"
 				//icon_state = "unutachi"
 				weapon_name = "tachi"
 				Worth = 200
@@ -6053,9 +8412,19 @@ obj
 				DamageMin = 19
 				DamageMax = 23
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncotachi
 				name = "Bronze (Tachi)"
@@ -6071,9 +8440,19 @@ obj
 				DamageMin = 26
 				DamageMax = 30
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choitachi
 				name = "Iron (Tachi)"
@@ -6089,9 +8468,19 @@ obj
 				DamageMin = 29
 				DamageMax = 34
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			orditachi
 				name = "Copper (Tachi)"
@@ -6107,9 +8496,19 @@ obj
 				DamageMin = 36
 				DamageMax = 40
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sintachi
 				name = "Brass (Tachi)"
@@ -6125,9 +8524,19 @@ obj
 				DamageMin = 42
 				DamageMax = 50
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//tachi done
 			avguchigatana
 				name = "Bronze (Uchigatana)"
@@ -6143,9 +8552,19 @@ obj
 				DamageMin = 20
 				DamageMax = 28
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unuuchigatana
 				name = "Relic (Uchigatana)"
@@ -6161,9 +8580,19 @@ obj
 				DamageMin = 30
 				DamageMax = 44
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncouchigatana
 				name = "Regent (Uchigatana)"
@@ -6179,9 +8608,19 @@ obj
 				DamageMin = 40
 				DamageMax = 48
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choiuchigatana
 				name = "Iron (Uchigatana)"
@@ -6197,9 +8636,19 @@ obj
 				DamageMin = 50
 				DamageMax = 64
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordiuchigatana
 				name = "Copper (Uchigatana)"
@@ -6215,9 +8664,19 @@ obj
 				DamageMin = 60
 				DamageMax = 74
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinuchigatana
 				name = "Brass (Uchigatana)"
@@ -6233,9 +8692,19 @@ obj
 				DamageMin = 70
 				DamageMax = 84
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//uchigatana done
 			avgnaginata
 				name = "Relic (Naginata)"
@@ -6251,9 +8720,19 @@ obj
 				DamageMin = 22
 				DamageMax = 24
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ununaginata
 				name = "Ceremonial (Naginata)"
@@ -6269,9 +8748,19 @@ obj
 				DamageMin = 24
 				DamageMax = 28
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unconaginata
 				name = "Bronze (Naginata)"
@@ -6287,9 +8776,19 @@ obj
 				DamageMin = 29
 				DamageMax = 34
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choinaginata
 				name = "Iron (Naginata)"
@@ -6305,9 +8804,19 @@ obj
 				DamageMin = 32
 				DamageMax = 38
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordinaginata
 				name = "Copper (Naginata)"
@@ -6323,9 +8832,19 @@ obj
 				DamageMin = 40
 				DamageMax = 44
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinnaginata
 				name = "Brass (Naginata)"
@@ -6341,9 +8860,19 @@ obj
 				DamageMin = 40
 				DamageMax = 54
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//naginata done
 			avghakkakubo
 				name = "Hardwood (Hakkakubo)"
@@ -6359,9 +8888,19 @@ obj
 				DamageMin = 16
 				DamageMax = 20
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unuhakkakubo
 				name = "Blunt (Hakkakubo)"
@@ -6377,9 +8916,19 @@ obj
 				DamageMin = 19
 				DamageMax = 24
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncohakkakubo
 				name = "Club (Hakkakubo)"
@@ -6395,9 +8944,19 @@ obj
 				DamageMin = 29
 				DamageMax = 34
 				//rarity = "{Uncommon}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choihakkakubo
 				name = "Studded (Hakkakubo)"
@@ -6413,9 +8972,19 @@ obj
 				DamageMin = 30
 				DamageMax = 44
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordihakkakubo
 				name = "Bout (Hakkakubo)"
@@ -6431,9 +9000,19 @@ obj
 				DamageMin = 40
 				DamageMax = 54
 				//rarity = "{Ordinary}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4862b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4862b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinhakkakubo
 				name = "Brass Plate (Hakkakubo)"
@@ -6449,13 +9028,23 @@ obj
 				DamageMin = 50
 				DamageMax = 64
 				//rarity = "{Singular}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//hakkakubo done
 			avgkatana
 				name = "Worn (Katana)"
-				//description = "<font color = #ffd700><b>Katana (Average):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><b>Katana (Average):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "avgkatana"
 				weapon_name = "katana"
 				Worth = 100
@@ -6469,13 +9058,23 @@ obj
 				STRbonus = 2
 				SPRTbonus = 3
 				//rarity = "{Average}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||1)
-					//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			unukatana
 				name = "Bronze (Katana)"
-				//description = "<font color = #ffd700><b>Katana (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><b>Katana (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "unukatana"
 				weapon_name = "katana"
 				Worth = 200
@@ -6489,13 +9088,23 @@ obj
 				STRbonus = 5
 				SPRTbonus = 6
 				//rarity = "{Unusual}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||2)
-					//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			uncokatana
 				name = "Relic (Katana)"
-				//description = "<font color = #ffd700><b>Katana (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><b>Katana (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "uncokatana"
 				weapon_name = "katana"
 				Worth = 300
@@ -6509,23 +9118,34 @@ obj
 				STRbonus = 7
 				SPRTbonus = 8
 				//rarity = "{Uncommon}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||3)
-					//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						var/resroll = rand(10,30)
+						resroll = rand(10,30)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/addd1 = ", +[resroll] Omni-Proof"
-						description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/addd1 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choikatana
 				name = "Iron (Katana)"
-				//description = "<font color = #ffd700><b>Katana (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><b>Katana (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "choikatana"
 				weapon_name = "katana"
 				Worth = 400
@@ -6539,13 +9159,23 @@ obj
 				STRbonus = 8
 				SPRTbonus = 10
 				//rarity = "{Choice}"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||4)
-					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordikatana
 				name = "Copper (Katana)"
-				//description = "<font color = #ffd700><b>Katana (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><b>Katana (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "ordikatana"
 				weapon_name = "katana"
 				Worth = 500
@@ -6559,13 +9189,24 @@ obj
 				STRbonus = 9
 				SPRTbonus = 9
 				//rarity = "{Ordinary}"
+				//var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||5)
-					//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sinkatana
 				name = "Brass (Katana)"
-				//description = "<font color = #ffd700><b>Katana (Blade):</b>  20-26 Damage,+5 Str, +6 Int, 14 strength required"
+				//Description()//description = "<font color = #ffd700><b>Katana (Blade):</b>  <br>20-26 Damage,+5 Str, +6 Int, 14 strength required"
 				//icon_state = "sinkatana"
 				weapon_name = "katana"
 				Worth = 600
@@ -6579,27 +9220,39 @@ obj
 				STRbonus = 10
 				SPRTbonus = 10
 				//rarity = "{Singular}"
+				var/resroll
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 				New()
+					..()
 					SetRank(rank||6)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						var/resroll = rand(10,30)
+						resroll = rand(10,30)//Does this fire once for all of the below, or multiple times? If so, the "Omni Proof" won't be accurate if this fires for each individual variable
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/addd1 = ", +[resroll] Omni-Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad1 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//katana done
 
 
-
+//the below descriptions are finished, need to continue to convert the rest of the above
 			sumasamune
 				name = "Balance (Masamune)"
-				//description = "<font color = #ffd700><b>~Masamune (Singular, Umbral)~</b><br>420-840 Damage<br>Two-Handed<br>+Attack Speed<br>+64 Strength<br>+84 Spirit<br>Zero Strength Required<br>(Weightless - Umbral effect)"
-				icon_state = "sumasamune"
+				//Description()//description = "<font color = #ffd700><b>~Masamune (Singular, Umbral)~</b><br>420-840 Damage<br>Two-Handed<br>+Attack Speed<br>+64 Strength<br>+84 Spirit<br>Zero Strength Required<br>(Weightless - Umbral effect)"
+				//icon_state = "sumasamune"
+				weapon_name = "masamune"
 				Worth = 0
 				typi = "weapon"
 				wpnspd = 11
@@ -6610,51 +9263,108 @@ obj
 				DamageMax = 840
 				SPRTbonus = 84
 				STRbonus = 64
+				var/resroll
 				//rarity = "{Singular}"
-				New()
-					SetRank(rank||7)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					var/ad1 = "+[HEALTHbonus] Health"
+					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad3 = "+[BLUDGEONbonus] Bludgeon"
+					var/ad4 = "+[resroll] Omni-Proof"
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]"
 
 				New()
+					..()
+					SetRank(rank||7)
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					if(usr!=null)
 						HEALTHbonus = rand(420,840)
-						var/ad1 = "+[HEALTHbonus] Health"
+						//var/ad1 = "+[HEALTHbonus] Health"
 						ENERGYbonus = rand(420,840)
-						var/ad2 = "+[ENERGYbonus] Energy"
+						//var/ad2 = "+[ENERGYbonus] Energy"
 						BLUDGEONbonus = rand(13,37)
-						var/ad3 = "+[BLUDGEONbonus] Bludgeon"
-						var/resroll = rand(42,84)
+						//var/ad3 = "+[BLUDGEONbonus] Bludgeon"
+						resroll = rand(42,84)
 						FIREres = resroll
 						ICEres = resroll
 						WINDres = resroll
 						WATres = resroll
 						EARTHres = resroll
-						var/ad4 = "+[resroll] Omni-Proof"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad4 = "+[resroll] Omni-Proof"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Lvl [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[ad4]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			sumuramasa
 				name = "Curse (Muramasa)"
-				//description = "<font color = #ffd700><center><b>Muramasa (Singular, Oni):</b><br>640-940 Damage<br>Two-Handed<br>+Attack Speed<br>74 Strength-Req"
-				icon_state = "sumuramasa"
+				//Description()//description = "<font color = #ffd700><center><b>Muramasa (Singular, Oni):</b><br>640-940 Damage<br>Two-Handed<br>+Attack Speed<br>74 Strength-Req"
+				//icon_state = "sumuramasa"
+				weapon_name = "muramasa"
 				Worth = 0
 				typi = "weapon"
 				wpnspd = 13
 				wlvl = 7
 				twohanded = 1
-				strreq = 74
+				strreq = 34
 				DamageMin = 640
 				DamageMax = 940
+				//var/vampire=1
+				var/volume = null//still need to add into the attack a check for this weapon and add a random percent of volume to it on every kill
+				var/volumecap = null
 				//rarity = "{Singular}"
-				New()
-					SetRank(rank||7)
-					//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+				//Interesting idea to add volume/volcap and contents type to this cursed blade, so that when it reaches the volume cap that it levels up but takes away more hp
+				verb/Description()//Fixed description
+					set category=null
+					set popup_menu=1
+					set src in usr
+					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					//return
+					var/ad1 = "-[HEALTHbonus] Health Reduction"
+					var/ad2 = "+[ACIDbonus] Acid"
+					var/ad3 = "+[WATbonus] Water Shock"//fixed
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>[ad1]<br>[ad2]<br>[ad3]"
 
+				proc
+					LvW()
+						var/mob/players/M
+						M = usr
+						//if(M.pvpkills>=1)
+
+							//volume += 10
+						//if(M.pvekills>=1)
+							//volume += 5
+						if(usr!=null)
+							if(volume>=volumecap)
+								wlvl += 1
+								DamageMin += rand(5,50)
+								DamageMax += rand(5,100)
+								M.MAXHP -= rand(5,10)
+								if(M.MAXHP <= 0)
+									M.MAXHP = 1
+								volume=0
+								color += rgb(100,0,0)
+								volumecap+=rand(100,250)
+								M << "This blade grows stronger, but you can feel it sapping your life..."
+								return
+				New()
+					..()
+					SetRank(rank||7)
+					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+					spawn while (src) // More efficient to put in a loop like Deadron's event loop
+						src.LvW() // start the spawn calls
+						sleep(100)//probably needs to be lengthen'd
 					if(usr!=null)
+						volume = 0
+						volumecap = 100
+						//color = rgb(0,0,0)
 						HEALTHbonus -= rand(30,40)
-						var/ad1 = "+[ENERGYbonus] Energy"
+						//var/ad1 = "+[ENERGYbonus] Energy"
 						ACIDbonus = rand(42,84)
-						var/ad2 = "+[ACIDbonus] Acid"
+						//var/ad2 = "+[ACIDbonus] Acid"
 						WATbonus = rand(13,37)
-						var/ad3 = "+[WATbonus] Water Shock"
-						description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>[src.twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+						//var/ad3 = "+[WATbonus] Water Shock"
+						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Lvl [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
+
 //specials done

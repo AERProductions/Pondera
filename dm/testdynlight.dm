@@ -37,7 +37,7 @@ Lighting
 		// the list of all light sources
 		list/lights = list()
 
-		pixel_movement = 1
+		pixel_movement = 0
 
 		// a constant that's added to the illumination of all tiles
 		ambient = 0//4
@@ -131,8 +131,8 @@ Lighting
 
 				// to intialize a z level, we create a /shading object
 				// on every turf of that level
-				for(var/x = 1 to world.maxx)
-					for(var/y = 1 to world.maxy)
+				for(var/x = 1 to world.maxx+1)
+					for(var/y = 1 to world.maxy+1)
 
 						var/turf/t = locate(x, y, z)
 
@@ -166,6 +166,7 @@ var
 shading
 	icon = 'blank.dmi'
 	icon_state = "divider"
+	//appearance_flags = TILE_BOUND
 	mouse_opacity = 0
 	parent_type = /obj
 
@@ -279,3 +280,6 @@ shading
 				if(u3.loc && !u3.changed)
 					u3.changed = 1
 					lighting.changed += u3
+	null_shading
+		icon = 'blank.dmi'
+		icon_state = "divider"

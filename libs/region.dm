@@ -17,6 +17,7 @@ region
 		list/turfs
 
 	New()
+		..()
 		// we only need to keep one instance of the region object, so if the
 		// type is already in the list we've already found the single instance.
 		if(type in region.instance)

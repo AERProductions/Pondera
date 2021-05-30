@@ -48,1255 +48,1256 @@ mob/players
 			//L = dig
 			L = digunlock(arglist(dig))
 			//usr << "test1"
-			locate(dt in oview(10))//locate a Deed Token in oview of this region
-			if(dt)
+			//var/obj/DeedToken/dt//remove this section---------------
+			dt = locate(oview(src,15))
+			for(dt)
 				if(M.canbuild==0)
-					M<<"You do not have permission to dig here."
+					//goto NEXT
+				//else
+					M << "You do not have permission to build"
 					return
-				else
-					goto NEXT
-			else
-				goto NEXT
-			NEXT
-			if(M.energy==0)		//Is your energy to low???
-				M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
-				return
-			if(Busy == 1)
-				M<<"You're too busy to do anything else!"
-				return
 
-			/*if(src.loc == oview(/obj/a/nobuild))
-				M<<"You are in or near a No-Build area."
-				return*/
-			/*if(X in M.contents != 1)
-				M<<"Must purchase a permit to be able to modify maps."
-				return*/
-			else
-				if(M.SHequipped!=1)
-					M<<"Need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Shovel'>Shovel to Dig."
+			if(!dt)
+			//NEXT//to disable deeds----------------------------------
+				if(M.energy==0)		//Is your energy to low???
+					M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 					return
-				else
-					if(M.SHequipped==1)
-						//Busy = 1
-						//usr << "test2"
-						var/a
-						M.UED = 1
-						DIG
-						switch(input("Dig?","Dig") as anything in dig) // in list("Dirt Road","Dirt Road Corner","Water")
-							if("Cancel")
-								M<<"You Cancel Selection..."
-								Busy = 0
-								M.UED = 0
-								return
-							if("Dirt Road")
-								//Busy=1
-								//DIRTROAD
-								switch(input("Which direction?","Dirt Road")in list("North/South","East/West","3-way North","Cancel","Back"))//,"3-way North"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									if("North/South")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/DirtRoad/NSRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("East/West")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/DirtRoad/EWRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("3-way North")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/DirtRoad/R3WNRoad(usr.loc)  //Need to add more of these?
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							if("Dirt Road Corner")
-								switch(input("Which direction?","Dirt Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									if("NorthWest Corner")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/DirtRoad/NWCRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("NorthEast Corner")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/DirtRoad/NECRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("SouthWest Corner")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/DirtRoad/SWCRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("SouthEast Corner")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/DirtRoad/SECRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							//call(/proc/diglevel)(M)
-							if("Wood Road")
-								//Busy=1
-								switch(input("Which direction?","Dirt Road")in list("North/South","East/West","3-way North","Cancel","Back"))//,"3-way North"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									if("North/South")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/WoodRoad/WRNSRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("East/West")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/WoodRoad/WREWRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("3-way North")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/WoodRoad/WR3WNRoad(usr.loc)  //Need to add more of these?
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							if("Wood Road Corner")
-								switch(input("Which direction?","Dirt Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									if("NorthWest Corner")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/WoodRoad/WRNWCRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("NorthEast Corner")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/WoodRoad/WRNECRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("SouthWest Corner")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/WoodRoad/WRSWCRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("SouthEast Corner")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											a = new/obj/Landscaping/Road/WoodRoad/WRSECRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							if("Brick Road")
-								switch(input("Which direction?","Brick Road")in list("North/South","East/West","Cancel","Back"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									if("North/South")
-										var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
-										if(M.SHequipped==1)
-											for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Road/StoneRoad/SNSRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("East/West")
-										var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
-										if(M.SHequipped==1)
-											for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Road/StoneRoad/SEWRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							//call(/proc/diglevel)(M)
-							if("Brick Road Corner")
-								switch(input("Which direction?","Brick Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									if("NorthWest Corner")
-										var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
-										if(M.SHequipped==1)
-											for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Road/StoneRoad/SNWCRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("NorthEast Corner")
-										var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
-										if(M.SHequipped==1)
-											for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Road/StoneRoad/SNECRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("SouthWest Corner")
-										var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
-										if(M.SHequipped==1)
-											for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Road/StoneRoad/SSWCRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("SouthEast Corner")
-										var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
-										if(M.SHequipped==1)
-											for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Road/StoneRoad/SSECRoad(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 15
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							//call(/proc/diglevel)(M)
-							if("Ditch")
-								switch(input("Which direction?","Ditch")in list("Slope(NORTH)","Slope(SOUTH)","Slope(EAST)","Slope(WEST)","Corner(NORTHEAST)","Corner(NORTHWEST)","Corner(SOUTHEAST)","Corner(SOUTHWEST)","Exit Slope(NORTH)","Exit Slope(SOUTH)","Exit Slope(EAST)","Exit Slope(WEST)","Ditch(NORTH/SOUTH)","Ditch(EAST/WEST)","Cancel","Back"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									if("Slope(NORTH)")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchSN(usr.loc)
-											//new a(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											//a:dir = NORTH
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope(SOUTH)")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchSS(usr.loc)
-											//new a(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = SOUTH
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope(EAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchSE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = EAST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope(WEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchSW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = WEST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Corner(NORTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchCNE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = NORTHEAST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Corner(NORTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchCNW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = SOUTH
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Corner(SOUTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchCSE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = EAST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Corner(SOUTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchCSW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = WEST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Turn(NORTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchSNEC(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = NORTHEAST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Turn(NORTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchSNWC(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = SOUTH
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Turn(SOUTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchSSEC(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = EAST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Turn(SOUTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchSSWC(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = WEST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Exit Slope(NORTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchEXN(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = NORTH
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Exit Slope(SOUTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchEXS(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											//a:dir = SOUTH
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Exit Slope(EAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchEXE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = EAST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Exit Slope(WEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchEXW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.5
-											a:dir = WEST
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Ditch(NORTH/SOUTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchPCNS(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.0
-											a:dir = null
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Ditch(EAST/WEST)")
-										////var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Ditch/ditchPCWE(usr.loc)
-											//new a(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 0.0
-											a:dir = null
-											M.digexp += 20
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							//call(/proc/diglevel)(M)
-							if("Hill")
-								switch(input("Which direction?","Hill")in list("Cancel","Slope(NORTH)","Slope(SOUTH)","Slope(EAST)","Slope(WEST)","Slope Corner(NORTHEAST)","Slope Corner(NORTHWEST)","Slope Corner(SOUTHEAST)","Slope Corner(SOUTHWEST)","Cliff(NORTH)","Cliff(SOUTH)","Cliff(EAST)","Cliff(WEST)","Cliff Corner(NORTHEAST)","Cliff Corner(NORTHWEST)","Cliff Corner(SOUTHEAST)","Cliff Corner(SOUTHWEST)","Hill-Top(CENTER)","Hill-Top(NORTH)","Hill-Top(SOUTH)","Hill-Top(EAST)","Hill-Top(WEST)","Hill-Top Corner(NORTHEAST)","Hill-Top Corner(NORTHWEST)","Hill-Top Corner(SOUTHEAST)","Hill-Top Corner(SOUTHWEST)","Hill-Top Turn(NORTHEAST)","Hill-Top Turn(NORTHWEST)","Hill-Top Turn(SOUTHEAST)","Hill-Top Turn(SOUTHWEST)"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									if("Slope(NORTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillSN(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 1.5
-											a:dir = NORTH
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope(SOUTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillSS(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 1.5
-											a:dir = SOUTH
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope(EAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillSE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 1.5
-											a:dir = EAST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope(WEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillSW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 1.5
-											a:dir = WEST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope Corner(NORTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillSCNE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 1.5
-											a:dir = NORTHEAST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope Corner(NORTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillSCNW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 1.5
-											a:dir = SOUTH
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope Corner(SOUTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillSCSE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 1.5
-											a:dir = EAST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Slope Corner(SOUTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillSCSW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 1.5
-											a:dir = WEST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Cliff(NORTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillCN(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = NORTH
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Cliff(SOUTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillCS(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = SOUTH
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Cliff(EAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillCE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = EAST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Cliff(WEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillCW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = WEST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Cliff Corner(NORTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillCNE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = NORTHEAST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Cliff Corner(NORTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillCNW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = SOUTH
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Cliff Corner(SOUTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillCSE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = EAST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Cliff Corner(SOUTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillCSW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = WEST
-											M.digexp += 25
-											M.energy -= 25
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top(CENTER)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPC(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top(NORTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPN(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top(SOUTH)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPS(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top(EAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top(WEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top Corner(NORTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPCNE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top Corner(NORTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPCNW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top Corner(SOUTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPCSE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top Corner(SOUTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillPCSW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top Turn(NORTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillTNE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top Turn(NORTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillTNW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top Turn(SOUTHEAST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillTSE(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Hill-Top Turn(SOUTHWEST)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/obj/Landscaping/Hill/hillTSW(usr.loc)
-											a:buildingowner = "[usr.key]"
-											a:elevel = 2.0
-											a:dir = null
-											M.digexp += 25
-											M.energy -= 10
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							//call(/proc/diglevel)(M)
-							if("Water")
-								switch(input("Which direction?","Water")in list("Single Tile(Borders)","Single Tile(No Borders)","Central 4-way","North","South","East","West","Cancel","Back"))
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UED = 0
-										return
-									if("Back") goto DIG
-									/* if("Water Level")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											var/obj/items/tools/Jar/J = locate() in M.contents
-											for(J.name=="Filled Jar")
-												J.overlays -= /obj/liquid
-												J:name="Jar"
-											//else
-											//	M<<"Need to have a Filled Jar to continue."
-											a = new/turf/Ground/water2B(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 5
-											M.updateEN()
-											M.updateDXP()
+				if(Busy == 1)
+					M<<"You're too busy to do anything else!"
+					return
 
-											a = new/turf/Water(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-										*/
-										//M<<"You use the water in the jar to fill the hole in the ground."
-										//a = new/turf/water2B(usr.loc)
-										//a:buildingowner = "[usr.key]"
-										//M.digexp += 25
-									if("Border (West)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/turf/pbords/pbord1(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Border (North)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/turf/pbords/pbord2(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Border (East)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/turf/pbords/pbord3(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Border (South)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/turf/pbords/pbord4(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Border Corner (South West)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/turf/pbords/pbord5(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Border Corner (North West)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/turf/pbords/pbord6(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Border Corner (North East)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/turf/pbords/pbord7(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-									if("Border Corner (South East)")
-										//var/obj/items/tools/Shovel/S = locate() in M.contents
-										if(M.SHequipped==1)
-											//for(S in M.contents) S.RemoveFromStack(6)
-											a = new/turf/pbords/pbord8(usr.loc)
-											a:buildingowner = "[usr.key]"
-											M.digexp += 25
-											M.energy -= 15
-											M.updateEN()
-											M.updateDXP()
-											Busy = 0
-											M.UED = 0
-											return call(/proc/diglevel)(M)
-							if("Dirt")
-								M.digexp += 5
-								a = new/obj/Landscaping/Dirt(usr.loc)
-								a:buildingowner = "[usr.key]"
-								//WTOSL += a
-								M.energy -= 5
-								M.updateEN()
-								M.updateDXP()
-								Busy = 0
-								//diglevel(M)
-								M.UED = 0
-								return call(/proc/diglevel)(M)
-							if("Grass")
-								M.digexp += 10
-								a = new/turf/Grass(usr.loc)
-								a:buildingowner = "[usr.key]"
-								M.energy -= 10
-								M.updateEN()
-								M.updateDXP()
-								Busy = 0
-								M.UED = 0
-								return call(/proc/diglevel)(M)
-							if("Lava")
-								M.digexp += 50
-								a = new/turf/lava(usr.loc)
-								a:buildingowner = "[usr.key]"
-								M.energy -= 50
-								M.updateEN()
-								M.updateDXP()
-								Busy = 0
-								M.UED = 0
-								return call(/proc/diglevel)(M)
-							/*if("Water")
-								M.buildexp += 5
-								a = new/turf/Ground/water2(usr.loc)
-								a:buildingowner = "[usr.key]"
-								M.energy -= 5
-								M.updateEN()
-								M.updateDXP()*/
-								//call(/proc/diglevel)(M)
-						//call(/proc/diglevel)(M)
+				/*if(src.loc == oview(/obj/a/nobuild))
+					M<<"You are in or near a No-Build area."
+					return*/
+				/*if(X in M.contents != 1)
+					M<<"Must purchase a permit to be able to modify maps."
+					return*/
+				else
+					if(M.SHequipped!=1)
+						M<<"Need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Shovel'>Shovel to Dig."
 						return
+					else
+						if(M.SHequipped==1)
+							//Busy = 1
+							//usr << "test2"
+							var/a
+							M.UED = 1
+							DIG
+							switch(input("Dig?","Dig") as anything in dig) // in list("Dirt Road","Dirt Road Corner","Water")
+								if("Cancel")
+									M<<"You Cancel Selection..."
+									Busy = 0
+									M.UED = 0
+									return
+								if("Dirt Road")
+									//Busy=1
+									//DIRTROAD
+									switch(input("Which direction?","Dirt Road")in list("North/South","East/West","3-way North","Cancel","Back"))//,"3-way North"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										if("North/South")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/DirtRoad/NSRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("East/West")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/DirtRoad/EWRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("3-way North")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/DirtRoad/R3WNRoad(usr.loc)  //Need to add more of these?
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								if("Dirt Road Corner")
+									switch(input("Which direction?","Dirt Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										if("NorthWest Corner")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/DirtRoad/NWCRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("NorthEast Corner")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/DirtRoad/NECRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("SouthWest Corner")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/DirtRoad/SWCRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("SouthEast Corner")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/DirtRoad/SECRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								//call(/proc/diglevel)(M)
+								if("Wood Road")
+									//Busy=1
+									switch(input("Which direction?","Dirt Road")in list("North/South","East/West","3-way North","Cancel","Back"))//,"3-way North"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										if("North/South")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/WoodRoad/WRNSRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("East/West")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/WoodRoad/WREWRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("3-way North")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/WoodRoad/WR3WNRoad(usr.loc)  //Need to add more of these?
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								if("Wood Road Corner")
+									switch(input("Which direction?","Dirt Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										if("NorthWest Corner")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/WoodRoad/WRNWCRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("NorthEast Corner")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/WoodRoad/WRNECRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("SouthWest Corner")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/WoodRoad/WRSWCRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("SouthEast Corner")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												a = new/obj/Landscaping/Road/WoodRoad/WRSECRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								if("Brick Road")
+									switch(input("Which direction?","Brick Road")in list("North/South","East/West","Cancel","Back"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										if("North/South")
+											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
+											if(M.SHequipped==1)
+												for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Road/StoneRoad/SNSRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("East/West")
+											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
+											if(M.SHequipped==1)
+												for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Road/StoneRoad/SEWRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								//call(/proc/diglevel)(M)
+								if("Brick Road Corner")
+									switch(input("Which direction?","Brick Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										if("NorthWest Corner")
+											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
+											if(M.SHequipped==1)
+												for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Road/StoneRoad/SNWCRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("NorthEast Corner")
+											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
+											if(M.SHequipped==1)
+												for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Road/StoneRoad/SNECRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("SouthWest Corner")
+											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
+											if(M.SHequipped==1)
+												for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Road/StoneRoad/SSWCRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("SouthEast Corner")
+											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
+											if(M.SHequipped==1)
+												for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Road/StoneRoad/SSECRoad(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 15
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								//call(/proc/diglevel)(M)
+								if("Ditch")
+									switch(input("Which direction?","Ditch")in list("Slope(NORTH)","Slope(SOUTH)","Slope(EAST)","Slope(WEST)","Corner(NORTHEAST)","Corner(NORTHWEST)","Corner(SOUTHEAST)","Corner(SOUTHWEST)","Exit Slope(NORTH)","Exit Slope(SOUTH)","Exit Slope(EAST)","Exit Slope(WEST)","Ditch(NORTH/SOUTH)","Ditch(EAST/WEST)","Cancel","Back"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										if("Slope(NORTH)")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchSN(usr.loc)
+												//new a(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												//a:dir = NORTH
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope(SOUTH)")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchSS(usr.loc)
+												//new a(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = SOUTH
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope(EAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchSE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = EAST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope(WEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchSW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = WEST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Corner(NORTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchCNE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = NORTHEAST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Corner(NORTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchCNW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = SOUTH
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Corner(SOUTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchCSE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = EAST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Corner(SOUTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchCSW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = WEST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Turn(NORTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchSNEC(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = NORTHEAST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Turn(NORTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchSNWC(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = SOUTH
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Turn(SOUTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchSSEC(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = EAST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Turn(SOUTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchSSWC(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = WEST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Exit Slope(NORTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchEXN(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = NORTH
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Exit Slope(SOUTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchEXS(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												//a:dir = SOUTH
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Exit Slope(EAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchEXE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = EAST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Exit Slope(WEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchEXW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.5
+												a:dir = WEST
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Ditch(NORTH/SOUTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchPCNS(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.0
+												a:dir = null
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Ditch(EAST/WEST)")
+											////var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Ditch/ditchPCWE(usr.loc)
+												//new a(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 0.0
+												a:dir = null
+												M.digexp += 20
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								//call(/proc/diglevel)(M)
+								if("Hill")
+									switch(input("Which direction?","Hill")in list("Cancel","Slope(NORTH)","Slope(SOUTH)","Slope(EAST)","Slope(WEST)","Slope Corner(NORTHEAST)","Slope Corner(NORTHWEST)","Slope Corner(SOUTHEAST)","Slope Corner(SOUTHWEST)","Cliff(NORTH)","Cliff(SOUTH)","Cliff(EAST)","Cliff(WEST)","Cliff Corner(NORTHEAST)","Cliff Corner(NORTHWEST)","Cliff Corner(SOUTHEAST)","Cliff Corner(SOUTHWEST)","Hill-Top(CENTER)","Hill-Top(NORTH)","Hill-Top(SOUTH)","Hill-Top(EAST)","Hill-Top(WEST)","Hill-Top Corner(NORTHEAST)","Hill-Top Corner(NORTHWEST)","Hill-Top Corner(SOUTHEAST)","Hill-Top Corner(SOUTHWEST)","Hill-Top Turn(NORTHEAST)","Hill-Top Turn(NORTHWEST)","Hill-Top Turn(SOUTHEAST)","Hill-Top Turn(SOUTHWEST)"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										if("Slope(NORTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillSN(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 1.5
+												a:dir = NORTH
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope(SOUTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillSS(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 1.5
+												a:dir = SOUTH
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope(EAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillSE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 1.5
+												a:dir = EAST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope(WEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillSW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 1.5
+												a:dir = WEST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope Corner(NORTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillSCNE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 1.5
+												a:dir = NORTHEAST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope Corner(NORTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillSCNW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 1.5
+												a:dir = SOUTH
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope Corner(SOUTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillSCSE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 1.5
+												a:dir = EAST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Slope Corner(SOUTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillSCSW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 1.5
+												a:dir = WEST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Cliff(NORTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillCN(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = NORTH
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Cliff(SOUTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillCS(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = SOUTH
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Cliff(EAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillCE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = EAST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Cliff(WEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillCW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = WEST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Cliff Corner(NORTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillCNE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = NORTHEAST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Cliff Corner(NORTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillCNW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = SOUTH
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Cliff Corner(SOUTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillCSE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = EAST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Cliff Corner(SOUTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillCSW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = WEST
+												M.digexp += 25
+												M.energy -= 25
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top(CENTER)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPC(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top(NORTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPN(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top(SOUTH)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPS(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top(EAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top(WEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top Corner(NORTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPCNE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top Corner(NORTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPCNW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top Corner(SOUTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPCSE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top Corner(SOUTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillPCSW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top Turn(NORTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillTNE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top Turn(NORTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillTNW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top Turn(SOUTHEAST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillTSE(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Hill-Top Turn(SOUTHWEST)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/obj/Landscaping/Hill/hillTSW(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												a:elevel = 2.0
+												a:dir = null
+												M.digexp += 25
+												M.energy -= 10
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								//call(/proc/diglevel)(M)
+								if("Water")
+									switch(input("Which direction?","Water")in list("Single Tile(Borders)","Single Tile(No Borders)","Central 4-way","North","South","East","West","Cancel","Back"))
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UED = 0
+											return
+										if("Back") goto DIG
+										/* if("Water Level")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												var/obj/items/tools/Jar/J = locate() in M.contents
+												for(J.filled==1)
+													J.overlays -= /obj/liquid
+													J:name="Jar"
+												//else
+												//	M<<"Need to have a Filled Jar to continue."
+												a = new/turf/Ground/water2B(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 5
+												M.updateEN()
+												M.updateDXP()
+
+												a = new/turf/Water(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+											*/
+											//M<<"You use the water in the jar to fill the hole in the ground."
+											//a = new/turf/water2B(usr.loc)
+											//a:buildingowner = ckeyEx("[usr.key]")
+											//M.digexp += 25
+										if("Border (West)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/turf/pbords/pbord1(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Border (North)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/turf/pbords/pbord2(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Border (East)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/turf/pbords/pbord3(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Border (South)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/turf/pbords/pbord4(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Border Corner (South West)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/turf/pbords/pbord5(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Border Corner (North West)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/turf/pbords/pbord6(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Border Corner (North East)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/turf/pbords/pbord7(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+										if("Border Corner (South East)")
+											//var/obj/items/tools/Shovel/S = locate() in M.contents
+											if(M.SHequipped==1)
+												//for(S in M.contents) S.RemoveFromStack(6)
+												a = new/turf/pbords/pbord8(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
+												M.digexp += 25
+												M.energy -= 15
+												M.updateEN()
+												M.updateDXP()
+												Busy = 0
+												M.UED = 0
+												return call(/proc/diglevel)(M)
+								if("Dirt")
+									M.digexp += 5
+									a = new/obj/Landscaping/Dirt(usr.loc)
+									a:buildingowner = ckeyEx("[usr.key]")
+									//WTOSL += a
+									M.energy -= 5
+									M.updateEN()
+									M.updateDXP()
+									Busy = 0
+									//diglevel(M)
+									M.UED = 0
+									return call(/proc/diglevel)(M)
+								if("Grass")
+									M.digexp += 10
+									a = new/turf/Grass(usr.loc)
+									a:buildingowner = ckeyEx("[usr.key]")
+									M.energy -= 10
+									M.updateEN()
+									M.updateDXP()
+									Busy = 0
+									M.UED = 0
+									return call(/proc/diglevel)(M)
+								if("Lava")
+									M.digexp += 50
+									a = new/turf/lava(usr.loc)
+									a:buildingowner = ckeyEx("[usr.key]")
+									M.energy -= 50
+									M.updateEN()
+									M.updateDXP()
+									Busy = 0
+									M.UED = 0
+									return call(/proc/diglevel)(M)
+								/*if("Water")
+									M.buildexp += 5
+									a = new/turf/Ground/water2(usr.loc)
+									a:buildingowner = ckeyEx("[usr.key]")
+									M.energy -= 5
+									M.updateEN()
+									M.updateDXP()*/
+									//call(/proc/diglevel)(M)
+							//call(/proc/diglevel)(M)
+							return
 
 
 /*proc
@@ -1310,6 +1311,13 @@ mob/players
 //var/
 //var/Busing = 0
 mob/players
+	proc/FindJar(mob/players/M)
+		for(var/obj/items/tools/Containers/Jar/J in M.contents)
+			if(J.suffix=="Equipped"&&M.JRequipped==1&&J.filled==1&&J.CType=="Water")
+				return J
+			else
+				//M << "Need to hold a Filled Jar."
+				return
 	verb
 		Build()//buildlabel
 			set hidden = 1
@@ -1317,6 +1325,7 @@ mob/players
 			//var/mob/players/UEB = 0
 			var/mob/players/M
 			var/obj/DeedToken/dt
+
 			M = usr
 
 			build = buildunlock(arglist(build))
@@ -1350,360 +1359,67 @@ mob/players
 			//if(null)
 				//M << "You have yet to understand this category (Building Acuity: [M.brank])..."
 				//return
-			locate(dt in oview(10))//locate a Deed Token in oview of this region
+			//var/obj/DeedToken/dt//remove this section---------------
+			dt = locate(oview(src,15))
 			if(dt)
-				if(M.canbuild==0)
-					M<<"You do not have permission to dig here."
+				for(dt)
+					if(M.canbuild==0)
+						//goto NEXT
+					//else
+						M << "You do not have permission to build"
+						return
+			else if(!dt)
+			//NEXT//to disable deeds----------------------------------
+				if(M.energy<=0)//Is your energy to low or negative???
+					M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
+					M.energy=0
 					return
+				/*if(src.loc == locate(x,y,2))
+					M<<"Can only build in Local Regions."
+					return*/
+				/*if(X in M.contents != 1)
+					M<<"Must purchase a permit to be able to modify maps."
+					return*/
 				else
-					goto NEXT
-			else
-				goto NEXT
-			NEXT
-			if(M.energy<=0)//Is your energy to low or negative???
-				M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
-				M.energy=0
-				return
-			/*if(src.loc == locate(x,y,2))
-				M<<"Can only build in Local Regions."
-				return*/
-			/*if(X in M.contents != 1)
-				M<<"Must purchase a permit to be able to modify maps."
-				return*/
-			else
-				if(M.HMequipped!=1)
-					M<<"Need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Hammer'>Hammer to build."
-					return
-				else
-//begin build menu
-					if(M.HMequipped==1)
-						//var/UEB = 0 //unequipblock if building activated later bitflag 1 (not if hammer equipped)
-						var/a
-						//var/obj/items/Log/UeikLog/J = locate() in M.contents
-						//call(/proc/buildlevel)()
-						//locate(J) in M.contents
-//build selection													//Build list holds main building menu selections
-						//var/b =
-						if((M.brank<=0))
-							M << "You try to understand how to apply the materials, but you need to know more. (Building Acuity:[M.brank])..."
-							return 0
-						else
-							M.UEB = 1
-							BUILD
-							switch(input("Select your creation","Building") as anything in build)//"Fort","House","Furnishings","Miscellaneous") build=build selection L0=fort material type L1=wood fort wall type L2 = stone fort wall type L3 =house material type L4 = miscellaneous L5=furnishings L6=woodhouse build selection type Fort
-								if("Cancel")
-									M<<"You Cancel Selection..."
-									Busy = 0
-									M.UEB = 0
-									return
-								if("Fire")
-									var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
-									//var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-									//var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
-									var/Wood = "1 Kindling"
-									if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 5))
-										for(J in M.contents) J.RemoveFromStack(1)
-										//for(J2 in M.contents) J2.RemoveFromStack(1)
-										if(M.energy >= 5)//content
-											M.energy -= 5
-											M.updateEN()
-											M.buildexp += 5
-											a = new/obj/Buildable/Fire(usr.loc)
-											a:buildingowner = "[usr.key]"
-											//a:plane = MOB_LAYER+1
-											//a:dir = NORTH
-											//call(/proc/buildlevel)()
-											M.UEB = 0
-											return call(/proc/buildlevel)()
-										else
-											M.UEB = 0
-											M << "You lack the effort (Energy: [M.energy])"
-											return
-									else
-										M.UEB = 0
-										M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-										return
-								if("Furnishings") switch(input("Select Furnishing","Furnishings") as anything in L5) //L5
+					if(M.HMequipped!=1)
+						M<<"Need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Hammer'>Hammer to build."
+						return
+					else
+	//begin build menu
+						if(M.HMequipped==1)
+							//var/UEB = 0 //unequipblock if building activated later bitflag 1 (not if hammer equipped)
+							var/a
+							//var/obj/items/Logs/UeikLog/J = locate() in M.contents
+							//call(/proc/buildlevel)()
+							//locate(J) in M.contents
+	//build selection													//Build list holds main building menu selections
+							//var/b =
+							if((M.brank<=0))
+								M << "You try to understand how to apply the materials, but you need to know more about building. (Building Acuity:[M.brank])..."
+								return 0
+							else
+								M.UEB = 1
+								BUILD
+								switch(input("Select your creation","Building") as anything in build)//"Fort","House","Furnishings","Miscellaneous") build=build selection L0=fort material type L1=wood fort wall type L2 = stone fort wall type L3 =house material type L4 = miscellaneous L5=furnishings L6=woodhouse build selection type Fort
 									if("Cancel")
 										M<<"You Cancel Selection..."
 										Busy = 0
 										M.UEB = 0
 										return
-									if("Back") goto BUILD
-									if("Table")
-										var/obj/items/Mortar/J = locate() in M.contents
-										var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
-										var/Mortar = "1 Mortar" //Building Material Type
-										var/Wood = "15 Poles"
-										if((J in M.contents)&&(J1 in M.contents)&&(J.stack_amount >= 1)&&(J1.stack_amount >= 15)&&(M.energy >= 35))
+									if("Fire")
+										var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
+										//var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+										//var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
+										var/Wood = "1 Kindling"
+										if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 5))
 											for(J in M.contents) J.RemoveFromStack(1)
-											for(J1 in M.contents) J1.RemoveFromStack(15)
-											if(M.energy >= 35)//content
-												M.energy -= 35
-												M.updateEN()
-												M.buildexp += 25
-												a = new/obj/Buildable/Furnishings/Table(usr.loc)
-												a:buildingowner = "[usr.key]"
-												M.UEB = 0
-												return call(/proc/buildlevel)()
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy])"
-												return
-										else
-											M.UEB = 0
-											M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Mortar])"
-											return
-									if("Bed") switch(input("Select Bed Placement Direction (N^,Sv,E>,W<)","Bed Placement Direction")in list("North","South","East","West"))
-										if("North")
-											//var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-											var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-											//var/Mortar = "1 Mortar" //Building Material Type
-											var/Wood = "8 Poles"
-											var/Log = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(M.energy >= 45))
-												for(J in M.contents) J.RemoveFromStack(8)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												//for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 45)//content
-													M.energy -= 45
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Furnishings/bed(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Log] and [Wood])"
-												return
-										if("South")
-											//var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-											var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-											//var/Mortar = "1 Mortar" //Building Material Type
-											var/Wood = "8 Poles"
-											var/Log = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(M.energy >= 45))
-												for(J in M.contents) J.RemoveFromStack(8)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												//for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 45)//content
-													M.energy -= 45
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Furnishings/beds(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Log] and [Wood])"
-												return
-										if("East")
-											//var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-											var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-											//var/Mortar = "1 Mortar" //Building Material Type
-											var/Wood = "8 Poles"
-											var/Log = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(M.energy >= 45))
-												for(J in M.contents) J.RemoveFromStack(8)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												//for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 45)//content
-													M.energy -= 45
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Furnishings/bede(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Log] and [Wood])"
-												return
-										if("West")
-											//var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-											var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-											//var/Mortar = "1 Mortar" //Building Material Type
-											var/Wood = "8 Poles"
-											var/Log = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(M.energy >= 45))
-												for(J in M.contents) J.RemoveFromStack(8)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												//for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 45)//content
-													M.energy -= 45
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Furnishings/bedw(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Log] and [Wood])"
-												return
-									if("Chair") switch(input("Select Chair Placement Direction (N^,Sv,E>,W<)","Chair Placement Direction")in list("North","South","East","West"))
-										if("North")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											//var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Pole = "10 Poles"
-											//var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(10)
-												//for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Furnishings/Chairn(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													//a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Pole])"
-												return
-										if("South")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											//var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Pole = "10 Poles"
-											//var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(10)
-												//for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Furnishings/Chairs(usr.loc)
-													a = new/obj/Buildable/Furnishings/Chairst(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													//a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Pole])"
-												return
-										if("East")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											//var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Pole = "10 Poles"
-											//var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(10)
-												//for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Furnishings/Chairr(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													//a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Pole])"
-												return
-										if("West")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											//var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Pole = "10 Poles"
-											//var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(10)
-												//for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Furnishings/Chairl(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													//a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Pole])"
-												return
-									if("Log Storage")
-										//var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
-										var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-										//var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
-										var/Wood = "10 Planks"
-										if((J in M.contents)&&(J.stack_amount >= 10)&&(M.energy >= 25))
-											for(J in M.contents) J.RemoveFromStack(10)
 											//for(J2 in M.contents) J2.RemoveFromStack(1)
-											if(M.energy >= 25)//content
-												M.energy -= 25
+											if(M.energy >= 5)//content
+												M.energy -= 5
 												M.updateEN()
-												M.buildexp += 15
-												a = new/obj/Buildable/Containers/ContainerL(usr.loc)
-												a:color = rgb(rand(0,255),rand(0,255),rand(0,255))
-												a:buildingowner = "[usr.key]"
+												M.buildexp += 5
+												a = new/obj/Buildable/Fire(usr.loc)
+												a:buildingowner = ckeyEx("[usr.key]")
 												//a:plane = MOB_LAYER+1
 												//a:dir = NORTH
 												//call(/proc/buildlevel)()
@@ -1711,1968 +1427,1214 @@ mob/players
 												return call(/proc/buildlevel)()
 											else
 												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy])"
+												M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 												return
 										else
 											M.UEB = 0
 											M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
 											return
-									if("Food Container")
-										//var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
-										var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-										//var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
-										var/Wood = "10 Planks"
-										if((J in M.contents)&&(J.stack_amount >= 10)&&(M.energy >= 25))
-											for(J in M.contents) J.RemoveFromStack(10)
-											//for(J2 in M.contents) J2.RemoveFromStack(1)
-											if(M.energy >= 25)//content
-												M.energy -= 25
-												M.updateEN()
-												M.buildexp += 15
-												a = new/obj/Buildable/Containers/ContainerF(usr.loc)
-												a:color = rgb(rand(0,255),rand(0,255),rand(0,255))
-												a:buildingowner = "[usr.key]"
-												//a:plane = MOB_LAYER+1
-												//a:dir = NORTH
-												//call(/proc/buildlevel)()
-												M.UEB = 0
-												return call(/proc/buildlevel)()
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy])"
-												return
-										else
-											M.UEB = 0
-											M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-											return
-									if("Ore Chest")
-										//var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
-										var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-										//var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
-										var/Wood = "10 Planks"
-										if((J in M.contents)&&(J.stack_amount >= 10)&&(M.energy >= 25))
-											for(J in M.contents) J.RemoveFromStack(10)
-											//for(J2 in M.contents) J2.RemoveFromStack(1)
-											if(M.energy >= 25)//content
-												M.energy -= 25
-												M.updateEN()
-												M.buildexp += 15
-												a = new/obj/Buildable/Containers/ContainerO(usr.loc)
-												a:buildingowner = "[usr.key]"
-												//a:plane = MOB_LAYER+1
-												//a:dir = NORTH
-												//call(/proc/buildlevel)()
-												M.UEB = 0
-												return call(/proc/buildlevel)()
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy])"
-												return
-										else
-											M.UEB = 0
-											M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-											return
-									if("Lampost") switch(input("Select Lampost","Lampost Type")in L10)//list("North","South","East","West"))L10
-										if("Wood")
-											var/obj/items/Crafting/Created/WoodenTorchHead/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
-											var/Wood = "1 Pole"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/lamps/woodentorch(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
-												return
-										if("Iron")
-											var/obj/items/Crafting/Created/IronLampHead/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											var/Head = "1 Iron Lamp Head" //Building Material Type Created/IronLampHead
-											var/Wood = "1 Pole"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/lamps/ironlamp(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
-												return
-										if("Copper")
-											var/obj/items/Crafting/Created/CopperLampHead/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											var/Head = "1 Copper Lamp Head" //Building Material Type Created/IronLampHead
-											var/Wood = "1 Pole"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/lamps/copperlamp(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
-												return
-										if("Bronze")
-											var/obj/items/Crafting/Created/BronzeLampHead/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											var/Head = "1 Iron Lamp Head" //Building Material Type Created/IronLampHead
-											var/Wood = "1 Pole"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/lamps/bronzelamp(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
-												return
-										if("Brass")
-											var/obj/items/Crafting/Created/BrassLampHead/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											var/Head = "1 Brass Lamp Head" //Building Material Type Created/IronLampHead
-											var/Wood = "1 Pole"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/lamps/brasslamp(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
-												return
-										if("Steel")
-											var/obj/items/Crafting/Created/SteelLampHead/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											var/Head = "1 Steel Lamp Head" //Building Material Type Created/IronLampHead
-											var/Wood = "1 Pole"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(1)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/lamps/steellamp(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
-												return
-									if("Anvil") switch(input("Select Anvil Placement Direction (N^,Sv,E>,W<)","Anvil Placement Direction")in list("North","South","East","West"))
-										if("North")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Ore/iron/J2 = locate() in M.contents
-											var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Ore = "10 Iron Ore"
-											var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(J3.stack_amount >= 1)&&(M.energy >= 45))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(10)
-												for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 45)//content
-													M.energy -= 45
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Smithing/Anvil(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Wood])"
-												return
-										if("South")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Ore/iron/J2 = locate() in M.contents
-											var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Ore = "10 Iron Ore"
-											var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(J3.stack_amount >= 1)&&(M.energy >= 45))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(10)
-												for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 45)//content
-													M.energy -= 45
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Smithing/Anvil(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													a:dir = SOUTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Wood])"
-												return
-										if("East")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Ore/iron/J2 = locate() in M.contents
-											var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Ore = "10 Iron Ore"
-											var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(J3.stack_amount >= 1)&&(M.energy >= 45))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(10)
-												for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 45)//content
-													M.energy -= 45
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Smithing/Anvil(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													a:dir = EAST
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Wood])"
-												return
-										if("West")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Ore/iron/J2 = locate() in M.contents
-											var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Ore = "10 Iron Ore"
-											var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 10)&&(J3.stack_amount >= 1)&&(M.energy >= 45))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(10)
-												for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 45)//content
-													M.energy -= 45
-													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Smithing/Anvil(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													a:dir = WEST
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Wood])"
-												return
-									if("Forge") switch(input("Select Forge Placement Direction (N^,Sv,E>,W<)","Forge Placement Direction")in list("North","South","East","West"))
-										if("North")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-											var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "10 Mortar" //Building Material Type
-											var/Stone = "20 Stone"
-											var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 10)&&(J2.stack_amount >= 20)&&(J3.stack_amount >= 1)&&(M.energy >= 55))
-												for(J in M.contents) J.RemoveFromStack(10)
-												for(J2 in M.contents) J2.RemoveFromStack(20)
-												for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 55)//content
-													M.energy -= 55
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Smithing/Forge(usr.loc)
-													a:buildingowner = "[usr.key]"
-													a:plane = MOB_LAYER+1
-													a:dir = NORTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Wood])"
-												return
-										if("South")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-											var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "10 Mortar" //Building Material Type
-											var/Stone = "20 Stone"
-											var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 10)&&(J2.stack_amount >= 20)&&(J3.stack_amount >= 1)&&(M.energy >= 55))
-												for(J in M.contents) J.RemoveFromStack(10)
-												for(J2 in M.contents) J2.RemoveFromStack(20)
-												for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 55)//content
-													M.energy -= 55
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Smithing/Forge(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													a:dir = SOUTH
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Wood])"
-												return
-										if("East")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-											var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "10 Mortar" //Building Material Type
-											var/Stone = "20 Stone"
-											var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 10)&&(J2.stack_amount >= 20)&&(J3.stack_amount >= 1)&&(M.energy >= 55))
-												for(J in M.contents) J.RemoveFromStack(10)
-												for(J2 in M.contents) J2.RemoveFromStack(20)
-												for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 55)//content
-													M.energy -= 55
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Smithing/Forge(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													a:dir = EAST
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Wood])"
-												return
-										if("West")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-											var/obj/items/Log/UeikLog/J3 = locate() in M.contents
-											var/Mortar = "10 Mortar" //Building Material Type
-											var/Stone = "20 Stone"
-											var/Wood = "1 Ueik Log"
-											if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 10)&&(J2.stack_amount >= 20)&&(J3.stack_amount >= 1)&&(M.energy >= 55))
-												for(J in M.contents) J.RemoveFromStack(10)
-												for(J2 in M.contents) J2.RemoveFromStack(20)
-												for(J3 in M.contents) J3.RemoveFromStack(1)
-												if(M.energy >= 55)//content
-													M.energy -= 55
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Smithing/Forge(usr.loc)
-													a:buildingowner = "[usr.key]"
-													//a:plane = MOB_LAYER+1
-													a:dir = WEST
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Wood])"
-												return
-								if("Miscellaneous") switch(input("Select Miscellaneous","Miscellaneous") as anything in L4) //L4
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UEB = 0
-										return
-									if("Back") goto BUILD
-									if("Crate") switch(input("Select Crate","Crate size")in list("Small", "Large"))
-										if("Small")
-											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-											var/Wood = "8 Poles" //Building Material Type
-											if((J in M.contents)&&(J.stack_amount >= 8)&&(M.energy >= 15))
-												for(J in M.contents) J.RemoveFromStack(8)
-												if(M.energy >= 15)//content
-													M.energy -= 15
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Furnishings/scrate(usr.loc)
-													a:buildingowner = "[usr.key]"
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-												return
-										if("Large")
-											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
-											var/Wood = "16 Poles" //Building Material Type
-											if((J in M.contents)&&(J.stack_amount >= 16)&&(M.energy >= 25))
-												for(J in M.contents) J.RemoveFromStack(16)
-												if(M.energy >= 25)//content
-													M.energy -= 25
-													M.updateEN()
-													M.buildexp += 30
-													a = new/obj/Buildable/Furnishings/crate(usr.loc)
-													a:buildingowner = "[usr.key]"
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-												return
-									if("Barricade") switch(input("Select Barricade Direction (N^/Sv,E>/W<)","Miscellaneous")in list("North/South","East/West"))
-										if("North/South")
-											var/obj/items/Log/UeikLog/J = locate() in M.contents
-											var/Wood = "Ueik Log" //Building Material Type
-											if((J in M.contents)&&(J.stack_amount >= 4)&&(M.energy >= 15))
-												for(J in M.contents) J.RemoveFromStack(4)
-												if(M.energy >= 15)//content
-													M.energy -= 15
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Barricades/barricaden(usr.loc)
-													a:buildingowner = "[usr.key]"
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-												return
-										if("East/West")
-											var/obj/items/Log/UeikLog/J = locate() in M.contents
-											var/Wood = "Ueik Log" //Building Material Type
-											if((J in M.contents)&&(J.stack_amount >= 4)&&(M.energy >= 15))
-												for(J in M.contents) J.RemoveFromStack(4)
-												if(M.energy >= 15)//content
-													M.energy -= 15
-													M.updateEN()
-													M.buildexp += 25
-													a = new/obj/Buildable/Barricades/barricades(usr.loc)
-													a:buildingowner = "[usr.key]"
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-												return
-									if("Sundial")
-										var/obj/items/Log/UeikLog/J = locate() in M.contents
-										var/obj/items/Crafting/Created/Bricks/J1 = locate() in M.contents
-										var/Wood = "1 Ueik Log" //Building Material Type
-										var/Stone = "1 stone"
-										if((J in M.contents)&&(J1 in M.contents)&&(J.stack_amount >= 1)&&(J1.stack_amount >= 1)&&(M.energy >= 35))
-											for(J in M.contents) J.RemoveFromStack(1)
-											for(J1 in M.contents) J1.RemoveFromStack(1)
-											if(M.energy >= 35)//content
-												M.energy -= 35
-												M.updateEN()
-												M.buildexp += 25
-												a = new/obj/Buildable/sundial(usr.loc)
-												a:buildingowner = "[usr.key]"
-												M.UEB = 0
-												var/obj/Navi/Compas/C = new;var/obj/Navi/Arrow/A = new
-												src.client.screen += C;src.client.screen += A
-												M.Target = a
-												return call(/proc/buildlevel)()
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy])"
-												return
-										else
-											M.UEB = 0
-											M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Stone])"
-											return
-									if("Water Fountain")
-										//var/obj/items/Log/UeikLog/J = locate() in M.contents
-										var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
-										//var/Wood = "1 Ueik Log" //Building Material Type
-										var/Stone = "50 stone"
-										if((J in M.contents)&&(J.stack_amount >= 50)&&(M.energy >= 65))
-											for(J in M.contents) J.RemoveFromStack(50)
-											//for(J1 in M.contents) J1.RemoveFromStack(1)
-											if(M.energy >= 65)//content
-												M.energy -= 65
-												M.updateEN()
-												M.buildexp += 35
-												a = new/obj/WaterFountain(usr.loc)
-												a:buildingowner = "[usr.key]"
-												M.UEB = 0
-												return call(/proc/buildlevel)()
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy])"
-												return
-										else
-											M.UEB = 0
-											M << "You lack the effort (Energy: [M.energy]) or the material...([Stone])"
-											return
-						//house wood v
-								if("House") switch(input("Select Material Type","House Materials") as anything in L3) //L3
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UEB = 0
-										return
-									if("Back") goto BUILD
-									if("Wood") switch(input("Select Section Type","Wooden House") as anything in L6)//list("Exterior Wall","Door"),"Interior Wall") L6
+									if("Furnishings") switch(input("Select Furnishing","Furnishings") as anything in L5) //L5
 										if("Cancel")
 											M<<"You Cancel Selection..."
 											Busy = 0
 											M.UEB = 0
 											return
-										if("Foundation")
-											var/obj/items/Log/UeikLog/J = locate() in M.contents
-											var/obj/items/Sand/J2 = locate() in M.contents
-											var/Wood = "4 Ueik Log" //Building Material Type
-											var/Filler = "3 Sand"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 3)&&(M.energy >= 15))
-												for(J in M.contents) J.RemoveFromStack(4)
+										if("Back") goto BUILD
+										if("Table")
+											var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+											var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
+											var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+											var/Nail = "2 Handfuls of Iron Nails" //Building Material Type
+											var/Wood = "4 Poles"
+											var/Board = "3 Ueik Boards"
+											if((J in M.contents)&&(J1 in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 4)&&(J2.stack_amount >= 3)&&(M.energy >= 35))
+												for(J in M.contents) J.RemoveFromStack(2)
+												for(J1 in M.contents) J1.RemoveFromStack(4)
 												for(J2 in M.contents) J2.RemoveFromStack(3)
-												if(M.energy >= 15)//content
-													M.energy -= 15
+												if(M.energy >= 35)//content
+													M.energy -= 35
 													M.updateEN()
-													M.buildexp += 5
-													a = new/turf/Building/Foundations/Hfoundation(usr.loc)
-													a:buildingowner = "[usr.key]"
+													M.buildexp += 25
+													a = new/obj/Buildable/Furnishings/Table(usr.loc)
+													a:buildingowner = ckeyEx("[usr.key]")
 													M.UEB = 0
 													return call(/proc/buildlevel)()
 												else
 													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
+													M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 													return
 											else
 												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Filler])"
+												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood], [Board] and [Nail])"
 												return
-										if("Floor")
-											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Planks = "4 Pole"
-											if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 15))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(4)
-												if(M.energy >= 15)//content
-													M.energy -= 15
-													M.updateEN()
-													M.buildexp += 5
-													a = new/obj/Buildable/Ground/woodfloor(usr.loc)
-													a:buildingowner = "[usr.key]"
-													M.UEB = 0
-													return call(/proc/buildlevel)()
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy])"
-													return
-											else
-												M.UEB = 0
-												M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Planks])"
-												return
-										if("Wall") switch(input("Select Section (N^,Sv,E>,W<)","Wood House Wall Section")in list("North", "South","East","West"))
+										if("Bed") switch(input("Select Bed Placement Direction (N^,Sv,E>,W<)","Bed Placement Direction")in list("North","South","East","West"))
 											if("North")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-												var/Wood = "3 Ueik Log" //Building Material Type
-												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy >= 15))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(3)
-													if(M.energy >= 15)//content
-														M.energy -= 15
-														M.updateEN()
-														M.buildexp += 5
-														a = new/obj/Buildable/HouseWalls/wh8(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Wood])"
-													return
-											if("South")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-												var/Wood = "3 Ueik Log" //Building Material Type
-												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 15))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													if(M.energy >= 15)//content
-														M.energy -= 15
-														M.updateEN()
-														M.buildexp += 5
-														a = new/obj/Buildable/HouseWalls/wh1(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Wood])"
-													return
-											if("East")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-												var/Wood = "3 Ueik Log" //Building Material Type
-												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 15))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													if(M.energy >= 15)//content
-														M.energy -= 15
-														M.updateEN()
-														M.buildexp += 5
-														a = new/obj/Buildable/HouseWalls/wh7(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Wood])"
-													return
-											if("West")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-												var/Wood = "3 Ueik Log" //Building Material Type
-												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 15))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													if(M.energy >= 15)//content
-														M.energy -= 15
-														M.updateEN()
-														M.buildexp += 5
-														a = new/obj/Buildable/HouseWalls/wh6(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Wood])"
-													return
-										if("Window") switch(input("Select Window Section (N^,Sv,E>,W<)","Wood House Window Section")in list("North", "South","East","West"))
-											if("North")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Wood = "2 Ueik Log"
-												var/Planks = "4 Pole"
-												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 15))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													if(M.energy >= 15)//content
-														M.energy -= 15
-														M.updateEN()
-														M.buildexp += 5
-														a = new/obj/Buildable/HouseWalls/whwt(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Wood])"
-													return
-											if("South")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Wood = "2 Ueik Log"
-												var/Planks = "4 Pole"
-												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 15))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													if(M.energy >= 15)//content
-														M.energy -= 15
-														M.updateEN()
-														M.buildexp += 5
-														a = new/obj/Buildable/HouseWalls/whwf(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Wood])"
-													return
-											if("East")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Wood = "2 Ueik Log"
-												var/Planks = "4 Pole"
-												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 15))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													if(M.energy >= 15)//content
-														M.energy -= 15
-														M.updateEN()
-														M.buildexp += 5
-														a = new/obj/Buildable/HouseWalls/whwr(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Wood])"
-													return
-											if("West")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Log/UeikLog/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Wood = "2 Ueik Log"
-												var/Planks = "4 Pole"
-												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 15))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													if(M.energy >= 15)//content
-														M.energy -= 15
-														M.updateEN()
-														M.buildexp += 5
-														a = new/obj/Buildable/HouseWalls/whwl(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Wood])"
-													return
-										if("Door") switch(input("Select Section (N^,Sv,E>,W<)","Wood House Door Section")in list("North", "South","East","West"))
-											if("North")
-												//var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Log/UeikLog/J = locate() in M.contents
+												var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
 												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
-												//var/Mortar = "1 Mortar" Building Material Type
-												var/Wood = "2 Ueik Log"
-												var/Planks = "3 Poles"
-												if((J in M.contents)&&(J1 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 3)&&(M.energy >= 25))
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/Nails = "2 Handfuls of Iron Nails" //Building Material Type
+												var/Wood = "8 Poles"
+												var/Board = "4 Ueik Board"
+												if((J in M.contents)&&(J1 in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 8)&&(J2.stack_amount >= 4)&&(M.energy >= 45))
 													for(J in M.contents) J.RemoveFromStack(2)
-													for(J1 in M.contents) J1.RemoveFromStack(3)
-													//for(J3 in M.contents) J3.RemoveFromStack(5)
-													if(M.energy >= 25)//content
-														M.energy -= 25
-														M.updateEN()
-														M.buildexp += 15
-														a = new/obj/Buildable/Doors/WHTopDoor(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-															if("Yes")
-																a:unlocked = 0
-																a:locked = 1
-																var/obj/items/DoorKey/K = locate() in M.contents
-																if(K in M.contents)
-																	M.UEB = 0
-																	return
-																else
-																	new /obj/items/DoorKey(M)
-																	M << "You have received a Skeleton Door Key."
-																	M.UEB = 0
-																	return
-															else
-																a:locked = 0
-																a:unlocked = 1
-																M.UEB = 0
-																return
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Planks] and [Wood])"
-													return
-											if("South")
-												var/obj/items/Log/UeikLog/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
-												//var/Mortar = "1 Mortar" Building Material Type
-												var/Wood = "2 Ueik Log"
-												var/Planks = "3 Poles"
-												if((J in M.contents)&&(J1 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 3)&&(M.energy >= 25))
-													for(J in M.contents) J.RemoveFromStack(2)
-													for(J1 in M.contents) J1.RemoveFromStack(3)
-													if(M.energy >= 25)//content
-														M.energy -= 25
-														M.updateEN()
-														M.buildexp += 15
-														a = new/obj/Buildable/Doors/WHDoor(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-															if("Yes")
-																a:unlocked = 0
-																a:locked = 1
-																var/obj/items/DoorKey/K = locate() in M.contents
-																if(K in M.contents)
-																	M.UEB = 0
-																	return
-																else
-																	new /obj/items/DoorKey(M)
-																	M << "You have received a Skeleton Door Key."
-																	M.UEB = 0
-																	return
-															else
-																a:locked = 0
-																a:unlocked = 1
-																M.UEB = 0
-																return
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Planks] and [Wood])"
-													return
-											if("East")
-												var/obj/items/Log/UeikLog/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
-												//var/Mortar = "1 Mortar" Building Material Type
-												var/Wood = "2 Ueik Log"
-												var/Planks = "3 Poles"
-												if((J in M.contents)&&(J1 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 3)&&(M.energy >= 25))
-													for(J in M.contents) J.RemoveFromStack(2)
-													for(J1 in M.contents) J1.RemoveFromStack(3)
-													if(M.energy >= 25)//content
-														M.energy -= 25
-														M.updateEN()
-														M.buildexp += 15
-														a = new/obj/Buildable/Doors/WHRightDoor(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-															if("Yes")
-																a:unlocked = 0
-																a:locked = 1
-																var/obj/items/DoorKey/K = locate() in M.contents
-																if(K in M.contents)
-																	M.UEB = 0
-																	return
-																else
-																	new /obj/items/DoorKey(M)
-																	M << "You have received a Skeleton Door Key."
-																	M.UEB = 0
-																	return
-															else
-																a:locked = 0
-																a:unlocked = 1
-																M.UEB = 0
-																return
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Planks] and [Wood])"
-													return
-											if("West")
-												var/obj/items/Log/UeikLog/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
-												//var/Mortar = "1 Mortar" Building Material Type
-												var/Wood = "2 Ueik Log"
-												var/Planks = "3 Poles"
-												if((J in M.contents)&&(J1 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 2)&&(M.energy >= 25))
-													for(J in M.contents) J.RemoveFromStack(2)
-													for(J1 in M.contents) J1.RemoveFromStack(3)
-													if(M.energy >= 25)//content
-														M.energy -= 25
-														M.updateEN()
-														M.buildexp += 115
-														a = new/obj/Buildable/Doors/WHLeftDoor(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														//call(/proc/buildlevel)()
-														/*switch(alert(usr,"Would you like to set a password?","[src.name] Pass Entry","Yes","No"))
-															if("Yes")
-																a:pword = input("What should the [src.name] password be?","Enter the password")as text
-
-																if(a:pwor"")
-																	a:pword = null
-																	M << "Cannot be blank! Please insert a pass word or phrase for [src.name]."
-																	M.UEB = 0
-																	return
-															else
-																a:pword = null
-																M.UEB = 0
-																M << "Cannot be blank! Please insert a pass word or phrase for [src.name]."
-																return*/
-														switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-															if("Yes")
-																a:unlocked = 0
-																a:locked = 1
-																var/obj/items/DoorKey/K = locate() in M.contents
-																if(K in M.contents)
-																	M.UEB = 0
-																	return
-																else
-																	new /obj/items/DoorKey(M)
-																	M << "You have received a Skeleton Door Key."
-																	M.UEB = 0
-																	return
-															else
-																a:locked = 0
-																a:unlocked = 1
-																M.UEB = 0
-																return
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Planks] and [Wood])"
-													return
-
-
-										if("Roof") switch(input("Select Section (N^/Sv,E>/W<)","Wood House Roof Section")in list("North/South", "East/West"))
-											if("North/South")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Planks = "4 Poles"
-												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
-													for(J in M.contents) J.RemoveFromStack(1)
+													for(J1 in M.contents) J1.RemoveFromStack(8)
 													for(J2 in M.contents) J2.RemoveFromStack(4)
-													if(M.energy >= 35)//content
-														M.energy -= 35
+													//for(J3 in M.contents) J3.RemoveFromStack(1)
+													if(M.energy >= 45)//content
+														M.energy -= 45
 														M.updateEN()
 														M.buildexp += 25
-														a = new/obj/Buildable/Roofing/Roof(usr.loc)
-														a:buildingowner = "[usr.key]"
+														a = new/obj/Buildable/Furnishings/bed(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
 														return call(/proc/buildlevel)()
 													else
 														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 														return
 												else
 													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Planks])"
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Board], [Wood] and [Nails])"
 													return
-											if("East/West")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Planks = "4 Poles"
-												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
-													for(J in M.contents) J.RemoveFromStack(1)
+											if("South")
+												var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/Nails = "2 Handfuls of Iron Nails" //Building Material Type
+												var/Wood = "8 Poles"
+												var/Board = "4 Ueik Board"
+												if((J in M.contents)&&(J1 in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 8)&&(J2.stack_amount >= 4)&&(M.energy >= 45))
+													for(J in M.contents) J.RemoveFromStack(2)
+													for(J1 in M.contents) J1.RemoveFromStack(8)
 													for(J2 in M.contents) J2.RemoveFromStack(4)
-													if(M.energy >= 35)//content
-														M.energy -= 35
+													//for(J3 in M.contents) J3.RemoveFromStack(1)
+													if(M.energy >= 45)//content
+														M.energy -= 45
 														M.updateEN()
 														M.buildexp += 25
-														a = new/obj/Buildable/Roofing/Roof(usr.loc)
-														a:buildingowner = "[usr.key]"
+														a = new/obj/Buildable/Furnishings/beds(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Board], [Wood] and [Nails])"
+													return
+											if("East")
+												var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/Nails = "2 Handfuls of Iron Nails" //Building Material Type
+												var/Wood = "8 Poles"
+												var/Board = "4 Ueik Board"
+												if((J in M.contents)&&(J1 in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 8)&&(J2.stack_amount >= 4)&&(M.energy >= 45))
+													for(J in M.contents) J.RemoveFromStack(2)
+													for(J1 in M.contents) J1.RemoveFromStack(8)
+													for(J2 in M.contents) J2.RemoveFromStack(4)
+													if(M.energy >= 45)//content
+														M.energy -= 45
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Furnishings/bede(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Board], [Wood] and [Nails])"
+													return
+											if("West")
+												var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/Nails = "2 Handfuls of Iron Nails" //Building Material Type
+												var/Wood = "8 Poles"
+												var/Board = "4 Ueik Board"
+												if((J in M.contents)&&(J1 in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 8)&&(J2.stack_amount >= 4)&&(M.energy >= 45))
+													for(J in M.contents) J.RemoveFromStack(2)
+													for(J1 in M.contents) J1.RemoveFromStack(8)
+													for(J2 in M.contents) J2.RemoveFromStack(4)
+													if(M.energy >= 45)//content
+														M.energy -= 45
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Furnishings/bedw(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Board], [Wood] and [Nails])"
+													return
+										if("Chair") switch(input("Select Chair Placement Direction (N^,Sv,E>,W<)","Chair Placement Direction")in list("North","South","East","West"))
+											if("North")
+												var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+												var/Nails = "2 Handfuls of Iron Nails" //Building Material Type
+												var/Board = "2 Ueik Board"
+												var/Wood = "8 Poles"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 8)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(2)
+													for(J2 in M.contents) J2.RemoveFromStack(2)
+													for(J3 in M.contents) J3.RemoveFromStack(8)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Furnishings/Chairn(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
+														//a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Wood] and [Board])"
+													return
+											if("South")
+												var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+												var/Nails = "2 Handfuls of Iron Nails" //Building Material Type
+												var/Board = "2 Ueik Board"
+												var/Wood = "8 Poles"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 8)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(2)
+													for(J2 in M.contents) J2.RemoveFromStack(2)
+													for(J3 in M.contents) J3.RemoveFromStack(8)
+													//for(J3 in M.contents) J3.RemoveFromStack(1)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Furnishings/Chairs(usr.loc)
+														a = new/obj/Buildable/Furnishings/Chairst(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														//a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Wood] and [Board])"
+													return
+											if("East")
+												var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+												var/Nails = "2 Handfuls of Iron Nails" //Building Material Type
+												var/Board = "2 Ueik Board"
+												var/Wood = "8 Poles"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 8)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(2)
+													for(J2 in M.contents) J2.RemoveFromStack(2)
+													for(J3 in M.contents) J3.RemoveFromStack(8)
+													//for(J3 in M.contents) J3.RemoveFromStack(1)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Furnishings/Chairr(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
+														//a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Wood] and [Board])"
+													return
+											if("West")
+												var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+												var/Nails = "2 Handfuls of Iron Nails" //Building Material Type
+												var/Board = "2 Ueik Board"
+												var/Wood = "8 Poles"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 8)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(2)
+													for(J2 in M.contents) J2.RemoveFromStack(2)
+													for(J3 in M.contents) J3.RemoveFromStack(8)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Furnishings/Chairl(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
+														//a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Wood] and [Board])"
+													return
+										if("Log Storage")
+											//var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
+											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
+											//var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
+											var/Wood = "10 Planks"
+											if((J in M.contents)&&(J.stack_amount >= 10)&&(M.energy >= 25))
+												for(J in M.contents) J.RemoveFromStack(10)
+												//for(J2 in M.contents) J2.RemoveFromStack(1)
+												if(M.energy >= 25)//content
+													M.energy -= 25
+													M.updateEN()
+													M.buildexp += 15
+													a = new/obj/Buildable/Containers/ContainerL(usr.loc)
+													a:color = rgb(rand(0,255),rand(0,255),rand(0,255))
+													a:buildingowner = ckeyEx("[usr.key]")
+													//a:plane = MOB_LAYER+1
+													//a:dir = NORTH
+													//call(/proc/buildlevel)()
+													M.UEB = 0
+													return call(/proc/buildlevel)()
+												else
+													M.UEB = 0
+													M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+													return
+											else
+												M.UEB = 0
+												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+												return
+										if("Food Container")
+											//var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
+											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
+											//var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
+											var/Wood = "10 Planks"
+											if((J in M.contents)&&(J.stack_amount >= 10)&&(M.energy >= 25))
+												for(J in M.contents) J.RemoveFromStack(10)
+												//for(J2 in M.contents) J2.RemoveFromStack(1)
+												if(M.energy >= 25)//content
+													M.energy -= 25
+													M.updateEN()
+													M.buildexp += 15
+													a = new/obj/Buildable/Containers/ContainerF(usr.loc)
+													a:color = rgb(rand(0,255),rand(0,255),rand(0,255))
+													a:buildingowner = ckeyEx("[usr.key]")
+													//a:plane = MOB_LAYER+1
+													//a:dir = NORTH
+													//call(/proc/buildlevel)()
+													M.UEB = 0
+													return call(/proc/buildlevel)()
+												else
+													M.UEB = 0
+													M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+													return
+											else
+												M.UEB = 0
+												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+												return
+										if("Ore Chest")
+											//var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
+											var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
+											//var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
+											var/Wood = "10 Planks"
+											if((J in M.contents)&&(J.stack_amount >= 10)&&(M.energy >= 25))
+												for(J in M.contents) J.RemoveFromStack(10)
+												//for(J2 in M.contents) J2.RemoveFromStack(1)
+												if(M.energy >= 25)//content
+													M.energy -= 25
+													M.updateEN()
+													M.buildexp += 15
+													a = new/obj/Buildable/Containers/ContainerO(usr.loc)
+													a:buildingowner = ckeyEx("[usr.key]")
+													//a:plane = MOB_LAYER+1
+													//a:dir = NORTH
+													//call(/proc/buildlevel)()
+													M.UEB = 0
+													return call(/proc/buildlevel)()
+												else
+													M.UEB = 0
+													M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+													return
+											else
+												M.UEB = 0
+												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+												return
+										if("Lampost") switch(input("Select Lampost","Lampost Type")in L10)//list("North","South","East","West"))L10
+											if("Wood")
+												var/obj/items/Crafting/Created/WoodenTorchHead/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
+												var/Head = "1 Wooden Torch Head" //Building Material Type Created/IronLampHead
+												var/Wood = "1 Pole"
+												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(1)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/items/Buildable/lamps/woodentorch(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
+													return
+											if("Iron")
+												var/obj/items/Crafting/Created/IronLampHead/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
+												var/Head = "1 Iron Lamp Head" //Building Material Type Created/IronLampHead
+												var/Wood = "1 Pole"
+												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(1)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/items/Buildable/lamps/ironlamp(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
+													return
+											if("Copper")
+												var/obj/items/Crafting/Created/CopperLampHead/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
+												var/Head = "1 Copper Lamp Head" //Building Material Type Created/IronLampHead
+												var/Wood = "1 Pole"
+												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(1)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/items/Buildable/lamps/copperlamp(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
+													return
+											if("Bronze")
+												var/obj/items/Crafting/Created/BronzeLampHead/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
+												var/Head = "1 Iron Lamp Head" //Building Material Type Created/IronLampHead
+												var/Wood = "1 Pole"
+												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(1)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/items/Buildable/lamps/bronzelamp(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
+													return
+											if("Brass")
+												var/obj/items/Crafting/Created/BrassLampHead/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
+												var/Head = "1 Brass Lamp Head" //Building Material Type Created/IronLampHead
+												var/Wood = "1 Pole"
+												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(1)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/items/Buildable/lamps/brasslamp(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
+													return
+											if("Steel")
+												var/obj/items/Crafting/Created/SteelLampHead/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
+												var/Head = "1 Steel Lamp Head" //Building Material Type Created/IronLampHead
+												var/Wood = "1 Pole"
+												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 1)&&(M.energy >= 25))
+													for(J in M.contents) J.RemoveFromStack(1)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/items/Buildable/lamps/steellamp(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Head] and [Wood])"
+													return
+										//I think the anvil needs to be made in a different way... Okay got it. Smelt an anvil head that you use to build the Anvil.
+										if("Anvil") switch(input("Select Anvil Placement Direction (N^,Sv,E>,W<)","Anvil Placement Direction")in list("North","South","East","West"))
+											if("North")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Crafting/Created/AnvilHead/J2 = locate() in M.contents
+												var/obj/items/Logs/UeikLog/J3 = locate() in M.contents
+												var/Mortar = "5 Mortar" //Building Material Type
+												var/Ore = "1 Anvil Head"
+												var/Wood = "2 Ueik Log"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 1)&&(J3.stack_amount >= 2)&&(M.energy >= 45))
+													for(J in M.contents) J.RemoveFromStack(5)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													for(J3 in M.contents) J3.RemoveFromStack(2)
+													if(M.energy >= 45)//content
+														M.energy -= 45
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Smithing/Anvil(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1//TestStamp -- Need to test if this works or doesn't work as intended
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Wood])"
+													return
+											if("South")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Crafting/Created/AnvilHead/J2 = locate() in M.contents
+												var/obj/items/Logs/UeikLog/J3 = locate() in M.contents
+												var/Mortar = "5 Mortar" //Building Material Type
+												var/Ore = "1 Anvil Head"
+												var/Wood = "2 Ueik Log"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 1)&&(J3.stack_amount >= 2)&&(M.energy >= 45))
+													for(J in M.contents) J.RemoveFromStack(5)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													for(J3 in M.contents) J3.RemoveFromStack(2)
+													if(M.energy >= 45)//content
+														M.energy -= 45
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Smithing/Anvil(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
+														a:dir = SOUTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Wood])"
+													return
+											if("East")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Crafting/Created/AnvilHead/J2 = locate() in M.contents
+												var/obj/items/Logs/UeikLog/J3 = locate() in M.contents
+												var/Mortar = "5 Mortar" //Building Material Type
+												var/Ore = "1 Anvil Head"
+												var/Wood = "2 Ueik Log"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 1)&&(J3.stack_amount >= 2)&&(M.energy >= 45))
+													for(J in M.contents) J.RemoveFromStack(5)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													for(J3 in M.contents) J3.RemoveFromStack(2)
+													if(M.energy >= 45)//content
+														M.energy -= 45
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Smithing/Anvil(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
 														a:dir = EAST
 														M.UEB = 0
 														return call(/proc/buildlevel)()
 													else
 														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy])"
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 														return
 												else
 													M.UEB = 0
-													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Planks])"
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Wood])"
 													return
-							//house wood ^
-								//house stone v
-									if("Stone") switch(input("Select Section Type","Stone House Walls") as anything in L7)//list("Exterior Wall","Door"),"Interior Wall") L7HouseWalls/sh8HouseWalls/sh1HouseWalls/sh7HouseWalls/sh8
+											if("West")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Crafting/Created/AnvilHead/J2 = locate() in M.contents
+												var/obj/items/Logs/UeikLog/J3 = locate() in M.contents
+												var/Mortar = "5 Mortar" //Building Material Type
+												var/Ore = "1 Anvil Head"
+												var/Wood = "2 Ueik Log"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 1)&&(J3.stack_amount >= 2)&&(M.energy >= 45))
+													for(J in M.contents) J.RemoveFromStack(5)
+													for(J2 in M.contents) J2.RemoveFromStack(1)
+													for(J3 in M.contents) J3.RemoveFromStack(2)
+													if(M.energy >= 45)//content
+														M.energy -= 45
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Smithing/Anvil(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
+														a:dir = WEST
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Wood])"
+													return
+										if("Forge") switch(input("Select Forge Placement Direction (N^,Sv,E>,W<)","Forge Placement Direction")in list("North","South","East","West"))
+											if("North")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Ore/stone/J2 = locate() in M.contents
+												var/obj/items/Logs/UeikLog/J3 = locate() in M.contents
+												var/Mortar = "10 Mortar" //Building Material Type
+												var/Stone = "25 Stone ore"
+												var/Wood = "4 Ueik Log"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 10)&&(J2.stack_amount >= 25)&&(J3.stack_amount >= 4)&&(M.energy >= 55))
+													for(J in M.contents) J.RemoveFromStack(10)
+													for(J2 in M.contents) J2.RemoveFromStack(25)
+													for(J3 in M.contents) J3.RemoveFromStack(4)
+													if(M.energy >= 55)//content
+														M.energy -= 55
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Smithing/Forge(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														a:plane = MOB_LAYER+1
+														a:dir = NORTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Wood])"
+													return
+											if("South")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Ore/stone/J2 = locate() in M.contents
+												var/obj/items/Logs/UeikLog/J3 = locate() in M.contents
+												var/Mortar = "10 Mortar" //Building Material Type
+												var/Stone = "25 Stone ore"
+												var/Wood = "4 Ueik Log"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 10)&&(J2.stack_amount >= 25)&&(J3.stack_amount >= 4)&&(M.energy >= 55))
+													for(J in M.contents) J.RemoveFromStack(10)
+													for(J2 in M.contents) J2.RemoveFromStack(25)
+													for(J3 in M.contents) J3.RemoveFromStack(4)
+													if(M.energy >= 55)//content
+														M.energy -= 55
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Smithing/Forge(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
+														a:dir = SOUTH
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Wood])"
+													return
+											if("East")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Ore/stone/J2 = locate() in M.contents
+												var/obj/items/Logs/UeikLog/J3 = locate() in M.contents
+												var/Mortar = "10 Mortar" //Building Material Type
+												var/Stone = "25 Stone ore"
+												var/Wood = "4 Ueik Log"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 10)&&(J2.stack_amount >= 25)&&(J3.stack_amount >= 4)&&(M.energy >= 55))
+													for(J in M.contents) J.RemoveFromStack(10)
+													for(J2 in M.contents) J2.RemoveFromStack(25)
+													for(J3 in M.contents) J3.RemoveFromStack(4)
+													if(M.energy >= 55)//content
+														M.energy -= 55
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Smithing/Forge(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
+														a:dir = EAST
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Wood])"
+													return
+											if("West")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Ore/stone/J2 = locate() in M.contents
+												var/obj/items/Logs/UeikLog/J3 = locate() in M.contents
+												var/Mortar = "10 Mortar" //Building Material Type
+												var/Stone = "25 Stone ore"
+												var/Wood = "4 Ueik Log"
+												if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 10)&&(J2.stack_amount >= 25)&&(J3.stack_amount >= 4)&&(M.energy >= 55))
+													for(J in M.contents) J.RemoveFromStack(10)
+													for(J2 in M.contents) J2.RemoveFromStack(25)
+													for(J3 in M.contents) J3.RemoveFromStack(4)
+													if(M.energy >= 55)//content
+														M.energy -= 55
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Smithing/Forge(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														//a:plane = MOB_LAYER+1
+														a:dir = WEST
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Wood])"
+													return
+									if("Miscellaneous") switch(input("Select Miscellaneous","Miscellaneous") as anything in L4) //L4
 										if("Cancel")
 											M<<"You Cancel Selection..."
 											Busy = 0
 											M.UEB = 0
-											M.UETW = 0
 											return
 										if("Back") goto BUILD
-										if("Foundation")
-											var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
+										if("Crate") switch(input("Select Crate","Crate size")in list("Small", "Large"))
+											if("Small")
+												var/obj/items/Crafting/Created/UeikBoard/J = locate() in M.contents
+												var/obj/items/Crafting/Created/IronNails/J1 = locate() in M.contents
+												var/Wood = "8 Ueik Board" //Building Material Type
+												var/Nails = "4 Handfuls of Iron Nails"
+												if((J in M.contents)&&(J.stack_amount >= 8)&&(J1 in M.contents)&&(J1.stack_amount >= 4)&&(M.energy >= 15))
+													for(J in M.contents) J.RemoveFromStack(8)
+													for(J1 in M.contents) J1.RemoveFromStack(4)
+													if(M.energy >= 15)//content
+														M.energy -= 15
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Furnishings/scrate(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Nails])"
+													return
+											if("Large")
+												//var/obj/items/Crafting/Created/Pole/J = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J = locate() in M.contents
+												var/obj/items/Crafting/Created/IronNails/J1 = locate() in M.contents
+												var/Wood = "12 Ueik Board" //Building Material Type
+												var/Nails = "8 Handfuls of Iron Nails"
+												if((J in M.contents)&&(J.stack_amount >= 12)&&(J1 in M.contents)&&(J1.stack_amount >= 8)&&(M.energy >= 15))
+													for(J in M.contents) J.RemoveFromStack(12)
+													for(J1 in M.contents) J1.RemoveFromStack(8)
+													if(M.energy >= 25)//content
+														M.energy -= 25
+														M.updateEN()
+														M.buildexp += 30
+														a = new/obj/Buildable/Furnishings/crate(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Nails])"
+													return
+										if("Barricade") switch(input("Select Barricade Direction (N^/Sv,E>/W<)","Miscellaneous")in list("North/South","East/West"))
+											if("North/South")
+												var/obj/items/Logs/UeikLog/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
+												var/obj/items/Crafting/Created/IronNails/J2 = locate() in M.contents
+												var/Wood = "4 Ueik Log" //Building Material Type
+												var/Pole = "2 Pole"
+												var/Nails = "4 Handfuls of Iron Nails"
+												if((J in M.contents)&&(J.stack_amount >= 4)&&(J1 in M.contents)&&(J1.stack_amount >= 2)&&(J2 in M.contents)&&(J2.stack_amount >= 4)&&(M.energy >= 15))
+													for(J in M.contents) J.RemoveFromStack(4)
+													for(J1 in M.contents) J.RemoveFromStack(2)
+													for(J2 in M.contents) J.RemoveFromStack(4)
+													if(M.energy >= 15)//content
+														M.energy -= 15
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Barricades/barricaden(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Wood], [Pole] and [Nails])"
+													return
+											if("East/West")
+												var/obj/items/Logs/UeikLog/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Pole/J1 = locate() in M.contents
+												var/obj/items/Crafting/Created/IronNails/J2 = locate() in M.contents
+												var/Wood = "4 Ueik Log" //Building Material Type
+												var/Pole = "2 Pole"
+												var/Nails = "4 Handfuls of Iron Nails"
+												if((J in M.contents)&&(J.stack_amount >= 4)&&(J1 in M.contents)&&(J1.stack_amount >= 2)&&(J2 in M.contents)&&(J2.stack_amount >= 4)&&(M.energy >= 15))
+													for(J in M.contents) J.RemoveFromStack(4)
+													for(J1 in M.contents) J.RemoveFromStack(2)
+													for(J2 in M.contents) J.RemoveFromStack(4)
+													if(M.energy >= 15)//content
+														M.energy -= 15
+														M.updateEN()
+														M.buildexp += 25
+														a = new/obj/Buildable/Barricades/barricades(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Wood], [Pole], [Nails])"
+													return
+										if("Sundial")
+											var/obj/items/Crafting/Created/UeikBoard/J = locate() in M.contents
+											var/obj/items/Crafting/Created/Bricks/J1 = locate() in M.contents
 											var/obj/items/Mortar/J2 = locate() in M.contents
-											var/Ore = "4 Bricks" //Building Material Type
-											var/Filler = "1 Mortar"
-											if((M.TWequipped)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 3)&&(M.energy >= 15))
-												for(J in M.contents) J.RemoveFromStack(4)
-												for(J2 in M.contents) J2.RemoveFromStack(3)
-												M.UETW = 1
-												if(M.energy >= 15)//content
-													M.energy -= 15
+											var/Wood = "5 Ueik Board" //Building Material Type
+											var/Stone = "15 Piles of Bricks"
+											var/Mortar = "15 Mortar"
+											if((J in M.contents)&&(J1 in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J1.stack_amount >= 15)&&(J2.stack_amount >= 15)&&(M.energy >= 35))
+												for(J in M.contents) J.RemoveFromStack(5)
+												for(J1 in M.contents) J1.RemoveFromStack(15)
+												for(J2 in M.contents) J2.RemoveFromStack(15)
+												if(M.energy >= 35)//content
+													M.energy -= 35
 													M.updateEN()
-													M.buildexp += 5
-													a = new/turf/Building/Foundations/Pfoundation(usr.loc)
-													a:buildingowner = "[usr.key]"
+													M.buildexp += 25
+													a = new/obj/Buildable/sundial(usr.loc)
+													a:buildingowner = ckeyEx("[usr.key]")
 													M.UEB = 0
-													M.UETW = 0
+													var/obj/Navi/Compas/C = new;var/obj/Navi/Arrow/A = new
+													src.client.screen += C;src.client.screen += A
+													M.Target = a
 													return call(/proc/buildlevel)()
 												else
 													M.UEB = 0
-													M.UETW = 0
-													M << "You lack the effort (Energy: [M.energy])"
+													M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 													return
 											else
 												M.UEB = 0
-												M.UETW = 0
-												M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Ore] and [Filler])"
+												M << "You lack the effort (Energy: [M.energy]) or the material...([Wood], [Mortar] and [Stone])"
 												return
-										if("Floor")
+										if("Water Fountain")
+											//var/obj/items/Logs/UeikLog/J = locate() in M.contents
 											var/obj/items/Mortar/J = locate() in M.contents
-											var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-											var/Mortar = "1 Mortar" //Building Material Type
-											var/Stone = "4 Bricks"
-											if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 20))
-												for(J in M.contents) J.RemoveFromStack(1)
-												for(J2 in M.contents) J2.RemoveFromStack(4)
-												M.UETW = 1
-												if(M.energy >= 20)//content
-													M.energy -= 20
+											var/obj/items/Crafting/Created/Bricks/J1 = locate() in M.contents
+											//var/Wood = "1 Ueik Log" //Building Material Type
+											var/Mort = "35 Mortar"
+											var/Stone = "35 Piles of Bricks"
+											if((J in M.contents)&&(J.stack_amount >= 35)&&(J1 in M.contents)&&(J1.stack_amount >= 35)&&(M.energy >= 65))
+												for(J in M.contents) J.RemoveFromStack(35)
+												for(J1 in M.contents) J1.RemoveFromStack(35)
+												if(M.energy >= 65)//content
+													M.energy -= 65
 													M.updateEN()
-													M.buildexp += 15
-													a = new/obj/Buildable/Ground/pcfloor(usr.loc)
-													a:buildingowner = "[usr.key]"
+													M.buildexp += 35
+													a = new/obj/WaterFountain(usr.loc)
+													a:buildingowner = ckeyEx("[usr.key]")
 													M.UEB = 0
-													M.UETW = 0
 													return call(/proc/buildlevel)()
 												else
 													M.UEB = 0
-													M.UETW = 0
-													M << "You lack the effort (Energy: [M.energy])"
+													M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 													return
 											else
 												M.UEB = 0
-												M.UETW = 0
-												M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material required...([Mortar] and [Stone])"
+												M << "You lack the effort (Energy: [M.energy]) or the material...([Stone] and [Mort])"
 												return
-										if("Wall") switch(input("Select Wall Section (N^,Sv,E>,W<)","Stone House Wall Section")in list("North", "South","East","West"))
-											if("North")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Stone = "4 Bricks"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 35)//content
-														M.energy -= 35
-														M.updateEN()
-														M.buildexp += 25
-														a = new/obj/Buildable/HouseWalls/sh8(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-													return
-											if("South")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Stone = "4 Bricks"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 35)//content
-														M.energy -= 35
-														M.updateEN()
-														M.buildexp += 25
-														a = new/obj/Buildable/HouseWalls/sh1(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-													return
-											if("East")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Stone = "4 Bricks"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 35)//content
-														M.energy -= 35
-														M.updateEN()
-														M.buildexp += 25
-														a = new/obj/Buildable/HouseWalls/sh7(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-													return
-											if("West")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Stone = "4 Bricks"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 35)//content
-														M.energy -= 35
-														M.updateEN()
-														M.buildexp += 25
-														a = new/obj/Buildable/HouseWalls/sh6(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-													return
-
-										if("Window") switch(input("Select Window Section (N^,Sv,E>,W<)","Stone House Window Section")in list("North", "South","East","West"))
-											if("North")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Stone = "2 Bricks"
-												var/Planks = "4 Pole"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 45))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 45)//content
-														M.energy -= 45
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/HouseWalls/shwt(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
-													return
-											if("South")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Stone = "2 Bricks"
-												var/Planks = "4 Pole"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 45))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 45)//content
-														M.energy -= 45
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/HouseWalls/shwf(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
-													return
-											if("East")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Stone = "2 Bricks"
-												var/Planks = "4 Pole"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 45))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 45)//content
-														M.energy -= 45
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/HouseWalls/shwr(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
-													return
-											if("West")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Stone = "2 Bricks"
-												var/Planks = "4 Pole"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 45))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 45)//content
-														M.energy -= 45
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/HouseWalls/shwl(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
-													return
-										if("Door") switch(input("Select Section (N^,Sv,E>,W<)","Stone House Door Section")in list("North", "South","East","West"))
-											if("North")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "2 Mortar" //Building Material Type
-												var/Stone = "2 Bricks"
-												var/Planks = "5 Poles"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 5)&&(M.energy >= 45))
-													for(J in M.contents) J.RemoveFromStack(2)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(5)
-													M.UETW = 1
-													if(M.energy >= 45)//content
-														M.energy -= 45
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/Doors/SHTopDoor(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-															if("Yes")
-																a:unlocked = 0
-																a:locked = 1
-																var/obj/items/DoorKey/K = locate() in M.contents
-																if(K in M.contents)
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-																else
-																	new /obj/items/DoorKey(M)
-																	M << "You have received a Skeleton Door Key."
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-															else
-																a:locked = 0
-																a:unlocked = 1
-																M.UEB = 0
-																M.UETW = 0
-																return
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
-													return
-											if("South")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "2 Mortar" //Building Material Type
-												var/Stone = "2 Bricks"
-												var/Planks = "5 Poles"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 5)&&(M.energy >= 45))
-													for(J in M.contents) J.RemoveFromStack(2)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(5)
-													M.UETW = 1
-													if(M.energy >= 45)//content
-														M.energy -= 45
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/Doors/SHDoor(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-															if("Yes")
-																a:unlocked = 0
-																a:locked = 1
-																var/obj/items/DoorKey/K = locate() in M.contents
-																if(K in M.contents)
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-																else
-																	new /obj/items/DoorKey(M)
-																	M << "You have received a Skeleton Door Key."
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-															else
-																a:locked = 0
-																a:unlocked = 1
-																M.UEB = 0
-																M.UETW = 0
-																return
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
-													return
-											if("East")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "2 Mortar" //Building Material Type
-												var/Stone = "2 Bricks"
-												var/Planks = "5 Poles"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 5)&&(M.energy >= 45))
-													for(J in M.contents) J.RemoveFromStack(2)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(5)
-													M.UETW = 1
-													if(M.energy >= 45)//content
-														M.energy -= 45
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/Doors/SHRightDoor(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-															if("Yes")
-																a:unlocked = 0
-																a:locked = 1
-																var/obj/items/DoorKey/K = locate() in M.contents
-																if(K in M.contents)
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-																else
-																	new /obj/items/DoorKey(M)
-																	M << "You have received a Skeleton Door Key."
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-															else
-																a:locked = 0
-																a:unlocked = 1
-																M.UEB = 0
-																M.UETW = 0
-																return
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
-													return
-											if("West")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
-												var/Mortar = "2 Mortar" //Building Material Type
-												var/Stone = "2 Bricks"
-												var/Planks = "5 Poles"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 5)&&(M.energy >= 45))
-													for(J in M.contents) J.RemoveFromStack(2)
-													for(J2 in M.contents) J2.RemoveFromStack(2)
-													for(J3 in M.contents) J3.RemoveFromStack(5)
-													M.UETW = 1
-													if(M.energy >= 45)//content
-														M.energy -= 45
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/Doors/SHLeftDoor(usr.loc)
-														a:buildingowner = "[usr.key]"
-														M.UEB = 0
-														M.UETW = 0
-														switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-															if("Yes")
-																a:unlocked = 0
-																a:locked = 1
-																var/obj/items/DoorKey/K = locate() in M.contents
-																if(K in M.contents)
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-																else
-																	new /obj/items/DoorKey(M)
-																	M << "You have received a Skeleton Door Key."
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-															else
-																a:locked = 0
-																a:unlocked = 1
-																M.UEB = 0
-																M.UETW = 0
-																return
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
-													return
-										if("Roof") switch(input("Select Section (N^,Sv,E>,W<)","Stone House Wall Section")in list("North/South", "East/West"))
-											if("North/South")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Planks = "4 Poles"
-												var/Ore = "4 Bricks"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 4)&&(M.energy >= 55))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													for(J3 in M.contents) J3.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 55)//content
-														M.energy -= 55
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/Roofing/HINTRoof(usr.loc)
-														a:buildingowner = "[usr.key]"
-														a:dir = NORTH
-														//a:plane = MOB_LAYER+1
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Planks])"
-													return
-											if("East/West")
-												var/obj/items/Mortar/J = locate() in M.contents
-												var/obj/items/Crafting/Created/Pole/J2 = locate() in M.contents
-												var/obj/items/Crafting/Created/Bricks/J3 = locate() in M.contents
-												var/Mortar = "1 Mortar" //Building Material Type
-												var/Planks = "4 Poles"
-												var/Ore = "4 Bricks"
-												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 4)&&(M.energy >= 55))
-													for(J in M.contents) J.RemoveFromStack(1)
-													for(J2 in M.contents) J2.RemoveFromStack(4)
-													for(J3 in M.contents) J2.RemoveFromStack(4)
-													M.UETW = 1
-													if(M.energy >= 55)//content
-														M.energy -= 55
-														M.updateEN()
-														M.buildexp += 35
-														a = new/obj/Buildable/Roofing/HINTRoof(usr.loc)
-														a:buildingowner = "[usr.key]"
-														a:dir = EAST
-														//a:plane = MOB_LAYER+1
-														M.UEB = 0
-														M.UETW = 0
-														return call(/proc/buildlevel)()
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You lack the effort (Energy: [M.energy])"
-														return
-												else
-													M.UEB = 0
-													M.UETW = 0
-													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Planks])"
-													return
-					//stone house ^
-						//wood fort   v
-
-								if("Fort")
-									FORT
-									switch(input("Select Material Type","Fort Materials") as anything in L0)//in list("Wood"),"Stone") L0wood build material selection
+							//house wood v
+									if("House") switch(input("Select Material Type","House Materials") as anything in L3) //L3
 										if("Cancel")
 											M<<"You Cancel Selection..."
 											Busy = 0
 											M.UEB = 0
 											return
 										if("Back") goto BUILD
-										if("Wood")
-											WOODFORT
-											switch(input("Select Section Type","Wooden Fort Walls") as anything in L1)//list("Exterior Wall","Door"),"Interior Wall") L1
-												if("Cancel")
-													M<<"You Cancel Selection..."
-													Busy = 0
-													M.UEB = 0
-													return
-												if("Back") goto FORT
-											if("Interior") switch(input("Select Interior Section Type","Wooden Fort Interior Walls")in L8)//list("Wooden Fort North 3-Way Wall","Wooden Fort South 3-Way Wall","Wooden Fort Central 4-Way Wall","Wooden Fort North-South Mid-Section Wall","Wooden Fort East-West Mid-Section Wall"))
-												if("Cancel")
-													M<<"You Cancel Selection..."
-													Busy = 0
-													M.UEB = 0
-													return
-												if("Back") goto WOODFORT
-												if("Wooden Fort Mid-Section Wall") switch(input("Select Wood Mid-Section Direction (N^/Sv,E>/W<)","Wooden Fort Mid-Wall Direction")in list("North/South","East/West"))
-													if("North/South")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "3 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
-														if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(3)
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 20
-																a = new/obj/Buildable/Walls/MIDnswall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-													if("East/West")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "3 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
-														if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(3)
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 20
-																a = new/obj/Buildable/Walls/MIDwewall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-												if("Wooden Fort 3-Way Wall") switch(input("Select Wood 3-Way Direction (N^,Sv)","Wooden Fort 3-Way Direction")in list("North","South"))
-													if("North")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "3 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
-														if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 35))
-															for(J in M.contents) J.RemoveFromStack(3)
-															if(M.energy >= 35)//content
-																M.energy -= 35
-																M.updateEN()
-																M.buildexp += 30
-																a = new/obj/Buildable/Walls/N3Wwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-													if("South")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "3 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
-														if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 35))
-															for(J in M.contents) J.RemoveFromStack(3)
-															if(M.energy >= 35)//content
-																M.energy -= 35
-																M.updateEN()
-																M.buildexp += 30
-																a = new/obj/Buildable/Walls/S3Wwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-												if("Wooden Fort Central 4-Way Wall")
-													var/obj/items/Log/UeikLog/J = locate() in M.contents
-													var/Wood = "4 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
-													if((J in M.contents)&&(J.stack_amount >= 4)&&(M.energy >= 45))
-														for(J in M.contents) J.RemoveFromStack(4)
-														if(M.energy >= 45)//content
-															M.energy -= 45
-															M.updateEN()
-															M.buildexp += 35
-															a = new/obj/Buildable/Walls/C4Wwall(usr.loc)
-															a:buildingowner = "[usr.key]"
-															M.UEB = 0
-															return call(/proc/buildlevel)()
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy])"
-															return
+										if("Wood") switch(input("Select Section Type","Wooden House") as anything in L6)//list("Exterior Wall","Door"),"Interior Wall") L6
+											if("Cancel")
+												M<<"You Cancel Selection..."
+												Busy = 0
+												M.UEB = 0
+												return
+											if("Foundation")
+												var/obj/items/Ore/stone/J = locate() in M.contents
+												//var/obj/items/Sand/J2 = locate() in M.contents
+												var/Stone = "10 Stone ore" //Building Material Type
+												//var/Filler = "Vessel of Sand"
+												if((J in M.contents)&&(J.stack_amount >= 10)&&(M.energy >= 15))
+													for(J in M.contents) J.RemoveFromStack(10)
+													//for(J2 in M.contents) J2.RemoveFromStack(3)
+													if(M.energy >= 15)
+														M.energy -= 15
+														M.updateEN()
+														M.buildexp += 5
+														a = new/turf/Building/Foundations/Hfoundation(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														M.UEB = 0
+														return call(/proc/buildlevel)()
 													else
 														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 														return
-											if("Door") switch(input("Select Door Direction (N^,Sv,E>,W<)","Wooden Fort Door Direction")in list("North","South","East","West"))
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Stone])"
+													return
+											if("Floor")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+												var/Mortar = "3 Mortar" //Building Material Type
+												var/Planks = "6 Ueik Board"//WorkStamp -- Make such things as these require Ueik Boards instead of Poles.
+												if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 3)&&(J2.stack_amount >= 6)&&(M.energy >= 15))
+													for(J in M.contents) J.RemoveFromStack(3)
+													for(J2 in M.contents) J2.RemoveFromStack(6)
+													if(M.energy >= 15)//content
+														M.energy -= 15
+														M.updateEN()
+														M.buildexp += 5
+														a = new/obj/Buildable/Ground/woodfloor(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														M.UEB = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
+													M.UEB = 0
+													M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Planks])"
+													return
+											if("Wall") switch(input("Select Section (N^,Sv,E>,W<)","Wood House Wall Section")in list("North", "South","East","West"))
 												if("North")
-													var/obj/items/Log/UeikLog/J = locate() in M.contents
-													var/obj/items/Ingots/ironbar/J2 = locate() in M.contents
-													var/Wood = "5 Ueik Log" //Building Material Type Doors/TopDoor Doors/Door Doors/LeftDoor Doors/RightDoor
-													var/Ingots = "2 Iron Ingot"
-													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 2)&&(M.energy >= 55))
-														for(J in M.contents) J.RemoveFromStack(3)
-														for(J2 in M.contents) J2.RemoveFromStack(3)
-														if(M.energy >= 55)//content
-															M.energy -= 55
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/Nails = "4 Handfuls of Iron Nails" //Building Material Type
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/Wood = "6 Ueik Board" //Building Material Type
+													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 6)&&(M.energy >= 15))
+														for(J in M.contents) J.RemoveFromStack(4)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														if(M.energy >= 15)//content
+															M.energy -= 15
 															M.updateEN()
-															M.buildexp += 40
-															a = new/obj/Buildable/Doors/TopDoor(usr.loc)
-															a:buildingowner = "[usr.key]"
+															M.buildexp += 5
+															a = new/obj/Buildable/HouseWalls/wh8(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-																if("Yes")
-																	a:unlocked = 0
-																	a:locked = 1
-																	var/obj/items/DoorKey/K = locate() in M.contents
-																	if(K in M.contents)
-																		M.UEB = 0
-																		return
-																	else
-																		new /obj/items/DoorKey(M)
-																		M << "You have received a Skeleton Door Key."
-																		M.UEB = 0
-																		return
-																else
-																	a:locked = 0
-																	a:unlocked = 1
-																	M.UEB = 0
-																	return
 															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
 													else
 														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Ingots])"
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails] and [Wood])"
 														return
 												if("South")
-													var/obj/items/Log/UeikLog/J = locate() in M.contents
-													var/obj/items/Ingots/ironbar/J2 = locate() in M.contents
-													var/Wood = "5 Ueik Log" //Building Material Type Doors/TopDoor Doors/Door Doors/LeftDoor Doors/RightDoor
-													var/Ingots = "2 Iron Ingot"
-													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 2)&&(M.energy >= 55))
-														for(J in M.contents) J.RemoveFromStack(3)
-														for(J2 in M.contents) J2.RemoveFromStack(3)
-														if(M.energy >= 55)//content
-															M.energy -= 55
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/Nails = "4 Handfuls of Iron Nails" //Building Material Type
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/Wood = "6 Ueik Board" //Building Material Type
+													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 6)&&(M.energy >= 15))
+														for(J in M.contents) J.RemoveFromStack(4)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														if(M.energy >= 15)//content
+															M.energy -= 15
 															M.updateEN()
-															M.buildexp += 40
-															a = new/obj/Buildable/Doors/Door(usr.loc)
-															a:buildingowner = "[usr.key]"
+															M.buildexp += 5
+															a = new/obj/Buildable/HouseWalls/wh1(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-																if("Yes")
-																	a:unlocked = 0
-																	a:locked = 1
-																	var/obj/items/DoorKey/K = locate() in M.contents
-																	if(K in M.contents)
-																		M.UEB = 0
-																		return
-																	else
-																		new /obj/items/DoorKey(M)
-																		M << "You have received a Skeleton Door Key."
-																		M.UEB = 0
-																		return
-																else
-																	a:locked = 0
-																	a:unlocked = 1
-																	M.UEB = 0
-																	return
 															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
 													else
 														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Ingots])"
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails] and [Wood])"
 														return
 												if("East")
-													var/obj/items/Log/UeikLog/J = locate() in M.contents
-													var/obj/items/Ingots/ironbar/J2 = locate() in M.contents
-													var/Wood = "5 Ueik Log" //Building Material Type Doors/TopDoor Doors/Door Doors/LeftDoor Doors/RightDoor
-													var/Ingots = "2 Iron Ingot"
-													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 2)&&(M.energy >= 55))
-														for(J in M.contents) J.RemoveFromStack(3)
-														for(J2 in M.contents) J2.RemoveFromStack(3)
-														if(M.energy >= 55)//content
-															M.energy -= 55
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/Nails = "4 Handfuls of Iron Nails" //Building Material Type
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/Wood = "6 Ueik Board" //Building Material Type
+													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 6)&&(M.energy >= 15))
+														for(J in M.contents) J.RemoveFromStack(4)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														if(M.energy >= 15)//content
+															M.energy -= 15
 															M.updateEN()
-															M.buildexp += 40
-															a = new/obj/Buildable/Doors/LeftDoor(usr.loc)
-															a:buildingowner = "[usr.key]"
+															M.buildexp += 5
+															a = new/obj/Buildable/HouseWalls/wh7(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-																if("Yes")
-																	a:unlocked = 0
-																	a:locked = 1
-																	var/obj/items/DoorKey/K = locate() in M.contents
-																	if(K in M.contents)
-																		M.UEB = 0
-																		return
-																	else
-																		new /obj/items/DoorKey(M)
-																		M << "You have received a Skeleton Door Key."
-																		M.UEB = 0
-																		return
-																else
-																	a:locked = 0
-																	a:unlocked = 1
-																	M.UEB = 0
-																	return
 															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
 													else
 														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Ingots])"
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails] and [Wood])"
 														return
 												if("West")
-													var/obj/items/Log/UeikLog/J = locate() in M.contents
-													var/obj/items/Ingots/ironbar/J2 = locate() in M.contents
-													var/Wood = "5 Ueik Log" //Building Material Type Doors/TopDoor Doors/Door Doors/LeftDoor Doors/RightDoor
-													var/Ingots = "2 Iron Ingot"
-													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 2)&&(M.energy >= 55))
-														for(J in M.contents) J.RemoveFromStack(3)
-														for(J2 in M.contents) J2.RemoveFromStack(3)
-														if(M.energy >= 55)//content
-															M.energy -= 55
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/Nails = "4 Handfuls of Iron Nails" //Building Material Type
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/Wood = "6 Ueik Board" //Building Material Type
+													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 6)&&(M.energy >= 15))
+														for(J in M.contents) J.RemoveFromStack(4)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														if(M.energy >= 15)//content
+															M.energy -= 15
 															M.updateEN()
-															M.buildexp += 40
-															a = new/obj/Buildable/Doors/RightDoor(usr.loc)
-															a:buildingowner = "[usr.key]"
+															M.buildexp += 5
+															a = new/obj/Buildable/HouseWalls/wh6(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails] and [Wood])"
+														return
+											if("Window") switch(input("Select Window Section (N^,Sv,E>,W<)","Wood House Window Section")in list("North", "South","East","West"))
+												if("North")
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Nails = "6 Handfuls of Iron Nails" //Building Material Type
+													var/Wood = "6 Ueik Board"
+													var/Planks = "4 Pole"
+													if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 15))
+														for(J in M.contents) J.RemoveFromStack(6)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														if(M.energy >= 15)//content
+															M.energy -= 15
+															M.updateEN()
+															M.buildexp += 5
+															a = new/obj/Buildable/HouseWalls/whwt(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Planks] and [Wood])"
+														return
+												if("South")
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Nails = "6 Handfuls of Iron Nails" //Building Material Type
+													var/Wood = "6 Ueik Board"
+													var/Planks = "4 Pole"
+													if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 15))
+														for(J in M.contents) J.RemoveFromStack(6)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														if(M.energy >= 15)//content
+															M.energy -= 15
+															M.updateEN()
+															M.buildexp += 5
+															a = new/obj/Buildable/HouseWalls/whwf(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Planks] and [Wood])"
+														return
+												if("East")
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Nails = "6 Handfuls of Iron Nails" //Building Material Type
+													var/Wood = "6 Ueik Board"
+													var/Planks = "4 Pole"
+													if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 15))
+														for(J in M.contents) J.RemoveFromStack(6)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														if(M.energy >= 15)//content
+															M.energy -= 15
+															M.updateEN()
+															M.buildexp += 5
+															a = new/obj/Buildable/HouseWalls/whwr(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Planks] and [Wood])"
+														return
+												if("West")
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Nails = "6 Handfuls of Iron Nails" //Building Material Type
+													var/Wood = "6 Ueik Board"
+													var/Planks = "4 Pole"
+													if((J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 15))
+														for(J in M.contents) J.RemoveFromStack(6)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														if(M.energy >= 15)//content
+															M.energy -= 15
+															M.updateEN()
+															M.buildexp += 5
+															a = new/obj/Buildable/HouseWalls/whwl(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Planks] and [Wood])"
+														return
+											if("Door") switch(input("Select Section (N^,Sv,E>,W<)","Wood House Door Section")in list("North", "South","East","West"))
+												if("North")
+													var/obj/items/Crafting/Created/IronNails/J3 = locate() in M.contents
+													var/obj/items/Logs/UeikLog/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J1 = locate() in M.contents
+													var/Nails = "5 Handfuls of Iron Nails"//Building Material Type
+													var/Wood = "2 Ueik Log"
+													var/Planks = "3 Ueik Board"
+													if((J in M.contents)&&(J1 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 3)&&(J3.stack_amount >= 5)&&(M.energy >= 25))
+														for(J in M.contents) J.RemoveFromStack(2)
+														for(J1 in M.contents) J1.RemoveFromStack(3)
+														for(J3 in M.contents) J3.RemoveFromStack(5)
+														if(M.energy >= 25)//content
+															M.energy -= 25
+															M.updateEN()
+															M.buildexp += 15
+															a = new/obj/Buildable/Doors/WHTopDoor(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
 																if("Yes")
@@ -3695,752 +2657,539 @@ mob/players
 															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
 													else
 														M.UEB = 0
-														M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Ingots])"
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Planks] and [Wood])"
+														return
+												if("South")
+													var/obj/items/Crafting/Created/IronNails/J3 = locate() in M.contents
+													var/obj/items/Logs/UeikLog/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J1 = locate() in M.contents
+													var/Nails = "5 Handfuls of Iron Nails"//Building Material Type
+													var/Wood = "2 Ueik Log"
+													var/Planks = "3 Ueik Board"
+													if((J in M.contents)&&(J1 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 3)&&(J3.stack_amount >= 5)&&(M.energy >= 25))
+														for(J in M.contents) J.RemoveFromStack(2)
+														for(J1 in M.contents) J1.RemoveFromStack(3)
+														for(J3 in M.contents) J3.RemoveFromStack(5)
+														if(M.energy >= 25)//content
+															M.energy -= 25
+															M.updateEN()
+															M.buildexp += 15
+															a = new/obj/Buildable/Doors/WHDoor(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																if("Yes")
+																	a:unlocked = 0
+																	a:locked = 1
+																	var/obj/items/DoorKey/K = locate() in M.contents
+																	if(K in M.contents)
+																		M.UEB = 0
+																		return
+																	else
+																		new /obj/items/DoorKey(M)
+																		M << "You have received a Skeleton Door Key."
+																		M.UEB = 0
+																		return
+																else
+																	a:locked = 0
+																	a:unlocked = 1
+																	M.UEB = 0
+																	return
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Planks] and [Wood])"
+														return
+												if("East")
+													var/obj/items/Crafting/Created/IronNails/J3 = locate() in M.contents
+													var/obj/items/Logs/UeikLog/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J1 = locate() in M.contents
+													var/Nails = "5 Handfuls of Iron Nails"//Building Material Type
+													var/Wood = "2 Ueik Log"
+													var/Planks = "3 Ueik Board"
+													if((J in M.contents)&&(J1 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 3)&&(J3.stack_amount >= 5)&&(M.energy >= 25))
+														for(J in M.contents) J.RemoveFromStack(2)
+														for(J1 in M.contents) J1.RemoveFromStack(3)
+														for(J3 in M.contents) J3.RemoveFromStack(5)
+														if(M.energy >= 25)//content
+															M.energy -= 25
+															M.updateEN()
+															M.buildexp += 15
+															a = new/obj/Buildable/Doors/WHRightDoor(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																if("Yes")
+																	a:unlocked = 0
+																	a:locked = 1
+																	var/obj/items/DoorKey/K = locate() in M.contents
+																	if(K in M.contents)
+																		M.UEB = 0
+																		return
+																	else
+																		new /obj/items/DoorKey(M)
+																		M << "You have received a Skeleton Door Key."
+																		M.UEB = 0
+																		return
+																else
+																	a:locked = 0
+																	a:unlocked = 1
+																	M.UEB = 0
+																	return
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Planks] and [Wood])"
+														return
+												if("West")
+													var/obj/items/Crafting/Created/IronNails/J3 = locate() in M.contents
+													var/obj/items/Logs/UeikLog/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J1 = locate() in M.contents
+													var/Nails = "5 Handfuls of Iron Nails"//Building Material Type
+													var/Wood = "2 Ueik Log"
+													var/Planks = "3 Ueik Board"
+													if((J in M.contents)&&(J1 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J1.stack_amount >= 3)&&(J3.stack_amount >= 5)&&(M.energy >= 25))
+														for(J in M.contents) J.RemoveFromStack(2)
+														for(J1 in M.contents) J1.RemoveFromStack(3)
+														for(J3 in M.contents) J3.RemoveFromStack(5)
+														if(M.energy >= 25)//content
+															M.energy -= 25
+															M.updateEN()
+															M.buildexp += 115
+															a = new/obj/Buildable/Doors/WHLeftDoor(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															//call(/proc/buildlevel)()
+															/*switch(alert(usr,"Would you like to set a password?","[src.name] Pass Entry","Yes","No"))
+																if("Yes")
+																	a:pword = input("What should the [src.name] password be?","Enter the password")as text
+
+																	if(a:pwor"")
+																		a:pword = null
+																		M << "Cannot be blank! Please insert a pass word or phrase for [src.name]."
+																		M.UEB = 0
+																		return
+																else
+																	a:pword = null
+																	M.UEB = 0
+																	M << "Cannot be blank! Please insert a pass word or phrase for [src.name]."
+																	return*/
+															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																if("Yes")
+																	a:unlocked = 0
+																	a:locked = 1
+																	var/obj/items/DoorKey/K = locate() in M.contents
+																	if(K in M.contents)
+																		M.UEB = 0
+																		return
+																	else
+																		new /obj/items/DoorKey(M)
+																		M << "You have received a Skeleton Door Key."
+																		M.UEB = 0
+																		return
+																else
+																	a:locked = 0
+																	a:unlocked = 1
+																	M.UEB = 0
+																	return
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Nails], [Planks] and [Wood])"
 														return
 
-	//wood fort exterior wall build selection list							do these need cancel and back options added or are they already present?
-											if("Exterior") switch(input("Select Section Type: Wall or Corner","Wooden Fort Exterior Walls")in list("Wooden Fort Wall","Wooden Fort Corner"))//"Wooden Fort North Wall","Wooden Fort South Wall","Wooden Fort East Wall","Wooden Fort West Wall","Wooden Fort NW Corner","Wooden Fort NE Corner","Wooden Fort SW Corner","Wooden Fort SE Corner")
-												//if(bfww == "")
-												if("Cancel")
-													M<<"You Cancel Selection..."
-													Busy = 0
-													M.UEB = 0
-													return
-													//wood fort wall selection
-												if("Back") goto WOODFORT
-												if("Wooden Fort Wall") switch(input("Select Section Direction (N^,Sv,E>,W<)","Wooden Fort Wall Direction")in list("North","South","East","West"))
-													if("North")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "1 Ueik Log" //Building Material Type
-														if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 15))
-															for(J in M.contents) J.RemoveFromStack(1)
-															if(M.energy >= 15)//content
-																M.energy -= 15
-																M.updateEN()
-																M.buildexp += 5
-																a = new/obj/Buildable/Walls/nwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
+
+											if("Roof") switch(input("Select Section (N^/Sv,E>/W<)","Wood House Roof Section")in list("North/South", "East/West"))
+												if("North/South")
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/Mortar = "4 Handfuls of Iron Nails" //Building Material Type
+													var/Planks = "6 Ueik Board"
+													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 6)&&(M.energy >= 35))
+														for(J in M.contents) J.RemoveFromStack(4)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														if(M.energy >= 35)//content
+															M.energy -= 35
+															M.updateEN()
+															M.buildexp += 25
+															a = new/obj/Buildable/Roofing/Roof(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															a:dir = NORTH
+															M.UEB = 0
+															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
-													if("South")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "1 Ueik Log" //Building Material Type
-														if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 15))
-															for(J in M.contents) J.RemoveFromStack(1)
-															if(M.energy >= 15)//content
-																M.energy -= 15
-																M.updateEN()
-																M.buildexp += 5
-																a = new/obj/Buildable/Walls/swall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Planks])"
+														return
+												if("East/West")
+													var/obj/items/Crafting/Created/IronNails/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/Mortar = "4 Handfuls of Iron Nails" //Building Material Type
+													var/Planks = "6 Ueik Board"
+													if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 6)&&(M.energy >= 35))
+														for(J in M.contents) J.RemoveFromStack(4)
+														for(J2 in M.contents) J2.RemoveFromStack(6)
+														if(M.energy >= 35)//content
+															M.energy -= 35
+															M.updateEN()
+															M.buildexp += 25
+															a = new/obj/Buildable/Roofing/Roof(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															a:dir = EAST
+															M.UEB = 0
+															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
-													if("East")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "1 Ueik Log" //Building Material Type
-														if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 15))
-															for(J in M.contents) J.RemoveFromStack(1)
-															if(M.energy >= 15)//content
-																M.energy -= 15
-																M.updateEN()
-																M.buildexp += 5
-																a = new/obj/Buildable/Walls/ewall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-													if("West")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "1 Ueik Log" //Building Material Type
-														if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 15))
-															for(J in M.contents) J.RemoveFromStack(1)
-															if(M.energy >= 15)//content
-																M.energy -= 15
-																M.updateEN()
-																M.buildexp += 5
-																a = new/obj/Buildable/Walls/wall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-												if("Wooden Fort Corner") switch(input("Select Section Direction (NW,NE,SW,SE)","Wooden Fort Corner Direction")in list("Northwest","Northeast","Southwest","Southeast"))
-													if("Northwest")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "3 Ueik Log" //Building Material Type
-														if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(3)
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 20
-																a = new/obj/Buildable/Walls/nwwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-													if("Northeast")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "3 Ueik Log" //Building Material Type
-														if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(3)
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 20
-																a = new/obj/Buildable/Walls/newall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-													if("Southwest")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "3 Ueik Log" //Building Material Type
-														if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(3)
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 20
-																a = new/obj/Buildable/Walls/swwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-													if("Southeast")
-														var/obj/items/Log/UeikLog/J = locate() in M.contents
-														var/Wood = "3 Ueik Log" //Building Material Type
-														if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(3)
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 20
-																a = new/obj/Buildable/Walls/sewall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
-															return
-									if("Stone")
-										STONEFORT
-										switch(input("Select Section Type","Stone Fort Walls") as anything in L2)
-										//Stone fort exterior wall build selection list
+													else
+														M.UEB = 0
+														M << "You lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Planks])"
+														return
+								//house wood ^
+									//house stone v
+										if("Stone") switch(input("Select Section Type","Stone House Walls") as anything in L7)//list("Exterior Wall","Door"),"Interior Wall") L7HouseWalls/sh8HouseWalls/sh1HouseWalls/sh7HouseWalls/sh8
 											if("Cancel")
 												M<<"You Cancel Selection..."
 												Busy = 0
 												M.UEB = 0
 												M.UETW = 0
 												return
-											if("Back") goto FORT
-											if("Exterior") switch(input("Select Section Type: Wall or Corner","Stone Fort Exterior Walls")in list("Stone Fort Wall","Stone Fort Corner"))//"Wooden Fort North Wall","Wooden Fort South Wall","Wooden Fort East Wall","Wooden Fort West Wall","Wooden Fort NW Corner","Wooden Fort NE Corner","Wooden Fort SW Corner","Wooden Fort SE Corner")
-												if("Cancel")
-													M<<"You Cancel Selection..."
-													Busy = 0
+											if("Back") goto BUILD
+											if("Foundation")
+												var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
+												var/obj/items/Mortar/J2 = locate() in M.contents
+												var/Ore = "4 Piles of Bricks" //Building Material Type
+												var/Filler = "4 Mortar"
+												if((M.TWequipped)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 4)&&(M.energy >= 15))
+													for(J in M.contents) J.RemoveFromStack(4)
+													for(J2 in M.contents) J2.RemoveFromStack(4)
+													M.UETW = 1
+													if(M.energy >= 15)//content
+														M.energy -= 15
+														M.updateEN()
+														M.buildexp += 5
+														a = new/turf/Building/Foundations/Pfoundation(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														M.UEB = 0
+														M.UETW = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
 													M.UEB = 0
 													M.UETW = 0
+													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Ore] and [Filler])"
 													return
-												if("Back") goto STONEFORT
-												if("Stone Fort Wall") switch(input("Select Section Direction (N^,Sv,E>,W<)","Stone Fort Wall Direction")in list("North","South","East","West"))
-													if("North")
-														var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
-														var/Stone = "1 Brick" //Building Material Type
-														if((M.TWequipped==1)&&(J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 25))
-															for(J in M.contents)J.RemoveFromStack(1)
-															M.UETW = 1
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 15
-																a = new/obj/Buildable/Walls/Snwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Stone])"
-															return
-													if("South")
-														var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
-														var/Stone = "1 Brick" //Building Material Type
-														if((M.TWequipped==1)&&(J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(1)
-															M.UETW = 1
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 15
-																a = new/obj/Buildable/Walls/Sswall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Stone])"
-															return
-													if("East")
-														var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
-														var/Stone = "1 Brick" //Building Material Type
-														if((M.TWequipped==1)&&(J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(1)
-															M.UETW = 1
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 15
-																a = new/obj/Buildable/Walls/Sewall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Stone])"
-															return
-													if("West")
-														var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
-														var/Stone = "1 Brick" //Building Material Type
-														if((M.TWequipped==1)&&(J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 25))
-															for(J in M.contents) J.RemoveFromStack(1)
-															M.UETW = 1
-															if(M.energy >= 25)//content
-																M.energy -= 25
-																M.updateEN()
-																M.buildexp += 15
-																a = new/obj/Buildable/Walls/Swall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Stone])"
-															return
-												if("Stone Fort Corner") switch(input("Select Section Direction (NW,NE,SW,SE)","Stone Fort Corner Direction")in list("Northwest","Northeast","Southwest","Southeast"))
-													if("Northwest")
-														var/obj/items/Mortar/J = locate() in M.contents
-														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-														var/Mortar = "1 Mortar" //Building Material Type Walls/Snwwall Walls/Snewall Walls/Sswwall Walls/Ssewall
-														var/Stone = "3 Bricks"
-														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
-															for(J in M.contents) J.RemoveFromStack(1)
-															for(J2 in M.contents) J2.RemoveFromStack(3)
-															M.UETW = 1
-															if(M.energy >= 50)//content
-																M.energy -= 50
-																M.updateEN()
-																M.buildexp += 50
-																a = new/obj/Buildable/Walls/Snwwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-															return
-													if("Northeast")
-														var/obj/items/Mortar/J = locate() in M.contents
-														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-														var/Stone = "3 Bricks"
-														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
-															for(J in M.contents) J.RemoveFromStack(1)
-															for(J2 in M.contents) J2.RemoveFromStack(3)
-															M.UETW = 1
-															if(M.energy >= 50)//content
-																M.energy -= 50
-																M.updateEN()
-																M.buildexp += 50
-																a = new/obj/Buildable/Walls/Snewall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-															return
-													if("Southwest")
-														var/obj/items/Mortar/J = locate() in M.contents
-														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-														var/Stone = "3 Bricks"
-														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
-															for(J in M.contents) J.RemoveFromStack(1)
-															for(J2 in M.contents) J2.RemoveFromStack(3)
-															M.UETW = 1
-															if(M.energy >= 50)//content
-																M.energy -= 50
-																M.updateEN()
-																M.buildexp += 50
-																a = new/obj/Buildable/Walls/Sswwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-															return
-													if("Southeast")
-														var/obj/items/Mortar/J = locate() in M.contents
-														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-														var/Stone = "3 Bricks"
-														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
-															for(J in M.contents) J.RemoveFromStack(1)
-															for(J2 in M.contents) J2.RemoveFromStack(3)
-															M.UETW = 1
-															if(M.energy >= 50)//content
-																M.energy -= 50
-																M.updateEN()
-																M.buildexp += 50
-																a = new/obj/Buildable/Walls/Ssewall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-															return
-	//Stone fort wall selection
-											if("Interior") switch(input("Select Interior Section Type","Stone Fort Interior Walls")in L9)//list("Wooden Fort North 3-Way Wall","Wooden Fort South 3-Way Wall","Wooden Fort Central 4-Way Wall","Wooden Fort North-South Mid-Section Wall","Wooden Fort East-West Mid-Section Wall"))
-												if("Cancel")
-													M<<"You Cancel Selection..."
-													Busy = 0
+											if("Floor")
+												var/obj/items/Mortar/J = locate() in M.contents
+												var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+												var/Mortar = "4 Mortar" //Building Material Type
+												var/Stone = "4 Piles of Bricks"
+												if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 4)&&(J2.stack_amount >= 4)&&(M.energy >= 20))
+													for(J in M.contents) J.RemoveFromStack(4)
+													for(J2 in M.contents) J2.RemoveFromStack(4)
+													M.UETW = 1
+													if(M.energy >= 20)//content
+														M.energy -= 20
+														M.updateEN()
+														M.buildexp += 15
+														a = new/obj/Buildable/Ground/pcfloor(usr.loc)
+														a:buildingowner = ckeyEx("[usr.key]")
+														M.UEB = 0
+														M.UETW = 0
+														return call(/proc/buildlevel)()
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+														return
+												else
 													M.UEB = 0
 													M.UETW = 0
+													M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material required...([Mortar] and [Stone])"
 													return
-												if("Back") goto STONEFORT
-												if("Stone Fort Mid-Section Wall") switch(input("Select Stone Mid-Section Direction (N^/Sv,E>/W<)","Stone Fort Mid-Wall Direction")in list("North/South","South/East"))
-													if("North/South")
-														var/obj/items/Mortar/J = locate() in M.contents
-														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-														var/Stone = "3 Bricks"
-														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
-															for(J in M.contents) J.RemoveFromStack(1)
-															for(J2 in M.contents) J2.RemoveFromStack(3)
-															M.UETW = 1
-															if(M.energy >= 50)//content
-																M.energy -= 50
-																M.updateEN()
-																M.buildexp += 50
-																a = new/obj/Buildable/Walls/SMIDnswall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-															return
-													if("East/West")
-														var/obj/items/Mortar/J = locate() in M.contents
-														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-														var/Stone = "3 Bricks"
-														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
-															for(J in M.contents) J.RemoveFromStack(1)
-															for(J2 in M.contents) J2.RemoveFromStack(3)
-															M.UETW = 1
-															if(M.energy >= 50)//content
-																M.energy -= 50
-																M.updateEN()
-																M.buildexp += 50
-																a = new/obj/Buildable/Walls/SMIDwewall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-															return
-												if("Stone Fort 3-Way Wall") switch(input("Select Stone 3-Way Direction (N^,Sv)","Stone Fort 3-Way Direction")in list("North","South"))
-													if("North")
-														var/obj/items/Mortar/J = locate() in M.contents
-														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-														var/Stone = "3 Bricks"
-														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 35))
-															for(J in M.contents) J.RemoveFromStack(1)
-															for(J2 in M.contents) J2.RemoveFromStack(3)
-															M.UETW = 1
-															if(M.energy >= 35)//content
-																M.energy -= 35
-																M.updateEN()
-																M.buildexp += 30
-																a = new/obj/Buildable/Walls/SN3Wwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-															return
-													if("South")
-														var/obj/items/Mortar/J = locate() in M.contents
-														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-														var/Stone = "3 Bricks"
-														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 35))
-															for(J in M.contents) J.RemoveFromStack(1)
-															for(J2 in M.contents) J2.RemoveFromStack(3)
-															M.UETW = 1
-															if(M.energy >= 35)//content
-																M.energy -= 35
-																M.updateEN()
-																M.buildexp += 30
-																a = new/obj/Buildable/Walls/SS3Wwall(usr.loc)
-																a:buildingowner = "[usr.key]"
-																M.UEB = 0
-																M.UETW = 0
-																return call(/proc/buildlevel)()
-															else
-																M.UEB = 0
-																M.UETW = 0
-																M << "You lack the effort (Energy: [M.energy])"
-																return
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
-															return
-												if("Stone Fort Central 4-Way Wall")
+											if("Wall") switch(input("Select Wall Section (N^,Sv,E>,W<)","Stone House Wall Section")in list("North", "South","East","West"))
+												if("North")
 													var/obj/items/Mortar/J = locate() in M.contents
 													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-													var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-													var/Stone = "4 Bricks"
-													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy > 65))
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Stone = "4 Piles of Bricks"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
 														for(J in M.contents) J.RemoveFromStack(1)
 														for(J2 in M.contents) J2.RemoveFromStack(4)
 														M.UETW = 1
-														if(M.energy >= 65)//content
-															M.energy -= 65
+														if(M.energy >= 35)//content
+															M.energy -= 35
 															M.updateEN()
-															M.buildexp += 50
-															a = new/obj/Buildable/Walls/SC4Wwall(usr.loc)
-															a:buildingowner = "[usr.key]"
+															M.buildexp += 25
+															a = new/obj/Buildable/HouseWalls/sh8(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
 															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
 															M.UETW = 0
-															M << "You lack the effort (Energy: [M.energy])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
 													else
 														M.UEB = 0
 														M.UETW = 0
 														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
 														return
-											if("Door") switch(input("Select Door Direction (N^,Sv,E>,W<)","Stone Fort Door Direction")in list("North","South","East","West"))
-												if("North")
-													var/obj/items/Mortar/J = locate() in M.contents
-													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-													var/obj/items/Ingots/ironbar/J3 = locate() in M.contents
-													var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-													var/Stone = "4 Bricks"
-													var/Ingots = "3 Iron Ingot"
-													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 3)&&(M.energy >= 55))
-														for(J in M.contents) J.RemoveFromStack(1)
-														for(J2 in M.contents) J2.RemoveFromStack(4)
-														for(J3 in M.contents) J3.RemoveFromStack(3)
-														M.UETW = 1
-														if(M.energy >= 55)//content
-															M.energy -= 55
-															M.updateEN()
-															M.buildexp += 40
-															a = new/obj/Buildable/Doors/STopDoor(usr.loc)
-															a:buildingowner = "[usr.key]"
-															M.UEB = 0
-															M.UETW = 0
-															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-																if("Yes")
-																	a:unlocked = 0
-																	a:locked = 1
-																	var/obj/items/DoorKey/K = locate() in M.contents
-																	if(K in M.contents)
-																		M.UEB = 0
-																		M.UETW = 0
-																		return
-																	else
-																		new /obj/items/DoorKey(M)
-																		M << "You have received a Skeleton Door Key."
-																		M.UEB = 0
-																		M.UETW = 0
-																		return
-																else
-																	a:locked = 0
-																	a:unlocked = 1
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
-															return call(/proc/buildlevel)()
-														else
-															M.UEB = 0
-															M.UETW = 0
-															M << "You lack the effort (Energy: [M.energy])"
-															return
-													else
-														M.UEB = 0
-														M.UETW = 0
-														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Ingots])"
-														return
 												if("South")
 													var/obj/items/Mortar/J = locate() in M.contents
 													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-													var/obj/items/Ingots/ironbar/J3 = locate() in M.contents
-													var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-													var/Stone = "4 Bricks"
-													var/Ingots = "3 Iron Ingot"
-													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 3)&&(M.energy >= 55))
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Stone = "4 Piles of Bricks"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
 														for(J in M.contents) J.RemoveFromStack(1)
 														for(J2 in M.contents) J2.RemoveFromStack(4)
-														for(J3 in M.contents) J3.RemoveFromStack(3)
 														M.UETW = 1
-														if(M.energy >= 55)//content
-															M.energy -= 55
+														if(M.energy >= 35)//content
+															M.energy -= 35
 															M.updateEN()
-															M.buildexp += 40
-															a = new/obj/Buildable/Doors/SDoor(usr.loc)
-															a:buildingowner = "[usr.key]"
+															M.buildexp += 25
+															a = new/obj/Buildable/HouseWalls/sh1(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-																if("Yes")
-																	a:unlocked = 0
-																	a:locked = 1
-																	var/obj/items/DoorKey/K = locate() in M.contents
-																	if(K in M.contents)
-																		M.UEB = 0
-																		M.UETW = 0
-																		return
-																	else
-																		new /obj/items/DoorKey(M)
-																		M << "You have received a Skeleton Door Key."
-																		M.UEB = 0
-																		M.UETW = 0
-																		return
-																else
-																	a:locked = 0
-																	a:unlocked = 1
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
 															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
 															M.UETW = 0
-															M << "You lack the effort (Energy: [M.energy])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
 													else
 														M.UEB = 0
 														M.UETW = 0
-														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Ingots])"
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
 														return
 												if("East")
 													var/obj/items/Mortar/J = locate() in M.contents
 													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-													var/obj/items/Ingots/ironbar/J3 = locate() in M.contents
-													var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-													var/Stone = "4 Bricks"
-													var/Ingots = "3 Iron Ingot"
-													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 3)&&(M.energy >= 55))
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Stone = "4 Piles of Bricks"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
 														for(J in M.contents) J.RemoveFromStack(1)
 														for(J2 in M.contents) J2.RemoveFromStack(4)
-														for(J3 in M.contents) J3.RemoveFromStack(3)
 														M.UETW = 1
-														if(M.energy >= 55)//content
-															M.energy -= 55
+														if(M.energy >= 35)//content
+															M.energy -= 35
 															M.updateEN()
-															M.buildexp += 40
-															a = new/obj/Buildable/Doors/SRightDoor(usr.loc)
-															a:buildingowner = "[usr.key]"
+															M.buildexp += 25
+															a = new/obj/Buildable/HouseWalls/sh7(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
-																if("Yes")
-																	a:unlocked = 0
-																	a:locked = 1
-																	var/obj/items/DoorKey/K = locate() in M.contents
-																	if(K in M.contents)
-																		M.UEB = 0
-																		M.UETW = 0
-																		return
-																	else
-																		new /obj/items/DoorKey(M)
-																		M << "You have received a Skeleton Door Key."
-																		M.UEB = 0
-																		M.UETW = 0
-																		return
-																else
-																	a:locked = 0
-																	a:unlocked = 1
-																	M.UEB = 0
-																	M.UETW = 0
-																	return
 															return call(/proc/buildlevel)()
 														else
 															M.UEB = 0
 															M.UETW = 0
-															M << "You lack the effort (Energy: [M.energy])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
 													else
 														M.UEB = 0
 														M.UETW = 0
-														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Ingots])"
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
 														return
 												if("West")
 													var/obj/items/Mortar/J = locate() in M.contents
 													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
-													var/obj/items/Ingots/ironbar/J3 = locate() in M.contents
-													var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
-													var/Stone = "4 Bricks"
-													var/Ingots = "3 Iron Ingot"
-													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 3)&&(M.energy >= 55))
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Stone = "4 Piles of Bricks"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy >= 35))
 														for(J in M.contents) J.RemoveFromStack(1)
 														for(J2 in M.contents) J2.RemoveFromStack(4)
-														for(J3 in M.contents) J3.RemoveFromStack(3)
 														M.UETW = 1
-														if(M.energy >= 55)//content
-															M.energy -= 55
+														if(M.energy >= 35)//content
+															M.energy -= 35
 															M.updateEN()
-															M.buildexp += 40
-															a = new/obj/Buildable/Doors/SLeftDoor(usr.loc)
-															a:buildingowner = "[usr.key]"
+															M.buildexp += 25
+															a = new/obj/Buildable/HouseWalls/sh6(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															M.UETW = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+														return
+
+											if("Window") switch(input("Select Window Section (N^,Sv,E>,W<)","Stone House Window Section")in list("North", "South","East","West"))
+												if("North")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Stone = "2 Piles of Bricks"
+													var/Planks = "4 Pole"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 45))
+														for(J in M.contents) J.RemoveFromStack(1)
+														for(J2 in M.contents) J2.RemoveFromStack(2)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														M.UETW = 1
+														if(M.energy >= 45)//content
+															M.energy -= 45
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/HouseWalls/shwt(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															M.UETW = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
+														return
+												if("South")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Stone = "2 Piles of Bricks"
+													var/Planks = "4 Pole"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 45))
+														for(J in M.contents) J.RemoveFromStack(1)
+														for(J2 in M.contents) J2.RemoveFromStack(2)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														M.UETW = 1
+														if(M.energy >= 45)//content
+															M.energy -= 45
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/HouseWalls/shwf(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															M.UETW = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
+														return
+												if("East")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Stone = "2 Piles of Bricks"
+													var/Planks = "4 Pole"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 45))
+														for(J in M.contents) J.RemoveFromStack(1)
+														for(J2 in M.contents) J2.RemoveFromStack(2)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														M.UETW = 1
+														if(M.energy >= 45)//content
+															M.energy -= 45
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/HouseWalls/shwr(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															M.UETW = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
+														return
+												if("West")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Stone = "2 Piles of Bricks"
+													var/Planks = "4 Pole"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 4)&&(M.energy >= 45))
+														for(J in M.contents) J.RemoveFromStack(1)
+														for(J2 in M.contents) J2.RemoveFromStack(2)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														M.UETW = 1
+														if(M.energy >= 45)//content
+															M.energy -= 45
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/HouseWalls/shwl(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															M.UETW = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
+														return
+											if("Door") switch(input("Select Section (N^,Sv,E>,W<)","Stone House Door Section")in list("North", "South","East","West"))
+												if("North")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Mortar = "2 Mortar" //Building Material Type
+													var/Stone = "2 Piles of Bricks"
+													var/Planks = "5 Poles"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 5)&&(M.energy >= 45))
+														for(J in M.contents) J.RemoveFromStack(2)
+														for(J2 in M.contents) J2.RemoveFromStack(2)
+														for(J3 in M.contents) J3.RemoveFromStack(5)
+														M.UETW = 1
+														if(M.energy >= 45)//content
+															M.energy -= 45
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/Doors/SHTopDoor(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
 															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
@@ -4468,13 +3217,1312 @@ mob/players
 														else
 															M.UEB = 0
 															M.UETW = 0
-															M << "You lack the effort (Energy: [M.energy])"
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
+														return
+												if("South")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Mortar = "2 Mortar" //Building Material Type
+													var/Stone = "2 Piles of Bricks"
+													var/Planks = "5 Poles"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 5)&&(M.energy >= 45))
+														for(J in M.contents) J.RemoveFromStack(2)
+														for(J2 in M.contents) J2.RemoveFromStack(2)
+														for(J3 in M.contents) J3.RemoveFromStack(5)
+														M.UETW = 1
+														if(M.energy >= 45)//content
+															M.energy -= 45
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/Doors/SHDoor(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															M.UETW = 0
+															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																if("Yes")
+																	a:unlocked = 0
+																	a:locked = 1
+																	var/obj/items/DoorKey/K = locate() in M.contents
+																	if(K in M.contents)
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																	else
+																		new /obj/items/DoorKey(M)
+																		M << "You have received a Skeleton Door Key."
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																else
+																	a:locked = 0
+																	a:unlocked = 1
+																	M.UEB = 0
+																	M.UETW = 0
+																	return
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
 															return
 													else
 														M.UEB = 0
 														M.UETW = 0
-														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Ingots])"
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
 														return
+												if("East")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Mortar = "2 Mortar" //Building Material Type
+													var/Stone = "2 Piles of Bricks"
+													var/Planks = "5 Poles"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 5)&&(M.energy >= 45))
+														for(J in M.contents) J.RemoveFromStack(2)
+														for(J2 in M.contents) J2.RemoveFromStack(2)
+														for(J3 in M.contents) J3.RemoveFromStack(5)
+														M.UETW = 1
+														if(M.energy >= 45)//content
+															M.energy -= 45
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/Doors/SHRightDoor(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															M.UETW = 0
+															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																if("Yes")
+																	a:unlocked = 0
+																	a:locked = 1
+																	var/obj/items/DoorKey/K = locate() in M.contents
+																	if(K in M.contents)
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																	else
+																		new /obj/items/DoorKey(M)
+																		M << "You have received a Skeleton Door Key."
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																else
+																	a:locked = 0
+																	a:unlocked = 1
+																	M.UEB = 0
+																	M.UETW = 0
+																	return
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
+														return
+												if("West")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Pole/J3 = locate() in M.contents
+													var/Mortar = "2 Mortar" //Building Material Type
+													var/Stone = "2 Piles of Bricks"
+													var/Planks = "5 Poles"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 2)&&(J2.stack_amount >= 2)&&(J3.stack_amount >= 5)&&(M.energy >= 45))
+														for(J in M.contents) J.RemoveFromStack(2)
+														for(J2 in M.contents) J2.RemoveFromStack(2)
+														for(J3 in M.contents) J3.RemoveFromStack(5)
+														M.UETW = 1
+														if(M.energy >= 45)//content
+															M.energy -= 45
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/Doors/SHLeftDoor(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															M.UEB = 0
+															M.UETW = 0
+															switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																if("Yes")
+																	a:unlocked = 0
+																	a:locked = 1
+																	var/obj/items/DoorKey/K = locate() in M.contents
+																	if(K in M.contents)
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																	else
+																		new /obj/items/DoorKey(M)
+																		M << "You have received a Skeleton Door Key."
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																else
+																	a:locked = 0
+																	a:unlocked = 1
+																	M.UEB = 0
+																	M.UETW = 0
+																	return
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Planks] and [Stone])"
+														return
+											if("Roof") switch(input("Select Section (N^,Sv,E>,W<)","Stone House Wall Section")in list("North/South", "East/West"))
+												if("North/South")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J3 = locate() in M.contents
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Planks = "4 Poles"
+													var/Ore = "4 Piles of Bricks"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 4)&&(M.energy >= 55))
+														for(J in M.contents) J.RemoveFromStack(1)
+														for(J2 in M.contents) J2.RemoveFromStack(4)
+														for(J3 in M.contents) J3.RemoveFromStack(4)
+														M.UETW = 1
+														if(M.energy >= 55)//content
+															M.energy -= 55
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/Roofing/HINTRoof(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															a:dir = NORTH
+															//a:plane = MOB_LAYER+1
+															M.UEB = 0
+															M.UETW = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Planks])"
+														return
+												if("East/West")
+													var/obj/items/Mortar/J = locate() in M.contents
+													var/obj/items/Crafting/Created/UeikBoard/J2 = locate() in M.contents
+													var/obj/items/Crafting/Created/Bricks/J3 = locate() in M.contents
+													var/Mortar = "1 Mortar" //Building Material Type
+													var/Planks = "4 Poles"
+													var/Ore = "4 Piles of Bricks"
+													if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 4)&&(M.energy >= 55))
+														for(J in M.contents) J.RemoveFromStack(1)
+														for(J2 in M.contents) J2.RemoveFromStack(4)
+														for(J3 in M.contents) J2.RemoveFromStack(4)
+														M.UETW = 1
+														if(M.energy >= 55)//content
+															M.energy -= 55
+															M.updateEN()
+															M.buildexp += 35
+															a = new/obj/Buildable/Roofing/HINTRoof(usr.loc)
+															a:buildingowner = ckeyEx("[usr.key]")
+															a:dir = EAST
+															//a:plane = MOB_LAYER+1
+															M.UEB = 0
+															M.UETW = 0
+															return call(/proc/buildlevel)()
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+															return
+													else
+														M.UEB = 0
+														M.UETW = 0
+														M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Ore] and [Planks])"
+														return
+						//stone house ^
+							//wood fort   v
+
+									if("Fort")
+										FORT
+										switch(input("Select Material Type","Fort Materials") as anything in L0)//in list("Wood"),"Stone") L0wood build material selection
+											if("Cancel")
+												M<<"You Cancel Selection..."
+												Busy = 0
+												M.UEB = 0
+												return
+											if("Back") goto BUILD
+											if("Wood")
+												WOODFORT
+												switch(input("Select Section Type","Wooden Fort Walls") as anything in L1)//list("Exterior Wall","Door"),"Interior Wall") L1
+													if("Cancel")
+														M<<"You Cancel Selection..."
+														Busy = 0
+														M.UEB = 0
+														return
+													if("Back") goto FORT
+												if("Interior") switch(input("Select Interior Section Type","Wooden Fort Interior Walls")in L8)//list("Wooden Fort North 3-Way Wall","Wooden Fort South 3-Way Wall","Wooden Fort Central 4-Way Wall","Wooden Fort North-South Mid-Section Wall","Wooden Fort East-West Mid-Section Wall"))
+													if("Cancel")
+														M<<"You Cancel Selection..."
+														Busy = 0
+														M.UEB = 0
+														return
+													if("Back") goto WOODFORT
+													if("Wooden Fort Mid-Section Wall") switch(input("Select Wood Mid-Section Direction (N^/Sv,E>/W<)","Wooden Fort Mid-Wall Direction")in list("North/South","East/West"))
+														if("North/South")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "3 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
+															if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(3)
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 20
+																	a = new/obj/Buildable/Walls/MIDnswall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+														if("East/West")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "3 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
+															if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(3)
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 20
+																	a = new/obj/Buildable/Walls/MIDwewall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+													if("Wooden Fort 3-Way Wall") switch(input("Select Wood 3-Way Direction (N^,Sv)","Wooden Fort 3-Way Direction")in list("North","South"))
+														if("North")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "3 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
+															if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 35))
+																for(J in M.contents) J.RemoveFromStack(3)
+																if(M.energy >= 35)//content
+																	M.energy -= 35
+																	M.updateEN()
+																	M.buildexp += 30
+																	a = new/obj/Buildable/Walls/N3Wwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+														if("South")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "3 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
+															if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 35))
+																for(J in M.contents) J.RemoveFromStack(3)
+																if(M.energy >= 35)//content
+																	M.energy -= 35
+																	M.updateEN()
+																	M.buildexp += 30
+																	a = new/obj/Buildable/Walls/S3Wwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+													if("Wooden Fort Central 4-Way Wall")
+														var/obj/items/Logs/UeikLog/J = locate() in M.contents
+														var/Wood = "4 Ueik Log" //Building Material Type Walls/N3Wwall Walls/S3Wwall Walls/C4Wwall Walls/MIDnswall Walls/MIDwewall
+														if((J in M.contents)&&(J.stack_amount >= 4)&&(M.energy >= 45))
+															for(J in M.contents) J.RemoveFromStack(4)
+															if(M.energy >= 45)//content
+																M.energy -= 45
+																M.updateEN()
+																M.buildexp += 35
+																a = new/obj/Buildable/Walls/C4Wwall(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+															return
+												if("Door") switch(input("Select Door Direction (N^,Sv,E>,W<)","Wooden Fort Door Direction")in list("North","South","East","West"))
+													if("North")
+														var/obj/items/Logs/UeikLog/J = locate() in M.contents
+														var/obj/items/Ingots/ironbar/J2 = locate() in M.contents
+														var/Wood = "5 Ueik Log" //Building Material Type Doors/TopDoor Doors/Door Doors/LeftDoor Doors/RightDoor
+														var/Ingots = "2 Iron Ingot"
+														if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 2)&&(M.energy >= 55))
+															for(J in M.contents) J.RemoveFromStack(3)
+															for(J2 in M.contents) J2.RemoveFromStack(3)
+															if(M.energy >= 55)//content
+																M.energy -= 55
+																M.updateEN()
+																M.buildexp += 40
+																a = new/obj/Buildable/Doors/TopDoor(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																	if("Yes")
+																		a:unlocked = 0
+																		a:locked = 1
+																		var/obj/items/DoorKey/K = locate() in M.contents
+																		if(K in M.contents)
+																			M.UEB = 0
+																			return
+																		else
+																			new /obj/items/DoorKey(M)
+																			M << "You have received a Skeleton Door Key."
+																			M.UEB = 0
+																			return
+																	else
+																		a:locked = 0
+																		a:unlocked = 1
+																		M.UEB = 0
+																		return
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Ingots])"
+															return
+													if("South")
+														var/obj/items/Logs/UeikLog/J = locate() in M.contents
+														var/obj/items/Ingots/ironbar/J2 = locate() in M.contents
+														var/Wood = "5 Ueik Log" //Building Material Type Doors/TopDoor Doors/Door Doors/LeftDoor Doors/RightDoor
+														var/Ingots = "2 Iron Ingot"
+														if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 2)&&(M.energy >= 55))
+															for(J in M.contents) J.RemoveFromStack(3)
+															for(J2 in M.contents) J2.RemoveFromStack(3)
+															if(M.energy >= 55)//content
+																M.energy -= 55
+																M.updateEN()
+																M.buildexp += 40
+																a = new/obj/Buildable/Doors/Door(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																	if("Yes")
+																		a:unlocked = 0
+																		a:locked = 1
+																		var/obj/items/DoorKey/K = locate() in M.contents
+																		if(K in M.contents)
+																			M.UEB = 0
+																			return
+																		else
+																			new /obj/items/DoorKey(M)
+																			M << "You have received a Skeleton Door Key."
+																			M.UEB = 0
+																			return
+																	else
+																		a:locked = 0
+																		a:unlocked = 1
+																		M.UEB = 0
+																		return
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Ingots])"
+															return
+													if("East")
+														var/obj/items/Logs/UeikLog/J = locate() in M.contents
+														var/obj/items/Ingots/ironbar/J2 = locate() in M.contents
+														var/Wood = "5 Ueik Log" //Building Material Type Doors/TopDoor Doors/Door Doors/LeftDoor Doors/RightDoor
+														var/Ingots = "2 Iron Ingot"
+														if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 2)&&(M.energy >= 55))
+															for(J in M.contents) J.RemoveFromStack(3)
+															for(J2 in M.contents) J2.RemoveFromStack(3)
+															if(M.energy >= 55)//content
+																M.energy -= 55
+																M.updateEN()
+																M.buildexp += 40
+																a = new/obj/Buildable/Doors/LeftDoor(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																	if("Yes")
+																		a:unlocked = 0
+																		a:locked = 1
+																		var/obj/items/DoorKey/K = locate() in M.contents
+																		if(K in M.contents)
+																			M.UEB = 0
+																			return
+																		else
+																			new /obj/items/DoorKey(M)
+																			M << "You have received a Skeleton Door Key."
+																			M.UEB = 0
+																			return
+																	else
+																		a:locked = 0
+																		a:unlocked = 1
+																		M.UEB = 0
+																		return
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Ingots])"
+															return
+													if("West")
+														var/obj/items/Logs/UeikLog/J = locate() in M.contents
+														var/obj/items/Ingots/ironbar/J2 = locate() in M.contents
+														var/Wood = "5 Ueik Log" //Building Material Type Doors/TopDoor Doors/Door Doors/LeftDoor Doors/RightDoor
+														var/Ingots = "2 Iron Ingot"
+														if((J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 5)&&(J2.stack_amount >= 2)&&(M.energy >= 55))
+															for(J in M.contents) J.RemoveFromStack(3)
+															for(J2 in M.contents) J2.RemoveFromStack(3)
+															if(M.energy >= 55)//content
+																M.energy -= 55
+																M.updateEN()
+																M.buildexp += 40
+																a = new/obj/Buildable/Doors/RightDoor(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																	if("Yes")
+																		a:unlocked = 0
+																		a:locked = 1
+																		var/obj/items/DoorKey/K = locate() in M.contents
+																		if(K in M.contents)
+																			M.UEB = 0
+																			return
+																		else
+																			new /obj/items/DoorKey(M)
+																			M << "You have received a Skeleton Door Key."
+																			M.UEB = 0
+																			return
+																	else
+																		a:locked = 0
+																		a:unlocked = 1
+																		M.UEB = 0
+																		return
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M << "You lack the effort (Energy: [M.energy]) or the material...([Wood] and [Ingots])"
+															return
+
+		//wood fort exterior wall build selection list							do these need cancel and back options added or are they already present?
+												if("Exterior") switch(input("Select Section Type: Wall or Corner","Wooden Fort Exterior Walls")in list("Wooden Fort Wall","Wooden Fort Corner"))//"Wooden Fort North Wall","Wooden Fort South Wall","Wooden Fort East Wall","Wooden Fort West Wall","Wooden Fort NW Corner","Wooden Fort NE Corner","Wooden Fort SW Corner","Wooden Fort SE Corner")
+													//if(bfww == "")
+													if("Cancel")
+														M<<"You Cancel Selection..."
+														Busy = 0
+														M.UEB = 0
+														return
+														//wood fort wall selection
+													if("Back") goto WOODFORT
+													if("Wooden Fort Wall") switch(input("Select Section Direction (N^,Sv,E>,W<)","Wooden Fort Wall Direction")in list("North","South","East","West"))
+														if("North")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "1 Ueik Log" //Building Material Type
+															if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 15))
+																for(J in M.contents) J.RemoveFromStack(1)
+																if(M.energy >= 15)//content
+																	M.energy -= 15
+																	M.updateEN()
+																	M.buildexp += 5
+																	a = new/obj/Buildable/Walls/nwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+														if("South")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "1 Ueik Log" //Building Material Type
+															if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 15))
+																for(J in M.contents) J.RemoveFromStack(1)
+																if(M.energy >= 15)//content
+																	M.energy -= 15
+																	M.updateEN()
+																	M.buildexp += 5
+																	a = new/obj/Buildable/Walls/swall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+														if("East")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "1 Ueik Log" //Building Material Type
+															if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 15))
+																for(J in M.contents) J.RemoveFromStack(1)
+																if(M.energy >= 15)//content
+																	M.energy -= 15
+																	M.updateEN()
+																	M.buildexp += 5
+																	a = new/obj/Buildable/Walls/ewall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+														if("West")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "1 Ueik Log" //Building Material Type
+															if((J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 15))
+																for(J in M.contents) J.RemoveFromStack(1)
+																if(M.energy >= 15)//content
+																	M.energy -= 15
+																	M.updateEN()
+																	M.buildexp += 5
+																	a = new/obj/Buildable/Walls/wall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+													if("Wooden Fort Corner") switch(input("Select Section Direction (NW,NE,SW,SE)","Wooden Fort Corner Direction")in list("Northwest","Northeast","Southwest","Southeast"))
+														if("Northwest")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "3 Ueik Log" //Building Material Type
+															if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(3)
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 20
+																	a = new/obj/Buildable/Walls/nwwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+														if("Northeast")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "3 Ueik Log" //Building Material Type
+															if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(3)
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 20
+																	a = new/obj/Buildable/Walls/newall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+														if("Southwest")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "3 Ueik Log" //Building Material Type
+															if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(3)
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 20
+																	a = new/obj/Buildable/Walls/swwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+														if("Southeast")
+															var/obj/items/Logs/UeikLog/J = locate() in M.contents
+															var/Wood = "3 Ueik Log" //Building Material Type
+															if((J in M.contents)&&(J.stack_amount >= 3)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(3)
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 20
+																	a = new/obj/Buildable/Walls/sewall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M << "You lack the effort (Energy: [M.energy]) or the material...([Wood])"
+																return
+										if("Stone")
+											STONEFORT
+											switch(input("Select Section Type","Stone Fort Walls") as anything in L2)
+											//Stone fort exterior wall build selection list
+												if("Cancel")
+													M<<"You Cancel Selection..."
+													Busy = 0
+													M.UEB = 0
+													M.UETW = 0
+													return
+												if("Back") goto FORT
+												if("Exterior") switch(input("Select Section Type: Wall or Corner","Stone Fort Exterior Walls")in list("Stone Fort Wall","Stone Fort Corner"))//"Wooden Fort North Wall","Wooden Fort South Wall","Wooden Fort East Wall","Wooden Fort West Wall","Wooden Fort NW Corner","Wooden Fort NE Corner","Wooden Fort SW Corner","Wooden Fort SE Corner")
+													if("Cancel")
+														M<<"You Cancel Selection..."
+														Busy = 0
+														M.UEB = 0
+														M.UETW = 0
+														return
+													if("Back") goto STONEFORT
+													if("Stone Fort Wall") switch(input("Select Section Direction (N^,Sv,E>,W<)","Stone Fort Wall Direction")in list("North","South","East","West"))
+														if("North")
+															var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
+															var/Stone = "1 Brick" //Building Material Type
+															if((M.TWequipped==1)&&(J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 25))
+																for(J in M.contents)J.RemoveFromStack(1)
+																M.UETW = 1
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 15
+																	a = new/obj/Buildable/Walls/Snwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Stone])"
+																return
+														if("South")
+															var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
+															var/Stone = "1 Brick" //Building Material Type
+															if((M.TWequipped==1)&&(J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(1)
+																M.UETW = 1
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 15
+																	a = new/obj/Buildable/Walls/Sswall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Stone])"
+																return
+														if("East")
+															var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
+															var/Stone = "1 Brick" //Building Material Type
+															if((M.TWequipped==1)&&(J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(1)
+																M.UETW = 1
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 15
+																	a = new/obj/Buildable/Walls/Sewall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Stone])"
+																return
+														if("West")
+															var/obj/items/Crafting/Created/Bricks/J = locate() in M.contents
+															var/Stone = "1 Brick" //Building Material Type
+															if((M.TWequipped==1)&&(J in M.contents)&&(J.stack_amount >= 1)&&(M.energy >= 25))
+																for(J in M.contents) J.RemoveFromStack(1)
+																M.UETW = 1
+																if(M.energy >= 25)//content
+																	M.energy -= 25
+																	M.updateEN()
+																	M.buildexp += 15
+																	a = new/obj/Buildable/Walls/Swall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Stone])"
+																return
+													if("Stone Fort Corner") switch(input("Select Section Direction (NW,NE,SW,SE)","Stone Fort Corner Direction")in list("Northwest","Northeast","Southwest","Southeast"))
+														if("Northwest")
+															var/obj/items/Mortar/J = locate() in M.contents
+															var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+															var/Mortar = "1 Mortar" //Building Material Type Walls/Snwwall Walls/Snewall Walls/Sswwall Walls/Ssewall
+															var/Stone = "2 Piles of Bricks"
+															if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
+																for(J in M.contents) J.RemoveFromStack(1)
+																for(J2 in M.contents) J2.RemoveFromStack(3)
+																M.UETW = 1
+																if(M.energy >= 50)//content
+																	M.energy -= 50
+																	M.updateEN()
+																	M.buildexp += 50
+																	a = new/obj/Buildable/Walls/Snwwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+																return
+														if("Northeast")
+															var/obj/items/Mortar/J = locate() in M.contents
+															var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+															var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+															var/Stone = "2 Piles of Bricks"
+															if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
+																for(J in M.contents) J.RemoveFromStack(1)
+																for(J2 in M.contents) J2.RemoveFromStack(3)
+																M.UETW = 1
+																if(M.energy >= 50)//content
+																	M.energy -= 50
+																	M.updateEN()
+																	M.buildexp += 50
+																	a = new/obj/Buildable/Walls/Snewall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+																return
+														if("Southwest")
+															var/obj/items/Mortar/J = locate() in M.contents
+															var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+															var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+															var/Stone = "2 Piles of Bricks"
+															if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
+																for(J in M.contents) J.RemoveFromStack(1)
+																for(J2 in M.contents) J2.RemoveFromStack(3)
+																M.UETW = 1
+																if(M.energy >= 50)//content
+																	M.energy -= 50
+																	M.updateEN()
+																	M.buildexp += 50
+																	a = new/obj/Buildable/Walls/Sswwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+																return
+														if("Southeast")
+															var/obj/items/Mortar/J = locate() in M.contents
+															var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+															var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+															var/Stone = "2 Piles of Bricks"
+															if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
+																for(J in M.contents) J.RemoveFromStack(1)
+																for(J2 in M.contents) J2.RemoveFromStack(3)
+																M.UETW = 1
+																if(M.energy >= 50)//content
+																	M.energy -= 50
+																	M.updateEN()
+																	M.buildexp += 50
+																	a = new/obj/Buildable/Walls/Ssewall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+																return
+		//Stone fort wall selection
+												if("Interior") switch(input("Select Interior Section Type","Stone Fort Interior Walls")in L9)//list("Wooden Fort North 3-Way Wall","Wooden Fort South 3-Way Wall","Wooden Fort Central 4-Way Wall","Wooden Fort North-South Mid-Section Wall","Wooden Fort East-West Mid-Section Wall"))
+													if("Cancel")
+														M<<"You Cancel Selection..."
+														Busy = 0
+														M.UEB = 0
+														M.UETW = 0
+														return
+													if("Back") goto STONEFORT
+													if("Stone Fort Mid-Section Wall") switch(input("Select Stone Mid-Section Direction (N^/Sv,E>/W<)","Stone Fort Mid-Wall Direction")in list("North/South","South/East"))
+														if("North/South")
+															var/obj/items/Mortar/J = locate() in M.contents
+															var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+															var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+															var/Stone = "2 Piles of Bricks"
+															if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
+																for(J in M.contents) J.RemoveFromStack(1)
+																for(J2 in M.contents) J2.RemoveFromStack(3)
+																M.UETW = 1
+																if(M.energy >= 50)//content
+																	M.energy -= 50
+																	M.updateEN()
+																	M.buildexp += 50
+																	a = new/obj/Buildable/Walls/SMIDnswall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+																return
+														if("East/West")
+															var/obj/items/Mortar/J = locate() in M.contents
+															var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+															var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+															var/Stone = "2 Piles of Bricks"
+															if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 50))
+																for(J in M.contents) J.RemoveFromStack(1)
+																for(J2 in M.contents) J2.RemoveFromStack(3)
+																M.UETW = 1
+																if(M.energy >= 50)//content
+																	M.energy -= 50
+																	M.updateEN()
+																	M.buildexp += 50
+																	a = new/obj/Buildable/Walls/SMIDwewall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+																return
+													if("Stone Fort 3-Way Wall") switch(input("Select Stone 3-Way Direction (N^,Sv)","Stone Fort 3-Way Direction")in list("North","South"))
+														if("North")
+															var/obj/items/Mortar/J = locate() in M.contents
+															var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+															var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+															var/Stone = "2 Piles of Bricks"
+															if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 35))
+																for(J in M.contents) J.RemoveFromStack(1)
+																for(J2 in M.contents) J2.RemoveFromStack(3)
+																M.UETW = 1
+																if(M.energy >= 35)//content
+																	M.energy -= 35
+																	M.updateEN()
+																	M.buildexp += 30
+																	a = new/obj/Buildable/Walls/SN3Wwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+																return
+														if("South")
+															var/obj/items/Mortar/J = locate() in M.contents
+															var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+															var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+															var/Stone = "2 Piles of Bricks"
+															if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 3)&&(M.energy > 35))
+																for(J in M.contents) J.RemoveFromStack(1)
+																for(J2 in M.contents) J2.RemoveFromStack(3)
+																M.UETW = 1
+																if(M.energy >= 35)//content
+																	M.energy -= 35
+																	M.updateEN()
+																	M.buildexp += 30
+																	a = new/obj/Buildable/Walls/SS3Wwall(usr.loc)
+																	a:buildingowner = ckeyEx("[usr.key]")
+																	M.UEB = 0
+																	M.UETW = 0
+																	return call(/proc/buildlevel)()
+																else
+																	M.UEB = 0
+																	M.UETW = 0
+																	M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																	return
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+																return
+													if("Stone Fort Central 4-Way Wall")
+														var/obj/items/Mortar/J = locate() in M.contents
+														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+														var/Stone = "4 Piles of Bricks"
+														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(M.energy > 65))
+															for(J in M.contents) J.RemoveFromStack(1)
+															for(J2 in M.contents) J2.RemoveFromStack(4)
+															M.UETW = 1
+															if(M.energy >= 65)//content
+																M.energy -= 65
+																M.updateEN()
+																M.buildexp += 50
+																a = new/obj/Buildable/Walls/SC4Wwall(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																M.UETW = 0
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar] and [Stone])"
+															return
+												if("Door") switch(input("Select Door Direction (N^,Sv,E>,W<)","Stone Fort Door Direction")in list("North","South","East","West"))
+													if("North")
+														var/obj/items/Mortar/J = locate() in M.contents
+														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+														var/obj/items/Ingots/ironbar/J3 = locate() in M.contents
+														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+														var/Stone = "4 Piles of Bricks"
+														var/Ingots = "3 Iron Ingot"
+														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 3)&&(M.energy >= 55))
+															for(J in M.contents) J.RemoveFromStack(1)
+															for(J2 in M.contents) J2.RemoveFromStack(4)
+															for(J3 in M.contents) J3.RemoveFromStack(3)
+															M.UETW = 1
+															if(M.energy >= 55)//content
+																M.energy -= 55
+																M.updateEN()
+																M.buildexp += 40
+																a = new/obj/Buildable/Doors/STopDoor(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																M.UETW = 0
+																switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																	if("Yes")
+																		a:unlocked = 0
+																		a:locked = 1
+																		var/obj/items/DoorKey/K = locate() in M.contents
+																		if(K in M.contents)
+																			M.UEB = 0
+																			M.UETW = 0
+																			return
+																		else
+																			new /obj/items/DoorKey(M)
+																			M << "You have received a Skeleton Door Key."
+																			M.UEB = 0
+																			M.UETW = 0
+																			return
+																	else
+																		a:locked = 0
+																		a:unlocked = 1
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Ingots])"
+															return
+													if("South")
+														var/obj/items/Mortar/J = locate() in M.contents
+														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+														var/obj/items/Ingots/ironbar/J3 = locate() in M.contents
+														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+														var/Stone = "4 Piles of Bricks"
+														var/Ingots = "3 Iron Ingot"
+														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 3)&&(M.energy >= 55))
+															for(J in M.contents) J.RemoveFromStack(1)
+															for(J2 in M.contents) J2.RemoveFromStack(4)
+															for(J3 in M.contents) J3.RemoveFromStack(3)
+															M.UETW = 1
+															if(M.energy >= 55)//content
+																M.energy -= 55
+																M.updateEN()
+																M.buildexp += 40
+																a = new/obj/Buildable/Doors/SDoor(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																M.UETW = 0
+																switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																	if("Yes")
+																		a:unlocked = 0
+																		a:locked = 1
+																		var/obj/items/DoorKey/K = locate() in M.contents
+																		if(K in M.contents)
+																			M.UEB = 0
+																			M.UETW = 0
+																			return
+																		else
+																			new /obj/items/DoorKey(M)
+																			M << "You have received a Skeleton Door Key."
+																			M.UEB = 0
+																			M.UETW = 0
+																			return
+																	else
+																		a:locked = 0
+																		a:unlocked = 1
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Ingots])"
+															return
+													if("East")
+														var/obj/items/Mortar/J = locate() in M.contents
+														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+														var/obj/items/Ingots/ironbar/J3 = locate() in M.contents
+														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+														var/Stone = "4 Piles of Bricks"
+														var/Ingots = "3 Iron Ingot"
+														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 3)&&(M.energy >= 55))
+															for(J in M.contents) J.RemoveFromStack(1)
+															for(J2 in M.contents) J2.RemoveFromStack(4)
+															for(J3 in M.contents) J3.RemoveFromStack(3)
+															M.UETW = 1
+															if(M.energy >= 55)//content
+																M.energy -= 55
+																M.updateEN()
+																M.buildexp += 40
+																a = new/obj/Buildable/Doors/SRightDoor(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																M.UETW = 0
+																switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																	if("Yes")
+																		a:unlocked = 0
+																		a:locked = 1
+																		var/obj/items/DoorKey/K = locate() in M.contents
+																		if(K in M.contents)
+																			M.UEB = 0
+																			M.UETW = 0
+																			return
+																		else
+																			new /obj/items/DoorKey(M)
+																			M << "You have received a Skeleton Door Key."
+																			M.UEB = 0
+																			M.UETW = 0
+																			return
+																	else
+																		a:locked = 0
+																		a:unlocked = 1
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Ingots])"
+															return
+													if("West")
+														var/obj/items/Mortar/J = locate() in M.contents
+														var/obj/items/Crafting/Created/Bricks/J2 = locate() in M.contents
+														var/obj/items/Ingots/ironbar/J3 = locate() in M.contents
+														var/Mortar = "1 Mortar" //Building Material Type Walls/SN3Wwall Walls/SS3Wwall Walls/SC4Wwall Walls/SMIDnswall Walls/SMIDwewall
+														var/Stone = "4 Piles of Bricks"
+														var/Ingots = "3 Iron Ingot"
+														if((M.TWequipped==1)&&(J in M.contents)&&(J2 in M.contents)&&(J3 in M.contents)&&(J.stack_amount >= 1)&&(J2.stack_amount >= 4)&&(J3.stack_amount >= 3)&&(M.energy >= 55))
+															for(J in M.contents) J.RemoveFromStack(1)
+															for(J2 in M.contents) J2.RemoveFromStack(4)
+															for(J3 in M.contents) J3.RemoveFromStack(3)
+															M.UETW = 1
+															if(M.energy >= 55)//content
+																M.energy -= 55
+																M.updateEN()
+																M.buildexp += 40
+																a = new/obj/Buildable/Doors/SLeftDoor(usr.loc)
+																a:buildingowner = ckeyEx("[usr.key]")
+																M.UEB = 0
+																M.UETW = 0
+																switch(alert(usr,"Would you like to Lock the [src.name]?","[src.name] Keymaker","Yes","No"))
+																	if("Yes")
+																		a:unlocked = 0
+																		a:locked = 1
+																		var/obj/items/DoorKey/K = locate() in M.contents
+																		if(K in M.contents)
+																			M.UEB = 0
+																			M.UETW = 0
+																			return
+																		else
+																			new /obj/items/DoorKey(M)
+																			M << "You have received a Skeleton Door Key."
+																			M.UEB = 0
+																			M.UETW = 0
+																			return
+																	else
+																		a:locked = 0
+																		a:unlocked = 1
+																		M.UEB = 0
+																		M.UETW = 0
+																		return
+																return call(/proc/buildlevel)()
+															else
+																M.UEB = 0
+																M.UETW = 0
+																M << "You lack the effort, replenish your stamina by hydrating. (Energy: [M.energy])"
+																return
+														else
+															M.UEB = 0
+															M.UETW = 0
+															M << "You need a Trowel equipped or lack the effort (Energy: [M.energy]) or the material...([Mortar], [Stone] and [Ingots])"
+															return
 
 /*proc/checkdlevel(var/mob/players/M) // can i level?
 	if (M.digexp >= M.mdigexp) GaindLevel(M)
@@ -4673,10 +4721,15 @@ proc
 
 
 		if((M.drank == 10)&&(M.digexp >= 7350))
-			M.drank += 1
+			//M.drank += 1
 			//M.mdigexp == 595
+			M.mdigexp = M.digexp
 			M << "<b><font color=silver>You've reached max Digging Rank!"
 			//dig = list("Dirt","Grass","Dirt Road","Dirt Road Corner","Brick Road","Brick Road Corner","Ditch","Hill","Water","Lava")
+		else
+			if(M.drank >= 10)
+				//M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
+				M.drank = 10
 	..()
 
 proc
@@ -4710,7 +4763,7 @@ proc
 				L2 = list("Exterior","Door","Cancel","Back")
 				L3 = list("Wood","Cancel","Back")
 				L4 = list("Barricade","Sundial","Cancel","Back")
-				L5 = list("Chair","Anvil","Cancel","Back")
+				L5 = list("Chair","Forge","Cancel","Back")
 				L6 = list("Foundation","Floor","Wall","Window","Door","Roof","Cancel","Back")
 				L7 = list("Foundation","Floor","Wall","Window","Door","Roof","Cancel","Back")
 				//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank])...!"
@@ -4861,7 +4914,7 @@ proc
 												//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank])...!"
 												return
 											//return
-											else
+											//else
 												/*if(M.brank == 11)
 													M << "<b><font color=silver>You've reached Max Build Rank!"
 													build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
@@ -4877,10 +4930,10 @@ proc
 													L9 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort interior L9
 													L10 = list("Wood","Iron","Bronze","Copper","Brass")	//lampost type L10
 													return*/
-												if (M.brank>=10)
+												//if (M.brank>=10)
 													//M << "<b><font color=silver>You've reached Max Build Rank!"
-													M.brank = 10
-													return
+													//M.brank = 10
+													//return
 	..()
 
 
@@ -5068,8 +5121,9 @@ proc
 			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv10 Max"
 			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"  //need to fill these out
 			//return
-		//if((M.brank == 10)&&(M.buildexp >= 17550))
+		if((M.brank == 10)&&(M.buildexp >= 17550))
 			//M.brank += 1
+			M.mbuildexp = M.buildexp
 			//M.mbuildexp = 265500
 			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
 			L0 = list("Wood","Stone")	//fort material type selection  L0
@@ -5104,7 +5158,7 @@ proc
 			//L11 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort door L11
 		else
 			if(M.brank >= 10)
-				M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
+				//M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
 				M.brank = 10
 
 			//M << "<b><font color=silver>You've reached Max Build Rank!"
@@ -5115,47 +5169,58 @@ proc
 //endleveling
 
 mob/players/Special1/verb
-	Annihilate(turf/T)
-		if(T.buildingowner == "[usr.key]")
-			switch(alert("Would you like to Annihilate [T]?",,"Yes","No"))
+	Delete_Turf(turf/T)
+		//if(T.buildingowner == "[usr.key]")
+		if(istype(T,/turf))
+			switch(alert("Would you like to remove [T]?",,"Yes","No"))
 				if("Yes")
 					del(T)
 				if("No")
 					usr << "You Spare [T]."
-		else usr << "You are not the building owner! [T.buildingowner]"
-	Obliderate(obj/T)
-		if(T.buildingowner == "[usr.key]")
-			switch(alert("Would you like to Obliderate [T]?",,"Yes","No"))
+		else usr.verbs -= /mob/players/Special1/verb/Delete_Object//usr << "You are not the building owner! [T.buildingowner]"
+	Delete_Object(obj/T)
+		//if(T.buildingowner == "[usr.key]")
+		if(istype(T,/obj))
+			switch(alert("Would you like to remove [T]?",,"Yes","No"))
 				if("Yes")
 					del(T)
 				if("No")
 					usr << "You Spare [T]."
-		else usr << "You are not the building owner! [T.buildingowner]"
-	Sod(var/turf/T in oview(3)) // so does this one
-		if(istype(T,/turf/Ground)) // gotta check to be sure it is the right type of item
+					return
+		else usr.verbs -= /mob/players/Special1/verb/Delete_Object//usr << "You are not the building owner! [T.buildingowner]"
+	Spawn_Grass(var/turf/temperate/T in oview(3)) // so does this one
+		if(istype(T,/turf/temperate)) // gotta check to be sure it is the right type of item
 			del T
 		else usr << "[T] Cannot be terraformed."
 
 	Destroy_Wall(var/obj/O in oview(3)) // so does this one
 		if(istype(O,/obj/Buildable/Walls)) // gotta check to be sure it is the right type of item
 			del O
-		else usr << "Selected: [O] Is not a Wall."
+		else usr.verbs -= /mob/players/Special1/verb/Destroy_Wall//usr << "Selected: [O] Is not a Wall."
+
 mob/players/verb
 	Destroy_Property(obj/T in oview(3)) //fixed?
 		set category=null
-		set popup_menu=1
-		if(usr.key == T.buildingowner)
-			switch(alert("Would you like to Annihilate [T]?",,"Yes","No"))
-				if("Yes")
-					del(T.light)
-					//del(sound)
-					//T.light.off()
-					unlistenSoundmob(T)
-					del(T)
-				if("No")
-					usr << "You Spare [T]."
-		else usr << "You are not the building owner! [T.buildingowner]"
-	SodGrass(var/turf/T in view(1)) // so does this one
+		set popup_menu=0
+		if(istype(T,/obj))
+			if(T.buildingowner==ckeyEx("[usr.key]"))
+
+				switch(alert("Would you like to destroy [T]?",,"Yes","No"))
+					if("Yes")
+						del(T.light)//need to setup proper checks if it actually has a light or sound attached
+						//del(sound)
+						//T.light.off()
+						unlistenSoundmob(T)
+						del(T)
+					if("No")
+						usr << "You Spare [T]."
+						return
+			else
+				usr.verbs -= /mob/players/verb/Destroy_Property
+				//usr << "You are not the building owner! [T.buildingowner]"
+				//return
+		else usr.verbs -= /mob/players/verb/Destroy_Property
+	/*SodGrass(var/turf/T in view(1)) // so does this one
 		set category=null
 		set popup_menu=1
 		if(T.buildingowner == "[usr.key]")
@@ -5164,7 +5229,7 @@ mob/players/verb
 					del(T)
 				if("No")
 					usr << "You Spare [T]."
-		else usr << "You are not the building owner! [T.buildingowner]"
+		else usr << "You are not the building owner! [T.buildingowner]"*/
 	/*Destroy_Owned_Property()
 		var/obj/T = locate()
 		if(T==null)
@@ -5180,7 +5245,7 @@ mob/players/verb
 			//return usr << "You are in the afterlife and cannot presently manipulate physical objects."
 
 obj
-	var/buildingowner = ""
+	//var/buildingowner = ""
 	var/expgive
 	var/HP
 	stat
@@ -5755,7 +5820,7 @@ obj
 				expgive = 35
 		//verb //...
 		//	Destroy() //...
-		//		set category = "Commands"
+		//		//set category = "Commands"
 		//		set src in oview(1) //...
 		//		Destroying(M) //calls the mining proc
 obj
@@ -6234,7 +6299,7 @@ obj
 			expgive = 5
 
 turf
-	var/buildingowner = ""
+	//var/buildingowner = ""
 	UndergroundDitch
 		uditchSN
 			icon = 'dmi/64/build.dmi'

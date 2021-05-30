@@ -8,10 +8,19 @@ var/SeedAmountload=0
 var/VegeAmountload=0
 var/GrainAmountload=0
 var/OreAmountload=0*/
+var
+	SPs
+	MPs
+	SMs
+	SBs
 
 proc
 	TimeSave()
 		var/savefile/F = new("timesave.sav")
+		F["SP"] << SP
+		F["MP"] << MP
+		F["SM"] << SM
+		F["SB"] << SB
 		F["time_of_day"] << time_of_day
 		F["hour"] << hour
 		F["ampm"] << ampm
@@ -40,6 +49,10 @@ proc
 	TimeLoad()
 		if(fexists("timesave.sav"))
 			var/savefile/F = new("timesave.sav")
+			F["SP"] >> SP
+			F["MP"] >> MP
+			F["SM"] >> SM
+			F["SB"] >> SB
 			F["time_of_day"] >> time_of_day
 			F["hour"] >> hour
 			F["ampm"] >> ampm
@@ -79,6 +92,9 @@ proc
 			//X.OreAmount = OreAmountload
 			//X.orestate = orestage
 			//X.Orestateload()
+	//SetMode()
+		//world << "Basecamp login SP [SP] | MP [MP] | SB [SB] | SM [SM] && SPs [SPs] | MPs [MPs] | SBs [SBs] | SMs [SMs]"
+
 	GrowBushes()
 //		bgrowstate = bgrowstage
 		for(var/obj/Plants/X in bushlist)

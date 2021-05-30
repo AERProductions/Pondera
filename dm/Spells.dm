@@ -49,15 +49,15 @@ obj/spells // these are the actual magi icons that get created and moved around
 				// we make the lamps have directional light sources,
 				// the /light/directional object is defined at the
 				// top of this file.
-			//light = new /light/directional(loc, 8)
+			//new /light/directional(loc, 8)
 			//light.dir = SOUTH
-			//light = new /light/circle
+			//new /light/circle
 			//light.mobile = 1
 			// we make the lamps have directional light sources,
 			// the /light/directional object is defined at the
 			// top of this file.
-			//light = new /light/circle(src, 2)
-			//light = new /light/circle(src, 3)
+			//new /light/circle(src, 2)
+			//new /light/circle(src, 3)
 			//light.on = 1
 	icestorm //m
 		icon_state = "icestorm"
@@ -74,7 +74,9 @@ obj/spells // these are the actual magi icons that get created and moved around
 	vitae1 //f
 		icon_state = "vitae1"
 		plane = MOB_LAYER+1
-		light = new /light/circle
+		New()
+			..()
+			new /light/circle(src,2)
 	vitae2 //t
 		icon_state = "vitae2"
 		plane = MOB_LAYER+1
@@ -189,7 +191,7 @@ mob/players
 			//set popup_menu = 1
 			//set category="Spells"//hidden = 1
 			//VitaE2()
-		//abjure(var/M in cities)
+		//abjure(var/M in forts)
 			//set category = "Spells"
 			//set popup_menu = 1
 			//set category="Spells"//hidden = 1
@@ -522,14 +524,14 @@ mob/players/
 		var/mob/players/M
 		var/mob/players/LC
 		LC = usr
-		if (energy < LC.MAXenergy)//+(abjurelevel*2))
+		if (LC.energy < LC.MAXenergy)//+(abjurelevel*2))
 			usr << "Low energy. Need Full energy to revive."
 			return
-		if (energy <= 0)
+		else if (LC.energy <= 0)
 			usr << "Low energy."
 			return
 
-		else // if you have enough energy
+		else if(LC.energy==LC.MAXenergy) // if you have enough energy
 			//find the closest enemy
 
 			var/warpcost = LC.MAXenergy//50-(abjurelevel*2)
@@ -581,7 +583,7 @@ mob/players/
 								spawn(3)
 									usr.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
 								sleep(3) // wait a while
-								M.loc = locate(127,64,2)
+								M.loc = locate(141,132,2)
 										//var/mob/players/A = usr
 								M.location = "Aldoryn"
 								M << "You get another chance..."

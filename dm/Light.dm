@@ -324,7 +324,6 @@ light
 				return cos(30 / radius) * intensity
 			else
 				return 0
-
 	proc
 		// this is a helper proc we use to create directional lights
 		light_dir(atom/a, atom/b)
@@ -496,64 +495,73 @@ obj
 	Buildable
 		Fire
 			density = 1
-			plane = 4
+			plane = 3
 			luminosity = 1
 			icon = 'dmi/64/fire.dmi'
 			icon_state = "emptyfire"
 			name = "Empty Fire"
 			buildingowner = ""
-			var/sleeptime = 0
-			var/soundmob/s
-			var/sound = /obj/snd/sfx/fire3
-			light = /light/circle
-			New()
-				..()
-				//light = new /light/circle(src, 6)
-				//light.on = 0
-				//sound = /snd/sfx/fire3
-					//soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40)
-				//else src << sound(null)
-				//return
-			//DblClick()
+			var/sleeptime = 100//fire needs to be setup so that it can store variables -- Right now the overlays don't load so it needs to be changed to icon states and this sleep time var does store the sleeptime so fires are instant
+			//var/soundmob/s
+			var/f3
+			var/s = /obj/snd/sfx/fire3
+			//var/sound = /obj/snd/sfx/fire3
+			////light = /light/circle
+			proc/QF()
+				if(s == 1)
+					s = /obj/snd/sfx/fire3
+			proc/FindI()
+				for(var/obj/items/Ingots/J)// Ingot
+					locate(J)
+					if(J:Tname=="Cool")
+						return J
+			proc/FindS()
+				for(var/obj/items/Ingots/Scraps/J)// Scraps
+					locate(J)
+					if(J:Tname=="Cool")
+						return J
 			verb/Bake_Jar()
 				set waitfor = 0
-				//set src in oview(1)
+				set src in oview(1)
 				set popup_menu = 1
 				set category = null
 				var/mob/players/M
-				var/obj/items/tools/UnbakedJar/J
-				//var/random/R = rand(1,5) //1 in 5 chance to smith
 				M = usr
+				var/obj/items/tools/Containers/UnbakedJar/J = locate() in M.contents
+				//var/random/R = rand(1,5) //1 in 5 chance to smith
+
 				if(usr.GVequipped==1)
-					if(J in M.contents)
-						input("Bake a Jar?","Bake") in list("Yes","No")
-						if("No")
+					if(J)
+						var/BK = input("Bake a Jar?","Bake") in list("Yes","No")
+						if(BK=="No")
 							return
-						if("Yes")
-							for(J in M.contents)
-								if(J.name=="Unbaked Jar"&&usr.GVequipped==1)
-									M<<"You start to bake the [J.name] on the [src.name]..."
-									//sleep(5)
-									var/dice = "1d8"
-									var/R = roll(dice)
-									if(R>=4)
-										J.RemoveFromStack(1)
-										src.overlays += image('dmi/64/inven.dmi',"UBJar")
-										sleep(15)
-										src.overlays -= image('dmi/64/inven.dmi',"UBJar")
-										M<<"You finish baking the [J.name] and create a Jar."
-										new /obj/items/tools/Jar(src.loc)
-										//del src
-										return
-									if(R<=4)
-										J.RemoveFromStack(1)
-												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										sleep(15)
-										//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at baking and are lost in the process."
-										return
+						if(BK=="Yes")
+							//for(J in M.contents)
+							if(J.name=="Unbaked Jar"&&usr.GVequipped==1)
+								M<<"You start to bake the Clay on the Fire..."
+								//sleep(5)
+								var/dice = "1d8"
+								var/R = roll(dice)
+								if(R>=4)
+
+									src.overlays += image('dmi/64/inven.dmi',"UBJar")
+									sleep(15)
+									src.overlays -= image('dmi/64/inven.dmi',"UBJar")
+									M<<"You finish baking the Clay and create a Jar."
+									new /obj/items/tools/Containers/Jar(src.loc)
+									J.RemoveFromStack(1)
+									//del src
+									return
+								if(R<=4)
+
+											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+									sleep(15)
+									//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+									M<<"The materials fail at baking and are lost in the process."
+									J.RemoveFromStack(1)
+									return
 					else
-						M << "You need an Unbaked Jar to continue..."
+						M << "You need an Unbaked Clay Jar to continue..."
 						return
 				else
 					M << "You'll need your Gloves on to handle this item after Baking."
@@ -566,101 +574,216 @@ obj
 					set category = null//"Commands"
 					var/mob/players/M
 					M = usr
-					for(var/obj/items/Ingots/J in M.contents)
-						if((J in M.contents)&&(src.name=="Lit Fire"))
-							//var/obj/items/Kindling/J = locate() in M.contents
-							if(J.Tname!="Hot")
-								M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J]."
-								sleep(30)
-								//J.RemoveFromStack(1)
-								//src.overlays -= overlays
-								//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
-								//light.off()
-								J:Tname="Hot"
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] is hot."
-							//else
-								//M<<"[J] is already Hot"
-								//call(proc/Temp)(J)
-								return
-					for(var/obj/items/Ingots/Scraps/J in M.contents)
-						if((J in M.contents)&&(src.name=="Lit Fire"))
-							//var/obj/items/Kindling/J = locate() in M.contents
-							if(J.Tname!="Hot")
-								M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J]."
-								sleep(15)
-								//J.RemoveFromStack(1)
-								//src.overlays -= overlays
-								//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
-								//light.off()
-								J:Tname="Hot"
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] is hot."
-							//else
-							//	M<<"[J] is already Hot"
-								return
+					var/list/CC1 = list()
+					var/obj/items/Ingots/I = FindI(M)
+
+					if(I in M)
+					//for(C in M)
+						if(I.Tname=="Hot")
+							M << "This ingot is already Hot!"
+							return
+						else if(I.Tname!="Hot")
+							CC1.Add("Ingots")
+					else
+						CC1.Remove("Ingots")
+					var/obj/items/Crafting/Created/C = locate() in M
+
+					if(C in M)
+						if(C.Tname=="Hot")
+							M << "This part is already Hot!"
+							return
+					//for(C in M)
+						else if(C.Tname!="Hot")
+							CC1.Add("Tool Parts")
+					else
+						CC1.Remove("Tool Parts")
+
+					var/obj/items/Ingots/Scraps/S = FindS(M)
+
+					if(S in M)
+						if(S.Tname=="Hot")
+							M << "This scrap is already Hot!"
+							return
+					//for(C in M)
+						else if(S.Tname!="Hot")
+							CC1.Add("Scraps")
+					else
+						CC1.Remove("Scraps")
+					if(!C&&!I&&!S)
+						M << "Need items to heat"
+						return
+					if(CC1.len >= 1)
+						CC1.Add("Back")
+					else
+						CC1.Remove("Back")
+					Start
+					switch(input("What would you like to heat?","Heat") in CC1)//list("Tool Parts","Ingots","Scraps"))
+						if("Back")
+							goto Start
+						if("Tool Parts")
+							var/list/options = list()
+							var/obj/items/Crafting/Created/CC
+							for(CC in M)
+							      // show a pretty list of options with prices included
+								options["[CC]"] = CC
+							var/choice = input("Which item would you like to heat?","Ingots") as null|anything in options
+							CC = options[choice]
+							//switch(input("Which item would you like to heat?","Tool Parts") in CC)
+							if(CC)
+								if((CC in M.contents)&&(src.name=="Lit Fire"))
+									//var/obj/items/Kindling/J = locate() in M.contents
+									if(CC.Tname!="Hot")
+										M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC]."
+										sleep(30)
+										//J.RemoveFromStack(1)
+										//src.overlays -= overlays
+										//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
+										//light.off()
+										CC:Tname="Hot"
+										M<<"\  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC] is hot."
+									//else
+										//M<<"[J] is already Hot"
+										//call(proc/Temp)(J)
+										return
+
+						if("Ingots")
+							var/list/options = list()
+							var/obj/items/Ingots/CC
+							for(CC in M)
+							      // show a pretty list of options with prices included
+								options["[CC]"] = CC
+							var/choice = input("Which item would you like to heat?","Tool Parts") as null|anything in options
+							CC = options[choice]
+							//switch(input("Which item would you like to heat?","Tool Parts") in CC)
+							if(CC)
+								if((CC in M.contents)&&(src.name=="Lit Fire"))
+									//var/obj/items/Kindling/J = locate() in M.contents
+									if(CC.Tname!="Hot")
+										M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type]."
+										sleep(30)
+										//J.RemoveFromStack(1)
+										//src.overlays -= overlays
+										//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
+										//light.off()
+										CC:Tname="Hot"
+										CC:name="[CC.ingot_type] Ingot (Hot)"
+										//CC:name="[CC.ingot_type] Ingot (Hot)"
+										//call(/obj/items/Ingots/proc/Temp)(locate(CC))
+										//CC:suffix="Hot"
+										M<<"\  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type] is hot."
+									//else
+										//M<<"[J] is already Hot"
+										//call(proc/Temp)(J)
+										return
+						if("Scraps")
+							var/list/options = list()
+							var/obj/items/Ingots/Scraps/CC
+							for(CC in M)
+							      // show a pretty list of options with prices included
+								options["[CC]"] = CC
+							var/choice = input("Which item would you like to heat?","Metal Scraps") as null|anything in options
+							CC = options[choice]
+							//switch(input("Which item would you like to heat?","Tool Parts") in CC)
+							if(CC)
+								if((CC in M.contents)&&(src.name=="Lit Fire"))
+									//var/obj/items/Kindling/J = locate() in M.contents
+									if(CC.Tname!="Hot")
+										M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type]."
+										sleep(30)
+										//J.RemoveFromStack(1)
+										//src.overlays -= overlays
+										//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
+										//light.off()
+										CC:Tname="Hot"
+										CC:name="[CC.ingot_type] Ingot (Hot)"
+										M<<"\  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type] is hot."
+									//else
+										//M<<"[J] is already Hot"
+										//call(proc/Temp)(J)
+										return
 				Cook()
 					set waitfor = 0
 					set popup_menu = 1
 					set src in oview(1)
 					set category = null//"Commands"
 					var/mob/players/M
-					var/obj/items/Food/J = list("Giu Meat","Carp","Perch","Sunfish")
 					M = usr
+					var/obj/items/Food/J = locate() in M.contents
+					var/list/F = new/list("")
+
 					if(M.cooking==1)
 						M<<"Already cooking..."
 						return
-					if((src in oview(1))&&(src.name=="Lit Fire"))
+					//M << "test"
+					//locate(J in M.contents)
+					if(src.name=="Lit Fire"||src.name=="Fueled Fire"||src.name=="Unfueled Fire")
 						//switch(input("Cook?","Cook") in J)//list("Giu Meat")//,"Salmon","Trout","Bass","Catfish","Carp","Perch","Sunfish")
-						if(J in M.contents)
-							if(J.name=="Cooked Giu Meat")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Gou Meat")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Gow Meat")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Guwi Meat")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Gowu Meat")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							//fish
-							if(J.name=="Cooked Salmon")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Trout")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Bass")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Catfish")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Carp")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Perch")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
-							if(J.name=="Cooked Sunfish")
-								M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
-								return 0
+						//M << "test 2"
+						if(!J)
+							M << "You need some meat to toss on the fire if you want to cook."
+						else for(J)//needs to be tested
+							if(J.name=="Carp")//need to finish this verb up by doing the same that I did for these for the rest of the food
+								F.Add("Carp")
+							if(J.name=="Perch")
+								F.Add("Perch")
+							if(J.name=="Sunfish")
+								F.Add("Sunfish")
+							if(J.name=="Carp")
+								F.Add("Carp")
+							if(J.name=="Giu Meat")
+								F.Add("Giu Meat")
+
 							else
-								switch(input("Cook?","Cook") in J)//list("Giu Meat")//,"Salmon","Trout","Bass","Catfish","Carp","Perch","Sunfish")
+								/*if(J.name=="Cooked Giu Meat")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Gou Meat")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Gow Meat")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Guwi Meat")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Gowu Meat")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								//fish
+								if(J.name=="Cooked Salmon")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Trout")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Bass")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Catfish")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Carp")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Perch")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0
+								if(J.name=="Cooked Sunfish")
+									M<<"\  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Already cooked."
+									return 0*/
+								switch(input("Cook?","Cook") in F)//list("Giu Meat")//,"Salmon","Trout","Bass","Catfish","Carp","Perch","Sunfish")
 									if("Giu Meat")
 										var/random/R = rand(1,13)
+										M << "You start to cook the Giu Meat on the fire..."
 										if(R!=7)
-											M<<"You start to cook the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] on the fire..."
+											M<<"You start to cook the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Giu Meat on the fire..."
 											//sleep(5)
 											M.cooking = 1
 											J.RemoveFromStack(1)
 											src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 											sleep(35)
 											src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-											M<<"You finish cooking the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] on the fire."
+											M<<"You finish cooking the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Giu Meat on the fire."
 											new /obj/items/Food/GiuMeatC(M,1)
 											M.cooking = 0
 											return
@@ -937,12 +1060,13 @@ obj
 									if("Carp")
 										if(M.fishinglevel >= 5)
 											var/random/R = rand(1,14)
+											M << "You start to cook the Carp on the fire..."
 											if(R!=4)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="carp")
 												sleep(15)
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="carp")
-												M<<"You finish cooking the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] on the fire."
+												M<<"You finish cooking the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='carp'> Carp on the fire."
 												new /obj/items/Food/carpC(locate(x,y,z))
 												return
 											else
@@ -954,19 +1078,21 @@ obj
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												new /obj/items/Food/OCM(locate(x,y,z))
-												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
+												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'> Meat..."
 												return
 										else
 											var/random/R = rand(1,10)
+											M << "You start to cook the Carp on the fire..."
 											if(R!=4)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="carp")
 												sleep(15)
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="carp")
-												M<<"You finish cooking the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] on the fire."
+												M<<"You finish cooking the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='carp'> Carp on the fire."
 												new /obj/items/Food/carpC(locate(x,y,z))
 												return
 											else
+												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="carp")
 												sleep(20)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="fl")
@@ -975,17 +1101,18 @@ obj
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												new /obj/items/Food/OCM(locate(x,y,z))
-												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
+												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'> Meat..."
 												return
 									if("Perch")
 										if(M.fishinglevel >= 5)
 											var/random/R = rand(1,15)
+											M << "You start to cook the Perch on the fire..."
 											if(R!=8)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="perch")
 												sleep(15)
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="perch")
-												M<<"You finish cooking the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] on the fire."
+												M<<"You finish cooking the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='perch'> Perch on the fire."
 												new /obj/items/Food/perchC(locate(x,y,z))
 												return
 											else
@@ -997,16 +1124,17 @@ obj
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												new /obj/items/Food/OCM(locate(x,y,z))
-												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
+												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 										else
 											var/random/R = rand(1,12)
+											M << "You start to cook the Perch on the fire..."
 											if(R!=8)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="perch")
 												sleep(15)
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="perch")
-												M<<"You finish cooking the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] on the fire."
+												M<<"You finish cooking the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='perch'> Perch on the fire."
 												new /obj/items/Food/perchC(locate(x,y,z))
 												return
 											else
@@ -1018,17 +1146,18 @@ obj
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												new /obj/items/Food/OCM(locate(x,y,z))
-												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
+												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 									if("Sunfish")
 										if(M.fishinglevel >= 5)
 											var/random/R = rand(1,16)
+											M << "You start to cook the Sunfish on the fire..."
 											if(R!=9)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="sunfish")
 												sleep(15)
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="sunfish")
-												M<<"You finish cooking the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] on the fire."
+												M<<"You finish cooking the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='sunfish'> Sunfish on the fire."
 												new /obj/items/Food/sunfishC(locate(x,y,z))
 												return
 											else
@@ -1040,16 +1169,17 @@ obj
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												new /obj/items/Food/OCM(locate(x,y,z))
-												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
+												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 										else
 											var/random/R = rand(1,13)
+											M << "You start to cook the Sunfish on the fire..."
 											if(R!=9)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="sunfish")
 												sleep(15)
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="sunfish")
-												M<<"You finish cooking the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] on the fire."
+												M<<"You finish cooking the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='sunfish'> Sunfish on the fire."
 												new /obj/items/Food/sunfishC(locate(x,y,z))
 												return
 											else
@@ -1061,14 +1191,14 @@ obj
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="OCM")
 												new /obj/items/Food/OCM(locate(x,y,z))
-												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
+												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
-					else if(src.name!="Lit Fire")
+					else//if(src.name=="Unlit Fire"||src.name=="Empty Fire")
 						M<<"\  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'> Fire needs to be lit."
 						return
 			/*Fuel(obj/items/J)
 				set src in oview(1)
-				set category = "Commands"
+				//set category = "Commands"
 				var/mob/players/M
 				M = usr
 				var/list/L[1]
@@ -1092,27 +1222,28 @@ obj
 					var/mob/players/M
 					M = usr
 					//var/obj/items/Carbon/J = locate() in M.contents
-					if((src in oview(1)) && (src.name=="Lit Fire") && (M.Doing==0))
+					if((src in oview(1)) && (src.name=="Lit Fire"||src.name=="Unfueled Fire"||src.name=="Fueled Fire") && (M.Doing==0))
 						var/obj/items/Carbon/J = locate() in M.contents
 						//var/obj/items/Carbon/C
-						if(J.stack_amount>=2)
-							for(J in M.contents)
-								J.RemoveFromStack(2)
-								M.Doing=1
-								src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="Carbon")
-								sleep(10)
-								src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="Carbon")
-								src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="charcoal")
-								M<<"You finish burning and produce \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Activated Carbon."
-								src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="charcoal")
-								new /obj/items/Activated_Carbon(M, 1)
-								M.Doing=0
-								return
+						if(J)
+							if(J.stack_amount>=2)
+								for(J in M.contents)
+									J.RemoveFromStack(2)
+									M.Doing=1
+									src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="Carbon")
+									sleep(10)
+									src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="Carbon")
+									src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="charcoal")
+									M<<"You finish burning and produce \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='charcoal'> Activated Carbon."
+									src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="charcoal")
+									new /obj/items/Activated_Carbon(M, 1)
+									M.Doing=0
+									return
 							//else return
 						else
 							M<<"You need Carbon to continue."
 					else return
-				Smelt_Iron()
+				Smelt_Iron()//for smelting iron ore collected from stone rocks via ueik pickaxe for use with stone hammer to create iron hammer and carving knife parts
 					set waitfor = 0
 					set popup_menu = 1
 					set src in oview(1)
@@ -1121,35 +1252,35 @@ obj
 					var/mob/players/M
 					M = usr
 					var/obj/items/Ore/iron/J = locate() in M.contents
-					if((src in oview(1)) && (src.name=="Lit Fire") && (M.Doing==0))
+					if((src in oview(1)) && (src.name=="Lit Fire"||src.name=="Fueled Fire"||src.name=="Unfueled Fire") && (M.Doing==0))
 						if(M.SHMequipped==1)
 							var/IronOre = /obj/items/Ore/iron
 							//J = locate() in M.contents
-							if(J.stack_amount>=2)
+							if(J.stack_amount>=1)
 								if(J.type==IronOre&&J in M.contents)
-									J.RemoveFromStack(2)
+									J.RemoveFromStack(1)
 									M.Doing=1
 									src.overlays += icon(icon='dmi/64/build.dmi', icon_state="iron")
 									sleep(30)
 									src.overlays -= icon(icon='dmi/64/build.dmi', icon_state="iron")
 									sleep(10)
 									src.overlays += icon(icon='dmi/64/build.dmi', icon_state="ib")
-									M<<"You finish smelting in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>fire and produce two objects \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='HH'> <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CKB'>."
+									M<<"You finish hammering the smelting ore in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'> fire and produce a Hammer Head \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='HH'> ." //<IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CKB'>."
 									sleep(10)
 									src.overlays -= icon(icon='dmi/64/build.dmi', icon_state="ib")
 									new /obj/items/Crafting/Created/HammerHead(M)
-									new /obj/items/Crafting/Created/CKnifeblade(M)
+									//new /obj/items/Crafting/Created/CKnifeblade(M)
 									M.Doing=0
 									return
 								else return
 							else
-								M<<"You need \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='iron'>iron ore to continue."
+								M<<"You need \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='iron'> iron ore to continue."
 						else
-							M<<"You need to be holding \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'>Stone Hammer to continue."
+							M<<"You need to be holding \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'> Stone Hammer to continue."
 					else return
 				/*Snuff_Fire()
 					set src in oview(1)
-					set category = "Commands"
+					//set category = "Commands"
 					var/mob/players/M
 					M = usr
 					if(src in oview(1))
@@ -1163,7 +1294,7 @@ obj
 							src.overlays += icon('dmi/64/fire.dmi',icon_state="unlitfire")
 							light.off()
 							src:name="Unlit Fire"*/
-				Add_Kindling()
+				Prepare_Fire()
 					set waitfor = 0
 					set popup_menu = 1
 					set src in oview(1)
@@ -1175,11 +1306,12 @@ obj
 						var/obj/items/Kindling/J = locate() in M.contents
 						if((J in M.contents) && (src.name=="Empty Fire"))
 							//set popup_menu = 1
-							M<<"You add the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] onto the <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='emptyfire'>empty fire."
+							M<<"You add the \  <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'> Kindling onto the <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='emptyfire'> empty fire."
 							sleep(5)
 							J.RemoveFromStack(1)
-							src.sleeptime += 120
-							src.overlays += icon('dmi/64/fire.dmi',icon_state="unlitfire")
+							src:sleeptime += 720
+							//src.overlays += icon('dmi/64/fire.dmi',icon_state="unlitfire")
+							src:icon_state="unlitfire"
 							src:name="Unlit Fire"
 							//else
 								//M<<"Can only add kindling to an empty fire."
@@ -1188,33 +1320,36 @@ obj
 				Fuel_Fire()
 					set waitfor = 0
 					set src in oview(1)
-					set category = "Commands"
+					//set category = "Commands"
 					var/mob/players/M
 					M = usr
 					if(M.Doing==0)
-						var/obj/items/Kindling/J = locate() in M.contents
+						var/obj/items/Logs/UeikLog/J = locate() in M
 						if(src.name=="Unlit Fire")
-							M<<"You need to light the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>fire to fuel it."
+							M<<"You need to light the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>Fire to fuel it."
 							return 0
 						if(src.name=="Empty Fire")
-							M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>lit fire to fuel."
+							M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>Lit Fire to fuel it."
 							return 0
 						if(src.name=="Fueled Fire")
 							M<<"\  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>Fire already Fueled."
 							return 0
-						if(M.CKequipped==1&&M.FLequipped==1&&src.name=="Unfueled Fire")
-							M<<"You start to fuel the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>fire."
+						locate(J)
+						if(J&&src.name=="Unfueled Fire")
+							M<<"You start to fuel the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>Fire."
 							M.Doing=1
 							sleep(5)
 							J.RemoveFromStack(1)
-							src:name="Fueled Fire"
+							//src:name="Lit Fire"
 							M<<"You fuel the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>Fire."
 							src.sleeptime += 1500
+
 							//light.on()
 							M.Doing=0
+							return
 							//flick('fire.dmi',src)
 							//src.overlays += icon('dmi/64/fire.dmi',icon_state="LF")
-							//light = new /light/circle(src, 9)
+							//new /light/circle(src, 9)
 							//sleep(490)
 							//src:name="Unfueled Fire"
 							//new /light/circle(src, 9)
@@ -1223,7 +1358,7 @@ obj
 							//src.overlays -= icon('dmi/64/fire.dmi',icon_state="LF")
 							//src.overlays += icon('dmi/64/fire.dmi',icon_state="FF")
 							//del(src.light)
-							//light = new /light/circle(src, 6)
+							//new /light/circle(src, 6)
 							//sleep(49)
 							//light.off()
 							//M<<"The Fire goes out"
@@ -1231,9 +1366,9 @@ obj
 							//src.overlays += icon('dmi/64/fire.dmi',icon_state="outfire")
 							//src:name="Empty Fire"
 						else
-							usr << "You need to use the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife with the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Flint'>Flint on an <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>Unlit Fire to Light it!"
+							usr << "You need to use a \  <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='UeikLog'>Log on an <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='litfire'>Lit Fire to Fuel it!"
 					else
-						usr << "You are already lighting the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>fire..."
+						usr << "You are already doing something..."
 				Light_Fire()
 					set waitfor = 0
 					set popup_menu = 1
@@ -1242,9 +1377,12 @@ obj
 					//set hidden = 1
 					var/mob/players/M
 					var/Carbon = /obj/items/Carbon
-					var/random/R = rand(1,9)
-					//var/sound = /snd/sfx/fire3
-					src.s = new/soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
+					//var/random/R = dice(roll)
+					var/dice = "1d4"
+					var/R = roll(dice)
+
+					//var/sound = /obj/snd/sfx/fire3
+					//src.s = new/soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
 					///S = soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
 					M = usr
 					if(src.Scount==5)
@@ -1264,25 +1402,29 @@ obj
 						//unlistenSoundmob(sound)
 						return
 					//else
-					if(M.CKequipped==1&&M.FLequipped==1&&src.name=="Unlit Fire")
+					if(M.CKequipped==1&&M.FLequipped==1&&src.name=="Unlit Fire"||M.PYequipped==1&&M.FLequipped==1&&src.name=="Unlit Fire")
 						//var/sound = soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
 						//var/sstop = sound(src, 0, 'snd/cleaned/fire2.ogg', FALSE, 7, 0)
+						f3 = new/soundmob(src, 10, 'snd/cleaned/fire2.ogg', FALSE, 0, 30, FALSE)//still don't know how to loop soundmobs and unlisten to them...it will just have to play once until it gets figure it out.
 						M<<"You start to light the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>fire."
 						M.Doing=1
 								//sleep(5)
 								//J.RemoveFromStack(1)
 						src:name="Lit Fire"
 						M<<"You light the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>Fire."
-						light = new /light/circle(src, 6)
-						src:name="Unfueled Fire"
+						new /light/circle(src, 6)
+						light.on()
+						M.listenSoundmob(f3)
+						//src:name="Unfueled Fire"
 						//if(src.sleeptime > 120)
 							//src:name="Fueled Fire"
-						//if(src.name=="Feuled Fire")
+						//if(src.name=="Fueled Fire")
 						//if(src.name=="Lit Fire")
 							//M << S
+						//src.s = new/soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, TRUE)
 						//sound = soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
 						//new sound(src.loc)
-						M.listenSoundmob(s)
+						//M.listenSoundmob(s)
 					//	else
 							//sound = soundmob(src, 15, 'snd/cleaned/fire2.ogg', FALSE, 0, 60, FALSE)
 							//listenSoundmob(sound)
@@ -1290,48 +1432,84 @@ obj
 							//unlistenSoundmob(sound)
 						//M<<sound
 						//new /light/circle(src, 6)
-						light.on()
+						//light.on()
 								//if(src.name=="Lit Fire")
 								//soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40)
 								//else src << sound(null)
 						M.Doing=0
 								//flick('fire.dmi',src)
-						src.overlays += image('dmi/64/fire.dmi',icon_state="LF")
-								//light = new /light/circle(src, 9)
+						//src.overlays += image('dmi/64/fire.dmi',icon_state="LF")
+						src.icon_state="LF"
+								//new /light/circle(src, 9)
 						sleep(src.sleeptime)
 								//new /light/circle(src, 9)
-						//M<<"The Fire is dying"
+						M<<"The Fire is beginning to fade..."
+						src:sleeptime += 50
 						//src.overlays -= image('dmi/64/fire.dmi',icon_state="LF")
 						//src.overlays += image('dmi/64/fire.dmi',icon_state="FF")
-								//src:name="Unfueled Fire"
+						src:name="Unfueled Fire"
+						src.icon_state="GOF"
+
 						sleep(src.sleeptime)
+						//light.off()
+						light.off()
+						//light.off(src)
+						M.unlistenSoundmob(f3)
 						//light.off()
 						//Del(sound)
 						//M<<sound(null)
 						//Del(sound)
 						//M<<sound
-						M<<"The Fire dies \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='outfire'>"
-						light.off()
-						sleep(5)
-						del(light)
+						//src.icon_state="fade"
+						//flick('fire.dmi',src)
+						//locate(s in src.contents)
+						//if(istype(sound, /obj/snd/sfx/fire3)&&sound in view(src))
+						//for(f3 in src)
+							//del f3
+						//s = null
 
+						src.icon_state="GC"
+						/*if(M in s.listeners)
+
+							s.listeners -= M
+							s.unsetListeners(M)
+						for(M in oview(10,src))
+							M.unlistenSoundmob(s)*///sound for fire is finally fixed! wow...
+						src:name="Empty Fire"
+						//for(src)
+							//del s
+						//STFU()
+						sleep(src.sleeptime)
+
+						M<<"The Fire dies \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='outfire'>"
+						src.icon_state="CO"
+
+						//QF()
+						//sleep(5)
+						//del(light)
+						//testing J3021
 						//call(/soundmob/proc/unsetListener)(usr)
 						//_detachSoundmob(sound)
-						//unlistenSoundmob(sound)
+
 						//_listening_soundmobs -= src
 						if(R>=4)	// make sure we haven't reached limit
 							new Carbon(src.loc)
 						//Del(sound)
 						//new /obj/Buildable/Fire(src.loc)
-						src.overlays -= image('dmi/64/fire.dmi',icon_state="LF")
+						//src.overlays -= image('dmi/64/fire.dmi',icon_state="LF")
 						//src.overlays -= image('dmi/64/fire.dmi',icon_state="FF")
-						src.overlays += image('dmi/64/fire.dmi',icon_state="outfire")
+						//src.overlays += image('dmi/64/fire.dmi',icon_state="outfire")
 								//src.overlays += icon('dmi/64/fire.dmi',icon_state="outfire")
-						src:name="Empty Fire"
+						//src:name="Empty Fire"
+
 						//if(src.name=="Empty Fire")
-						M.unlistenSoundmob(s)//sound for fire is finally fixed! wow...
+						//M.unlistenSoundmob(s)//sound for fire is finally fixed! wow...
 						src.sleeptime = 0
 							//del(sound)
+						//del(s)
+						//del light
+						//del src
+
 							//for(sound in src)
 								//_detachSoundmob()
 							//for(sound in src.loc)
@@ -1367,73 +1545,16 @@ obj
 						//del(src)
 						//else return
 					else
-						usr << "You need to use the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife with the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Flint'>Flint on an <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>Unlit Fire to Light it!"
+						usr << "You need to use \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Pyrite'>Pyrite or <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife with a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Flint'>Flint on an <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>Unlit Fire to Light it!"
 						return
-
-				Ignite_Novice_Fire()
-					set waitfor = 0
-					set popup_menu = 1
-					set src in oview(1)
-					set category = null//"Commands"
-					set hidden = 1
+			/*proc
+				STFU()
 					var/mob/players/M
-					//var/firesfx = /snd/sfx/fire2
-					//var/soundmob/s = soundmob(src, 30, 'snd/cleaned/fire2.ogg', TRUE, 0, 150)
-					//var/Carbon = /obj/items/Carbon
-					//var/random/R = rand(1,9)
 					M = usr
-					if(src.Scount==5)
-						M<<"The snuffed material turns to ash \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='outfire'>"
-						src:Scount=0
-						src:name="Empty Fire"
-					if(M.Doing==0)
-						//var/obj/items/tools/Flint/J = locate() in M.contents
-						if(src.name=="Lit Fire")
-							M<<"\  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>Fire already Lit."
-							return 0
-						if(src.name=="Empty Fire")
-							M<<"Add \  <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'>kindling to light the <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='emptyfire'>fire."
-							return
-						else
-							if(M.PYequipped==1&&M.FLequipped==1&&src.name=="Unlit Fire")
-								M<<"You start to light the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>fire."
-								M.Doing=1
-								sleep(5)
-								//J.RemoveFromStack(1)
-								src:name="Lit Fire"
-								M<<"You light the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='LF'>Fire."
-								//var/soundmob/s = new/soundmob(usr, 30, 'snd/cleaned/fire2.ogg', TRUE, 0, 150)
-								//new firesfx
-								world << soundmob(usr, 30, 'snd/cleaned/fire2.ogg', TRUE, 0, 150)
-								light.on()
-								M.Doing=0
-								//flick('fire.dmi',src)
-								src.overlays += icon('dmi/64/fire.dmi',icon_state="LF")
-								//light = new /light/circle(src, 9)
-								sleep(300)
-								//new /light/circle(src, 9)
-								M<<"The Fire is dying"
-								//src.overlays -= icon('dmi/64/fire.dmi',icon_state="LF")
-								//src.overlays += icon('dmi/64/fire.dmi',icon_state="FF")
-								//src:name="Unfueled Fire"
-								sleep(300)
-								src.overlays += icon('dmi/64/fire.dmi',icon_state="FF")
-								//soundmob(src, 0, 'snd/cleaned/fire2.ogg', TRUE, 0, 0)
-								sleep(10)
-								light.off()
-								M<<"The Fire dies"
-								src.overlays -= icon('dmi/64/fire.dmi',icon_state="LF")
-								src.overlays -= icon('dmi/64/fire.dmi',icon_state="FF")
-								src.overlays += icon('dmi/64/fire.dmi',icon_state="outfire")
-								//src.overlays += icon('dmi/64/fire.dmi',icon_state="outfire")
-								src:name="Empty Fire"
-								//if(R==4)	// make sure we haven't reached limit
-								//	new Carbon(src.loc)
-								//else return
-							else
-								usr << "Need to use \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Pyrite'>Pyrite with the <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Flint'>Flint on an <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>Unlit Fire to Light it!"
-					else
-						usr << "Already lighting the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='unlitfire'>fire..."
+					for(M in oview(10,src))
+						M.unlistenSoundmob(s)
+					for(src)
+						del s*/
 	townlamp
 		density = 0
 		plane = 4
@@ -1441,10 +1562,10 @@ obj
 		//luminosity = 1
 		icon = 'dmi/64/build.dmi'
 		icon_state = "brasslamp"
-		name = "Empty Torch"
-		Pname = "Town Lamp"
-		Lit = 1
-		light = /light/circle
+		name = "Town Lamp"
+		//Pname = "Town Lamp"
+		//Lit = 1
+		//light = /light/circle
 		disallow_in = NORTH
 		disallow_out = SOUTH
 		Cross(atom/movable/O)
@@ -1458,656 +1579,818 @@ obj
 				if(disallow_out & O.dir)
 					return 0
 				. = ..()
-		New()
-			..()
 
-				// we make the lamps have directional light sources,
-				// the /light/directional object is defined at the
-				// top of this file.
-			light = new /light/circle(loc, 4)
-	Buildable
-		lamps
-			//can_stack=TRUE
-			disallow_in = NORTH
-			disallow_out = SOUTH
-			Cross(atom/movable/O)
-				if(disallow_in)
-					if(disallow_in & O.dir)
-						return 0
-					. = ..()
-
-			Uncross(atom/movable/O)
-				if(disallow_out)
-					if(disallow_out & O.dir)
-						return 0
-					. = ..()
-			verb
-				Ignite_Lamp()
-					set waitfor = 0
-					set popup_menu = 1
-					set src in oview(1)
-					set category = null//"Commands"
-					//set hidden = 1
-					//set src in usr
-					var/WoodenTorch=/obj/Buildable/lamps/woodentorch
-					var/IronLamp=/obj/Buildable/lamps/ironlamp
-					var/CopperLamp=/obj/Buildable/lamps/copperlamp
-					var/BronzeLamp=/obj/Buildable/lamps/bronzelamp
-					var/BrassLamp=/obj/Buildable/lamps/brasslamp
-					var/SteelLamp=/obj/Buildable/lamps/steellamp
-					var/mob/players/M
-					M = usr
-					if(M.Doing==0)
-						var/obj/Buildable/lamps/J = locate() in oview(1)
-						if(src.name=="Lit Lamp")
-							M<<"You already lit the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]."
+	items
+		Buildable
+			lamps
+				icon='build.dmi'
+				can_stack=TRUE
+				blockcarry=1
+				var/burntime
+				disallow_in = NORTH
+				disallow_out = SOUTH
+				Cross(atom/movable/O)
+					if(disallow_in)
+						if(disallow_in & O.dir)
 							return 0
-						if(src.name=="Empty Lamp")
-							M<<"You need to add \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar to light the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]."
+						. = ..()
+
+				Uncross(atom/movable/O)
+					if(disallow_out)
+						if(disallow_out & O.dir)
 							return 0
-						if(src.Scount==5)
-							M<<"The snuffed material turns to ash"
-							src:Scount=0
-							src:name="Empty Lamp"
-						if(M.CKequipped==1&&M.FLequipped==1&&src.name=="Unlit Lamp")
-							M<<"You start to ignite the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-							M.Doing=1
-							sleep(5)
-							//lamps
-
-
-
-							if(J.type==WoodenTorch)
-								src:name="Lit Lamp"
-								M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-								light = new /light/circle(src, 2)
-								M.Doing=0
-								src.overlays += image('dmi/64/fire.dmi',icon_state="ll")
-								sleep(390)
-								if(src.name=="Unlit Lamp")
-									return 0
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] is burning away"
-								sleep(5)
-								src.overlays -= image('dmi/64/fire.dmi',icon_state="ll")
-								del light
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] turns to ash"
-								src:name="Empty Lamp"
-
-
-
-
-							if(J.type==IronLamp)
-								src:name="Lit Lamp"
-								M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-								light = new /light/circle(src, 4)
-								M.Doing=0
-								src.overlays += icon('dmi/64/fire.dmi',icon_state="ll")
-								sleep(490)
-								if(src.name=="Unlit Lamp")
-									return 0
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp is burning away"
-								src.overlays -= icon('dmi/64/fire.dmi',icon_state="ll")
-								//sleep(49)
-								del light
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp turns to ash"
-								src:name="Empty Lamp"
-							if(J.type==CopperLamp)
-								src:name="Lit Lamp"
-								M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-								light = new /light/circle(src, 5)
-								M.Doing=0
-								src.overlays += icon('dmi/64/fire.dmi',icon_state="ll")
-								sleep(590)
-								if(src.name=="Unlit Lamp")
-									return 0
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp is burning away"
-								src.overlays -= icon('dmi/64/fire.dmi',icon_state="ll")
-								//sleep(49)
-								del light
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp turns to ash"
-								src:name="Empty Lamp"
-							if(J.type==BrassLamp)
-								src:name="Lit Lamp"
-								M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-								light = new /light/circle(src, 7)
-								M.Doing=0
-								src.overlays += icon('dmi/64/fire.dmi',icon_state="ll")
-								sleep(720)
-								if(src.name=="Unlit Lamp")
-									return 0
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp is burning away"
-								src.overlays -= icon('dmi/64/fire.dmi',icon_state="ll")
-								//sleep(49)
-								del light
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp turns to ash"
-								src:name="Empty Lamp"
-							if(J.type==BronzeLamp)
-								src:name="Lit Torch"
-								M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-								light = new /light/circle(src, 6)
-								M.Doing=0
-								src.overlays += icon('dmi/64/fire.dmi',icon_state="ll")
-								sleep(690)
-								if(src.name=="Unlit Lamp")
-									return 0
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp is burning away"
-								src.overlays -= icon('dmi/64/fire.dmi',icon_state="ll")
-								//sleep(49)
-								del light
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp turns to ash"
-								src:name="Empty Lamp"
-							if(J.type==SteelLamp)
-								src:name="Lit Torch"
-								M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-								light = new /light/circle(src, 10)
-								M.Doing=0
-								src.overlays += icon('dmi/64/fire.dmi',icon_state="ll")
-								sleep(690)
-								if(src.name=="Unlit Lamp")
-									return 0
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp is burning away"
-								src.overlays -= icon('dmi/64/fire.dmi',icon_state="ll")
-								//sleep(49)
-								del light
-								M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp turns to ash"
-								src:name="Empty Lamp"
-						else
-							usr<<"Need to use your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife and <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Flint'>Flint to light the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp."
-					else
-						usr << "You are already lighting the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> [src]..."
-				Snuff_Lamp()
-					set waitfor = 0
-					set popup_menu = 1
-					set category = null
-					if(src.name=="Lit Lamp")
+						. = ..()
+				proc
+					FindJar(mob/players/M)
+						for(var/obj/items/tools/Containers/Jar/J in M.contents)
+							locate(J)
+							if(J.suffix=="Equipped"&&J.filled==1)
+								return J
+				verb
+					Ignite_Lamp()
+						set waitfor = 0
+						set popup_menu = 1
 						set src in oview(1)
-					//set category = "Commands"
-					//set hidden = 1
-					var/mob/players/M
-					M = usr
-					if(src in oview(1))
-						//var/obj/items/Kindling/J = locate() in M.contents
+						set category = null//"Commands"
+						//set hidden = 1
+						//set src in usr
+						var/WoodenTorch=/obj/items/Buildable/lamps/woodentorchlit
+						var/IronLamp=/obj/items/Buildable/lamps/ironlamplit
+						var/CopperLamp=/obj/items/Buildable/lamps/copperlamplit
+						var/BronzeLamp=/obj/items/Buildable/lamps/bronzelamplit
+						var/BrassLamp=/obj/items/Buildable/lamps/brasslamplit
+						var/SteelLamp=/obj/items/Buildable/lamps/steellamplit
+						var/mob/players/M
+						M = usr
+						if(M.Doing==0)
+							var/obj/items/Buildable/lamps/J = locate() in oview(1)
+							if(src.name=="Lit Lamp")
+								M<<"You already lit the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]."
+								return 0
+							if(src.name=="Empty Lamp")
+								M<<"You need to add fuel to light the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]."
+								return 0
+							if(src.Scount==5)
+								M<<"The snuffed material is reduced to residue."
+								src:Scount=0
+								src:name="Empty Lamp"
+							if(M.CKequipped==1&&M.FLequipped==1&&src.name=="Unlit Lamp"||M.PYequipped==1&&M.FLequipped==1&&src.name=="Unlit Lamp")
+								M<<"You start to ignite the fuel in the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]."
+								M.Doing=1
+								sleep(5)
+								//lamps
+
+
+
+								if(J.type==WoodenTorch)
+									src:name="Lit Lamp"
+									M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]."
+									//new /light/circle(src, 2)
+									src.light.on()//testing
+									M.Doing=0
+									src.icon_state="WTL"//src.overlays += image('dmi/64/fire.dmi',icon_state="ll")
+									src.name = "Wooden Torch (Warm)"
+									sleep(burntime)
+									src.name = "Wooden Torch (Hot)"
+									if(src.name=="Unlit Lamp")
+										return 0
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] is burning away"
+									burntime +=50
+									sleep(burntime)
+									src.name = "Wooden Torch (Warm)"
+									src.icon_state="woodentorch"//src.overlays -= image('dmi/64/fire.dmi',icon_state="ll")
+									//for(src)
+									src.light.off()
+										//light.off()
+										//light.off(src)
+										//del src.light
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] turns to ash"
+									src:name="Empty Lamp"
+
+								if(J.type==IronLamp)
+									src:name="Lit Lamp"
+									M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]."
+									//new /light/circle(src, 2)
+									src.light.on()//testing
+									M.Doing=0
+									src.icon_state="ILL"//src.overlays += image('dmi/64/fire.dmi',icon_state="ll")
+									src.name = "Iron Lamp (Warm)"
+									sleep(burntime)
+									src.name = "Iron Lamp (Hot)"
+									if(src.name=="Unlit Lamp")
+										return 0
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] is burning away"
+									burntime +=50
+									sleep(burntime)
+									src.name = "Iron Lamp (Warm)"
+									src.icon_state="ironlamp"//src.overlays -= image('dmi/64/fire.dmi',icon_state="ll")
+									//for(src)
+									src.light.off()
+										//light.off()
+										//light.off(src)
+										//del src.light
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] turns to ash"
+									src:name="Empty Lamp"
+
+								if(J.type==CopperLamp)
+									src:name="Lit Lamp"
+									M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]."
+									//new /light/circle(src, 2)
+									src.light.on()//testing
+									M.Doing=0
+									src.icon_state="CLL"//src.overlays += image('dmi/64/fire.dmi',icon_state="ll")
+									src.name = "Copper Lamp (Warm)"
+									sleep(burntime)
+									src.name = "Copper Lamp (Hot)"
+									if(src.name=="Unlit Lamp")
+										return 0
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] is burning away"
+									burntime +=50
+									sleep(burntime)
+									src.name = "Copper Lamp (Warm)"
+									src.icon_state="copperlamp"//src.overlays -= image('dmi/64/fire.dmi',icon_state="ll")
+									//for(src)
+									src.light.off()
+										//light.off()
+										//light.off(src)
+										//del src.light
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] turns to ash"
+									src:name="Empty Lamp"
+
+								if(J.type==BronzeLamp)
+									src:name="Lit Lamp"
+									M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]."
+									//new /light/circle(src, 2)
+									src.light.on()//testing
+									M.Doing=0
+									src.icon_state="BLL"//src.overlays += image('dmi/64/fire.dmi',icon_state="ll")
+									src.name = "Bronze Lamp (Warm)"
+									sleep(burntime)
+									src.name = "Bronze Lamp (Hot)"
+									if(src.name=="Unlit Lamp")
+										return 0
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] is burning away"
+									burntime +=50
+									sleep(burntime)
+									src.name = "Bronze Lamp (Warm)"
+									src.icon_state="bronzelamp"//src.overlays -= image('dmi/64/fire.dmi',icon_state="ll")
+									//for(src)
+									src.light.off()
+										//light.off()
+										//light.off(src)
+										//del src.light
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] turns to ash"
+									src:name="Empty Lamp"
+
+								if(J.type==BrassLamp)
+									src:name="Lit Lamp"
+									M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]."
+									//new /light/circle(src, 2)
+									src.light.on()//testing
+									M.Doing=0
+									src.icon_state="BSLL"//src.overlays += image('dmi/64/fire.dmi',icon_state="ll")
+									src.name = "Brass Lamp (Warm)"
+									sleep(burntime)
+									src.name = "Brass Lamp (Hot)"
+									if(src.name=="Unlit Lamp")
+										return 0
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] is burning away"
+									burntime +=50
+									sleep(burntime)
+									src.name = "Brass Lamp (Warm)"
+									src.icon_state="brasslamp"//src.overlays -= image('dmi/64/fire.dmi',icon_state="ll")
+									//for(src)
+									src.light.off()
+										//light.off()
+										//light.off(src)
+										//del src.light
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] turns to ash"
+									src:name="Empty Lamp"
+
+								if(J.type==SteelLamp)
+									src:name="Lit Lamp"
+									M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]."
+									//new /light/circle(src, 2)
+									src.light.on()//testing
+									M.Doing=0
+									src.icon_state="SLL"//src.overlays += image('dmi/64/fire.dmi',icon_state="ll")
+									src.name = "Steel Lamp (Warm)"
+									sleep(burntime)
+									src.name = "Steel Lamp (Hot)"
+									if(src.name=="Unlit Lamp")
+										return 0
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] is burning away"
+									burntime +=50
+									sleep(burntime)
+									src.name = "Steel Lamp (Warm)"
+									src.icon_state="steellamp"//src.overlays -= image('dmi/64/fire.dmi',icon_state="ll")
+									//for(src)
+									src.light.off()
+										//light.off()
+										//light.off(src)
+										//del src.light
+									M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J] turns to ash"
+									src:name="Empty Lamp"
+							else
+								usr<<"Need to use your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife and or <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pyrite'>Pyrite with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Flint'>Flint to light the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>Lamp."
+						else
+							usr << "You are already lighting the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> [src]..."
+					Snuff_Lamp()//?
+						set waitfor = 0
+						set popup_menu = 1
+						set category = null
+						//for(src.name=="Lit Lamp")
+						set src in oview(1)
+						////set category = "Commands"
+						//set hidden = 1
+						var/mob/players/M
+						M = usr
+							//var/obj/items/Kindling/J = locate() in M.contents
 						if(src.name=="Lit Lamp")
-							M<<"You snuff the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Lamp."
+							M<<"You snuff the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]."
 							sleep(5)
 							//J.RemoveFromStack(1)
-							src.overlays -= overlays
+							//src.overlays -= overlays
+							src.icon_state=""
 							src:Scount+=1
-							light.off()
+							src.light.off()
 							//src.overlays += icon('dmi/64/fire.dmi',icon_state="snuffedfire")
 							src:name="Unlit Lamp"
 						else
 							return
-				Fuel_Lamp()
-					set waitfor = 0
-					set popup_menu = 1
-					set src in oview(1)
-				//	set src in usr
-					set category = null//"Commands"
-					//set hidden = 1
-					var/mob/players/M
-					M = usr
-					if(src in oview(1))
-						var/obj/items/Tar/J = locate() in M.contents
-						if((J in M.contents) && (src.name=="Empty Lamp"))
-							M<<"You add the [J] into the empty \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Lamp."
-							sleep(5)
-							J.RemoveFromStack(1)
-							//src.overlays += icon('dmi/64/fire.dmi',icon_state="unlitfire")
-							src:name="Unlit Lamp"
-								//else
-									//M<<"Can only add kindling to an empty fire."
-				Plant()
-					set waitfor = 0
-					set popup_menu = 1
-					set src = usr.contents
-					set category = null//"Commands"
-					var/obj/Buildable/lamps/woodentorch/WoodenTorch
-					var/obj/Buildable/lamps/ironlamp/IronLamp
-					var/obj/Buildable/lamps/copperlamp/CopperLamp
-					var/obj/Buildable/lamps/bronzelamp/BronzeLamp
-					var/obj/Buildable/lamps/brasslamp/BrassLamp
-					var/obj/Buildable/lamps/steellamp/SteelLamp
-					var/obj/Buildable/lamps/J = locate() in usr.contents
-					var/mob/players/M
-					M = usr
-					if(M.Doing==0)
-						if(usr.Wequipped==1 && usr.Sequipped==1 && usr.LSequipped==1 && usr.AXequipped==1 && usr.WHequipped==1 && usr.JRequipped==1 && usr.FPequipped==1 && usr.PXequipped==1 && usr.SHequipped==1 && usr.HMequipped==1 && usr.SKequipped==1 && usr.HOequipped==1 && usr.CKequipped==1 && usr.FLequipped==1 && usr.PYequipped==1 && usr.OKequipped==1 && usr.SHMequipped==1 && usr.UPKequipped==1)
-							M<<"You need your hands free of tools to Plant [J]! (To Pull it, you will need \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>Gloves)"
-							return	//M.Doing=1
-									//sleep(3)
-						else if(usr.GVequipped==1)
-							if(J.Pname=="Wooden Torch"&&J.Planted==0)
-								for(WoodenTorch in M.contents)
-										//	set src in usr.contents
-									M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
-									M.Doing=1
-									sleep(39)
-											//src.Planted = 1
-												//del J:light
-												//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-									new /obj/Buildable/lamps/woodentorch(usr.loc)//Move(src.loc)
-									for(var/obj/Buildable/lamps/woodentorch/J1 in oview(1))
-										J1:Planted = 1
-									M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
-									M.Doing=0
-									del J
-									return
-							if(J.Pname=="Iron Lamp"&&J.Planted==0)
-								for(IronLamp in M.contents)
-										//	set src in usr.contents
-									M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
-									M.Doing=1
-									sleep(39)
-											//src.Planted = 1
-												//del J:light
-												//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-									new /obj/Buildable/lamps/ironlamp(usr.loc)//Move(src.loc)
-									for(var/obj/Buildable/lamps/ironlamp/J1 in oview(1))
-										J1:Planted = 1
-										//del WoodenTorch
-									M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
-									M.Doing=0
-									del J
-										return
-							if(J.Pname=="Copper Lamp"&&J.Planted==0)
-								for(CopperLamp in M.contents)
-										//	set src in usr.contents
-									M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
-									M.Doing=1
-									sleep(39)
-											//src.Planted = 1
-												//del J:light
-												//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-									new /obj/Buildable/lamps/copperlamp(usr.loc)//Move(src.loc)
-									for(var/obj/Buildable/lamps/copperlamp/J1 in oview(1))
-										J1:Planted = 1
-										//del WoodenTorch
-									M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
-									M.Doing=0
-									del J
-										return
-							if(J.Pname=="Brass Lamp"&&J.Planted==0)
-								for(BrassLamp in M.contents)
-										//	set src in usr.contents
-									M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
-									M.Doing=1
-									sleep(39)
-											//src.Planted = 1
-												//del J:light
-												//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-									new /obj/Buildable/lamps/brasslamp(usr.loc)//Move(src.loc)
-									for(var/obj/Buildable/lamps/brasslamp/J1 in oview(1))
-										J1:Planted = 1
-										//del WoodenTorch
-									M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
-									M.Doing=0
-									del J
-										return
-							if(J.Pname=="Bronze Lamp"&&J.Planted==0)
-								for(BronzeLamp in M.contents)
-										//	set src in usr.contents
-									M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
-									M.Doing=1
-									sleep(39)
-											//src.Planted = 1
-												//del J:light
-												//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-									new /obj/Buildable/lamps/bronzelamp(M.loc)//Move(src.loc)
-									for(var/obj/Buildable/lamps/bronzelamp/J1 in oview(1))
-										J1:Planted = 1
-									//del WoodenTorch
-									M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
-									M.Doing=0
-									del J
-										return
-							if(J.Pname=="Steel Lamp"&&J.Planted==0)
-								for(SteelLamp in M.contents)
-										//	set src in usr.contents
-									M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
-									M.Doing=1
-									sleep(39)
-											//src.Planted = 1
-												//del J:light
-												//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-									new /obj/Buildable/lamps/steellamp(M.loc)//Move(src.loc)
-									for(var/obj/Buildable/lamps/steellamp/J1 in oview(1))
-										J1:Planted = 1
-									//del WoodenTorch
-									M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
-									M.Doing=0
-									del J
-										return
-						else
-							M<<"You need to use \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>gloves to do that..."
-					else
-						M<<"You are already Planting [J]..."
-				Pull()
-					set waitfor = 0
-					set popup_menu = 1
-					set src in oview(1)
-					set category = null//"Commands"
-					var/WoodenTorch=/obj/Buildable/lamps/woodentorch
-					var/IronLamp=/obj/Buildable/lamps/ironlamp
-					var/CopperLamp=/obj/Buildable/lamps/copperlamp
-					var/BronzeLamp=/obj/Buildable/lamps/bronzelamp
-					var/BrassLamp=/obj/Buildable/lamps/brasslamp
-					var/SteelLamp=/obj/Buildable/lamps/steellamp
-					var/obj/Buildable/lamps/J = locate() in oview(1)
-					var/mob/players/M
-					M = usr
-					if(M.Doing==0)
-						if(M.GVequipped==1&&J.name!="Lit Lamp")
-							//M.Doing=1
-							//sleep(3)
-							if(J.type==WoodenTorch&&J.Planted==1)
-								M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
-								M.Doing=1
-								sleep(39)
-								J:Planted = 0
-								M.Doing=0
-								//del J:light
-								//J.light.off()
-								//J.overlays -= icon('dmi/64/build.dmi',icon_state="ll")
-								Move(M)
-								M.energy -= 5
-								M.updateEN()
-								M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
-							if(J.type==IronLamp&&Planted==1)
-								M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
-								M.Doing=1
-								sleep(39)
-								J:Planted = 0
-								M.Doing=0
-								del J:light
-								J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-								Move(M)
-								M.energy -= 5
-								M.updateEN()
-								M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
-							if(J.type==CopperLamp&&Planted==1)
-								M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
-								M.Doing=1
-								sleep(39)
-								J:Planted = 0
-								M.Doing=0
-								del J:light
-								J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-								Move(M)
-								M.energy -= 5
-								M.updateEN()
-								M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
-							if(J.type==BrassLamp&&Planted==1)
-								M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
-								M.Doing=1
-								sleep(39)
-								J:Planted = 0
-								M.Doing=0
-								del J:light
-								J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-								Move(M)
-								M.energy -= 5
-								M.updateEN()
-								M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
-							if(J.type==BronzeLamp&&Planted==1)
-								M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
-								M.Doing=1
-								sleep(39)
-								J:Planted = 0
-								M.Doing=0
-								del J:light
-								J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-								Move(M)
-								M.energy -= 5
-								M.updateEN()
-								M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
-							if(J.type==SteelLamp&&Planted==1)
-								M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
-								M.Doing=1
-								sleep(39)
-								J:Planted = 0
-								M.Doing=0
-								del J:light
-								J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
-								Move(M)
-								M.energy -= 5
-								M.updateEN()
-								M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
-						else
-							M<<"You need to use \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>gloves on an Empty or Unlit Lamp to do that..."
-					else
-						M<<"You are already Pulling [J]..."
-				//buildable lamps \|/
-			woodentorch
-				density = 0
-				plane = 6
-				luminosity = 1
-				icon = 'dmi/64/build.dmi'
-				icon_state = "woodentorch"
-				name = "Empty Lamp"
-				Pname = "Wooden Torch"
-				Planted = 0
-				light = /light/circle
-				//disallow_in = NORTH
-				//disallow_out = SOUTH
-				New()
-					..()
-					soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
-					// we make the lamps have directional light sources,
-					// the /light/directional object is defined at the
-					// top of this file.
-					//light = new /light/circle(src, 2)
-					//light.on = 0
+					Fuel_Lamp()//works
+						set waitfor = 0
+						set popup_menu = 1
+						set src in oview(1)
+					//	set src in usr
+						set category = null//"Commands"
+						//set hidden = 1
+						var/mob/players/M
+						M = usr
+						/*
+						if(src in oview(1))
+							var/obj/items/Tar/J = locate() in M.contents
+							if((J in M.contents) && (src.name=="Empty Lamp"))
+								M<<"You add the [J] into the empty \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Lamp."
+								sleep(5)
+								J.RemoveFromStack(1)
+								//src.overlays += icon('dmi/64/fire.dmi',icon_state="unlitfire")
+								src:name="Unlit Lamp"
+									//else
+										//M<<"Can only add kindling to an empty fire."
+										*/
+						var/obj/items/tools/Containers/Jar/J = FindJar(M)
+						//var/obj/items/tools/Containers/Vessel/J2 = FindVes(M)
+						//if(!J)
+							//return
+						for(J)//streamlined and working
+							//if(J.suffix=="Equipped"&&M.JRequipped==1&&filled==1&&CType=="Tar")
 
-			ironlamp
-				density = 0
-				plane = 6
-				luminosity = 1
-				icon = 'dmi/64/build.dmi'
-				icon_state = "ironlamp"
-				name = "Empty Lamp"
-				Pname = "Iron Lamp"
-				light = /light/circle
-				//disallow_in = NORTH
-				//disallow_out = SOUTH
-				New()
-					..()
-					// we make the lamps have directional light sources,
-					// the /light/directional object is defined at the
-					// top of this file.
-					//light = new /light/circle(src, 2)
-					//light.on = 0
-			copperlamp
-				density = 0
-				plane = MOB_LAYER+3
-				luminosity = 1
-				icon = 'dmi/64/build.dmi'
-				icon_state = "copperlamp"
-				name = "Empty Lamp"
-				Pname = "Copper Lamp"
-				light = /light/circle
-				//disallow_in = NORTH
-				//disallow_out = SOUTH
-				New()
-					..()
-					// we make the lamps have directional light sources,
-					// the /light/directional object is defined at the
-					// top of this file.
-					//light = new /light/circle(src, 3)
-					//light.on = 0
-			brasslamp
-				density = 0
-				plane = 6
-				luminosity = 1
-				icon = 'dmi/64/build.dmi'
-				icon_state = "brasslamp"
-				name = "Empty Lamp"
-				Pname = "Brass Lamp"
-				light = /light/circle
-				//disallow_in = NORTH
-				//disallow_out = SOUTH
-				New()
-					..()
-					// we make the lamps have directional light sources,
-					// the /light/directional object is defined at the
-					// top of this file.
-					//light = new /light/circle(src, 4)
-					//light.on = 0
-			steellamp
-				density = 0
-				plane = 6
-				luminosity = 1
-				icon = 'dmi/64/build.dmi'
-				icon_state = "steellamp"
-				name = "Empty Lamp"
-				Pname = "Steel Lamp"
-				light = /light/circle
-				//disallow_in = NORTH
-				//disallow_out = SOUTH
-				New()
-					..()
+							if(J.CType=="Tar"&&src.name=="Empty Lamp")
+								M<<"You add the [J.CType] into the empty \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Lamp."
+								J.icon_state = "Jar"
+								J.volume = 0
+								J.CType="Empty"
+								J.name = "Jar"
+								J.filled=0
+								src:burntime+=250
+								src:name="Unlit Lamp"
+								return
 
-			bronzelamp
-				density = 0
-				plane = 6
-				luminosity = 1
-				icon = 'dmi/64/build.dmi'
-				icon_state = "bronzelamp"
-				name = "Empty Lamp"
-				Pname = "Bronze Lamp"
-				light = /light/circle
-				//disallow_in = NORTH
-				//disallow_out = SOUTH
-				New()
-					..()
-					// we make the lamps have directional light sources,
-					// the /light/directional object is defined at the
-					// top of this file.
-					//light = new /light/circle(src, 6)
-					//light.on = 0
+							else if(J.CType=="Oil"&&src.name=="Empty Lamp")
+								M<<"You add the [J.CType] into the empty \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Lamp."
+								J.icon_state = "Jar"
+								J.volume = 0
+								J.CType="Empty"
+								J.name = "Jar"
+								J.filled=0
+								src:burntime+=500
+								src:name="Unlit Lamp"
+								return
+							else if(J.CType=="Water"||J.CType=="Sand")
+								M<<"You need Tar or Oil to fuel the Lamp."
+								return
+							else if(src.name!="Empty Lamp")
+								M << "This Lamp doesn't need fuel."
+							if(J.filled==0&&M.JRequipped==0)
+								M<<"You need to hold and fill the Jar to drink out of it."
+								return
+							else if(J.filled==0&&M.JRequipped==1)
+								M<<"You need to fill the Jar to drink out of it."
+								return
+					Plant()//works
+						set waitfor = 0
+						set popup_menu = 1
+						//set src in oview(1)//?
+						set category = null//"Commands"
+						var/obj/items/Buildable/lamps/woodentorch/WoodenTorch
+						var/obj/items/Buildable/lamps/ironlamp/IronLamp
+						var/obj/items/Buildable/lamps/copperlamp/CopperLamp
+						var/obj/items/Buildable/lamps/bronzelamp/BronzeLamp
+						var/obj/items/Buildable/lamps/brasslamp/BrassLamp
+						var/obj/items/Buildable/lamps/steellamp/SteelLamp
+						var/obj/items/Buildable/lamps/J = locate() in usr.contents
+						var/mob/players/M
+						M = usr
+						if(M.Doing==0)
+							//if(usr.Wequipped==1 && usr.Sequipped==1 && usr.LSequipped==1 && usr.AXequipped==1 && usr.WHequipped==1 && usr.JRequipped==1 && usr.FPequipped==1 && usr.PXequipped==1 && usr.SHequipped==1 && usr.HMequipped==1 && usr.SKequipped==1 && usr.HOequipped==1 && usr.CKequipped==1 && usr.FLequipped==1 && usr.PYequipped==1 && usr.OKequipped==1 && usr.SHMequipped==1 && usr.UPKequipped==1)
+								//M<<"You need your hands free of tools to Plant [J]! (To Pull it, you will need \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>Gloves)"
+								//return	//M.Doing=1
+										//sleep(3)
+							if(usr.GVequipped==1)
+								if(J.Pname=="Wooden Torch"&&J.Planted==0)
+									for(WoodenTorch in M.contents)
+											//	set src in usr.contents
+										M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
+										M.Doing=1
+										sleep(39)
+												//src.Planted = 1
+													//del J:light
+													//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
+										new /obj/items/Buildable/lamps/woodentorchlit(usr.loc)//Move(src.loc)
+										for(var/obj/items/Buildable/lamps/woodentorchlit/J1 in oview(1))
+											J1:Planted = 1
+										M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
+										M.Doing=0
+										del J
+										return
+								if(J.Pname=="Iron Lamp"&&J.Planted==0)
+									for(IronLamp in M.contents)
+											//	set src in usr.contents
+										M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
+										M.Doing=1
+										sleep(39)
+												//src.Planted = 1
+													//del J:light
+													//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
+										new /obj/items/Buildable/lamps/ironlamplit(usr.loc)//Move(src.loc)
+										for(var/obj/items/Buildable/lamps/ironlamplit/J1 in oview(1))
+											J1:Planted = 1
+											//del WoodenTorch
+										M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
+										M.Doing=0
+										del J
+										return
+								if(J.Pname=="Copper Lamp"&&J.Planted==0)
+									for(CopperLamp in M.contents)
+											//	set src in usr.contents
+										M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
+										M.Doing=1
+										sleep(39)
+												//src.Planted = 1
+													//del J:light
+													//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
+										new /obj/items/Buildable/lamps/copperlamplit(usr.loc)//Move(src.loc)
+										for(var/obj/items/Buildable/lamps/copperlamplit/J1 in oview(1))
+											J1:Planted = 1
+											//del WoodenTorch
+										M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
+										M.Doing=0
+										del J
+										return
+								if(J.Pname=="Brass Lamp"&&J.Planted==0)
+									for(BrassLamp in M.contents)
+											//	set src in usr.contents
+										M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
+										M.Doing=1
+										sleep(39)
+												//src.Planted = 1
+													//del J:light
+													//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
+										new /obj/items/Buildable/lamps/brasslamplit(usr.loc)//Move(src.loc)
+										for(var/obj/items/Buildable/lamps/brasslamplit/J1 in oview(1))
+											J1:Planted = 1
+											//del WoodenTorch
+										M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
+										M.Doing=0
+										del J
+										return
+								if(J.Pname=="Bronze Lamp"&&J.Planted==0)
+									for(BronzeLamp in M.contents)
+											//	set src in usr.contents
+										M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
+										M.Doing=1
+										sleep(39)
+												//src.Planted = 1
+													//del J:light
+													//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
+										new /obj/items/Buildable/lamps/bronzelamplit(M.loc)//Move(src.loc)
+										for(var/obj/items/Buildable/lamps/bronzelamplit/J1 in oview(1))
+											J1:Planted = 1
+										//del WoodenTorch
+										M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
+										M.Doing=0
+										del J
+										return
+								if(J.Pname=="Steel Lamp"&&J.Planted==0)
+									for(SteelLamp in M.contents)
+											//	set src in usr.contents
+										M<<"You start to Plant the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground..."
+										M.Doing=1
+										sleep(39)
+												//src.Planted = 1
+													//del J:light
+													//J.overlays += icon('dmi/64/build.dmi',icon_state="TLO")
+										new /obj/items/Buildable/lamps/steellamplit(M.loc)//Move(src.loc)
+										for(var/obj/items/Buildable/lamps/steellamplit/J1 in oview(1))
+											J1:Planted = 1
+										//del WoodenTorch
+										M<<"You Finish Planting the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] into the Ground"
+										M.Doing=0
+										del J
+										return
+							else
+								M<<"You need to use \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>gloves to do that..."
+						else
+							M<<"You are already Planting [J]..."
+					Pull()//works
+						set waitfor = 0
+						set popup_menu = 1
+						set src in oview(1)
+						set category = null//"Commands"
+						var/WoodenTorch=/obj/items/Buildable/lamps/woodentorch
+						var/IronLamp=/obj/items/Buildable/lamps/ironlamp
+						var/CopperLamp=/obj/items/Buildable/lamps/copperlamp
+						var/BronzeLamp=/obj/items/Buildable/lamps/bronzelamp
+						var/BrassLamp=/obj/items/Buildable/lamps/brasslamp
+						var/SteelLamp=/obj/items/Buildable/lamps/steellamp
+						var/obj/items/Buildable/lamps/J = locate() in oview(1)
+						var/mob/players/M
+						M = usr
+						if(J.name=="Lit Lamp")
+							M << "Can't pull [J] while lit."
+							return
+						if(M.Doing==0)
+							if(M.GVequipped==1&&J.name!="Lit Lamp")
+								//M.Doing=1
+								//sleep(3)
+								if(J.type==WoodenTorch&&J.Planted==1)//works -confirmed
+									M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
+									M.Doing=1
+									sleep(39)
+									J:Planted = 0
+									M.Doing=0
+									icon_state="woodentorch"
+									M.energy -= 5
+									M.updateEN()
+									M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
+									new WoodenTorch(M)
+									del src
+								if(J.type==IronLamp&&J.Planted==1)//works -confirmed
+									M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
+									M.Doing=1
+									sleep(39)
+									J:Planted = 0
+									M.Doing=0
+									icon_state="ironlamp"
+									M.energy -= 5
+									M.updateEN()
+									M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
+									new IronLamp(M)
+									del src
+								if(J.type==CopperLamp&&J.Planted==1)//works -confirmed
+									M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
+									M.Doing=1
+									sleep(39)
+									J:Planted = 0
+									M.Doing=0
+									icon_state="copperlamp"
+									M.energy -= 5
+									M.updateEN()
+									M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
+									new CopperLamp(M)
+									del src
+								if(J.type==BronzeLamp&&J.Planted==1)//works -confirmed
+									M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
+									M.Doing=1
+									sleep(39)
+									J:Planted = 0
+									M.Doing=0
+									icon_state="bronzelamp"
+									M.energy -= 5
+									M.updateEN()
+									M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
+									new BronzeLamp(M)
+									del src
+								if(J.type==BrassLamp&&J.Planted==1)//works -confirmed
+									M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
+									M.Doing=1
+									sleep(39)
+									J:Planted = 0
+									M.Doing=0
+									icon_state="brasslamp"
+									M.energy -= 5
+									M.updateEN()
+									M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
+									new BrassLamp(M)
+									del src
+								if(J.type==SteelLamp&&J.Planted==1)//works -confirmed
+									M<<"You start to Pull the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground..."
+									M.Doing=1
+									sleep(39)
+									J:Planted = 0
+									M.Doing=0
+									icon_state="steellamp"
+									M.energy -= 5
+									M.updateEN()
+									M<<"You Finish Pulling the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] out of the Ground"
+									new SteelLamp(M)
+									del src
+
+							else
+								M<<"You need to use \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>gloves on an Empty or Unlit Lamp to do that..."
+						else
+							M<<"You are already Pulling [J]..."
+//buildable lamps \|/
+				woodentorch//easy way to fix circle in inventory issue, when pulling a lamp out, create a new object that has no light, when planting, creat one that does!
+					density = 0
+					plane = 6
+					burntime = 340
+					luminosity = 1
+					icon = 'dmi/64/build.dmi'
+					icon_state = "woodentorch"
+					name = "Empty Lamp"
+					Pname = "Wooden Torch"
+					Planted = 0
+					////light = /light/circle
+
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+						//soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
+						// we make the lamps have directional light sources,
+						// the /light/directional object is defined at the
+						// top of this file.
+						//if(src.loc!=usr||src.loc!=null)
+							//new /light/circle(src, 3)
+							//src.light.off()
+				woodentorchlit//for planting
+					density = 0
+					plane = 6
+					burntime = 340
+					luminosity = 1
+					icon = 'dmi/64/build.dmi'
+					icon_state = "woodentorch"
+					name = "Empty Lamp"
+					Pname = "Wooden Torch"
+					Planted = 0
+					////light = /light/circle
+
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+						//soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
+						// we make the lamps have directional light sources,
+						// the /light/directional object is defined at the
+						// top of this file.
+						if(src.loc!=usr||src.loc!=null)
+							new /light/circle(src, 1)
+							src.light.off()
+
+				ironlamp
+					density = 0
+					plane = 6
+					luminosity = 1
+					burntime = 550
+					icon = 'dmi/64/build.dmi'
+					icon_state = "ironlamp"
+					name = "Empty Lamp"
+					Pname = "Iron Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+
+				ironlamplit
+					density = 0
+					plane = 6
+					luminosity = 1
+					burntime = 550
+					icon = 'dmi/64/build.dmi'
+					icon_state = "ironlamp"
+					name = "Empty Lamp"
+					Pname = "Iron Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+						if(src.loc!=usr||src.loc!=null)
+							new /light/circle(src, 2)
+							src.light.off()
+				copperlamp
+					density = 0
+					plane = MOB_LAYER+3
+					luminosity = 1
+					burntime = 750
+					icon = 'dmi/64/build.dmi'
+					icon_state = "copperlamp"
+					name = "Empty Lamp"
+					Pname = "Copper Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+
+				copperlamplit
+					density = 0
+					plane = MOB_LAYER+3
+					luminosity = 1
+					burntime = 750
+					icon = 'dmi/64/build.dmi'
+					icon_state = "copperlamp"
+					name = "Empty Lamp"
+					Pname = "Copper Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+						if(src.loc!=usr||src.loc!=null)
+							new /light/circle(src, 3)
+							src.light.off()
+				bronzelamp
+					density = 0
+					plane = 6
+					burntime = 850
+					luminosity = 1
+					icon = 'dmi/64/build.dmi'
+					icon_state = "bronzelamp"
+					name = "Empty Lamp"
+					Pname = "Bronze Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+				bronzelamplit
+					density = 0
+					plane = 6
+					burntime = 850
+					luminosity = 1
+					icon = 'dmi/64/build.dmi'
+					icon_state = "bronzelamp"
+					name = "Empty Lamp"
+					Pname = "Bronze Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+				brasslamp
+					density = 0
+					plane = 6
+					burntime = 1075
+					luminosity = 1
+					icon = 'dmi/64/build.dmi'
+					icon_state = "brasslamp"
+					name = "Empty Lamp"
+					Pname = "Brass Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+
+				brasslamplit
+					density = 0
+					plane = 6
+					burntime = 1075
+					luminosity = 1
+					icon = 'dmi/64/build.dmi'
+					icon_state = "brasslamp"
+					name = "Empty Lamp"
+					Pname = "Brass Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+						New()
+						..()
+						if(src.loc!=usr||src.loc!=null)
+							new /light/circle(src, 4)
+							src.light.off()
+				steellamp
+					density = 0
+					plane = 6
+					luminosity = 1
+					burntime = 2750
+					icon = 'dmi/64/build.dmi'
+					icon_state = "steellamp"
+					name = "Empty Lamp"
+					Pname = "Steel Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+				steellamplit
+					density = 0
+					plane = 6
+					luminosity = 1
+					burntime = 2750
+					icon = 'dmi/64/build.dmi'
+					icon_state = "steellamp"
+					name = "Empty Lamp"
+					Pname = "Steel Lamp"
+					//light = /light/circle
+					//disallow_in = NORTH
+					//disallow_out = SOUTH
+					New()
+						..()
+						if(src.loc!=usr||src.loc!=null)
+							new /light/circle(src, 5)
+							src.light.off()
+
+
+						// we make the lamps have directional light sources,
+						// the /light/directional object is defined at the
+						// top of this file.
+						//new /light/circle(src, 6)
+						//light.on = 0
 
 	TownTorches
-		Lit = 1
+		//Lit = 1
 		Torch
-			density = 0
+			density = 1
 			plane = MOB_LAYER+1
-			Lit = 1
+			//Lit = 1
 			//luminosity = 1
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "tt1"
-			New()
-				..()
-				soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
-				// we make the lamps have directional light sources,
-				// the /light/directional object is defined at the
-				// top of this file.
-				light = new /light/directional(loc, 8)
-				light.dir = SOUTH
-				light = new /light/circle(loc, 3)
+			//light = /light/circle
+
+
 		Torcha
 			density = 1
 			plane = 6
-			Lit = 1
+			//Lit = 1
 			//luminosity = 1
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "Torcha1"
-			New()
-				..()
-				soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
-				// we make the lamps have directional light sources,
-				// the /light/directional object is defined at the
-				// top of this file.
-				light = new /light/directional(src, 8)
-				light.dir = NORTH
-				light = new /light/circle(src, 3)
+			//light = /light/directional
+
+
 		Torchb
 			density = 1
 			plane = 6
-			Lit = 1
+			//Lit = 1
 			//luminosity = 1
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "Torchb1"
-			New()
-				..()
-				soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
-				// we make the lamps have directional light sources,
-				// the /light/directional object is defined at the
-				// top of this file.
-				light = new /light/directional(src, 8)
-				light.dir = EAST
-				light = new /light/circle(src, 3)
+			//light = /light/directional
+
+
 		Torchc
 			density = 1
 			plane = 6
-			Lit = 1
+			//Lit = 1
 			//luminosity = 1
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "Torchc1"
-			New()
-				..()
-				soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
-				// we make the lamps have directional light sources,
-				// the /light/directional object is defined at the
-				// top of this file.
-				light = new /light/directional(src, 8)
-				light.dir = WEST
-				light = new /light/circle(src, 3)
-	castlwll5a
-		name = "castlwll5a"
-		density = 0
-		mouse_opacity = 0
-		plane = 6
-		luminosity = 1
-		Lit = 1
-		icon = 'dmi/64/Castl.dmi'
-		icon_state = "5a"
-		New()
-			..()
-			soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
-			// we make the lamps have directional light sources,
-			// the /light/directional object is defined at the
-			// top of this file.
-			light = new /light/directional(src, 9)
-			light.dir = pick(SOUTH)
-			light = new /light/circle(src, 4)
-	introof6a
-		name = "introof6a"
-		density = 0
-		plane = 6
-		mouse_opacity = 0
-		opacity = 0
-		Lit = 1
-		luminosity = 1
-		icon = 'dmi/64/Castl.dmi'
-		icon_state = "r6a"
-		New()
-			..()
-			soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
-			// we make the lamps have directional light sources,
-			// the /light/directional object is defined at the
-			// top of this file.
-			light = new /light/directional(src, 9)
-			light.dir = pick(SOUTH)
-			light = new /light/circle(src, 4)
-	btmwll1a
-		name = "btmwll1a"
-		density = 0
-		plane = 6
-		Lit = 1
-		mouse_opacity = 0
-		opacity = 0
-		luminosity = 1
-		icon = 'dmi/64/Castl.dmi'
-		icon_state = "btmwll1a"
-		New()
-			..()
-			soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
-			// we make the lamps have directional light sources,
-			// the /light/directional object is defined at the
-			// top of this file.
-			light = new /light/directional(src, 9)
-			light.dir = pick(SOUTH)
-			light = new /light/circle(src, 4)
+			//light = /light/directional
+
+
+		castlwll5a
+			name = "castlwll5a"
+			density = 0
+			mouse_opacity = 0
+			plane = 6
+			//Lit = 1
+			icon = 'dmi/64/Castl.dmi'
+			icon_state = "5a"
+			//light = /light/directional
+
+
+		introof6a
+			name = "introof6a"
+			density = 0
+			plane = 6
+			mouse_opacity = 0
+			opacity = 0
+			//Lit = 1
+			icon = 'dmi/64/Castl.dmi'
+			icon_state = "r6a"
+			//light = /light/directional
+
+
+		btmwll1a
+			name = "btmwll1a"
+			density = 0
+			plane = 6
+			//Lit = 1
+			mouse_opacity = 0
+			opacity = 0
+			icon = 'dmi/64/Castl.dmi'
+			icon_state = "btmwll1a"
+			//light = /light/directional
+
+
 mob/players
 	proc
 		LD()
@@ -2130,39 +2413,95 @@ mob/players
 					return
 				..()
 
-			//else
-				//return
 obj/items/torches
+	icon = 'build.dmi'
 	var/spawntime
 	var/soundmob/s
+	var/state
 	//New()
 		//..()
 		//soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40)
+	proc/FindJar(mob/players/M)
+		for(var/obj/items/tools/Containers/Jar/J in M.contents)
+			locate(J)
+			if(J.suffix=="Equipped"&&M.JRequipped==1&&J.filled==1&&J.CType=="Tar"||J.suffix=="Equipped"&&M.JRequipped==1&&J.filled==1&&J.CType=="Oil")
+				return J
+	proc/FindJar2(mob/players/M)
+		for(var/obj/items/tools/Containers/Jar/J in M.contents)
+			locate(J)
+			if(J.filled==0)
+				return J
+			//else
+				//M << "Need to hold a Filled Jar."
+				//return
 	verb
-		Fuel_Torch()
+		Fuel_Torch()//converted to jar
 			set waitfor = 0
 			set category=null
 			set popup_menu = 1
 			//set hidden = 1
 			var/mob/players/M
 			M = usr
-			if(src in usr)
-				var/obj/items/Tar/J = locate() in M.contents
-				if((J in M.contents) && (src.name=="Empty Torch"))
+			var/obj/items/tools/Containers/Jar/J = FindJar(M)
+			var/obj/items/tools/Containers/Jar/J1 = FindJar2(M)
+			var/obj/items/torches/S = locate() in M
+			var/HandTorch=/obj/items/torches/Handtorch
+			//if(J.filled==1)
+			//	J.CType="Water"
+
+			if(J&&src.state=="Empty Torch"||J&&src.state=="Unfueled Torch")
+				for(J)//streamlined and working
+				//if(suffix=="Equipped"&&M.JRequipped==1&&filled==1&&CType=="Water")
+					//usingjar(M,100)
+					J.icon_state = "Jar"
+					J.volume = 0
+					src.spawntime += S.spawntime
+					//if(volume<0)
+					//	volume=0
+					//M<<"You drink the contents of the Jar."
+					J.CType="Empty"
+					J.name = "Jar"
+					J.filled=0
+				if(istype(S,HandTorch))
+					src.icon_state="torchfueled"
+				M<<"You add the fuel to the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+				if(src.state=="Empty Torch")
+					src:state="Unlit Torch"
+				if(src.state=="Unfueled Torch")
+					src:state="Fueled Torch"
+			/*else if(J.filled==1&&J.CType=="Tar"||J.filled==1&&J.CType=="Oil"||J.filled==1&&J.CType=="Sand")
+				M<<"You don't want to drink that."
+				return*/
+			//else if(J.filled==1&&J.CType=="Oil")
+				//M<<"You don't want to drink that."
+				//return
+			if(M.JRequipped==0)
+				M<<"You need to hold a Jar filled with Tar or Oil to fuel the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+				return
+			else if(M.JRequipped==1&&J1)
+				M<<"You need to fill the Jar with Tar or Oil to fuel the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+				return
+
+			//Old Way
+				/*var/obj/items/Tar/J = locate() in M.contents
+				if((J in M.contents) && (src.state=="Empty Torch"))
 					M<<"You add the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> [J] onto the empty <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch."
 					sleep(5)
 					J.RemoveFromStack(1)
 					//src.overlays += icon('dmi/64/fire.dmi',icon_state="unlitfire")
-					src:name="Unlit Torch"
+					src:state="Unlit Torch"
 					return
 				else
 					M<<"Can only add \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar to an empty <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>torch."
-		Light_Torch()
+		*/
+		Light_Torch()//works?
 			//set hidden = 1
 			set category = null
 			set popup_menu = 1
 			set waitfor = 0
 			//set src in usr
+			var/mob/players/M
+			M = usr
 			var/HandTorch=/obj/items/torches/Handtorch
 			var/IronHandLamp=/obj/items/torches/ironhandlamp
 			var/CopperHandLamp=/obj/items/torches/copperhandlamp
@@ -2170,67 +2509,68 @@ obj/items/torches
 			var/BrassHandLamp=/obj/items/torches/brasshandlamp
 			var/SteelHandLamp=/obj/items/torches/steelhandlamp
 			//var/soundmob/tmp/s = new/soundmob(M, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 40, FALSE)
-			var/mob/players/M = usr
 
-			s = new(M, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, TRUE)
+
+
 
 			var/obj/items/torches/J = locate() in M.contents
 			if(M.Doing==0)
 				//var/obj/items/torches/J = locate() in M.contents
-				if(src.name=="Lit Torch")
-					M<<"You already lit the <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch."
+				if(src.state=="Lit Torch")
+					M<<"Already lit!"
 					return 0
-				if(src.name=="Empty Torch")
-					M<<"You need to add \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar to light the <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch."
+				if(src.state=="Empty Torch")
+					M<<"You need to add Tar or Oil to light the [src.name]."
 					return 0
-				if(src.name=="Snuffed Torch")
+				if(src.state=="Snuffed Torch")
 					//M<<"You start to reignite the Tar in the Torch"
 					//M.Doing=1
-					src.name="Unlit Torch"
+					src.state="Unlit Torch"
 					//src.Scount+=1
 					//del torch
-				if(src.Scount>=5)
+				if(src.Scount>=5&&istype(J,HandTorch))
 					M << "You discard the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>torch as it is no longer viable..."
 					M.Doing=0
 					sleep(5)
 					del (src)
 					return
-				if(M.CKequipped==1&&M.FLequipped==1&&src.name=="Unlit Torch")
+				if(M.CKequipped==1&&M.FLequipped==1&&src.state=="Unlit Torch"||M.PYequipped==1&&M.FLequipped==1&&src.state=="Unlit Torch")
 					//s = new/soundmob(M, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 40, FALSE)
-					M<<"You start to ignite the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch"
-					M.Doing=1
+					src.s = new/soundmob(M, 20, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
+					M<<"You start to ignite the fuel in the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+
 					sleep(5)
 					//if(J.type==HandTorch)
 
 //					M.listenSoundmob(s)
 
 					//sleep(J.spawntime)
-					J:name="Lit Torch"
+					J:state="Lit Torch"
 
-					if(J.name=="Dead Torch")//fixed?
+					if(J.state=="Dead Torch")//fixed?
 						M.unlistenSoundmob(s)
 
-
-
-
-					if(J.name=="Lit Torch"&&istype(src,/obj/items/torches/Handtorch)&&J.type==HandTorch)
-
-						var/image/torch
-						torch = image('dmi/64/hto.dmi')
-						//J:name="Lit Torch"
-						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch"
-						M.light = new/light/circle (M, 3)
-						M.light.on=1
-						M.light.mobile=1
+					if(J.state=="Lit Torch"&&istype(src,/obj/items/torches/Handtorch)&&J.type==HandTorch)//working for the most part -- sound still can't repeat
+						//var/image/torch
+						//torch = image('dmi/64/hto.dmi',M)
+						//J:state="Lit Torch"
+						M<<"You ignite the [src.name]."
+						//M:light = new/light/circle (M, 2)
+						M.Doing=1
+						M:light = new/light/circle (M, 2)
+						M:light.mobile=1
+						M.light.on()
+						//M.light.mobile=1
 						//if(M.light.on==1)
 							//M.light.dir = M:move_dir
 							//..()
-						//M.listenSoundmob(s)
-//						usr << torch
-						M.overlays += torch
-						//M.overlays += image('64/fire.dmi',icon_state="hto")
-
-						J.overlays += image('64/fire.dmi',icon_state="bht")
+						M.listenSoundmob(s)
+						//usr << torch
+						//M.overlays += torch
+						//M.overlays += HandTorch
+						//M.overlays += image('64/fire.dmi',icon_state="hto")//shows up for first frame but disappears. Annoying because I've had this working before
+						//M.overlays += icon('dmi/64/fire.dmi',icon_state="[M.dir]")
+						src.icon_state="torch"//J.overlays += image('64/fire.dmi',icon_state="bht")
 						//if(M.light.on==1)
 							//M.Doing=0
 							//while(M.light.on==1)
@@ -2238,59 +2578,69 @@ obj/items/torches
 								//J.overlays += icon('64/fire.dmi',icon_state="bht")
 								//sleep(J.spawntime)
 						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+							/*M.light.off()
+							M.unlistenSoundmob(s)
+							J.overlays -= image('64/fire.dmi',icon_state="lt")
+							M << "You snuff the torch."
+							return*/
 						//else
-							//if(M.light.on==1&&J.name=="Lit Torch")
-								//if(J.name=="Snuffed Torch")
+							//if(M.light.on==1&&J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
 						sleep(J.spawntime)
-						if(J.name=="Lit Torch")
-								//if(J.name=="Snuffed Torch")
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+						//src.state="Unfueled Torch"
+						//if(J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-						//sleep(25)
-								//if(J.name=="Snuffed Torch")
-									//return
-									//for(J in M.contents)
-							J.overlays -= image('64/fire.dmi',icon_state="bht")
-							M.overlays -= torch
-								//M.overlays -= image('64/fire.dmi',icon_state="hto")
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away."
+						src.state="Unfueled Torch"
+						J.spawntime += 150
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+						sleep(J.spawntime)
+						J.icon_state="torchout"//J.overlays -= image('64/fire.dmi',icon_state="bht")
+						//M.overlays -= torch
+						//M.vis_contents -= icon('64/hto.dmi')
 
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
-									//del src.light
-						//M.unlistenSoundmob(s)
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch has reduced to residue."
+								//del src.light
+
+						M.unlistenSoundmob(s)
 
 //							M.unlistenSoundmob(s)
-							s.unsetListeners(M)
-								//M._listening_soundmobs -= s
-							M.light.off()
-								//del(s)
-							J:name="Empty Torch"
-								//M.LD()
-							return
+						//s.unsetListeners(M)
+							//M._listening_soundmobs -= s
+						M.light.off()
+							//del(s)
+						J:state="Empty Torch"
+							//M.LD()
+						//del torch
+						del src
+						return
 							//else
 								//return M << "Torch is out."
 
-
-
-
-
-					if(J.name=="Lit Torch"&&istype(src,/obj/items/torches/ironhandlamp)&&J.type==IronHandLamp)//ILO lt
+					if(J.state=="Lit Torch"&&istype(src,/obj/items/torches/ironhandlamp)&&J.type==IronHandLamp)//working for the most part -- sound still can't repeat
 						var/torch
 						torch = image('dmi/64/ILO.dmi',M)
-						//J:name="Lit Torch"
-						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-						M.light = new/light/circle (M, 3)
-						M.light.on=1
-						M.light.mobile=1
+						//J:state="Lit Torch"
+						M.Doing=1
+						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+						//M:light = new/light/circle (M, 3)
+						M.light.on()
+						//M.light.mobile=1
 						//if(M.light.on==1)
 							//M.light.dir = M:move_dir
 							//..()
-						//M.listenSoundmob(s)
+						M.listenSoundmob(s)
 						usr << torch
-						//M.overlays += image('64/fire.dmi',icon_state="hto")
-						J.overlays += image('64/fire.dmi',icon_state="lt")
+						//M.overlays += torch
+						M.overlays += image('64/build.dmi',icon_state="ILO")
+						J.icon_state="IHTL"//J.overlays += image('64/fire.dmi',icon_state="bht")
 						//if(M.light.on==1)
 							//M.Doing=0
 							//while(M.light.on==1)
@@ -2298,87 +2648,68 @@ obj/items/torches
 								//J.overlays += icon('64/fire.dmi',icon_state="bht")
 								//sleep(J.spawntime)
 						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+							/*M.light.off()
+							M.unlistenSoundmob(s)
+							J.overlays -= image('64/fire.dmi',icon_state="lt")
+							M << "You snuff the torch."
+							return*/
 						//else
-							//if(M.light.on==1&&J.name=="Lit Torch")
-								//if(J.name=="Snuffed Torch")
+							//if(M.light.on==1&&J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
 						sleep(J.spawntime)
-								//if(J.name=="Snuffed Torch")
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+						src.state="Unfueled Torch"
+						//if(J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-						sleep(25)
-								//if(J.name=="Snuffed Torch")
-									//return
-									//for(J in M.contents)
-						J.overlays -= image('64/fire.dmi',icon_state="lt")
-								//M.overlays -= image('64/fire.dmi',icon_state="hto")
-
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
-									//del src.light
-						J:name="Dead Torch"
-						//M.unlistenSoundmob(s)
-						if(J.name=="Dead Torch") M.unlistenSoundmob(s)
-								//M._listening_soundmobs -= s
-						M.light.off()
-						del torch
-								//del(s)
-						J:name="Empty Torch"
-								//M.LD()
-						return
-						/*var/torch
-						torch = image('dmi/64/ILO.dmi',M)
-						J:name="Lit Torch"
-						M<<"You ignite the Torch"
-						M.light = new (M, 4)
-						usr << torch
-						J.overlays += icon('64/fire.dmi',icon_state="lt")
-						//if(M.light.on==1)
-							//M.Doing=0
-							//while(M.light.on==1)
-								//M.LD()
-								//J.overlays += icon('64/fire.dmi',icon_state="bht")
-								//sleep(J.spawntime)
-						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
-						if(M.light.on==1&&J.name=="Lit Torch")
-							if(J.name=="Snuffed Torch")
-								return
-							sleep(J.spawntime)
-							if(J.name=="Snuffed Torch")
-								return
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-							sleep(25)
-							if(J.name=="Snuffed Torch")
-								return
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='IHTL'>[J] is burning away."
+					//sleep(25)
+							//if(J.state=="Snuffed Torch")
+								//return
 								//for(J in M.contents)
-							J.overlays -= icon('64/fire.dmi',icon_state="lt")
-							J:name="Empty Torch"
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
+						J.spawntime += 50
+
+						sleep(J.spawntime)
+						J.icon_state="ironhandlamp"//J.overlays -= image('64/fire.dmi',icon_state="bht")
+						//M.overlays -= torch
+						M.overlays -= image('64/fire.dmi',icon_state="ILO")
+
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ironhandlamp'>[J] has reduced to residue."
 								//del src.light
-							M.light.off()
-							del torch
+
+						M.unlistenSoundmob(s)
+
+//							M.unlistenSoundmob(s)
+						//s.unsetListeners(M)
+							//M._listening_soundmobs -= s
+						M.light.off()
+							//del(s)
+						J:state="Empty Torch"
 							//M.LD()
-							return
-						else
-							return M << "Torch is out."*/
-					if(J.name=="Lit Torch"&&istype(src,/obj/items/torches/copperhandlamp)&&J.type==CopperHandLamp)//CLO lt
+						del torch
+						return
+
+					if(J.state=="Lit Torch"&&istype(src,/obj/items/torches/copperhandlamp)&&J.type==CopperHandLamp)//working for the most part -- sound still can't repeat
 						var/torch
 						torch = image('dmi/64/CLO.dmi',M)
-						//J:name="Lit Torch"
-						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-						M.light = new/light/circle (M, 3)
-						M.light.on=1
-						M.light.mobile=1
+						//J:state="Lit Torch"
+						M.Doing=1
+						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+						//M:light = new/light/circle (M, 3)
+						M.light.on()
+						//M.light.mobile=1
 						//if(M.light.on==1)
 							//M.light.dir = M:move_dir
 							//..()
-						//M.listenSoundmob(s)
+						M.listenSoundmob(s)
 						usr << torch
-						//M.overlays += image('64/fire.dmi',icon_state="hto")
-						J.overlays += image('64/fire.dmi',icon_state="lt")
+						//M.overlays += torch
+						M.overlays += image('64/build.dmi',icon_state="CLO")
+						J.icon_state="CHTL"//J.overlays += image('64/fire.dmi',icon_state="bht")
 						//if(M.light.on==1)
 							//M.Doing=0
 							//while(M.light.on==1)
@@ -2386,175 +2717,64 @@ obj/items/torches
 								//J.overlays += icon('64/fire.dmi',icon_state="bht")
 								//sleep(J.spawntime)
 						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+							/*M.light.off()
+							M.unlistenSoundmob(s)
+							J.overlays -= image('64/fire.dmi',icon_state="lt")
+							M << "You snuff the torch."
+							return*/
 						//else
-							//if(M.light.on==1&&J.name=="Lit Torch")
-								//if(J.name=="Snuffed Torch")
+							//if(M.light.on==1&&J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
 						sleep(J.spawntime)
-								//if(J.name=="Snuffed Torch")
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+						//if(J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-						sleep(25)
-								//if(J.name=="Snuffed Torch")
-									//return
-									//for(J in M.contents)
-						J.overlays -= image('64/fire.dmi',icon_state="lt")
-								//M.overlays -= image('64/fire.dmi',icon_state="hto")
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='CHTL'>[J] is burning away."
+						src.state="Unfueled Torch"
+						J.spawntime += 50
 
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
-									//del src.light
-						J:name="Dead Torch"
-						//M.unlistenSoundmob(s)
-						if(J.name=="Dead Torch") M.unlistenSoundmob(s)
-								//M._listening_soundmobs -= s
-						M.light.off()
-						del torch
-								//del(s)
-						J:name="Empty Torch"
-								//M.LD()
-						return
-						/*var/torch
-						torch = image('dmi/64/CLO.dmi',M)
-						J:name="Lit Torch"
-						M<<"You ignite the Torch"
-						M.light = new (M, 5)
-						usr << torch
-						J.overlays += icon('64/fire.dmi',icon_state="lt")
-						//if(M.light.on==1)
-							//M.Doing=0
-							//while(M.light.on==1)
-								//M.LD()
-								//J.overlays += icon('64/fire.dmi',icon_state="bht")
-								//sleep(J.spawntime)
-						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
-						if(M.light.on==1&&J.name=="Lit Torch")
-							if(J.name=="Snuffed Torch")
-								return
-							sleep(J.spawntime)
-							if(J.name=="Snuffed Torch")
-								return
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-							sleep(35)
-							if(J.name=="Snuffed Torch")
-								return
-								//for(J in M.contents)
-							J.overlays -= icon('64/fire.dmi',icon_state="lt")
-							J:name="Empty Torch"
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
-								//del src.light
-							M.light.off()
-							del torch
-							//M.LD()
-							return
-						else
-							return M << "Torch is out."*/
-					if(J.name=="Lit Torch"&&istype(src,/obj/items/torches/brasshandlamp)&&J.type==BrassHandLamp)//BRLO lt
-						var/torch
-						torch = image('dmi/64/BRLO.dmi',M)
-						//J:name="Lit Torch"
-						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-						M.light = new/light/circle (M, 3)
-						M.light.on=1
-						M.light.mobile=1
-						//if(M.light.on==1)
-							//M.light.dir = M:move_dir
-							//..()
-						//M.listenSoundmob(s)
-						usr << torch
-						//M.overlays += image('64/fire.dmi',icon_state="hto")
-						J.overlays += image('64/fire.dmi',icon_state="lt")
-						//if(M.light.on==1)
-							//M.Doing=0
-							//while(M.light.on==1)
-								//M.LD()
-								//J.overlays += icon('64/fire.dmi',icon_state="bht")
-								//sleep(J.spawntime)
-						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
-						//else
-							//if(M.light.on==1&&J.name=="Lit Torch")
-								//if(J.name=="Snuffed Torch")
-									//return
 						sleep(J.spawntime)
-								//if(J.name=="Snuffed Torch")
-									//return
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-						sleep(25)
-								//if(J.name=="Snuffed Torch")
-									//return
-									//for(J in M.contents)
-						J.overlays -= image('64/fire.dmi',icon_state="lt")
-								//M.overlays -= image('64/fire.dmi',icon_state="hto")
+						J.icon_state="copperhandlamp"//J.overlays -= image('64/fire.dmi',icon_state="bht")
+						//M.overlays -= torch
+						M.overlays -= image('64/build.dmi',icon_state="CLO")
 
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
-									//del src.light
-						J:name="Dead Torch"
-						//M.unlistenSoundmob(s)
-						if(J.name=="Dead Torch") M.unlistenSoundmob(s)
-								//M._listening_soundmobs -= s
-						M.light.off()
-						del torch
-								//del(s)
-						J:name="Empty Torch"
-								//M.LD()
-						return
-						/*var/torch
-						torch = image('dmi/64/BRLO.dmi',M)
-						J:name="Lit Torch"
-						M<<"You ignite the Torch"
-						M.light = new (M, 7)
-						usr << torch
-						J.overlays += icon('64/fire.dmi',icon_state="lt")
-						//if(M.light.on==1)
-							//M.Doing=0
-							//while(M.light.on==1)
-								//M.LD()
-								//J.overlays += icon('64/fire.dmi',icon_state="bht")
-								//sleep(J.spawntime)
-						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
-						if(M.light.on==1&&J.name=="Lit Torch")
-							if(J.name=="Snuffed Torch")
-								return
-							sleep(J.spawntime)
-							if(J.name=="Snuffed Torch")
-								return
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-							sleep(55)
-							if(J.name=="Snuffed Torch")
-								return
-								//for(J in M.contents)
-							J.overlays -= icon('64/fire.dmi',icon_state="lt")
-							J:name="Empty Torch"
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='copperhandlamp'>[J] has reduced to residue."
 								//del src.light
-							M.light.off()
-							del torch
+
+						M.unlistenSoundmob(s)
+
+//							M.unlistenSoundmob(s)
+						//s.unsetListeners(M)
+							//M._listening_soundmobs -= s
+						M.light.off()
+							//del(s)
+						J:state="Empty Torch"
 							//M.LD()
-							return
-						else
-							return M << "Torch is out."*/
-					if(J.name=="Lit Torch"&&istype(src,/obj/items/torches/bronzehandlamp)&&J.type==BronzeHandLamp)//BLO lt
+						del torch
+						return
+
+					if(J.state=="Lit Torch"&&istype(src,/obj/items/torches/bronzehandlamp)&&J.type==BronzeHandLamp)//working for the most part -- sound still can't repeat
 						var/torch
 						torch = image('dmi/64/BLO.dmi',M)
-						//J:name="Lit Torch"
-						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-						M.light = new/light/circle (M, 3)
-						M.light.on=1
-						M.light.mobile=1
+						//J:state="Lit Torch"
+						M.Doing=1
+						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+						//M:light = new/light/circle (M, 3)
+						M.light.on()
+						//M.light.mobile=1
 						//if(M.light.on==1)
 							//M.light.dir = M:move_dir
 							//..()
-						//M.listenSoundmob(s)
+						M.listenSoundmob(s)
 						usr << torch
-						//M.overlays += image('64/fire.dmi',icon_state="hto")
-						J.overlays += image('64/fire.dmi',icon_state="lt")
+						//M.overlays += torch
+						M.overlays += image('64/build.dmi',icon_state="BLO")
+						J.icon_state="BHTL"//J.overlays += image('64/fire.dmi',icon_state="bht")
 						//if(M.light.on==1)
 							//M.Doing=0
 							//while(M.light.on==1)
@@ -2562,50 +2782,129 @@ obj/items/torches
 								//J.overlays += icon('64/fire.dmi',icon_state="bht")
 								//sleep(J.spawntime)
 						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+							/*M.light.off()
+							M.unlistenSoundmob(s)
+							J.overlays -= image('64/fire.dmi',icon_state="lt")
+							M << "You snuff the torch."
+							return*/
 						//else
-							//if(M.light.on==1&&J.name=="Lit Torch")
-								//if(J.name=="Snuffed Torch")
+							//if(M.light.on==1&&J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
 						sleep(J.spawntime)
-								//if(J.name=="Snuffed Torch")
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+						//if(J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-						sleep(25)
-								//if(J.name=="Snuffed Torch")
-									//return
-									//for(J in M.contents)
-						J.overlays -= image('64/fire.dmi',icon_state="lt")
-								//M.overlays -= image('64/fire.dmi',icon_state="hto")
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='BHTL'>[J] is burning away."
+						src.state="Unfueled Torch"
+						J.spawntime += 50
 
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
-									//del src.light
-						J:name="Dead Torch"
-						//M.unlistenSoundmob(s)
-						if(J.name=="Dead Torch") M.unlistenSoundmob(s)
-								//M._listening_soundmobs -= s
+						sleep(J.spawntime)
+						J.icon_state="bronzehandlamp"//J.overlays -= image('64/fire.dmi',icon_state="bht")
+						//M.overlays -= torch
+						M.overlays -= image('64/build.dmi',icon_state="BLO")
+
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bronzehandlamp'>[J] has reduced to residue."
+								//del src.light
+
+						M.unlistenSoundmob(s)
+
+//							M.unlistenSoundmob(s)
+						//s.unsetListeners(M)
+							//M._listening_soundmobs -= s
 						M.light.off()
+							//del(s)
+						J:state="Empty Torch"
+							//M.LD()
 						del torch
-								//del(s)
-						J:name="Empty Torch"
-								//M.LD()
 						return
-					if(J.name=="Lit Torch"&&istype(src,/obj/items/torches/steelhandlamp)&&J.type==SteelHandLamp)//BLO lt
+
+					if(J.state=="Lit Torch"&&istype(src,/obj/items/torches/brasshandlamp)&&J.type==BrassHandLamp)//working for the most part -- sound still can't repeat
+						var/torch
+						torch = image('dmi/64/BRLO.dmi',M)
+						//J:state="Lit Torch"
+						M.Doing=1
+						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+						//M:light = new/light/circle (M, 4)
+						M.light.on()
+						//M.light.mobile=1
+						//if(M.light.on==1)
+							//M.light.dir = M:move_dir
+							//..()
+						M.listenSoundmob(s)
+						usr << torch
+						//M.overlays += torch
+						M.overlays += image('64/build.dmi',icon_state="BRLO")
+						J.icon_state="BSHTL"//J.overlays += image('64/fire.dmi',icon_state="bht")
+						//if(M.light.on==1)
+							//M.Doing=0
+							//while(M.light.on==1)
+								//M.LD()
+								//J.overlays += icon('64/fire.dmi',icon_state="bht")
+								//sleep(J.spawntime)
+						M.Doing=0
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+							/*M.light.off()
+							M.unlistenSoundmob(s)
+							J.overlays -= image('64/fire.dmi',icon_state="lt")
+							M << "You snuff the torch."
+							return*/
+						//else
+							//if(M.light.on==1&&J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
+									//return
+						sleep(J.spawntime)
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+						//if(J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
+									//return
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='BSHTL'>[J] is burning away."
+						src.state="Unfueled Torch"
+						J.spawntime += 50
+
+						sleep(J.spawntime)
+						J.icon_state="brasshandlamp"//J.overlays -= image('64/fire.dmi',icon_state="bht")
+						//M.overlays -= torch
+						M.overlays -= image('64/build.dmi',icon_state="BRLO")
+
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='brasshandlamp'>[J] has reduced to residue."
+								//del src.light
+
+						M.unlistenSoundmob(s)
+
+//							M.unlistenSoundmob(s)
+						//s.unsetListeners(M)
+							//M._listening_soundmobs -= s
+						M.light.off()
+							//del(s)
+						J:state="Empty Torch"
+							//M.LD()
+						del torch
+						return
+
+					if(J.state=="Lit Torch"&&istype(src,/obj/items/torches/steelhandlamp)&&J.type==SteelHandLamp)//working for the most part -- sound still can't repeat
 						var/torch
 						torch = image('dmi/64/SLO.dmi',M)
-						//J:name="Lit Torch"
-						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[J]"
-						M.light = new/light/circle (M, 3)
-						M.light.on=1
-						M.light.mobile=1
+						//J:state="Lit Torch"
+						M.Doing=1
+						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.name]."
+						//M:light = new/light/circle (M, 5)
+						M.light.on()
+						//M.light.mobile=1
 						//if(M.light.on==1)
 							//M.light.dir = M:move_dir
 							//..()
-						//M.listenSoundmob(s)
+						M.listenSoundmob(s)
 						usr << torch
-						//M.overlays += image('64/fire.dmi',icon_state="hto")
-						J.overlays += image('64/fire.dmi',icon_state="lt")
+						//M.overlays += torch
+						M.overlays += image('64/build.dmi',icon_state="SLO")
+						J.icon_state="SHTL"//J.overlays += image('64/fire.dmi',icon_state="bht")
 						//if(M.light.on==1)
 							//M.Doing=0
 							//while(M.light.on==1)
@@ -2613,108 +2912,85 @@ obj/items/torches
 								//J.overlays += icon('64/fire.dmi',icon_state="bht")
 								//sleep(J.spawntime)
 						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+							/*M.light.off()
+							M.unlistenSoundmob(s)
+							J.overlays -= image('64/fire.dmi',icon_state="lt")
+							M << "You snuff the torch."
+							return*/
 						//else
-							//if(M.light.on==1&&J.name=="Lit Torch")
-								//if(J.name=="Snuffed Torch")
+							//if(M.light.on==1&&J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
 						sleep(J.spawntime)
-								//if(J.name=="Snuffed Torch")
+						if(J.state=="Snuffed Torch")
+							Snuff_Torch()
+						//if(J.state=="Lit Torch")
+								//if(J.state=="Snuffed Torch")
 									//return
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-						sleep(25)
-								//if(J.name=="Snuffed Torch")
-									//return
-									//for(J in M.contents)
-						J.overlays -= image('64/fire.dmi',icon_state="lt")
-								//M.overlays -= image('64/fire.dmi',icon_state="hto")
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='SHTL'>[J] is burning away."
+						src.state="Unfueled Torch"
+						J.spawntime += 50
 
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
-									//del src.light
-						J:name="Dead Torch"
-						//M.unlistenSoundmob(s)
-						if(J.name=="Dead Torch") M.unlistenSoundmob(s)
-								//M._listening_soundmobs -= s
-						M.light.off()
-						del torch
-								//del(s)
-						J:name="Empty Torch"
-								//M.LD()
-						return
-						/*
-						var/torch
-						torch = image('dmi/64/BLO.dmi',M)
-						J:name="Lit Torch"
-						M<<"You ignite the Torch"
-						M.light = new (M, 7)
-						usr << torch
-						J.overlays += icon('64/fire.dmi',icon_state="lt")
-						//if(M.light.on==1)
-							//M.Doing=0
-							//while(M.light.on==1)
-								//M.LD()
-								//J.overlays += icon('64/fire.dmi',icon_state="bht")
-								//sleep(J.spawntime)
-						M.Doing=0
-						if(J.name=="Snuffed Torch")
-							return
-						if(M.light.on==1&&J.name=="Lit Torch")
-							if(J.name=="Snuffed Torch")
-								return
-							sleep(J.spawntime)
-							if(J.name=="Snuffed Torch")
-								return
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-							sleep(45)
-							if(J.name=="Snuffed Torch")
-								return
-								//for(J in M.contents)
-							J.overlays -= icon('64/fire.dmi',icon_state="lt")
-							J:name="Empty Torch"
-							M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
+						sleep(J.spawntime)
+						J.icon_state="steelhandlamp"//J.overlays -= image('64/fire.dmi',icon_state="bht")
+						//M.overlays -= torch
+						M.overlays -= image('64/build.dmi',icon_state="SLO")
+
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='steelhandlamp'>[J] has reduced to residue."
 								//del src.light
-							M.light.off()
-							del torch
+
+						M.unlistenSoundmob(s)
+
+//							M.unlistenSoundmob(s)
+						//s.unsetListeners(M)
+							//M._listening_soundmobs -= s
+						M.light.off()
+							//del(s)
+						J:state="Empty Torch"
 							//M.LD()
-							return
-						else
-							return M << "Torch is out."*/
+						del torch
+						return
+
+
 				else
-					usr<<"Need to use your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife and  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Flint'>Flint to light the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>torch."
+					usr<<"Need to use your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife and or <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pyrite'>Pyrite with<IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Flint'>Flint to light the <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'>[src.name]."
+					return
 			else
-				usr << "You are already lighting the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch..."
-		Light_Novice_Torch()
+				usr << "You are already lighting the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src]..."
+				return
+		/*Light_Novice_Torch()
 			set waitfor = 0
 			set popup_menu = 1
 			set category = null
-			//set hidden = 1
+			set hidden = 1
 			var/HandTorch=/obj/items/torches/Handtorch
 			var/mob/players/M
 			M = usr
 			if(M.Doing==0)
 				//var/obj/items/torches/J = src
-				if(src.name=="Lit Torch")
+				if(src.state=="Lit Torch")
 					M<<"You already lit the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch."
 					return 0
-				if(src.name=="Empty Torch")
+				if(src.state=="Empty Torch")
 					M<<"You need to add \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar to light the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch."
 					return 0
 				if(src.Scount==5)
 					M<<"The snuffed material turns to ash"
 					src:Scount=0
-					src:name="Empty Torch"
-				if(M.FLequipped==1&&M.PYequipped==1&&src.name=="Unlit Torch")
-					M<<"You start to ignite the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch"
+					src:state="Empty Torch"
+				if(M.FLequipped==1&&M.PYequipped==1&&src.state=="Unlit Torch")
+					M<<"You start to ignite the \  fuel in the <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch"
 					M.Doing=1
 					sleep(5)
-					src:name="Lit Torch"
+					src:state="Lit Torch"
 					M.listenSoundmob(s)
-					if(src.name=="Dead Torch") M.unlistenSoundmob(s)
-					if(src.name=="Lit Torch"&&src.type==HandTorch)
-						//src:name="Lit Torch"
+					if(src.state=="Dead Torch") M.unlistenSoundmob(s)
+					if(src.state=="Lit Torch"&&src.type==HandTorch)
+						//src:state="Lit Torch"
 						M<<"You ignite the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch"
-						//M.light = new /light/directional(usr, 6)
+						//M.new /light/directional(usr, 6)
 						//M.light.dir = M.dir
 						M.light = new (M, 3)
 						//light.loc = M
@@ -2723,58 +2999,103 @@ obj/items/torches
 						src.overlays += icon('dmi/64/fire.dmi',icon_state="bht")
 						//M.overlays += icon('dmi/64/fire.dmi',icon_state="[get_step(M,dir]")
 						sleep(1240)
-						if(src.name=="Unlit Torch") return 0
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
-						//if(src.name=="Unlit Torch") return 0
+						if(src.state=="Unlit Torch") return 0
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='bht'>Torch is burning away"
+						//if(src.state=="Unlit Torch") return 0
 						sleep(149)
 						src.overlays -= icon('dmi/64/fire.dmi',icon_state="bht")
-						src:name="Dead Torch"
-						if(src.name=="Dead Torch") M.unlistenSoundmob(s)
+						src:state="Dead Torch"
+						if(src.state=="Dead Torch") M.unlistenSoundmob(s)
 						//M.overlays -= icon('dmi/64/fire.dmi',icon_state="[M.dir]")
-						src:name="Empty Torch"
-						M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='tar'>Tar in the  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch turns to ash"
+						src:state="Empty Torch"
+						M<<"The fuel in the \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch is reduced to residue."
 						//del src.light
 						M.light.off()
-						return
+						return*/
 		Snuff_Torch()
 			set popup_menu = 1
 			set category = null
 			set waitfor = 0
 			//set hidden = 1
-			var/mob/players/M=usr
+			var/mob/players/M
+			M=usr
 			var/HandTorch=/obj/items/torches/Handtorch
-			if(src.name=="Snuffed Torch")
-				M.overlays -= image('dmi/64/hto.dmi',M)
-			var/obj/items/torches/J
+			var/IronHandLamp=/obj/items/torches/ironhandlamp
+			var/CopperHandLamp=/obj/items/torches/copperhandlamp
+			var/BronzeHandLamp=/obj/items/torches/bronzehandlamp
+			var/BrassHandLamp=/obj/items/torches/brasshandlamp
+			var/SteelHandLamp=/obj/items/torches/steelhandlamp
 
-			for(J in M.contents)
-				//var/obj/items/Kindling/J = locate() in M.contents
-				if(src.name=="Lit Torch")
-					//var/torch
-					M<<"You snuff the <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Torch."
-					sleep(5)
-					//J.RemoveFromStack(1)
-					if(J.type==HandTorch)
-						M.overlays -= image('dmi/64/hto.dmi')
-					J.overlays-=image('dmi/64/fire.dmi',icon_state="bht")
-					J.Scount+=1
-					M.light.off()
-//					M.unlistenSoundmob(s)
-					s.unsetListeners()
-					//src.overlays += icon('dmi/64/fire.dmi',icon_state="snuffedfire")
-					src:name="Snuffed Torch"
-					//del torch
-					return
-				else
-					continue
+			if(src.state=="Snuffed Torch"&&istype(src,HandTorch))
+				M.overlays -= overlays
+
+			var/obj/items/torches/J = locate() in M
+			if(J)
+				for(J)
+					//var/obj/items/Kindling/J = locate() in M.contents
+					if(src.state=="Lit Torch"||src.state=="Unfueled Torch")
+						//var/torch
+						M<<"You snuff the [src.name]."
+						sleep(5)
+						//J.RemoveFromStack(1)
+						if(J.type==HandTorch)
+							M.overlays -= image('dmi/64/hto.dmi')
+							J.icon_state="torchout"//J.overlays-=image('dmi/64/fire.dmi',icon_state="bht")
+							M.light.off()
+							M.unlistenSoundmob(s)
+							//del light
+							//M.unsetListeners(s)
+							//src.overlays += icon('dmi/64/fire.dmi',icon_state="snuffedfire")
+							src:state="Snuffed [src]."
+							J.Scount+=1
+
+							break
+						if(J.type==IronHandLamp)
+							M.overlays -= image('dmi/64/ILO.dmi')
+							J.icon_state="ironhandlamp"//J.overlays-=image('dmi/64/fire.dmi',icon_state="bht")
+							J.Scount+=1
+						if(J.type==CopperHandLamp)
+							M.overlays -= image('dmi/64/CLO.dmi')
+							J.icon_state="copperhandlamp"//J.overlays-=image('dmi/64/fire.dmi',icon_state="bht")
+							J.Scount+=1
+						if(J.type==BronzeHandLamp)
+							M.overlays -= image('dmi/64/BRLO.dmi')
+							J.icon_state="bronzehandlamp"//J.overlays-=image('dmi/64/fire.dmi',icon_state="bht")
+							J.Scount+=1
+						if(J.type==BrassHandLamp)
+							M.overlays -= image('dmi/64/BLO.dmi')
+							J.icon_state="brasshandlamp"//J.overlays-=image('dmi/64/fire.dmi',icon_state="bht")
+							J.Scount+=1
+						if(J.type==SteelHandLamp)
+							M.overlays -= image('dmi/64/SLO.dmi')
+							J.icon_state="steelhandlamp"//J.overlays-=image('dmi/64/fire.dmi',icon_state="bht")
+							J.Scount+=1
+						M.light.off()
+						M.unlistenSoundmob(s)
+						//del light
+						//M.unsetListeners(s)
+						//src.overlays += icon('dmi/64/fire.dmi',icon_state="snuffedfire")
+						src:state="Snuffed [src]."
+						//del torch
+						return
+					else
+						M << "Torch is already out."
+						return
+			else
+				M << "Need a torch or lamp to snuff."
+				return
+	workalready
+		icon = 'hto.dmi'
+		layer=FLOAT_LAYER-1
 	Handtorch
 		density = 1
 		plane = 6
 		//luminosity = 1
-		icon = 'dmi/64/fire.dmi'
-		icon_state = "ht"
-		name = "Empty Torch"
-		light = /light/circle
+		icon = 'dmi/64/build.dmi'
+		icon_state = "torchout"
+		state = "Empty Torch"
+		name = "Hand Torch"
+		//light = /light/circle
 		spawntime = 240//good timing for sound>visual connection(when the "fire" goes out, the sound of burning stops, as well) better to simply link the sound file length with the timing of the light, as it is harder to force a sound to stop. Go with the flow!
 		var/sound = /obj/snd/sfx/fire3 //var/soundmob/s = new soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40, FALSE) //this goes on the action
 		New()
@@ -2785,7 +3106,7 @@ obj/items/torches
 			// top of this file.
 	//	light = /light/directional(src, 8)
 	//	light.dir = usr.dir
-			//light = new /light/circle(usr, 4)
+			//new /light/circle(usr, 4)
 			//light.off()
 			//light.mobile = 1
 	ironhandlamp
@@ -2794,8 +3115,9 @@ obj/items/torches
 		luminosity = 1
 		icon = 'dmi/64/build.dmi'
 		icon_state = "ironhandlamp"
-		name = "Empty Torch"
-		light = /light/circle
+		state = "Empty Torch"
+		name = "Iron Hand Lamp"
+		//light = /light/circle
 		spawntime = 1240
 		New()
 			..()
@@ -2803,7 +3125,7 @@ obj/items/torches
 			// we make the lamps have directional light sources,
 			// the /light/directional object is defined at the
 			// top of this file.
-			//light = new /light/circle(src, 2)
+			//new /light/circle(src, 2)
 			//light.on = 0
 	copperhandlamp
 		density = 1
@@ -2811,31 +3133,16 @@ obj/items/torches
 		luminosity = 1
 		icon = 'dmi/64/build.dmi'
 		icon_state = "copperhandlamp"
-		name = "Empty Torch"
+		state = "Empty Torch"
 		spawntime = 1420
+		name = "Copper Hand Lamp"
 		New()
 			..()
 
 			// we make the lamps have directional light sources,
 			// the /light/directional object is defined at the
 			// top of this file.
-			//light = new /light/circle(src, 3)
-			//light.on = 0
-	brasshandlamp
-		density = 1
-		plane = 6
-		luminosity = 1
-		icon = 'dmi/64/build.dmi'
-		icon_state = "brasshandlamp"
-		name = "Empty Torch"
-		spawntime = 1840
-		New()
-			..()
-
-			// we make the lamps have directional light sources,
-			// the /light/directional object is defined at the
-			// top of this file.
-			//light = new /light/circle(src, 4)
+			//new /light/circle(src, 3)
 			//light.on = 0
 	bronzehandlamp
 		density = 1
@@ -2843,10 +3150,29 @@ obj/items/torches
 		luminosity = 1
 		icon = 'dmi/64/build.dmi'
 		icon_state = "bronzehandlamp"
-		name = "Empty Torch"
+		state = "Empty Torch"
 		spawntime = 1840
+		name = "Bronze Hand Lamp"
 		New()
 			..()
+
+	brasshandlamp
+		density = 1
+		plane = 6
+		luminosity = 1
+		icon = 'dmi/64/build.dmi'
+		icon_state = "brasshandlamp"
+		state = "Empty Torch"
+		spawntime = 1840
+		name = "Brass Hand Lamp"
+		New()
+			..()
+
+			// we make the lamps have directional light sources,
+			// the /light/directional object is defined at the
+			// top of this file.
+			//new /light/circle(src, 4)
+			//light.on = 0
 
 	steelhandlamp
 		density = 1
@@ -2854,14 +3180,15 @@ obj/items/torches
 		luminosity = 1
 		icon = 'dmi/64/build.dmi'
 		icon_state = "steelhandlamp"
-		name = "Empty Torch"
+		state = "Empty Torch"
+		name = "Steel Hand Lamp"
 		spawntime = 3680
 		New()
 			..()
 			// we make the lamps have directional light sources,
 			// the /light/directional object is defined at the
 			// top of this file.
-			//light = new /light/circle(src, 6)
+			//new /light/circle(src, 6)
 		//	light.on = 0
 
 

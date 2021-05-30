@@ -130,6 +130,7 @@ icolor
 	var{r;g;b;HTML;tmp/icoloricon/firsticon}
 
 	New(_r,_g,_b)
+		..()
 		r=_r;g=_g;b=_b;HTML=rgb2html(r,g,b)
 
 	proc/RGB()
@@ -162,6 +163,7 @@ icoloricon
 	var/expire=600		// expire after 1 minute
 
 	New(icolor/C,ic,inverse,highlight_icon)
+		..()
 		color=C
 		next=C.firsticon
 		C.firsticon=src
@@ -252,6 +254,7 @@ iconop
 		won't be included as the second argument.
 	 */
 	New(ic,a)
+		..()
 		original=ic
 		aux=a
 		icon=Operate(arglist(args))

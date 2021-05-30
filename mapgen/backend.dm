@@ -63,7 +63,7 @@ var
 	map_generators[0]
 
 proc
-	GenerateMap(lakes = 25, hills = 15)
+	GenerateMap(lakes = 25, hills = 25)
 		new /map_generator/water(lakes)
 		new /map_generator/temperate(hills)
 
@@ -87,6 +87,7 @@ map_generator
 		max_size = 5
 
 	New(n)
+		//..()
 		map_generators += src
 
 		TIMER_END("generation")
@@ -114,7 +115,10 @@ map_generator
 				var newtile = new tile (t)
 				if(turfs.Find(newtile) == round(turfs.len/2))
 					center_turf = newtile
-					center_turf.SpawnSoundEffects()
+					if(global.season!="Winter")
+						center_turf.SpawnSoundEffects()
+					else
+						center_turf.SpawnSoundEffectsW()
 
 		EdgeBorder()
 			for(var/turf/t in turfs)
@@ -183,16 +187,21 @@ turf
 		elevation = 0
 		spawn_resources = TRUE
 		sfx[0]
+		wsfx[0]
 
 
 	proc
 		SetElevation()
 		SpawnResource()
 		SpawnSoundEffects()
-			if(sfx.len > 0)
+			if(sfx.len > 0&&global.season!="Winter"&&month!="Tevet")
 				var/soundmob/new_sfx = pick(sfx)
 				new new_sfx(src)
+		SpawnSoundEffectsW()
+			if(sfx.len > 0&&global.season=="Winter")
+				var/soundmob/new_wsfx = pick(wsfx)
+				new new_wsfx(src)
 
 	New(turf/newloc)
-		..()
+		//..()
 		if(newloc) SetElevation(newloc.elevation)

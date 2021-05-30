@@ -1,19 +1,19 @@
-var
+mob/players/var
 	mrank=1			//mrank lvl mining rank
 	mrankEXP=0		//mrank Exp
 	mrankMAXEXP=10		//Exp till level
 	MAXmrankLVL=0	//Maxmranklvl when set to one it stops more lvls...
-	orelist[0]
-mob/var
 	tmp
-		Mining=0			//Defines cutting.
+		Mining
+var
+	orelist[0]
 obj
 	items
 		Ore
 			can_stack = TRUE
 			ore = 1
 			//var/stack = 1
-			Tname="Cool"
+			Tname=""
 
 				//stack()
 			/*var
@@ -71,13 +71,14 @@ obj
 				name = "Iron Ore"
 				description = "Iron Ore"
 				layer = 6
+				Tname="Cool"
 				//stack = 1
 				ore = 1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Iron Ore:</b> Can be smelted into ingots for metalwork.<br>"
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #c0c0c0><center><b>Iron Ore:</b> Can be smelted into ingots for metalwork.<br>"
 					return
 			zinc
 				icon = 'dmi/64/build.dmi'
@@ -85,13 +86,14 @@ obj
 				name = "Zinc Ore"
 				description = "Zinc Ore"
 				layer = 6
+				Tname="Cool"
 				//stack = 1
 				ore = 1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Zinc Ore:</b> Can be smelted into ingots for metalwork.<br>"
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>Zinc Ore:</b> Can be smelted into ingots for metalwork.<br>"
 					return
 			copper
 				icon = 'dmi/64/build.dmi'
@@ -99,13 +101,14 @@ obj
 				name = "Copper Ore"
 				description = "Copper Ore"
 				layer = 6
+				Tname="Cool"
 			//	stack = 1
 				ore = 1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Copper Ore:</b> Can be smelted into ingots for metalwork.<br>"
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #b87333><center><b>Copper Ore:</b> Can be smelted into ingots for metalwork.<br>"
 					return
 			lead
 				icon = 'dmi/64/build.dmi'
@@ -113,13 +116,14 @@ obj
 				name = "Lead Ore"
 				description = "Lead Ore"
 				layer = 6
+				Tname="Cool"
 				//stack = 1
 				ore = 1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Lead Ore:</b> Can be smelted into ingots for metalwork.<br>"
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #4682b4><center><b>Lead Ore:</b> Can be smelted into ingots for metalwork.<br>"
 					return
 			stone
 				icon = 'dmi/64/build.dmi'
@@ -128,13 +132,33 @@ obj
 				description = "Stone Ore"//stone needs a tool like chisel to create stone bricks for stone buildings, grinding stones for wheat, statues/etc
 			//	stack = 1
 				layer = 6
+				Tname="Cool"
 				ore = 1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Stone Ore:</b> Can be chiseled for stonework.<br>"
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #c0c0c0><center><b>Stone Ore:</b> Can be chiseled for stonework.<br>"
 					return
+				verb/Create_Shards()
+					set src in usr
+					var/dice = "1d4"
+					var/R = roll(dice)
+					if(usr.HMequipped==1)
+
+						if(R>=2)
+							new /obj/items/Crafting/Created/StoneAxehead(usr)
+							usr << "Using the Hammer, you begin to create shards by hammering the stone at an angle."
+							src.RemoveFromStack(1)
+							return
+						else
+							//new obj/items/crafting/created/Vessel()
+							usr << "This ore isn't suitable and shatters into pieces."
+							src.RemoveFromStack(1)
+							return
+					else
+						usr << "Need to use a Hammer to shard Stone ore."
+						return
 				verb/Create_Brick()
 					set waitfor = 0
 					if(Mining==1)		//This is saying if usr is already cuttin a tree...
@@ -179,13 +203,70 @@ obj
 					else
 						M<<"You need to use a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Chisel'>Chisel to shape the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Stone ore."
 						return
+
+			Gems
+				can_stack=TRUE
+				Ruby
+					icon='dmi/64/gemstones.dmi'
+					icon_state="ruby"
+					name="Ruby"
+				Sapphire
+					icon='dmi/64/gemstones.dmi'
+					icon_state="sapphire"
+					name="Sapphire"
+				Topaz
+					icon='dmi/64/gemstones.dmi'
+					icon_state="topaz"
+					name="Topaz"
+				Diamond
+					icon='dmi/64/gemstones.dmi'
+					icon_state="diamond"
+					name="Diamond"
+				Quartz
+					icon='dmi/64/gemstones.dmi'
+					icon_state="quartz"
+					name="Quartz"
+				Emerald
+					icon='dmi/64/gemstones.dmi'
+					icon_state="emerald"
+					name="Emerald"
+				Onyx
+					icon='dmi/64/gemstones.dmi'
+					icon_state="onyx"
+					name="Onyx"
+				Tourmaline
+					icon='dmi/64/gemstones.dmi'
+					icon_state="tourmaline"
+					name="Tourmaline"
+				Carnelian
+					icon='dmi/64/gemstones.dmi'
+					icon_state="carnelian"
+					name="Carnelian"
+				Chrysolite
+					icon='dmi/64/gemstones.dmi'
+					icon_state="peridot"
+					name="Chrysolite"
+				LapisLazuli
+					icon='dmi/64/gemstones.dmi'
+					icon_state="lapislazuli"
+					name="LapisLazuli"
+				Turquoise
+					icon='dmi/64/gemstones.dmi'
+					icon_state="turquoise"
+					name="Turquoise"
+				Beryl
+					icon='dmi/64/gemstones.dmi'
+					icon_state="beryl"
+					name="Beryl"
 	//items
 		Ingots
 			can_stack = TRUE
 			ore = 1
 			Tname = ""
-			var
 
+			plane = 2
+			var
+				ingot_type = ""
 				IB
 				ZB
 				CB
@@ -193,6 +274,7 @@ obj
 				BB
 				BRB
 				STLB
+				DSTLB
 			/*	description
 			New()
 				stack()
@@ -238,37 +320,80 @@ obj
 						usr << "Un-equip [src] first!"
 					else
 						src.Move(usr.loc)*/
+			proc/FindI()
+				for(var/obj/items/Ingots/J)// Ingot
+					locate(J)
+					if(J:Tname=="Hot")
+						return J
+			proc/FindS()
+				for(var/obj/items/Ingots/Scraps/J)// Scraps
+					locate(J)
+					if(J:Tname=="Hot")
+						return J
 			proc
-				Temp(obj/items/Ingots/J)
+				Temp(obj/items/Ingots/J = FindI(usr))
 					set waitfor = 0
 					set background = 1
 					//set src in usr
 					//var/obj/J = src
+					//var/mob/players/M
+					//J = FindI(M)
+				//	M = usr
 					//if((CB in M.contents)&&(CB.Tname == "Hot"))
-					for(J)
-						if(J.Tname=="Hot")
+					//if(J in M)
+					//while(src)
+					for(J)//would be nice if I could get it to set the temp as a suffix and stack accordingly...
+						//if(Tname!="Hot"&&J in usr)
+							//src.SplitStack(usr, 1)
+						if(Tname=="Hot")
+							//src.MergeStack()
+							//suffix = "Hot"
+							name = "[ingot_type] Ingot (Hot)"
 							sleep(240)
-							J.Tname = "Warm"
-							usr << "[J] is warm."
+
+							Tname = "Warm"
+							//suffix = "Warm"
+							//if(J in usr)
+							//	usr << "[J] is warm."
+							name = "[ingot_type] Ingot (Warm)"
 							sleep(120)
-							J.Tname = "Cool"
-							usr << "[J] has cooled."
-							return
-				STemp(obj/items/Ingots/Scraps/J)
+							Tname = "Cool"
+							name = "[ingot_type] Ingot (Cool)"
+							//suffix = "Cool"
+							//if(J in usr)
+							//	usr << "[J] has cooled."
+						else return
+					//else return
+				STemp(obj/items/Ingots/Scraps/J = FindS(usr))
 					set waitfor = 0
 					set background = 1
 					//set src in usr
 					//var/obj/J = src
+					//var/mob/players/M
+					//M = usr
 					//if((CB in M.contents)&&(CB.Tname == "Hot"))
+					//if(J in M)
+					//while(src)
 					for(J)
-						if(J.Tname=="Hot")
+						if(Tname=="Hot")
+							//src.MergeStack()
+							//suffix = "Hot"
+							name = "[ingot_type] Scrap (Hot)"
 							sleep(240)
-							J.Tname = "Warm"
-							usr << "[J] is warm."
+
+							Tname = "Warm"
+							//suffix = "Warm"
+							//if(J in usr)
+							//	usr << "[J] is warm."
+							name = "[ingot_type] Scrap (Warm)"
 							sleep(120)
-							J.Tname = "Cool"
-							usr << "[J] has cooled."
-							return
+							Tname = "Cool"
+							name = "[ingot_type] Scrap (Cool)"
+							//suffix = "Cool"
+							//if(J in usr)
+							//	usr << "[J] has cooled."
+						else return
+					//else return
 				Combine_Scrap(obj/items/Ingots/Scraps/J)
 					set waitfor = 0
 					set popup_menu = 1
@@ -284,14 +409,15 @@ obj
 								//sleep(5)
 							if("Scrap Iron")
 								if(J.stack_amount>=4)
-									var/random/R = rand(1,10)
+									var/dice = "1d6"
+									var/R = roll(dice)
 									if(R!=7)
 										M<<"You start to combine..."
 										J.RemoveFromStack(4)
 										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"You finish combining."
+										M<<"You finish combining the [J] and create a Iron Ingot."
 										new /obj/items/Ingots/ironbar(src)
 										return
 									else
@@ -299,19 +425,20 @@ obj
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at combining."
+										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
 									M<<"You need at least 4 scrap iron to combine."
 							if("Scrap Zinc")
 								if(J.stack_amount>=4)
-									var/random/R = rand(1,9)
+									var/dice = "1d8"
+									var/R = roll(dice)
 									if(R!=5)
 										J.RemoveFromStack(4)
 										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"You finish combining."
+										M<<"You finish combining the [J] and create a Zinc Ingot."
 										new /obj/items/Ingots/zincbar(src)
 										return
 									else
@@ -319,19 +446,20 @@ obj
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at combining."
+										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
 									M<<"You need at least 4 scrap zinc to combine."
 							if("Scrap Lead")
 								if(J.stack_amount>=4)
-									var/random/R = rand(1,8)
+									var/dice = "1d4"
+									var/R = roll(dice)
 									if(R!=6)
 										J.RemoveFromStack(4)
 										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"You finish combining."
+										M<<"You finish combining the [J] and create a Lead Ingot."
 										new /obj/items/Ingots/leadbar(src)
 										return
 									else
@@ -339,19 +467,20 @@ obj
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at combining."
+										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
 									M<<"You need at least 4 scrap lead to combine."
 							if("Scrap Copper")
 								if(J.stack_amount>=4)
-									var/random/R = rand(1,7)
+									var/dice = "1d6"
+									var/R = roll(dice)
 									if(R!=4)
 										J.RemoveFromStack(4)
 										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"You finish combining."
+										M<<"You finish combining the [J] and create a Copper Ingot."
 										new /obj/items/Ingots/copperbar(src)
 										return
 									else
@@ -359,19 +488,20 @@ obj
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at combining."
+										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
 									M<<"You need at least 4 scrap copper to combine."
 							if("Scrap Brass")
 								if(J.stack_amount>=4)
-									var/random/R = rand(1,5)
+									var/dice = "1d10"
+									var/R = roll(dice)
 									if(R!=2)
 										J.RemoveFromStack(4)
 										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"You finish combining."
+										M<<"You finish combining the [J] and create a Brass Ingot."
 										new /obj/items/Ingots/brassbar(src)
 										return
 									else
@@ -379,19 +509,20 @@ obj
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at combining."
+										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
 									M<<"You need at least 4 scrap brass to combine."
 							if("Scrap Bronze")
 								if(J.stack_amount>=4)
-									var/random/R = rand(1,5)
+									var/dice = "1d10"
+									var/R = roll(dice)
 									if(R!=3)
 										J.RemoveFromStack(4)
 										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"You finish combining."
+										M<<"You finish combining the [J] and create a Bronze Ingot."
 										new /obj/items/Ingots/bronzebar(src)
 										return
 									else
@@ -399,19 +530,20 @@ obj
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at combining."
+										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
 									M<<"You need at least 4 scrap bronze to combine."
 							if("Scrap Steel")
 								if(J.stack_amount>=4)
-									var/random/R = rand(1,5)
+									var/dice = "1d10"
+									var/R = roll(dice)
 									if(R!=3)
 										J.RemoveFromStack(4)
 										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"You finish combining."
+										M<<"You finish combining the [J] and create a Steel Ingot."
 										new /obj/items/Ingots/steelbar(src)
 										return
 									else
@@ -419,16 +551,20 @@ obj
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at combining."
+										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
-									M<<"You need at least 4 scrap bronze to combine."
+									M<<"You need at least 4 scrap steel to combine."
 									return
 					else
-						M<<"Needs to be Hot."
+						M<<"[J] needs to be Hot before combining."
 						return
+
+
+//scrap metal
 			Scraps
 				can_stack = TRUE
+				//ingot_type
 				verb
 					Combine()
 						set popup_menu = 1
@@ -440,6 +576,8 @@ obj
 					icon = 'dmi/64/build.dmi'
 					icon_state = "sci"
 					name = "Scrap Iron"
+					Tname = "Warm"
+					ingot_type = "Iron"
 					description = "Scrap Iron"
 
 					plane = 7
@@ -447,306 +585,406 @@ obj
 						set category=null
 						set popup_menu=1
 						set src in usr
-						usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Scrap Iron:</b> Scrap metal can be combined to form a new ingot.<br>"
-						usr << src.Tname
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #c0c0c0><center><b>Scrap Iron:</b><br>Scrap metal can be combined to form a new ingot.<br>Temperature: [Tname]"
+						//usr << src.Tname
 						return
 					New()
 						set waitfor = 0
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							src.STemp() // start the spawn calls
-							sleep(80)
+							Start
+							if(Tname=="Hot")
+								src.STemp()
+							//else return
+							sleep(240)
+							goto Start
 				scrapzinc
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scz"
 					name = "Scrap Zinc"
+					Tname = "Warm"
 					description = "Scrap Zinc"
-
+					ingot_type = "Zinc"
 					plane = 7
 					verb/Description()
 						set category=null
 						set popup_menu=1
 						set src in usr
-						usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Scrap Zinc:</b> Scrap metal can be combined to form a new ingot.<br>"
-						usr << src.Tname
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>Scrap Zinc:</b><br>Scrap metal can be combined to form a new ingot.<br>Temperature: [Tname]"
+						//usr << src.Tname
 						return
 					New()
 						set waitfor = 0
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							src.STemp() // start the spawn calls
-							sleep(80)
+							Start
+							if(Tname=="Hot")
+								src.STemp()
+							//else return
+							sleep(240)
+							goto Start
 				scraplead
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scl"
 					name = "Scrap Lead"
+					Tname = "Warm"
 					description = "Scrap Lead"
-
+					ingot_type = "Lead"
 					plane = 7
 					verb/Description()
 						set category=null
 						set popup_menu=1
 						set src in usr
-						usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Scrap Lead:</b> Scrap metal can be combined to form a new ingot.<br>"
-						usr << src.Tname
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #4682b4><center><b>Scrap Lead:</b><br>Scrap metal can be combined to form a new ingot.<br>Temperature: [Tname]"
+						//usr << src.Tname
 						return
 					New()
 						set waitfor = 0
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							src.STemp() // start the spawn calls
-							sleep(80)
+							Start
+							if(Tname=="Hot")
+								src.STemp()
+							//else return
+							sleep(240)
+							goto Start
 				scrapcopper
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scc"
 					name = "Scrap Copper"
+					Tname = "Warm"
 					description = "Scrap Copper"
-
+					ingot_type = "Copper"
 					plane = 7
 					verb/Description()
 						set category=null
 						set popup_menu=1
 						set src in usr
-						usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Scrap Copper:</b> Scrap metal can be combined to form a new ingot.<br>"
-						usr << src.Tname
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #b87333><center><b>Scrap Copper:</b><br>Scrap metal can be combined to form a new ingot.<br>Temperature: [Tname]"
+						//usr << src.Tname
 						return
 					New()
 						set waitfor = 0
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							src.STemp() // start the spawn calls
-							sleep(80)
+							Start
+							if(Tname=="Hot")
+								src.STemp()
+							//else return
+							sleep(240)
+							goto Start
 				scrapbrass
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scb"
 					name = "Scrap Brass"
+					Tname = "Warm"
 					description = "Scrap Brass"
-
+					ingot_type = "Brass"
 					plane = 7
 					verb/Description()
 						set category=null
 						set popup_menu=1
 						set src in usr
-						usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Scrap Brass:</b> Scrap metal can be combined to form a new ingot.<br>"
-						usr << src.Tname
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #ffd700><center><b>Scrap Brass:</b><br>Scrap metal can be combined to form a new ingot.<br>Temperature: [Tname]"
+						//usr << src.Tname
 						return
 					New()
 						set waitfor = 0
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							src.STemp() // start the spawn calls
-							sleep(80)
+							Start
+							if(Tname=="Hot")
+								src.STemp()
+							//else return
+							sleep(240)
+							goto Start
 				scrapbronze
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scbr"
 					name = "Scrap Bronze"
+					Tname = "Warm"
 					description = "Scrap Bronze"
-
+					ingot_type = "Bronze"
 					plane = 7
 					verb/Description()
 						set category=null
 						set popup_menu=1
 						set src in usr
-						usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Scrap Bronze:</b> Scrap metal can be combined to form a new ingot.<br>"
-						usr << src.Tname
+						usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #8C7853><br><b>Scrap Bronze:</b><br>Scrap metal can be combined to form a new ingot.<br>Temperature: [Tname]"
+						//usr << src.Tname
 						return
 					New()
 						set waitfor = 0
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							src.STemp() // start the spawn calls
-							sleep(80)
+							Start
+							if(Tname=="Hot")
+								src.STemp()
+							//else return
+							sleep(240)
+							goto Start
 				scrapsteel
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scs"
 					name = "Scrap Steel"
+					Tname = "Warm"
 					description = "Scrap Steel"
-
+					ingot_type = "Steel"
 					plane = 7
 					verb/Description()
 						set category=null
 						set popup_menu=1
 						set src in usr
-						usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Scrap Steel:</b> Scrap metal can be combined to form a new ingot.<br>"
-						usr << src.Tname
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #c0c0c0><center><b>Scrap Steel:</b><br>Scrap metal can be combined to form a new ingot.<br>Temperature: [Tname]"
+						//usr << src.Tname
 						return
 					New()
 						set waitfor = 0
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							src.STemp() // start the spawn calls
-							sleep(80)
+							Start
+							if(Tname=="Hot")
+								src.STemp()
+							//else return
+							sleep(240)
+							goto Start
 			ironbar
 				icon = 'dmi/64/build.dmi'
 				icon_state = "ib"
 				name = "Iron Ingot"
-				Tname = ""
-				description = "Pure Iron Ingot;"
-
+				Tname = "Hot"
+				description = "Pure Iron Ingot"
+				ingot_type = "Iron"
 				IB = 1
 				plane = 7
+				layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Iron Ingot:</b> Utilized for smithing.<br>"
-					usr << src.Tname
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #c0c0c0><center><b>Iron Ingot:</b><br>Utilized for smithing.<br>Temperature: [Tname]"
+					//usr << src.Tname
 					return
 				New()
 					set waitfor = 0
 					..()
 						// initialize the list of mobs to be spawned
 					spawn while (src) // More efficient to put in a loop like Deadron's event loop
-						src.Temp() // start the spawn calls
-						sleep(180)
+						//src.Temp() // start the spawn calls
+						Start
+						if(Tname=="Hot")
+							src.Temp()
+						//else// return
+						sleep(240)
+						goto Start
 			zincbar
 				icon = 'dmi/64/build.dmi'
 				icon_state = "zb"
 				name = "Zinc Ingot"
-				Tname = ""
-				description = "Pure Zinc Ingot;"
-
+				Tname = "Hot"
+				description = "Pure Zinc Ingot"
+				ingot_type = "Zinc"
 				ZB = 1
 				plane = 7
+				layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Zinc Ingot:</b> Utilized for smithing.<br>"
-					usr << src.Tname
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>Zinc Ingot:</b><br>Utilized for smithing.<br>Temperature: [Tname]"
+					//usr << src.Tname
 					return
 				New()
 					set waitfor = 0
 					..()
 						// initialize the list of mobs to be spawned
 					spawn while (src) // More efficient to put in a loop like Deadron's event loop
-						src.Temp() // start the spawn calls
-						sleep(180)
+						Start
+						if(Tname=="Hot")
+							src.Temp()
+						//else return
+						sleep(240)
+						goto Start
 			copperbar
 				icon = 'dmi/64/build.dmi'
 				icon_state = "cb"
 				name = "Copper Ingot"
-				Tname = ""
-				description = "Pure Copper Ingot;"
-
+				Tname = "Hot"
+				description = "Pure Copper Ingot"
+				ingot_type = "Copper"
 				CB = 1
 				plane = 7
+				layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Copper Ingot:</b> Utilized for smithing.<br>"
-					usr << src.Tname
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #b87333><center><b>Copper Ingot:</b><br>Utilized for smithing.<br>Temperature: [Tname]"
+					//usr << src.Tname
 					return
 				New()
 					set waitfor = 0
 					..()
 						// initialize the list of mobs to be spawned
 					spawn while (src) // More efficient to put in a loop like Deadron's event loop
-						src.Temp() // start the spawn calls
-						sleep(180)
+						Start
+						if(Tname=="Hot")
+							src.Temp()
+						//else return
+						sleep(240)
+						goto Start
 			leadbar
 				icon = 'dmi/64/build.dmi'
 				icon_state = "lb"
 				name = "Lead Ingot"
-				Tname = ""
-				description = "Pure Lead Ingot;"
-
+				Tname = "Hot"
+				description = "Pure Lead Ingot"
+				ingot_type = "Lead"
 				LB = 1
 				plane = 7
+				layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Lead Ingot:</b> Utilized for smithing.<br>"
-					usr << src.Tname
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #4682b4><center><b>Lead Ingot:</b><br>Utilized for smithing.<br>Temperature: [Tname]"
+					//usr << src.Tname
 					return
 				New()
 					set waitfor = 0
 					..()
 						// initialize the list of mobs to be spawned
 					spawn while (src) // More efficient to put in a loop like Deadron's event loop
-						src.Temp() // start the spawn calls
-						sleep(180)
+						Start
+						if(Tname=="Hot")
+							src.Temp()
+						//else return
+						sleep(240)
+						goto Start
 			brassbar
 				icon = 'dmi/64/build.dmi'
 				icon_state = "bb"
 				name = "Brass Ingot"
-				Tname = ""
-				description = "Brass Ingot;"
-
+				Tname = "Hot"
+				description = "Brass Ingot"
+				ingot_type = "Brass"
 				BB = 1
 				plane = 7
+				layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Brass Ingot:</b> Utilized for smithing.<br>"
-					usr << src.Tname
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #ffd700><center><b>Brass Ingot:</b><br>Utilized for smithing.<br>Temperature: [Tname]"
+					//usr << src.Tname
 					return
 				New()
 					set waitfor = 0
 					..()
 						// initialize the list of mobs to be spawned
 					spawn while (src) // More efficient to put in a loop like Deadron's event loop
-						src.Temp() // start the spawn calls
-						sleep(180)
+						Start
+						if(Tname=="Hot")
+							src.Temp()
+						//else return
+						sleep(240)
+						goto Start
 			bronzebar
 				icon = 'dmi/64/build.dmi'
 				icon_state = "brb"
 				name = "Bronze Ingot"
-				Tname = ""
-				description = "Bronze Ingot;"
-
+				Tname = "Hot"
+				description = "Bronze Ingot"
+				ingot_type = "Bronze"
 				BRB = 1
 				plane = 7
+				layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Bronze Ingot:</b> Utilized for smithing.<br>"
-					usr << src.Tname
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #8C7853><br><b>Bronze Ingot:</b><br>Utilized for smithing.<br>Temperature: [Tname]"
+					//usr << src.Tname
 					return
 				New()
 					set waitfor = 0
 					..()
 						// initialize the list of mobs to be spawned
 					spawn while (src) // More efficient to put in a loop like Deadron's event loop
-						src.Temp() // start the spawn calls
-						sleep(180)
+						Start
+						if(Tname=="Hot")
+							src.Temp()
+						//else return
+						sleep(240)
+						goto Start
 			steelbar
 				icon = 'dmi/64/build.dmi'
 				icon_state = "sb"
 				name = "Steel Ingot"
-				Tname = ""
-				description = "Steel Ingot;"
-
+				Tname = "Hot"
+				description = "Steel Ingot"
+				var/canbefolded = 1
+				ingot_type = "Steel"
 				STLB = 1
 				plane = 70
+				layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <font color = #8C7853><center><b>Steel Ingot:</b> Utilized for smithing.<br>"
-					usr << src.Tname
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #c0c0c0><center><b>Steel Ingot:</b><br>Utilized for smithing.<br>Temperature: [Tname]"
+					//usr << src.Tname
 					return
 				New()
 					set waitfor = 0
 					..()
 						// initialize the list of mobs to be spawned
 					spawn while (src) // More efficient to put in a loop like Deadron's event loop
-						src.Temp() // start the spawn calls
-						sleep(180)
+						Start
+						if(Tname=="Hot")
+							src.Temp()
+						//else return
+						sleep(240)
+						goto Start
+			damascussteelbar
+				icon = 'dmi/64/build.dmi'
+				icon_state = "dsb"
+				name = "Damascus Steel Ingot"
+				Tname = "Hot"
+				description = "Damascus Steel Ingot"
+				//var/isfolded = 1
+				ingot_type = "Damascus Steel"
+				DSTLB = 1
+				plane = 70
+				layer = MOB_LAYER-1
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #c0c0c0><center><b>Damascus Steel Ingot:</b><br>Utilized for smithing.<br>Temperature: [Tname]"
+					//usr << src.Tname
+					return
+				New()
+					set waitfor = 0
+					..()
+						// initialize the list of mobs to be spawned
+					spawn while (src) // More efficient to put in a loop like Deadron's event loop
+						Start
+						if(Tname=="Hot")
+							src.Temp()
+						//else return
+						sleep(240)
+						goto Start
 
 
-mob/proc
+mob/players/proc
 	MNLvl()
 		if(mrank>=5)				//Seeing if usr is maxlvl
 			MAXmrankLVL=1
@@ -783,6 +1021,8 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 		mreq		//mrank lvl required to chop tree down...
 		otype		//Ore type, Rock or Cliff
 		//di
+		isn
+		gem
 	New()
 		..()
 		orelist+=src
@@ -791,6 +1031,13 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 	Del()
 		//orelist-=src
 		..()
+
+
+			//icon_state = "water"
+			//verbs += /turf/water/verb/Fill_
+			//verbs += /turf/water/verb/Fish
+			//verbs += /turf/water/verb/Quench
+			//name = "Water"
 	proc
 		Orestateload()
 			if(istype(src, /obj/Rocks))
@@ -808,185 +1055,304 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 							t.vis_contents = null
 							t.density = 0
 				else return
+	OreRocks
+		proc/SetWSeason()
+			//if(otype=="Rock")
 
-	SRocks
-		density=1
-		icon='dmi/64/creation.dmi'
-		icon_state="srock"
-		name = "Stone"
-		plane = MOB_LAYER+1
-		otype = "Rock"
-		MinOre=3
-		MaxOre=5
-		orestate = null
-		ore=/obj/items/Ore/iron	//Same here...
-		OreAmount=null
-		Rarity=90
-		GiveXP=1
-		spawntime=2420
-		mreq=0
-		OreType= "Stone"
-
-		DblClick()
-			var/mob/players/M = usr
-
-				//if(!(src in range(1, usr))) return
-				//if(M.char_class<>"Builder"&&"GM")
-				//	M<<"You need to be a Builder to mine."
+			if(global.season=="Winter")
+				//density=0
+				//icon_state += " ramp"
+				var/w = "[isn]"
+				var/ww = "wint"
+				icon_state = "[w][ww]"
+				if(OreAmount<=0)
+					src.overlays -= overlays
+					icon_state = "erock"
 					//return
-			//var/obj/items/tools/UeikPickaxe/UPK = locate() in M.contents
-			if(M.UPKequipped==1)
-				if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)
-				//if(!(src in range(2, usr)))
-				//if(get_step_away(src,usr,3))
-					M<<"You need to be closer to \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>mine."
-					return
-				else
-					//if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)		//Makes sure the person is right beside the tree and facing it.
-					if(src in range(1, usr))
-						if(Mining==1)		//This is saying if usr is already cuttin a tree...
-							return
-						if(M.energy==0)		//Is your energy to low???
-							M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
-							return
-						if(M.UPKequipped==0)			//Does the usr have a Axe to cut with?
-							M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>Ueik PickAxe equipped."
-							return
-						if(OreAmount>=1&&M.UPKequipped==1)
-							Mine(M)		//Calls the Mine() proc
-							return
-						else
-							if(OreAmount<=0&&M.UPKequipped==1)
-
-								M<<"These \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Rocks have been depleted."
-								return
-							..()
-						..()
+				//icon_state += " wint"
+				//plane = 2
+				//verbs -= /turf/water/verb/Fill_
+				//verbs -= /turf/water/verb/Fish
+				//verbs -= /turf/water/verb/Quench
+				//name = "Ice"
+			else if(global.season!="Winter")
+				//density = 1
+				icon_state = "[src.isn]"
+				if(OreAmount<=0)
+					src.overlays -= overlays
+					icon_state = "erock"
+					//return
+		DblClick()
+			var/mob/players/M
+			M = usr
+			//if(!(src in range(1, usr))) return
+			//if(M.char_class<>"Builder"&&"GM")
+			//	M<<"You need to be a Builder to mine."
+				//return
+			if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)
+			//if(!(src in range(2, usr)))
+			//if(get_step_away(src,usr,3))
+				M<<"You need to be closer to \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>mine."
+				return
 			else
-				M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>Ueik Pickaxe equipped to continue..."
-	IRocks
-		density=1
-		icon='dmi/64/creation.dmi'
-		icon_state="irock"
-		name = "Rock"
-		plane = MOB_LAYER+1
-		otype = "Rock"
-		MinOre=5
-		MaxOre=10
-		orestate = null
-		ore=/obj/items/Ore/iron	//Same here...
-		OreAmount=null
-		Rarity=80
-		GiveXP=5
-		spawntime=5420
-		mreq=1
-		OreType= "Iron"
+				//if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)		//Makes sure the person is right beside the tree and facing it.
+				if(src in range(1, usr))
+					if(M.mrank<src.mreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+						M<<"<FONT COLOR=RED>You must have a mining acuity of at least [mreq] to mine [OreType] rocks.</FONT>"
+						return
+					if(Mining==1)		//This is saying if usr is already cuttin a tree...
+						return
+					if(M.energy==0)		//Is your energy to low???
+						M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
+						return
+					if(M.UPKequipped==1)			//Does the usr have a Axe to cut with?
+						M<<"You need an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Iron Pickaxe to mine this."
+						return
+					if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
+						M<<"You need an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> Iron Pickaxe equipped."
+						return
+					if(OreAmount>=1&&M.PXequipped==1)
+						Mine(M)		//Calls the Mine() proc
+						return
+					else
+						if(OreAmount<=0&&M.PXequipped==1)
+							M<<"These \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.OreType] Rocks have been depleted of [src.OreType]."
+							src.overlays -= overlays
+							src.icon_state="erock"
+							return
+						//..()
+					..()
+		proc/Mine(mob/players/Miner)
+			set waitfor = 0
+			var/mob/players/M
+			var/gem=list(	/obj/items/Ore/Gems/Ruby,
+									/obj/items/Ore/Gems/Sapphire,
+									/obj/items/Ore/Gems/Topaz,
+									/obj/items/Ore/Gems/Emerald,
+									/obj/items/Ore/Gems/Onyx,
+									/obj/items/Ore/Gems/Tourmaline,
+									/obj/items/Ore/Gems/Quartz,
+									/obj/items/Ore/Gems/Carnelian,
+									/obj/items/Ore/Gems/Chrysolite,
+									/obj/items/Ore/Gems/LapisLazuli,
+									/obj/items/Ore/Gems/Turquoise,
+									/obj/items/Ore/Gems/Beryl,
 
-	ZRocks
-		density=1
-		icon='dmi/64/creation.dmi'
-		icon_state="zrock"
-		name = "ZRock"
-		plane = MOB_LAYER+1
-		otype = "Rock"
-		MinOre=4
-		MaxOre=8
-		orestate = null
-		ore=/obj/items/Ore/zinc	//Same here...
-		OreAmount=null
-		Rarity=60
-		GiveXP=10
-		spawntime=7420
-		mreq=3
-		OreType= "Zinc"
+									/obj/items/Ore/Gems/Diamond
+								)
+			var/gempick = pick(gem)
+			var/stone=/obj/items/Ore/stone
+			M = Miner		//Makes the usr become Miner... Not really neccesary.
+			//var/mr = "[src.mreq]"
+			//if(mrank<mreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+				//M<<"<FONT COLOR=RED>You must have a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> mining acuity of at least [mr] to mine [OreType] rocks.</FONT>"
+				//return
+			/*if(OreAmount==0)		//Does the tree have logs???
+				M<<"It's not worthwhile."
+				return	*/			//If no... Return!
+			if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
+				Miner<<"You need an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> Iron Pickaxe equipped."
+				return
+			M<<"You begin to work on the [OreType] rocks with your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Pickaxe."			//YAY YOU're CUTTING!!!
+			M.overlays += image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
+			if(M.energy<=5)			//Calling this again... Some screwy stuff could happen.
+				M<<"Your energy is too low."
+				return
+			if(Mining==1)
+				return
+							//Setting this to one because the usr is cutting a tree now.
+			sleep(10)				//Sleeps about 2.5 seconds...
+			if(OreAmount==0)		//If log amount being called again...
+				M<<"These rocks have already been mined."
+				Mining=0
+				//SetWSeason()
+				src.overlays -= overlays
+				src.icon_state="erock"
+				return
+			else
+				if(M.PXequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
+					Miner<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> Pickaxe to use it on the [OreType] rocks."
+					return
+				/*if (M.energy < 5)
+					M << "Low energy."*/
+				else
+					Mining=1
+					M.energy -= 5	//Depletes one energy
+					M.updateEN()
+					sleep(5)
+					if(prob(Rarity+M.mrank))		//Takes the rarity of the tree and your woodcutting lvl
+						Miner<<"You Finish working the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> [OreType] rocks and receive [OreType] Ore!"		//You get "tree being cut" Logs!
+						M.overlays -= image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
+						new ore(M)		//Remember ore=obj/items/Logs/Oak???  Heres where this creates a log into invetory
+						if(prob(1))
+							new gempick(M)
+						M.mrankEXP+=GiveXP				//  Add The exp from tree to you.
+						Miner.MNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+						Mining=0							// Mining is set to 0 so you are free to move and cut some more.
+						//OreAmount--							//Depletes one log from the Amount.
+						if(src.OreAmount>=1)
+							OreAmount--
+						else if(src.OreAmount<=0)
+							src.overlays -= overlays
+							SetWSeason()
+							icon_state="erock"
+							return
+						//if(OreAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
+							//orestate = 1
+							//src.overlays -= overlays
 
-	CRocks
-		density=1
-		icon='dmi/64/creation.dmi'
-		icon_state="crock"
-		name = "CRock"
-		plane = MOB_LAYER+1
-		otype = "Rock"
-		MinOre=2
-		MaxOre=6
-		orestate = null
-		ore=/obj/items/Ore/copper	//Same here...
-		OreAmount=null
-		Rarity=40
-		GiveXP=15
-		spawntime=9420
-		mreq=5
-		OreType= "Copper"
+						return
+					else
+						M.overlays -= image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
+						Miner<<"You \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>mine some stone!"
+						new stone(M)
+						sleep(10)
+						Mining=0
+						return
 
-	LRocks
-		density=1
-		icon='dmi/64/creation.dmi'
-		icon_state="lrock"
-		name = "LRock"
-		plane = MOB_LAYER+1
-		otype = "Rock"
-		MinOre=2
-		MaxOre=6
-		orestate = null
-		ore=/obj/items/Ore/lead	//Same here...
-		OreAmount=null
-		Rarity=40
-		GiveXP=15
-		spawntime=8420
-		mreq=5
-		OreType= "Lead"
+		SRocks
+			density=1
+			icon='dmi/64/creation.dmi'
+			icon_state="srock"
+			name = "Stone Rocks"
+			plane = MOB_LAYER+1
+			otype = "Rock"
+			MinOre=3
+			MaxOre=5
+			orestate = null
+			isn = "srock"
+			ore=/obj/items/Ore/iron	//Same here...
+			OreAmount=null
+			Rarity=90
+			GiveXP=1
+			spawntime=2420
+			mreq=0
+			OreType= "Stone"
+
+			DblClick()
+				var/mob/players/M = usr
+
+					//if(!(src in range(1, usr))) return
+					//if(M.char_class<>"Builder"&&"GM")
+					//	M<<"You need to be a Builder to mine."
+						//return
+				//var/obj/items/tools/UeikPickaxe/UPK = locate() in M.contents
+				if(M.UPKequipped==1)
+					if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)
+					//if(!(src in range(2, usr)))
+					//if(get_step_away(src,usr,3))
+						M<<"You need to be closer to \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>mine."
+						return
+					else
+						//if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)		//Makes sure the person is right beside the tree and facing it.
+						if(src in range(1, usr))
+							if(Mining==1)		//This is saying if usr is already cuttin a tree...
+								return
+							if(M.energy==0)		//Is your energy to low???
+								M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
+								return
+							if(M.UPKequipped==0)			//Does the usr have a Axe to cut with?
+								M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>Ueik PickAxe equipped."
+								return
+							if(OreAmount>=1&&M.UPKequipped==1)
+								Mine(M)		//Calls the Mine() proc
+								return
+							else
+								if(OreAmount<=0&&M.UPKequipped==1)
+
+									M<<"These \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Rocks have been depleted."
+									return
+								..()
+							..()
+				else
+					M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='UeikPickAxe'>Ueik Pickaxe equipped to continue..."
+		IRocks
+			density=1
+			icon='dmi/64/creation.dmi'
+			icon_state="irock"
+			name = "Iron Rocks"
+			plane = MOB_LAYER+1
+			otype = "Rock"
+			MinOre=5
+			MaxOre=10
+			orestate = null
+			ore=/obj/items/Ore/iron	//Same here...
+			OreAmount=null
+			isn = "irock"
+			Rarity=80
+			GiveXP=5
+			spawntime=5420
+			mreq=1
+			OreType= "Iron"
+
+		ZRocks
+			density=1
+			icon='dmi/64/creation.dmi'
+			icon_state="zrock"
+			name = "Zinc Rocks"
+			plane = MOB_LAYER+1
+			otype = "Rock"
+			isn = "zrock"
+			MinOre=4
+			MaxOre=8
+			orestate = null
+			ore=/obj/items/Ore/zinc	//Same here...
+			OreAmount=null
+			Rarity=60
+			GiveXP=10
+			spawntime=7420
+			mreq=3
+			OreType= "Zinc"
+
+		CRocks
+			density=1
+			icon='dmi/64/creation.dmi'
+			icon_state="crock"
+			name = "Copper Rocks"
+			plane = MOB_LAYER+1
+			otype = "Rock"
+			isn = "crock"
+			MinOre=2
+			MaxOre=6
+			orestate = null
+			ore=/obj/items/Ore/copper	//Same here...
+			OreAmount=null
+			Rarity=40
+			GiveXP=15
+			spawntime=9420
+			mreq=4
+			OreType= "Copper"
+
+		LRocks
+			density=1
+			icon='dmi/64/creation.dmi'
+			icon_state="lrock"
+			name = "Lead Rocks"
+			plane = MOB_LAYER+1
+			otype = "Rock"
+			isn = "lrock"
+			MinOre=2
+			MaxOre=6
+			orestate = null
+			ore=/obj/items/Ore/lead	//Same here...
+			OreAmount=null
+			Rarity=40
+			GiveXP=15
+			spawntime=8420
+			mreq=2
+			OreType= "Lead"
 
 
-	Gems
-		Ruby
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Ruby"
-		Sapphire
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Sapphire"
-		Topaz
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Topaz"
-		Diamond
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Diamond"
-		Quartz
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Quartz"
-		Emerald
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Emerald"
-		Onyx
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Onyx"
-		Tourmaline
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Tourmaline"
-		Carnelian
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Carnelian"
-		Chrysolite
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Chrysolite"
-		LapisLazuli
-			icon='dmi/64/gemstones.dmi'
-			icon_state="LapisLazuli"
-		Turquoise
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Turquoise"
-		Beryl
-			icon='dmi/64/gemstones.dmi'
-			icon_state="Beryl"
 
 
 	Cliffs
-		var/gem
+		//var/gem
 		SCliff
 			density=1
 			icon='dmi/64/OreSCliff.dmi'
 			//icon_state="[d]"
 			name = "Stone Cliff"
-			gem = /obj/Rocks/Gems/Quartz
+			gem = /obj/items/Ore/Gems/Quartz
 			layer = 5
 			otype = "Cliff"
 			MinOre=3
@@ -1044,7 +1410,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			//icon_state="irock"
 			name = "Iron Cliff"
 			//plane = MOB_LAYER+1
-			gem = /obj/Rocks/Gems/Ruby
+			gem = /obj/items/Ore/Gems/Ruby
 			otype = "Cliff"
 			layer = 5
 			MinOre=5
@@ -1102,7 +1468,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			name = "Zinc Cliff"
 			//plane = MOB_LAYER+1
 			otype = "Cliff"
-			gem = /obj/Rocks/Gems/Emerald
+			gem = /obj/items/Ore/Gems/Emerald
 			layer = 5
 			MinOre=4
 			MaxOre=8
@@ -1159,7 +1525,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			//icon_state="crock"
 			name = "Copper Cliff"
 			//plane = MOB_LAYER+1
-			gem = /obj/Rocks/Gems/Sapphire
+			gem = /obj/items/Ore/Gems/Sapphire
 			otype = "Cliff"
 			layer = 5
 			orestate = null
@@ -1219,7 +1585,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			name = "Lead Cliff"
 			//plane = MOB_LAYER+1
 			otype = "Cliff"
-			gem = /obj/Rocks/Gems/Onyx
+			gem = /obj/items/Ore/Gems/Onyx
 			layer = 5
 			MinOre=2
 			MaxOre=6
@@ -1289,107 +1655,75 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			OreType= null
 
 
+		proc/Mine(mob/players/Miner)
+			set waitfor = 0
+			var/mob/players/M
+			var/gem=list(	/obj/items/Ore/Gems/Ruby,
+									/obj/items/Ore/Gems/Sapphire,
+									/obj/items/Ore/Gems/Topaz,
+									/obj/items/Ore/Gems/Emerald,
+									/obj/items/Ore/Gems/Onyx,
+									/obj/items/Ore/Gems/Tourmaline,
+									/obj/items/Ore/Gems/Quartz,
+									/obj/items/Ore/Gems/Carnelian,
+									/obj/items/Ore/Gems/Chrysolite,
+									/obj/items/Ore/Gems/LapisLazuli,
+									/obj/items/Ore/Gems/Turquoise,
+									/obj/items/Ore/Gems/Beryl,
 
-	DblClick()
-		var/mob/players/M = usr
-		//if(!(src in range(1, usr))) return
-		//if(M.char_class<>"Builder"&&"GM")
-		//	M<<"You need to be a Builder to mine."
-			//return
-		if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)
-		//if(!(src in range(2, usr)))
-		//if(get_step_away(src,usr,3))
-			M<<"You need to be closer to \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>mine."
-			return
-		else
-			//if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)		//Makes sure the person is right beside the tree and facing it.
-			if(src in range(1, usr))
-				if(Mining==1)		//This is saying if usr is already cuttin a tree...
-					return
-				if(M.energy==0)		//Is your energy to low???
-					M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
-					return
-				if(M.UPKequipped==1)			//Does the usr have a Axe to cut with?
-					M<<"You need an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Iron PickAxe to mine this."
-					return
-				if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
-					M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>PickAxe equipped."
-					return
-				if(OreAmount>=1&&M.PXequipped==1)
-					Mine(M)		//Calls the Mine() proc
-					return
-				else
-					if(OreAmount<=0&&M.PXequipped==1)
-						M<<"These \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.OreType] Rocks have been depleted of [src.OreType]."
-						return
-					..()
-				..()
-	proc/Mine(mob/Miner)
-		set waitfor = 0
-		var/mob/players/M
-		var/gem=list(	/obj/Rocks/Gems/Ruby,
-								/obj/Rocks/Gems/Sapphire,
-								/obj/Rocks/Gems/Topaz,
-								/obj/Rocks/Gems/Emerald,
-								/obj/Rocks/Gems/Onyx,
-								/obj/Rocks/Gems/Tourmaline,
-								/obj/Rocks/Gems/Quartz,
-								/obj/Rocks/Gems/Carnelian,
-								/obj/Rocks/Gems/Chrysolite,
-								/obj/Rocks/Gems/LapisLazuli,
-								/obj/Rocks/Gems/Turquoise,
-								/obj/Rocks/Gems/Beryl,
-
-								/obj/Rocks/Gems/Diamond
-							)
-		var/stone=/obj/items/Ore/stone
-		M = Miner		//Makes the usr become Miner... Not really neccesary.
-		if(mrank<mreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
-			M<<"<FONT COLOR=RED>You must have a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>mining acuity of at least [src:mreq] to mine [src.OreType] rocks.</FONT>"
-			return
-		/*if(OreAmount==0)		//Does the tree have logs???
-			M<<"It's not worthwhile."
-			return	*/			//If no... Return!
-		if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
-			Miner<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>PickAxe equipped."
-			return
-		M<<"You begin to work on the [src.OreType] rocks with your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>PickAxe."			//YAY YOU're CUTTING!!!
-		M.overlays += image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
-		if(M.energy<=5)			//Calling this again... Some screwy stuff could happen.
-			M<<"Your energy is too low."
-			return
-		if(Mining==1)
-			return
-		Mining=1				//Setting this to one because the usr is cutting a tree now.
-		sleep(10)				//Sleeps about 2.5 seconds...
-		if(OreAmount==0)		//If log amount being called again...
-			M<<"You already \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>mined the [src.OreType]."
-			Mining=0
-			return
-		else
-			if(M.PXequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
-				Miner<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>PickAxe to use it on the [src.OreType] rocks."
+									/obj/items/Ore/Gems/Diamond
+								)
+			var/gempick = pick(gem)
+			var/stone=/obj/items/Ore/stone
+			M = Miner		//Makes the usr become Miner... Not really neccesary.
+			var/mr = "[src.mreq]"
+			if(M.mrank<mreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+				M<<"<FONT COLOR=RED>You must have a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> mining acuity of at least [mr] to mine [OreType] rocks.</FONT>"
 				return
-			/*if (M.energy < 5)
-				M << "Low energy."*/
+			/*if(OreAmount==0)		//Does the tree have logs???
+				M<<"It's not worthwhile."
+				return	*/			//If no... Return!
+			if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
+				Miner<<"You need an \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> Iron Pickaxe equipped."
+				return
+			M<<"You begin to work on the [OreType] rocks with your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Pickaxe."			//YAY YOU're CUTTING!!!
+			M.overlays += image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
+			if(M.energy<=5)			//Calling this again... Some screwy stuff could happen.
+				M<<"Your energy is too low."
+				return
+			if(Mining==1)
+				return
+							//Setting this to one because the usr is cutting a tree now.
+			sleep(10)				//Sleeps about 2.5 seconds...
+			if(OreAmount==0)		//If log amount being called again...
+				M<<"You already \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>mined the [OreType]."
+				Mining=0
+				return
 			else
-				M.energy -= 5	//Depletes one energy
-				M.updateEN()
-				if(prob(Rarity+mrank))		//Takes the rarity of the tree and your woodcutting lvl
-					Miner<<"You Finish working the <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.OreType] rocks and receive [src.OreType] Ore!"		//You get "tree being cut" Logs!
-					M.overlays -= image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
-					new ore(M)		//Remember ore=obj/items/Log/Oak???  Heres where this creates a log into invetory
-					if(prob(1))
-						new gem(M)
-					mrankEXP+=GiveXP				//  Add The exp from tree to you.
-					Miner.MNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
-					Mining=0							// Mining is set to 0 so you are free to move and cut some more.
-					OreAmount--							//Depletes one log from the Amount.
-					if(OreAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
-						orestate = 1
-						if(otype=="Rock")
-							src.icon_state="erock"
-						if(istype(src, /obj/Rocks/Cliffs))
+				if(M.PXequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
+					Miner<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> Pickaxe to use it on the [OreType] rocks."
+					return
+				/*if (M.energy < 5)
+					M << "Low energy."*/
+				else
+					Mining=1
+					M.energy -= 5	//Depletes one energy
+					M.updateEN()
+					sleep(5)
+					if(prob(Rarity+M.mrank))		//Takes the rarity of the tree and your woodcutting lvl
+						Miner<<"You Finish working the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> [OreType] rocks and receive [OreType] Ore!"		//You get "tree being cut" Logs!
+						M.overlays -= image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
+						new ore(M)		//Remember ore=obj/items/Logs/Oak???  Heres where this creates a log into invetory
+						if(prob(1))
+							new gempick(M)
+						M.mrankEXP+=GiveXP				//  Add The exp from tree to you.
+						Miner.MNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+						Mining=0							// Mining is set to 0 so you are free to move and cut some more.
+						//OreAmount--							//Depletes one log from the Amount.
+						if(src.OreAmount>=1)
+							OreAmount--
+
+						else if(src.OreAmount<=0)
 							//for(src)
 							var/obj/new_cliff = new /obj/Rocks/Cliffs/Empty (loc)
 							new_cliff.icon_state = icon_state
@@ -1398,18 +1732,19 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 								t.vis_contents = null
 								t.density = 0
 							del src
-							//src.icon_state="ecliff"
-						//sleep(spawntime)		//Waiting the spawntime you set for your trees
-						//src.icon_state= initial(icon_state)		//Makes your trees come back to live
-						//OreAmount=rand(MinOre,MaxOre)			//Redefines new OreAmounts.
+								//src.icon_state="ecliff"
+							//sleep(spawntime)		//Waiting the spawntime you set for your trees
+							//src.icon_state= initial(icon_state)		//Makes your trees come back to live
+							//OreAmount=rand(MinOre,MaxOre)			//Redefines new OreAmounts.
+							return
+
+					else
+						M.overlays -= image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
+						Miner<<"You \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>mine some stone!"
+						new stone(M)
+						sleep(10)
+						Mining=0
 						return
-				else
-					M.overlays -= image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
-					Miner<<"You \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>mine some stone!"
-					new stone(M)
-					sleep(10)
-					Mining=0
-					return
 /*
 obj/Rocks/
 	iron

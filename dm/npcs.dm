@@ -3,9 +3,11 @@ obj
 	IG//jam pack this baby full of ALL of the info of the game. And I mean ALL of it. Well, as much info as a player needs to be able to seek more on their own.
 
 		name = "Instinctual Guide"
-		var/description = "A beginners guide that explores your instinctual behaviours..."
+		var/description = "A guide that contains information and describes survival strategies..."
 		icon = 'dmi/64/anctxt.dmi'
 		icon_state = "tut"
+		verb/Description()
+			usr << "[description]"
 		Click()
 			//set hidden = 1
 			set waitfor = 0
@@ -43,7 +45,7 @@ obj
 					return
 				if("Tutorial")
 					M.tutopen=1
-					switch(input("Which Topic?","Select Tutorial Topic") in list("The first night","Make your first fire","Close","Back"))
+					switch(input("Which Topic?","Select Tutorial Topic") in list("The first night","Make your first Fire","Make your first set of Tools","Make your first Forge","Close","Back"))
 						if("Close")
 							M.tutopen=0
 							if(M.tutopen==0)
@@ -54,14 +56,75 @@ obj
 						if("Back") goto START
 						if("The first night")
 							//alert
-							M << {"<font color=#FFFB98><left>Your first night in the wilderness may feel overwhelming, but survival is mostly straightforward as long as you stay calm and collected.<br> You require food or potions to heal yourself (green bar). These are found by fishing or hunting. Click/DoubleClick/RightClick(menu) handle most functions in the game.<br> You must drink water to stay hydrated, replenishing your energy (blue bar), to keep active. Any pond will do, but may also be carried in a jar or found in Fountains, Oasis or even Vines/Cacti.<br> You may equip your equipment by clicking on it in your inventory tab on the statpanel to the left on the interface. Click again to remove. Ctrl+E provides a quick-unequip<br> Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions: V is Free Movement, C is Strafe mode, X is Hold Position. <br> Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-.<br>"}
+							M << {"<font color=#FFFB98><left>Your first night in the wilderness may feel overwhelming, but survival is mostly straightforward as
+							long as you stay calm and collected.<br> You require food (or potions) to heal yourself (Health = green bar). These are found by fishing
+							or hunting. Left Click/Left Double Click / Right Click(menu) handle most functions in the game.<br> You must drink water to stay
+							hydrated, replenishing your energy (Energy/Stamina = blue bar), to keep active. Any pond will do, but may also be carried in a Jar or
+							Vessel, found in Fountains, Oasis, Vines/Cacti.<br> You may use your equipment by clicking on it in your inventory tab to the left on
+							the interface. Click again to remove. Ctrl+E provides a quick-unequip<br> Arrow/WASD to walk, Left Click to use, Left Double Click to
+							run, or attack. <br> Stance Positions: V is Free Movement, C is Strafe mode, X is Hold Position. <br> Ctrl+G provides a quick-get,
+							Ctrl+Mouse Wheel is zoom in/out.<br>"}
 							M.tutopen=0
 							if(M.tutopen==0)
 								src:icon_state = "tut"
 							sleep(1)
 							return
-						if("Make your first fire")
-							M << {"<font color=#FFFB98><left>The first objective for basic survival should be to collect resources so you may flourish and exist.<br> You may be able to find some logs on the ground or wooden haunch from Hallow Ueik Trees (Dark Green tree) and utilize your obsidian knife or carving knife to begin Carving. To carve, use your Obsidian Knife or Carving Knife (click in inventory panel on the left) and right click on the material you wish to carve, Wooden Haunch or Log, respectively, and select Carve.<br> The first thing you might want to make is a fire so that you have light if it is dark and so you may cook food to eat or begin crafting.<br> This requires kindling, one to make and one to light. Collect wooden haunch or log and equip your obsidian knife or carving knife and right click and select carve.<br> You should create kindling infront of you on the ground. Get it and proceed to equip your carving knife and flint, right click a log and click create fire. (if using obsidian knife, right click kindling and click create novice fire, you will need pyrite and flint to light it)<br> This will create a fire on the ground infront of you, have another kindling ready to light the fire. With the carving knife and flint, or the pyrite and flint equipped, right click the fire and light fire.<br> Congratulations! You have lit your very first fire in the realm of Pondera. This small tutorial should give you a good headstart on figuring out how to survive these harsh lands.<br>"}
+						if("Make your first Fire")
+							M << {"<font color=#FFFB98><left>The first objective for basic survival should be to collect resources and create tools so you may
+							flourish and exist.<br> You may find wooden haunch from Hallow Ueik Trees (Dark Green/Blue tree) to begin Carving.
+							Don't have a knife, you say? Use wooden haunch and find and collect some obsidian (purple deposit), then combine the haunch with the
+							obsidian. It is important to have fire so that you have light if it is dark and so you may cook food to eat and smelt ore for tools.<br>
+							This requires kindling, one to make a fire and one to light the fire. Equip your obsidian knife and right click and select
+							carve on a wooden haunch.<br> You should create kindling in front of you on the ground. Get it and proceed to use your obsidian knife to
+							create a fire out of kindling (with obsidian knife equipped, right click kindling and click create novice fire),<br> This will create a
+							fire on the ground in front of you, have another kindling ready to light the fire. With the pyrite and flint equipped, right click the
+							fire and click light fire.<br> Congratulations! You have lit your very first fire in the realm of Pondera.<br>"}
+							M.tutopen=0
+							if(M.tutopen==0)
+								src:icon_state = "tut"
+							sleep(1)
+							return
+						if("Make your first set of Tools")
+							M << {"<font color=#FFFB98><left>Having sourced wooden haunch and having created a fire, you may proceed to create your first complete set
+							of rudimentary tools.<br>You may have already created your first tool of the rudimentary set, the Obsidian Knife. Completing the rest
+							of the set will require Searching for and obtaining Ancient Ueik Fir, Ancient Ueik Thorn, Ancient Ueik Splinter, Wooden Haunch x2, and a Rock.<br>
+							Search flowers and tall grass for a Rock that is suitable. This will combine with a wooden haunch to create a Stone Hammer.<br>
+							In this process, you may find Ancient Ueik Splinter if you search for long enough, among other things. <br>
+							Search Ancient Ueik Trees (Pink trees) for a suitable Ueik Thorn which will create a Ueik Pickaxe when combined with Wooden Haunch.<br>
+							If you obtain an Ancient Ueik Splinter, use your obsidian knife to carve off some Ancient Ueik Fir from Ancient Ueik Trees (Pink tree).<br>
+							Use the Fir and Splinter together to create the ever-so-useful Gloves. You have completed your first set of rudimentary tools!"}
+							M.tutopen=0
+							if(M.tutopen==0)
+								src:icon_state = "tut"
+							sleep(1)
+							return
+						if("Make your first Iron Tool")
+							M << {"<font color=#FFFB98><left>Having created your first set of rudimentary tools, you may proceed to create your first Iron Tool!<br>
+							Utilize the Ueik Pickaxe and find some Stone to mine with it. In the stone lies some Iron Ore, which you may smelt with a Fire.<br>
+							Using your Stone Hammer and having obtained some Iron Ore, you may create an Iron Hammer head in a Fire by Smelting Iron Ore.<br>
+							You may need to quench or polish the tool part before you can place a handle on it, use local water sources to submerge the part to quench while it is hot.<br>
+							If it has cooled down, Heat it with the fire until it is Hot and then quickly quench it. After creating the Hammer head , you will need to carve a handle from a wooden haunch.<br>
+							Combine the handle with the part to complete the creation of the tool. After successfully creating an Iron Hammer, you may create the final rudimentary tool, the Stone Axe. <br>
+							Using the Hammer, you can shard Stone Ore to create a Stone Axe head that can be combined with a Handle to create the Stone Axe, which you may use to chop down trees for wood."}
+							M.tutopen=0
+							if(M.tutopen==0)
+								src:icon_state = "tut"
+							sleep(1)
+							return
+						if("Make your first Forge and Anvil")
+							M << {"<font color=#FFFB98><left> Now that you have an Iron Hammer, you can proceed to creating your first Forge and Anvil to Smelt and Smith.<br>
+							This will require having 25 Stone Ore which you can mine with the Ueik Pickaxe. This will also require 10 Mortar, which can be made by combining Sand and Clay (Collect sand in a jar and combine it with clay). <br>
+							You will need 4 Ueik Log to complete the attempt. Use the Iron Hammer and select Build. Navigate the menu to Furnishings and select Forge. You may have to rank building up to see this menu (Build some fires/sundials/barricades).<br>
+							For the Anvil you will require a Forge and 5 Mortar, 1 Iron Anvil Head and 2 Ueik Logs. If you manage to succeed in building a Forge, you will now be able to Smelt Ore into Ingots, Smelt an Iron Anvil Head out of 15 Iron Ingots, and Heat items for smithing. <br>
+							After smelting an Iron Anvil Head via the Forge, you may build an Anvil to gain access to Smithing new items. Right click the Iron Anvil Head and click Create Anvil, have the materials required ready. Congratulations, you can now Smelt and Smith!"}
+							M.tutopen=0
+							if(M.tutopen==0)
+								src:icon_state = "tut"
+							sleep(1)
+							return
+						if("Your first Smithing experience")
+							M << {"<font color=#FFFB98><left> After forging and smithing for some time, you should have all of the tools you need to build a House.
+							"}
 							M.tutopen=0
 							if(M.tutopen==0)
 								src:icon_state = "tut"
@@ -111,7 +174,7 @@ obj
 							return
 						if("Advanced")
 							//alert
-							M << {"<font color=#FFFB98><left>Advanced Tools: Steel Trowel.<br> Requiring tertiary materials, these tools are for those well situated. Steel can be made by combining hot Iron ingots with Activated Carbon. The Steel can then be utilized to create the Trowel Blade, which can be combined with a Handle to create a Steel Trowel which is used with Mortar and Bricks to create Stone Buildings.<br>"}
+							M << {"<font color=#FFFB98><left>Advanced Tools: Steel Trowel.<br> Requiring tertiary materials, these tools are for those whom are well situated. Steel can be made by combining hot Iron ingots with Activated Carbon. The Steel can then be utilized to create the Trowel Blade, which can be combined with a Handle to create a Steel Trowel which is used with Mortar and Bricks to create Stone Buildings.<br>"}
 							M.tutopen=0
 							if(M.tutopen==0)
 								src:icon_state = "tut"
@@ -148,7 +211,7 @@ obj
 									//M << "<font color=#FFFB98>You close the guide for now..."
 									//return
 								if("Tool")
-									switch(input("Which Topic?","Select Equipment Topic") in list("Jar","Gloves","Torch","Obsidian Knife","Ueik Pickaxe","Stone Hammer","Iron Hammer","Carving Knife","Iron Pickaxe","Iron Axe","Iron Shovel","Iron Hoe","Iron Sickle","Fishing Pole","Iron Chisel","Steel Trowel","Close","Back"))
+									switch(input("Which Topic?","Select Equipment Topic") in list("Jar","Gloves","Torch","Obsidian Knife","Ueik Pickaxe","Stone Hammer","Iron Hammer","Carving Knife","Stone Axe","Iron Pickaxe","Iron Axe","Iron Shovel","Iron Hoe","Iron Sickle","Fishing Pole","Iron Chisel","Steel Trowel","Close","Back"))
 										if("Close")
 											M.tutopen=0
 											if(M.tutopen==0)
@@ -197,9 +260,17 @@ obj
 												src:icon_state = "tut"
 											sleep(1)
 											return
+										if("Stone Axe")
+											//alert
+											M << {"<font color=#FFFB98><center>Rudimentary equipment: \  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneAxe'>Stone Axe <br> Made from <IMG CLASS=bigicon SRC=\ref'dmi/64/build.dmi' ICONSTATE='stone'>Stone Ore. Stone Axe head is created by using <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife and <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Hammer'>Hammer to create shards from Stone Ore.<br> Combined with <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle carved via the <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='ObsidianKnife'>Obsidian Knife on <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch collected from <IMG CLASS=bigicon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='UeikTreeH'>Hallow Ueik Tree.<br> Utilized for chopping down <IMG CLASS=bigicon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='umat4'> Mature Ueik Trees to create <IMG CLASS=bigicon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='UeikLog'>Logs."}
+											M.tutopen=0
+											if(M.tutopen==0)
+												src:icon_state = "tut"
+											sleep(1)
+											return
 										if("Stone Hammer")
 											//alert
-											M << {"<font color=#FFFB98><center>Rudimentary equipment: \  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'>Stone Hammer <br> Made with <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='rock'>Rock collected from searching any variety of<IMG CLASS=bigicon SRC=\ref'dmi/64/plants.dmi' ICONSTATE='rf'>Flowers. <br> Combined with <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch collected from <IMG CLASS=bigicon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='UeikTreeH'>Hallow Ueik Tree.<br> Utilized for crafting <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='IronHammer'>Iron Hammer from <IMG CLASS=bigicon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ib'>Iron Ingot."}
+											M << {"<font color=#FFFB98><center>Rudimentary equipment: \  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'>Stone Hammer <br> Made with <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='rock'>Rock collected from searching any variety of<IMG CLASS=bigicon SRC=\ref'dmi/64/plants.dmi' ICONSTATE='rf'>Flowers. <br> Combined with <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch collected from <IMG CLASS=bigicon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='UeikTreeH'>Hallow Ueik Tree.<br> Utilized for crafting <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='IronHammer'>Iron Hammer from <IMG CLASS=bigicon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ib'>Iron."}
 											M.tutopen=0
 											if(M.tutopen==0)
 												src:icon_state = "tut"
@@ -832,7 +903,7 @@ mob
 					if("Things change!")
 						alert("Or do you mean that you want things to change? The basic fundamentals of life do not change so much, they may vary, but they generally remain the same.","Discuss","Ahh, hmm...","Sorry...I have to disagree")
 						if("Sorry...I have to disagree")
-							alert("That is fine, it is just your Rebel spirit fighting to survive; Just realize this, Life is Harsh and cities offer protection that enables Weakness.","Discuss","Right!")
+							alert("That is fine, it is just your Rebel spirit fighting to survive; Just realize this, Life is Harsh and forts offer protection that enables Weakness.","Discuss","Right!")
 		Traveler
 			name = "Traveler"
 			density = 1

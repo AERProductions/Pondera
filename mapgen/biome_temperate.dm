@@ -11,6 +11,7 @@ obj/border
 	temperate
 		icon = 'acliffs.dmi'
 		ramp_chance = 5
+		name = "Cliff"
 
 		deposit_chance = 10
 		deposit_types = list(	/obj/Rocks/Cliffs/ICliff,
@@ -30,6 +31,10 @@ turf
 		icon_state = "grass"
 		border_type = /obj/border/temperate
 
+		wsfx = list(	/obj/snd/sfx/apof/forestwind
+					)
+
+
 		sfx = list(		/obj/snd/sfx/apof/forestbirds,
 						/obj/snd/sfx/apof/forestwind
 					)
@@ -39,21 +44,23 @@ turf
 
 		SpawnResource()
 
-			if(prob(0.3))
+			if(prob(0.3)&&global.season!="Winter"&&month!="Tevet")
 				SpawnSoundEffects()
+			else if(prob(0.2)&&global.season=="Winter")//for some reason summer sounds are still spawning in winter...
+				SpawnSoundEffectsW()
 
 			if(!spawn_resources) return
 
 			if(prob(0.3))
-				new/obj/Rocks/IRocks(src)
+				new/obj/Rocks/OreRocks/IRocks(src)
 			else if(prob(0.1))
-				new/obj/Rocks/ZRocks(src)
+				new/obj/Rocks/OreRocks/ZRocks(src)
 			else if(prob(0.1))
-				new/obj/Rocks/CRocks(src)
+				new/obj/Rocks/OreRocks/CRocks(src)
 			else if(prob(0.1))
-				new/obj/Rocks/LRocks(src)
+				new/obj/Rocks/OreRocks/LRocks(src)
 			else if(prob(0.2))
-				new/obj/Rocks/SRocks(src)
+				new/obj/Rocks/OreRocks/SRocks(src)
 
 			// Spawnpoints
 			if(prob(0.01))
@@ -63,10 +70,14 @@ turf
 			else if(prob(2.02))
 				for(var/turf/t in oview(1, src))
 					if(!t.spawn_resources || prob(80)) continue
-					if(! (locate(/obj/plant/UeikTreeH) in t) && ! (locate(/obj/plant/UeikTreeA) in t) && ! (locate(/obj/plant/ueiktree) in t))
-						new/obj/Plants/Bush/Raspberrybush(t)
-					if(! (locate(/obj/plant/UeikTreeH) in t) && ! (locate(/obj/plant/UeikTreeA) in t) && ! (locate(/obj/plant/ueiktree) in t) && ! (locate(/obj/Plants/Bush/Raspberrybush) in t))
-						new/obj/Plants/Bush/Blueberrybush(t)
+					if(	!(locate(/obj/plant/UeikTreeA)	in src) && \
+					!(locate(/obj/plant/UeikTreeH)	in src) && \
+					!(locate(/obj/plant/ueiktree)	in src))
+					else if(prob(15) && !(locate(/obj/plant/ueiktree) in range(3, src)) && !(locate(/obj/plant/UeikTreeA) in range(3, src))&& !(locate(/obj/plant/UeikTreeH) in range(3, src)) )
+						if(! (locate(/obj/plant/UeikTreeH) in t) && ! (locate(/obj/plant/UeikTreeA) in t) && ! (locate(/obj/plant/ueiktree) in t))
+							new/obj/Plants/Bush/Raspberrybush(t)
+						if(! (locate(/obj/plant/UeikTreeH) in t) && ! (locate(/obj/plant/UeikTreeA) in t) && ! (locate(/obj/plant/ueiktree) in t) && ! (locate(/obj/Plants/Bush/Raspberrybush) in t))
+							new/obj/Plants/Bush/Blueberrybush(t)
 
 			//if(prob(0.3))
 			//	new/obj/Plants/Bush/Raspberrybush(src)
@@ -91,6 +102,8 @@ turf
 					if(!t.spawn_resources || prob(80)) continue
 					if(! (locate(/obj/plant/UeikTreeH) in t) && ! (locate(/obj/plant/UeikTreeA) in t))
 						new/obj/plant/ueiktree(t)
+			else if(prob(15))
+				new/obj/items/Logs/UeikLog(t)
 
 
 			// Flowers
@@ -108,15 +121,15 @@ turf
 				new/obj/Flowers/Tallgrass(src)
 
 			// Deposits
-			if(prob(0.05))
+			if(prob(0.03))
 				new/turf/TarPit(src)
 			else if(prob(0.03))
 				new/turf/ClayDeposit(src)
-			else if(prob(0.02))
+			else if(prob(0.03))
 				new/turf/ObsidianField(src)
-			else if(prob(0.02))
+			else if(prob(0.03))
 				new/turf/Sand2(src)
 			else if(prob(0.03))
 				new/obj/Soil/richsoil(src)
-			else if(prob(0.04))
+			else if(prob(0.03))
 				new/obj/Soil/soil(src)

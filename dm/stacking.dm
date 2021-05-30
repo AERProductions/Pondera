@@ -60,7 +60,8 @@ obj/items
 		// Splits two stacks apart
 		SplitStack(atom/new_loc, amount)
 			var/obj/items/new_item = new type(new_loc)
-			new_item.stack_amount = min(amount, stack_amount)
+			new_item = locate()
+			new_item.stack_amount = amount
 
 			new_item.UpdateStack()
 			RemoveFromStack(amount)

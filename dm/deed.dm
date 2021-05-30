@@ -365,7 +365,7 @@ obj
 
 		name = "Land Deed"
 		var/description = "A scroll for claiming land."
-		icon = 'anctxt.dmi'
+		icon = 'at32.dmi'
 		icon_state = "deed"
 		var/deedused = 0
 		var/mob/players/M
@@ -384,7 +384,7 @@ obj
 			set waitfor = 0
 			//set popup_menu = 1
 			set hidden = 1
-			//set category = "Commands"
+			////set category = "Commands"
 			set src in usr
 			var/mob/players/M
 			M = usr

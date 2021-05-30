@@ -86,7 +86,7 @@ save_chunk
 		y
 
 	New(map_save_manager/msm, _x, _y)
-
+		..()
 		manager = msm
 
 		x = _x * manager.chunkx
@@ -144,6 +144,10 @@ atom
 		saveable
 		no_save
 		save_category = "atom"
+		buildingowner
+		//deedname[]
+		//deedowner[]
+		//deedallow[]
 
 turf/save_category = "turfs"
 obj/save_category = "objs"
@@ -152,13 +156,17 @@ mob/save_category = "mobs"
 savedatum
 
 var last_save
-var save_period = 30	//	minutes
+var save_period = 1440	//	minutes
 
-mob/Special1/verb
+mob/players/Special1/verb
 	set_save_period() save_period = input(src, "How many minutes should the auto-saver wait between saves?", "Save Period", save_period) || save_period
 
-	Save_All() world.save_all()
-	Load_Map() world.load_all()
+	Save_All()
+		world.save_all()
+		world << "World Saved."
+	Load_Map()
+		world.load_all()
+		world << "World Loaded."
 
 world
 	proc
@@ -269,8 +277,19 @@ savedatum
 
 		save_vis_contents[]
 
-		save_deedname
-		save_deedowner
+		//Sandbox Owner
+		save_buildingowner
+
+		//Deeds
+		save_deedname[]
+		save_deedowner[]
+		save_deedallow[]
+
+		//Lamp Planted state
+		save_planted
+
+		//Item Stacking
+		save_stack_amount
 
 		//vars to save for rocks
 		save_ore_amount
@@ -300,7 +319,7 @@ savedatum
 
 				item.dir = save_dir
 				item.name = save_name
-
+				item.buildingowner = save_buildingowner
 				item.icon_state = save_state
 				item.opacity = save_opacity
 				item.density = save_density
@@ -317,10 +336,13 @@ savedatum
 
 				item.dir = save_dir
 				item.name = save_name
-
+				if(save_buildingowner) item.vars["buildingowner"] = save_buildingowner
 				item.icon_state = save_state
 				item.opacity = save_opacity
 				item.density = save_density
+				if(save_stack_amount) item.vars["stack_amount"] = save_stack_amount
+				if(save_planted) item.vars["Planted"] = save_planted
+				//item.stack_amount = save_stack_amount
 
 				if(save_gender) item.gender = save_gender
 
@@ -331,8 +353,8 @@ savedatum
 				if(save_vis_contents) item.vis_contents = save_vis_contents
 
 
-				if(save_deedname)		item.vars["deedname"]		=	save_deedname
-				if(save_deedowner)		item.vars["deedowner"]		=	save_deedowner
+
+
 				// BEGIN Resource Loading
 				if(save_ore_amount)		item.vars["OreAmount"]		=	save_ore_amount
 				if(save_log_amount)		item.vars["LogAmount"]		=	save_log_amount
@@ -342,6 +364,14 @@ savedatum
 				if(save_fruit_amount)	item.vars["FruitAmount"]	=	save_fruit_amount
 				if(save_veg_amount)		item.vars["VegeAmount"]		=	save_veg_amount
 				// END Resource Loading
+
+
+			/*if(ispath(path, /region))
+				var/region/deed/item = new path (locate(save_x, save_y, save_z))
+				ASSERT(item)
+				if(save_deedname)		item.deedname		=	save_deedname
+				if(save_deedowner)		item.deedowner		=	save_deedowner
+				if(save_deedallow)		item.deedallow		=	save_deedallow*/
 
 
 
@@ -358,7 +388,10 @@ savedatum
 				save_state = item.icon_state
 				save_dir = item.dir
 				save_name = item.name
+				save_density = item.density
 				save_vis_contents = item.vis_contents
+				save_buildingowner = item.buildingowner
+
 
 
 			else if(istype(saver, /atom/movable))
@@ -378,6 +411,7 @@ savedatum
 				save_density = item.density
 				save_opacity = item.opacity
 				save_invisibility = item.invisibility
+				//save_stack_amount = item.stack_amount
 
 				save_sx = item.step_x
 				save_sy = item.step_y
@@ -388,10 +422,31 @@ savedatum
 				if(item.contents.len)
 					save_contents = item.contents
 
-				// Resources
+				//save_buildingowner = item.buildingowner
 
-				if(istype(item, /obj/Rocks))
-					var/obj/Rocks/rock = item
+				//if(item.deedname.len)
+					//save_deedname = item.deedname
+
+				//if(item.deedowner.len)
+				//	save_deedowner = item.deedowner
+
+				//Deed
+				/*if(istype(item, /obj/DeedToken))
+					var/obj/DeedToken/DT = item
+					save_buildingowner = DT.buildingowner
+					save_deedallow = DT.deedallow
+					save_deedname = DT.deedname
+					save_deedowner = DT.deedowner*/
+				if(istype(item, /obj/items/Buildable/lamps))
+					var/obj/items/Buildable/I = item
+					save_planted = I.Planted
+				// Resources
+				if(istype(item, /obj/items))
+					var/obj/items/I = item
+					save_stack_amount = I.stack_amount
+
+				if(istype(item, /obj/Rocks/OreRocks))
+					var/obj/Rocks/OreRocks/rock = item
 					save_ore_amount = rock.OreAmount
 
 
@@ -415,12 +470,19 @@ savedatum
 					save_seed_amount	=	grain.SeedAmount
 					save_grain_amount	=	grain.GrainAmount
 
-			else if(istype(saver, /region))
-				var/region/item = saver
-				if(istype(item, /region))
+			/*else if(istype(saver, /region))
+				var/region/deed/item = saver
+				if(istype(item, /region/deed))
 					var/region/deed/deed = item
-					save_deedname = deed.deedname
-					save_deedowner = deed.deedowner
+					if(item.deedname.len)
+						save_deedname = deed.deedname
+					if(item.deedallow.len)
+						save_deedallow = deed.deedallow
+					if(item.deedowner.len)
+						save_deedowner = deed.deedowner*/
+					//save_deedname = deed.deedname
+					//save_deedowner = deed.deedowner
+					//save_deedallow = deed.deedallow
 
 			return 1
 
@@ -493,7 +555,7 @@ save_chunk
 			// Finished Saving
 
 			if(!save) fdel(path)
-			else if(saved_stuff.len) world.log << "([time2text(world.timeofday)]) Saved [save_path()]"
+			//else if(saved_stuff.len) world.log << "([time2text(world.timeofday)]) Saved [save_path()]"
 
 		load(gradual = FALSE)
 			loaded_stuff = new

@@ -517,7 +517,7 @@ mob/enemies
 			usr << "Need to be within range to attack!"
 			return // make sure that the person clicking is right by the emem
 		//if(istype(M,/mob/enemies)&&P.waiter > 0) //When the mob Clicks the enemies
-		if(LSequipped==1)
+		if(LSequipped==1)//This system needs refined and expanded for all weapons.
 			if(istype(M,/mob/enemies))
 				if(LSequipped==1) overlays -= image('dmi/64/LSoy.dmi',icon_state="[get_dir(usr,src)]")
 				sleep(1)
@@ -624,6 +624,7 @@ mob
 				//locate(E in range(usr,10))
 				//M.exp += E.expgive//
 				var/mob/enemies/E = locate(range(usr,10))
+				var/obj/items/weapons/sumuramasa/S = locate() in M
 				for(E in range(usr,10))
 					if(E.HP > 0) // if the enemy is dead
 
@@ -665,10 +666,13 @@ mob
 								var/Lperc = (L.level/plevelsum)
 								var/blood
 								blood = image('blood.dmi',E.loc)
+								L.pvekills += 1
+								if(S)
+									S:volume += 5
 								L.exp += round((E.expgive * Lperc),1)
 								L.lucre += round((E.lucregive *Lperc),1)
 								//this line was used by me when checking how much was being distributed in what way, now its gone because it works correctly
-								world << "[L] is getting [round((E.expgive * Lperc),1)]exp and [round((E.lucregive *Lperc),1)]lucre"
+								oview(20,usr) << "[L] is getting [round((E.expgive * Lperc),1)]exp and [round((E.lucregive *Lperc),1)]lucre"
 								//L.checklevel() // see if they've leveled up yet
 								//return
 								//updateXP(L)
@@ -700,6 +704,10 @@ mob
 								M.checklevel() // see if you leveled
 								M.updateXP()
 								usr << blood
+								M.pvpkills += 1
+								if(S)
+									S:volume += 10
+
 								itemdrop(E,E.x,E.y,E.z) // check to see what the enemy dropped, if anything
 								//var
 								//	X;Y;Z;
@@ -870,7 +878,7 @@ mob
 					P.poisonDMG=0
 					P.overlays = null
 					P.needrev=1
-					var/turf/rd = locate(16,6,1)
+					var/turf/rd = locate(16,9,12)
 					//var/turf/fl = locate(pick(333,474),pick(678,613),pick(2,2)) //anti griefing spawn
 					//var/turf/fl = locate(pick(421,413),pick(692,686),pick(2,2)) //for testing
 					P.Move(rd)
@@ -894,7 +902,7 @@ mob
 						P.poisonDMG=0
 						P.overlays = null
 						P.needrev=1
-						var/turf/hl = locate(50,50,1)
+						var/turf/hl = locate(101,159,12)
 						//var/turf/fl = locate(pick(333,474),pick(678,613),pick(2,2)) //anti griefing spawn
 						//var/turf/fl = locate(pick(421,413),pick(692,686),pick(2,2)) //for testing
 						P.Move(hl)

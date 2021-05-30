@@ -1,4 +1,5 @@
 mob/var
+	smithm[1]
 	smitht[1]
 	smithw[1]
 	smithae[1]
@@ -6,7 +7,7 @@ mob/var
 	smithao[1]
 	smithl[1]
 	smith[1]
-	CL[1]
+	//CL[1]
 	PCL[1]
 var
 	sme
@@ -50,21 +51,49 @@ obj
 			Created
 				can_stack = TRUE
 				//var/stack = 1
+				var/needssharpening = 0
+				var/needsfiled = 0
+				var/needspolished = 0
+				var/needsquenched = 0
+				var/needsfixed = 0
+				var/etched = 0
+				var/item_type=""
+				//var/R
+				proc/FindI()
+					for(var/obj/items/Crafting/Created/J)// Ingot
+						locate(J)
+						if(J:Tname=="Hot")
+							return J
 				proc
-					CTemp(obj/items/Crafting/Created/J)
+					CTemp(obj/items/Crafting/Created/J = FindI(usr))//If I want to do the same thing to this temp check as I did with ingots/scraps I'll need to add a [item_type] var
 						set waitfor = 0
 						set background = 1
+						//var/mob/players/M
+						//M = usr
 						//set src in usr
 						//var/obj/J = src
 						//if((CB in M.contents)&&(CB.Tname == "Hot"))
+						//while(src)//if(J in M)
 						for(J)
-							if(J.Tname=="Hot")
-								sleep(1240)
-								J.Tname = "Warm"
-								sleep(420)
-								J.Tname = "Cool"
-								usr << "[J] has cooled."
-								return
+							if(Tname=="Hot")
+								//src.MergeStack()
+								//suffix = "Hot"
+								name = "[item_type] (Hot)"
+								sleep(240)
+
+								Tname = "Warm"
+								//suffix = "Warm"
+								//if(J in usr)
+								//	usr << "[J] is warm."
+								name = "[item_type] (Warm)"
+								sleep(120)
+								Tname = "Cool"
+								name = "[item_type] (Cool)"
+								//suffix = "Cool"
+								//if(J in usr)
+								//	usr << "[J] has cooled."
+							else return
+						//else return
 				/*var
 					description
 				/*verb/Description()
@@ -120,420 +149,2797 @@ obj
 							usr << "<font color = teal>Un-equip [src] first!"
 						else
 							src.Move(usr.loc)*/
-				Bricks
+				FishingPoleReel
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "Reel"
+					name = "Iron Reel"
+					item_type="Iron Reel"
+					Tname="Hot"
+					Worth = 15
+					needssharpening = 0
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+
+					New()
+						set waitfor = 0
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							sleep(240)
+				IronNails
+					icon = 'dmi/64/creation.dmi'//Iron Ribbon for barrel
+					icon_state = "IronNails"
+					name = "Iron Nails"
+					Worth = 15
+					item_type="Iron Nails"
+					needssharpening = 0
+					needsfiled = 0
+					needspolished = 0
+					needsquenched = 0
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+
+					New()
+						set waitfor = 0
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							sleep(240)
+				IronRibbon
+					icon = 'dmi/64/creation.dmi'//Iron Ribbon for barrel
+					icon_state = "IronRibbon"
+					name = "Iron Ribbon"
+					Worth = 15
+					item_type="Iron Ribbon"
+					needssharpening = 0
+					needsfiled = 0
+					needspolished = 0
+					needsquenched = 0
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+
+					New()
+						set waitfor = 0
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							sleep(240)
+				UeikBoard
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "UeikBoard"
+					name = "Ueik Board"
+					item_type="Ueik Board"
+					//description = "Stone Bricks"
+					//Tname = "Hot"
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b>"
+
+					New()
+						..()
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Ueik Board."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					verb/Create_Quench_Box()
+						set src in usr
+						var/dice = "1d4"
+						var/R = roll(dice)
+						var/obj/items/Crafting/Created/UeikBoard/J = locate() in usr.contents
+						var/obj/items/Crafting/Created/IronRibbon/J2 = locate() in usr.contents
+						var/obj/items/Crafting/Created/UeikShingle/J3 = locate() in usr.contents
+						if(usr.HMequipped==1)
+							if(!J2||!J3)
+								if(J.stack_amount>=3&&J2.stack_amount>=2&&J3.stack_amount>=2)
+								//if(usr.HMequipped==1)
+									if(R>=2)
+										J.RemoveFromStack(3)
+										J2.RemoveFromStack(2)
+										J3.RemoveFromStack(2)
+										new /obj/items/tools/Containers/QuenchBox()
+										usr << "You manage to put together a Quench Box."
+										return
+									else
+										del src
+										//new obj/items/crafting/created/Vessel()
+										usr << "This Board isn't suitable."
+										return
+								else
+									usr << "You need 3 Ueik Boards, 2 Iron Ribbons and 2 Ueik Shingles to build a Quench Box."
+							else
+								usr << "You need 3 Ueik Boards, 2 Iron Ribbons and 2 Ueik Shingles to build a Quench Box."
+						else
+							usr << "Need to use a Hammer."
+							return
+					verb/Create_Cask_Boards()
+						set src in usr
+						var/dice = "1d4"
+						var/R = roll(dice)
+						var/obj/items/Crafting/Created/UeikBoard/J = locate() in usr.contents
+						if(usr.SWequipped==1)
+							if(!J)
+								if(J.stack_amount>=1)
+								//if(usr.HMequipped==1)
+									if(R>=2)
+										J.RemoveFromStack(1)
+										new /obj/items/Crafting/Created/CaskBoard(usr,stack_amount+=2)
+										usr << "You Saw some Cask Boards from the Ueik Board."
+										return
+									else
+										del src
+										//new obj/items/crafting/created/Vessel()
+										usr << "This Board isn't suitable."
+										return
+								//else
+									//usr << "You need Ueik Board."
+							else
+								usr << "You need Ueik Board."
+						else
+							usr << "Need to use a Saw."
+							return
+
+				CaskBoard
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "CaskBoard"
+					name = "Cask Board"
+					item_type="Cask Board"
+					//description = "Stone Bricks"
+					//Tname = "Hot"
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+
+					New()
+						..()
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b> Cask Board."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					verb/Create_Barrel()
+						set src in usr
+						var/dice = "1d4"
+						var/R = roll(dice)
+						var/obj/items/Crafting/Created/CaskBoard/J = locate() in usr.contents
+						var/obj/items/Crafting/Created/IronRibbon/J2 = locate() in usr.contents
+						if(usr.HMequipped==1)
+							if(!J2)
+								if(J.stack_amount>=18&&J2.stack_amount>=10)
+								//if(usr.HMequipped==1)
+									if(R>=2)
+										J.RemoveFromStack(18)
+										J2.RemoveFromStack(10)
+										new /obj/items/tools/Containers/Barrel()
+										usr << "You manage to put together a Barrel."
+										return
+									else
+										del src
+										//new obj/items/crafting/created/Vessel()
+										usr << "This Board isn't suitable."
+										return
+								else
+									usr << "You need 18 Cask Boards and 10 Iron Ribbons to build a Barrel."
+							else
+								usr << "You need 18 Cask Boards and 10 Iron Ribbons to build a Barrel."
+						else
+							usr << "Need to use a Hammer."
+							return
+
+				UeikShingle
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "UeikShingle"
+					name = "Ueik Shingle"
+					item_type="Ueik Shingle"
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+
+					//description = "Stone Bricks"
+					//Tname = "Hot"
+					New()
+						..()
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Ueik Shingle."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				AnvilHead
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "AnvilHead"
+					name = "Iron Anvil Head"
+					Tname = "Hot"
+					item_type="Anvil Head"
+					can_stack=TRUE
+					needssharpening = 0
+					needsfiled = 0
+					needspolished = 0
+					needsquenched = 0
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					/*verb/Create_Anvil()
+						set src in usr
+						set waitfor = 0
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/Mortar/J = locate() in M.contents
+						var/obj/items/Logs/UeikLog/J1 = locate() in M.contents
+						var/dice = "1d4"
+						var/R = roll(dice)
+						if(J&&J1)
+							if(M.GVequipped==1&&Tname=="Hot"&&needsquenched==0&&needspolished==0&&needssharpening==0)
+								if(R>=2)
+									new /obj/Buildable/Smithing/Anvil(M.loc)
+									M << "You assembled an Anvil!"
+									src.RemoveFromStack(1)
+									J.RemoveFromStack(5)
+									J1.RemoveFromStack(2)
+									return
+								else
+									//new obj/items/crafting/created/Vessel()
+									M << "The materials aren't viable and must be discarded."
+									//src.RemoveFromStack(1)
+									J.RemoveFromStack(5)
+									J1.RemoveFromStack(2)
+									return
+							else if(M.GVequipped==0&&Tname!="Hot")
+								M << "Need to use Gloves and the Anvil Head must be Hot. (Temperature: [Tname])"
+								return
+							else if(needsquenched==1&&needspolished==1&&needssharpening==1)
+								M << "Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+								return
+						else
+							M << "You need 2 Logs and 5 Mortar to assemble an Anvil"*/
+
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+					New()
+						set waitfor = 0
+						var/E = rand(1,0)
+						needssharpening = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Axe'>Axe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+							if(!usr.umsl_ObtainMultiLock(list("right leg", "left leg"), 6.0)) return null//attempt to make heavy objects slow the user down -- needs testing TestStamp
+							else return ..()
+
+				Bricks//Maybe add a needschiseled/needsfiled system for stone works?
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "bricks"
 					name = "Bricks"
+					item_type="Bricks"
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> Chiseled Stone Bricks that can be used for stonework and masonry."//Maybe do the same thing with smithing? NeedsChiseled?
+
 					//description = "Stone Bricks"
-					//Tname = "Cool"
+					//Tname = "Hot"
 					New()
 						..()
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with\  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='Mortar'>Mortar and <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='trowel'>Trowel to create Stoneworks. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with\  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='Mortar'>Mortar and <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='trowel'>Trowel to create Stoneworks. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				CKnifeblade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "CKB"
 					name = "Carving Knife blade"
 					//description = "The Blade of a Carving Knife"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Carving Knife blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsquenched = E
+						needsfiled = E
+						needspolished = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='CarvingKnife'>Carving Knife. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				SickleBlade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Sickleblade"
 					name = "Sickle blade"
 					//description = "The curved Blade of a Sickle."
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Sickle blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+				SawBlade
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "SawBlade"
+					name = "Saw blade"
+					//description = "The Blade of a Chisel."
+					Tname = "Hot"
+					item_type="Saw blade"
+					needssharpening = 1
+					needsfiled = 0
+					needspolished = 0
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+					New()
+						set waitfor = 0
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Saw'>Saw. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				TrowelBlade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "TrowelBlade"
 					name = "Trowel blade"
 					//description = "The Blade of a Trowel."
-					Tname = "Cool"
+					Tname = "Hot"
+					item_type="Trowel blade"
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needssharpening = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='trowel'>Trowel. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='trowel'>Trowel. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+				FileBlade
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "FileBlade"
+					name = "File blade"
+					//description = "The Blade of a Chisel."
+					Tname = "Hot"
+					item_type="File blade"
+					needssharpening=0
+					needsfiled = 0
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					color = rgb(81,61,51)
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J)
+							if(J.suffix=="Equipped"&&M.FIequipped==1)
+								call(/obj/items/tools/File/proc/Fle)()
+							else
+								M << "You need to use a File to test for hardness."
+								return
+						else return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+					New()
+						set waitfor = 0
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='File'>File. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				ChiselBlade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Chiselblade"
 					name = "Chisel blade"
 					//description = "The Blade of a Chisel."
-					Tname = "Cool"
+					Tname = "Hot"
+					item_type="Chisel blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b>  "
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Chisel'>Chisel. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Chisel'>Chisel. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				HoeBlade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Hoeblade"
 					name = "Hoe blade"
 					//description = "The flat Blade of a Hoe."
-					Tname = "Cool"
+					Tname = "Hot"
+					item_type="Hoe blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hoe'>Hoe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hoe'>Hoe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+				StoneAxehead
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "StoneAxehead"
+					name = "Stone Axe head"
+					item_type="Stone Axe head"
+					//description = "The sharp Head of an Axe."
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> A rudimentary tool intended for chopping down trees."
+
 				AxeHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "AxeHead"
-					name = "Axe Head"
+					name = "Axe head"
 					//description = "The sharp Head of an Axe."
-					Tname = "Cool"
+					Tname = "Hot"
+					item_type="Axe head"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Axe'>Axe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Axe'>Axe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				PickaxeHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "PickaxeHead"
-					name = "Pickaxe Head"
+					name = "Pickaxe head"
 					description = "The curved Head of a Pickaxe."
-					Tname = "Cool"
+					Tname = "Hot"
+					item_type="Pickaxe head"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Pickaxe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Pickaxe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				HammerHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "HH"
-					name = "Hammer Head"
+					name = "Hammer head"
+					item_type="Hammer head"
 					//description = "The blunt Head of an Iron Hammer."
-					Tname = "Cool"
+					Tname = "Hot"
+					needssharpening = 0
+					needsfiled = 0
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					//Quench action verb goes onto the Barrel and Quench Box, not parts
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Hammer'>Iron Hammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='hndl'>Handle to create an <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Hammer'>Iron Hammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+								//src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Quench
+							/*else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen*/
+								//src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Quench
+							sleep(240)
 				ShovelHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Shovelhead"
-					name = "Shovel Head"
+					name = "Shovel head"
 					//description = "The Head of a Shovel."
-					Tname = "Cool"
+					Tname = "Hot"
+					item_type="Shovel head"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Shovel'>Shovel. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Shovel'>Shovel. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+//Weapon Parts
 				Broadswordblade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Broadswordblade"
 					name = "Broadsword blade"
-					description = "The Blade of a Broadsword."
-					Tname = "Cool"
+					//description = "The Blade of a Broadsword."
+					Tname = "Hot"
+					item_type="Boardsword blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BroadSword'>Broadsword. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BroadSword'>Broadsword. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				Warswordblade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Warswordblade"
 					name = "Warsword blade"
-					Tname = "Cool"
+					Tname = "Hot"
+					item_type="Warsword blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarSword'>Warsword. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarSword'>Warsword. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				Battleswordblade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Battleswordblade"
 					name = "Battlesword blade"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Battlesword blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleSword'>Battlesword. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleSword'>Battlesword. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
-				/*Waraxeblade
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+				Longswordblade
+					icon = 'dmi/64/creation.dmi'
+					icon_state = "Longswordblade"
+					name = "Longsword blade"
+					Tname = "Hot"
+					item_type="Longsword blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+					New()
+						set waitfor = 0
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hndl'>Handle to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleSword'>Battlesword. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+//WorkStamp need to check these new additions for complete crafting (Combine Handle to these parts to create the weapon)
+				Waraxeblade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Waraxeblade"
 					name = "War Axe blade"
-					Tname = "Cool"
-					var/stack = 1
+					Tname = "Hot"
+					item_type="Waraxe blade"
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+					New()
+						set waitfor = 0
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleHammer'>Battlehammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+
 				Warmaulhead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Warmaulhead"
 					name = "War Maul head"
-					Tname = "Cool"
-					var/stack = 1
-				Battleaxeblade
+					Tname = "Hot"
+					item_type="War maul head"
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+					New()
+						set waitfor = 0
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleHammer'>Battlehammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+
+				Battleaxeblade//WorkStamp Need to add the finished weapons to the equip menu, most likely.
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Battleaxeblade"
 					name = "Battle Axe blade"
-					Tname = "Cool"
-					var/stack = 1*/
+					Tname = "Hot"
+					item_type="Battle axe blade"
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
+					New()
+						set waitfor = 0
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleHammer'>Battlehammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+
+						..()
+							// initialize the list of mobs to be spawned
+						spawn while (src) // More efficient to put in a loop like Deadron's event loop
+							src.CTemp() // start the spawn calls
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+
 				Battlehammersledge
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Battlehammersledge"
 					name = "Battle Hammer sledge"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Battle hammer sledge"
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleHammer'>Battlehammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleHammer'>Battlehammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+
 				Warscytheblade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Warscytheblade"
 					name = "War Scythe blade"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="War scythe blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleScythe'>Battlescythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='BattleScythe'>Battlescythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				Battlescytheblade
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "Battlescytheblade"
 					name = "Battle Scythe blade"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Battle scythe blade"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarScythe'>Warscythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarScythe'>Warscythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+
+//Lamp Heads
 				WoodenTorchHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "woodentorchhead"
 					name = "Wooden Torch Head"
 					Tname = "Hot"
+					item_type="Wooden Torch Head"
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
 
 					New()
 						set waitfor = 0
-						description = "<br><font color = #8C7853><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='woodentorch'>Wooden Torch. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						Description()//description = "<br><font color = #8C7853><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='woodentorch'>Wooden Torch. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							sleep(240)
+
+//SleepStamp need to finish setting the file/fir/etc checks for these lamps
 				IronLampHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "ironlamphead"
 					name = "Iron Lamp Head"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Iron Lamp Head"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #b87333><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='ironlamp'>Iron Lamp. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarScythe'>Warscythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				CopperLampHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "copperlamphead"
 					name = "Copper Lamp Head"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Copper Lamp Head"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #c0c0c0><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='copperlamp'>Copper Lamp. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarScythe'>Warscythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				BronzeLampHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "bronzelamphead"
 					name = "Bronze Lamp Head"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Bronze Lamp Head"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='bronzelamp'>Bronze Lamp. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarScythe'>Warscythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				BrassLampHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "brasslamphead"
 					name = "Brass Lamp Head"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Brass Lamp Head"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #4682b4><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='brasslamp'>Brass Lamp. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarScythe'>Warscythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
 				SteelLampHead
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "steellamphead"
 					name = "Steel Lamp Head"
-					Tname = "Cool"
-
+					Tname = "Hot"
+					item_type="Steel Lamp Head"
+					needssharpening = 1
+					needsfiled = 1
+					needspolished = 1
+					needsquenched = 1
+					needsfixed = 0
+					etched = 0
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+					verb/File()//working, sorta
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						//var/obj/items/UeikFir/J = locate() in M.contents
+						var/obj/items/tools/File/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.FIequipped==1)
+							call(/obj/items/tools/File/proc/Fle)()
+						else
+							M << "You need to use a File to test for hardness."
+							return
+					verb/Polish()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/UeikFir/J = locate() in M.contents
+						if(J)
+							call(/obj/items/UeikFir/proc/Plish)()
+						else
+							M << "You need Ueik Fir to polish."
+							return
+					verb/Sharpen()//working confirmed
+						//set src in usr
+						set category=null
+						set popup_menu=1
+						var/mob/players/M
+						M = usr
+						var/obj/items/tools/Whetstone/J = locate() in M.contents
+						if(J.suffix=="Equipped"&&M.WSequipped==1)
+							call(/obj/items/tools/Whetstone/proc/Shrpn)()
+						else
+							M << "You need to use a whetstone to sharpen."
+							return
 					New()
 						set waitfor = 0
-						description = "<br><font color = #ffd700><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='steellamp'>Steel Lamp. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						var/E = rand(1,0)
+						needssharpening = E
+						needsfiled = E
+						needspolished = E
+						needsquenched = E
+						Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='WarScythe'>Warscythe. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 						..()
 							// initialize the list of mobs to be spawned
 						spawn while (src) // More efficient to put in a loop like Deadron's event loop
 							src.CTemp() // start the spawn calls
-							sleep(80)
+							if(src.needspolished==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Polish
+							else if(src.needspolished==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Polish
+							if(src.needsfiled==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/File
+							else if(src.needsfiled==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/File
+							if(src.needssharpening==0)
+								src:verbs -= /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							else if(src.needssharpening==1)
+								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
+							sleep(240)
+
 				Clay
 					icon = 'dmi/64/inven.dmi'
 					icon_state = "clay"
 					name = "Clay"
 					Tname = "Cool"
+					item_type="Clay"
+					verb/Description()//Fixes description
+						set category=null
+						set popup_menu=1
+						set src in usr
+						//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+						//return
+						usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = #e6e8fa><center><b>[name]</b> <br>Temperature: [Tname]<br>Needs Quenched: [needsquenched?"Yes":"No"]<br>Needs Filed: [needsfiled?"Yes":"No"]<br>Needs Polished: [needspolished?"Yes":"No"]<br>Needs Sharpened: [needssharpening?"Yes":"No"]"
+
 					//need to set descrip
-								//description = "<br><font color = #e6e8fa><center><b>[name]:</b>  Used with <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='bronzelamp'>Bronze Lamp. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+								//Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='bronzelamp'>Bronze Lamp. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					proc/FindJar(mob/players/M)
+						for(var/obj/items/tools/Containers/Jar/J in M.contents)
+							if(J.suffix=="Equipped"&&J.CType=="Sand")
+								return J
+					verb
+						Combine()
+							set waitfor = 0
+							//set src in oview(1)
+							set popup_menu = 1
+							set category = null
+							var/mob/players/M
+							var/obj/items/tools/Containers/Jar/J = FindJar(M)
+							//var/random/R = rand(1,5) //1 in 5 chance to smith
+							M = usr
+							//J = locate(M.contents)
+							locate(J in M.contents)//fixed don't add any dumb inputs :) J
+							if(!J in M.contents)
+								M << "You need a Filled Jar of Sand to combine with Clay to create Mortar..."
+								return
+							else
+								if(J in M.contents&&J.suffix=="Equipped"&&J.filled==1&&J.CType=="Sand")
+									//input("Create Mortar?","Combine") in list("Yes","No")
+									//if("No")
+										//return
+									//if("Yes")
+									//if(J.stack_amount>=1)
+
+									//if(J.name=="Clay")
+									var/dice = "1d8"
+									var/R = roll(dice)
+									if(R>=5)
+										M<<"You start to combine the Clay with the Sand..."
+										//sleep(5)
+										//J.RemoveFromStack(1)
+											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
+										sleep(15)
+										J.icon_state = "Jar"
+										J.volume = 0
+										//if(volume<0)
+										//	volume=0
+										//	M<<"The Jar is empty."
+										J.CType="Empty"
+										J.name = "Jar"
+										J.filled=0
+										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+										M<<"You finish combining the Clay with the Sand and create Mortar."
+										new /obj/items/Mortar(M)
+										//del src
+										return
+									else
+										if(R<=4)
+											src.RemoveFromStack(1)
+													//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+											sleep(15)
+											//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+											M<<"The materials fail at combining and are lost in the process."
+
+											return
+								else
+									M << "You need to use a Filled Jar of Sand to create Mortar."
+									return
 					verb/Form_Jar()
 						set waitfor = 0
 						//set src in oview(1)
 						set popup_menu = 1
 						set category = null
 						var/mob/players/M
-						//var/obj/items/Crafting/Created/Clay/J
-						//var/random/R = rand(1,5) //1 in 5 chance to smith
 						M = usr
-						if(src in M.contents)
-							input("Create an Unbaked Jar?","Clayworking") in list("Yes","No")
-							if("No")
+						var/obj/items/Crafting/Created/Clay/J = locate() in M.contents
+						//var/random/R = rand(1,5) //1 in 5 chance to smith
+
+						//locate(src) in M.contents
+						//if(J)
+						var/CF = input("Create an Unbaked Jar?","Clayworking") in list("Yes","No")
+						if(CF=="No")
+							return
+						if(CF=="Yes")
+							//for(src in M.contents)
+							//if(J.name=="Clay")
+							M<<"You start to form the Clay into the shape of a Jar..."
+							//sleep(5)
+							var/dice = "1d8"
+							var/R = roll(dice)
+							if(R>=4)
+
+									//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+								sleep(7)
+								//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+								M<<"You finish forming the [src.name] and create an Unbaked Jar."
+								new /obj/items/tools/Containers/UnbakedJar(M)
+								J.RemoveFromStack(1)
+								//del src
 								return
-							if("Yes")
-								for(src in M.contents)
-									if(src.name=="Clay")
-										M<<"You start to form the Clay..."
-										//sleep(5)
-										var/dice = "1d8"
-										var/R = roll(dice)
-										if(R>=4)
-											src.RemoveFromStack(1)
-												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-											sleep(15)
-											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-											M<<"You finish forming the [src.name] and create an Unbaked Jar."
-											new /obj/items/tools/UnbakedJar(M)
-											//del src
-											return
-										if(R<=4)
-											src.RemoveFromStack(3)
-													//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-											sleep(15)
-											//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-											M<<"The materials fail at combining and are lost in the process."
-											return
-						else
+							if(R<=4)
+
+										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+								sleep(7)
+								//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+								M<<"The materials fail at combining and are lost in the process."
+								J.RemoveFromStack(1)
+								return
+						else if(!J)
 							M << "You need Clay to continue..."
 							return
+					New()
+						..()
+						//Description()
 
 
-				Handle//fixed
+				Handle//fixed F12021
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "hndl"
 					name = "Wooden Handle"
+					item_type="Handle"
+//Tool Call
+					proc/FindHM(mob/players/M)
+						for(var/obj/items/Crafting/Created/HammerHead/J in M.contents)
+							locate(J)
+							if(J.name=="Hammer head")
+								return J
+					proc/FindCK(mob/players/M)
+						for(var/obj/items/Crafting/Created/CKnifeblade/J1 in M.contents)
+							locate(J1)
+							if(J1.name=="Carving Knife blade")
+								return J1
+					proc/FindSB(mob/players/M)
+						for(var/obj/items/Crafting/Created/SickleBlade/J2 in M.contents)
+							locate(J2)
+							if(J2.name=="Sickle blade")
+								return J2
+					proc/FindTWB(mob/players/M)
+						for(var/obj/items/Crafting/Created/TrowelBlade/J3 in M.contents)
+							locate(J3)
+							if(J3.name=="Trowel blade")
+								return J3
+					proc/FindCB(mob/players/M)
+						for(var/obj/items/Crafting/Created/ChiselBlade/J4 in M.contents)
+							locate(J4)
+							if(J4.name=="Chisel blade")
+								return J4
+					proc/FindAH(mob/players/M)
+						for(var/obj/items/Crafting/Created/AxeHead/J5 in M.contents)
+							locate(J5)
+							if(J5.name=="Axe head")
+								return J5
+					proc/FindFB(mob/players/M)
+						for(var/obj/items/Crafting/Created/FileBlade/J6 in M.contents)
+							locate(J6)
+							if(J6.name=="File blade")//Sleepstamp (sleepstamp is a new thing I'm doing to check something in the morning that I didn't finish before going to bed)
+								return J6
+					proc/FindSAH(mob/players/M)
+						for(var/obj/items/Crafting/Created/StoneAxehead/J7 in M.contents)
+							locate(J7)
+							if(J7.name=="Stone Axe head")
+								return J7
+					proc/FindSW(mob/players/M)
+						for(var/obj/items/Crafting/Created/SawBlade/J8 in M.contents)
+							locate(J8)
+							if(J8.name=="Saw blade")
+								return J8
+//Weapon Call
+					proc/FindBSf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Broadswordblade/J11 in M.contents)//Broad Sword
+							locate(J11)
+							if(J11.name=="Broadsword blade")
+								return J11
+					proc/FindWSf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Warswordblade/J12 in M.contents)//War Sword
+							locate(J12)
+							if(J12.name=="Warsword blade")
+								return J12
+					proc/FindBSWf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Battleswordblade/J13 in M.contents)//Battle Sword
+							locate(J13)
+							if(J13.name=="Battlesword blade")
+								return J13
+					proc/FindLSf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Longswordblade/J14 in M.contents)//Long Sword
+							locate(J14)
+							if(J14.name=="Longsword blade")
+								return J14
+					proc/FindWMf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Warmaulhead/J15 in M.contents)//War Maul
+							locate(J15)
+							if(J15.name=="War Maul head")
+								return J15
 					verb/Combine()
 						set waitfor = 0
-						//set src in oview(1)
+						set src in usr
 						set category = null//"Commands"
 						set popup_menu = 1
 						var/mob/players/M
 						M = usr
-						var/list/CL1
-						CL1 = M.CL
+						var/list/CL1 = list()
+						//CL1 = M.CL
 						//var/obj/items/Crafting/Created/J0 = CL1
+//Handle Combine Tool Call
 						var/obj/items/Crafting/Created/Handle/S = locate() in M.contents
-						var/obj/items/Crafting/Created/HammerHead/J = locate() in M.contents
-						var/obj/items/Crafting/Created/CKnifeblade/J1 = locate() in M.contents
-						var/obj/items/Crafting/Created/SickleBlade/J2 = locate() in M.contents
-						var/obj/items/Crafting/Created/TrowelBlade/J3 = locate() in M.contents
-						var/obj/items/Crafting/Created/ChiselBlade/J4 = locate() in M.contents
-						var/obj/items/Crafting/Created/AxeHead/J5 = locate() in M.contents
+						var/obj/items/Crafting/Created/HammerHead/J = call(/obj/items/Crafting/Created/Handle/proc/FindHM)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/CKnifeblade/J1 = call(/obj/items/Crafting/Created/Handle/proc/FindCK)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/SickleBlade/J2 = call(/obj/items/Crafting/Created/Handle/proc/FindSB)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/TrowelBlade/J3 = call(/obj/items/Crafting/Created/Handle/proc/FindTWB)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/ChiselBlade/J4 = call(/obj/items/Crafting/Created/Handle/proc/FindCB)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/AxeHead/J5 = call(/obj/items/Crafting/Created/Handle/proc/FindAH)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/FileBlade/J6 = call(/obj/items/Crafting/Created/Handle/proc/FindFB)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/StoneAxehead/J7 = call(/obj/items/Crafting/Created/Handle/proc/FindSAH)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/SawBlade/J8 = call(/obj/items/Crafting/Created/Handle/proc/FindSW)(M)//locate() in M.contents
 						//var/obj/items/Crafting/Created/PickaxeHead/J6 = locate() in M.contents
+//Handle Combine Weapon Call
+						var/obj/items/Crafting/Created/Broadswordblade/J9 = call(/obj/items/Crafting/Created/Handle/proc/FindBSf)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/Warswordblade/J10 = call(/obj/items/Crafting/Created/Handle/proc/FindWSf)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/Battleswordblade/J11 = call(/obj/items/Crafting/Created/Handle/proc/FindBSWf)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/Longswordblade/J12 = call(/obj/items/Crafting/Created/Handle/proc/FindLSf)(M)//locate() in M.contents
+						var/obj/items/Crafting/Created/Warmaulhead/J13 = call(/obj/items/Crafting/Created/Handle/proc/FindWMf)(M)//locate() in M.contents
+
 						var/dice = "1d4"
-						var/R = roll(dice)
+						var/R = roll(dice)//does this work or did I change it to rand for a reason?
 						//var/obj/items/Obsidian/J
 						//var/obj/items/Rock/J1
 						//var/obj/items/UeikThorn/J2
@@ -541,6 +2947,216 @@ obj
 						//L = list("Obsidian","Rock","Ueik",3)
 						//var/random/R = rand(1,5) //1 in 5 chance to smith
 						//if(J in M.contents)
+
+						//if(!J||!J1||!J2||!J3||!J4||!J5||!J6)
+							//M << "Need a tool part to combine."
+							//return
+						//need to check all of these to make sure that proper item checks are happening and finish the extended side of allowing people to accomplish them
+						//J.needssharpening==1||J.needsfiled==1||J.needsquenched==1||J.needspolished==1
+						if(J in M.contents)
+							if(J.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else goto Process
+						else if(J1 in M.contents)
+							if(J1.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J1.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J1.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J1.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else goto Process
+						else if(J2 in M.contents)
+							if(J2.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J2.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J2.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J2.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else goto Process
+						else if(J3 in M.contents)
+							if(J3.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J3.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J3.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J3.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else goto Process
+						else if(J4 in M.contents)
+							if(J4.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J4.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J4.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J4.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else goto Process
+						else if(J5 in M.contents)
+							if(J5.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J5.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J5.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J5.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else goto Process
+						else if(J6 in M.contents)
+							if(J6.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J6.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J6.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J6.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else if(J6.needsfiled==0&&J6.needsquenched==0&&J6.needspolished==0&&J6.needssharpening==0)//not sure if this is required
+								goto Process
+						else if(J7 in M.contents)
+							goto Process
+						else if(J8 in M.contents)
+							if(J8.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J8.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J8.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J8.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else if(J8.needsfiled==0&&J8.needsquenched==0&&J8.needspolished==0&&J8.needssharpening==0)//not sure if this is required
+								goto Process
+						else if(J9 in M.contents)
+							if(J9.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J9.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J9.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J9.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else if(J9.needsfiled==0&&J9.needsquenched==0&&J9.needspolished==0&&J9.needssharpening==0)//not sure if this is required
+								goto Process
+						else if(J10 in M.contents)
+							if(J10.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J10.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J10.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J10.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else if(J10.needsfiled==0&&J10.needsquenched==0&&J10.needspolished==0&&J10.needssharpening==0)//not sure if this is required
+								goto Process
+						else if(J11 in M.contents)
+							if(J11.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J11.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J11.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J11.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else if(J11.needsfiled==0&&J11.needsquenched==0&&J11.needspolished==0&&J11.needssharpening==0)//not sure if this is required
+								goto Process
+						else if(J12 in M.contents)
+							if(J12.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J12.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J12.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J12.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else if(J12.needsfiled==0&&J12.needsquenched==0&&J12.needspolished==0&&J12.needssharpening==0)//not sure if this is required
+								goto Process
+						else if(J13 in M.contents)
+							if(J13.needsfiled==1)
+								M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+								return
+							else if(J13.needsquenched==1)
+								M << "You need to quench this item before you can complete it with a Handle."
+								return
+							else if(J13.needspolished==1)
+								M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+								return
+							else if(J13.needssharpening==1)
+								M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+								return
+							else if(J13.needsfiled==0&&J13.needsquenched==0&&J13.needspolished==0&&J13.needssharpening==0)//not sure if this is required
+								goto Process
+						/*if(J1.needssharpening==1||J2.needssharpening==1||J3.needssharpening==1||J4.needssharpening==1||J5.needssharpening==1)
+							M << "You need to sharpen this item with a Whetstone before you can complete it with a Handle."
+							return
+						if(J.needsfiled==1||J1.needsfiled==1||J2.needsfiled==1||J3.needsfiled==1||J4.needsfiled==1||J5.needsfiled==1)
+							M << "You need to check the hardness of this item with a file before you can complete it with a Handle."
+							return
+						if(J.needsquenched==1||J1.needsquenched==1||J2.needsquenched==1||J3.needsquenched==1||J4.needsquenched==1||J5.needsquenched==1)
+							M << "You need to quench this item before you can complete it with a Handle."
+							return
+						if(J.needspolished==1||J1.needspolished==1||J2.needspolished==1||J3.needspolished==1||J4.needspolished==1||J5.needspolished==1||J6.needspolished==1)
+							M << "You need to polish this item with Ueik Fir before you can complete it with a Handle."
+							return*/
+						Process
 						if(Carving==1)		//This is saying if usr is already cuttin a tree...
 							return
 						if(energy==0)		//Is your energy too low???
@@ -549,46 +3165,80 @@ obj
 						else
 							if(S in M.contents)
 
+								if(J in M.contents)
+									CL1.Add("Hammer head")
+								else
+									CL1.Remove("Hammer head")
+									//CL1 + J
+								if(J1 in M.contents)
+									CL1.Add("Carving Knife blade")
+								else
+									CL1.Remove("Carving Knife blade")
+									//CL1 += J1
+								if(J2 in M.contents)
+									CL1.Add("Sickle blade")
+								else
+									CL1.Remove("Sickle blade")
+									//CL1 += J2
+								if(J3 in M.contents)
+									CL1.Add("Trowel blade")
+								else
+									CL1.Remove("Trowel blade")
+									//CL1 += J3
+								if(J4 in M.contents)
+									CL1.Add("Chisel blade")
+								else
+									CL1.Remove("Chisel blade")
+									//CL1 += J4
+								if(J5 in M.contents)
+									CL1.Add("Axe head")
+								else
+									CL1.Remove("Axe head")
+								if(J6 in M.contents)
+									CL1.Add("File blade")
+								else
+									CL1.Remove("File blade")
+								if(J7 in M.contents)
+									CL1.Add("Stone Axe head")
+								else
+									CL1.Remove("Stone Axe head")
+								if(J8 in M.contents)
+									CL1.Add("Saw blade")
+								else
+									CL1.Remove("Saw blade")
 
+								if(J9 in M.contents)
+									CL1.Add("Broadsword blade")
+								else
+									CL1.Remove("Broadsword blade")
+									//CL1 += J4
+								if(J10 in M.contents)
+									CL1.Add("Warsword blade")
+								else
+									CL1.Remove("Warsword blade")
+								if(J11 in M.contents)
+									CL1.Add("Battlesword blade")
+								else
+									CL1.Remove("Battlesword blade")
+								if(J12 in M.contents)
+									CL1.Add("Longsword blade")
+								else
+									CL1.Remove("Longsword blade")
+								if(J13 in M.contents)
+									CL1.Add("War Maul head")
+								else
+									CL1.Remove("War Maul head")
 								//input("Affix?","Affix") in list("Obsidian","Rock","Ueik Thorn")
-								var/i = input("Combine items?","Combine") in list("Yes","No")//in list("Hammer Head","Carving Knife Blade","Sickle Blade","Chisel Blade","Axe Head","Pickaxe Head","Trowel Blade") // in list("Dirt Road","Dirt Road Corner","Water")
+								var/i = input("Combine items?","Combine") in list("Yes","No")//in list("Hammer head","Carving Knife Blade","Sickle blade","Chisel blade","Axe head","Pickaxe head","Trowel blade") // in list("Dirt Road","Dirt Road Corner","Water")
 								if(i=="No")
 									return
 								if(i=="Yes")
-									if(J in M.contents)
-										CL1.Add("Hammer Head")
-									else
-										CL1.Remove("Hammer Head")
-										//CL1 + J
-									if(J1 in M.contents)
-										CL1.Add("Carving Knife Blade")
-									else
-										CL1.Remove("Carving Knife Blade")
-										//CL1 += J1
-									if(J2 in M.contents)
-										CL1.Add("Sickle Blade")
-									else
-										CL1.Remove("Sickle Blade")
-										//CL1 += J2
-									if(J3 in M.contents)
-										CL1.Add("Trowel Blade")
-									else
-										CL1.Remove("Trowel Blade")
-										//CL1 += J3
-									if(J4 in M.contents)
-										CL1.Add("Chisel Blade")
-									else
-										CL1.Remove("Chisel Blade")
-										//CL1 += J4
-									if(J5 in M.contents)
-										CL1.Add("Axe Head")
-									else
-										CL1.Remove("Axe Head")
+
 										//CL1 += J5
 									//if(J6 in M.contents)
-										//CL1.Add("Pickaxe Head")
+										//CL1.Add("Pickaxe head")
 									//else
-										//CL1.Remove("Pickaxe Head")
+										//CL1.Remove("Pickaxe head")
 										//CL1 += J6
 								//else
 									//M << "Nothing to combine is within your grasp."
@@ -605,14 +3255,16 @@ obj
 										//var/obj/items/Crafting/Created/SickleBlade/J2 = locate() in M.contents
 										//var/dice = "1d4"
 										//var/R = roll(dice)
-										if("Hammer Head")
+
+										if("Hammer head")
 											if(J in M.contents)
-												if(J.name=="Hammer Head")
+
+												if(J.name=="Hammer head")
 													for(J in M.contents)
 														//M<<"You need Obsidian to continue..."
 													//	return	//var/random/R = rand(1,5)
 
-														if(R>=3)
+														if(R>=2)
 															M<<"You start to Combine the Hammer Head and the Handle..."
 															J.RemoveFromStack(1)
 															//S.RemoveFromStack(1)
@@ -640,154 +3292,189 @@ obj
 											//else
 												//M<<"You need a tool part to continue..."
 												//return
-										else
-											if("Carving Knife Blade")
-												if(J1 in M.contents)
-													if(J1.name == "Carving Knife blade")
-														for(J1 in M.contents)
-														//	M<<"You need Rock to continue..."
-														//	return		//var/random/R = rand(1,5)
-															if(R>=3)
-																M<<"You start to combine the Carving Knife Blade and the Handle..."
+										//else
+										if("Carving Knife blade")
+											if(J1 in M.contents)
+												if(J1.name == "Carving Knife blade")
+													for(J1 in M.contents)
+													//	M<<"You need Rock to continue..."
+													//	return		//var/random/R = rand(1,5)
+
+														if(R>=2)
+															var/CK = /obj/items/tools/CarvingKnife
+															M<<"You start to combine the Carving Knife blade and the Handle..."
+															J1.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Carving Knife blade to the Handle and create a Carving Knife."
+															new CK(M)
+															//del src
+															//for(CK in M.contents)
+																//CK.needssharpening=1
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
 																J1.RemoveFromStack(1)
 																//S.RemoveFromStack(1)
-																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																		//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the Carving Knife blade to the Handle and create a Carving Knife."
-																new /obj/items/tools/CarvingKnife(M)
-																	//del src
+																Carving=1		//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																	//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																M<<"The materials fail at combining and are lost in the process."
 																Carving=0
 																S.RemoveFromStack(1)
 																return
-															else
-																if(R<=2)
-																	M<<"You start to combine..."
-																	J1.RemoveFromStack(1)
-																	//S.RemoveFromStack(1)
-																	Carving=1		//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																	sleep(5)
-																		//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																	M<<"The materials fail at combining and are lost in the process."
-																	Carving=0
-																	S.RemoveFromStack(1)
-																	return
 												//else
 													//M<<"You need a tool part to continue..."
 													//return
-											else
-												if("Sickle Blade")
-													if(J2 in M.contents)
-														if(J2.name == "Sickle Blade")
-															for(J2 in M.contents)
-																//M<<"You need Ueik Thorn to continue..."
-																//return			//var/random/R = rand(1,5)
-																if(R>=3)
-																	M<<"You start to combine the Sickle Blade to the Handle..."
-																	J2.RemoveFromStack(1)
-																	//S.RemoveFromStack(1)
-																	Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																	sleep(15)
-																			//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																	M<<"You finish combining the Sickle Blade to the Handle and create a Sickle."
-																	new /obj/items/tools/Sickle(M)
-																				//del src
-																	Carving=0
-																	S.RemoveFromStack(1)
-																	return
-																else
-																	if(R<=2)
-																		M<<"You start to combine..."
-																		J2.RemoveFromStack(1)
-																		//S.RemoveFromStack(1)
-																		Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																		sleep(5)
-																		M<<"The materials fail at combining and are lost in the process."
-																		//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																		Carving=0
-																		S.RemoveFromStack(1)
-																		return
+											//else
+										if("Sickle blade")
+											if(J2 in M.contents)
+												if(J2.name == "Sickle blade")
+													for(J2 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Sickle Blade to the Handle..."
+															J2.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Sickle Blade to the Handle and create a Sickle."
+															new /obj/items/tools/Sickle(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J2.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
 													/*else
 														M<<"You need a tool part to continue..."
 														return*/
-												else
-													if("Chisel Blade")
-														if(J4 in M.contents)
-															if(J4.name == "Chisel Blade")
-																for(J4 in M.contents)
-																	//M<<"You need Ueik Thorn to continue..."
-																	//return			//var/random/R = rand(1,5)
-																	if(R>=3)
-																		M<<"You start to combine the Chisel Blade to the Handle..."
-																		J4.RemoveFromStack(1)
-																		//S.RemoveFromStack(1)
-																		Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																		sleep(15)
-																				//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																		M<<"You finish combining the Chisel Blade to the Handle and create a Chisel."
-																		new /obj/items/tools/Chisel(M)
-																					//del src
-																		Carving=0
-																		S.RemoveFromStack(1)
-																		return
-																	else
-																		if(R<=2)
-																			M<<"You start to combine..."
-																			J4.RemoveFromStack(1)
-																			//S.RemoveFromStack(1)
-																			Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																			sleep(5)
-																			M<<"The materials fail at combining and are lost in the process."
-																			//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																			Carving=0
-																			S.RemoveFromStack(1)
-																			return
+												//else
+										if("Chisel blade")
+											if(J4 in M.contents)
+												if(J4.name == "Chisel blade")
+													for(J4 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Chisel Blade to the Handle..."
+															J4.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Chisel Blade to the Handle and create a Chisel."
+															new /obj/items/tools/Chisel(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J4.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
 														/*else
 															M<<"You need a tool part to continue..."
 															return*/
-													else
-														if("Axe Head")
-															if(J5 in M.contents)
-																if(J5.name == "Axe Head")
-																	for(J5 in M.contents)
-																		//M<<"You need Ueik Thorn to continue..."
-																		//return			//var/random/R = rand(1,5)
-																		if(R>=3)
-																			M<<"You start to combine the Axe Head to the Handle..."
-																			J5.RemoveFromStack(1)
-																			//S.RemoveFromStack(1)
-																			Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																			sleep(15)
-																					//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																			M<<"You finish combining the Axe Head to the Handle and create an Axe."
-																			new /obj/items/tools/Axe(M)
-																						//del src
-																			Carving=0
-																			S.RemoveFromStack(1)
-																			return
-																		else
-																			if(R<=2)
-																				M<<"You start to combine..."
-																				J5.RemoveFromStack(1)
-																				//S.RemoveFromStack(1)
-																				Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																				sleep(5)
-																				M<<"The materials fail at combining and are lost in the process."
-																				//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																				Carving=0
-																				S.RemoveFromStack(1)
-																				return
+													//else
+										if("Stone Axe head")
+											if(J7 in M.contents)
+												if(J7.name == "Stone Axe head")
+													for(J7 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Stone Axe head to the Handle..."
+															J7.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Stone Axe head to the Handle and create a Stone Axe."
+															new /obj/items/tools/StoneAxe(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J7.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
+										if("Axe head")
+											if(J5 in M.contents)
+												if(J5.name == "Axe head")
+													for(J5 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Axe Head to the Handle..."
+															J5.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Axe Head to the Handle and create an Axe."
+															new /obj/items/tools/Axe(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J5.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
 															/*else
 																M<<"You need a tool part to continue..."
 																return*/
 														/*else
-															if("Pickaxe Head")
+															if("Pickaxe head")
 																if(J6 in M.contents)
-																	if(J6.name == "Pickaxe Head")
+																	if(J6.name == "Pickaxe head")
 																		for(J6 in M.contents)
 																			//M<<"You need Ueik Thorn to continue..."
 																			//return			//var/random/R = rand(1,5)
-																			if(R>=3)
+																			if(R>=2)
 																				M<<"You start to combine the Pickaxe Head to the Handle..."
 																				J6.RemoveFromStack(1)
 																				//S.RemoveFromStack(1)
@@ -815,48 +3502,266 @@ obj
 																/*else
 																	M<<"You need a tool part to continue..."
 																	return*/
+														//else
+										if("Trowel blade")
+											if(J3 in M.contents)
+												if(J3.name == "Trowel blade")
+													for(J3 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Trowel Blade to the Handle..."
+															J3.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Trowel Blade to the Handle and create a Trowel."
+															new /obj/items/tools/Trowel(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
 														else
-															if("Trowel Blade")
-																if(J3 in M.contents)
-																	if(J3.name == "Trowel Blade")
-																		for(J3 in M.contents)
-																			//M<<"You need Ueik Thorn to continue..."
-																			//return			//var/random/R = rand(1,5)
-																			if(R>=3)
-																				M<<"You start to combine the Trowel Blade to the Handle..."
-																				J3.RemoveFromStack(1)
-																				//S.RemoveFromStack(1)
-																				Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																				sleep(15)
-																						//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																				M<<"You finish combining the Trowel Blade to the Handle and create a Trowel."
-																				new /obj/items/tools/Trowel(M)
-																							//del src
-																				Carving=0
-																				S.RemoveFromStack(1)
-																				return
-																			else
-																				if(R<=2)
-																					M<<"You start to combine..."
-																					J3.RemoveFromStack(1)
-																					//S.RemoveFromStack(1)
-																					Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																					sleep(5)
-																					M<<"The materials fail at combining and are lost in the process."
-																					//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																					Carving=0
-																					S.RemoveFromStack(1)
-																					return
+															if(R<=2)
+																M<<"You start to combine..."
+																J3.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
+															//else
+										if("File blade")
+											if(J6 in M.contents)
+												if(J6.name == "File blade")
+													for(J6 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the File Blade to the Handle..."
+															J6.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the File Blade to the Handle and create a File."
+															new /obj/items/tools/File(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J6.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
+										if("Saw blade")
+											if(J8 in M.contents)
+												if(J8.name == "Saw blade")
+													for(J8 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Saw Blade to the Handle..."
+															J8.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Saw Blade to the Handle and create a Saw."
+															new /obj/items/tools/Saw(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J8.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
 																/*else
 																		M<<"You need a tool part to continue..."
 																		return*/
+										if("Broadsword blade")
+											if(J8 in M.contents)
+												if(J8.name == "Broadsword blade")
+													for(J8 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Broadsword blade to the Handle..."
+															J8.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Broadsword blade to the Handle and create a Broadsword."
+															new /obj/items/tools/BroadSword(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J8.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
+										if("Warsword blade")
+											if(J8 in M.contents)
+												if(J8.name == "Warsword blade")
+													for(J8 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Warsword blade to the Handle..."
+															J8.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Warsword blade to the Handle and create a Warsword."
+															new /obj/items/tools/WarSword(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J8.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
+										if("Battlesword blade")
+											if(J8 in M.contents)
+												if(J8.name == "Battlesword blade")
+													for(J8 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Battlesword blade to the Handle..."
+															J8.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Battlesword blade to the Handle and create a Battlesword."
+															new /obj/items/tools/BattleSword(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J8.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
+										if("Longsword blade")
+											if(J8 in M.contents)
+												if(J8.name == "Longsword blade")
+													for(J8 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the Longsword blade to the Handle..."
+															J8.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Longsword blade to the Handle and create a Longsword."
+															new /obj/items/tools/LongSword(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J8.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
+										if("War Maul head")
+											if(J8 in M.contents)
+												if(J8.name == "War Maul head")
+													for(J8 in M.contents)
+														//M<<"You need Ueik Thorn to continue..."
+														//return			//var/random/R = rand(1,5)
+														if(R>=2)
+															M<<"You start to combine the War Maul head to the Handle..."
+															J8.RemoveFromStack(1)
+															//S.RemoveFromStack(1)
+															Carving=1//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+																	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the War Maul head to the Handle and create a Warmaul."
+															new /obj/items/tools/WarMaul(M)
+																		//del src
+															Carving=0
+															S.RemoveFromStack(1)
+															return
+														else
+															if(R<=2)
+																M<<"You start to combine..."
+																J8.RemoveFromStack(1)
+																//S.RemoveFromStack(1)
+																Carving=1	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																sleep(5)
+																M<<"The materials fail at combining and are lost in the process."
+																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+																Carving=0
+																S.RemoveFromStack(1)
+																return
 							else
 								M<<"You need a Handle to combine..."
 								return
 					/*verb
 						Combine()
 							//set src in oview(1)
-							set category = "Commands"
+							//set category = "Commands"
 							var/mob/players/M
 							//var/obj/items/Crafting/Created/J
 							//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -864,7 +3769,7 @@ obj
 							if(M.Doing==1)
 								return
 							else
-								var/i = input("Combine?","Combine") in list("Hammer Head","Carving Knife blade","Sickle blade")
+								var/i = input("Combine?","Combine") in list("Hammer head","Carving Knife blade","Sickle blade")
 								//var/obj/items/Crafting/Created/J
 								if(M.energy==0)
 									M<<"You are too tired, drink water!"
@@ -879,12 +3784,12 @@ obj
 										//sleep(5)
 										var/dice = "1d4"
 										var/R = roll(dice)
-										if(i == "Hammer Head")
+										if(i == "Hammer head")
 											//var/random/R = rand(1,5)
 											var/obj/items/Crafting/Created/HammerHead/HH = locate() in M.contents
 											var/obj/items/Crafting/Created/Handle/Hnd = locate() in M.contents
 											var/obj/items/tools/Hammer/H = new(M, 1)
-											if(R>=3)
+											if(R>=2)
 												M.Doing=1
 												M<<"You start to combine the [HH] with the Wooden handle..."
 												HH.RemoveFromStack(1)
@@ -909,7 +3814,7 @@ obj
 													return
 										if("Carving Knife blade")
 											//var/random/R = rand(1,5)
-											if(R>=3)
+											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -928,7 +3833,7 @@ obj
 													return
 										if("Sickle blade")
 											//var/random/R = rand(1,5)
-											if(R>=3)
+											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -947,7 +3852,7 @@ obj
 													return
 										if("Broad Sword blade")
 											//var/random/R = rand(1,5)
-											if(R>=3)
+											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -965,7 +3870,7 @@ obj
 												return
 										if("War Sword blade")
 											//var/random/R = rand(1,5)
-											if(R>=3)
+											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -983,7 +3888,7 @@ obj
 												return
 										if("Battle Sword blade")
 											//var/random/R = rand(1,5)
-											if(R>=3)
+											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -1019,7 +3924,7 @@ obj
 												return*/
 										if("Battle Scythe blade")
 											//var/random/R = rand(1,5)
-											if(R>=3)
+											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -1055,7 +3960,7 @@ obj
 												return*/
 										if("Battle Hammer sledge")
 											//var/random/R = rand(1,5)
-											if(R>=3)
+											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -1109,7 +4014,7 @@ obj
 												return*/
 										if("War Scythe blade")
 											//var/random/R = rand(1,5)
-											if(R>=3)
+											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 												sleep(15)
@@ -1131,6 +4036,87 @@ obj
 					icon = 'dmi/64/creation.dmi'
 					icon_state = "pole"
 					name = "Wooden Pole"
+					item_type="Wooden Pole"
+
+//Tool Call
+					proc/FindSHf(mob/players/M)
+						for(var/obj/items/Crafting/Created/ShovelHead/J1 in M.contents)//Shovel
+							locate(J1)
+							if(J1.name=="Shovel head")
+								return J1
+					proc/FindHOf(mob/players/M)
+						for(var/obj/items/Crafting/Created/HoeBlade/J in M.contents)//Hoe
+							locate(J)
+							if(J.name=="Hoe blade")
+								return J
+					proc/FindPXf(mob/players/M)
+						for(var/obj/items/Crafting/Created/PickaxeHead/J0 in M.contents)//Pickaxe
+							locate(J0)
+							if(J0.name=="Pickaxe head")
+								return J0
+					proc/FindFPf(mob/players/M)
+						for(var/obj/items/Crafting/Created/FishingPoleReel/J00 in M.contents)//Fishing Pole
+							locate(J00)
+							if(J00.name=="Iron Reel")
+								return J00
+//Weapon Call
+					proc/FindBHf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Battlehammersledge/J16 in M.contents)//Battle Hammer
+							locate(J16)
+							if(J16.name=="Battle Hammer sledge")
+								return J16
+					proc/FindWXf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Waraxeblade/J17 in M.contents)//War Axe
+							locate(J17)
+							if(J17.name=="War Axe blade")
+								return J17
+					proc/FindBXf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Battleaxeblade/J18 in M.contents)//Battle Axe
+							locate(J18)
+							if(J18.name=="Battle Axe blade")
+								return J18
+					proc/FindWSYf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Warscytheblade/J19 in M.contents)//War Scythe
+							locate(J19)
+							if(J19.name=="War Scythe blade")
+								return J19
+					proc/FindBSYf(mob/players/M)
+						for(var/obj/items/Crafting/Created/Battlescytheblade/J20 in M.contents)//Battle Scythe
+							locate(J20)
+							if(J20.name=="Battle Scythe blade")
+								return J20
+
+//Lamp
+					proc/FindWLf(mob/players/M)
+						for(var/obj/items/Crafting/Created/WoodenTorchHead/J2 in M.contents)//Iron Lamp Head
+							locate(J2)
+							if(J2.name=="Wooden Torch Head")
+								return J2
+					proc/FindILf(mob/players/M)
+						for(var/obj/items/Crafting/Created/IronLampHead/J3 in M.contents)//Iron Lamp Head
+							locate(J3)
+							if(J3.name=="Iron Lamp Head")
+								return J3
+					proc/FindCLf(mob/players/M)
+						for(var/obj/items/Crafting/Created/CopperLampHead/J4 in M.contents)//Copper Lamp Head
+							locate(J4)
+							if(J4.name=="Copper Lamp Head")
+								return J4
+					proc/FindBRLf(mob/players/M)
+						for(var/obj/items/Crafting/Created/BronzeLampHead/J5 in M.contents)//Bronze Lamp Head
+							locate(J5)
+							if(J5.name=="Bronze Lamp Head")
+								return J5
+					proc/FindBSLf(mob/players/M)
+						for(var/obj/items/Crafting/Created/BrassLampHead/J6 in M.contents)//Brass Lamp Head
+							locate(J6)
+							if(J6.name=="Brass Lamp Head")
+								return J6
+					proc/FindSLf(mob/players/M)
+						for(var/obj/items/Crafting/Created/SteelLampHead/J7 in M.contents)//Steel Lamp Head
+							locate(J7)
+							if(J7.name=="Steel Lamp Head")
+								return J7
 					verb
 						Combine()
 							set waitfor = 0
@@ -1141,281 +4127,727 @@ obj
 							M = usr
 							var/list/PCL1
 							PCL1 = M.PCL
+
+//Pole Combine Tool Call
 							var/obj/items/Crafting/Created/Pole/P = locate() in M.contents
-							var/obj/items/Crafting/Created/PickaxeHead/J0 = locate() in M.contents
-							var/obj/items/Crafting/Created/HoeBlade/J = locate() in M.contents
-							var/obj/items/Crafting/Created/ShovelHead/J1 = locate() in M.contents
-							var/obj/items/Crafting/Created/WoodenTorchHead/J2 = locate() in M.contents
-							var/obj/items/Crafting/Created/IronLampHead/J3 = locate() in M.contents
-							var/obj/items/Crafting/Created/CopperLampHead/J4 = locate() in M.contents
-							var/obj/items/Crafting/Created/BrassLampHead/J5 = locate() in M.contents
-							var/obj/items/Crafting/Created/BronzeLampHead/J6 = locate() in M.contents
-							var/obj/items/Crafting/Created/SteelLampHead/J7 = locate() in M.contents
-							var/dice = "1d4"
-							var/R = roll(dice)
+							var/obj/items/Crafting/Created/PickaxeHead/J0 = call(/obj/items/Crafting/Created/Pole/proc/FindPXf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/HoeBlade/J = call(/obj/items/Crafting/Created/Pole/proc/FindHOf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/ShovelHead/J1 = call(/obj/items/Crafting/Created/Pole/proc/FindSHf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/FishingPoleReel/J00 = call(/obj/items/Crafting/Created/Pole/proc/FindFPf)(M)//locate() in M.contents
+
+//Pole Combine Lamp Call
+							var/obj/items/Crafting/Created/WoodenTorchHead/J2 = call(/obj/items/Crafting/Created/Pole/proc/FindWLf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/IronLampHead/J3 = call(/obj/items/Crafting/Created/Pole/proc/FindILf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/CopperLampHead/J4 = call(/obj/items/Crafting/Created/Pole/proc/FindCLf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/BrassLampHead/J5 = call(/obj/items/Crafting/Created/Pole/proc/FindBSLf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/BronzeLampHead/J6 = call(/obj/items/Crafting/Created/Pole/proc/FindBRLf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/SteelLampHead/J7 = call(/obj/items/Crafting/Created/Pole/proc/FindSLf)(M)//locate() in M.contents
+//Pole Combine Weapon Call
+							var/obj/items/Crafting/Created/Battlehammersledge/J16 = call(/obj/items/Crafting/Created/Pole/proc/FindBHf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/Waraxeblade/J17 = call(/obj/items/Crafting/Created/Pole/proc/FindWXf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/Battleaxeblade/J18 = call(/obj/items/Crafting/Created/Pole/proc/FindBXf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/Warscytheblade/J19 = call(/obj/items/Crafting/Created/Pole/proc/FindWSYf)(M)//locate() in M.contents
+							var/obj/items/Crafting/Created/Battlescytheblade/J20 = call(/obj/items/Crafting/Created/Pole/proc/FindBSYf)(M)//locate() in M.contents
+							//var/dice = "1d4"
+							//var/R = roll(dice)
 							//var/random/R = rand(1,5) //1 in 5 chance to smith
 							//M = usr
-							if(src.Tname!="Hot")
+							//if(src.Tname!="Hot")
+							/*if(J0.Tname!="Hot")
 								M<<"Heat it up before combining."
 								return
-							else
-								if(P in M.contents)
-									var/i = input("Combine items?","Combine") in list("Yes","No")//in list("Hammer Head","Carving Knife Blade","Sickle Blade","Chisel Blade","Axe Head","Pickaxe Head","Trowel Blade") // in list("Dirt Road","Dirt Road Corner","Water")
-									if(i=="No")
-										return
-									if(i=="Yes")
-										if(J0 in M.contents)
-											PCL1.Add("Pickaxe Head")
-										else
-											PCL1.Remove("Pickaxe Head")
-										if(J in M.contents)
-											PCL1.Add("Hoe blade")
-										else
-											PCL1.Remove("Hoe blade")
-										if(J1 in M.contents)
-											PCL1.Add("Shovel Head")
-										else
-											PCL1.Remove("Shovel Head")
-										if(J2 in M.contents)
-											PCL1.Add("Wooden Torch Head")
-										else
-											PCL1.Remove("Wooden Torch Head")
-										if(J3 in M.contents)
-											PCL1.Add("Iron Lamp Head")
-										else
-											PCL1.Remove("Iron Lamp Head")
-										if(J4 in M.contents)
-											PCL1.Add("Copper Lamp Head")
-										else
-											PCL1.Remove("Copper Lamp Head")
-										if(J5 in M.contents)
-											PCL1.Add("Brass Lamp Head")
-										else
-											PCL1.Remove("Brass Lamp Head")
-										if(J6 in M.contents)
-											PCL1.Add("Bronze Lamp Head")
-										else
-											PCL1.Remove("Bronze Lamp Head")
-										if(J7 in M.contents)
-											PCL1.Add("Steel Lamp Head")
-										else
-											PCL1.Remove("Steel Lamp Head")
-
-										M<<"You start to combine the part with the Wooden Pole..."//				these needs certified
-										//sleep(5)
-
-										switch(input("Combine?","Combine") in PCL1)//list("Hoe blade","Shovel Head","Wooden Torch Head","Iron Lamp Head","Copper Lamp Head","Brass Lamp Head","Bronze Lamp Head","Steel Lamp Head"))
-											//for(P in M.contents)
-										//for(J in M.contents)
-											if("Pickaxe Head")
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/random/R = rand(1,5)
-														if(J.name=="Pickaxe Head")
-															if(R>=3)
-																J.RemoveFromStack(1)
-																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the head to the pole and create a Pickaxe."
-																new /obj/items/tools/PickAxe(M)
-																//del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-											if("Hoe blade")
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/random/R = rand(1,5)
-														if(J.name=="Hoe blade")
-															if(R>=3)
-																J.RemoveFromStack(1)
-																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the blade to the handle and create a Hoe."
-																new /obj/items/tools/Hoe(M)
-																del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-											if("Shovel Head")
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/random/R = rand(1,5)
-														if(J.name == "Shovel Head")
-															if(R>=3)
-																J.RemoveFromStack(1)
-																M<<"Combining..."//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the head to the pole and create a Shovel."
-																new /obj/items/tools/Shovel(M)
-																del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-											if("Wooden Torch Head")
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/R = roll(dice)
-														if(J.name == "Wooden Torch Head")
-															if(R>=3)
-																J.RemoveFromStack(1)
-																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the Wooden Torch Head to the Pole and create a Wooden Torch"
-																new /obj/Buildable/lamps/woodentorch(M)
-																del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-											if("Iron Lamp Head")//testing no J.name
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/random/R = rand(1,5)
-														if(J.name == "Iron Lamp Head")
-															if(R>=3)
-																J.RemoveFromStack(1)
-																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the Iron Lamp Head to the Pole and create a Iron Lamp"
-																new /obj/Buildable/lamps/ironlamp(M)
-																del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-											if("Copper Lamp Head")
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/random/R = rand(1,5)
-														if(J.name == "Copper Lamp Head")
-
-															if(R>=3)
-																J.RemoveFromStack(1)
-																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the Copper Lamp Head to the Pole and create a Copper Lamp"
-																new /obj/Buildable/lamps/copperlamp(M)
-																del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-											if("Brass Lamp Head")
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/random/R = rand(1,5)
-														if(J.name == "Brass Lamp Head")
-															if(R>=3)
-																J.RemoveFromStack(1)
-																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the Brass Lamp Head to the Pole and create a Brass Lamp"
-																new /obj/Buildable/lamps/brasslamp(M)
-																del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-											if("Bronze Lamp Head")
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/random/R = rand(1,5)
-														if(J.name=="Bronze Lamp Head")
-															if(R>=3)
-																J.RemoveFromStack(1)
-																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the Bronze Lamp Head to the Pole and create a Bronze Lamp"
-																new /obj/Buildable/lamps/bronzelamp(M)
-																del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-											if("Steel Lamp Head")
-												if(J in M.contents)
-													for(J in M.contents)
-												//var/random/R = rand(1,5)
-														if(J.name=="Steel Lamp Head")
-															if(R>=3)
-																J.RemoveFromStack(1)
-																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"You finish combining the Steel Lamp Head to the Pole and create a Steel Lamp"
-																new /obj/Buildable/lamps/steellamp(M)
-																del src
-																return
-															if(R<=2)
-																J.RemoveFromStack(1)
-																	//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																sleep(15)
-																del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-																M<<"The materials fail at combining and are lost in the process."
-																return
-								else
-									M<<"You need a Pole to combine..."
+							else*/
+							if(J00 in M.contents)
+								if(J00.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
 									return
+								else if(J00.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J00.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J00.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J00.needsfiled==0&&J00.needsquenched==0&&J00.needspolished==0&&J00.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J0 in M.contents)
+								if(J0.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J0.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J0.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J0.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J0.needsfiled==0&&J0.needsquenched==0&&J0.needspolished==0&&J0.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J in M.contents)
+								if(J.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J.needsfiled==0&&J.needsquenched==0&&J.needspolished==0&&J.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J1 in M.contents)
+								if(J1.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J1.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J1.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J1.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J1.needsfiled==0&&J1.needsquenched==0&&J1.needspolished==0&&J1.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J2 in M.contents)
+								goto Process
+							if(J3 in M.contents)
+								if(J3.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J3.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J3.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J3.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J3.needsfiled==0&&J3.needsquenched==0&&J3.needspolished==0&&J3.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J4 in M.contents)
+								if(J4.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J4.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J4.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J4.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J4.needsfiled==0&&J4.needsquenched==0&&J4.needspolished==0&&J4.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J5 in M.contents)
+								if(J5.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J5.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J5.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J5.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J5.needsfiled==0&&J5.needsquenched==0&&J5.needspolished==0&&J5.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J6 in M.contents)
+								if(J6.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J6.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J6.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J6.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J6.needsfiled==0&&J6.needsquenched==0&&J6.needspolished==0&&J6.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J7 in M.contents)
+								if(J7.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J7.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J7.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J7.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J7.needsfiled==0&&J7.needsquenched==0&&J7.needspolished==0&&J7.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J16 in M.contents)
+								if(J16.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J16.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J16.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J16.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J16.needsfiled==0&&J16.needsquenched==0&&J16.needspolished==0&&J16.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J17 in M.contents)
+								if(J17.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J17.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J17.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J17.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J17.needsfiled==0&&J17.needsquenched==0&&J17.needspolished==0&&J17.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J18 in M.contents)
+								if(J18.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J18.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J18.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J18.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J18.needsfiled==0&&J18.needsquenched==0&&J18.needspolished==0&&J18.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J19 in M.contents)
+								if(J19.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J19.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J19.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J19.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J19.needsfiled==0&&J19.needsquenched==0&&J19.needspolished==0&&J19.needssharpening==0)//not sure if this is required
+									goto Process
+							if(J20 in M.contents)
+								if(J20.needsfiled==1)
+									M << "You need to check the hardness of this item with a file before you can complete it with a Pole."
+									return
+								else if(J20.needsquenched==1)
+									M << "You need to quench this item before you can complete it with a Pole."
+									return
+								else if(J20.needspolished==1)
+									M << "You need to polish this item with Ueik Fir before you can complete it with a Pole."
+									return
+								else if(J20.needssharpening==1)
+									M << "You need to sharpen this item with a Whetstone before you can complete it with a Pole."
+									return
+								else if(J20.needsfiled==0&&J20.needsquenched==0&&J20.needspolished==0&&J20.needssharpening==0)//not sure if this is required
+									goto Process
+
+							Process
+							if(J0 in M.contents)
+								PCL1.Add("Pickaxe head")
+							else
+								PCL1.Remove("Pickaxe head")
+							if(J in M.contents)
+								PCL1.Add("Hoe blade")
+							else
+								PCL1.Remove("Hoe blade")
+							if(J1 in M.contents)
+								PCL1.Add("Shovel head")
+							else
+								PCL1.Remove("Shovel head")
+							if(J00 in M.contents)
+								PCL1.Add("Iron Reel")
+							else
+								PCL1.Remove("Iron Reel")
+//Lamps
+							if(J2 in M)
+								PCL1.Add("Wooden Torch Head")
+							else
+								PCL1.Remove("Wooden Torch Head")
+							if(J3 in M.contents)
+								PCL1.Add("Iron Lamp Head")
+							else
+								PCL1.Remove("Iron Lamp Head")
+							if(J4 in M.contents)
+								PCL1.Add("Copper Lamp Head")
+							else
+								PCL1.Remove("Copper Lamp Head")
+							if(J5 in M.contents)
+								PCL1.Add("Brass Lamp Head")
+							else
+								PCL1.Remove("Brass Lamp Head")
+							if(J6 in M.contents)
+								PCL1.Add("Bronze Lamp Head")
+							else
+								PCL1.Remove("Bronze Lamp Head")
+							if(J7 in M.contents)
+								PCL1.Add("Steel Lamp Head")
+							else
+								PCL1.Remove("Steel Lamp Head")
+//Weapons
+							if(J16 in M.contents)
+								PCL1.Add("Battle Hammer sledge")
+							else
+								PCL1.Remove("Battle Hammer sledge")
+							if(J17 in M.contents)
+								PCL1.Add("War Axe blade")
+							else
+								PCL1.Remove("War Axe blade")
+							if(J18 in M.contents)
+								PCL1.Add("Battle Axe blade")
+							else
+								PCL1.Remove("Battle Axe blade")
+							if(J19 in M.contents)
+								PCL1.Add("War Scythe blade")
+							else
+								PCL1.Remove("War Scythe blade")
+							if(J20 in M.contents)
+								PCL1.Add("Battle Scythe blade")
+							else
+								PCL1.Remove("Battle Scythe blade")
+							if(P in M.contents)
+								var/i = input("Combine items?","Combine") in list("Yes","No")//in list("Hammer head","Carving Knife Blade","Sickle blade","Chisel blade","Axe head","Pickaxe head","Trowel blade") // in list("Dirt Road","Dirt Road Corner","Water")
+								if(i=="No")
+									return
+								if(i=="Yes")
+//Tools
+									switch(input("Combine?","Combine") in PCL1)//list("Hoe blade","Shovel head","Wooden Torch Head","Iron Lamp Head","Copper Lamp Head","Brass Lamp Head","Bronze Lamp Head","Steel Lamp Head"))
+									//for(P in M.contents)
+									//for(J in M.contents)
+										if("Pickaxe head")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J0 in M.contents)
+												for(J0 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J0.name=="Pickaxe head")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J0.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the head to the pole and create a Pickaxe."
+															new /obj/items/tools/PickAxe(M)
+															P.RemoveFromStack(1)//del src
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J0.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("Hoe blade")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J in M.contents)
+												for(J in M.contents)
+											//var/random/R = rand(1,5)
+													if(J.name=="Hoe blade")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the blade to the handle and create a Hoe."
+															new /obj/items/tools/Hoe(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("Shovel head")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J1 in M.contents)
+												for(J1 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J1.name == "Shovel head")
+														if(R>=2)
+															J1.RemoveFromStack(1)
+															M<<"You start to combine the item with the Wooden Pole..."//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the head to the pole and create a Shovel."
+															new /obj/items/tools/Shovel(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J1.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("Iron Reel")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J00 in M.contents)
+												for(J00 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J00.name=="Iron Reel")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J00.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the reel to the pole and create a Fishing Pole."
+															new /obj/items/tools/FishingPole(M)
+															P.RemoveFromStack(1)//del src
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J00.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+
+
+
+
+
+
+
+										if("Wooden Torch Head")//works needs to be copied over to others
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J2 in M)
+												if(R>=2)
+													M<<"You start to combine the item with the Wooden Pole..."
+													//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+													sleep(15)
+													//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+													M<<"You finish combining the Wooden Torch Head to the Pole and create a Wooden Torch"
+													new /obj/items/Buildable/lamps/woodentorch(M)
+													J2.RemoveFromStack(1)
+													P.RemoveFromStack(1)
+													return
+												else//if(R<=2)
+													//J2.RemoveFromStack(1)
+													M<<"You start to combine the item with the Wooden Pole..."
+														//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+													sleep(15)
+													//P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+													M<<"The materials fail at combining and are lost in the process."
+													J2.RemoveFromStack(1)
+													P.RemoveFromStack(1)
+													return
+
+
+										if("Iron Lamp Head")//testing no J.name
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J3 in M.contents)
+												for(J3 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J3.name == "Iron Lamp Head")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J3.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Iron Lamp Head to the Pole and create a Iron Lamp"
+															new /obj/items/Buildable/lamps/ironlamp(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J3.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("Copper Lamp Head")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J4 in M.contents)
+												for(J4 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J4.name == "Copper Lamp Head")
+
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J4.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Copper Lamp Head to the Pole and create a Copper Lamp"
+															new /obj/items/Buildable/lamps/copperlamp(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J4.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("Bronze Lamp Head")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J6 in M.contents)
+												for(J6 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J.name=="Bronze Lamp Head")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J6.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Bronze Lamp Head to the Pole and create a Bronze Lamp"
+															new /obj/items/Buildable/lamps/bronzelamp(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J6.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("Brass Lamp Head")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J5 in M.contents)
+												for(J5 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J5.name == "Brass Lamp Head")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J5.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Brass Lamp Head to the Pole and create a Brass Lamp"
+															new /obj/items/Buildable/lamps/brasslamp(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J5.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+
+										if("Steel Lamp Head")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J7 in M.contents)
+												for(J7 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J7.name=="Steel Lamp Head")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J7.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Steel Lamp Head to the Pole and create a Steel Lamp"
+															new /obj/items/Buildable/lamps/steellamp(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J7.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+
+										if("Battle Hammer sledge")//testing no J.name
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J16 in M.contents)
+												for(J16 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J16.name == "Battle Hammer sledge")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J16.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Battle Hammer sledge to the Pole and create a Battle Hammer"
+															new /obj/items/tools/BattleHammer(M)
+															P.RemoveFromStack(1)
+															return
+														else
+															M<<"You start to combine the item with the Wooden Pole..."
+															J16.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("War Axe blade")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J17 in M.contents)
+												for(J17 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J17.name == "War Axe blade")
+
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J17.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the War Axe blade to the Pole and create a War Axe"
+															new /obj/items/tools/WarAxe(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J17.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("Battle Axe blade")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J18 in M.contents)
+												for(J18 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J18.name == "Battle Axe blade")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J18.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Battle Axe blade to the Pole and create a Battle Axe"
+															new /obj/items/tools/BattleAxe(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J18.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("War Scythe blade")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J19 in M.contents)
+												for(J19 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J19.name=="War Scythe blade")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J19.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the War Scythe blade to the Pole and create a War Scythe"
+															new /obj/items/tools/WarScythe(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J19.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+										if("Battle Scythe blade")
+											var/dice = "1d4"
+											var/R = roll(dice)
+											if(J20 in M.contents)
+												for(J20 in M.contents)
+											//var/random/R = rand(1,5)
+													if(J20.name=="Battle Scythe blade")
+														if(R>=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J20.RemoveFromStack(1)
+															//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"You finish combining the Battle Scythe blade to the Pole and create a Battle Scythe"
+															new /obj/items/tools/BattleScythe(M)
+															P.RemoveFromStack(1)
+															return
+														else//if(R<=2)
+															M<<"You start to combine the item with the Wooden Pole..."
+															J20.RemoveFromStack(1)
+																//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															sleep(15)
+															P.RemoveFromStack(1)//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+															M<<"The materials fail at combining and are lost in the process."
+															return
+							else
+								M<<"You need a Pole to combine..."
+								return
 
 
 				WeaponRack
 					icon = 'dmi/64/Castl.dmi'
 					icon_state = "wr"
 					name = "Weapon Rack"
+					item_type="Weapon Rack"
 					var/empty = 1
 					var/occupiedLS = 0
 					var/occupiedBS = 0
 					Click()
 						//set src in oview(1)
-						//set category = "Commands"
+						////set category = "Commands"
 						set waitfor = 0
 						var/mob/players/M
 						M = usr
-						var/obj/items/tools/LongSword/LS = locate() in M.contents
+						var/obj/items/tools/LongSword/LS = locate() in M.contents//needs to be expanded to all weapons WorkStamp
 						if(src.occupiedLS == 1)
 							src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="LSWRO")
 
@@ -1440,17 +4872,18 @@ obj
 					icon = 'dmi/64/Castl.dmi'
 					icon_state = "ar"
 					name = "Armor Rack"
+					item_type="Armor Rack"
 					var/empty = 1
 					var/occupiedLS = 0
 					Click()
 						set waitfor = 0
 						//set src in oview(1)
-						//set category = "Commands"
+						////set category = "Commands"
 						var/mob/players/M
 						M = usr
 						var/obj/items/tools/LongSword/LS = locate() in M.contents
 						if(src.occupiedLS == 1)
-							src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="LSWRO")//needs switched over to armor and finished
+							src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="LSWRO")//needs switched over to armor and finished WorkStamp
 
 							sleep(5)
 							new /obj/items/tools/LongSword(M)
@@ -1485,36 +4918,43 @@ obj
 					var/obj/items/Crafting/Created/Clay/J
 					//var/random/R = rand(1,5) //1 in 5 chance to smith
 					M = usr
-					if(J in M.contents)
-						input("Create Mortar?","Combine") in list("Yes","No")
-						if("No")
-							return
-						if("Yes")
-							for(J in M.contents)
+					//J = locate(M.contents)
+					locate(J in M.contents)//fixed don't add any dumb inputs :) J
+					if(!J in M.contents)
+						M << "You need Clay to combine Sand..."
+						return
+					else
+						for(J in M.contents)
+							//input("Create Mortar?","Combine") in list("Yes","No")
+							//if("No")
+								//return
+							//if("Yes")
+							if(J.stack_amount>=1)
+
 								if(J.name=="Clay")
-									M<<"You start to combine the Clay with the Sand..."
-									//sleep(5)
 									var/dice = "1d8"
 									var/R = roll(dice)
-									if(R>=4)
-										J.RemoveFromStack(3)
+									if(R>=5)
+										M<<"You start to combine the Clay with the Sand..."
+										//sleep(5)
+										J.RemoveFromStack(1)
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										M<<"You finish combining the Clay with the Sand and create Mortar."
 										new /obj/items/Mortar(M)
-										del src
+										//del src
 										return
-									if(R<=4)
-										J.RemoveFromStack(3)
-												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										sleep(15)
-										del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-										M<<"The materials fail at combining and are lost in the process."
-										return
-					else
-						M << "You need Clay to combine Sand..."
-						return
+									else
+										if(R<=4)
+											J.RemoveFromStack(1)
+													//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+											sleep(15)
+											//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+											M<<"The materials fail at combining and are lost in the process."
+											return
+							else
+								M << "You need at least 1 [J.name] to create Mortar."
 
 
 obj
@@ -1572,7 +5012,7 @@ obj
 				M.mexp=0 //resets user mining experience to 0
 				M.mexpneeded+=30 //add 30 to users max mining experience
 				world << "\green<b>[M]'s Mining Levelup!!"*/
-		//M.smiexp += 5 //name of proc
+		//M.smiexp += 15 //name of proc
 		//	var/mob/players/M = usr
 		//	if(M.sexp >= M.sexpneeded) //if users mining experience is or gos past users max ming experience
 		//		M.smithinglevel+=1 //users mining gos up by 1
@@ -1622,7 +5062,7 @@ obj
 					del(src)
 					return
 				else
-					M << "Have to have a Sickle equipped to remove [src.name]!"
+					M << "Have to use a Sickle to remove [src.name]!"
 					return
 
 		Searching() //Name of proc
@@ -1634,11 +5074,11 @@ obj
 				return
 			else
 				if(M.searchinglevel <= 1) //If user mining skill is less than or equal to 19
-					if(prob(60)) //30% probabilty of something happening
+					if(prob(80)) //30% probabilty of something happening
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(30) //Delay 3 seconds
-						M.seexp += 25 //user gets 25 mining experience
+						M.seexp += 15 //user gets 25 mining experience
 						SearchingCheck() //go to proc miningcheck
 						new /obj/items/Rock(M,1)
 						M << "You found a Rock!"
@@ -1652,17 +5092,17 @@ obj
 						M.Doing = 1
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
-						M.seexp += 25 //user mining experiance increases by 15
+						M.seexp += 5 //user mining experiance increases by 15
 						SearchingCheck() //same as before....
 						M.Doing = 0
 						return
 				else
 					if(M.searchinglevel <= 2)
-						if(prob(5)) //30% probabilty of something happening
+						if(prob(25)) //30% probabilty of something happening
 							usr << "You begin to search."
 							M.Doing = 1
 							sleep(30) //Delay 3 seconds
-							M.seexp += 50 //user gets 25 mining experience
+							M.seexp += 20 //user gets 25 mining experience
 							//M.searchinglevel = 11
 							SearchingCheck() //go to proc miningcheck
 							new /obj/items/tools/Flint(M,1)
@@ -1671,24 +5111,24 @@ obj
 							//usr << "You found [B]!" //message to user saying he/she mined something
 							M.Doing = 0
 							return
-						else
+						if(prob(10))
 							//if(prob(40)) //probablity ...
 							usr << "You begin to search."
 							M.Doing = 1
 							sleep(15) //Delay 3 seconds
-							//new /obj/items/Rock(M,1)
-							M << "You didn't find anything!"
-							M.seexp += 25 //user mining experiance increases by 15
+							new /obj/items/Rock(M,1)
+							M << "You found a Rock!"
+							M.seexp += 5 //user mining experiance increases by 15
 							SearchingCheck() //same as before....
 							M.Doing = 0
 							return
 					else
 						if(M.searchinglevel <= 3) //if user mining is greater than or equal to 20
-							if(prob(15)) //30% probabilty
+							if(prob(25)) //30% probabilty
 								usr << "You begin to search."
 								M.Doing = 1
 								sleep(15) //Delay 3 seconds
-								M.seexp += 65 //same as before
+								M.seexp += 25 //same as before
 								new /obj/items/AUS(M,1)
 								M << "You found an Ancient Ueik Splinter!"
 								//var/obj/items/AUS/C = new(M)
@@ -1696,23 +5136,23 @@ obj
 								SearchingCheck() //same as before
 								M.Doing = 0
 								return
-							else
+							if(prob(10))
 								//if(prob(40)) //probablity ...
 								usr << "You begin to search."
 								M.Doing = 1
 								sleep(15) //Delay 3 seconds
 								M << "You didn't find anything!"
-								M.seexp += 25 //user mining experiance increases by 15
+								M.seexp += 15 //user mining experiance increases by 15
 								SearchingCheck() //same as before....
 								M.Doing = 0
 								return
 						else
 							if(M.searchinglevel <= 4)
-								if(prob(15)) //probabilty of 20%
+								if(prob(30)) //probabilty of 20%
 									usr << "You begin to search."
 									M.Doing = 1
 									sleep(15) //Delay 3 seconds
-									M.seexp += 50 //user mining experiance increases by 30
+									M.seexp += 20 //user mining experiance increases by 30
 									//M.searchinglevel = 15
 									SearchingCheck() //same as before
 									new /obj/items/tools/Pyrite(M,1)
@@ -1721,49 +5161,49 @@ obj
 									//usr << "You found [D]!" //message to user saying he/she mined steel ore
 									M.Doing = 0
 									return
-								else
+								if(prob(15))
 									//if(prob(40)) //probablity ...
 									usr << "You begin to search."
 									M.Doing = 1
 									sleep(15) //Delay 3 seconds
 									new /obj/items/WDHNCH(M,1)
 									M << "You found a Wooden Haunch!"
-									M.seexp += 35 //user mining experiance increases by 15
+									M.seexp += 15 //user mining experiance increases by 15
 									SearchingCheck() //same as before....
 									M.Doing = 0
 									return
 							else
 								if(M.searchinglevel >= 5)
-									if(prob(5)) //30% probabilty of something happening
+									if(prob(35)) //30% probabilty of something happening
 										usr << "You begin to search."
 										M.Doing = 1
 										sleep(10) //Delay 3 seconds
 										M.seexp += 25 //user gets 25 mining experience
 										SearchingCheck() //go to proc miningcheck
-										new /obj/items/Rock(M,1)
-										M << "You found a Rock!"
+										new /obj/items/tools/Whetstone(M,1)
+										M << "You found a Whetstone!"
 										//var/obj/items/Rock/A = new(M)
 										//usr << "You found [A]!" //message to user saying he/she mined something
 										M.Doing = 0
 										return
-									else
-										if(prob(1)) //30% probabilty of something happening
-											usr << "You begin to search."
-											M.Doing = 1
-											sleep(10) //Delay 3 seconds
-											M.seexp += 65 //user gets 25 mining experience
-											SearchingCheck() //go to proc miningcheck
-											new /obj/items/tools/Flint(M,1)
-											M << "You found some Flint!"
-											//var/obj/items/tools/Flint/B = new(M)
-											//usr << "You found [B]!" //message to user saying he/she mined something
-											M.Doing = 0
-											return
-									if(prob(5)) //30% probabilty
+									if(prob(25))
+										//if(prob(1)) //30% probabilty of something happening
 										usr << "You begin to search."
 										M.Doing = 1
 										sleep(10) //Delay 3 seconds
-										M.seexp += 75 //same as before
+										M.seexp += 5 //user gets 25 mining experience
+										SearchingCheck() //go to proc miningcheck
+										new /obj/items/tools/Flint(M,1)
+										M << "You found some Flint!"
+										//var/obj/items/tools/Flint/B = new(M)
+										//usr << "You found [B]!" //message to user saying he/she mined something
+										M.Doing = 0
+										return
+									if(prob(25)) //30% probabilty
+										usr << "You begin to search."
+										M.Doing = 1
+										sleep(10) //Delay 3 seconds
+										M.seexp += 25 //same as before
 										new /obj/items/AUS(M,1)
 										M << "You found an Ancient Ueik Splinter!"
 										//var/obj/items/AUS/C = new(M)
@@ -1771,24 +5211,24 @@ obj
 										SearchingCheck() //same as before
 										M.Doing = 0
 										return
-									else
-										if(prob(2)) //probabilty of 20%
-											usr << "You begin to search."
-											M.Doing = 1
-											sleep(10) //Delay 3 seconds
-											M.seexp += 30 //user mining experiance increases by 30
-											SearchingCheck() //same as before
-											new /obj/items/tools/Pyrite(M,1)
-											M << "You found some Pyrite!"
-											//var/obj/items/tools/Pyrite/D = new(M)
-											//usr << "You found [D]!" //message to user saying he/she mined steel ore
-											M.Doing = 0
-											return
-									if(prob(5)) //30% probabilty
+									if(prob(25))
+										//if(prob(2)) //probabilty of 20%
 										usr << "You begin to search."
 										M.Doing = 1
 										sleep(10) //Delay 3 seconds
-										M.seexp += 75 //same as before
+										M.seexp += 10 //user mining experiance increases by 30
+										SearchingCheck() //same as before
+										new /obj/items/tools/Pyrite(M,1)
+										M << "You found some Pyrite!"
+										//var/obj/items/tools/Pyrite/D = new(M)
+										//usr << "You found [D]!" //message to user saying he/she mined steel ore
+										M.Doing = 0
+										return
+									if(prob(20)) //30% probabilty
+										usr << "You begin to search."
+										M.Doing = 1
+										sleep(10) //Delay 3 seconds
+										M.seexp += 25 //same as before
 										new /obj/items/Carbon(M,1)
 										M << "You found Carbon!"
 										//var/obj/items/AUS/C = new(M)
@@ -1796,24 +5236,35 @@ obj
 										SearchingCheck() //same as before
 										M.Doing = 0
 										return
-									else
-										if(prob(2)) //probabilty of 20%
-											usr << "You begin to search."
-											M.Doing = 1
-											sleep(10) //Delay 3 seconds
-											M.seexp += 30 //user mining experiance increases by 30
-											SearchingCheck() //same as before
-											new /obj/items/tools/Flint(M,1)
-											M << "You found some Flint!"
-											//var/obj/items/tools/Pyrite/D = new(M)
-											//usr << "You found [D]!" //message to user saying he/she mined steel ore
-											M.Doing = 0
-											return
-									if(prob(1)) //30% probabilty
+									if(prob(15))
+										//if(prob(2)) //probabilty of 20%
+										usr << "You begin to search."
+										M.Doing = 1
+										sleep(10) //Delay 3 seconds
+										M.seexp += 10 //user mining experiance increases by 30
+										SearchingCheck() //same as before
+										new /obj/items/Rock(M,1)
+										M << "You found a Rock!"
+										//var/obj/items/tools/Pyrite/D = new(M)
+										//usr << "You found [D]!" //message to user saying he/she mined steel ore
+										M.Doing = 0
+										return
+									if(prob(15))
+										//if(prob(40)) //probablity ...
+										usr << "You begin to search."
+										M.Doing = 1
+										sleep(15) //Delay 3 seconds
+										new /obj/items/WDHNCH(M,1)
+										M << "You found a Wooden Haunch!"
+										M.seexp += 15 //user mining experiance increases by 15
+										SearchingCheck() //same as before....
+										M.Doing = 0
+										return
+									if(prob(10)) //30% probabilty
 										usr << "You begin to search..."
 										M.Doing = 1
 										sleep(10) //Delay 3 seconds
-										M.seexp += 75 //same as before
+										M.seexp += 35 //same as before
 										new /obj/items/Activated_Carbon(M,1)
 										M << "You found Activated Carbon!"
 										//var/obj/items/AUS/C = new(M)
@@ -1821,13 +5272,14 @@ obj
 										SearchingCheck() //same as before
 										M.Doing = 0
 										return
-
+//Smithing
 			//else
 			//	usr << "You are already searching!"
-		Smithing() //Name of proc
+		Smithing()//Smith //need to test this thoroughly and implement the smithy system updates (RGB coloring of created tool parts?)
 			set waitfor = 0
 			set popup_menu = 1
-			var/mob/players/M = usr
+			var/mob/players/M
+			M = usr
 			var/L00[1]
 			L00 = M.smith
 			var/L0[1]
@@ -1836,39 +5288,165 @@ obj
 			L = M.smithw
 			var/L2[1]
 			L2 = M.smithae
+			var/L3[1]
+			L3 = M.smithl
 			var/L4[1]
 			L4 = M.smithad
 			var/L5[1]
 			L5 = M.smithao
-			var/L3[1]
-			L3 = M.smithl
-			call(/proc/smithingunlock)()
-			call(/proc/smithinglevel)()
+			var/L6[1]
+			L6 = M.smithm
+
+			//call(/proc/smithingunlock)()
+			//call(/proc/smithinglevel)()
+			if(M.SMIopen==1)
+				//M << "Smithing menu is currently open.."
+				return
 			if(M.energy == 0)
 				return
 			if(M.Doing == 0)
 				if(M.HMequipped == 1) //If user Hammer is more than or equal to 1
-					M.UEB = 1
 					SMITHING
-					switch(input("What would you like to smith?","Smithing")as anything in L00)//list("Tools","Weapons","Armor","Lamps"))
+					M.SMIopen = 1
+					M.UEB = 1
+					//M << "Smithing menu is open, tool restriction is set"
+					switch(input("What would you like to smith?","Smithing") in L00)//list("Tools","Weapons","Armor","Lamps"))
+						//M.SMIopen = 1
+						//M.UEB = 1
 						if("Cancel")
 							M<<"You Cancel Selection..."
 							Busy = 0
 							M.UEB = 0
+							M.SMIopen=0
 							return
 						if("Back") goto SMITHING
-						if("Tools")
-							switch(input("What Weapon would you like to make?","Tool Smithing")as anything in L0)
+						if("Misc.")
+							switch(input("What would you like to make?","Miscellaneous Smithing") in L6)
 								if("Cancel")
 									M<<"You Cancel Selection..."
 									Busy = 0
 									M.UEB = 0
+									M.SMIopen=0
+									return
+								if("Back") goto SMITHING
+								if("Iron Nails")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
+										if(R <= 2)
+
+											var/IN = /obj/items/Crafting/Created/IronNails
+											usr << "You begin to smith a handful of Iron Nails."
+											M.Doing = 1
+											IB.RemoveFromStack(1)
+											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+											sleep(30) //Delay 3 seconds
+											M.smiexp += 15 //go to proc miningcheck
+											M.energy -= 5
+											M.updateEN()
+											new IN(M)
+											usr << "You smith Iron Nails!" //message to user saying he/she mined something
+											//BSB:Tname="Hot"
+											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+										else
+											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+												var/SCI = /obj/items/Ingots/Scraps/scrapiron
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(1)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												 //user mining skill gos up by 15
+												M.smiexp += 15 //....
+												M.energy -= 5
+												M.updateEN()
+												new SCI(M)
+												usr << "The materials fail to react well together and produce iron scrap..." //message to user saying he/she didn't mine anything
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+												return call(/proc/smithinglevel)()
+									else
+										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+										M.Doing = 0
+										M.UEB = 0
+										M.SMIopen=0
+										return call(/proc/smithinglevel)()
+								if("Iron Ribbon")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
+										if(R <= 2)
+
+											var/IR = /obj/items/Crafting/Created/IronRibbon
+											usr << "You begin to smith an Iron Ribbon."
+											M.Doing = 1
+											IB.RemoveFromStack(1)
+											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+											sleep(30) //Delay 3 seconds
+											M.smiexp += 15 //go to proc miningcheck
+											M.energy -= 5
+											M.updateEN()
+											new IR(M)
+											usr << "You smith an Iron Ribbon!" //message to user saying he/she mined something
+											//BSB:Tname="Hot"
+											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+										else
+											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+												var/SCI = /obj/items/Ingots/Scraps/scrapiron
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(1)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												 //user mining skill gos up by 15
+												M.smiexp += 15 //....
+												M.energy -= 5
+												M.updateEN()
+												new SCI(M)
+												usr << "The materials fail to react well together and produce iron scrap..." //message to user saying he/she didn't mine anything
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+												return call(/proc/smithinglevel)()
+									else
+										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+										M.Doing = 0
+										M.UEB = 0
+										M.SMIopen=0
+										return call(/proc/smithinglevel)()
+						if("Tools")
+							switch(input("What Weapon would you like to make?","Tool Smithing") in L0)
+								if("Cancel")
+									M<<"You Cancel Selection..."
+									Busy = 0
+									M.UEB = 0
+									M.SMIopen=0
 									return
 								if("Back") goto SMITHING
 								if("Carving Knife blade")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-										var/random/R = rand(1,3)
+										var/dice = "1d4"
+										var/R = roll(dice)
 										if(R == 2)
 											var/CKB = /obj/items/Crafting/Created/CKnifeblade
 											usr << "You begin to smith a Carving Knife Blade."
@@ -1876,7 +5454,7 @@ obj
 											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
 											new CKB(M)
@@ -1885,6 +5463,7 @@ obj
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
@@ -1894,13 +5473,14 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
 												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
@@ -1909,19 +5489,20 @@ obj
 										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
+										M.SMIopen=0
 										return call(/proc/smithinglevel)()
-								if("Shovel Head")
+								if("Shovel head")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+									if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 										var/random/R = rand(1,3)
 										if(R == 2)
 											var/SHD = /obj/items/Crafting/Created/ShovelHead
 											usr << "You begin to smith a Shovel Head."
 											M.Doing = 1
-											IB.RemoveFromStack(1)
+											IB.RemoveFromStack(3)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
 											new SHD(M)
@@ -1930,45 +5511,50 @@ obj
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
-											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+											if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
 												M.Doing = 1
-												IB.RemoveFromStack(1)
+												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
-												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+												usr<<"You need 3 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 									else
-										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+										usr<<"You need 3 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
+										M.SMIopen=0
 										return call(/proc/smithinglevel)()
-								if("Axe Head")
+								if("Axe head")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(M.energy>=5))
-										var/random/R = rand(1,3)
+									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot")&&(M.energy>=5))
+										var/dice = "1d4"
+										var/R = roll(dice)
 										if(R == 2)
 											var/AHD = /obj/items/Crafting/Created/AxeHead
 											usr << "You begin to smith a Axe Head."
 											M.Doing = 1
-											IB.RemoveFromStack(1)
+											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
 											new AHD(M)
@@ -1977,239 +5563,7 @@ obj
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
-												M.energy -= 5
-												M.updateEN()
-												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-									else
-										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-										return 0
-								if("Pickaxe Head")
-									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-										var/random/R = rand(1,3)
-										if(R == 2)
-											var/PHD = /obj/items/Crafting/Created/PickaxeHead
-											usr << "You begin to smith a Pickaxe Head."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
-											new PHD(M)
-											usr << "You smith a Pickaxe Head!" //message to user saying he/she mined something
-											//BSB:Tname="Hot"
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
-												M.energy -= 5
-												M.updateEN()
-												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-									else
-										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-								if("Hammer Head")
-									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-										var/random/R = rand(1,3)
-										if(R == 2)
-											var/HHD = /obj/items/Crafting/Created/ShovelHead
-											usr << "You begin to smith a Shovel Head."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
-											new HHD(M)
-											usr << "You smith a Shovel Head!" //message to user saying he/she mined something
-											//BSB:Tname="Hot"
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
-												M.energy -= 5
-												M.updateEN()
-												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-									else
-										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-								if("Hoe blade")
-									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-										var/random/R = rand(1,3)
-										if(R == 2)
-											var/HBD = /obj/items/Crafting/Created/HoeBlade
-											usr << "You begin to smith a Hoe blade."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
-											new HBD(M)
-											usr << "You smith a Hoe Blade!" //message to user saying he/she mined something
-											//BSB:Tname="Hot"
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
-												M.energy -= 5
-												M.updateEN()
-												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-									else
-										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-								if("Sickle blade")
-									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-										var/random/R = rand(1,3)
-										if(R == 2)
-											var/SBD = /obj/items/Crafting/Created/SickleBlade
-											usr << "You begin to smith a Sickle blade."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
-											new SBD(M)
-											usr << "You smith a Sickle Blade!" //message to user saying he/she mined something
-											//BSB:Tname="Hot"
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
-												M.energy -= 5
-												M.updateEN()
-												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-									else
-										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-								if("Chisel blade")
-									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
-										var/random/R = rand(1,3)
-										if(R == 2)
-											var/TWBD = /obj/items/Crafting/Created/ChiselBlade
-											usr << "You begin to smith a Chisel blade."
-											M.Doing = 1
-											IB.RemoveFromStack(2)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
-											new TWBD(M)
-											usr << "You smith a Chisel Blade!" //message to user saying he/she mined something
-											//BSB:Tname="Hot"
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
@@ -2219,2090 +5573,98 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
 												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 									else
 										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-								if("Trowel blade")
-									var/obj/items/Ingots/steelbar/SB = locate() in M.contents
-									if((SB in M.contents)&&(SB.stack_amount>=3)&&(SB.Tname=="Hot"))
-										var/random/R = rand(1,3)
+										return 0
+								if("Pickaxe head")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
 										if(R == 2)
-											var/TWBD = /obj/items/Crafting/Created/TrowelBlade
-											usr << "You begin to smith a Trowel blade."
+											var/PHD = /obj/items/Crafting/Created/PickaxeHead
+											usr << "You begin to smith a Pickaxe Head."
 											M.Doing = 1
-											SB.RemoveFromStack(3)
+											IB.RemoveFromStack(3)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
-											new TWBD(M)
-											usr << "You smith a Trowel Blade!" //message to user saying he/she mined something
+											new PHD(M)
+											usr << "You smith a Pickaxe Head!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
-											if((SB in M.contents)&&(SB.stack_amount>=1)&&(SB.Tname=="Hot"))
+											if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
 												M.Doing = 1
-												SB.RemoveFromStack(3)
+												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
-												usr<<"You need 3 Hot Steel Ingot for smithing this item..."
+												usr<<"You need 3 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 									else
-										usr<<"You need 3 Hot Steel Ingot for smithing this item..."
+										usr<<"You need 3 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
+										M.SMIopen=0
 										return call(/proc/smithinglevel)()
-					if("Weapons")
-						switch(input("What Weapon would you like to make?","Weapon Smithing")as anything in L)// in list("Broad Sword"))
-							if("Cancel")
-								M<<"You Cancel Selection..."
-								Busy = 0
-								M.UEB = 0
-								return
-							if("Back") goto SMITHING
-							if("Broad Sword")
-								var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-								if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-									var/random/R = rand(1,5)
-									if(R == 2)
-										var/BSB = /obj/items/Crafting/Created/Broadswordblade
-										usr << "You begin to smith."
-										M.Doing = 1
-										IB.RemoveFromStack(1)
-										src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-										sleep(30) //Delay 3 seconds
-										M.smiexp += 5 //go to proc miningcheck
-										M.energy -= 5
-										M.updateEN()
-										new BSB(locate(x,y,z))
-										usr << "You smith a Broad Sword Blade!" //message to user saying he/she mined something
-										//BSB:Tname="Hot"
-										src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-									else
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-											usr << "You begin to smith."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											 //user mining skill gos up by 15
-											M.smiexp += 5 //....
-											M.energy -= 5
-											M.updateEN()
-											usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-								else
-									usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-									M.Doing = 0
-									M.UEB = 0
-									return call(/proc/smithinglevel)()
-							if("Battle Hammer")
-								//var/obj/items/tools/BroadSword/BS
-								//var/random/R = rand(1,5) //1 in 5 chance to smith
-								var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-								if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-									//var/obj/items/tools/BroadSword/BS
-									var/random/R = rand(1,5)
-									if(R == 2)
-										var/BHS = /obj/items/Crafting/Created/Battlehammersledge
-										usr << "You begin to smith."
-										M.Doing = 1
-										IB.RemoveFromStack(1)
-										src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-										sleep(30) //Delay 3 seconds
-										M.smiexp += 5 //go to proc miningcheck
-										M.energy -= 5
-										M.updateEN()
-										new BHS(locate(x,y,z))
-										usr << "You smith a Battle Hammer Sledge!" //message to user saying he/she mined something
-										//BHS:Tname="Hot"
-										src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-									else
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-											usr << "You begin to smith."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											 //user mining skill gos up by 15
-											M.smiexp += 5 //....
-											M.energy -= 5
-											M.updateEN()
-											usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-								else
-									usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-									M.Doing = 0
-									M.UEB = 0
-									return call(/proc/smithinglevel)()
-
-							if("War Scythe")
-								//var/obj/items/tools/BroadSword/BS
-								//var/random/R = rand(1,5) //1 in 5 chance to smith
-								var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-								if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-									//var/obj/items/tools/BroadSword/BS
-									var/random/R = rand(1,5)
-									if(R == 2)
-										var/WSB = /obj/items/Crafting/Created/Warscytheblade
-										usr << "You begin to smith."
-										M.Doing = 1
-										IB.RemoveFromStack(1)
-										src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-										sleep(30) //Delay 3 seconds
-										M.smiexp += 5 //go to proc miningcheck
-										M.energy -= 5
-										M.updateEN()
-										new WSB(locate(x,y,z))
-										usr << "You smith a War Scythe Blade!" //message to user saying he/she mined something
-										//BSB:Tname="Hot"
-										src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-									else
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-											usr << "You begin to smith."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											 //user mining skill gos up by 15
-											M.smiexp += 5 //....
-											M.energy -= 5
-											M.updateEN()
-											usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-								else
-									usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-									M.Doing = 0
-									M.UEB = 0
-									return call(/proc/smithinglevel)()
-
-							if("Battle Scythe")
-								//var/obj/items/tools/BroadSword/BS
-								//var/random/R = rand(1,5) //1 in 5 chance to smith
-								var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-								if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-									//var/obj/items/tools/BroadSword/BS
-									var/random/R = rand(1,5)
-									if(R == 2)
-										var/BSCB = /obj/items/Crafting/Created/Battlescytheblade
-										usr << "You begin to smith."
-										M.Doing = 1
-										IB.RemoveFromStack(1)
-										src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-										sleep(30) //Delay 3 seconds
-										M.smiexp += 5 //go to proc miningcheck
-										M.energy -= 5
-										M.updateEN()
-										new BSCB(locate(x,y,z))
-										usr << "You smith a Broad Sword Blade!" //message to user saying he/she mined something
-										//BSB:Tname="Hot"
-										src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-									else
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-											usr << "You begin to smith."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											 //user mining skill gos up by 15
-											M.smiexp += 5 //....
-											M.energy -= 5
-											M.updateEN()
-											usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-								else
-									usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-									M.Doing = 0
-									M.UEB = 0
-									return call(/proc/smithinglevel)()
-
-							if("War Sword")
-								//var/obj/items/tools/BroadSword/BS
-								//var/random/R = rand(1,5) //1 in 5 chance to smith
-								var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-								if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-									//var/obj/items/tools/BroadSword/BS
-									var/random/R = rand(1,5)
-									if(R == 2)
-										var/WSWB = /obj/items/Crafting/Created/Warswordblade
-										usr << "You begin to smith."
-										M.Doing = 1
-										IB.RemoveFromStack(1)
-										src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-										sleep(30) //Delay 3 seconds
-										M.smiexp += 5 //go to proc miningcheck
-										M.energy -= 5
-										M.updateEN()
-										new WSWB(locate(x,y,z))
-										usr << "You smith a War Sword Blade!" //message to user saying he/she mined something
-										//BSB:Tname="Hot"
-										src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-									else
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-											usr << "You begin to smith."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											 //user mining skill gos up by 15
-											M.smiexp += 5 //....
-											M.energy -= 5
-											M.updateEN()
-											usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-								else
-									usr<<"You need 3 Iron Hot Ingots for smithing this item..."
-									M.Doing = 0
-									M.UEB = 0
-									return call(/proc/smithinglevel)()
-
-							if("Battle Sword")
-								//var/obj/items/tools/BroadSword/BS
-								//var/random/R = rand(1,5) //1 in 5 chance to smith
-								var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-								if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-									//var/obj/items/tools/BroadSword/BS
-									var/random/R = rand(1,5)
-									if(R == 2)
-										var/BSWB = /obj/items/Crafting/Created/Battleswordblade
-										usr << "You begin to smith."
-										M.Doing = 1
-										IB.RemoveFromStack(1)
-										src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-										sleep(30) //Delay 3 seconds
-										M.smiexp += 5 //go to proc miningcheck
-										M.energy -= 5
-										M.updateEN()
-										new BSWB(locate(x,y,z))
-										usr << "You smith a Battle Sword Blade!" //message to user saying he/she mined something
-										//BSB:Tname="Hot"
-										src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-										M.Doing = 0
-										M.UEB = 0
-										return call(/proc/smithinglevel)()
-									else
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-											usr << "You begin to smith."
-											M.Doing = 1
-											IB.RemoveFromStack(1)
-											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-											sleep(30) //Delay 3 seconds
-											 //user mining skill gos up by 15
-											M.smiexp += 5 //....
-											M.energy -= 5
-											M.updateEN()
-											usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
-											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-										else
-											usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-								else
-									usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
-									M.Doing = 0
-									M.UEB = 0
-									return call(/proc/smithinglevel)()
-					//call(/proc/smithinglevel)(M)
-					if("Armor")
-						ARMOR
-						switch(input("What Type of armor would you like to smith?","Smithing Armor Type") in list("Evasive","Defensive","Offensive","Cancel","Back"))
-							if("Cancel")
-								M<<"You Cancel Selection..."
-								Busy = 0
-								M.UEB = 0
-								return
-							if("Back") goto ARMOR
-							if("Evasive")
-								switch(input("What Armor would you like to make?","Evasive Armor Smithing")as anything in L2)//in list())
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UEB = 0
-										return
-									if("Back") goto ARMOR
-									if("Giu Hide Vestments")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-										var/obj/items/GiuHide/GH0 = locate() in M.contents
-										if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/avgvestments
-												usr << "You begin to smith."
-												M.Doing = 1
-												CB.RemoveFromStack(1)
-												GH0.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Giu Hide Vestments!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													CB.RemoveFromStack(1)
-													GH0.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Giu Shell Vestments")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-										var/obj/items/GiuShell/GS1 = locate() in M.contents
-										if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/unuvestments
-												usr << "You begin to smith."
-												M.Doing = 1
-												CB.RemoveFromStack(1)
-												GS1.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Giu Shell Vestments!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													CB.RemoveFromStack(1)
-													GS1.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need a Giu Shell and 2 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need a Giu Shell and 2 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Gou ShellHide Vestments")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-										var/obj/items/GouHide/GH2 = locate() in M.contents
-										var/obj/items/GouShell/GS2 = locate() in M.contents
-										if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GH2 in M.contents)&&(GS2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/uncovestments
-												usr << "You begin to smith."
-												M.Doing = 1
-												BRB.RemoveFromStack(1)
-												GH2.RemoveFromStack(1)
-												GS2.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Gou ShellHide Vestments!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GH2 in M.contents)&&(GS2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													BRB.RemoveFromStack(1)
-													GH2.RemoveFromStack(1)
-													GS2.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gou Shell/Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gou Shell/Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Coppermail Vestments")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-										var/obj/items/GowHide/GH3 = locate() in M.contents
-										if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/choivestments
-												usr << "You begin to smith."
-												M.Doing = 1
-												CB.RemoveFromStack(1)
-												GH3.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Coppermail Vestments!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													CB.RemoveFromStack(1)
-													GH3.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need a Gow Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need a Gow Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Zinc ShellPlate Vestments")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-										var/obj/items/GuwiShell/GS4 = locate() in M.contents
-										if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/ordivestments
-												usr << "You begin to smith."
-												M.Doing = 1
-												ZB.RemoveFromStack(1)
-												GS4.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Zinc ShellPlate Vestments!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													ZB.RemoveFromStack(1)
-													GS4.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Guwi Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Guwi Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Steel ShellPlate Vestments")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
-										var/obj/items/GowuShell/GS5 = locate() in M.contents
-										if((STLB in M.contents)&&(STLB.stack_amount>=1)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,20)
-											if(R == 2)
-												var/AV = /obj/items/armors/sinvestments
-												usr << "You begin to smith."
-												M.Doing = 1
-												STLB.RemoveFromStack(1)
-												GS5.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Steel ShellPlate Vestments!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((STLB in M.contents)&&(STLB.stack_amount>=1)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													STLB.RemoveFromStack(1)
-													GS5.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gowu Shell and 3 Hot Steel Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gowu Shell and 3 Hot Steel Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-
-									if("Monk Tunic")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-										var/obj/items/GiuShell/GS0 = locate() in M.contents
-										var/obj/items/GiuHide/GH0 = locate() in M.contents
-										if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/avgtunic
-												usr << "You begin to smith."
-												M.Doing = 1
-												CB.RemoveFromStack(1)
-												GS0.RemoveFromStack(1)
-												GH0.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Monk Tunic!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													CB.RemoveFromStack(1)
-													GS0.RemoveFromStack(1)
-													GH0.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Giu Shell/Hide and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Giu Shell/Hide and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Iron Studded Tunic")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-										var/obj/items/GiuHide/GH1 = locate() in M.contents
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GH1 in M.contents)&&(GH1.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/unutunic
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												GH1.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Iron Studded Tunic!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GH1 in M.contents)&&(GH1.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													IB.RemoveFromStack(1)
-													GH1.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gow Shell/Hide and 3 Hot Iron Ingots  to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gow Shell/Hide and 3 Hot Iron Ingots  to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Bronze ShellPlate Tunic")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-										var/obj/items/GouHide/GH2 = locate() in M.contents
-										if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GH2 in M.contents)&&(GH2.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/uncotunic
-												usr << "You begin to smith."
-												M.Doing = 1
-												BRB.RemoveFromStack(1)
-												GH2.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Copper ShellPlate Tunic!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GH2 in M.contents)&&(GH2.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													BRB.RemoveFromStack(1)
-													GH2.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gou Hide and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gou Hide and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Bronzemail Tunic")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-										var/obj/items/GowHide/GH3 = locate() in M.contents
-										if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/choitunic
-												usr << "You begin to smith."
-												M.Doing = 1
-												BRB.RemoveFromStack(1)
-												GH3.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Bronzemail Tunic!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													BRB.RemoveFromStack(1)
-													GH3.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gow Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gow Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Zincmail Tunic")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-										var/obj/items/GuwiHide/GH4 = locate() in M.contents
-										if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/orditunic
-												usr << "You begin to smith."
-												M.Doing = 1
-												ZB.RemoveFromStack(1)
-												GH4.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Zincmail Tunic!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													ZB.RemoveFromStack(1)
-													GH4.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Guwi Hide and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Guwi Hide and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Landscaper Tunic")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
-										var/obj/items/GowuShell/GS5 = locate() in M.contents
-										var/obj/items/GowuHide/GH5 = locate() in M.contents
-										if((STLB in M.contents)&&(STLB.stack_amount>=1)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,20)
-											if(R == 2)
-												var/AV = /obj/items/armors/sintunic
-												usr << "You begin to smith."
-												M.Doing = 1
-												STLB.RemoveFromStack(1)
-												GS5.RemoveFromStack(1)
-												GH5.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Landscaper Tunic!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((STLB in M.contents)&&(STLB.stack_amount>=1)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													STLB.RemoveFromStack(1)
-													GS5.RemoveFromStack(1)
-													GH5.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gowu Shell/Hide and 3 Hot Steel Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gowu Shell/Hide and 3 Hot Steel Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-
-									if("Giu ShellHide Corslet")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-										var/obj/items/GiuShell/GS0 = locate() in M.contents
-										var/obj/items/GiuHide/GH0 = locate() in M.contents
-										if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/avgcorslet
-												usr << "You begin to smith."
-												M.Doing = 1
-												BRB.RemoveFromStack(1)
-												GS0.RemoveFromStack(1)
-												GH0.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Giu ShellHide Corslet!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													BRB.RemoveFromStack(1)
-													GS0.RemoveFromStack(1)
-													GH0.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Giu Shell/Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Giu Shell/Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Gou ShellPlate Corslet")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-										var/obj/items/GouShell/GS1 = locate() in M.contents
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/unucorslet
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												GS1.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Gou ShellPlate Corslet!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													IB.RemoveFromStack(1)
-													GS1.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Iron Platemail Corslet")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-										var/obj/items/GouShell/GS2 = locate() in M.contents
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GS2.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/uncocorslet
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												GS2.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Iron Platemail Corslet!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GS2.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													IB.RemoveFromStack(1)
-													GS2.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gou Shell and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gou Shell and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Copper Platemail Corslet")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-										var/obj/items/GowShell/GS3 = locate() in M.contents
-										if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GS3.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/choicorslet
-												usr << "You begin to smith."
-												M.Doing = 1
-												CB.RemoveFromStack(1)
-												GS3.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Copper Platemail Corslet!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GS3.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													CB.RemoveFromStack(1)
-													GS3.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gow Shell and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gow Shell and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Bronzemail Corslet")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-										var/obj/items/GuwiShell/GS4 = locate() in M.contents
-										if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/ordicorslet
-												usr << "You begin to smith."
-												M.Doing = 1
-												BRB.RemoveFromStack(1)
-												GS4.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Bronzemail Corslet!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													BRB.RemoveFromStack(1)
-													GS4.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Guwi Shell and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Guwi Shell and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Zinc Platemail Corslet")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-										var/obj/items/GowuShell/GS5 = locate() in M.contents
-										if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/sincorslet
-												usr << "You begin to smith."
-												M.Doing = 1
-												ZB.RemoveFromStack(1)
-												GS5.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Zinc Platemail Corslet!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													ZB.RemoveFromStack(1)
-													GS5.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gowu Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gowu Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											return call(/proc/smithinglevel)()
-							//call(/proc/smithinglevel)(M)
-							if("Defensive")
-								switch(input("What Armor would you like to make?","Defensive Armor Smithing")as anything in L4)//in list())
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UEB = 0
-										return
-									if("Back") goto ARMOR
-								//if(null)
-									//M<<"You need the materials to smith this Armor"
-									//return
-									if("CopperPlate Cuirass")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-										var/obj/items/GiuShell/GS0 = locate() in M.contents
-										var/obj/items/GiuHide/GH0 = locate() in M.contents
-										if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/avgcuirass
-												usr << "You begin to smith."
-												M.Doing = 1
-												CB.RemoveFromStack(1)
-												GS0.RemoveFromStack(1)
-												GH0.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith a CopperPlate Cuirass!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													CB.RemoveFromStack(1)
-													GS0.RemoveFromStack(1)
-													GH0.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Giu Shell/Hide and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Giu Shell/Hide and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("LeadPlate Cuirass")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/leadbar/LB = locate() in M.contents
-										var/obj/items/GouShell/GS1 = locate() in M.contents
-										var/obj/items/GouHide/GH1 = locate() in M.contents
-										if((LB in M.contents)&&(LB.stack_amount>=1)&&(LB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/unucuirass
-												usr << "You begin to smith."
-												M.Doing = 1
-												LB.RemoveFromStack(1)
-												GS1.RemoveFromStack(1)
-												GH1.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith a LeadPlate Cuirass!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((LB in M.contents)&&(LB.stack_amount>=1)&&(LB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													LB.RemoveFromStack(1)
-													GS1.RemoveFromStack(1)
-													GH1.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gou Shell/Hide and 3 Hot Lead Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gou Shell/Hide and 3 Hot Lead Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Iron HalfPlate Cuirass")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-										var/obj/items/GowShell/GS2 = locate() in M.contents
-										var/obj/items/GowHide/GH2 = locate() in M.contents
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/uncocuirass
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												GS2.RemoveFromStack(1)
-												GH2.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith a Iron HalfPlate Cuirass!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													IB.RemoveFromStack(1)
-													GS2.RemoveFromStack(1)
-													GH2.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gow Shell/Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gow Shell/Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Bronze SolidPlate Cuirass")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-										var/obj/items/GowShell/GS3 = locate() in M.contents
-										var/obj/items/GowHide/GH3 = locate() in M.contents
-										if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/choicuirass
-												usr << "You begin to smith."
-												M.Doing = 1
-												BRB.RemoveFromStack(1)
-												GS3.RemoveFromStack(1)
-												GH3.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith a Bronze SolidPlate Cuirass!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													BRB.RemoveFromStack(1)
-													GS3.RemoveFromStack(1)
-													GH3.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gow Shell/Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gow Shell/Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Boreal ZincPlate Cuirass")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-										var/obj/items/GuwiShell/GS4 = locate() in M.contents
-										var/obj/items/GuwiHide/GH4 = locate() in M.contents
-										if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/ordicuirass
-												usr << "You begin to smith."
-												M.Doing = 1
-												ZB.RemoveFromStack(1)
-												GS4.RemoveFromStack(1)
-												GH4.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith a Boreal ZincPlate Cuirass!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													ZB.RemoveFromStack(1)
-													GS4.RemoveFromStack(1)
-													GH4.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Guwi Shell/Hide and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Guwi Shell/Hide and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Aurelian SteelPlate Cuirass")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
-										var/obj/items/GowuShell/GS5 = locate() in M.contents
-										var/obj/items/GowuHide/GH5 = locate() in M.contents
-										if((STLB in M.contents)&&(STLB.stack_amount>=1)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/sincuirass
-												usr << "You begin to smith."
-												M.Doing = 1
-												STLB.RemoveFromStack(1)
-												GS5.RemoveFromStack(1)
-												GH5.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith a Aurelian SteelPlate Cuirass!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((STLB in M.contents)&&(STLB.stack_amount>=1)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													STLB.RemoveFromStack(1)
-													GS5.RemoveFromStack(1)
-													GH5.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gowu Shell/Hide and 3 Hot Steel Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gowu Shell/Hide and 3 Hot Steel Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-							//call(/proc/smithinglevel)(M)
-							if("Offensive")
-								switch(input("What Armor would you like to make?","Offensive Armor Smithing")as anything in L5)//in list())
-									if("Cancel")
-										M<<"You Cancel Selection..."
-										Busy = 0
-										M.UEB = 0
-										return
-									if("Back") goto ARMOR
-									if("IronPlate Battlegear")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-										var/obj/items/GiuShell/GS0 = locate() in M.contents
-										var/obj/items/GiuHide/GH0 = locate() in M.contents
-										if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/avgbattlegear
-												usr << "You begin to smith."
-												M.Doing = 1
-												IB.RemoveFromStack(1)
-												GS0.RemoveFromStack(1)
-												GH0.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith IronPlate Battlegear!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													IB.RemoveFromStack(1)
-													GS0.RemoveFromStack(1)
-													GH0.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Giu Shell/Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Giu Shell/Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("CopperPlate Battlegear")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-										var/obj/items/GouShell/GS1 = locate() in M.contents
-										var/obj/items/GouHide/GH1 = locate() in M.contents
-										if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/unubattlegear
-												usr << "You begin to smith."
-												M.Doing = 1
-												CB.RemoveFromStack(1)
-												GS1.RemoveFromStack(1)
-												GH1.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith BronzePlate Battlegear!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													CB.RemoveFromStack(1)
-													GS1.RemoveFromStack(1)
-													GH1.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gou Shell/Hide and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gou Shell/Hide and 3 Hot Copper Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("BronzePlate Battlegear")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-										var/obj/items/GowShell/GS2 = locate() in M.contents
-										var/obj/items/GowHide/GH2 = locate() in M.contents
-										if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,5)
-											if(R == 2)
-												var/AV = /obj/items/armors/uncobattlegear
-												usr << "You begin to smith."
-												M.Doing = 1
-												BRB.RemoveFromStack(1)
-												GS2.RemoveFromStack(1)
-												GH2.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith BronzePlate Battlegear!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													BRB.RemoveFromStack(1)
-													GS2.RemoveFromStack(1)
-													GH2.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gow Shell/Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gow Shell/Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("Omphalos LeadPlate Battlegear")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/leadbar/LB = locate() in M.contents
-										var/obj/items/GowShell/GS3 = locate() in M.contents
-										var/obj/items/GowHide/GH3 = locate() in M.contents
-										if((LB in M.contents)&&(LB.stack_amount>=1)&&(LB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,10)
-											if(R == 2)
-												var/AV = /obj/items/armors/choibattlegear
-												usr << "You begin to smith."
-												M.Doing = 1
-												LB.RemoveFromStack(1)
-												GS3.RemoveFromStack(1)
-												GH3.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith Omphalos BronzePlate Battlegear!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((LB in M.contents)&&(LB.stack_amount>=1)&&(LB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													LB.RemoveFromStack(1)
-													GS3.RemoveFromStack(1)
-													GH3.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gow Shell/Hide and 3 Hot Lead Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gow Shell/Hide and 3 Hot Lead Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("ZincPlate Battlegear")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-										var/obj/items/GuwiShell/GS4 = locate() in M.contents
-										var/obj/items/GuwiHide/GH4 = locate() in M.contents
-										if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,15)
-											if(R == 2)
-												var/AV = /obj/items/armors/ordibattlegear
-												usr << "You begin to smith."
-												M.Doing = 1
-												ZB.RemoveFromStack(1)
-												GS4.RemoveFromStack(1)
-												GH4.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith ZincPlate Battlegear!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((ZB in M.contents)&&(ZB.stack_amount>=1)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													ZB.RemoveFromStack(1)
-													GS4.RemoveFromStack(1)
-													GH4.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Guwi Shell/Hide and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Guwi Shell/Hide and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-									if("SteelPlate Battlegear")
-										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
-										var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
-										var/obj/items/GowuShell/GS5 = locate() in M.contents
-										var/obj/items/GowuHide/GH5 = locate() in M.contents
-										if((STLB in M.contents)&&(STLB.stack_amount>=1)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
-											//var/obj/items/tools/BroadSword/BS
-											var/random/R = rand(1,20)
-											if(R == 2)
-												var/AV = /obj/items/armors/sinbattlegear
-												usr << "You begin to smith."
-												M.Doing = 1
-												STLB.RemoveFromStack(1)
-												GS5.RemoveFromStack(1)
-												GH5.RemoveFromStack(1)
-												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-												sleep(30) //Delay 3 seconds
-												M.smiexp += 5 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
-												new AV(M)//(locate(x,y,z))
-												usr << "You smith SteelPlate Battlegear!" //message to user saying he/she mined something
-												//BSB:Tname="Hot"
-												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-												M.Doing = 0
-												M.UEB = 0
-												return call(/proc/smithinglevel)()
-											else
-												if((STLB in M.contents)&&(STLB.stack_amount>=1)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
-													usr << "You begin to smith."
-													M.Doing = 1
-													STLB.RemoveFromStack(1)
-													GS5.RemoveFromStack(1)
-													GH5.RemoveFromStack(1)
-													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
-													sleep(30) //Delay 3 seconds
-													 //user mining skill gos up by 15
-													M.smiexp += 5 //....
-													M.energy -= 5
-													M.updateEN()
-													usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
-													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-												else
-													usr<<"You need Gowu Shell/Hide and 3 Hot Steel Ingots to utilize for smithing this Armor..."
-													M.Doing = 0
-													M.UEB = 0
-													return call(/proc/smithinglevel)()
-										else
-											usr<<"You need Gowu Shell/Hide and 3 Hot Steel Ingots to utilize for smithing this Armor..."
-											M.Doing = 0
-											M.UEB = 0
-											return call(/proc/smithinglevel)()
-						//call(/proc/smithinglevel)(M)
-						if("Lamps")
-							switch(input("What would you like to make?","Smithing") in L3)//in list())
-						//switch(L)
-								if("Cancel")
-									M<<"You Cancel Selection..."
-									Busy = 0
-									M.UEB = 0
-									return
-								if("Back") goto SMITHING
-								if("Iron Lamp Head")
-									//var/obj/items/tools/BroadSword/BS
-									//var/random/R = rand(1,5) //1 in 5 chance to smith
+								if("Hammer head")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
-										//var/obj/items/tools/BroadSword/BS
-										var/random/R = rand(1,5)
+										var/dice = "1d4"
+										var/R = roll(dice)
 										if(R == 2)
-											var/ILH = /obj/items/Crafting/Created/IronLampHead
-											usr << "You begin to smith."
+											var/HHD = /obj/items/Crafting/Created/ShovelHead
+											usr << "You begin to smith a Hammer Head."
 											M.Doing = 1
 											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
-											new ILH(locate(x,y,z))
-											usr << "You smith a Iron Lamp Head!" //message to user saying he/she mined something
+											new HHD(M)
+											usr << "You smith a Hammer Head!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
@@ -4312,230 +5674,2950 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
-												usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
-												usr<<"You need 3 Iron Hot Ingots for smithing this Lamp Head..."
+												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 									else
-										usr<<"You need 3 Iron Hot Ingots for smithing this Lamp Head..."
+										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
+										M.SMIopen=0
 										return call(/proc/smithinglevel)()
-								if("Copper Lamp Head")
-									//var/obj/items/tools/BroadSword/BS
-									//var/random/R = rand(1,5) //1 in 5 chance to smith
-									var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-									if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot"))
-										//var/obj/items/tools/BroadSword/BS
-										var/random/R = rand(1,5)
+								if("Hoe blade")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
 										if(R == 2)
-											var/CLH = /obj/items/Crafting/Created/CopperLampHead
-											usr << "You begin to smith."
+											var/HBD = /obj/items/Crafting/Created/HoeBlade
+											usr << "You begin to smith a Hoe blade."
 											M.Doing = 1
-											CB.RemoveFromStack(1)
+											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
-											new CLH(locate(x,y,z))
-											usr << "You smith a Copper Lamp Head!" //message to user saying he/she mined something
+											new HBD(M)
+											usr << "You smith a Hoe Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
-											if((CB in M.contents)&&(CB.stack_amount>=1)&&(CB.Tname=="Hot"))
+											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
 												M.Doing = 1
-												CB.RemoveFromStack(1)
+												IB.RemoveFromStack(2)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
-												usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
-												usr<<"You need 3 Iron Hot Ingots for smithing this Lamp Head..."
+												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 									else
-										usr<<"You need 3 Iron Hot Ingots for smithing this Lamp Head..."
+										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
+										M.SMIopen=0
 										return call(/proc/smithinglevel)()
-								if("Bronze Lamp Head")
-									//var/obj/items/tools/BroadSword/BS
-									//var/random/R = rand(1,5) //1 in 5 chance to smith
-									var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-									if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot"))
-										//var/obj/items/tools/BroadSword/BS
-										var/random/R = rand(1,5)
+								if("Sickle blade")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
 										if(R == 2)
-											var/BRLH = /obj/items/Crafting/Created/BronzeLampHead
-											usr << "You begin to smith."
+											var/SBD = /obj/items/Crafting/Created/SickleBlade
+											usr << "You begin to smith a Sickle blade."
 											M.Doing = 1
-											BRB.RemoveFromStack(1)
+											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
-											new BRLH(locate(x,y,z))
-											usr << "You smith a Bronze Lamp Head!" //message to user saying he/she mined something
+											new SBD(M)
+											usr << "You smith a Sickle Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
-											if((BRB in M.contents)&&(BRB.stack_amount>=1)&&(BRB.Tname=="Hot"))
+											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
 												M.Doing = 1
-												BRB.RemoveFromStack(1)
+												IB.RemoveFromStack(2)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
-												usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
-												usr<<"You need 3 Iron Hot Ingots for smithing this Lamp Head..."
+												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 									else
-										usr<<"You need 3 Iron Hot Ingots for smithing this Lamp Head..."
+										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
+										M.SMIopen=0
 										return call(/proc/smithinglevel)()
-								if("Brass Lamp Head")
-									//var/obj/items/tools/BroadSword/BS
-									//var/random/R = rand(1,5) //1 in 5 chance to smith
-									var/obj/items/Ingots/brassbar/BB = locate() in M.contents
-									if((BB in M.contents)&&(BB.stack_amount>=1)&&(BB.Tname=="Hot"))
-										//var/obj/items/tools/BroadSword/BS
-										var/random/R = rand(1,5)
+								if("Chisel blade")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
 										if(R == 2)
-											var/BLH = /obj/items/Crafting/Created/BrassLampHead
-											usr << "You begin to smith."
+											var/CHBD = /obj/items/Crafting/Created/ChiselBlade
+											usr << "You begin to smith a Chisel blade."
 											M.Doing = 1
-											BB.RemoveFromStack(1)
+											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
-											new BLH(locate(x,y,z))
-											usr << "You smith a Brass Lamp Head!" //message to user saying he/she mined something
+											new CHBD(M)
+											usr << "You smith a Chisel Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
-											if((BB in M.contents)&&(BB.stack_amount>=1)&&(BB.Tname=="Hot"))
+											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
 												M.Doing = 1
-												BB.RemoveFromStack(1)
+												IB.RemoveFromStack(2)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
-												usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
-												usr<<"You need 3 Iron Hot Ingots for smithing this Lamp Head..."
+												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 									else
-										usr<<"You need 3 Iron Hot Ingots for smithing this Lamp Head..."
+										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
+										M.SMIopen=0
 										return call(/proc/smithinglevel)()
-								if("Steel Lamp Head")
-									//var/obj/items/tools/BroadSword/BS
-									//var/random/R = rand(1,5) //1 in 5 chance to smith
-									var/obj/items/Ingots/steelbar/STB = locate() in M.contents
-									if((STB in M.contents)&&(STB.stack_amount>=1)&&(STB.Tname=="Hot"))
-										//var/obj/items/tools/BroadSword/BS
-										var/random/R = rand(1,5)
-										if(R == 2)
-											var/STLH = /obj/items/Crafting/Created/SteelLampHead
-											usr << "You begin to smith."
+								if("File blade")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									//var/obj/items/Crafting/Created/FileBlade/FB// = locate() in M.contents
+									//var/FB
+									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
+										if(R <= 2)
+											var/FIBD = /obj/items/Crafting/Created/FileBlade
+
+											usr << "You begin to smith a File blade."
 											M.Doing = 1
-											STB.RemoveFromStack(1)
+											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 5 //go to proc miningcheck
+											M.smiexp += 15 //go to proc miningcheck
 											M.energy -= 5
 											M.updateEN()
-											new STLH(locate(x,y,z))
-											usr << "You smith a Steel Lamp Head!" //message to user saying he/she mined something
+
+											//new /obj/items/Crafting/Created/FileBlade(M)
+
+											// = rgb(rand(0,15),rand(0,15),rand(0,15))
+											new FIBD(M)
+											locate(FIBD in M)
+											if(FIBD in M)
+												for(FIBD in M)
+													Tname="Hot"
+													overlays += image('dmi/64/creation.dmi',icon_state="FileBlade",rgb(24,21,21))
+											//for(FB in M)
+												//FB.color = rgb(rand(170,185),rand(170,175),rand(170,174))
+												//obj.color = rgb(24,21,21)
+											usr << "You smith a File Blade!" //message to user saying he/she mined something
+											//BSB:Tname="Hot"
+
+											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+										else
+											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(1)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												 //user mining skill gos up by 15
+												M.smiexp += 15 //....
+												M.energy -= 5
+												M.updateEN()
+												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+									else
+										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+										M.Doing = 0
+										M.UEB = 0
+										M.SMIopen=0
+										return call(/proc/smithinglevel)()
+								if("Saw blade")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
+										if(R == 2)
+											var/SWBD = /obj/items/Crafting/Created/SawBlade
+											usr << "You begin to smith a Saw blade."
+											M.Doing = 1
+											IB.RemoveFromStack(2)
+											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+											sleep(30) //Delay 3 seconds
+											M.smiexp += 15 //go to proc miningcheck
+											M.energy -= 5
+											M.updateEN()
+											new SWBD(M)
+											usr << "You smith a Saw Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
 											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 											M.Doing = 0
 											M.UEB = 0
+											M.SMIopen=0
 											return call(/proc/smithinglevel)()
 										else
-											if((STB in M.contents)&&(STB.stack_amount>=1)&&(STB.Tname=="Hot"))
+											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
 												M.Doing = 1
-												STB.RemoveFromStack(1)
+												IB.RemoveFromStack(2)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 5 //....
+												M.smiexp += 15 //....
 												M.energy -= 5
 												M.updateEN()
-												usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 											else
-												usr<<"You need 3 Steel Hot Ingots for smithing this Lamp Head..."
+												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
+												M.SMIopen=0
 												return call(/proc/smithinglevel)()
 									else
-										usr<<"You need 3 Steel Hot Ingots for smithing this Lamp Head..."
+										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
+										M.SMIopen=0
 										return call(/proc/smithinglevel)()
+//Steel Parts
+								if("Trowel blade")
+									var/obj/items/Ingots/steelbar/SB = locate() in M.contents
+									if((SB in M.contents)&&(SB.stack_amount>=3)&&(SB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
+										if(R == 2)
+											var/TWBD = /obj/items/Crafting/Created/TrowelBlade
+											usr << "You begin to smith a Trowel blade."
+											M.Doing = 1
+											SB.RemoveFromStack(3)
+											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+											sleep(30) //Delay 3 seconds
+											M.smiexp += 15 //go to proc miningcheck
+											M.energy -= 5
+											M.updateEN()
+											new TWBD(M)
+											usr << "You smith a Trowel Blade!" //message to user saying he/she mined something
+											//BSB:Tname="Hot"
+											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+										else
+											if((SB in M.contents)&&(SB.stack_amount>=1)&&(SB.Tname=="Hot"))
+												usr << "You begin to smith."
+												M.Doing = 1
+												SB.RemoveFromStack(3)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												 //user mining skill gos up by 15
+												M.smiexp += 15 //....
+												M.energy -= 5
+												M.updateEN()
+												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 3 Hot Steel Ingot for smithing this item..."
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+									else
+										usr<<"You need 3 Hot Steel Ingot for smithing this item..."
+										M.Doing = 0
+										M.UEB = 0
+										M.SMIopen=0
+										return call(/proc/smithinglevel)()
+								if("Iron Reel")
+									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+										var/dice = "1d4"
+										var/R = roll(dice)
+										if(R == 2)
+											var/IR = /obj/items/Crafting/Created/FishingPoleReel
+											usr << "You begin to smith an Iron Reel."
+											M.Doing = 1
+											IB.RemoveFromStack(1)
+											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+											sleep(30) //Delay 3 seconds
+											M.smiexp += 15 //go to proc miningcheck
+											M.energy -= 5
+											M.updateEN()
+											new IR(M)
+											usr << "You smith an Iron Reel!" //message to user saying he/she mined something
+											//BSB:Tname="Hot"
+											src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+										else
+											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(1)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												 //user mining skill gos up by 15
+												M.smiexp += 15 //....
+												M.energy -= 5
+												M.updateEN()
+												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+												return call(/proc/smithinglevel)()
+									else
+										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
+										M.Doing = 0
+										M.UEB = 0
+										M.SMIopen=0
+										return call(/proc/smithinglevel)()
+							if("Weapons")//Need to add ORPG weapons
+								switch(input("What Weapon would you like to make?","Weapon Smithing") in L)// in list("Broad Sword"))
+									if("Cancel")
+										M<<"You Cancel Selection..."
+										Busy = 0
+										M.UEB = 0
+										M.SMIopen=0
+										return
+									if("Back") goto SMITHING
+									if("Broad Sword")
+										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+											var/dice = "1d6"
+											var/R = roll(dice)
+											if(R == 2)
+												var/BSB = /obj/items/Crafting/Created/Broadswordblade
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(3)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												M.smiexp += 15 //go to proc miningcheck
+												M.energy -= 5
+												M.updateEN()
+												new BSB(locate(x,y,z))
+												usr << "You smith a Broad Sword Blade!" //message to user saying he/she mined something
+												//BSB:Tname="Hot"
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+													usr << "You begin to smith."
+													M.Doing = 1
+													IB.RemoveFromStack(3)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													 //user mining skill gos up by 15
+													M.smiexp += 15 //....
+													M.energy -= 5
+													M.updateEN()
+													usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+										else
+											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+
+									if("War Sword")
+										//var/obj/items/tools/BroadSword/BS
+										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+											//var/obj/items/tools/BroadSword/BS
+											var/dice = "1d6"
+											var/R = roll(dice)
+											if(R == 2)
+												var/WSWB = /obj/items/Crafting/Created/Warswordblade
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(3)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												M.smiexp += 15 //go to proc miningcheck
+												M.energy -= 5
+												M.updateEN()
+												new WSWB(locate(x,y,z))
+												usr << "You smith a War Sword Blade!" //message to user saying he/she mined something
+												//BSB:Tname="Hot"
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+													usr << "You begin to smith."
+													M.Doing = 1
+													IB.RemoveFromStack(3)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													 //user mining skill gos up by 15
+													M.smiexp += 15 //....
+													M.energy -= 5
+													M.updateEN()
+													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+										else
+											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+
+									if("Battle Sword")
+										//var/obj/items/tools/BroadSword/BS
+										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+											//var/obj/items/tools/BroadSword/BS
+											var/dice = "1d6"
+											var/R = roll(dice)
+											if(R == 2)
+												var/BSWB = /obj/items/Crafting/Created/Battleswordblade
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(3)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												M.smiexp += 15 //go to proc miningcheck
+												M.energy -= 5
+												M.updateEN()
+												new BSWB(locate(x,y,z))
+												usr << "You smith a Battle Sword Blade!" //message to user saying he/she mined something
+												//BSB:Tname="Hot"
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+													usr << "You begin to smith."
+													M.Doing = 1
+													IB.RemoveFromStack(3)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													 //user mining skill gos up by 15
+													M.smiexp += 15 //....
+													M.energy -= 5
+													M.updateEN()
+													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+										else
+											usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+
+									if("Long Sword")
+										//var/obj/items/tools/BroadSword/BS
+										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+											//var/obj/items/tools/BroadSword/BS
+											var/dice = "1d6"
+											var/R = roll(dice)
+											if(R == 2)
+												var/BSWB = /obj/items/Crafting/Created/Longswordblade
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(3)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												M.smiexp += 15 //go to proc miningcheck
+												M.energy -= 5
+												M.updateEN()
+												new BSWB(locate(x,y,z))
+												usr << "You smith a Long Sword Blade!" //message to user saying he/she mined something
+												//BSB:Tname="Hot"
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+													usr << "You begin to smith."
+													M.Doing = 1
+													IB.RemoveFromStack(3)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													 //user mining skill gos up by 15
+													M.smiexp += 15 //....
+													M.energy -= 5
+													M.updateEN()
+													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+										else
+											usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+
+									if("Battle Hammer")
+										//var/obj/items/tools/BroadSword/BS
+										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+											//var/obj/items/tools/BroadSword/BS
+											var/dice = "1d6"
+											var/R = roll(dice)
+											if(R == 2)
+												var/BHS = /obj/items/Crafting/Created/Battlehammersledge
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(3)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												M.smiexp += 15 //go to proc miningcheck
+												M.energy -= 5
+												M.updateEN()
+												new BHS(locate(x,y,z))
+												usr << "You smith a Battle Hammer Sledge!" //message to user saying he/she mined something
+												//BHS:Tname="Hot"
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+													usr << "You begin to smith."
+													M.Doing = 1
+													IB.RemoveFromStack(3)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													 //user mining skill gos up by 15
+													M.smiexp += 15 //....
+													M.energy -= 5
+													M.updateEN()
+													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+										else
+											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+
+									if("War Scythe")
+										//var/obj/items/tools/BroadSword/BS
+										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+											//var/obj/items/tools/BroadSword/BS
+											var/dice = "1d6"
+											var/R = roll(dice)
+											if(R == 2)
+												var/WSB = /obj/items/Crafting/Created/Warscytheblade
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(3)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												M.smiexp += 15 //go to proc miningcheck
+												M.energy -= 5
+												M.updateEN()
+												new WSB(locate(x,y,z))
+												usr << "You smith a War Scythe Blade!" //message to user saying he/she mined something
+												//BSB:Tname="Hot"
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+													usr << "You begin to smith."
+													M.Doing = 1
+													IB.RemoveFromStack(3)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													 //user mining skill gos up by 15
+													M.smiexp += 15 //....
+													M.energy -= 5
+													M.updateEN()
+													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+										else
+											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+
+									if("Battle Scythe")
+										//var/obj/items/tools/BroadSword/BS
+										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+											//var/obj/items/tools/BroadSword/BS
+											var/dice = "1d6"
+											var/R = roll(dice)
+											if(R == 2)
+												var/BSCB = /obj/items/Crafting/Created/Battlescytheblade
+												usr << "You begin to smith."
+												M.Doing = 1
+												IB.RemoveFromStack(3)
+												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+												sleep(30) //Delay 3 seconds
+												M.smiexp += 15 //go to proc miningcheck
+												M.energy -= 5
+												M.updateEN()
+												new BSCB(locate(x,y,z))
+												usr << "You smith a Broad Scythe Blade!" //message to user saying he/she mined something
+												//BSB:Tname="Hot"
+												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+											else
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
+													usr << "You begin to smith."
+													M.Doing = 1
+													IB.RemoveFromStack(3)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													 //user mining skill gos up by 15
+													M.smiexp += 15 //....
+													M.energy -= 5
+													M.updateEN()
+													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+										else
+											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
+											M.Doing = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return call(/proc/smithinglevel)()
+
+
 							//call(/proc/smithinglevel)(M)
-			else //else contrasting the if at the top
-				usr << "You need a hammer to smith!" //message to user saying that they need a pick axe to mine
-				M.Doing = 0
-				M.UEB = 0
-				return call(/proc/smithinglevel)()
+							if("Armor")
+								ARMOR
+								switch(input("What Type of armor would you like to smith?","Smithing Armor Type") in list("Evasive","Defensive","Offensive","Cancel","Back"))
+									if("Cancel")
+										M<<"You Cancel Selection..."
+										Busy = 0
+										M.UEB = 0
+										return
+									if("Back") goto ARMOR
+									if("Evasive")
+										switch(input("What Armor would you like to make?","Evasive Armor Smithing") in L2)//in list())
+											if("Cancel")
+												M<<"You Cancel Selection..."
+												Busy = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return
+											if("Back") goto ARMOR
+											if("Giu Hide Vestments")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/avgvestments
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(2)
+														GH0.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Giu Hide Vestments!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(2)
+															GH0.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Giu Shell Vestments")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												var/obj/items/GiuShell/GS1 = locate() in M.contents
+												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/unuvestments
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(2)
+														GS1.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Giu Shell Vestments!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(2)
+															GS1.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need a Giu Shell and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need a Giu Shell and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Gou ShellHide Vestments")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
+												var/obj/items/GouHide/GH2 = locate() in M.contents
+												var/obj/items/GouShell/GS2 = locate() in M.contents
+												if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GH2 in M.contents)&&(GS2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/uncovestments
+														usr << "You begin to smith."
+														M.Doing = 1
+														BRB.RemoveFromStack(3)
+														GH2.RemoveFromStack(1)
+														GS2.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Gou ShellHide Vestments!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GH2 in M.contents)&&(GS2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															BRB.RemoveFromStack(3)
+															GH2.RemoveFromStack(1)
+															GS2.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gou Shell, Gou Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gou Shell, Gou Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Coppermail Vestments")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												var/obj/items/GowHide/GH3 = locate() in M.contents
+												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/choivestments
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(2)
+														GH3.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Coppermail Vestments!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(2)
+															GH3.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need a Gow Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need a Gow Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Zinc ShellPlate Vestments")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
+												var/obj/items/GuwiShell/GS4 = locate() in M.contents
+												if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/ordivestments
+														usr << "You begin to smith."
+														M.Doing = 1
+														ZB.RemoveFromStack(3)
+														GS4.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Zinc ShellPlate Vestments!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															ZB.RemoveFromStack(3)
+															GS4.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Guwi Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Guwi Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Steel ShellPlate Vestments")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
+												var/obj/items/GowuShell/GS5 = locate() in M.contents
+												if((STLB in M.contents)&&(STLB.stack_amount>=3)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/sinvestments
+														usr << "You begin to smith."
+														M.Doing = 1
+														STLB.RemoveFromStack(3)
+														GS5.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Steel ShellPlate Vestments!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((STLB in M.contents)&&(STLB.stack_amount>=3)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															STLB.RemoveFromStack(3)
+															GS5.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gowu Shell and 3 Hot Steel Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gowu Shell and 3 Hot Steel Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+
+											if("Monk Tunic")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												//var/obj/items/GiuShell/GS0 = locate() in M.contents
+												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&/*(GS0 in M.contents)&&(GS0.stack_amount>=1)&&*/(GH0 in M.contents)&&(GH0.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/avgtunic
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(2)
+														//GS0.RemoveFromStack(1)
+														GH0.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Monk Tunic!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")/*&&(GS0 in M.contents)&&(GS0.stack_amount>=1)*/&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(2)
+															//GS0.RemoveFromStack(1)
+															GH0.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Iron Studded Tunic")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+												var/obj/items/GouHide/GH1 = locate() in M.contents
+												//var/obj/items/GouShell/GS1 = locate() in M.contents
+												if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot")&&(GH1 in M.contents)&&(GH1.stack_amount>=1))//&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/unutunic
+														usr << "You begin to smith."
+														M.Doing = 1
+														IB.RemoveFromStack(2)
+														GH1.RemoveFromStack(1)
+														//GS1.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Iron Studded Tunic!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot")&&(GH1 in M.contents)&&(GH1.stack_amount>=1))//&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															IB.RemoveFromStack(2)
+															GH1.RemoveFromStack(1)
+															//GS1.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gou Hide and 2 Hot Iron Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gou Hide and 2 Hot Iron Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Copper ShellPlate Tunic")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												var/obj/items/GouHide/GH2 = locate() in M.contents
+												var/obj/items/GouShell/GS2 = locate() in M.contents
+												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2 in M.contents)&&(GS2.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/uncotunic
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(2)
+														GH2.RemoveFromStack(1)
+														GS2.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Copper ShellPlate Tunic!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2 in M.contents)&&(GS2.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(2)
+															GH2.RemoveFromStack(1)
+															GS2.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gou Shell, Gou Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gou Shell, Gou Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Bronzemail Tunic")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
+												var/obj/items/GowHide/GH3 = locate() in M.contents
+												if((BRB in M.contents)&&(BRB.stack_amount>=2)&&(BRB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/choitunic
+														usr << "You begin to smith."
+														M.Doing = 1
+														BRB.RemoveFromStack(2)
+														GH3.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Bronzemail Tunic!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((BRB in M.contents)&&(BRB.stack_amount>=2)&&(BRB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															BRB.RemoveFromStack(2)
+															GH3.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gow Hide and 2 Hot Bronze Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gow Hide and 2 Hot Bronze Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Zincmail Tunic")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
+												var/obj/items/GuwiHide/GH4 = locate() in M.contents
+												if((ZB in M.contents)&&(ZB.stack_amount>=2)&&(ZB.Tname=="Hot")&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/orditunic
+														usr << "You begin to smith."
+														M.Doing = 1
+														ZB.RemoveFromStack(2)
+														GH4.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Zincmail Tunic!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((ZB in M.contents)&&(ZB.stack_amount>=2)&&(ZB.Tname=="Hot")&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															ZB.RemoveFromStack(2)
+															GH4.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Guwi Hide and 2 Hot Zinc Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Guwi Hide and 2 Hot Zinc Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Landscaper Tunic")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
+												var/obj/items/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/GowuHide/GH5 = locate() in M.contents
+												if((STLB in M.contents)&&(STLB.stack_amount>=2)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/sintunic
+														usr << "You begin to smith."
+														M.Doing = 1
+														STLB.RemoveFromStack(2)
+														GS5.RemoveFromStack(1)
+														GH5.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Landscaper Tunic!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((STLB in M.contents)&&(STLB.stack_amount>=2)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															STLB.RemoveFromStack(2)
+															GS5.RemoveFromStack(1)
+															GH5.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gowu Shell, Gowu Hide and 2 Hot Steel Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gowu Shell, Gowu Hide and 2 Hot Steel Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+
+											if("Giu ShellHide Corslet")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
+												var/obj/items/GiuShell/GS0 = locate() in M.contents
+												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/avgcorslet
+														usr << "You begin to smith."
+														M.Doing = 1
+														BRB.RemoveFromStack(3)
+														GS0.RemoveFromStack(1)
+														GH0.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Giu ShellHide Corslet!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															BRB.RemoveFromStack(3)
+															GS0.RemoveFromStack(1)
+															GH0.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Giu Shell, Giu Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Giu Shell, Giu Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Gou ShellPlate Corslet")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+												var/obj/items/GouShell/GS1 = locate() in M.contents
+												var/obj/items/GouHide/GH1 = locate() in M.contents
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1 in M.contents)&&(GH1.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/unucorslet
+														usr << "You begin to smith."
+														M.Doing = 1
+														IB.RemoveFromStack(3)
+														GS1.RemoveFromStack(1)
+														GH1.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Gou ShellPlate Corslet!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1 in M.contents)&&(GH1.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															IB.RemoveFromStack(3)
+															GS1.RemoveFromStack(1)
+															GH1.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gou Hide, Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gou Hide, Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Iron Platemail Corslet")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+												var/obj/items/GouShell/GS2 = locate() in M.contents
+												var/obj/items/GouHide/GH2 = locate() in M.contents
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2 in M.contents)&&(GH2.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/uncocorslet
+														usr << "You begin to smith."
+														M.Doing = 1
+														IB.RemoveFromStack(3)
+														GS2.RemoveFromStack(1)
+														GH2.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Iron Platemail Corslet!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2 in M.contents)&&(GH2.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															IB.RemoveFromStack(3)
+															GS2.RemoveFromStack(1)
+															GH2.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Copper Platemail Corslet")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												var/obj/items/GowShell/GS3 = locate() in M.contents
+												var/obj/items/GowHide/GH3 = locate() in M.contents
+												if((CB in M.contents)&&(CB.stack_amount>=3)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/choicorslet
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(3)
+														GS3.RemoveFromStack(1)
+														GH3.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Copper Platemail Corslet!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((CB in M.contents)&&(CB.stack_amount>=3)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(3)
+															GS3.RemoveFromStack(1)
+															GH3.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gow Hide, Gow Shell and 3 Hot Copper Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gow Hide, Gow Shell and 3 Hot Copper Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Bronzemail Corslet")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
+												var/obj/items/GuwiShell/GS4 = locate() in M.contents
+												var/obj/items/GuwiHide/GH4 = locate() in M.contents
+												if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/ordicorslet
+														usr << "You begin to smith."
+														M.Doing = 1
+														BRB.RemoveFromStack(3)
+														GS4.RemoveFromStack(1)
+														GH4.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Bronzemail Corslet!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															BRB.RemoveFromStack(3)
+															GS4.RemoveFromStack(1)
+															GH4.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Guwi Hide, Guwi Shell and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Guwi Hide, Guwi Shell and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Zinc Platemail Corslet")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
+												var/obj/items/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/GowuHide/GH5 = locate() in M.contents
+												if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5 in M.contents)&&(GH5.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/sincorslet
+														usr << "You begin to smith."
+														M.Doing = 1
+														ZB.RemoveFromStack(3)
+														GS5.RemoveFromStack(1)
+														GH5.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Zinc Platemail Corslet!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5 in M.contents)&&(GH5.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															ZB.RemoveFromStack(3)
+															GS5.RemoveFromStack(1)
+															GH5.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gowu Hide, Gowu Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gowu Hide, Gowu Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+									//call(/proc/smithinglevel)(M)
+									if("Defensive")
+										switch(input("What Armor would you like to make?","Defensive Armor Smithing") in L4)//in list())
+											if("Cancel")
+												M<<"You Cancel Selection..."
+												Busy = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return
+											if("Back") goto ARMOR
+										//if(null)
+											//M<<"You need the materials to smith this Armor"
+											//return
+											if("CopperPlate Cuirass")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												var/obj/items/GiuShell/GS0 = locate() in M.contents
+												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												if((CB in M.contents)&&(CB.stack_amount>=4)&&(CB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/avgcuirass
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(4)
+														GS0.RemoveFromStack(1)
+														GH0.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith a CopperPlate Cuirass!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((CB in M.contents)&&(CB.stack_amount>=4)&&(CB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(4)
+															GS0.RemoveFromStack(1)
+															GH0.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Giu Shell, Giu Hide and 4 Hot Copper Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Giu Shell, Giu Hide and 4 Hot Copper Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("IronPlate Cuirass")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/ironbar/LB = locate() in M.contents
+												var/obj/items/GouShell/GS1 = locate() in M.contents
+												var/obj/items/GouHide/GH1 = locate() in M.contents
+												if((LB in M.contents)&&(LB.stack_amount>=4)&&(LB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/unucuirass
+														usr << "You begin to smith."
+														M.Doing = 1
+														LB.RemoveFromStack(4)
+														GS1.RemoveFromStack(1)
+														GH1.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith a IronPlate Cuirass!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((LB in M.contents)&&(LB.stack_amount>=4)&&(LB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															LB.RemoveFromStack(4)
+															GS1.RemoveFromStack(1)
+															GH1.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gou Shell, Gou Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gou Shell, Gou Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Iron HalfPlate Cuirass")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+												var/obj/items/GowShell/GS2 = locate() in M.contents
+												var/obj/items/GowHide/GH2 = locate() in M.contents
+												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/uncocuirass
+														usr << "You begin to smith."
+														M.Doing = 1
+														IB.RemoveFromStack(3)
+														GS2.RemoveFromStack(1)
+														GH2.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith a Iron HalfPlate Cuirass!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															IB.RemoveFromStack(3)
+															GS2.RemoveFromStack(1)
+															GH2.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gow Shell, Gow Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gow Shell, Gow Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Bronze SolidPlate Cuirass")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
+												var/obj/items/GowShell/GS3 = locate() in M.contents
+												var/obj/items/GowHide/GH3 = locate() in M.contents
+												if((BRB in M.contents)&&(BRB.stack_amount>=5)&&(BRB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/choicuirass
+														usr << "You begin to smith."
+														M.Doing = 1
+														BRB.RemoveFromStack(5)
+														GS3.RemoveFromStack(1)
+														GH3.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith a Bronze SolidPlate Cuirass!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((BRB in M.contents)&&(BRB.stack_amount>=5)&&(BRB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															BRB.RemoveFromStack(5)
+															GS3.RemoveFromStack(1)
+															GH3.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gow Shell, Gow Hide and 5 Hot Bronze Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gow Shell, Gow Hide and 5 Hot Bronze Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Boreal ZincPlate Cuirass")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
+												var/obj/items/GuwiShell/GS4 = locate() in M.contents
+												var/obj/items/GuwiHide/GH4 = locate() in M.contents
+												if((ZB in M.contents)&&(ZB.stack_amount>=5)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/ordicuirass
+														usr << "You begin to smith."
+														M.Doing = 1
+														ZB.RemoveFromStack(5)
+														GS4.RemoveFromStack(1)
+														GH4.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith a Boreal ZincPlate Cuirass!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((ZB in M.contents)&&(ZB.stack_amount>=5)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															ZB.RemoveFromStack(5)
+															GS4.RemoveFromStack(1)
+															GH4.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Guwi Shell, Guwi Hide and 5 Hot Zinc Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Guwi Shell, Guwi Hide and 5 Hot Zinc Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Aurelian SteelPlate Cuirass")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
+												var/obj/items/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/GowuHide/GH5 = locate() in M.contents
+												if((STLB in M.contents)&&(STLB.stack_amount>=7)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/sincuirass
+														usr << "You begin to smith."
+														M.Doing = 1
+														STLB.RemoveFromStack(7)
+														GS5.RemoveFromStack(1)
+														GH5.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith a Aurelian SteelPlate Cuirass!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((STLB in M.contents)&&(STLB.stack_amount>=7)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															STLB.RemoveFromStack(7)
+															GS5.RemoveFromStack(1)
+															GH5.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gowu Shell, Gowu Hide and 7 Hot Steel Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gowu Shell, Gowu Hide and 7 Hot Steel Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+									//call(/proc/smithinglevel)(M)
+									if("Offensive")
+										switch(input("What Armor would you like to make?","Offensive Armor Smithing") in L5)//in list())
+											if("Cancel")
+												M<<"You Cancel Selection..."
+												Busy = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return
+											if("Back") goto ARMOR
+											if("IronPlate Battlegear")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+												var/obj/items/GiuShell/GS0 = locate() in M.contents
+												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												if((IB in M.contents)&&(IB.stack_amount>=5)&&(IB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/avgbattlegear
+														usr << "You begin to smith."
+														M.Doing = 1
+														IB.RemoveFromStack(5)
+														GS0.RemoveFromStack(1)
+														GH0.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith IronPlate Battlegear!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((IB in M.contents)&&(IB.stack_amount>=5)&&(IB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															IB.RemoveFromStack(5)
+															GS0.RemoveFromStack(1)
+															GH0.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Giu Shell, Giu Hide and 5 Hot Iron Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Giu Shell, Giu Hide and 5 Hot Iron Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("CopperPlate Battlegear")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												var/obj/items/GouShell/GS1 = locate() in M.contents
+												var/obj/items/GouHide/GH1 = locate() in M.contents
+												if((CB in M.contents)&&(CB.stack_amount>=5)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/unubattlegear
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(5)
+														GS1.RemoveFromStack(1)
+														GH1.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith CopperPlate Battlegear!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((CB in M.contents)&&(CB.stack_amount>=5)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(5)
+															GS1.RemoveFromStack(1)
+															GH1.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gou Shell, Gou Hide and 5 Hot Copper Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gou Shell, Gou Hide and 5 Hot Copper Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("BronzePlate Battlegear")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
+												var/obj/items/GowShell/GS2 = locate() in M.contents
+												var/obj/items/GowHide/GH2 = locate() in M.contents
+												if((BRB in M.contents)&&(BRB.stack_amount>=5)&&(BRB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d6"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/uncobattlegear
+														usr << "You begin to smith."
+														M.Doing = 1
+														BRB.RemoveFromStack(5)
+														GS2.RemoveFromStack(1)
+														GH2.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith BronzePlate Battlegear!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((BRB in M.contents)&&(BRB.stack_amount>=5)&&(BRB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															BRB.RemoveFromStack(5)
+															GS2.RemoveFromStack(1)
+															GH2.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gow Shell, Gow Hide and 5 Hot Bronze Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gow Shell, Gow Hide and 5 Hot Bronze Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("Omphalos AlloyPlate Battlegear")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/ironbar/LB = locate() in M.contents
+												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+												var/obj/items/GowShell/GS3 = locate() in M.contents
+												var/obj/items/GowHide/GH3 = locate() in M.contents
+												if((LB in M.contents)&&(LB.stack_amount>=3)&&(LB.Tname=="Hot")&&(CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d10"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/choibattlegear
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(2)
+														LB.RemoveFromStack(3)
+														GS3.RemoveFromStack(1)
+														GH3.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith Omphalos AlloyPlate Battlegear!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((LB in M.contents)&&(LB.stack_amount>=3)&&(LB.Tname=="Hot")&&(CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															CB.RemoveFromStack(2)
+															LB.RemoveFromStack(3)
+															GS3.RemoveFromStack(1)
+															GH3.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gow Shell, Gow Hide, 2 Hot Copper Ingot and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gow Shell, Gow Hide, 2 Hot Copper Ingot and 3 Hot Iron Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("ZincPlate Battlegear")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
+												var/obj/items/GuwiShell/GS4 = locate() in M.contents
+												var/obj/items/GuwiHide/GH4 = locate() in M.contents
+												if((ZB in M.contents)&&(ZB.stack_amount>=5)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d12"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/ordibattlegear
+														usr << "You begin to smith."
+														M.Doing = 1
+														ZB.RemoveFromStack(5)
+														GS4.RemoveFromStack(1)
+														GH4.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith ZincPlate Battlegear!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((ZB in M.contents)&&(ZB.stack_amount>=5)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															ZB.RemoveFromStack(5)
+															GS4.RemoveFromStack(1)
+															GH4.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Guwi Shell, Guwi Hide and 5 Hot Zinc Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Guwi Shell, Guwi Hide and 5 Hot Zinc Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+											if("SteelPlate Battlegear")
+												//var/obj/items/tools/BroadSword/BS
+												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
+												var/obj/items/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/GowuHide/GH5 = locate() in M.contents
+												if((STLB in M.contents)&&(STLB.stack_amount>=5)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
+													//var/obj/items/tools/BroadSword/BS
+													var/dice = "1d20"
+													var/R = roll(dice)
+													if(R == 2)
+														var/AV = /obj/items/armors/sinbattlegear
+														usr << "You begin to smith."
+														M.Doing = 1
+														STLB.RemoveFromStack(5)
+														GS5.RemoveFromStack(1)
+														GH5.RemoveFromStack(1)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														M.smiexp += 15 //go to proc miningcheck
+														M.energy -= 5
+														M.updateEN()
+														new AV(M)//(locate(x,y,z))
+														usr << "You smith SteelPlate Battlegear!" //message to user saying he/she mined something
+														//BSB:Tname="Hot"
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														if((STLB in M.contents)&&(STLB.stack_amount>=5)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
+															usr << "You begin to smith."
+															M.Doing = 1
+															STLB.RemoveFromStack(5)
+															GS5.RemoveFromStack(1)
+															GH5.RemoveFromStack(1)
+															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+															sleep(30) //Delay 3 seconds
+															 //user mining skill gos up by 15
+															M.smiexp += 15 //....
+															M.energy -= 5
+															M.updateEN()
+															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
+															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+														else
+															usr<<"You need Gowu Shell, Gowu Hide and 5 Hot Steel Ingots to utilize for smithing this Armor..."
+															M.Doing = 0
+															M.UEB = 0
+															M.SMIopen=0
+															return call(/proc/smithinglevel)()
+												else
+													usr<<"You need Gowu Shell, Gowu Hide and 5 Hot Steel Ingots to utilize for smithing this Armor..."
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+								//call(/proc/smithinglevel)(M)
+								if("Lamps")
+									switch(input("What would you like to make?","Smithing") in L3)//in list())
+								//switch(L)
+										if("Cancel")
+											M<<"You Cancel Selection..."
+											Busy = 0
+											M.UEB = 0
+											M.SMIopen=0
+											return
+										if("Back") goto SMITHING
+										if("Iron Lamp Head")
+											//var/obj/items/tools/BroadSword/BS
+											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											var/obj/items/Ingots/ironbar/IB = locate() in M.contents
+											if((IB in M.contents)&&(IB.stack_amount>=4)&&(IB.Tname=="Hot"))
+												//var/obj/items/tools/BroadSword/BS
+												var/dice = "1d6"
+												var/R = roll(dice)
+												if(R == 2)
+													var/ILH = /obj/items/Crafting/Created/IronLampHead
+													usr << "You begin to smith."
+													M.Doing = 1
+													IB.RemoveFromStack(4)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													M.smiexp += 15 //go to proc miningcheck
+													M.energy -= 5
+													M.updateEN()
+													new ILH(locate(x,y,z))
+													usr << "You smith a Iron Lamp Head!" //message to user saying he/she mined something
+													//BSB:Tname="Hot"
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													if((IB in M.contents)&&(IB.stack_amount>=4)&&(IB.Tname=="Hot"))
+														usr << "You begin to smith."
+														M.Doing = 1
+														IB.RemoveFromStack(4)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														 //user mining skill gos up by 15
+														M.smiexp += 15 //....
+														M.energy -= 5
+														M.updateEN()
+														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														usr<<"You need 4 Hot Iron Ingots for smithing this Lamp Head..."
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 4 Hot Iron Ingots for smithing this Lamp Head..."
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+										if("Copper Lamp Head")
+											//var/obj/items/tools/BroadSword/BS
+											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+											if((CB in M.contents)&&(CB.stack_amount>=4)&&(CB.Tname=="Hot"))
+												//var/obj/items/tools/BroadSword/BS
+												var/dice = "1d6"
+												var/R = roll(dice)
+												if(R == 2)
+													var/CLH = /obj/items/Crafting/Created/CopperLampHead
+													usr << "You begin to smith."
+													M.Doing = 1
+													CB.RemoveFromStack(4)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													M.smiexp += 15 //go to proc miningcheck
+													M.energy -= 5
+													M.updateEN()
+													new CLH(locate(x,y,z))
+													usr << "You smith a Copper Lamp Head!" //message to user saying he/she mined something
+													//BSB:Tname="Hot"
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													if((CB in M.contents)&&(CB.stack_amount>=4)&&(CB.Tname=="Hot"))
+														usr << "You begin to smith."
+														M.Doing = 1
+														CB.RemoveFromStack(4)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														 //user mining skill gos up by 15
+														M.smiexp += 15 //....
+														M.energy -= 5
+														M.updateEN()
+														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														usr<<"You need 4 Hot Copper Ingots for smithing this Lamp Head..."
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 4 Hot Copper Ingots for smithing this Lamp Head..."
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+										if("Bronze Lamp Head")
+											//var/obj/items/tools/BroadSword/BS
+											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
+											if((BRB in M.contents)&&(BRB.stack_amount>=4)&&(BRB.Tname=="Hot"))
+												//var/obj/items/tools/BroadSword/BS
+												var/dice = "1d6"
+												var/R = roll(dice)
+												if(R == 2)
+													var/BRLH = /obj/items/Crafting/Created/BronzeLampHead
+													usr << "You begin to smith."
+													M.Doing = 1
+													BRB.RemoveFromStack(4)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													M.smiexp += 15 //go to proc miningcheck
+													M.energy -= 5
+													M.updateEN()
+													new BRLH(locate(x,y,z))
+													usr << "You smith a Bronze Lamp Head!" //message to user saying he/she mined something
+													//BSB:Tname="Hot"
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													if((BRB in M.contents)&&(BRB.stack_amount>=4)&&(BRB.Tname=="Hot"))
+														usr << "You begin to smith."
+														M.Doing = 1
+														BRB.RemoveFromStack(4)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														 //user mining skill gos up by 15
+														M.smiexp += 15 //....
+														M.energy -= 5
+														M.updateEN()
+														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														usr<<"You need 4 Hot Bronze Ingots for smithing this Lamp Head..."
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 4 Hot Bronze Ingots for smithing this Lamp Head..."
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+										if("Brass Lamp Head")
+											//var/obj/items/tools/BroadSword/BS
+											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											var/obj/items/Ingots/brassbar/BB = locate() in M.contents
+											if((BB in M.contents)&&(BB.stack_amount>=4)&&(BB.Tname=="Hot"))
+												//var/obj/items/tools/BroadSword/BS
+												var/dice = "1d6"
+												var/R = roll(dice)
+												if(R == 2)
+													var/BLH = /obj/items/Crafting/Created/BrassLampHead
+													usr << "You begin to smith."
+													M.Doing = 1
+													BB.RemoveFromStack(4)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													M.smiexp += 15 //go to proc miningcheck
+													M.energy -= 5
+													M.updateEN()
+													new BLH(locate(x,y,z))
+													usr << "You smith a Brass Lamp Head!" //message to user saying he/she mined something
+													//BSB:Tname="Hot"
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													if((BB in M.contents)&&(BB.stack_amount>=4)&&(BB.Tname=="Hot"))
+														usr << "You begin to smith."
+														M.Doing = 1
+														BB.RemoveFromStack(4)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														 //user mining skill gos up by 15
+														M.smiexp += 15 //....
+														M.energy -= 5
+														M.updateEN()
+														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														usr<<"You need 4 Hot Brass Ingots for smithing this Lamp Head..."
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 4 Hot Brass Ingots for smithing this Lamp Head..."
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+										if("Steel Lamp Head")
+											//var/obj/items/tools/BroadSword/BS
+											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											var/obj/items/Ingots/steelbar/STB = locate() in M.contents
+											if((STB in M.contents)&&(STB.stack_amount>=4)&&(STB.Tname=="Hot"))
+												//var/obj/items/tools/BroadSword/BS
+												var/dice = "1d6"
+												var/R = roll(dice)
+												if(R == 2)
+													var/STLH = /obj/items/Crafting/Created/SteelLampHead
+													usr << "You begin to smith."
+													M.Doing = 1
+													STB.RemoveFromStack(4)
+													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+													sleep(30) //Delay 3 seconds
+													M.smiexp += 15 //go to proc miningcheck
+													M.energy -= 5
+													M.updateEN()
+													new STLH(locate(x,y,z))
+													usr << "You smith a Steel Lamp Head!" //message to user saying he/she mined something
+													//BSB:Tname="Hot"
+													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+													M.Doing = 0
+													M.UEB = 0
+													M.SMIopen=0
+													return call(/proc/smithinglevel)()
+												else
+													if((STB in M.contents)&&(STB.stack_amount>=4)&&(STB.Tname=="Hot"))
+														usr << "You begin to smith."
+														M.Doing = 1
+														STB.RemoveFromStack(4)
+														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
+														sleep(30) //Delay 3 seconds
+														 //user mining skill gos up by 15
+														M.smiexp += 15 //....
+														M.energy -= 5
+														M.updateEN()
+														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
+														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+													else
+														usr<<"You need 4 Hot Steel Ingots for smithing this Lamp Head..."
+														M.Doing = 0
+														M.UEB = 0
+														M.SMIopen=0
+														return call(/proc/smithinglevel)()
+											else
+												usr<<"You need 4 Hot Steel Ingots for smithing this Lamp Head..."
+												M.Doing = 0
+												M.UEB = 0
+												M.SMIopen=0
+												return call(/proc/smithinglevel)()
+							//call(/proc/smithinglevel)(M)
+				else //else contrasting the if at the top
+					usr << "You need to use an Iron Hammer to smith!" //message to user saying that they need a pick axe to mine
+					M.Doing = 0
+					M.UEB = 0
+					M.SMIopen=0
+					return call(/proc/smithinglevel)()
 			//else
 			//	usr << "You are already smithing!"
 //smelting
@@ -4554,24 +8636,27 @@ obj
 				usr << "You are already smelting!"
 				return
 			if(M.GVequipped == 1&&src.name=="Lit Forge")
-				//M.UESME = 1
+				M.SMEopen = 1
+				M.UESME = 1
 				//M.Doing = 1
-				//M<<"test message"//var/sme = input("What would you like to smelt?","Smelting")as anything in L//in list("Iron"))//switch this to a ranking system and only provide higher options(copper brass bronze) when you reach higher rank?
+				//M<<"test message"//var/sme = input("What would you like to smelt?","Smelting") in L//in list("Iron"))//switch this to a ranking system and only provide higher options(copper brass bronze) when you reach higher rank?
 				switch(input("What would you like to smelt?","Smelting") as anything in smelt)
 					if("Cancel")
 						M.Doing = 0
 						M.UESME = 0
+						M.SMEopen=0
 						M<<"You Cancel Selection..."
 						return
 					//if("Back") goto SMELTING
-					if("Iron")
+					if("Iron Anvil Head")
 						var/SCI = /obj/items/Ingots/Scraps/scrapiron
-						var/IB = /obj/items/Ingots/ironbar
-						var/obj/items/Ore/iron/I = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
-						if((I in M.contents)&&(I.stack_amount>=1)&&(src.name=="Lit Forge"))
+						var/IB = /obj/items/Crafting/Created/AnvilHead
+						var/obj/items/Ingots/ironbar/I = locate() in M.contents
+						var/random/R = rand(1,5) //1 in 5 chance to smith -- Need to replace these with dice rolls
+						if((I in M.contents)&&(I.stack_amount>=15)&&(I.Tname=="Hot")&&(src.name=="Lit Forge"))
+							M << "You begin to smelt an Iron Anvil Head..."
 							M.Doing = 1
-							I.RemoveFromStack(1)
+							I.RemoveFromStack(15)
 							sleep(30) //Delay 3 seconds
 								//user gets 25 mining experience
 							M.smeexp += 5 //go to proc miningcheck
@@ -4579,19 +8664,23 @@ obj
 							M.updateEN()
 								//IB:Tname="Hot"
 							new IB(locate(x,y,z))
-							M << "You smelt an iron ingot!" //message to user saying he/she mined something
+							M << "You smelt an Iron Anvil Head!" //message to user saying he/she mined something
 							//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeL")
 								//light.off()
 							M.Doing = 0
 							M.UESME = 0
+							M.SMEopen=0
 							return call(/proc/smeltinglevel)(M)
 						else
-							M<<"You need Iron Ore and a Lit Forge"
+							M<<"You need 15 Hot Iron Ingots and a Lit Forge to smelt Iron Anvil Head."
+							M.Doing = 0
+							M.UESME = 0
+							M.SMEopen=0
 							return
 							if(R==2)
 									//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
 										//light.on()
-								usr << "You begin to smelt."
+								usr << "You begin to smelt an Iron Anvil Head..."
 								M.Doing = 1
 								I.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
@@ -4606,6 +8695,56 @@ obj
 									//light.off()
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
+								return call(/proc/smeltinglevel)(M)
+					if("Iron")
+						var/SCI = /obj/items/Ingots/Scraps/scrapiron
+						var/IB = /obj/items/Ingots/ironbar
+						var/obj/items/Ore/iron/I = locate() in M.contents
+						var/random/R = rand(1,5) //1 in 5 chance to smith
+						if((I in M.contents)&&(I.stack_amount>=3)&&(src.name=="Lit Forge"))
+							M << "You begin to smelt Iron ore..."
+							M.Doing = 1
+							I.RemoveFromStack(3)
+							sleep(30) //Delay 3 seconds
+								//user gets 25 mining experience
+							M.smeexp += 5 //go to proc miningcheck
+							M.energy -= 5
+							M.updateEN()
+								//IB:Tname="Hot"
+							new IB(locate(x,y,z))
+							M << "You smelt an Iron Ingot!" //message to user saying he/she mined something
+							//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeL")
+								//light.off()
+							M.Doing = 0
+							M.UESME = 0
+							M.SMEopen=0
+							return call(/proc/smeltinglevel)(M)
+						else
+							M<<"You need 3 Iron Ore and a Lit Forge to smelt an ingot."
+							M.Doing = 0
+							M.UESME = 0
+							M.SMEopen=0
+							return
+							if(R==2)
+									//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
+										//light.on()
+								usr << "You begin to smelt Iron ore..."
+								M.Doing = 1
+								I.RemoveFromStack(1)
+								sleep(30) //Delay 3 seconds
+								//user mining skill gos up by 15
+								M.smeexp += 5 //....
+								M.energy -= 5
+								M.updateEN()
+								M << "The material used was too pitted to smelt properly and produced scrap iron!" //message to user saying he/she didn't mine anything
+									//SCI:Tname="Hot"
+								new SCI(locate(x,y,z))
+									//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeL")
+									//light.off()
+								M.Doing = 0
+								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 
 					if("Lead")
@@ -4613,10 +8752,10 @@ obj
 						var/SCL = /obj/items/Ingots/Scraps/scraplead
 						var/obj/items/Ore/lead/LE = locate() in M.contents
 						var/random/R = rand(1,5) //1 in 5 chance to smith
-						if(R>=3)
-							if((LE in M.contents)&&(LE.stack_amount>=2))
+						if(R>=2)
+							if((LE in M.contents)&&(LE.stack_amount>=3))
 								//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
-								usr << "You begin to smelt."
+								usr << "You begin to smelt Lead ore..."
 								M.Doing = 1
 								LE.RemoveFromStack(3)
 								sleep(30) //Delay 3 seconds
@@ -4625,22 +8764,25 @@ obj
 								M.energy -= 5
 								M.updateEN()
 								new LB(locate(x,y,z))
-								LB:Tname="Hot"
-								usr << "You smelt a lead ingot!" //message to user saying he/she mined something
+								//LB:Tname="Hot"
+								usr << "You smelt a Lead Ingot!" //message to user saying he/she mined something
 								//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeL")
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need 3 lead ore and a Lit Forge to smelt an ingot."
+								usr << "You need 3 Lead ore and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 						else
-							if((LE in M.contents)&&(LE.stack_amount>=2))
+							if((LE in M.contents)&&(LE.stack_amount>=3))
 								//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
-								usr << "You begin to smelt."
+								usr << "You begin to smelt Lead ore..."
 								M.Doing = 1
-								LE.RemoveFromStack(3)
+								LE.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
@@ -4648,14 +8790,17 @@ obj
 								M.updateEN()
 								M << "The material used was too pitted to smelt properly and produced scrap lead!" //message to user saying he/she didn't mine anything
 								new SCL(locate(x,y,z))
-								SCL:Tname="Hot"
+								//SCL:Tname="Hot"
 								//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeL")
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need 3 lead ore and a Lit Forge to smelt an ingot."
+								usr << "You need 3 Lead ore and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 					if("Zinc")
 						var/SCZ = /obj/items/Ingots/Scraps/scrapzinc
@@ -4664,7 +8809,7 @@ obj
 						var/random/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
 							if((Z in M.contents)&&(Z.stack_amount>=2))
-								usr << "You begin to smelt."
+								usr << "You begin to smelt Zinc ore..."
 								M.Doing = 1
 								Z.RemoveFromStack(2)
 								sleep(30) //Delay 3 seconds
@@ -4673,20 +8818,23 @@ obj
 								M.energy -= 5
 								M.updateEN()
 								new ZB(locate(x,y,z))
-								ZB:Tname="Hot"
-								usr << "You smelt a zinc ingot!" //message to user saying he/she mined something
+								//ZB:Tname="Hot"
+								usr << "You smelt a Zinc Ingot!" //message to user saying he/she mined something
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need 2 zinc ore and a Lit Forge to smelt an ingot."
+								usr << "You need 2 Zinc ore and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 						else
 							if((Z in M.contents)&&(Z.stack_amount>=2))
-								usr << "You begin to smelt."
+								usr << "You begin to smelt Zinc ore..."
 								M.Doing = 1
-								Z.RemoveFromStack(2)
+								Z.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
@@ -4694,13 +8842,16 @@ obj
 								M.updateEN()
 								M << "The material used was too pitted to smelt properly and produced scrap zinc!" //message to user saying he/she didn't mine anything
 								new SCZ(locate(x,y,z))
-								SCZ:Tname="Hot"
+								//SCZ:Tname="Hot"
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need 2 zinc ore and a Lit Forge to smelt an ingot."
+								usr << "You need 2 Zinc ore and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 					if("Copper")
 						var/SCC = /obj/items/Ingots/Scraps/scrapcopper
@@ -4709,7 +8860,7 @@ obj
 						var/random/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
 							if((C in M.contents)&&(C.stack_amount>=2))
-								usr << "You begin to smelt."
+								usr << "You begin to smelt Copper ore..."
 								M.Doing = 1
 								C.RemoveFromStack(2)
 								sleep(30) //Delay 3 seconds
@@ -4719,20 +8870,23 @@ obj
 								M.updateEN()
 								//M.copperbar += 1
 								new CB(locate(x,y,z))
-								CB:Tname="Hot"
-								usr << "You smelt a copper ingot!" //message to user saying he/she mined something
+								//CB:Tname="Hot"
+								usr << "You smelt a Copper Ingot!" //message to user saying he/she mined something
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need 2 zinc ore and a Lit Forge to smelt an ingot."
+								usr << "You need 2 Copper ore and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 						else
 							if((C in M.contents)&&(C.stack_amount>=2))
-								usr << "You begin to smelt."
+								usr << "You begin to smelt Copper ore..."
 								M.Doing = 1
-								C.RemoveFromStack(2)
+								C.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
@@ -4740,62 +8894,16 @@ obj
 								M.updateEN()
 								M << "The material used was too pitted to smelt properly and produced scrap copper!" //message to user saying he/she didn't mine anything
 								new SCC(locate(x,y,z))
-								SCC:Tname="Hot"
+								//SCC:Tname="Hot"
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need 2 copper ore and a Lit Forge to smelt an ingot."
-								M.UESME = 0
-								return call(/proc/smeltinglevel)(M)
-					if("Brass")
-						var/SCB = /obj/items/Ingots/Scraps/scrapbrass
-						var/BB = /obj/items/Ingots/brassbar
-						var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-						var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
-						if(R==3)
-							if((CB in M.contents)&&(CB.stack_amount>=2)&&(ZB in M.contents)&&(ZB.stack_amount>=2))
-								usr << "You begin to smelt."
-								M.Doing = 1
-								CB.RemoveFromStack(2)
-								ZB.RemoveFromStack(2)
-								sleep(30) //Delay 3 seconds
-							//user gets 25 mining experience
-								M.smeexp += 5 //go to proc miningcheck
-								M.energy -= 5
-								M.updateEN()
-								//M.copperbar += 1
-								new BB(locate(x,y,z))
-								BB:Tname="Hot"
-								usr << "You smelt a brass ingot!" //message to user saying he/she mined something
+								usr << "You need 2 Copper ore and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
-								return call(/proc/smeltinglevel)(M)
-							else
-								usr << "You need 2 zinc ore and a Lit Forge to smelt an ingot."
-								M.UESME = 0
-								return call(/proc/smeltinglevel)(M)
-						else
-							if((CB in M.contents)&&(CB.stack_amount>=2)&&(ZB in M.contents)&&(ZB.stack_amount>=2))
-								usr << "You begin to smelt."
-								M.Doing = 1
-								CB.RemoveFromStack(2)
-								ZB.RemoveFromStack(2)
-								sleep(30) //Delay 3 seconds
-							//user mining skill gos up by 15
-								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
-								M << "The material used was too pitted to smelt properly and produced scrap brass!" //message to user saying he/she didn't mine anything
-								new SCB(locate(x,y,z))
-								SCB:Tname="Hot"
-								M.Doing = 0
-								M.UESME = 0
-								return call(/proc/smeltinglevel)(M)
-							else
-								usr << "You need 2 copper ingots, 2 zinc ingots and a Lit Forge to smelt a brass ingot."
-								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 					if("Bronze")
 						var/SCBR = /obj/items/Ingots/Scraps/scrapbronze
@@ -4804,11 +8912,11 @@ obj
 						var/obj/items/Ingots/leadbar/LB = locate() in M.contents
 						var/random/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
-							if((CB in M.contents)&&(CB.stack_amount>=2)&&(LB in M.contents)&&(LB.stack_amount>=2))
-								usr << "You begin to smelt."
+							if((CB in M.contents)&&(CB.stack_amount>=1)&&(LB in M.contents)&&(LB.stack_amount>=1))
+								usr << "You begin to smelt Bronze..."
 								M.Doing = 1
-								CB.RemoveFromStack(2)
-								LB.RemoveFromStack(2)
+								CB.RemoveFromStack(1)
+								LB.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
 								M.smeexp += 5 //go to proc miningcheck
@@ -4816,21 +8924,24 @@ obj
 								M.updateEN()
 									//M.copperbar += 1
 								new BRB(locate(x,y,z))
-								BRB:Tname="Hot"
-								usr << "You smelt a bronze ingot!" //message to user saying he/she mined something
+								//BRB:Tname="Hot"
+								usr << "You smelt a Bronze Ingot!" //message to user saying he/she mined something
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need 2 copper ingots, 2 lead ingots and a Lit Forge to smelt a bronze ingot."
+								usr << "You need 1 Copper Ingot, 1 Lead Ingot and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 						else
-							if((CB in M.contents)&&(CB.stack_amount>=2)&&(LB in M.contents)&&(LB.stack_amount>=2))
-								usr << "You begin to smelt."
+							if((CB in M.contents)&&(CB.stack_amount>=1)&&(LB in M.contents)&&(LB.stack_amount>=1))
+								usr << "You begin to smelt Bronze..."
 								M.Doing = 1
-								CB.RemoveFromStack(2)
-								LB.RemoveFromStack(2)
+								CB.RemoveFromStack(1)
+								LB.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
@@ -4838,14 +8949,73 @@ obj
 								M.updateEN()
 								M << "The material used was too pitted to smelt properly and produced scrap bronze!" //message to user saying he/she didn't mine anything
 								new SCBR(locate(x,y,z))
-								SCBR:Tname="Hot"
+								//SCBR:Tname="Hot"
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need 2 copper ingots, 2 lead ingots and a Lit Forge to smelt a bronze ingot."
+								usr << "You need 1 Copper Ingot, 1 Lead Ingot and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
+					if("Brass")
+						var/SCB = /obj/items/Ingots/Scraps/scrapbrass
+						var/BB = /obj/items/Ingots/brassbar
+						var/obj/items/Ingots/copperbar/CB = locate() in M.contents
+						var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
+						var/random/R = rand(1,5) //1 in 5 chance to smith
+						if(R==3)
+							if((CB in M.contents)&&(CB.stack_amount>=1)&&(ZB in M.contents)&&(ZB.stack_amount>=1))
+								usr << "You begin to smelt Brass..."
+								M.Doing = 1
+								CB.RemoveFromStack(1)
+								ZB.RemoveFromStack(1)
+								sleep(30) //Delay 3 seconds
+							//user gets 25 mining experience
+								M.smeexp += 5 //go to proc miningcheck
+								M.energy -= 5
+								M.updateEN()
+								//M.copperbar += 1
+								new BB(locate(x,y,z))
+								//BB:Tname="Hot"
+								usr << "You smelt a Brass Ingot!" //message to user saying he/she mined something
+								M.Doing = 0
+								M.UESME = 0
+								M.SMEopen=0
+								return call(/proc/smeltinglevel)(M)
+							else
+								usr << "You need 1 Copper Ingot, 1 Zinc Ingot and a Lit Forge to smelt an ingot."
+								M.Doing = 0
+								M.UESME = 0
+								M.SMEopen=0
+								return call(/proc/smeltinglevel)(M)
+						else
+							if((CB in M.contents)&&(CB.stack_amount>=1)&&(ZB in M.contents)&&(ZB.stack_amount>=1))
+								usr << "You begin to smelt Brass..."
+								M.Doing = 1
+								CB.RemoveFromStack(1)
+								ZB.RemoveFromStack(1)
+								sleep(30) //Delay 3 seconds
+							//user mining skill gos up by 15
+								M.smeexp += 5 //....
+								M.energy -= 5
+								M.updateEN()
+								M << "The material used was too pitted to smelt properly and produced scrap brass!" //message to user saying he/she didn't mine anything
+								new SCB(locate(x,y,z))
+								//SCB:Tname="Hot"
+								M.Doing = 0
+								M.UESME = 0
+								M.SMEopen=0
+								return call(/proc/smeltinglevel)(M)
+							else
+								usr << "You need 1 Copper Ingot, 1 Zinc Ingot and a Lit Forge to smelt an ingot."
+								M.Doing = 0
+								M.UESME = 0
+								M.SMEopen=0
+								return call(/proc/smeltinglevel)(M)
+
 					if("Steel")
 						//var/SCST = /obj/items/Ingots/Scraps/scrapst
 						var/STB = /obj/items/Ingots/steelbar
@@ -4853,11 +9023,11 @@ obj
 						var/obj/items/Activated_Carbon/AC = locate() in M.contents
 						var/random/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
-							if((IB in M.contents)&&(IB.stack_amount>=10)&&(AC in M.contents)&&(AC.stack_amount>=10))
-								usr << "You begin to smelt."
+							if((IB in M.contents)&&(IB.stack_amount>=3)&&(AC in M.contents)&&(AC.stack_amount>=2))
+								usr << "You begin to smelt Steel..."
 								M.Doing = 1
-								IB.RemoveFromStack(10)
-								AC.RemoveFromStack(10)
+								IB.RemoveFromStack(3)
+								AC.RemoveFromStack(2)
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
 								M.smeexp += 5 //go to proc miningcheck
@@ -4865,21 +9035,24 @@ obj
 								M.updateEN()
 									//M.copperbar += 1
 								new STB(locate(x,y,z))
-								STB:Tname="Hot"
-								usr << "You smelt a steel ingot!" //message to user saying he/she mined something
+								//STB:Tname="Hot"
+								usr << "You smelt a Steel Ingot!" //message to user saying he/she mined something
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need Iron ingots, Activated Carbon and a Lit Forge to smelt a steel ingot."
+								usr << "You need 3 Iron Ingot, 2 Activated Carbon and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 						else
-							if((IB in M.contents)&&(IB.stack_amount>=5)&&(AC in M.contents)&&(AC.stack_amount>=10))
-								usr << "You begin to smelt."
+							if((IB in M.contents)&&(IB.stack_amount>=3)&&(AC in M.contents)&&(AC.stack_amount>=2))
+								usr << "You begin to smelt Steel..."
 								M.Doing = 1
-								IB.RemoveFromStack(5)
-								AC.RemoveFromStack(10)
+								IB.RemoveFromStack(3)
+								AC.RemoveFromStack(2)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
@@ -4890,14 +9063,20 @@ obj
 								//SCBR:Tname="Hot"
 								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 							else
-								usr << "You need Iron ingots, Activated Carbon and a Lit Forge to smelt a steel ingot."
+								usr << "You need 3 Iron Ingot, 2 Activated Carbon and a Lit Forge to smelt an ingot."
+								M.Doing = 0
 								M.UESME = 0
+								M.SMEopen=0
 								return call(/proc/smeltinglevel)(M)
 				//call(/proc/smeltinglevel)(M)
 			else //else contrasting the if at the top
 				usr << "You need to use Gloves to hold the hot materials to be produced from a Lit Forge! Status:[src.name]" //message to user saying that they need a pick axe to mine
+				M.UESME = 0
+				M.SMEopen=0
+				return
 	//These are all pretty self-explanatory.  Define what the object is, how it works, and protect from letting the player do anything stupid.
 obj/npcs
 	plane = 3
@@ -5751,7 +9930,7 @@ obj/npcs
 							I
 							const
 								temp1 = "Bronze SolidPlate (Cuirass): 28 def, 2% eva, 25 str req::250 lucre"
-								temp2 = "Omphalos LeadPlate (Battlegear): 18 def, 1% eva, 17 str req::176 lucre"
+								temp2 = "Omphalos IronPlate (Battlegear): 18 def, 1% eva, 17 str req::176 lucre"
 								temp3 = "Murrion Aegis: 84 DEF, 28% Evasion, 46 STR-REQ::224 lucre"
 								temp4 = "Ravelin: 113 DEF, 21% Evasion, 67 STR-REQ::324 lucre"
 						I = input("What would you like to buy?","ARMORS",I) in list (temp1,temp2,temp3,temp4,"Leave")
@@ -6667,7 +10846,7 @@ obj/npcs
 		var/mob/players/M
 		verb //...
 			Fill() //...
-				set category = "Commands"
+				//set category = "Commands"
 				set src in oview(1) //...
 				Fill(M)*/ //calls the mining proc
 /*
@@ -6752,22 +10931,27 @@ proc
 							//M.smerank += 1
 							//M.msmeexp = 1000
 							//usr << "<b><font color=silver>Your Smelting Rank went up!"
-							smelt = list("Iron","Lead","Zinc","Copper","Brass","Cancel","Back")
+							smelt = list("Iron","Lead","Zinc","Copper","Bronze","Cancel","Back")
 							return
 						else
 							if(M.smerank == 6)
 								//M.smerank += 1
 								//M.msmeexp = 5000
 								//usr << "<b><font color=silver>Your Smelting Rank went up!"
-								smelt = list("Iron","Lead","Zinc","Copper","Brass","Bronze","Cancel","Back")
+								smelt = list("Iron","Lead","Zinc","Copper","Bronze","Brass","Cancel","Back")
 								return
 							else
 								if(M.smerank == 7)
 									//M.smerank += 1
 									//M.msmeexp = 5000
 									//usr << "<b><font color=silver>Your Smelting Rank went up!"
-									smelt = list("Iron","Lead","Zinc","Copper","Brass","Bronze","Steel","Cancel","Back")
+									smelt = list("Iron","Lead","Zinc","Copper","Bronze","Brass","Steel","Cancel","Back")
 									return
+								else
+									if (M.smerank>=7)
+										//M << "<b><font color=silver>You've reached Max Build Rank!"
+										M.smerank = 7
+										return
 	..()
 proc
 	smeltinglevel()
@@ -6805,18 +10989,23 @@ proc
 			//M.smelt.Add("Brass")
 		if((M.smerank == 5)&&(M.smeexp >= 390))
 			M.smerank += 1
-			//M.msmeexp = 5000
+			M.msmeexp = 780
 			usr << "<b><font color=silver>You gain more smelting knowledge!"
 			//M.smelt.Add("Bronze")
 		if((M.smerank == 6)&&(M.smeexp >= 780))
 			M.smerank += 1
-			//M.msmeexp = 5000
+			M.msmeexp = 1560
 			usr << "<b><font color=silver>You gain more smelting knowledge!"
-		if((M.smerank == 7))
+		if((M.smerank == 7)&&(M.smeexp >= 1560))
 			//M.smerank += 1
 			//M.msmeexp = 5000
+			M.msmeexp = M.smeexp
 			usr << "<b><font color=silver>You know all there is to know about smelting!"
 			//M.smelt.Add("Bronze")
+		else
+			if(M.smerank >= 7)
+				//M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
+				M.smerank = 7
 	..()
 
 proc
@@ -6826,8 +11015,9 @@ proc
 		M = usr
 		//tools
 		if(M.smirank == 1)
-			M.smith = list("Tools","Cancel","Back")
-			M.smitht = list("Carving Knife blade","Trowel blade","Cancel","Back")//remove trowel blade after testing
+			M.smith = list("Tools","Misc.","Cancel","Back")
+			M.smithm = list("Iron Nails","Cancel","Back")
+			M.smitht = list("Carving Knife blade","Hammer head","File blade","Cancel","Back")//remove trowel blade after testing
 			M.smithw = list("")
 			M.smithl = list("")
 			M.smithae = list("")
@@ -6836,8 +11026,9 @@ proc
 			return
 		else
 			if(M.smirank == 2)
-				M.smith = list("Tools","Cancel","Back")
-				M.smitht = list("Carving Knife blade","Axe blade","Cancel","Back")
+				M.smith = list("Tools","Misc.","Cancel","Back")
+				M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+				M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Cancel","Back")
 				M.smithw = list("")
 				M.smithl = list("")
 				M.smithae = list("")
@@ -6848,8 +11039,9 @@ proc
 			else
 				if(M.smirank == 3)
 					//usr << "<b><font color=silver>Your Smithing Rank went up!"
-					M.smith = list("Tools","Cancel","Back")
-					M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Cancel","Back")
+					M.smith = list("Tools","Misc.","Cancel","Back")
+					M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+					M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Cancel","Back")
 					M.smithw = list("")
 					M.smithl = list("")
 					M.smithae = list("")
@@ -6858,8 +11050,9 @@ proc
 					return
 				else
 					if(M.smirank == 4)
-						M.smith = list("Tools","Cancel","Back")
-						M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Cancel","Back")
+						M.smith = list("Tools","Misc.","Cancel","Back")
+						M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+						M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Cancel","Back")
 						M.smithw = list("")
 						M.smithl = list("")
 						M.smithae = list("")
@@ -6868,8 +11061,9 @@ proc
 						return
 					else
 						if(M.smirank == 5)
-							M.smith = list("Tools","Cancel","Back")
-							M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Cancel","Back")
+							M.smith = list("Tools","Misc.","Cancel","Back")
+							M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+							M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Cancel","Back")
 							M.smithw = list("")
 							M.smithl = list("")
 							M.smithae = list("")
@@ -6878,8 +11072,9 @@ proc
 							return
 						else
 							if(M.smirank == 6)
-								M.smith = list("Tools","Cancel","Back")
-								M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Cancel","Back")
+								M.smith = list("Tools","Misc.","Cancel","Back")
+								M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+								M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Cancel","Back")
 								M.smithw = list("")
 								M.smithl = list("")
 								M.smithae = list("")
@@ -6888,8 +11083,9 @@ proc
 								return
 							else
 								if(M.smirank == 7)
-									M.smith = list("Tools","Weapons","Cancel","Back")
-									M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Cancel","Back")
+									M.smith = list("Tools","Misc.","Weapons","Cancel","Back")
+									M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+									M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Sickle blade","Cancel","Back")
 									M.smithw = list("Broad Sword","Cancel","Back")
 									M.smithl = list("")
 									M.smithae = list("")
@@ -6898,77 +11094,89 @@ proc
 									return
 								else
 									if(M.smirank == 8)
-										M.smith = list("Tools","Weapons","Armors","Cancel","Back")
-										M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Chisel Blade","Cancel","Back")
+										M.smith = list("Tools","Weapons","Armors","Misc.","Cancel","Back")
+										M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+										M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Sickle blade","Chisel Blade","Cancel","Back")
 										M.smithw = list("Broad Sword","War Sword","Cancel","Back")
 										M.smithl = list("")
 										M.smithae = list("Giu Hide Vestments","Monk Tunic","Giu ShellHide Corslet","Cancel","Back")
 										M.smithad = list("CopperPlate Cuirass","Cancel","Back")
-										M.smithao = list("LeadPlate Battlegear","Cancel","Back")
+										M.smithao = list("IronPlate Battlegear","Cancel","Back")
 										return
 									else
 										if(M.smirank == 9)
-											M.smith = list("Tools","Weapons","Armors","Cancel","Back")
-											M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Chisel Blade","Cancel","Back")
+											M.smith = list("Tools","Weapons","Armors","Misc.","Cancel","Back")
+											M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+											M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Sickle blade","Chisel Blade","Cancel","Back")
 											M.smithw = list("Broad Sword","War Sword","Battle Sword","Cancel","Back")
 											M.smithl = list("")
 											M.smithae = list("Cancel","Giu Hide Vestments","Monk Tunic","Giu ShellHide Corslet","Giu Shell Vestments","Iron Studded Tunic","Gou ShellPlate Corslet")
-											M.smithad = list("Cancel","LeadPlate Cuirass","CopperPlate Cuirass")
-											M.smithao = list("Cancel","LeadPlate Battlegear","BronzePlate Battlegear")
+											M.smithad = list("Cancel","IronPlate Cuirass","CopperPlate Cuirass")
+											M.smithao = list("Cancel","IronPlate Battlegear","BronzePlate Battlegear")
 											return
 										else
 											if(M.smirank == 10)
-												M.smith = list("Tools","Weapons","Armors","Lamps","Cancel","Back")
-												M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
-												M.smithw = list("Broad Sword","War Sword","Battle Sword","Battle Hammer","Cancel","Back")
+												M.smith = list("Tools","Weapons","Armors","Lamps","Misc.","Cancel","Back")
+												M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+												M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
+												M.smithw = list("Broad Sword","War Sword","Battle Sword","Long Sword","War Maul","Battle Hammer","Cancel","Back")
 												M.smithl = list("Iron Lamp Head","Cancel","Back")//roads and floors first then walls and doors then more advanced of the same etc
 												M.smithae = list("Cancel","Giu Hide Vestments","Monk Tunic","Giu ShellHide Corslet","Giu Shell Vestments","Iron Studded Tunic","Gou ShellPlate Corslet","Gou ShellHide Vestments","Copper ShellPlate Tunic","Iron Platemail Corslet")
-												M.smithad = list("Cancel","LeadPlate Cuirass","CopperPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass")
-												M.smithao = list("Cancel","LeadPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear")
+												M.smithad = list("Cancel","IronPlate Cuirass","CopperPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass")
+												M.smithao = list("Cancel","IronPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear")
 												return
 											else
 												if(M.smirank == 11)
-													M.smith = list("Tools","Weapons","Armors","Lamps","Cancel","Back")
-													M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
-													M.smithw = list("Broad Sword","War Sword","Battle Sword","Battle Hammer","Battle Scythe","Cancel","Back")
+													M.smith = list("Tools","Weapons","Armors","Lamps","Misc.","Cancel","Back")
+													M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+													M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
+													M.smithw = list("Broad Sword","War Sword","Battle Sword","Long Sword","War Maul","Battle Hammer","War Axe","Cancel","Back")
 													M.smithl = list("Iron Lamp Head","Copper Lamp Head","Cancel","Back")//roads and floors first then walls and doors then more advanced of the same etc
 													M.smithae = list("Cancel","Giu Hide Vestments","Monk Tunic","Giu ShellHide Corslet","Giu Shell Vestments","Iron Studded Tunic","Gou ShellPlate Corslet","Gou ShellHide Vestments","Copper ShellPlate Tunic","Iron Platemail Corslet","Coppermail Vestments","Bronzemail Tunic","Copper Platemail Corslet")
-													M.smithad = list("Cancel","CopperPlate Cuirass","LeadPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass")
-													M.smithao = list("Cancel","LeadPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear")
+													M.smithad = list("Cancel","CopperPlate Cuirass","IronPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass")
+													M.smithao = list("Cancel","IronPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear")
 													return
 												else
 
 													if(M.smirank == 12)
-														M.smith = list("Tools","Weapons","Armors","Lamps","Cancel","Back")
-														M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
-														M.smithw = list("Broad Sword","War Sword","Battle Sword","Battle Hammer","Battle Scythe","War Scythe","Cancel","Back")
+														M.smith = list("Tools","Weapons","Armors","Lamps","Misc.","Cancel","Back")
+														M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+														M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
+														M.smithw = list("Broad Sword","War Sword","Battle Sword","Long Sword","War Maul","Battle Hammer","War Axe","Battle Axe","Cancel","Back")
 														M.smithl = list("Iron Lamp Head","Copper Lamp Head","Bronze Lamp Head","Cancel","Back")//roads and floors first then walls and doors then more advanced of the same etc
 														M.smithae = list("Cancel","Giu Hide Vestments","Giu Shell Vestments","Gou ShellHide Vestments","Coppermail Vestments","Zinc ShellPlate Vestments","Steel ShellPlate Vestments","Monk Tunic","Iron Studded Tunic","Copper ShellPlate Tunic","Bronzemail Tunic","Zincmail Tunic","Landscaper Tunic","Giu ShellHide Corslet","Gou ShellPlate Corslet","Iron Platemail Corslet","Copper Platemail Corslet","Bronzemail Corslet","Zinc Platemail Corslet")
-														M.smithad = list("Cancel","CopperPlate Cuirass","LeadPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass","Aurelian SteelPlate Cuirass")
-														M.smithao = list("Cancel","LeadPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear","ZincPlate Battlegear","SteelPlate Battlegear")
+														M.smithad = list("Cancel","CopperPlate Cuirass","IronPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass","Aurelian SteelPlate Cuirass")
+														M.smithao = list("Cancel","IronPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear","ZincPlate Battlegear","SteelPlate Battlegear")
 														return
 													else
 
 														if(M.smirank == 13)
-															M.smith = list("Tools","Weapons","Armors","Lamps","Cancel","Back")
-															M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
-															M.smithw = list("Broad Sword","War Sword","Battle Sword","Battle Hammer","Battle Scythe","War Scythe","Cancel","Back")
+															M.smith = list("Tools","Weapons","Armors","Lamps","Misc.","Cancel","Back")
+															M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+															M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
+															M.smithw = list("Broad Sword","War Sword","Battle Sword","Long Sword","War Maul","Battle Hammer","War Axe","Battle Axe","War Scythe","Cancel","Back")
 															M.smithl = list("Iron Lamp Head","Copper Lamp Head","Bronze Lamp Head","Brass Lamp Head","Cancel","Back")//roads and floors first then walls and doors then more advanced of the same etc
 															M.smithae = list("Cancel","Giu Hide Vestments","Giu Shell Vestments","Gou ShellHide Vestments","Coppermail Vestments","Zinc ShellPlate Vestments","Steel ShellPlate Vestments","Monk Tunic","Iron Studded Tunic","Copper ShellPlate Tunic","Bronzemail Tunic","Zincmail Tunic","Landscaper Tunic","Giu ShellHide Corslet","Gou ShellPlate Corslet","Iron Platemail Corslet","Copper Platemail Corslet","Bronzemail Corslet","Zinc Platemail Corslet")
-															M.smithad = list("Cancel","CopperPlate Cuirass","LeadPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass","Aurelian SteelPlate Cuirass")
-															M.smithao = list("Cancel","LeadPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear","ZincPlate Battlegear","SteelPlate Battlegear")
+															M.smithad = list("Cancel","CopperPlate Cuirass","IronPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass","Aurelian SteelPlate Cuirass")
+															M.smithao = list("Cancel","IronPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear","ZincPlate Battlegear","SteelPlate Battlegear")
 															return
 														else
 
 															if(M.smirank == 14)
-																M.smith = list("Tools","Weapons","Armors","Lamps","Cancel","Back")
-																M.smitht = list("Carving Knife blade","Axe blade","Pickaxe head","Shovel blade","Hoe blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
-																M.smithw = list("Broad Sword","War Sword","Battle Sword","Battle Hammer","Battle Scythe","War Scythe","Cancel","Back")
+																M.smith = list("Tools","Weapons","Armors","Lamps","Misc.","Cancel","Back")
+																M.smithm = list("Iron Ribbon","Iron Nails","Cancel","Back")
+																M.smitht = list("Carving Knife blade","Hammer head","File blade","Axe blade","Pickaxe head","Iron Reel","Shovel blade","Hoe blade","Saw blade","Sickle blade","Chisel Blade","Trowel blade","Cancel","Back")
+																M.smithw = list("Broad Sword","War Sword","Battle Sword","Long Sword","War Maul","Battle Hammer","War Axe","Battle Axe","War Scythe","Battle Scythe","Cancel","Back")
 																M.smithl = list("Iron Lamp Head","Copper Lamp Head","Bronze Lamp Head","Brass Lamp Head","Steel Lamp Head","Cancel","Back")//roads and floors first then walls and doors then more advanced of the same etc
 																M.smithae = list("Cancel","Giu Hide Vestments","Giu Shell Vestments","Gou ShellHide Vestments","Coppermail Vestments","Zinc ShellPlate Vestments","Steel ShellPlate Vestments","Monk Tunic","Iron Studded Tunic","Copper ShellPlate Tunic","Bronzemail Tunic","Zincmail Tunic","Landscaper Tunic","Giu ShellHide Corslet","Gou ShellPlate Corslet","Iron Platemail Corslet","Copper Platemail Corslet","Bronzemail Corslet","Zinc Platemail Corslet")
-																M.smithad = list("Cancel","CopperPlate Cuirass","LeadPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass","Aurelian SteelPlate Cuirass")
-																M.smithao = list("Cancel","LeadPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear","ZincPlate Battlegear","SteelPlate Battlegear")
+																M.smithad = list("Cancel","CopperPlate Cuirass","IronPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass","Aurelian SteelPlate Cuirass")
+																M.smithao = list("Cancel","IronPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear","ZincPlate Battlegear","SteelPlate Battlegear")
 																return
+															else
+																if (M.smirank>=14)
+																	//M << "<b><font color=silver>You've reached Max Build Rank!"
+																	M.smirank = 14
+																	return
 /*
 		//armor
 	  //requirements
@@ -7031,10 +11239,10 @@ proc
 			M.smithae.Add("Zinc Platemail Corslet")
 	  //Defensive
 	    //Landscaper
-		if((GS0 in M.contents)&&(GH0 in M.contents)&&(M.smirank == 0)&&(M.smiexp >= 0)) "CopperPlate Cuirass","LeadPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass","Aurelian SteelPlate Cuirass"
+		if((GS0 in M.contents)&&(GH0 in M.contents)&&(M.smirank == 0)&&(M.smiexp >= 0)) "CopperPlate Cuirass","IronPlate Cuirass","Iron HalfPlate Cuirass","Bronze SolidPlate Cuirass","Boreal ZincPlate Cuirass","Aurelian SteelPlate Cuirass"
 			M.smithad.Add("CopperPlate Cuirass")
 		if((GS1 in M.contents)&&(GH1 in M.contents)&&(M.smirank == 1)&&(M.smiexp >= 10))
-			M.smithad.Add("LeadPlate Cuirass")
+			M.smithad.Add("IronPlate Cuirass")
 		if((GS2 in M.contents)&&(GH2 in M.contents)&&(M.smirank == 2)&&(M.smiexp >= 50))
 			M.smithad.Add("Iron HalfPlate Cuirass")
 		if((GS3 in M.contents)&&(GH3 in M.contents)&&(M.smirank == 3)&&(M.smiexp >= 100))
@@ -7045,8 +11253,8 @@ proc
 			M.smithad.Add("Aurelian SteelPlate Cuirass")
 	  //Offensive
 	    //Landscaper
-		if((GS0 in M.contents)&&(GH0 in M.contents)&&(M.smirank == 0)&&(M.smiexp >= 0))"LeadPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear","ZincPlate Battlegear","SteelPlate Battlegear"
-			M.smithao.Add("LeadPlate Battlegear")
+		if((GS0 in M.contents)&&(GH0 in M.contents)&&(M.smirank == 0)&&(M.smiexp >= 0))"IronPlate Battlegear","BronzePlate Battlegear","IronPlate Battlegear","Omphalos BronzePlate Battlegear","ZincPlate Battlegear","SteelPlate Battlegear"
+			M.smithao.Add("IronPlate Battlegear")
 		if((GS1 in M.contents)&&(GH1 in M.contents)&&(M.smirank == 1)&&(M.smiexp >= 10))
 			M.smithao.Add("BronzePlate Battlegear")
 		if((GS2 in M.contents)&&(GH2 in M.contents)&&(M.smirank == 2)&&(M.smiexp >= 50))
@@ -7144,8 +11352,13 @@ proc
 		if((M.smirank == 14)&&(M.smiexp >= 79040))
 			//M.smirank += 1
 			//M.msmeexp = 300
+			M.msmiexp = M.smiexp
 			usr << "<b><font color=silver>You know all there is to know about Smithing!"
 			//M.smithw.Add("War Scythe")
+		else
+			if(M.smirank >= 14)
+				//M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
+				M.smirank = 14
 	//lamps
 		//if((M.smirank >= 0)&&(M.smiexp >= 0))
 			//usr << "<b><font color=silver>Your Build Rank went up!"
@@ -7204,62 +11417,170 @@ proc
 						//src.name="Fire"
 				else
 					usr << "You need to put the Gloves on to fuel the fire!"*/
+
+
 obj
-	proc
+	proc//Used by fountains, not called by water turfs
+		FindJarWF(mob/players/M)
+			for(var/obj/items/tools/Containers/Jar/J in M.contents)
+				if(J.filled==0)
+					return J
+		FindVesWF(mob/players/M)
+			for(var/obj/items/tools/Containers/Vessel/J in M.contents)
+				if(J.name=="Vessel"||J.name=="Half Filled Vessel")
+					return J
 		Fill()
 			set waitfor = 0
 			var/mob/players/M = usr
 			if(M.Doing == 0)
 				if(M.JRequipped==1) //If user PickAxe is more that or equal to 1
-					var/obj/items/tools/Jar/J = locate() in M.contents
-					if(J.name=="Filled Jar")
+					var/obj/items/tools/Containers/Jar/J = locate() in M.contents
+					//var/obj/items/tools/Containers/Vessel/J2 = locate() in M.contents
+					//if(!J)
+					//	return
+					if(J.filled==1)
 						M<<"The Jar is already Full."
 						return
-					if(M.huntinglevel <= 10) //If user mining skill is less than or equal to 19
-						if(prob(100)) //30% probabilty of something happening
-							usr << "You begin to fill the Jar."
-							M.Doing = 1
-							var/obj/items/tools/Jar/R = locate() in M.contents
-							R.overlays += /obj/liquid
-							R.name="Filled Jar"
-							sleep(5) //Delay 3 seconds
-							usr << "You finish filling the Jar." //message to user saying he/she mined something
-							M.Doing = 0
-							return
-					else //else contrasting the if at the top
-						usr << "You already filled the Jar!" //message to user saying that they need a pick axe to mine
+					else if(J.filled==0&&M.JRequipped==1&&J.CType=="Empty")
+					//if(M.huntinglevel <= 10) //If user mining skill is less than or equal to 19
+						//if(prob(100)) //30% probabilty of something happening
+						usr << "You begin to fill the Jar. Test1"
+						M.Doing = 1
+						J.CType="Water"
+						J.volume=25
+						J.name = "Filled Jar"
+						//var/obj/items/tools/Containers/Jar/R = locate() in M.contents
+						J.icon_state="Jarw"
+						J.filled=1
+						sleep(5) //Delay 3 seconds
+						usr << "You finish filling the Jar. Test1" //message to user saying he/she mined something
+						M.Doing = 0
 						return
 				else
-					usr << "You need to hold the Jar to fill it!"
+					//usr << "You need to hold the Jar to fill it!"
+					goto Vessel
+					//return
+
+				Vessel
+				var/obj/items/tools/Containers/Vessel/J2 = locate() in M.contents
+				if(!J2)
 					return
+				else if(J2.name=="Filled Vessel")
+					//M<<"The Vessel is already Full."
+					return
+				else if(J2.name=="Vessel"&&J2.volume<J2.volumecap&&J2.CType=="Empty")
+				//if(M.huntinglevel <= 10) //If user mining skill is less than or equal to 19
+					//if(prob(100)) //30% probabilty of something happening
+					usr << "You begin to fill the Vessel."
+					M.Doing = 1
+					//var/obj/items/tools/Containers/Jar/R = locate() in M.contents
+					J2.icon_state = "Vesselw"
+					J2.name="Filled Vessel"
+					J2.CType="Water"
+					J2.volume=J2.volumecap
+					sleep(5) //Delay 3 seconds
+					usr << "You finish filling the Vessel." //message to user saying he/she mined something
+					M.Doing = 0
+					return
+				else if(J2.name=="Half Filled Vessel"&&J2.volume<J2.volumecap&&J2.CType=="Water")
+				//if(M.huntinglevel <= 10) //If user mining skill is less than or equal to 19
+					//if(prob(100)) //30% probabilty of something happening
+					usr << "You begin to fill the Vessel."
+					M.Doing = 1
+					//var/obj/items/tools/Containers/Jar/R = locate() in M.contents
+					J2.icon_state = "Vesselw"
+					J2.CType="Water"
+					J2.name="Filled Vessel"
+					J2.volume=J2.volumecap
+					sleep(5) //Delay 3 seconds
+					usr << "You finish filling the Vessel." //message to user saying he/she mined something
+					M.Doing = 0
+					return
+
+
+
 turf
 
-	proc
-		Fill()
+	proc//this proc is called by anything that is a turf, such as water, when a user activates the action to fill a container, such as a jar. Called by obj/items/tools/Containers/Jar etc
+		FindJarWT(mob/players/M)
+			for(var/obj/items/tools/Containers/Jar/J in M.contents)
+				locate(J)
+				if(J.suffix=="Equipped"&&J.CType=="Empty")
+					return J
+		FindVesWT(mob/players/M)
+			for(var/obj/items/tools/Containers/Vessel/J2 in M.contents)
+				//locate(J2)
+				if(J2.name=="Vessel"||J2.name=="Half Filled Vessel")
+					return J2
+
+		Fill()//working -- checks if user is doing anything, checks if jar is equipped, locates jar in user contents, checks if the jar is already full, if not, then runs
 			set waitfor = 0
-			var/mob/players/M = usr
+			var/mob/players/M
+			M = usr
 			if(M.Doing == 0)
-				if(M.JRequipped==1) //If user PickAxe is more that or equal to 1
-					var/obj/items/tools/Jar/J = locate() in M.contents
-					if(J.name=="Filled Jar")
-						M<<"The Jar is already Full."
-						return
-					if(M.huntinglevel <= 10) //If user mining skill is less than or equal to 19
-						if(prob(100)) //30% probabilty of something happening
-							usr << "You begin to fill the Jar."
+				var/obj/items/tools/Containers/Jar/J = FindJarWT(M)
+				var/obj/items/tools/Containers/Vessel/J2 = FindVesWT(M)
+				locate(J)
+				if(istype(J,/obj/items/tools/Containers/Jar))
+					if(J.suffix=="Equipped"&&M.JRequipped==1) //If user Jar is equal to 1
+
+						//var/obj/items/tools/Containers/Vessel/J2 = locate() in M.contents
+						//if(!J)
+						//	return
+						if(J.suffix=="Equipped"&&J.filled==1)
+							M<<"The Jar is already Full of Water."
+							return
+						else if(J.suffix=="Equipped"&&J.filled==0&&M.JRequipped==1&&J.CType=="Empty")//If the jar isn't full and it is equipped and the contents is empty
+						//if(M.huntinglevel <= 10) //If user mining skill is less than or equal to 19
+							//if(prob(100)) //30% probabilty of something happening
+							usr << "You begin to fill the Jar with Water."//Notify the user that they have started filling the jar
 							M.Doing = 1
-							var/obj/items/tools/Jar/R = locate() in M.contents
-							R.overlays += /obj/liquid
-							R.name="Filled Jar"
-							sleep(5) //Delay 3 seconds
-							usr << "You finish filling the Jar." //message to user saying he/she mined something
+							J.CType="Water"
+							J.volume=25
+							J.name = "Filled Jar"
+							J.icon_state="Jarw"
+							J.filled=1
+							sleep(5) //Delay
+							usr << "You finish filling the Jar with Water." //message to user saying he/she mined something
 							M.Doing = 0
 							return
-					else //else contrasting the if at the top
-						usr << "You already filled the Jar!" //message to user saying that they need a pick axe to mine
-						return
-				else
-					usr << "You need to hold the Jar to fill it!"
+				else if(istype(J2,/obj/items/tools/Containers/Vessel))
+					goto Vessel
+
+				Vessel
+				//var/obj/items/tools/Containers/Vessel/J2 = locate() in M.contents
+				if(!J2)
+					return
+				else if(J2.name=="Filled Vessel")
+					//M<<"The Vessel is already Full."
+					return
+				else if(J2.name=="Vessel"&&J2.volume<J2.volumecap&&J2.CType=="Empty")
+				//if(M.huntinglevel <= 10) //If user mining skill is less than or equal to 19
+					//if(prob(100)) //30% probabilty of something happening
+					usr << "You begin to fill the Vessel."
+					M.Doing = 1
+					//var/obj/items/tools/Containers/Jar/R = locate() in M.contents
+					J2.icon_state = "Vesselw"
+					J2.name="Filled Vessel"
+					J2.CType="Water"
+					J2.volume=J2.volumecap
+					sleep(5) //Delay 3 seconds
+					usr << "You finish filling the Vessel." //message to user saying he/she mined something
+					M.Doing = 0
+					return
+				else if(J2.name=="Half Filled Vessel"&&J2.volume<J2.volumecap&&J2.CType=="Water")
+				//if(M.huntinglevel <= 10) //If user mining skill is less than or equal to 19
+					//if(prob(100)) //30% probabilty of something happening
+					usr << "You begin to fill the Vessel."
+					M.Doing = 1
+					//var/obj/items/tools/Containers/Jar/R = locate() in M.contents
+					J2.icon_state = "Vesselw"
+					J2.CType="Water"
+					J2.name="Filled Vessel"
+					J2.volume=J2.volumecap
+					sleep(5) //Delay 3 seconds
+					usr << "You finish filling the Vessel." //message to user saying he/she mined something
+					M.Doing = 0
 					return
 		/*Fuel()
 			var/mob/players/M = usr
@@ -7299,6 +11620,7 @@ turf
 			if(M.Doing == 0)
 				if(M.FPequipped==1&&get_dist(src,M)<2&&get_dir(M,src)==M.dir) //If user PickAxe is more that or equal to 1
 					//M << "You begin to fish."
+					M << "You cast your line..."
 					if(M.fishinglevel <= 5) //If user mining skill is less than or equal to 19
 						//M << "You begin to fish."
 						if((prob(25)&&pick(1)))//if(R<=5)

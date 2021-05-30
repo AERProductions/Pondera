@@ -90,7 +90,7 @@ obj/
 						src.owner2 = usr.key
 						usr<<"You are now the Storage Owner"
 
-					Store(var/obj/items/Log/obj in usr) //You can remove /Food to make it select from all items
+					Store(var/obj/items/Logs/obj in usr) //You can remove /Food to make it select from all items
 						set src in view(1)
 						if(owner2 == usr.key)
 							if (obj.logs == 1)

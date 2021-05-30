@@ -109,7 +109,7 @@ client/base_num_characters_allowed = 4
 */
 client/base_autoload_character = 1
 client/base_autosave_character = 1
-client/base_autodelete_mob = 0
+client/base_autodelete_mob = 1
 
 /*
  Saving verbs
@@ -143,6 +143,58 @@ mob/BaseCamp
 	New()
 		..()
 
+	SelectModeMenu(list/menu)
+		// For each menu item, we'll create an HTML link in a table.
+		// The Topic() proc gets called when a link is clicked.
+		// The src setting tells it to call Topic() for this object.
+		usr << browse_rsc('chcmenu.jpg', "chcmenu.jpg")
+		usr << browse_rsc('cscmenu.jpg', "cscmenu.jpg")
+		usr << browse_rsc('choose.png', "choose.png")
+		usr << browse_rsc('new.png', "new.png")
+		usr << browse_rsc('delete.png', "delete.png")
+		usr << browse_rsc('quit.png', "quit.png")
+		usr << browse_rsc('dcmenu.jpg', "dcmenu.jpg")
+		var/menu_rows = ""
+		for (var/item in menu)
+			menu_rows += {"<tr><td align="center"><font size=5><a href="?menu=select_mode;choice=[item];src=\ref[src]">\[[item]]</a></font></td></tr>"}
+		var/page = {"
+		<style type="text/css">
+		 table.c1 {position:absolute; left:0px; top:0px; width:px; height:px; z-index:1}
+		 table.c0 {position:absolute; left:132px; top:60px; width:px; height:px; z-index:2}
+		</style>
+		<style type="text/css">
+		 body {
+		  background-color: #206B24;
+		  color: #10ca63;
+		  position: absolute;
+		  input: focus;
+		  max-height: 400px;
+		  max-width: 398px;
+		  text-align: center;
+		 }
+		 :link { color: #10ca63 }
+		 :visited { color: #003DCA }
+		</style>
+		<table align="center" id="Layer0" class="c0" cellspacing="2" cellpadding="2" border="0">
+		<tbody>
+		<tr>
+		<td align="center">[menu_rows]</td>
+		</tr>
+		</tbody>
+		</table>
+		<table id="Layer1" class="c1" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<tr>
+		<td><img src="cscmenu.jpg" alt="" border="0"></td>
+		</tr>
+		</tbody>
+		</table>
+		"}
+
+		// Send them the page.
+		src << browse(page, "window=ModeMenu;titlebar=0;can_close=0;can_minimize=0;allow_transparency=true;size=400x398;focus=true;can_resize=0")
+
+
 	ChooseCharacterMenu(list/menu)
 		// For each menu item, we'll create an HTML link in a table.
 		// The Topic() proc gets called when a link is clicked.
@@ -159,25 +211,27 @@ mob/BaseCamp
 			menu_rows += {"<tr><td align="center"><font size=5><a href="?menu=choosing_character;choice=[item];src=\ref[src]">\[[item]]</a></font></td></tr>"}
 		var/page = {"
 		<style type="text/css">
-		 table.c4 {position:absolute; left:50px; top:195px; width:px; height:px; z-index:1}
 		 table.c1 {position:absolute; left:0px; top:0px; width:px; height:px; z-index:1}
-		 table.c0 {position:absolute; left:95px; top:60px; width:px; height:px; z-index:2}
+		 table.c0 {position:absolute; left:132px; top:60px; width:px; height:px; z-index:2}
 		</style>
 		<style type="text/css">
 		 body {
 		  background-color: #206B24;
-		  color: #206B24;
+		  color: #10ca63;
 		  position: absolute;
 		  input: focus;
 		  max-height: 400px;
 		  max-width: 398px;
+		  text-align: center;
 		 }
-		 :link { color: #20B728 }
+		 :link { color: #10ca63 }
 		 :visited { color: #003DCA }
 		</style>
-		<table id="Layer0" class="c0" cellspacing="5" cellpadding="5" border="0">
+		<table align="center" id="Layer0" class="c0" cellspacing="2" cellpadding="2" border="0">
 		<tbody>
-		[menu_rows]
+		<tr>
+		<td align="center">[menu_rows]</td>
+		</tr>
 		</tbody>
 		</table>
 		<table id="Layer1" class="c1" cellspacing="0" cellpadding="0" border="0">
@@ -200,23 +254,26 @@ mob/BaseCamp
 		var/page = {"
 		<style type="text/css">
 		 table.c1 {position:absolute; left:0px; top:0px; width:px; height:px; z-index:1}
-		 table.c0 {position:absolute; left:101px; top:60px; width:px; height:px; z-index:2}
+		 table.c0 {position:absolute; left:144px; top:60px; width:px; height:px; z-index:2}
 		</style>
 		<style type="text/css">
 		 body {
 		  background-color: #206B24;
-		  color: #206B24;
+		  color: #10ca63;
 		  position: absolute;
 		  input: focus;
 		  max-height: 400px;
 		  max-width: 398px;
+		  text-align: center;
 		 }
-		 :link { color: #20B728 }
+		 :link { color: #10ca63 }
 		 :visited { color: #003DCA }
 		</style>
-		<table id="Layer0" class="c0" cellspacing="5" cellpadding="5" border="0">
+		<table align="center" id="Layer0" class="c0" cellspacing="2" cellpadding="2" border="0">
 		<tbody>
-		[menu_rows]
+		<tr>
+		<td align="center">[menu_rows]</td>
+		</tr>
 		</tbody>
 		</table>
 		<table id="Layer1" class="c1" cellspacing="0" cellpadding="0" border="0">
@@ -231,15 +288,15 @@ mob/BaseCamp
 		// Send them the page.
 		src << browse(page, "window=CharacterMenu;titlebar=0;can_close=0;can_minimize=0;allow_transparency=true;size=400x398;focus=true;can_resize=0")
 
-	QuitMenu(list/menu)
+	/*QuitMenu(list/menu)
 		var/menu_rows = ""
 		for (var/item in menu)
 			menu_rows += {"<td align="center"><a href="?menu=quit;choice=[item];src=\ref[src]"><img src="quit.jpg" border="0"></a></td>"}
 		var/page = {"
 		<style type="text/css">
-		 table.c4 {position:absolute; left:75px; top:195px; width:px; height:px; z-index:1}
+		 table.c4 {position:absolute; left:115px; top:195px; width:px; height:px; z-index:1}
 		 table.c1 {position:absolute; left:0px; top:0px; width:px; height:px; z-index:1}
-		 table.c0 {position:absolute; left:75px; top:116px; width:px; height:px; z-index:2}
+		 table.c0 {position:absolute; left:115px; top:116px; width:px; height:px; z-index:2}
 		</style>
 		<style type="text/css">
 		 body {
@@ -250,13 +307,13 @@ mob/BaseCamp
 		  max-height:400px;
 		  max-width:398px;
 		 }
-		 :link { color: #20B728 }
+		 :link { color: #22be68 }
 		 :visited { color: #003DCA }
 		</style>
-		<table id="Layer0" class="c0" cellspacing="0" cellpadding="0" border="0">
+		<table align="center" id="Layer0" class="c0" cellspacing="0" cellpadding="0" border="0">
 		<tbody>
 		<tr>
-		<td><tr><td><td align="center"><a href="?menu=choosing_character;choice=;src=\ref[src]"><img src="choose.png" border="0">[menu_rows]</a></td></tr></td>
+		<td align="center"><a href="?menu=choosing_character;choice=;src=\ref[src]"><img src="choose.png" border="0">[menu_rows]</a></td>
 		</tr>
 		</tbody>
 		</table>
@@ -267,23 +324,30 @@ mob/BaseCamp
 		</tr>
 		</tbody>
 		</table>
-		<table id="Layer4" class="c4" cellspacing="0" cellpadding="0" border="0">
+		<table align="center" id="Layer4" class="c4" cellspacing="0" cellpadding="0" border="0">
 		<tbody>
 		<tr>
-		<td><tr><td><td align="center"><a href="?menu=quit;choice=;src=\ref[src]"><img src="quit.png" border="0">[menu_rows]</a></td></tr></td>
+		<td align="center"><a href="?menu=quit;choice=;src=\ref[src]"><img src="quit.png" border="0">[menu_rows]</a></td>
 		</tr>
 		</tbody>
 		"}
 
 		// Send them the page.
 		src << browse(page, "window=CharacterMenu;titlebar=0;can_close=0;can_minimize=0;allow_transparency=true;size=400x398;focus=true;can_resize=0")
-
+*/
 
 	Topic(href, href_list[])
 		// This is called when the user clicks on a link from the HTML page.
 		// We need to let the library know which choice was made.
 		var/menu = href_list["menu"]
 		switch(menu)
+			if ("select_mode")
+				// Close the menu window.
+				src << browse(null, "window=ModeMenu")
+
+				var/choice = href_list["choice"]
+				SelectModeResult(choice)
+				return
 			if ("choosing_character")
 				// Close the menu window.
 				src << browse(null, "window=CharacterMenu")
@@ -304,11 +368,11 @@ mob/BaseCamp
 				DeleteCharacterResult(choice)
 				return
 
-			if ("quit")
+			/*if ("quit")
 				// Close the menu window.
 				src << browse(null, "window=CharacterMenu")
 				QuitMenuResult()
-				return
+				return*/
 
 		// If we got this far, this didn't come from one of our links, so let superclass handle.
 		return ..()
@@ -344,6 +408,7 @@ mob/base_InitFromSavefile()
 	var/mob/players/M
 	M = src
 	M.browse_once = 0
+
 	//spawn() if(client && _autotune_soundmobs) for(var/soundmob/soundmob in _autotune_soundmobs) listenSoundmob(soundmob)
 	//for(var/soundmob/soundmob in _autotune_soundmobs) //listenSoundmob(soundmob)
 	//call(/soundmob/proc/broadcast)(src)

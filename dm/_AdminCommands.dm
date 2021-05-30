@@ -1,16 +1,17 @@
 
-var
-	list/admins = list("aerproductions")
+//var
+	//list/admins = world.host
 
 mob
 	Login()
 		..()
-		if(admins.Find(ckey))
-			verbs += typesof(/mob/admin/verb)
+		//if(admins.Find(ckey))
+		if(ckeyEx("[usr.key]") == world.host&&MP==1)
+			verbs += typesof(/mob/players/Special1/verb)
 
-mob/admin/verb
+mob/players/Special1/verb
 	Create(O as anything in typesof(/obj, /mob))
 		set category = "Commands"
 		set desc = "Create any object or mob type."
 		if(O)
-			new O (loc)
+			new O (usr.loc)

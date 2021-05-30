@@ -3,7 +3,7 @@ turf
 		Foundations
 			Hfoundation
 				icon = 'dmi/64/build.dmi'
-				icon_state = "Hfoundation"
+				icon_state = "HFoundation"
 				layer = 1
 				density = 0
 				Entered(O)

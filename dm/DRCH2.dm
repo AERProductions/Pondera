@@ -12,12 +12,13 @@
  don't bug me about it, it's not my problem.
 */
 
-
+#define BASE_MENU_SELECT_MODE  "Single Player"
+#define BASE_MENU_SELECT_MODE2  "Multi-Player"
 #define BASE_MENU_CHOOSE_CHARACTER  "Choose Character"//ChooseCharacterMenu()
-#define BASE_MENU_CREATE_CHARACTER	"Create New Link"
+#define BASE_MENU_CREATE_CHARACTER	"Create Link"
 #define BASE_MENU_DELETE_CHARACTER	"Delete Link"
 #define BASE_MENU_CANCEL			"Cancel"
-#define BASE_MENU_QUIT				"Disengage Link"
+#define BASE_MENU_QUIT				"End Link"
 
 
 // Implementation
@@ -25,7 +26,7 @@ client/var/tmp
 	base_num_characters_allowed = 4
 	base_autoload_character = 1
 	base_autosave_character = 1
-	base_autodelete_mob = 0
+	base_autodelete_mob = 1
 	base_save_verbs = 1
 
 mob/players
@@ -82,7 +83,8 @@ mob
 			//if (!Move(destination))
 				//loc = destination
 			return
-
+	//verb/Mode()
+		//src << "verb SP [SP] | MP [MP] | SB [SB] | SM [SM] && SPs [SPs] | MPs [MPs] | SBs [SBs] | SMs [SMs]"
 /*
 	Read(savefile/F)
 		// Restore the mob's location if that has been specified and there is a map.
@@ -96,7 +98,12 @@ mob
 mob/BaseCamp
 	base_save_allowed = 0			// BaseCamp mobs are for admin only.
 	var
-		Form/NewCharacter/char_form = new()
+		Form/NewCharacterSB/SBchar_form = new()
+		Form/NewCharacterSM/SMchar_form = new()
+		Form/NewCharacterMPSB/MPSBchar_form = new()
+		Form/NewCharacterMPSM/MPSMchar_form = new()
+		Form/ModeMenu/mode_form = new()
+		//Form/SOS/mode2_form = new()
 		//Form/ChooseCharacter/choose_char = new()
 		error_text = ""
 
@@ -104,6 +111,9 @@ mob/BaseCamp
 		var/list/available_char_names = client.base_CharacterNames()
 		var/list/menu = new()
 		menu += available_char_names
+		if(ckeyEx("[usr.key]") == world.host)
+			TimeLoad()
+		//SetMode()
 		//var/list/names
 		//RemoveVerbs()
 		//call(/soundmob/proc/broadcast)(src)
@@ -112,13 +122,13 @@ mob/BaseCamp
 		winset(usr, "loadscrn","parent=loadscrn; is-visible = true; focus = true")
 		winset(usr, "default","parent=default; is-visible = true; focus = true")
 		//sleep(9)
-		winset(usr, "loadscrn","parent=loadscrn; is-visible = false; focus = false")
-		winset(usr, "macros","parent=macros; is-visible = true; focus = true")
+		//winset(usr, "loadscrn","parent=loadscrn; is-visible = false; focus = false")
+		//winset(usr, "macros","parent=macros; is-visible = true; focus = true")
 		world << "<center><b><font color=#00bfff>[src.key] has entered this realm!<p>"
 		//world << "Tree amount = [treelist.len]"
 		//sleep(3)
 		//src << "<font color=gold><center>Information: <font color=gold>Arrow or wasd keys to walk, click/double-click to sprint, use, or attack. <br> Use the stance positions, V is sprint mode, C is Strafe mode and X is Hold Position. <br>Ctrl+E provides a quick-unequip menu and Ctrl+G provides a quick-get menu and ctrl+mouse wheel is zoom."
-		src << "<center><b><font color=#00bfff>[src.key], Welcome to Pondera Sandbox mode! <p> Find Bugs? Report on the Hub, Pager or e-mail (AERSupport@live.com).<br>"// - (http://pondera.aerproductions.com | AERSupport@live.com)."
+		src << "<center><b><font color=#00bfff>[src.key], Welcome to Pondera! <p> Find Bugs? Report on the Hub, Pager or e-mail (AERSupport@live.com).<p> Hint: If the delete character menu shows a blank page, Hit F5!<br>"// - (http://pondera.aerproductions.com | AERSupport@live.com)."
 		//spawn()
 		//ChooseCharacter()
 		//QuitMenu()
@@ -129,7 +139,15 @@ mob/BaseCamp
 			//FirstTimePlayer()
 		//else
 			//if (length(names))//if (length(available_char_names) == client.base_num_characters_allowed)
-		ChooseCharacter()
+		sleep(5)
+		winset(usr, "loadscrn","parent=loadscrn; is-visible = false; focus = false")
+		//FirstTimePlayer()
+
+		//world << "Basecamp login SP [SP] | MP [MP] | SB [SB] | SM [SM] && SPs [SPs] | MPs [MPs] | SBs [SBs] | SM [SMs]"
+		if(SP!=1&&MP!=1)
+			FirstTimePlayer()
+		else
+			ChooseCharacter()
 			//ooseCharacterMenu(menu)
 		//client.base_ChooseCharacter()
 		/*winset(usr,"default.Build","is-visible=false")
@@ -155,7 +173,7 @@ mob/BaseCamp
 		winset(usr,"default.label11","is-visible=false")
 		winset(usr,"default.label12","is-visible=false")
 		winset(usr,"default.label13","is-visible=false")*/
-		//light = new /light/day_night()
+		//new /light/day_night()
 
 		// we turn the player's light source off initially, so
 		// your light doesn't interfere with the shadows you cast.
@@ -177,7 +195,16 @@ mob/BaseCamp
 
 //mob/BaseCamp/FirstTimePlayer
 	proc/FirstTimePlayer()
-		src.char_form.DisplayForm()
+		if(ckeyEx("[usr.key]") == world.host)
+		//src << "SP [SP] | MP [MP] | SB [SB] | SM [SM]"
+		//SelectMode()
+
+			src.mode_form.DisplayForm()
+		else
+		//else if(global.SP==1||global.SB==1||global.MP==1||global.SM==1)
+			ChooseCharacter()
+
+			//src.mode_form.DisplayForm()
 		return ..()
 
 
@@ -189,7 +216,26 @@ mob/BaseCamp
 		//	ChooseCharacter()
 		//	QuitMenu()
 		//return ..()
+	//proc/SelectMode()//Need to be able to select between singleplayer/multiplayer and sandbox/story modes
+		//var/list/available_char_names = client.base_CharacterNames()
+		//var/list/available_modes = src.mode_form.DisplayForm()
+		//var/list/menu = new()
+		//menu += available_modes
+		//src.mode_form.DisplayForm()
+//				menu += BASE_MENU_CHOOSE_CHARACTER
+		//menu += BASE_MENU_SELECT_MODE//BASE_MENU_CREATE_CHARACTER
+		//menu += BASE_MENU_SELECT_MODE2
+				//menu += BASE_MENU_CANCEL
+				//menu += BASE_MENU_QUIT
 
+		// Let developer provide their own menu if they wish.
+		//SelectModeMenu(menu)
+
+	proc/SelectModeMenu(list/menu)
+		// Given a list of menu options, display them and call ChooseCharacterResult() with the choice.
+		//var/default = null
+		//var/result = input(src, "What do you wish to do?", "Welcome to [world.name]!", default) in menu
+		SelectModeResult()
 	proc/ChooseCharacter()
 		var/list/available_char_names = client.base_CharacterNames()
 		var/list/menu = new()
@@ -218,7 +264,30 @@ mob/BaseCamp
 		var/default = null
 		var/result = input(src, "What do you wish to do?", "Welcome to [world.name]!", default) in menu
 		ChooseCharacterResult(result)
+	proc/SelectModeResult(menu_choice)
+		// Respond to the option the player chose from the character choosing menu.
+		switch(menu_choice)
+//			if (BASE_MENU_CHOOSE_CHARACTER)
+//				// Give them a chance to delete something, but then they need to choose.
+//				ChooseCharacter()
+//				return
 
+
+			if (BASE_MENU_SELECT_MODE)
+				src.mode_form.DisplayForm()
+				//client.base_NewMob()
+				//del(src)
+				return
+
+			if (BASE_MENU_SELECT_MODE2)
+				// Give them a chance to delete something, but then they need to choose.
+				//src.mode2_form.DisplayForm()
+				return
+
+		// They must have chosen a character, so load it.
+		//var/mob/players/Mob = client.base_LoadMob(menu_choice)//is the loading sound from save issue stemming from having a different mob loaded than intially created?
+		//if (!Mob)
+			//ChooseCharacter()
 	proc/ChooseCharacterResult(menu_choice)
 		// Respond to the option the player chose from the character choosing menu.
 		switch(menu_choice)
@@ -232,7 +301,19 @@ mob/BaseCamp
 				return
 
 			if (BASE_MENU_CREATE_CHARACTER)
-				src.char_form.DisplayForm()
+				if(global.SB==1&&global.SP==1)
+					//mob << browse(page, "window=NewCharacterSB")
+					src.SBchar_form.DisplayForm()
+				if(global.SM==1&&global.SP==1)
+					//mob << browse(page, "window=NewCharacterSM")
+					src.SMchar_form.DisplayForm()
+				if(global.SB==1&&global.MP==1)
+					//mob << browse(page, "window=NewCharacterMPSB")
+					src.MPSBchar_form.DisplayForm()
+				if(global.SM==1&&global.MP==1)
+					//mob << browse(page, "window=NewCharacterMPSM")
+					src.MPSMchar_form.DisplayForm()
+
 				//client.base_NewMob()
 				//del(src)
 				return
@@ -450,7 +531,7 @@ client
 			if (base_save_verbs && Mob.base_saved_verbs)
 				for (var/item in Mob.base_saved_verbs)
 					Mob.verbs += item
-			world << "Loaded Character"
+			Mob << "Loaded Character"
 			return Mob
 		else return
 

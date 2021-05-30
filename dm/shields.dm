@@ -134,7 +134,7 @@ obj
 							M.earthres -= src.EARTHres
 							M.heatlevel -= src.HEATbonus
 							M.vitaelevel -= src.VITAEbonus
-			verb
+			/*verb
 				/*Drop()
 					set category=null
 					set popup_menu=1
@@ -148,7 +148,7 @@ obj
 					set popup_menu=1
 					set src in usr
 					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-					return
+					return*/
 
 //these descriptions also need to be converted
 obj/items/shields
@@ -169,7 +169,7 @@ obj/items/shields
 			rarity = "{[num2rarity(n)]}"
 			icon_state = "[num2iconstate(n)][shield_name]"
 			desc_color = "[num2desccolor(n)][desc_color]"
-			description = "<br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Armor Defense<br>[Aevade] Armor Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+			//description = "<br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Armor Defense<br>[Aevade] Armor Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
 
 
 		num2rarity(n)
@@ -249,8 +249,18 @@ obj/items/shields
 		Adefense = 11
 		Aevade = 3
 		//rarity = "{Average}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||1)
+			Description()
 			//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	unubast
@@ -267,17 +277,29 @@ obj/items/shields
 		STRbonus = 1
 		SPRTbonus = 6
 		//rarity = "{Unusual}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			var/ad1 = "+[SHARDBURSTbonus] Shardburst"
+			var/ad2 = "+[HEATbonus] Heat"
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||2)
+			//Description()
 			//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 			if(usr!=null)
 				SHARDBURSTbonus = rand(1,10)
-				var/ad1 = "+[SHARDBURSTbonus] Shardburst"
+				//var/ad1 = "+[SHARDBURSTbonus] Shardburst"
 				HEATbonus = rand(1,10)
-				var/ad2 = "+[HEATbonus] Heat"
+				//var/ad2 = "+[HEATbonus] Heat"
 				Worth = 98
-				description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	uncobast
 		name = "Siege (Bastion)"
@@ -291,8 +313,18 @@ obj/items/shields
 		Adefense = 24
 		Aevade = 9
 		//rarity = "{Uncommon}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||3)
+			Description()
 			//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	choibast
@@ -307,8 +339,18 @@ obj/items/shields
 		Adefense = 33
 		Aevade = 7
 		//rarity = "{Choice}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||4)
+			Description()
 			//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	ordibast
@@ -325,17 +367,28 @@ obj/items/shields
 		STRbonus = 10
 		SPRTbonus = 4
 		//rarity = "{Ordinary}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			var/ad1 = "+[ICEres] Ice Proof"
+			var/ad2 = "+[SHARDBURSTbonus] Shardburst"
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||5)
 			//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 			if(usr!=null)
 				ICEres = rand(20,30)
-				var/ad1 = "+[ICEres] Ice Proof"
+				//var/ad1 = "+[ICEres] Ice Proof"
 				SHARDBURSTbonus = rand(1,4)
-				var/ad2 = "+[SHARDBURSTbonus] Shardburst"
+				//var/ad2 = "+[SHARDBURSTbonus] Shardburst"
 				Worth = 200
-				description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	sinbast
 		name = "Vambrace (Bastion)"
@@ -349,8 +402,18 @@ obj/items/shields
 		Adefense = 55
 		Aevade = 17
 		//rarity = "{Singular}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||6)
+			Description()
 			//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 //bastion done
 	avgvanfos
@@ -365,8 +428,18 @@ obj/items/shields
 		Adefense = 15
 		Aevade = 10
 		//rarity = "{Average}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||1)
+			Description()
 			//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	unuvanfos
@@ -383,14 +456,25 @@ obj/items/shields
 		STRbonus = 17
 		SPRTbonus = 15
 		//rarity = "{Unusual}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			var/ad1 = "+[BLUDGEONbonus] Bludgeon"
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||2)
+			//Description()
 			//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 			if(usr!=null)
 				BLUDGEONbonus = rand(14,24)
-				var/ad1 = ", +[BLUDGEONbonus] Bludgeon"
-				description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				//var/ad1 = "+[BLUDGEONbonus] Bludgeon"
+				Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	uncovanfos
 		name = "Screen (Vanfos)"
@@ -404,8 +488,18 @@ obj/items/shields
 		Adefense = 30
 		Aevade = 2
 		//rarity = "{Uncommon}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||3)
+			Description()
 			//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	choivanfos
@@ -420,8 +514,18 @@ obj/items/shields
 		Adefense = 75
 		Aevade = 22
 		//rarity = "{Choice}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||4)
+			Description()
 			//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	ordivanfos
@@ -438,15 +542,26 @@ obj/items/shields
 		STRbonus = 11
 		SPRTbonus = 20
 		//rarity = "{Ordinary}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			var/ad1 = "+[WINDres] Wind Proof"
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||5)
+			//Description()
 			//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 			if(usr!=null)
 				WINDres = rand(28,33)
-				var/ad1 = ", +[WINDres] Wind Proof"
+				//var/ad1 = "+[WINDres] Wind Proof"
 				Worth = 275
-				description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[ad1]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[ad1]<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	sinvanfos
 		name = "Lucretius (Vanfos)"
@@ -460,8 +575,18 @@ obj/items/shields
 		Adefense = 86
 		Aevade = 20
 		//rarity = "{Singular}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||6)
+			Description()
 			//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 //vanfos finished
 	avgaegis
@@ -476,8 +601,18 @@ obj/items/shields
 		Adefense = 60
 		Aevade = 4
 		//rarity = "{Average}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||1)
+			Description()
 			//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	unuaegis
@@ -493,23 +628,36 @@ obj/items/shields
 		Aevade = 30
 		STRbonus = 18
 		SPRTbonus = 24
+		var/resroll
 		//rarity = "{Unusual}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			var/ad1 = "+[HEALTHbonus] Health"
+			var/ad2 = "+[resroll] Omni-Proof"
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||2)
+			//Description()
 			//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 			if(usr!=null)
 				HEALTHbonus = rand(200,300)
-				var/ad1 = "+[HEALTHbonus] Health"
-				var/resroll = rand(15,30)
+				//var/ad1 = "+[HEALTHbonus] Health"
+				resroll = rand(15,30)
 				FIREres = resroll
 				ICEres = resroll
 				WINDres = resroll
 				WATres = resroll
 				EARTHres = resroll
 				Worth = 1011
-				var/ad2 = "+[resroll] Omni-Proof"
-				description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				//var/ad2 = "+[resroll] Omni-Proof"
+				Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	uncoaegis
 		name = "Murrion (Aegis)"
@@ -523,8 +671,18 @@ obj/items/shields
 		Adefense = 84
 		Aevade = 28
 		//rarity = "{Uncommon}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||3)
+			Description()
 			//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	choiaegis
@@ -539,8 +697,18 @@ obj/items/shields
 		Adefense = 125
 		Aevade = 33
 		//rarity = "{Choice}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||4)
+			Description()
 			//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	ordiaegis
@@ -557,25 +725,37 @@ obj/items/shields
 		STRbonus = 24
 		SPRTbonus = 24
 		//rarity = "{Ordinary}"
-		New()
-			SetRank(rank||5)
-			//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+		var/resroll
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			var/ad1 = "+[HEALTHbonus] Health"
+			var/ad2 = "+[ENERGYbonus] energy"
+			var/ad3 = "+[resroll] Omni-Proof"
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>Worth [Worth]"
 
 		New()
+			..()
+			SetRank(rank||5)
+			//Description()
+			//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 			if(usr!=null)
 				HEALTHbonus = rand(200,300)
-				var/ad1 = "+[HEALTHbonus] Health"
+				//var/ad1 = "+[HEALTHbonus] Health"
 				ENERGYbonus = rand(200,300)
-				var/ad2 = "+[ENERGYbonus] energy"
-				var/resroll = rand(33,42)
+				//var/ad2 = "+[ENERGYbonus] energy"
+				resroll = rand(33,42)
 				FIREres = resroll
 				ICEres = resroll
 				WINDres = resroll
 				WATres = resroll
 				EARTHres = resroll
 				Worth = 1420
-				var/ad3 = "+[resroll] Omni-Proof"
-				description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				//var/ad3 = "+[resroll] Omni-Proof"
+				Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	sinaegis
 		name = "Hauberk (Aegis)"
@@ -589,8 +769,18 @@ obj/items/shields
 		Adefense = 124
 		Aevade = 33
 		//rarity = "{Singular}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||6)
+			Description()
 			//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 //aegis finished
 	avgravelin
@@ -605,8 +795,18 @@ obj/items/shields
 		Adefense = 113
 		Aevade = 21
 		//rarity = "{Average}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||1)
+			Description()
 			//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	unuravelin
@@ -622,19 +822,32 @@ obj/items/shields
 		Aevade = 42
 		STRbonus = 42
 		//rarity = "{Unusual}"
+		//var/resroll
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			var/ad1 = "+[HEALTHbonus] Health"
+			var/ad2 = "+[BLUDGEONbonus] Bludgeon"
+			var/ad3 = "+[QUIETUSbonus] Quietus"
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||2)
 			//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 			if(usr!=null)
 				Worth = 2420
 				HEALTHbonus = rand(300,420)
-				var/ad1 = "+[HEALTHbonus] Health"
+				//var/ad1 = "+[HEALTHbonus] Health"
 				BLUDGEONbonus = rand(33,42)
-				var/ad2 = "+[BLUDGEONbonus] Bludgeon"
+				//var/ad2 = "+[BLUDGEONbonus] Bludgeon"
 				QUIETUSbonus = rand(6,12)
-				var/ad3 = "+[QUIETUSbonus] Quietus"
-				description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				//var/ad3 = "+[BLUDGEONbonus] Bludgeon"
+				Description()//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	uncoravelin
 		name = "Fang (Ravelin)"
@@ -648,8 +861,18 @@ obj/items/shields
 		Adefense = 152
 		Aevade = 22
 		//rarity = "{Uncommon}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||3)
+			Description()
 			//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	choiravelin
@@ -664,8 +887,18 @@ obj/items/shields
 		Adefense = 125
 		Aevade = 33
 		//rarity = "{Choice}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||4)
+			Description()
 			//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	ordiravelin
@@ -682,24 +915,37 @@ obj/items/shields
 		STRbonus = 24
 		SPRTbonus = 24
 		//rarity = "{Ordinary}"
+		var/resroll
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			var/ad1 = "+[HEALTHbonus] Health"
+			var/ad2 = "+[ENERGYbonus] energy"
+			var/ad3 = "+[resroll] Omni-Proof"
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||5)
 			//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 			if(usr!=null)
 				HEALTHbonus = rand(200,300)
-				var/ad1 = "+[HEALTHbonus] Health"
+				//var/ad1 = "+[HEALTHbonus] Health"
 				ENERGYbonus = rand(200,300)
-				var/ad2 = "+[ENERGYbonus] energy"
-				var/resroll = rand(33,42)
+				//var/ad2 = "+[ENERGYbonus] energy"
+				resroll = rand(33,42)
 				FIREres = resroll
 				ICEres = resroll
 				WINDres = resroll
 				WATres = resroll
 				EARTHres = resroll
 				Worth = 1420
-				var/ad3 = "+[resroll] Omni-Proof"
-				description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				//var/ad3 = "+[resroll] Omni-Proof"
+				Description()//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	sinravelin
 		name = "Lion (Ravelin)"
@@ -713,8 +959,18 @@ obj/items/shields
 		Adefense = 124
 		Aevade = 33
 		//rarity = "{Singular}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||6)
+			Description()
 			//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 //ravelin finished
 	avgthureos
@@ -729,8 +985,18 @@ obj/items/shields
 		Adefense = 155
 		Aevade = 22
 		//rarity = "{Average}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||1)
+			Description()
 			//description = "<font color = #8C7853><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	unuthureos
@@ -745,8 +1011,18 @@ obj/items/shields
 		Adefense = 165
 		Aevade = 20
 		//rarity = "{Unusual}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||2)
+			Description()
 			//description = "<font color = #b87333><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	uncothureos
@@ -761,8 +1037,18 @@ obj/items/shields
 		Adefense = 185
 		Aevade = 18
 		//rarity = "{Uncommon}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||3)
+			Description()
 			//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	choithureos
@@ -777,8 +1063,18 @@ obj/items/shields
 		Adefense = 225
 		Aevade = 15
 		//rarity = "{Choice}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||4)
+			Description()
 			//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	ordithureos
@@ -793,8 +1089,18 @@ obj/items/shields
 		Adefense = 265
 		Aevade = 10
 		//rarity = "{Ordinary}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||5)
+			Description()
 			//description = "<font color = #4682b4><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 
 	sinthureos
@@ -809,7 +1115,17 @@ obj/items/shields
 		Adefense = 285
 		Aevade = 5
 		//rarity = "{Singular}"
+		verb/Description()//Fixed description
+			set category=null
+			set popup_menu=1
+			set src in usr
+			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+			//return
+			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"
+
 		New()
+			..()
 			SetRank(rank||6)
+			Description()
 			//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>[slvl] Shield Level<br>[Adefense] Defense<br>[Aevade]% Evasion<br>[strreq] Strength-Req<br>Worth [Worth]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 

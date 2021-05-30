@@ -8,7 +8,7 @@ client
 	var tmp/map_zoom/map_zoom = TRUE
 
 	New()
-		. = ..()
+		..()
 		if(map_zoom == TRUE)
 			EnableMapZoom()
 
@@ -56,11 +56,11 @@ map_zoom
 		zoom = 1
 
 		// steps in the zoom
-		zoom_steps[] = list(0, 1, 1.5, 2, 2.5)
+		zoom_steps[] = list(0, 1, 1.5, 2, 3, 4)
 
 		// lerp factor for moving between steps
 		// should be between 0 and 1 (1 disables smoothing, 0 disables zooming)
-		zoom_smoothing = 0.25
+		zoom_smoothing = 0.3
 
 	// call these in your project
 	proc

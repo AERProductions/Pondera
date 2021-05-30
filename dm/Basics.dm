@@ -39,35 +39,16 @@ mob/players
 	//opaque = 1
 	plane = 4
 	light = /light/circle
-	New()
-		..()
-		if(src.loc==locate(x,y,2))
-			src.location = "Aldoryn"
-		spawn()
-			if(client && _autotune_soundmobs)
-				for(var/soundmob/soundmob in _autotune_soundmobs)
-					listenSoundmob(soundmob)
-		light = new /light/circle(src, 4)//does this need to be set static so time/light cycle isn't interrupted when a new player joins?
-		light.off()
-		//I think loading character breaking sound might have to do with this spawn line creating two sets of sounds
-		//call(/world/proc/Spellbookspawner)()
-		//spawn() if(client && _autotune_soundmobs) for(var/soundmob/soundmob in _autotune_soundmobs) listenSoundmob(soundmob)
-
-		//src.listenSoundmob(/soundmob)
-		//..()
-				// we make the lamps have directional light sources,
-				// the /light/directional object is defined at the
-				// top of this file.
-		//mlight.transform = m
-		//usr.light = new /light/circle(src.loc, 3)
 	var // player variables
 		tmp/list/_listening_soundmobs = null
 		tmp/list/_channels_taken = null
+		pvekills = 0
+		pvpkills = 0
 		affinity = 0
 		gr = 0
-		char_class // your class, duh
+		char_class // your class
 		nomotion = 0 // talking to a shopkeeper?  you can't move. this lets us know when you shouldn't be able to.
-		muted = 0 // angered me?  no speaking for you.
+		muted = 0 // no speaking for you.
 		cheats = 0
 		level // your level?  most likely =] my code isnt that obfuscated
 		HP
@@ -76,10 +57,10 @@ mob/players
 		MAXenergy
 		exp = 0 // yep
 		expneeded = 0 // yep yep
-		expgive = 0 // hrmm. never ienergylimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
+		expgive = 0 // pvpexp?
 		oldexp = 0 // i think this might be used in the exp meter for calculations, better to make it a variable here than calculate every time
 		bankedlucre = 0 // Bank by Ripper man5
-		lucre = 0 // mmmmm money.  buy stuff.
+		lucre = 0 // money.  buy stuff.
 		attackspeed // used in calculating the delay between attacks, affected by weapons
 		poisoned = 0 // are you poisoned?  this is boolean
 		poisonD // this has to do with how long you were poisoned for
@@ -89,7 +70,7 @@ mob/players
 		awaymessage = "" // your away message
 		away = 0 // if you are away, boolean
 		location = "" // where you are for the Who tab
-		cities[0] // array holding the names of cities you've visited for Warping
+		forts[0] // array holding the names of forts you've visited for Warping (not setup)
 		Strength = 0 // strength variable
 		Spirit = 0 // intelligence
 		/*
@@ -204,7 +185,122 @@ mob/players
 		canpickup = 0
 		candrop = 0
 		permallow = 0
+		SMIopen = 0
+		SMEopen = 0
+		thirsty=0
+		hungry=0
+		fed = 0
+		hydrated = 0
+	/*proc/hungercheck()
+		set waitfor=0
+		var/randomvalue = rand(1200,2000)
+		var/delay = rand(12000,20000)
+		var/mob/players/M
+		M = usr
+		spawn(randomvalue)
+			for(M)
+				if(M.energy >= M.MAXenergy)
+					sleep(delay)
+					M.hungry=1
+					return
+				else
+
+
+	proc/thirstcheck()
+		var/randomvalue = rand(1200,2000)
+		var/mob/players/M
+		M = usr
+		spawn(randomvalue)*/
+		birthdatefed
+		birthdatehydrated
+		minute
+
+	New()
+		..()
+		if(src.loc==locate(x,y,2))//this doesn't need to scan player location because it is set when they enter locations; As long as they're entering z level 2, they are entering Aldoryn..
+			src.location = "Aldoryn"
+		light = new /light/circle(src, 4)
+		birthdatefed = world.timeofday
+		birthdatehydrated = world.timeofday
+		if(client && _autotune_soundmobs)
+			for(var/soundmob/soundmob in _autotune_soundmobs)
+				listenSoundmob(soundmob)
+		//if(src!=null&&src.loc!=null)
+		//this line is presenting an issue (if you comment it out, the shading doesn't go away if you boot up during daytime)
+		//minute = time2text(world.timeofday,"mm")
+		spawn
+			var/mob/players/M
+			M = usr
+			if(M.poisoned==1) // if you recently got poisoned
+
+				//spawn(0) poisoned(M)
+				poisoned(M)//testing if moving this out of the stat panel (which I don't know why it was there to begin with) and removing the additional spawn works.
+			else
+				return
+
+		spawn while(src!=null)//hunger and thirst
+			S
+			src.fed = 0
+			src.hydrated = 0
+			//src<<"[minute] > [birthdatefed]"//compares the current minute to the last set moment
+			sleep(6000)//6000
+
+			minute = world.timeofday//sets the time that has passed since last set
+			//src<<"[minute] > [birthdatefed]"
+			if(src.fed==1)//if they have eaten any items or drank any tonics set to 1
+				birthdatefed = world.timeofday//set a new moment in time
+				goto S
+			if(src.hydrated==1)//if they have eaten any items or drank any tonics set to 1
+				birthdatehydrated = world.timeofday
+				goto S
+			if(src.minute > src.birthdatefed&&src.fed==0)//if the time passed is greater than the last moment set
+				src.hungry=1//set these vars that allow the hunger health and thirst energy ticks to hit
+				M << "Your stomach growls, find some thing to eat."
+			if(src.minute > src.birthdatehydrated&&src.hydrated==0)//if the time passed is greater than the last moment set
+				src.thirsty=1
+				M << "You are parched, find something to drink."
+			if(src.fed==1)//if the minutes aren't greater than the last set moment, restart
+				src.hungry=0//they're not hungry yet
+				//src.thirsty=0//they're not thirsty yet
+				goto S
+			if(src.hydrated==1)//if the minutes aren't greater than the last set moment, restart
+				//src.hungry=0//they're not hungry yet
+				src.thirsty=0//they're not thirsty yet
+				goto S
+			if(src:hungry==1) src:HP=src:HP-1//health tick for hunger damage
+			else if(src:hungry==0) goto S
+			if(src:thirsty==1) src:energy=src:energy-1//energy tick for thirst damage
+			else if(src:thirsty==0) goto S
+			if(src.HP<=0)//HP check and fall check
+				src.HP = 0
+				src.checkdeadplayer2()
+			if(src.energy<=0)
+				src.energy = 0
+			goto S
+
+			//if(M.hungry==1)
+			//	hungercheck(M)
+
+			//else return
+			//if(M.thirsty==1)
+			//	thirstcheck(M)
+
+			//else return
+		//new /light/circle(src, 4)//does this need to be set static so time/light cycle isn't interrupted when a new player joins?
+		//light.off()
+		//I think loading character breaking sound might have to do with this spawn line creating two sets of sounds
+		//call(/world/proc/Spellbookspawner)()
+		//spawn() if(client && _autotune_soundmobs) for(var/soundmob/soundmob in _autotune_soundmobs) listenSoundmob(soundmob)
+
+		//src.listenSoundmob(/soundmob)
+		//..()
+				// we make the lamps have directional light sources,
+				// the /light/directional object is defined at the
+				// top of this file.
+		//mlight.transform = m
+		//usr.new /light/circle(src.loc, 3)
 		//pvptest=1
+
 	Logout()
 	//for(var/mob/players/P)
 		//var/light/day_night/L
@@ -212,9 +308,11 @@ mob/players
 			//winset(src,"default.Bludgeon","is-visible=false")
 		browse_once=0
 		leaveparty(src)
-		lighting.lights -= src.light  //this is the fix I have been looking for! Enables light garbage collection at logout so there are no null runtime errors! Hooray.
-		//call(/soundmob/proc/unsetListeners)(_listening_soundmobs)
+		for(src.light in lighting.lights)
+			if(src.light in lighting.lights)
 
+				lighting.lights -= src.light//this is the fix I have been looking for! Enables light garbage collection at logout so there are no null runtime errors! Hooray.
+		//call(/soundmob/proc/unsetListeners)(_listening_soundmobs)
 		for(var/soundmob/soundmob in src._listening_soundmobs)
 			if(src in soundmob.listeners)
 				soundmob.listeners-=src
@@ -299,6 +397,7 @@ mob/players
 		bludgeonlevel = 0
 		quietuslevel = 0
 		panacealevel = 0
+		pvpkills = 0
 		//UEB = 0
 	Landscaper
 		char_class = "Landscaper"
@@ -354,6 +453,7 @@ mob/players
 		bludgeonlevel = 0
 		quietuslevel = 0
 		panacealevel = 0
+		pvpkills = 0
 		//UEB = 0
 	Builder
 		char_class = "Builder"
@@ -413,6 +513,9 @@ mob/players
 		quietuslevel = 0
 		panacealevel = 0
 		UEB = 0
+		SMIopen = 0
+		SMEopen = 0
+		pvpkills = 0
 	Defender
 		char_class = "Defender"
 		icon_state = "fighter"
@@ -467,6 +570,7 @@ mob/players
 		bludgeonlevel = 1
 		quietuslevel = 0
 		panacealevel = 1
+		pvpkills = 0
 		//UEB = 0
 	Magus
 		char_class = "Magus"
@@ -520,6 +624,7 @@ mob/players
 		bludgeonlevel = 0
 		quietuslevel = 1
 		panacealevel = 0
+		pvpkills = 0
 		//UEB = 0
 	// GM
 	Special1
@@ -528,13 +633,13 @@ mob/players
 		icon_state = "Kitty"
 		location = ""
 		attackspeed = 13
-		brank=1
-		hrank=1
-		frank=1
-		drank=1
-		grank=1
-		smirank=1
-		smerank=1
+		brank=1//building rank
+		hrank=1//harvesting rank
+		frank=1//fighting rank?
+		drank=1//digging rank
+		grank=1//gardening rank
+		smirank=1//smithing rank
+		smerank=1//smelting rank
 		buildexp=0
 		level = 9999 // your level?  most likely =] my code isnt that obfuscated
 		HP = 99999 // life
@@ -581,6 +686,7 @@ mob/players
 		quietuslevel = 99
 		panacealevel = 99
 		permallow = 0
+		pvpkills = 0
 		//UEB = 0
 		// oh yes...let the abilities roll forth!
 		verb
@@ -592,6 +698,14 @@ mob/players
 				var/_y=input("y location:","Go: y",y) as num
 				var/_z=input("z location:","Go: z",z) as num
 				loc=locate(_x,_y,_z)
+			AVATAR_TELEPORTPLAYER()
+				var/_x=input("x location:","Go: x",x) as num
+				var/_y=input("y location:","Go: y",y) as num
+				var/_z=input("z location:","Go: z",z) as num
+				for(var/mob/players/m in world) // quit talking.  now.
+					if (istype(m,/mob/players))
+
+						m.loc=locate(_x,_y,_z)
 			/*AVATAR_JUMPTOMAP(map as text)
 				if(!map) map=input("Map name","Map name") as text
 				var/swapmap/M=SwapMaps_Find(map)
@@ -684,7 +798,21 @@ mob/players
 			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_BAN
 			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_UNBAN
 			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_LEVELUP
-			//AVATAR_REBOOT() // sometimes it just needs to happen.
+			AVATAR_REBOOT() // sometimes it just needs to happen.
+				world.Reboot()
+			AVATAR_SHUTDOWN() // sometimes it just needs to happen.
+				TimeSave()
+				Save_All()
+				shutdown()
+				//..()//TestStamp
+			AVATAR_TIMESAVE()
+				usr << "Saving Time..."
+				TimeSave()
+				usr << "Time Saved."
+			AVATAR_SEASONSET()
+				usr << "Setting season..."
+				call(/world/proc/SetSeason)()//this needs fixed?
+				usr << "[global.season]"
 			AVATAR_MUTE(var/mob/players/m in world) // quit talking.  now.
 				if (istype(m,/mob/players))
 					world << "<font color = yellow>[usr] has removed [m]'s speech."
@@ -723,7 +851,8 @@ mob/players
 						if(why_quest)
 
 							//if (istype(M,/mob/players))  //how to filter
-							var/fl = locate(pick(412,685),pick(422,692),1)  //story demo
+							//var/fl = locate(pick(412,685),pick(422,692),1)  //story demo
+							var/fl = locate(usr.loc)  //story demo
 							M = fl//locate()
 
 								//if(m)
@@ -1003,15 +1132,19 @@ mob/players
 				if(length(msg)<=255) // we don't want to read your long spam messages, sheesh.
 					if(ratelimit<=5) // gotta make sure that you don't flame us with a ton of messages too quickly too
 						for(M as mob in view(20)) // tell everyone nearby your message without your html formatting crap too
-							M << "<font color = white><b>[usr]([usr.ckey]) <font color = silver>says: [html_encode(msg)]"
+							M << "<font color = white><b>[usr]([usr.ckey]) <font color = #e3e3e3>says: [html_encode(msg)]"
 						ratelimit++ // counting how much you've been yacking in a period of time
+						return
 					else // SPAMMER!!!!!
-						usr << "<b>You are over the chat entry limit.  Cease and Desist!"
+						usr << "<b>You are over the chat entry limit. Stop flooding the chat."
 						ratelimit=10
+						return
 				else
 					usr << "<b>Do Not Spam, the limit is 255 characters." // gotta let them know not to spam
+					return
 			else
 				usr << "<font color = yellow> No one hears you, you have been muted. Use manners and modesty to be unmuted." //  =]
+				return
 		WSay(msg as text)
 			set hidden = 1 // yeah, we'll let you talk to the entire world this time. same spamming protection as Say
 
@@ -1021,15 +1154,16 @@ mob/players
 					return
 				if(length(msg)<=255)
 					if(ratelimit<=5)
-						world << "<font color=gold><b>[usr]([usr.ckey]) <font color=gold>wsays: [html_encode(msg)]"
+						world << "<font color=#ff996e><b>[usr]--<font color=#fff4ef>wsays: [html_encode(msg)]"
 						ratelimit++
 					else
 						usr << "<b>You are over the chat entry limit.  Cease and Desist!"
 						ratelimit=10
+						return
 				else
 					usr << "<b>Do Not Spam, the limit is 255 characters."
 			else
-				usr << "<font color = yellow> No one hears you."
+				usr << "<font color = yellow> You are currently mute."
 		Whisper()
 			set category=null
 			//set hidden = 1
@@ -1054,15 +1188,20 @@ mob/players
 							M << "<font color = white><b>[usr]([usr.ckey]) <font color = green>whispers: [html_encode(msg)]"
 							usr << "<font color = white><b>You whisper [M]([M.ckey])<font color = green>: [html_encode(msg)]"
 							ratelimit++
+							return
 						else
 							usr << "<b>You are over the rate limit.  Please wait..."
 							ratelimit=10
+							return
 					else
 						usr << "<b>Don't spam, the limit is 255 characters."
+						return
 				else
-					usr << "<font color = yellow> No one hears you."
+					usr << "<font color = yellow> You are currently mute."
+					return
 			else
-				usr << "You cannot whisper that."
+				usr << "You whisper to [M] but it does not respond."
+				return
 		GiveGold() // awe...isn't that nice of you?
 			//this J list, C var, and M reference looping is so that all the enemies in the world are not in your list to pick from
 			//i hate games that don't do this.  ...like i want to give lucre to a cheesecake, sheesh.  i don't want to see that crap on my list.
@@ -1087,8 +1226,10 @@ mob/players
 					//tell everyone what just happened
 					M << "\green<b>[usr]([usr.ckey]) gives you a pouch of [numb] Lucre."
 					usr << "\green<b>You gave [M]([M.ckey]) a pouch of [numb] Lucre."
+					return
 				else
-					usr << "Your pouch doesn't contain enough." // a bit excessive there
+					usr << "Your pouch doesn't contain enough lucre to give that amount." // a bit excessive there
+					return
 		GiveItem() // im sure the recipient will be pleased   needs work
 			set category=null
 			set popup_menu=1//hidden = 1
@@ -1105,23 +1246,40 @@ mob/players
 			var/C = 1
 			var/obj/K
 			for(K as obj in J) // you can only pick items in your inventory to give
-				if (istype(K,/obj/items/ancscrlls) || istype(K,/obj/items/weapons) ||istype(K,/obj/items)) // make sure that it is something i'll let you give away
+				if (istype(K,/obj/items)) // make sure that it is something i'll let you give away
 					J[C] = K
 					C++
 					J.len++
 			K = (input("Give Item","Item") in J) // pick one of em
-			if (istype(M,/mob/players)&&( istype(K,/obj/items/weapons) || istype(K,/obj/items/ancscrlls) || istype(K,/obj/items) )) // gotta keep making extra checks incase some stupid exception comes up
+			if (istype(M,/mob/players)&&( istype(K,/obj/items) )) // gotta keep making extra checks incase some stupid exception comes up
 				if(M==usr) // trying to give to yourself?
 					return // do nothing
+
 				if(K.suffix == "Equipped") // you can't give people stuff you have equipped
-					usr << "<font color = teal>Remove [K] first!"
+					//usr << "<font color = teal>Remove [K] first!"
+					//return
+					if(istype(K,/obj/items/tools)&&K.suffix=="Equipped")
+						call(/obj/items/tools/verb/Unequip)(K)
+					if(istype(K,/obj/items/weapons)&&K.suffix=="Equipped")
+						call(/obj/items/weapons/verb/Unequip)(K)
+					if(istype(K,/obj/items/shields)&&K.suffix=="Equipped")
+						call(/obj/items/shields/verb/Unequip)(K)
+					if(istype(K,/obj/items/armors)&&K.suffix=="Equipped")
+						call(/obj/items/armors/verb/Unequip)(K)
+					K.Move(M) // theirs now
+					//tell everyone what happened
+					M << "\green<b>[usr]([usr.ckey]) hands you a [K]"
+					usr << "\green<b>You handed [M]([M.ckey]) a [K]"
+					return
 				else // here you go.... have it
 					K.Move(M) // theirs now
 					//tell everyone what happened
 					M << "\green<b>[usr]([usr.ckey]) hands you a [K]"
 					usr << "\green<b>You handed [M]([M.ckey]) a [K]"
+					return
 			else
 				usr << "You cannot do that" // an exception was caught and something bad happened.
+				return
 		Away() // let everyone know that you are away, because we all really care.... riiiiiiiiiight...
 			set category=null
 			set popup_menu=1
@@ -1407,6 +1565,7 @@ mob/players
 			GainLevel(src)
 		//M.exp=0
 			src.updateXP() // sure you can.  if your experience is greater than or equal to how much you need
+			return
 		else
 			return
 		//spelllvlcheck(M)
@@ -1441,12 +1600,12 @@ mob/players
 			if(src in Player.inparty)
 				usr<<"Can Only Fight others outside of your party."
 				return
-			if(src.loc == locate(x,y,1))
+			if(src.loc == locate(x,y,2))
 				usr<<"Can Only Fight in the Combat Area."
 				return
 			if(!Player.umsl_ObtainMultiLock(list("right leg", "left leg"), 2)) return null
 			else return ..()
-			if(Player.char_class<>"Magus"&&"Defender"&&"GM")
+			if(Player.char_class!="Magus"&&Player.char_class!="Defender"&&Player.char_class!="GM")
 				//Player<<"Magus can attack anyone, Defenders hunt Magus."
 				return
 			else
@@ -1512,6 +1671,7 @@ mob/players
 		M = src
 		var/mob/players/J
 		J = usr
+		var/obj/items/weapons/sumuramasa/S = locate() in M
 		J.waiter=0 // you can't attack again yet
 
 		var/damage = round(((rand(J.tempdamagemin,J.tempdamagemax))*((J.Strength/100)+1)),1) // calculate the damage
@@ -1540,6 +1700,9 @@ mob/players
 			if(J.HP<=0)
 				//J.overlays -= image('dmi/64/creation.dmi',icon_state="heat")
 				call(/mob/players/proc/checkdeadplayer2)(M)
+				J.pvpkills += 1
+				if(S)
+					S:volume += 10
 				return
 			else
 				M.HP -= damage // deal the actual damage to their variable
@@ -1567,7 +1730,7 @@ mob/players
 			M.poisonDMG=0
 			M.overlays = null
 			M.needrev=1
-			M.loc = locate(16,2,1)//locate(rand(100,157),rand(113,46),12)
+			M.loc = locate(16,9,12)//locate(rand(100,157),rand(113,46),12)
 			M.location = "Sheol"
 			//usr << sound('mus.ogg',1, 0, 1024)
 			if(M.location=="Sheol")
@@ -1586,7 +1749,7 @@ mob/players
 				M.poisonDMG=0
 				M.overlays = null
 				M.needrev=1
-				M.loc = locate(101,159,1)//locate(rand(100,157),rand(113,46),12)
+				M.loc = locate(101,159,12)//locate(rand(100,157),rand(113,46),12)
 				M.location = "Holy Light"
 				//usr << sound('mus.ogg',1, 0, 1024)
 				if(M.location=="Holy Light")
@@ -1799,15 +1962,15 @@ mob/players
 		//if your rate limit is between 5 and 10, you can't talk, if it is over 0, you decrement it in time
 		//this controls the spamming.
 		if(ratelimit>0)
-			sleep(10) // we'll decrement this counter every 10
+			sleep(240) // we'll decrement this counter every 10
 			M.ratelimit--
 			if(ratelimit==5) // ill give you a warning before i slap you down
-				M << "<b>Wait before speaking or be unable to speak."
+				M << "<b>If you flood the chat, you will be muted."
 			else if(ratelimit>5) // if you cant speak, we're going to wait until you are below 5 before you can again, this tells the time before you can speak again
-				M << "<b>Chat Entry limit: [(M.ratelimit-5)]"
+				M << "<b>Chat Flood limit: [(M.ratelimit)]"
 
-		if(M.poisoned==1) // if you recently got poisoned
-			spawn(0) poisoned(M) // call the poison function
+		//if(M.poisoned==1) // if you recently got poisoned
+			//spawn(0) poisoned(M) // call the poison function
 
 		//M.tempstr = M.Strength
 		//statpanel("¤¦«Overview»¦¤")
@@ -1834,8 +1997,8 @@ mob/players
 		//M << output("| [hour]: [minute1][minute2] [ampm] |","Label1")
 		//M << output("| [day] / [month] / [year] O·C· |","Label2")
 		//M << output("| « [name] » |","Label3")
-		//M << output("| [HP] / [MAXHP] |","Label4")
-		//M << output("| [energy] / [MAXenergy] |","Label5")
+		//M << output("[HP]/[MAXHP]","Label4")
+		//M << output("[energy]/[MAXenergy]","Label5")
 		//M << output(time2text(world.timeofday),"rltime")
 		//M << output("|.·°ø [lucre] |","Label7")
 		//M << output("| « [hour]: [minute1][minute2][ampm] » | [day]/[month]/[year] O·C·","ptime")//Tells you the time on a Statpanel.
@@ -1854,7 +2017,7 @@ mob/players
 		stat("[TC()]")
 		//stat("[TC2()]")
 		stat("Pondera Time","[hour]: [minute1][minute2][ampm]")//Tells you the time on a Statpanel.
-		stat("Pondera Date","[day] / [month] / [season] / [year] O·C·")//Tells you the date on a Statpanel.
+		stat("Pondera Date","[day] / [month] / [season] / AM [year]")//Tells you the date on a Statpanel.
 		//stat("RL Time","[world.time]")
 		//stat("RL Date",time2text(world.timeofday)) dexp (destroy fexp (fishing seexp (Searching
 		//stat("<font color = #ffd700>=~~~~~~~~~~~~~~~~~~~~~~~~~~~=</font>")
@@ -1873,13 +2036,14 @@ mob/players
 		stat("<font color = #1e90ff>Defense</font>",tempdefense)
 		//stat("<font color = #d8bfd8>Evasion</font>","[tempevade]%")
 		stat("<font color = #fdf5e6>Affinity</font>","dark-  [affinity]  +light")
-		stat("<font size = 1><font color = #ffd700>=~¦<font color = #dda0dd>Rank Acuity</font>¦~=</font>")
+		stat("<font size = 1><font color = #ffd700>=~¦<font color = #dda0dd>Knowledge Acuity</font>¦~=</font>")
 		//stat("¦<font color = #dda0dd>Rank Acuity</font>¦")
 		stat("<font color = #cd853f>Digging</font>","Aq: [drank] | XP: [digexp] / [mdigexp] | TNL: [(mdigexp-digexp)]")
 		stat("<font color = #4682b4>Building</font>","Aq: [brank] | XP: [buildexp] / [mbuildexp] | TNL: [(mbuildexp-buildexp)]")
 		stat("<font color = #5f9ea0>Smelting</font>","Aq: [smerank] | XP: [smeexp] / [msmeexp] | TNL: [(msmeexp-smeexp)]")
 		stat("<font color = #e6e8fa>Smithing</font>","Aq: [smirank] | XP: [smiexp] / [msmiexp] | TNL: [(msmiexp-smiexp)]")
 		stat("<font color = #b2a68c>Carving</font>","Aq: [Crank] | XP: [CrankEXP] / [CrankMAXEXP] | TNL: [(CrankMAXEXP-CrankEXP)]")
+		stat("<font color = #0ed145>Botany</font>","Aq: [CSRank] | XP: [CSRankEXP] / [CSRankMAXEXP] | TNL: [(CSRankMAXEXP-CSRankEXP)]")
 		stat("<font color = #f08080>Gardening</font>","Aq: [grank] | XP: [grankEXP] / [grankMAXEXP] | TNL: [(grankMAXEXP-grankEXP)]")
 		stat("<font color = #d3d3d3>Mining</font>","Aq: [mrank] | XP: [mrankEXP] / [mrankMAXEXP] | TNL: [(mrankMAXEXP-mrankEXP)]")
 		stat("<font color = #f4a460>Harvesting</font>","Aq: [hrank] | XP: [hrankEXP] / [hrankMAXEXP] | TNL: [(hrankMAXEXP-hrankEXP)]")
@@ -1887,7 +2051,7 @@ mob/players
 		stat("<font color = #adff2f>Searching</font>","Aq: [searchinglevel] | XP: [seexp] / [seexpneeded] | TNL: [(seexpneeded-seexp)]")
 		if(M.char_class=="Magus")
 			stat("<font color = #660000>Destroy</font>","Aq: [destroylevel] | XP: [dexp] / [dexpneeded] | TNL: [(dexpneeded-dexp)]")
-		stat("<font size = 1><font color = #ffd700>=~¦<font color = #87ceed>Element Resistance / Weakness</font>¦~=</font>")
+		stat("<font size = 1><font color = #ffd700>=~¦<font color = #87ceed>Resistance / Weakness</font>¦~=</font>")
 		//stat("¦<font color = #87ceed>Element Resistance / Weakness</font>¦")
 		stat("<font color = #ff4500>Fire</font>","<center>[fireres]% / <right>[firewk]%")
 		stat("<font color = #a5f2f3>Ice</font>","<center>[iceres]% / <right>[icewk]%")
@@ -1901,22 +2065,24 @@ mob/players
 		statpanel("Who")
 		var
 			mob/players/m
-			X
-		X=0
-		for(m as mob in world)
-			if (istype(m,/mob/players))  //how to filter
-				X++
-		stat("<center>-----------------<br><font size=1pt>[X] Player(s):</font><br>-----------------")
+			X//defining the counter
+		X=0//setting the counter
+		for(m as mob in world)//how to setup a type to filter
+			if (istype(m,/mob/players))  //how to filter for a certain type
+				X++//adding to a counter
+		stat("<center>-----------------<br><font size=1pt>[X] Spirit(s):</font><br>-----------------")
 		for(m as mob in world)
 			if (istype(m,/mob/players))
-				var/resroll
-				if(m.inparty==1)
-					resroll = "<font size=1pt>Party:</font>[m.partynumber]"
+				var/ifinparty
+				if(ckeyEx("[usr.key]") == world.host)
+					ifinparty = "<br><font size=1pt><b>Host/GameMaster</b></font>"
+				else if(m.inparty==1)
+					ifinparty = "<br><font size=1pt>Party:</font>[m.partynumber]"
 					if(m.partynumber==M.partynumber)
-						resroll = "<font size=1pt>Party:</font>[m.partynumber], [m.location]"
+						ifinparty = "<br><font size=1pt>Party:</font>[m.partynumber], [m.location]"
 				else
-					resroll = "<br><font size=1pt>Unpartied</font><br>-----------------"
-				stat("[m.name]*|[m.ckey]|*<br><font size=1pt>Job:</font> [m.char_class]<br>Location: [m.location]<br><font size=1pt>Acuity:</font> [m.level][resroll]")
+					ifinparty = "<br><font size=1pt>Unpartied</font><br>-----------------"
+				stat("[m.name]*|[m.ckey]|*<br><font size=1pt>Enlistment:</font> [m.char_class]<br>Location: [m.location]<br><font size=1pt>Acuity:</font> [m.level][ifinparty]")
 				if(m.away==1)
 					stat("[m.name] is away [m.awaymessage]")
 // spells
@@ -2000,7 +2166,7 @@ mob/players
 							stat("<font color = #e3e1D7>...The Moon is overhead...</font>")
 		TC2() //1 = setting 0 = rising 2 = day
 
-			if(browse_once==0)//apparently this needs fixed concerning loading characters -- I'm assuming that browse_once isn't being set back to 0 for saved chars
+			if(browse_once==0)
 				browsersc()
 			else if(time_of_day == 1)//1 = setting 0 = rising 2 = day
 				//usr << browse("<body background color=transparent; scroll=no>;<img src=dusksets.gif height=64 weight=64 scroll=no align=topleft>","default.sunmoon")

@@ -68,7 +68,8 @@ soundmob
 		..()
 
 	Del()
-		attached._detachSoundmob(src)
+		if(attached)
+			attached._detachSoundmob(src)
 		if(autotune) _removeAutotuneSoundmob(src)
 		unsetListeners()
 		//world << "Unsetlistener via Del"
@@ -176,6 +177,7 @@ soundmob
 
 			var/sound/sound = mob:_listening_soundmobs[src]
 
+			if(sound.channel==null) sound.channel = mob:_getAvailableChannel()
 			if(!sound.channel) sound.channel = mob:_getAvailableChannel()
 			if(!(sound.channel in mob:_channels_taken)) mob:_lockChannel(sound.channel)
 
@@ -315,7 +317,7 @@ obj
 					//soundmob.setListener(src)
 
 		_getAvailableChannel()
-			for(var/channel = _channel_reserve_start, channel <= _channel_reserve_end, channel ++)
+			for(var/channel = _channel_reserve_start, channel <= _channel_reserve_end, channel++)
 				if(!(channel in _channels_taken)) return channel
 
 			CRASH("You've managed to use a ridiculous number of channels. You're doing it wrong.")

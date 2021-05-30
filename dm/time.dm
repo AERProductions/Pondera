@@ -8,14 +8,14 @@ Comments throughout.*/
 //atom
 	//icon = 'dmi/64/dynamic-lighting-textured.dmi'
 var/global/
-	time_of_day = 3 //1 = setting 0 = rising 2 = day 3 = night 4 = light change
+	time_of_day = 2 //1 = setting 0 = rising 2 = day 3 = night 4 = light change
 	hour = 11	//The Hours
-	ampm = "pm"		//This is because this lib uses a 12hr Clock.
+	ampm = "am"		//This is because this lib uses a 12hr Clock.
 	minute1 = 4		//The first digit of the minutes. (0:?0)
 	minute2 = 9		//The second digit of the minutes (0:0?) (This makes sure its12:04 instead of 12:4)
-	day = 14			//The day. //S30//A29//N30//I29//S30//T29//A30//E29NY//T30//C29//K30//T29 <days in months
-	month = "Nissan"//Shevat//Adar//Nissan//Iyar//Sivan//Tammuz//Av//Elul//Tishrei//Cheshvan//Kislev//Tevet 4/3/4/1 -- Spring / Summer / Autumn / Winter
-	season//Spring//Summer//Autumn//Winter
+	day = 1			//The day. //S30//A29//N30//I29//S30//T29//A30//E29NY//T30//C29//K30//T29 <days in months
+	month = "Nisan"//spring//Shevat//Adar// Nisan(Start of New Year) //Iyar    //summer//Sivan//Tammuz//Av    //autumn//Elul//Tishrei//Cheshvan//Kislev    //winter//Tevet   4/3/4/1 -- Spring / Summer / Autumn / Winter
+	season//=call(/world/proc/SetSeason)()//Spring//Summer//Autumn//Winter
 	year = 682
 	a
 	//TownLamps = /obj/townlamp
@@ -175,6 +175,7 @@ area
 						ampm = "am"		//Same here...
 						day += 1		//But add a day at midnight.
 						call(/world/proc/WorldStatus)() //update world status date
+						TimeSave()//save the new date so we don't lose it.
 						//world.log << "Pondera Date- day [day] / month [month] / year [year] O·C· Pondera Time- [hour]: [minute1][minute2][ampm]"
 						//call(/world/proc/MtrShwr)(world)  //S30//A29//N30//I29//S30//T29//A30//E29NY//T30//C29//K30//T29
 						//call(Holiday())()
@@ -190,9 +191,9 @@ area
 						if((month == "Adar") && (day == 6||day == 11||day == 18||day == 25))
 							world << "The Sabbath ends at sunset."
 
-						if((month == "Nissan") && (day == 2||day == 9||day == 16||day == 23||day == 30))
+						if((month == "Nisan") && (day == 2||day == 9||day == 16||day == 23||day == 30))
 							world << "The Sabbath begins at sunset. Enjoy spiritual rest."
-						if((month == "Nissan") && (day == 3||day == 10||day == 17||day == 24))
+						if((month == "Nisan") && (day == 3||day == 10||day == 17||day == 24))
 							world << "The Sabbath ends at sunset."
 
 						if((month == "Iyar") && (day == 7||day == 14||day == 21||day == 28))
@@ -290,14 +291,14 @@ area
 							goto label
 						if(day == 30 && month == "Adar" && hour==12 && ampm == "am")//29
 							//year = [year]+=1
-							month = "Nissan"
+							month = "Nisan"
 							day = 1
 							call(/world/proc/SetSeason)()
 							//season = "Spring"
 							//for(var/obj/Flowers/J)
 							//	J.overlays -= J.overlays
 							goto label
-						if(day == 31 && month == "Nissan" && hour==12 && ampm == "am")//30
+						if(day == 31 && month == "Nisan" && hour==12 && ampm == "am")//30
 							month = "Iyar"
 							day = 1
 							call(/world/proc/SetSeason)()
@@ -537,12 +538,12 @@ area
 							J4.light.off()
 							J4.Lit = 0
 							J4.overlays -= image('dmi/64/fire.dmi',icon_state="8")
-					for(var/obj/castlwll5a/J5a)
+					for(var/obj/TownTorches/castlwll5a/J5a)
 						if(J5a.Lit == 1)
 							J5a.light.off()
 							J5a.Lit = 0
 							J5a.overlays -= image('dmi/64/fire.dmi',icon_state="8")
-					for(var/obj/btmwll1a/J6a)
+					for(var/obj/TownTorches/btmwll1a/J6a)
 						if(J6a.Lit == 1)
 							J6a.light.off()
 							J6a.Lit = 0
@@ -629,38 +630,53 @@ area
 					//for(var/i = 1 to 20)
 						//lighting.ambient = 2  //And even lighter...
 					for(var/obj/townlamp/J)
-						if(J.Lit == 0)
+						if(!J.light)
+							new /light/circle(J, 12)
+						else if(J.Lit == 0)
 							J.overlays += image('dmi/64/build.dmi',icon_state="ll")
 							J.light.on()
 							J.Lit = 1
 							//J.overlays -= image('dmi/64/build.dmi',icon_state="TLO")
 					for(var/obj/TownTorches/Torch/J1)
-						if(J1.Lit == 0)
+						if(!J1.light)
+							new /light/directional(J1, 8)
+							light.dir = SOUTH
+						else if(J1.Lit == 0)
 							J1.light.on()
 							J1.Lit = 1
 							J1.overlays += image('dmi/64/fire.dmi',icon_state="1")
 					for(var/obj/TownTorches/Torcha/J2)
-						if(J2.Lit == 0)
+						if(!J2.light)
+							new /light/directional(J2, 8)
+						else if(J2.Lit == 0)
 							J2.light.on()
 							J2.Lit = 1
 							J2.overlays += image('dmi/64/fire.dmi',icon_state="2")
 					for(var/obj/TownTorches/Torchb/J3)
-						if(J3.Lit == 0)
+						if(!J3.light)
+							new /light/directional(J3, 8)
+						else if(J3.Lit == 0)
 							J3.light.on()
 							J3.Lit = 1
 							J3.overlays += image('dmi/64/fire.dmi',icon_state="4")
 					for(var/obj/TownTorches/Torchc/J4)
-						if(J4.Lit == 0)
+						if(!J4.light)
+							new /light/directional(J4, 8)
+						else if(J4.Lit == 0)
 							J4.light.on()
 							J4.Lit = 1
 							J4.overlays += image('dmi/64/fire.dmi',icon_state="8")
-					for(var/obj/castlwll5a/J5a)
-						if(J5a.Lit == 0)
+					for(var/obj/TownTorches/castlwll5a/J5a)
+						if(!J5a.light)
+							new /light/directional(J5a, 8)
+						else if(J5a.Lit == 0)
 							J5a.light.on()
 							J5a.Lit = 1
 							J5a.overlays += image('dmi/64/fire.dmi',icon_state="8")
-					for(var/obj/btmwll1a/J6a)
-						if(J6a.Lit == 0)
+					for(var/obj/TownTorches/btmwll1a/J6a)
+						if(!J6a.light)
+							new /light/directional(J6a, 8)
+						else if(J6a.Lit == 0)
 							J6a.light.on()
 							J6a.Lit = 1
 							J6a.overlays += image('dmi/64/fire.dmi',icon_state="8")
@@ -840,7 +856,7 @@ area
 
 				if (day == 13 && month == "Adar" && hour == 8 && minute1 == 0 && minute2 == 0 && ampm == "pm")// && ampm == "am") //set the first 2 items to when a holiday starts. (Do not change the time2text(world.timeofday,"hh"), minute1, minute2 or ampm values!)
 					world << "<font color = green><b>\ Happy Purim!</b>"								 //set the message.
-				if (day == 14 && month == "Nissan" && hour == 8 && minute1 == 0 && minute2 == 0 && ampm == "pm")// && ampm == "am") //And it's just repeated from here...
+				if (day == 14 && month == "Nisan" && hour == 8 && minute1 == 0 && minute2 == 0 && ampm == "pm")// && ampm == "am") //And it's just repeated from here...
 					world << "<font color = green><b>\ Happy Pesach!</b>"
 				if (day == 6 && month == "Sivan" && hour == 8 && minute1 == 0 && minute2 == 0 && ampm == "pm")// && ampm == "am")
 					world << "<font color = green><b>\ Happy Shavuot!</b>"

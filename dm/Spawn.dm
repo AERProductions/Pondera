@@ -290,7 +290,7 @@ obj/spawns/
 		var/spawntype2 // mob.type it will spawn IE /mob/spawnbaby
 		var/max_spawn = 1 // number at which it will generate no new mobs
 		var/spawned = 0 // count of mobs spawned
-		DblClick()
+		/*DblClick()
 			set category=null
 			set popup_menu = 1
 			if(src in range(1, usr))
@@ -302,32 +302,41 @@ obj/spawns/
 			set category=null
 			set popup_menu = 1
 			var/mob/players/M = usr
-			var/random/R = new()
-			if(R.chance(31))
+			var/dice = "1d4"
+			var/R = roll(dice)
+			if(R<=2)
 				sleep(15)
-				if(R.chance(31))
-					new /obj/items/Seeds/Raspberryseed(M)
-					M << "You pick a Raspberry Seed"
+				//if(R.chance(31))
+				new /obj/items/Seeds/Raspberryseed(M)
+				M << "You find a Raspberry Seed!"
+			else
+				M << "You inspect the bush..."
+				sleep(7)
+				M << "Nothing out of the ordinary here."
+				return
+			if(R>=2)
+				sleep(15)
+				//if(R.chance(21))
+				new /obj/items/Seeds/Blueberryseed(M)
+				M << "You find a Blueberry Seed!"
 			else
 				M << "You search the bush..."
-			if(R.chance(21))
-				sleep(15)
-				if(R.chance(21))
-					new /obj/items/Seeds/Blueberryseed(M)
-					M << "You pick a Blueberry Seed"
-			else
-				M << "You search the bush..."
+				sleep(7)
+				M << "Nothing out of the ordinary here."
+				return*/
 		New()
 			set waitfor = 0
 			..()
 			// initialize the list of mobs to be spawned
-			spawn while (src) // More efficient to put in a loop like Deadron's event loop
-				src.check_spawn() // start the spawn calls
-				sleep(100)		// wait 10 secs
+			if(global.season!="Winter")
+				spawn while (src) // More efficient to put in a loop like Deadron's event loop
+					src.check_spawn() // start the spawn calls
+					sleep(100)		// wait 10 secs
+			else return
 
 		proc/check_spawn() // called periodically to check to see if
 						// any new mobs should be generated
-			if((spawned < max_spawn))//&&(hour == 5 && minute1 == 5 && minute2 == 9 && ampm == "am"))	// make sure we haven't reached limit
+			if(global.season!="Winter"&&(spawned < max_spawn))//&&(hour == 5 && minute1 == 5 && minute2 == 9 && ampm == "am"))	// make sure we haven't reached limit
 				var/mob/M = new spawntype2(src.loc) // generate mob
 				M.ownerB2 = src
 				spawned ++ // increment the counter
