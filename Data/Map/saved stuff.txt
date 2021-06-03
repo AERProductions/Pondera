@@ -1,0 +1,27 @@
+Saved Stuff (26 things):
+9382	/turf/temperates
+725	/obj/plant/ueiktrees
+81	/obj/Flowers/Tallgrasss
+96	/obj/plant/UeikTreeHs
+37	/obj/Flowers/Lightpurpflowers
+52	/obj/Flowers/Pinkflowers
+52	/obj/Flowers/Redflowers
+7	/obj/Rocks/OreRocks/ZRockss
+16	/obj/Rocks/Cliffs/SCliffs
+13	/obj/Rocks/Cliffs/LCliffs
+18	/obj/Rocks/Cliffs/ZCliffs
+82	/obj/plant/UeikTreeAs
+18	/obj/Rocks/OreRocks/SRockss
+48	/obj/Flowers/Purpflowers
+5	/obj/Soil/richsoils
+41	/obj/Flowers/Blueflowers
+14	/obj/Rocks/OreRocks/LRockss
+14	/obj/Rocks/Cliffs/CCliffs
+29	/obj/Rocks/OreRocks/IRockss
+7	/obj/Rocks/OreRocks/CRockss
+11	/obj/Rocks/Cliffs/ICliffs
+610	/turf/waters
+2	/turf/ObsidianFields
+2	/turf/ClayDeposits
+2	/turf/TarPits
+2	/turf/Sand2s
