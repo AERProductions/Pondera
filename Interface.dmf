@@ -1,0 +1,271 @@
+macro "macros"
+	elem 
+		name = "Center+REP"
+		command = ".center"
+	elem 
+		name = "Return"
+		command = ".output input1 *Type here to chat"
+	elem 
+		name = "Space"
+		command = "Jump"
+	elem 
+		name = "Northeast+REP"
+		command = ".northeast"
+	elem 
+		name = "Southeast+REP"
+		command = ".southeast"
+	elem 
+		name = "Southwest+REP"
+		command = ".southwest"
+	elem 
+		name = "Northwest+REP"
+		command = ".northwest"
+	elem 
+		name = "West+REP"
+		command = ".west"
+	elem 
+		name = "North+REP"
+		command = ".north"
+	elem 
+		name = "East+REP"
+		command = ".east"
+	elem 
+		name = "South+REP"
+		command = ".south"
+	elem 
+		name = "A+REP"
+		command = ".west"
+	elem 
+		name = "C"
+		command = "Stance-Strafe-Mode"
+	elem 
+		name = "D+REP"
+		command = ".east"
+	elem 
+		name = "CTRL+E"
+		command = "Unequip"
+	elem 
+		name = "CTRL+G"
+		command = "Get"
+	elem 
+		name = "S+REP"
+		command = ".south"
+	elem 
+		name = "V"
+		command = "Stance-Sprint-Mode"
+	elem 
+		name = "W+REP"
+		command = ".north"
+	elem 
+		name = "X"
+		command = "Stance-Hold-Position"
+
+
+menu "menu"
+	elem 
+		name = "File"
+		command = ""
+		saved-params = "is-checked"
+	elem 
+		name = "Save"
+		command = "save"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Options and Messages"
+		command = ".options"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Reboot"
+		command = ".reboot"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Quit"
+		command = ".quit"
+		category = "File"
+		saved-params = "is-checked"
+	elem "host"
+		name = "Host"
+		command = ".host"
+		category = "File"
+		is-disabled = true
+		saved-params = "is-checked"
+	elem 
+		name = "Fullscreen"
+		command = ".maximize"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Window mode"
+		command = ".normal"
+		category = "File"
+		saved-params = "is-checked"
+	elem "macro"
+		name = "Macro reset"
+		command = ""
+		category = "File"
+		saved-params = "is-checked"
+
+
+window "Bag"
+	elem "Bag"
+		type = MAIN
+		pos = 281,0
+		size = 160x160
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		is-visible = false
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Bag"
+		statusbar = false
+		can-minimize = false
+		can-resize = false
+	elem "Inventory"
+		type = MAP
+		pos = 0,0
+		size = 160x160
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		saved-params = "zoom;letterbox;zoom-mode"
+
+window "Bank"
+	elem "Bank"
+		type = MAIN
+		pos = 281,0
+		size = 160x160
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		is-visible = false
+		saved-params = "pos;size;is-minimized;is-maximized"
+		statusbar = false
+		can-minimize = false
+		can-resize = false
+	elem "map2"
+		type = MAP
+		pos = 0,0
+		size = 160x160
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		saved-params = "zoom;letterbox;zoom-mode"
+
+window "default"
+	elem "default"
+		type = MAIN
+		pos = 281,0
+		size = 1336x768
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = #203e29
+		is-default = true
+		saved-params = "size;is-maximized"
+		statusbar = false
+		icon = 'imgs\\cbico.gif'
+		image = 'imgs\\bckgrnd2.jpg'
+		transparent-color = #ff00ff
+		macro = "macros"
+		menu = "menu"
+		on-close = "Save"
+		outer-size = 1352x827
+		inner-size = 1336x768
+	elem "Bank"
+		type = BUTTON
+		pos = 1024,608
+		size = 128x56
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = "is-checked"
+		text = "Bank"
+		command = ""
+	elem "Bag"
+		type = BUTTON
+		pos = 1024,552
+		size = 128x56
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = "is-checked"
+		text = "Bag"
+		command = ""
+	elem "button1a"
+		type = BUTTON
+		pos = 968,696
+		size = 64x54
+		anchor1 = 72,92
+		anchor2 = 77,99
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #33cc33
+		background-color = #1f6d6d
+		is-visible = false
+		is-transparent = true
+		saved-params = ""
+		text = "Enter"
+		command = "wsay"
+		stretch = true
+	elem "map1"
+		type = MAP
+		pos = 8,24
+		size = 958x502
+		anchor1 = 1,3
+		anchor2 = 72,71
+		text-color = #000000
+		is-default = true
+		drop-zone = false
+		saved-params = "icon-size"
+		letterbox = false
+	elem "input1"
+		type = INPUT
+		pos = 151,696
+		size = 815x56
+		anchor1 = 11,91
+		anchor2 = 72,98
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold"
+		text-color = #82c0ff
+		background-color = #1f6d6d
+		is-default = true
+		border = sunken
+		saved-params = ""
+		command = "wsay"
+	elem "output1"
+		type = OUTPUT
+		pos = 151,573
+		size = 815x123
+		anchor1 = 11,75
+		anchor2 = 72,91
+		font-family = "Bodoni MT"
+		font-size = 11
+		font-style = "bold"
+		text-color = #009ce8
+		background-color = #203e29
+		is-default = true
+		saved-params = "max-lines"
+		link-color = #0061c1
+		visited-color = #d7ffd7
+		max-lines = 49
+	elem "info1"
+		type = INFO
+		pos = 975,24
+		size = 351x502
+		anchor1 = 73,3
+		anchor2 = 99,71
+		font-family = "Book Antiqua"
+		font-size = 9
+		font-style = "bold"
+		text-color = #66b07e
+		background-color = #002e5b
+		is-default = true
+		drop-zone = false
+		saved-params = ""
+		highlight-color = #9acbaa
+		tab-text-color = #56a771
+		tab-background-color = #004993
+		tab-font-family = "Book Antiqua"
+		tab-font-size = 8
+		tab-font-style = "bold underline"
+
