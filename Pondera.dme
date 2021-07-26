@@ -1,0 +1,89 @@
+// DM Environment file for WIP.dme.
+// All manual changes should be made outside the BEGIN_ and END_ blocks.
+// New source code should be placed in .dm files: choose File/New --> Code File.
+
+// BEGIN_INTERNALS
+// END_INTERNALS
+
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+// END_FILE_DIR
+
+// BEGIN_PREFERENCES
+#define DEBUG
+// END_PREFERENCES
+
+// BEGIN_INCLUDE
+#include "!defines.dm"
+#include "Interface1336768.dmf"
+#include "afterlife.dmm"
+#include "test.dmm"
+#include "dm\_AdminCommands.dm"
+#include "dm\_debugtimer.dm"
+#include "dm\_DRCH2.dm"
+#include "dm\armors.dm"
+#include "dm\Basics.dm"
+#include "dm\colour2html.dm"
+#include "dm\deed.dm"
+#include "dm\dir.dm"
+#include "dm\door.dm"
+#include "dm\DRCH.dm"
+#include "dm\EditCode.dm"
+#include "dm\Enemies.dm"
+#include "dm\F0laks Debug Messager.dm"
+#include "dm\fullscreen.dm"
+#include "dm\jb.dm"
+#include "dm\Journ.dm"
+#include "dm\lg.dm"
+#include "dm\Light.dm"
+#include "dm\mining.dm"
+#include "dm\Mov.dm"
+#include "dm\MPSBWorldSave.dm"
+#include "dm\Music.dm"
+#include "dm\npcs.dm"
+#include "dm\obj.dm"
+#include "dm\Objects.dm"
+#include "dm\pickrandomname.dm"
+#include "dm\plant.dm"
+#include "dm\Pub.dm"
+#include "dm\QFEP.dm"
+#include "dm\s_damage2.dm"
+#include "dm\SavingChars.dm"
+#include "dm\sfx.dm"
+#include "dm\shields.dm"
+#include "dm\Sound.dm"
+#include "dm\Spawn.dm"
+#include "dm\Spells.dm"
+#include "dm\stacking.dm"
+#include "dm\Stance.dm"
+#include "dm\store.dm"
+#include "dm\tchst.dm"
+#include "dm\testdynlight.dm"
+#include "dm\time.dm"
+#include "dm\TimeSave.dm"
+#include "dm\tools.dm"
+#include "dm\Turf.dm"
+#include "dm\w.dm"
+#include "dm\WC.dm"
+#include "dm\Weapons.dm"
+#include "dm\Zoom.dm"
+#include "libs\BaseCamp.dm"
+#include "libs\Compas.dm"
+#include "libs\Fl_AtomSystem.dm"
+#include "libs\Fl_ElevationSystem.dm"
+#include "libs\htmllib.dm"
+#include "libs\IconColor.dm"
+#include "libs\IconProcs.dm"
+#include "libs\movement.dm"
+#include "libs\Name Filter.dm"
+#include "libs\partition.dm"
+#include "libs\region.dm"
+#include "libs\um_SimpleLocks.dm"
+#include "mapgen\_seed.dm"
+#include "mapgen\_water.dm"
+#include "mapgen\backend.dm"
+#include "mapgen\biome_arctic.dm"
+#include "mapgen\biome_desert.dm"
+#include "mapgen\biome_rainforest.dm"
+#include "mapgen\biome_temperate.dm"
+// END_INCLUDE

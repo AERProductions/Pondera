@@ -1,0 +1,26 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dreammaker",
+			"dme": "Pondera.dme",
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"revealProblems": "onProblem",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": [
+				"$dreammaker"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"label": "dm: build - Pondera.dme"
+		}
+	]
+}
