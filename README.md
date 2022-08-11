@@ -1,7 +1,7 @@
 # Pondera
 Public Open Source Development
 
-<a href="https://discord.gg/2ZGz38FK4w">Hallowed Grounds - Pondera Discord</a>
+<a href="https://matrix.to/#/#pondera:matrix.org">Pondera Matrix</a>
 
 <a href="http://www.byond.com/games/AERProductions/Pondera">Pondera Byond Hub</a>
 
