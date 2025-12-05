@@ -1,41 +1,11 @@
 /*
-
-	Map Generation
-	by F0lak
-
-	Handles procedural generation of the game world by placing random
-	blocks of various turfs and borders around the map, as well as
-	taking care of spawning biome relevant resources on the turfs
-
-	This dm file DOES NOT contain everything needed to make this system function
-	Some functionality is extended in other dm files
-	dm files that extend functionality are labelled with the biome_ prefix
-
-		Functionality NOT contained in this file:
-			- Resource Spawning:
-				the function to spawn resources is defined in this file,
-				but the actual spawning of resources and their chance to spawn
-				are defined in the files labelled with the biome_ prefix
-
-
-	Any inquiries or assistance in using this system can be directed to F0lak
-	at f0lak.haz@gmail.com
-	Subject: Pondera Map Generation
-
-	version 1.0 | 12/08/20
-		- see documentation
-	version 1.1 | 12/11/20
-		- added graphics for inside corners
-		- added mining deposits to hillsides
-		- added ramps to hillsides
-		- added fields to customize size of terrain blocks
-		- tweaked resource spawning to fix a few glitches
-		- changed resource spawning to use a bool 'spawn_resources'
-		- added _seed.dm
-		- made hillsides modify turf density
-
+	Map Generation — by F0lak
+	Handles procedural generation of the game world by placing random blocks of various turfs
+	and borders around the map, as well as spawning biome-relevant resources.
+	Biome-specific spawning logic is extended in files labelled with the biome_ prefix.
 */
 
+// Helper: return cardinal (N/S/E/W) neighbors of a turf.
 proc
 	get_cardinal(turf/t)
 		var/cardinals[] = new
@@ -45,6 +15,7 @@ proc
 		if(get_step(t, 8)) cardinals += get_step(t, 8)
 		return cardinals
 
+	// Helper: return diagonal neighbors of a turf.
 	get_diagonal(turf/t)
 		var/diagonals[] = new
 		if(get_step(t, 5))  diagonals += get_step(t, 5)
@@ -53,17 +24,13 @@ proc
 		if(get_step(t, 10)) diagonals += get_step(t, 10)
 		return diagonals
 
-/*
-	The /map_generator type is used to create a random block
-	of a specific type of turf at a random location and size
-	somewhere on the world map
-*/
-
+// Global list of active map generator instances.
 var
 	map_generators[0]
 
+// Spawn initial terrain: create generators for lakes and hills, apply borders and resource spawning.
 proc
-	GenerateMap(lakes = 25, hills = 25)
+	GenerateMap(lakes = 15, hills = 15)
 		new /map_generator/water(lakes)
 		new /map_generator/temperate(hills)
 
@@ -74,12 +41,13 @@ proc
 		for(var/turf/t)
 			t.SpawnResource()
 
+// Map generator type: creates random terrain blocks at specified size/location.
 map_generator
 
 	var
-		pos[2]	// read as vector2
-		size[2]	// read as vector2
-		turfs[0] // list of turfs for this chunk
+		pos[2]
+		size[2]
+		turfs[0]
 		turf/tile
 		turf/center_turf
 
@@ -87,29 +55,23 @@ map_generator
 		max_size = 5
 
 	New(n)
-		//..()
 		map_generators += src
-
 		TIMER_END("generation")
-
 		for(var/i, i<n, i++)
 			GetTurfs()
-
 		Generate()
-
 		TIMER_END("generation")
 
 	proc
+		// Select random turfs within a chunk and add to turfs list.
 		GetTurfs()
-
 			size[1] = rand(min_size, max_size)
 			size[2] = rand(min_size, max_size)
-
 			pos[1] = rand(1, world.maxx - size[1])
 			pos[2] = rand(1, world.maxy - size[2])
+			turfs |= (block(locate(pos[1], pos[2], 2), locate(pos[1] + size[1], pos[2] + size[2], 2)))
 
-			turfs |= (block(locate(pos[1], pos[2], 1), locate(pos[1] + size[1], pos[2] + size[2], 2)))
-
+		// Instantiate turfs and set sound effects at chunk center.
 		Generate()
 			for(var/turf/t in turfs)
 				var newtile = new tile (t)
@@ -119,7 +81,16 @@ map_generator
 						center_turf.SpawnSoundEffects()
 					else
 						center_turf.SpawnSoundEffectsW()
+			for(var/turf/water/t in turfs)
+				var newtile = new tile (t)
+				if(turfs.Find(newtile) == round(turfs.len/2))
+					center_turf = newtile
+					if(global.season!="Winter")
+						center_turf.SpawnSoundEffectsWAT()
+					else
+						return
 
+		// Paint borders on edge turfs between different elevations.
 		EdgeBorder()
 			for(var/turf/t in turfs)
 				var dir
@@ -127,10 +98,10 @@ map_generator
 					if(adjacent.elevation == t.elevation) continue
 					else
 						dir += get_dir(t, adjacent)
-
 				if(dir && t.border_type)
 					CreateBorder(t, dir)
 
+		// Paint interior borders on turfs with same-elevation neighbors.
 		InsideBorder()
 			for(var/turf/t in turfs)
 				var dir = 0
@@ -188,6 +159,8 @@ turf
 		spawn_resources = TRUE
 		sfx[0]
 		wsfx[0]
+		sfxwat[0]
+
 
 
 	proc
@@ -198,9 +171,13 @@ turf
 				var/soundmob/new_sfx = pick(sfx)
 				new new_sfx(src)
 		SpawnSoundEffectsW()
-			if(sfx.len > 0&&global.season=="Winter")
+			if(wsfx.len > 0&&global.season=="Winter")
 				var/soundmob/new_wsfx = pick(wsfx)
 				new new_wsfx(src)
+		SpawnSoundEffectsWAT()
+			if(sfxwat.len > 0&&global.season!="Winter"&&month!="Tevet")
+				var/soundmob/new_sfxwat = pick(sfxwat)
+				new new_sfxwat(src)
 
 	New(turf/newloc)
 		//..()
