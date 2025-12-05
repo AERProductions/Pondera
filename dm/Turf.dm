@@ -1,9 +1,13 @@
 turf
+	//start {icon = 'dmi/64/gen.dmi'; icon_state = "grass"; layer = 99; density = 0; mouse_opacity = 0}
+	nostart {icon = 'dmi/64/gen.dmi'; icon_state = "grass"; layer = 99; density = 1; mouse_opacity = 1}
+
+
 	var/sw
 	blank {icon = 'dmi/64/blank.dmi'}
-	start {icon = 'dmi/start.dmi'; plane = 3}
+	start {icon = 'dmi/start.dmi'; layer = 3}
 	inviswall {icon = 'dmi/start.dmi'; density = 1; opacity = 0}
-	lghtgrss {icon = 'dmi/64/lghtgrss.dmi'; plane = 0; layer = 1}
+	lghtgrss {icon = 'dmi/64/lghtgrss.dmi'; layer = 0; layer = 1}
 	stonebldng {icon = 'dmi/64/buildings.dmi'; icon_state= "stn"}
 	woodbldng {icon = 'dmi/64/buildings.dmi'; icon_state= "wd"}
 	village {icon = 'dmi/64/buildings.dmi'; icon_state= "village"}
@@ -44,9 +48,9 @@ turf
 
 	caves
 		caveent1 {name = "caves1"; icon = 'dmi/64/mntn.dmi'; icon_state = "c1"; density = 1}
-		caveent2 {name = "caves2"; icon = 'dmi/64/mn.dmi'; icon_state = "c2"; density = 1; plane = MOB_LAYER+3}
-		caveent3 {name = "caves3"; icon = 'dmi/64/mn.dmi'; icon_state = "c3"; density = 1; plane = MOB_LAYER+3}
-		caveent4 {name = "caves4"; icon = 'dmi/64/mn.dmi'; icon_state = "c4"; density = 1; plane = MOB_LAYER+3}
+		caveent2 {name = "caves2"; icon = 'dmi/64/mn.dmi'; icon_state = "c2"; density = 1; layer = MOB_LAYER+3}
+		caveent3 {name = "caves3"; icon = 'dmi/64/mn.dmi'; icon_state = "c3"; density = 1; layer = MOB_LAYER+3}
+		caveent4 {name = "caves4"; icon = 'dmi/64/mn.dmi'; icon_state = "c4"; density = 1; layer = MOB_LAYER+3}
 		caveflr1 {name = "cflr"; icon = 'dmi/64/Caves.dmi'; icon_state = "cflr"}
 		caveflr2 {name = "caveflr2"; icon = 'dmi/64/Caves.dmi'; icon_state = "cflr2"}
 		caveflr3 {name = "caveflr3"; icon = 'dmi/64/Caves.dmi'; icon_state = "cflr3"}
@@ -75,22 +79,22 @@ turf
 		Icavernwa3 {name = "Icavernwa3"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawr"; density = 1; opacity = 0}
 		Icavernwa4 {name = "Icavernwa4"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawb"; density = 1; opacity = 0}
 		cavew4a {name = "cavew4a"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwta"; density = 1; opacity = 0}
-		cavefw1 {name = "cavefw1"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwt"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		cavefw2 {name = "cavefw2"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwl"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		cavefw3 {name = "cavefw3"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwr"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		cavefw4 {name = "cavefw4"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwb"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		cavernfw1 {name = "cavernfw1"; icon = 'dmi/64/Caves.dmi'; icon_state = "cawt"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		cavernfw2 {name = "cavernfw2"; icon = 'dmi/64/Caves.dmi'; icon_state = "cawl"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		cavernfw3 {name = "cavernfw3"; icon = 'dmi/64/Caves.dmi'; icon_state = "cawr"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		cavernfw4 {name = "cavernfw4"; icon = 'dmi/64/Caves.dmi'; icon_state = "cawb"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		Icavernfw1 {name = "Icavernfw1"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawt"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		Icavernfw2 {name = "Icavernfw2"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawl"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		Icavernfw3 {name = "Icavernfw3"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawr"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
-		Icavernfw4 {name = "Icavernfw4"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawb"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; plane = MOB_LAYER+3}
+		cavefw1 {name = "cavefw1"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwt"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		cavefw2 {name = "cavefw2"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwl"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		cavefw3 {name = "cavefw3"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwr"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		cavefw4 {name = "cavefw4"; icon = 'dmi/64/Caves.dmi'; icon_state = "cwb"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		cavernfw1 {name = "cavernfw1"; icon = 'dmi/64/Caves.dmi'; icon_state = "cawt"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		cavernfw2 {name = "cavernfw2"; icon = 'dmi/64/Caves.dmi'; icon_state = "cawl"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		cavernfw3 {name = "cavernfw3"; icon = 'dmi/64/Caves.dmi'; icon_state = "cawr"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		cavernfw4 {name = "cavernfw4"; icon = 'dmi/64/Caves.dmi'; icon_state = "cawb"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		Icavernfw1 {name = "Icavernfw1"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawt"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		Icavernfw2 {name = "Icavernfw2"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawl"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		Icavernfw3 {name = "Icavernfw3"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawr"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
+		Icavernfw4 {name = "Icavernfw4"; icon = 'dmi/64/Caves.dmi'; icon_state = "Icawb"; density = 0; opacity = 0; mouse_opacity = 0; invisibility = 1; layer = MOB_LAYER+3}
 		cavesc1 {name = "cavesc1"; icon = 'dmi/64/Caves.dmi'; icon_state = "sclm"; density = 1}
 		cavedc1 {name = "cavedc1"; icon = 'dmi/64/Caves.dmi'; icon_state = "dclm"; density = 1}
 		caveidc1 {name = "caveidc1"; icon = 'dmi/64/Caves.dmi'; icon_state = "lsclm"; density = 1}
-		mpillar {name = "mpillar"; icon = 'dmi/64/Caves.dmi'; icon_state = "mpillar"; density = 1; plane = 3}
+		mpillar {name = "mpillar"; icon = 'dmi/64/Caves.dmi'; icon_state = "mpillar"; density = 1; layer = 3}
 		cavete1 {name = "cavete1"; icon = 'dmi/64/Caves.dmi'; icon_state = "cte"; density = 1}
 		cavebe2 {name = "cavebe2"; icon = 'dmi/64/Caves.dmi'; icon_state = "cbe"; density = 1}
 		cavernte1 {name = "cavernte1"; icon = 'dmi/64/Caves.dmi'; icon_state = "cate"; density = 1}
@@ -131,10 +135,10 @@ turf
 		cavef2 {name = "cavef2"; icon = 'dmi/64/Caves.dmi'; icon_state = "f2"; density = 1; opacity = 0}
 		cavef3 {name = "cavef3"; icon = 'dmi/64/Caves.dmi'; icon_state = "f3"; density = 1; opacity = 0}
 		cavef4 {name = "cavef4"; icon = 'dmi/64/Caves.dmi'; icon_state = "f4"; density = 1; opacity = 0}
-		cavedrwy1 {name = "cavedrwy1"; icon = 'dmi/64/Caves.dmi'; icon_state = "f1"; density = 0; plane = MOB_LAYER+1}
-		cavedrwy2 {name = "cavedrwy2"; icon = 'dmi/64/Caves.dmi'; icon_state = "f2"; density = 0; plane = MOB_LAYER+1}
-		cavedrwy3 {name = "cavedrwy3"; icon = 'dmi/64/Caves.dmi'; icon_state = "f3"; density = 0; plane = MOB_LAYER+1}
-		cavedrwy4 {name = "cavedrwy4"; icon = 'dmi/64/Caves.dmi'; icon_state = "f4"; density = 0; plane = MOB_LAYER+1}
+		cavedrwy1 {name = "cavedrwy1"; icon = 'dmi/64/Caves.dmi'; icon_state = "f1"; density = 0; layer = MOB_LAYER+1}
+		cavedrwy2 {name = "cavedrwy2"; icon = 'dmi/64/Caves.dmi'; icon_state = "f2"; density = 0; layer = MOB_LAYER+1}
+		cavedrwy3 {name = "cavedrwy3"; icon = 'dmi/64/Caves.dmi'; icon_state = "f3"; density = 0; layer = MOB_LAYER+1}
+		cavedrwy4 {name = "cavedrwy4"; icon = 'dmi/64/Caves.dmi'; icon_state = "f4"; density = 0; layer = MOB_LAYER+1}
 		cavernf1 {name = "cavernf1"; icon = 'dmi/64/Caves.dmi'; icon_state = "f1a"; density = 1; opacity = 0}
 		cavernf2 {name = "cavernf2"; icon = 'dmi/64/Caves.dmi'; icon_state = "f2a"; density = 1; opacity = 0}
 		cavernf3 {name = "cavernf3"; icon = 'dmi/64/Caves.dmi'; icon_state = "f3a"; density = 1; opacity = 0}
@@ -143,14 +147,14 @@ turf
 		Icavernf2 {name = "Icavernf2"; icon = 'dmi/64/Caves.dmi'; icon_state = "If2a"; density = 1; opacity = 0}
 		Icavernf3 {name = "Icavernf3"; icon = 'dmi/64/Caves.dmi'; icon_state = "If3a"; density = 1; opacity = 0}
 		Icavernf4 {name = "Icavernf4"; icon = 'dmi/64/Caves.dmi'; icon_state = "If4a"; density = 1; opacity = 0}
-		caverndrwy1 {name = "caverndrwy1a"; icon = 'dmi/64/Caves.dmi'; icon_state = "f1a"; density = 0; plane = MOB_LAYER+1}
-		caverndrwy2 {name = "caverndrwy2a"; icon = 'dmi/64/Caves.dmi'; icon_state = "f2a"; density = 0; plane = MOB_LAYER+1}
-		caverndrwy3 {name = "caverndrwy3a"; icon = 'dmi/64/Caves.dmi'; icon_state = "f3a"; density = 0; plane = MOB_LAYER+1}
-		caverndrwy4 {name = "caverndrwy4a"; icon = 'dmi/64/Caves.dmi'; icon_state = "f4a"; density = 0; plane = MOB_LAYER+1}
-		Icaverndrwy1 {name = "Icaverndrwy1a"; icon = 'dmi/64/Caves.dmi'; icon_state = "If1a"; density = 0; plane = MOB_LAYER+1}
-		Icaverndrwy2 {name = "Icaverndrwy2a"; icon = 'dmi/64/Caves.dmi'; icon_state = "If2a"; density = 0; plane = MOB_LAYER+1}
-		Icaverndrwy3 {name = "Icaverndrwy3a"; icon = 'dmi/64/Caves.dmi'; icon_state = "If3a"; density = 0; plane = MOB_LAYER+1}
-		Icaverndrwy4 {name = "Icaverndrwy4a"; icon = 'dmi/64/Caves.dmi'; icon_state = "If4a"; density = 0; plane = MOB_LAYER+1}
+		caverndrwy1 {name = "caverndrwy1a"; icon = 'dmi/64/Caves.dmi'; icon_state = "f1a"; density = 0; layer = MOB_LAYER+1}
+		caverndrwy2 {name = "caverndrwy2a"; icon = 'dmi/64/Caves.dmi'; icon_state = "f2a"; density = 0; layer = MOB_LAYER+1}
+		caverndrwy3 {name = "caverndrwy3a"; icon = 'dmi/64/Caves.dmi'; icon_state = "f3a"; density = 0; layer = MOB_LAYER+1}
+		caverndrwy4 {name = "caverndrwy4a"; icon = 'dmi/64/Caves.dmi'; icon_state = "f4a"; density = 0; layer = MOB_LAYER+1}
+		Icaverndrwy1 {name = "Icaverndrwy1a"; icon = 'dmi/64/Caves.dmi'; icon_state = "If1a"; density = 0; layer = MOB_LAYER+1}
+		Icaverndrwy2 {name = "Icaverndrwy2a"; icon = 'dmi/64/Caves.dmi'; icon_state = "If2a"; density = 0; layer = MOB_LAYER+1}
+		Icaverndrwy3 {name = "Icaverndrwy3a"; icon = 'dmi/64/Caves.dmi'; icon_state = "If3a"; density = 0; layer = MOB_LAYER+1}
+		Icaverndrwy4 {name = "Icaverndrwy4a"; icon = 'dmi/64/Caves.dmi'; icon_state = "If4a"; density = 0; layer = MOB_LAYER+1}
 	dbd1 {name = "dbd1"; icon = 'dmi/64/Islbord.dmi'; icon_state = "dbd1"; density = 1}
 	dbd2 {name = "dbd2"; icon = 'dmi/64/Islbord.dmi'; icon_state = "dbd2"; density = 1}
 	dbd3 {name = "dbd3"; icon = 'dmi/64/Islbord.dmi'; icon_state = "dbd3"; density = 1}
@@ -189,18 +193,18 @@ turf
 	sbca4 {name = "sbca4"; icon = 'dmi/64/Islbord.dmi'; icon_state = "sbca4"; density = 1}
 	dgc {name = "dgc"; icon = 'dmi/64/snow.dmi'; icon_state = "dgc"; density = 1}
 	lgc {name = "lgc"; icon = 'dmi/64/snow.dmi'; icon_state = "lgc"; density = 1}
-	lg2s1 {name = "lg2s1"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2s1"; density = 0; plane = 1; layer = 1}
-	lg2s2 {name = "lg2s2"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2s2"; density = 0; plane = 1; layer = 1}
-	lg2s3 {name = "lg2s3"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2s3"; density = 0; plane = 1; layer = 1}
-	lg2s4 {name = "lg2s4"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2s4"; density = 0; plane = 1; layer = 1}
-	lg2sc1 {name = "lg2sc1"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2sc1"; density = 0; plane = 1; layer = 1}
-	lg2sc2 {name = "lg2sc2"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2sc2"; density = 0; plane = 1; layer = 1}
-	lg2sc3 {name = "lg2sc3"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2sc3"; density = 0; plane = 1; layer = 1}
-	lg2sc4 {name = "lg2sc4"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2sc4"; density = 0; plane = 1; layer = 1}
-	lg2stc1 {name = "lg2stc1"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2stc1"; density = 0; plane = 1; layer = 1}
-	lg2stc2 {name = "lg2stc2"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2stc2"; density = 0; plane = 1; layer = 1}
-	lg2stc3 {name = "lg2stc3"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2stc3"; density = 0; plane = 1; layer = 1}
-	lg2stc4 {name = "lg2stc4"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2stc4"; density = 0; plane = 1; layer = 1}
+	lg2s1 {name = "lg2s1"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2s1"; density = 0; layer = 1; layer = 1}
+	lg2s2 {name = "lg2s2"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2s2"; density = 0; layer = 1; layer = 1}
+	lg2s3 {name = "lg2s3"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2s3"; density = 0; layer = 1; layer = 1}
+	lg2s4 {name = "lg2s4"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2s4"; density = 0; layer = 1; layer = 1}
+	lg2sc1 {name = "lg2sc1"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2sc1"; density = 0; layer = 1; layer = 1}
+	lg2sc2 {name = "lg2sc2"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2sc2"; density = 0; layer = 1; layer = 1}
+	lg2sc3 {name = "lg2sc3"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2sc3"; density = 0; layer = 1; layer = 1}
+	lg2sc4 {name = "lg2sc4"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2sc4"; density = 0; layer = 1; layer = 1}
+	lg2stc1 {name = "lg2stc1"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2stc1"; density = 0; layer = 1; layer = 1}
+	lg2stc2 {name = "lg2stc2"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2stc2"; density = 0; layer = 1; layer = 1}
+	lg2stc3 {name = "lg2stc3"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2stc3"; density = 0; layer = 1; layer = 1}
+	lg2stc4 {name = "lg2stc4"; icon = 'dmi/64/snow.dmi'; icon_state = "lg2stc4"; density = 0; layer = 1; layer = 1}
 	GrassIsland
 		isl1 {name = "1"; icon = 'dmi/64/extra.dmi'; icon_state = "1"; density = 0}
 		isl2 {name = "2"; icon = 'dmi/64/extra.dmi'; icon_state = "2"; density = 0}
@@ -339,31 +343,31 @@ turf
 		bisl32a {name = "b32a"; icon = 'dmi/64/bextra.dmi'; icon_state = "32a"; density = 0}
 		bisl33a {name = "b33a"; icon = 'dmi/64/bextra.dmi'; icon_state = "33a"; density = 0}
 		bisl34a {name = "b34a"; icon = 'dmi/64/bextra.dmi'; icon_state = "34a"; density = 0}
-	Tree1 {name = "bigtree"; icon = 'dmi/64/tree.dmi'; icon_state = "mat1"; density = 1; plane = TURF_LAYER+5}
-	PalmTree1 {name = "palmtree"; icon = 'dmi/64/tree.dmi'; icon_state = "palm"; density = 1; plane = TURF_LAYER+5}
-	//JungleTree {name = "jungtree"; icon = 'dmi/64/tree.dmi'; icon_state = "jungletree"; density = 1; plane = TURF_LAYER+5}
-	//JungleFern {name = "jungfern"; icon = 'dmi/64/tree.dmi'; icon_state = "junglefern"; density = 1; plane = TURF_LAYER+5}
-	tree2 {name = "bigtree2"; icon = 'dmi/64/tree.dmi'; icon_state = "4756"; plane = MOB_LAYER+1}
-	tree3 {name = "bigtree3"; icon = 'dmi/64/tree.dmi'; icon_state = "big"; plane = MOB_LAYER+1; borders=SOUTH}
-	//tree4 {name = "bigtree4"; icon = 'dmi/64/tree.dmi'; icon_state = "tree"; plane = MOB_LAYER+1; density = 1}
-	//forest00 {name = "tree"; icon = 'dmi/64/tree.dmi'; icon_state = "0"; plane = MOB_LAYER+1; mouse_opacity = 0}
-	forest01 {name = "forest01"; icon = 'dmi/64/tree.dmi'; icon_state = "1"; plane = MOB_LAYER+3; mouse_opacity = 1; density = 0}
-	forest02 {name = "forest02"; icon = 'dmi/64/tree.dmi'; icon_state = "2"; plane = MOB_LAYER+1; mouse_opacity = 1; density = 0}
-	forest03 {name = "forest03"; icon = 'dmi/64/tree.dmi'; icon_state = "3"; plane = MOB_LAYER+1; mouse_opacity = 1; density = 0}
-	forest04 {name = "forest04"; icon = 'dmi/64/tree.dmi'; icon_state = "4"; plane = MOB_LAYER+1; mouse_opacity = 1; density = 0}
-	forest05 {name = "forest05"; icon = 'dmi/64/tree.dmi'; icon_state = "5"; plane = MOB_LAYER+1; mouse_opacity = 1; density = 0}
+	Tree1 {name = "bigtree"; icon = 'dmi/64/tree.dmi'; icon_state = "mat1"; density = 1; layer = TURF_LAYER+5}
+	PalmTree1 {name = "palmtree"; icon = 'dmi/64/tree.dmi'; icon_state = "palm"; density = 1; layer = TURF_LAYER+5}
+	//JungleTree {name = "jungtree"; icon = 'dmi/64/tree.dmi'; icon_state = "jungletree"; density = 1; layer = TURF_LAYER+5}
+	//JungleFern {name = "jungfern"; icon = 'dmi/64/tree.dmi'; icon_state = "junglefern"; density = 1; layer = TURF_LAYER+5}
+	tree2 {name = "bigtree2"; icon = 'dmi/64/tree.dmi'; icon_state = "4756"; layer = MOB_LAYER+1}
+	tree3 {name = "bigtree3"; icon = 'dmi/64/tree.dmi'; icon_state = "big"; layer = MOB_LAYER+1; borders=SOUTH}
+	//tree4 {name = "bigtree4"; icon = 'dmi/64/tree.dmi'; icon_state = "tree"; layer = MOB_LAYER+1; density = 1}
+	//forest00 {name = "tree"; icon = 'dmi/64/tree.dmi'; icon_state = "0"; layer = MOB_LAYER+1; mouse_opacity = 0}
+	forest01 {name = "forest01"; icon = 'dmi/64/tree.dmi'; icon_state = "1"; layer = MOB_LAYER+3; mouse_opacity = 1; density = 0}
+	forest02 {name = "forest02"; icon = 'dmi/64/tree.dmi'; icon_state = "2"; layer = MOB_LAYER+1; mouse_opacity = 1; density = 0}
+	forest03 {name = "forest03"; icon = 'dmi/64/tree.dmi'; icon_state = "3"; layer = MOB_LAYER+1; mouse_opacity = 1; density = 0}
+	forest04 {name = "forest04"; icon = 'dmi/64/tree.dmi'; icon_state = "4"; layer = MOB_LAYER+1; mouse_opacity = 1; density = 0}
+	forest05 {name = "forest05"; icon = 'dmi/64/tree.dmi'; icon_state = "5"; layer = MOB_LAYER+1; mouse_opacity = 1; density = 0}
 	dirt {name = "sand"; icon = 'dmi/64/sand.dmi'; icon_state = "sand"}
 	castl
 		castlwll1 {name = "castlwll1"; icon = 'dmi/64/Castl.dmi'; icon_state = "1"; density = 1}
-		castlwll2 {name = "castlwll2"; icon = 'dmi/64/Castl.dmi'; icon_state = "2"; density = 1; plane = 6}
-		castlwll2two {name = "castlwll2two"; icon = 'dmi/64/Castl.dmi'; icon_state = "2two"; density = 1; plane = 4}
-		castlwll3 {name = "castlwll3"; icon = 'dmi/64/Castl.dmi'; icon_state = "3"; plane = MOB_LAYER+2}
-		castlwll3a {name = "castlwll3a"; icon = 'dmi/64/Castl.dmi'; icon_state = "wdtwr"; plane = MOB_LAYER+2}
-		castlwll4 {name = "castlwll4"; icon = 'dmi/64/Castl.dmi'; icon_state = "4"; density = 1; plane = MOB_LAYER+1}
-		castlwll4a {name = "castlwll4a"; icon = 'dmi/64/Castl.dmi'; icon_state = "4a"; density = 1; plane = MOB_LAYER+1}
-		castlwll4b {name = "castlwll4b"; icon = 'dmi/64/Castl.dmi'; icon_state = "4b"; density = 1; plane = MOB_LAYER+1}
-		castlwll5 {name = "castlwll5"; icon = 'dmi/64/Castl.dmi'; icon_state = "5"; plane = MOB_LAYER+1}
-		//castlwll5a {name = "castlwll5a"; icon = 'dmi/64/Castl.dmi'; icon_state = "5a"; mouse_opacity = 0; plane = MOB_LAYER+1}
+		castlwll2 {name = "castlwll2"; icon = 'dmi/64/Castl.dmi'; icon_state = "2"; density = 1; layer = 6}
+		castlwll2two {name = "castlwll2two"; icon = 'dmi/64/Castl.dmi'; icon_state = "2two"; density = 1; layer = 4}
+		castlwll3 {name = "castlwll3"; icon = 'dmi/64/Castl.dmi'; icon_state = "3"; layer = MOB_LAYER+2}
+		castlwll3a {name = "castlwll3a"; icon = 'dmi/64/Castl.dmi'; icon_state = "wdtwr"; layer = MOB_LAYER+2}
+		castlwll4 {name = "castlwll4"; icon = 'dmi/64/Castl.dmi'; icon_state = "4"; density = 1; layer = MOB_LAYER+1}
+		castlwll4a {name = "castlwll4a"; icon = 'dmi/64/Castl.dmi'; icon_state = "4a"; density = 1; layer = MOB_LAYER+1}
+		castlwll4b {name = "castlwll4b"; icon = 'dmi/64/Castl.dmi'; icon_state = "4b"; density = 1; layer = MOB_LAYER+1}
+		castlwll5 {name = "castlwll5"; icon = 'dmi/64/Castl.dmi'; icon_state = "5"; layer = MOB_LAYER+1}
+		//castlwll5a {name = "castlwll5a"; icon = 'dmi/64/Castl.dmi'; icon_state = "5a"; mouse_opacity = 0; layer = MOB_LAYER+1}
 		castlwll6 {name = "castlwll6"; icon = 'dmi/64/Castl.dmi'; icon_state = "6"; density = 1}
 		castlwll7 {name = "castlwll7"; icon = 'dmi/64/Castl.dmi'; icon_state = "7"; density = 1}
 		castlwll8 {name = "castlwll8"; icon = 'dmi/64/Castl.dmi'; icon_state = "8"; density = 1}
@@ -372,27 +376,27 @@ turf
 		castlwll11 {name = "castlwll11"; icon = 'dmi/64/Castl.dmi'; icon_state = "11"; density = 1}
 		castlwll12 {name = "castlwll12"; icon = 'dmi/64/Castl.dmi'; icon_state = "12"; density = 1}
 		castlwll13 {name = "castlwll13"; icon = 'dmi/64/Castl.dmi'; icon_state = "13"; density = 1}
-		castlwll14 {name = "castlwll14"; icon = 'dmi/64/Castl.dmi'; icon_state = "14"; plane = MOB_LAYER+1}
+		castlwll14 {name = "castlwll14"; icon = 'dmi/64/Castl.dmi'; icon_state = "14"; layer = MOB_LAYER+1}
 		castlwll15 {name = "castlwll15"; icon = 'dmi/64/Castl.dmi'; icon_state = "15"; density = 1}
-		castlwll16 {name = "castlwll16"; icon = 'dmi/64/Castl.dmi'; icon_state = "16"; plane = MOB_LAYER+1}
+		castlwll16 {name = "castlwll16"; icon = 'dmi/64/Castl.dmi'; icon_state = "16"; layer = MOB_LAYER+1}
 		castlwll17 {name = "castlwll17"; icon = 'dmi/64/Castl.dmi'; icon_state = "17"; density = 1}
 		castlwll18 {name = "castlwll18"; icon = 'dmi/64/Castl.dmi'; icon_state = "18"; density = 1}
 		castlwll19 {name = "castlwll19"; icon = 'dmi/64/Castl.dmi'; icon_state = "19"; density = 1}
-		castlwll20 {name = "castlwll20"; icon = 'dmi/64/Castl.dmi'; icon_state = "20"; plane = MOB_LAYER+1}
-		stnflr {name = "stnflr"; icon = 'dmi/64/Castl.dmi'; icon_state = "stnflr"; plane = 3}
-		stnflrmtswll {name = "stnflrmtswll"; icon = 'dmi/64/Castl.dmi'; icon_state = "stnflr"; plane = 2; density=1}
-		htnflr {name = "htnflr"; icon = 'dmi/64/Castl.dmi'; icon_state = "htnflr"; plane = 2}
-		htnflrmtswll {name = "htnflrmtswll"; icon = 'dmi/64/Castl.dmi'; icon_state = "htnflr"; plane = 2; density = 1}
-		intwall1 {name = "intwall1"; icon = 'dmi/64/Castl.dmi'; icon_state = "21"; density = 1; opacity = 0; plane = MOB_LAYER+1}
-		intwall2 {name = "intwall2"; icon = 'dmi/64/Castl.dmi'; icon_state = "22"; density = 1; opacity = 0; plane = TURF_LAYER+2}
-		intwall3 {name = "intwall3"; icon = 'dmi/64/Castl.dmi'; icon_state = "23"; density = 1; opacity = 0; plane = TURF_LAYER+2}
-		intwall4 {name = "intwall4"; icon = 'dmi/64/Castl.dmi'; icon_state = "24"; density = 1; opacity = 0; plane = TURF_LAYER+2}
-		intwall5 {name = "intwall5"; icon = 'dmi/64/Castl.dmi'; icon_state = "25"; density = 1; opacity = 0; plane = TURF_LAYER+2}
-		intwall6 {name = "intwall6"; icon = 'dmi/64/Castl.dmi'; icon_state = "26"; density = 1; opacity = 0; plane = TURF_LAYER+2}
-		intwall7 {name = "intwall7"; icon = 'dmi/64/Castl.dmi'; icon_state = "27"; density = 1; opacity = 0; plane = TURF_LAYER+2}
-		intwall8 {name = "intwall6"; icon = 'dmi/64/Castl.dmi'; icon_state = "28"; density = 1; opacity = 0; plane = TURF_LAYER+2}
-		intwall9 {name = "intwall7"; icon = 'dmi/64/Castl.dmi'; icon_state = "29"; density = 1; opacity = 0; plane = TURF_LAYER+2}
-	//introof6a {name = "introof6a"; icon = 'dmi/64/Castl.dmi'; icon_state = "r6a"; mouse_opacity = 0; opacity = 0; plane = FLY_LAYER+1}
+		castlwll20 {name = "castlwll20"; icon = 'dmi/64/Castl.dmi'; icon_state = "20"; layer = MOB_LAYER+1}
+		stnflr {name = "stnflr"; icon = 'dmi/64/Castl.dmi'; icon_state = "stnflr"; layer = 3}
+		stnflrmtswll {name = "stnflrmtswll"; icon = 'dmi/64/Castl.dmi'; icon_state = "stnflr"; layer = 2; density=1}
+		htnflr {name = "htnflr"; icon = 'dmi/64/Castl.dmi'; icon_state = "htnflr"; layer = 2}
+		htnflrmtswll {name = "htnflrmtswll"; icon = 'dmi/64/Castl.dmi'; icon_state = "htnflr"; layer = 2; density = 1}
+		intwall1 {name = "intwall1"; icon = 'dmi/64/Castl.dmi'; icon_state = "21"; density = 1; opacity = 0; layer = MOB_LAYER+1}
+		intwall2 {name = "intwall2"; icon = 'dmi/64/Castl.dmi'; icon_state = "22"; density = 1; opacity = 0; layer = TURF_LAYER+2}
+		intwall3 {name = "intwall3"; icon = 'dmi/64/Castl.dmi'; icon_state = "23"; density = 1; opacity = 0; layer = TURF_LAYER+2}
+		intwall4 {name = "intwall4"; icon = 'dmi/64/Castl.dmi'; icon_state = "24"; density = 1; opacity = 0; layer = TURF_LAYER+2}
+		intwall5 {name = "intwall5"; icon = 'dmi/64/Castl.dmi'; icon_state = "25"; density = 1; opacity = 0; layer = TURF_LAYER+2}
+		intwall6 {name = "intwall6"; icon = 'dmi/64/Castl.dmi'; icon_state = "26"; density = 1; opacity = 0; layer = TURF_LAYER+2}
+		intwall7 {name = "intwall7"; icon = 'dmi/64/Castl.dmi'; icon_state = "27"; density = 1; opacity = 0; layer = TURF_LAYER+2}
+		intwall8 {name = "intwall6"; icon = 'dmi/64/Castl.dmi'; icon_state = "28"; density = 1; opacity = 0; layer = TURF_LAYER+2}
+		intwall9 {name = "intwall7"; icon = 'dmi/64/Castl.dmi'; icon_state = "29"; density = 1; opacity = 0; layer = TURF_LAYER+2}
+	//introof6a {name = "introof6a"; icon = 'dmi/64/Castl.dmi'; icon_state = "r6a"; mouse_opacity = 0; opacity = 0; layer = FLY_LAYER+1}
 	bri1 {name = "bri1"; icon = 'dmi/64/Castl.dmi'; icon_state = "bri1"}
 	bri2 {name = "bri2"; icon = 'dmi/64/Castl.dmi'; icon_state = "bri2"}
 	bri3 {name = "bri3"; icon = 'dmi/64/Castl.dmi'; icon_state = "bri3"}
@@ -449,9 +453,9 @@ turf
 		beach38 {name = "beach38"; icon = 'dmi/64/watr.dmi'; icon_state = "38"}
 		beach39 {name = "beach39"; icon = 'dmi/64/watr.dmi'; icon_state = "39"}
 		beach40 {name = "beach40"; icon = 'dmi/64/watr.dmi'; icon_state = "40"}
-	snow {name = "snow"; icon = 'dmi/64/snow.dmi'; icon_state = "snow"; plane = 1; layer = 1}
+	snow {name = "snow"; icon = 'dmi/64/snow.dmi'; icon_state = "snow"; layer = 1; layer = 1}
 	sand1 {name = "sand"; icon = 'dmi/64/sand.dmi'; icon_state = "sand"}
-	sand2 {name = "sand2"; icon = 'dmi/64/sand.dmi'; icon_state = "sand2"; plane = 1; layer = 1}
+	sand2 {name = "sand2"; icon = 'dmi/64/sand.dmi'; icon_state = "sand2"; layer = 1; layer = 1}
 	watr {name = "watr"; icon = 'dmi/64/watr.dmi'; icon_state = "wat"; density = 1}
 	ivwall {name = "ivwall"; icon = 'dmi/64/blank.dmi'; density = 1}
 	ship1 {name = "ship1"; icon = 'dmi/64/ovrwrld.dmi'; density = 1; icon_state = "ship1"}
@@ -468,18 +472,18 @@ turf
 	adirt {name = "adirt"; icon = 'dmi/64/sand.dmi'; icon_state = "dirt"}
 	bdirt {name = "bdirt"; icon = 'dmi/64/sand.dmi'; icon_state = "bdirt"}
 	clast {name = "clast"; icon = 'dmi/64/sand.dmi'; icon_state = "clast"}
-	lg2cl1 {name = "lg2cl1"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2cl1"; density = 0; plane = 1; layer = 1}
-	lg2cl2 {name = "lg2cl2"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2cl2"; density = 0; plane = 1; layer = 1}
-	lg2cl3 {name = "lg2cl3"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2cl3"; density = 0; plane = 1; layer = 1}
-	lg2cl4 {name = "lg2cl4"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2cl4"; density = 0; plane = 1; layer = 1}
-	lg2clc1 {name = "lg2clc1"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clc1"; density = 0; plane = 1; layer = 1}
-	lg2clc2 {name = "lg2clc2"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clc2"; density = 0; plane = 1; layer = 1}
-	lg2clc3 {name = "lg2clc3"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clc3"; density = 0; plane = 1; layer = 1}
-	lg2clc4 {name = "lg2clc4"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clc4"; density = 0; plane = 1; layer = 1}
-	lg2clct1 {name = "lg2clct1"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clct1"; density = 0; plane = 1; layer = 1}
-	lg2clct2 {name = "lg2clct2"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clct2"; density = 0; plane = 1; layer = 1}
-	lg2clct3 {name = "lg2clct3"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clct3"; density = 0; plane = 1; layer = 1}
-	lg2clct4 {name = "lg2clct4"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clct4"; density = 0; plane = 1; layer = 1}
+	lg2cl1 {name = "lg2cl1"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2cl1"; density = 0; layer = 1; layer = 1}
+	lg2cl2 {name = "lg2cl2"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2cl2"; density = 0; layer = 1; layer = 1}
+	lg2cl3 {name = "lg2cl3"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2cl3"; density = 0; layer = 1; layer = 1}
+	lg2cl4 {name = "lg2cl4"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2cl4"; density = 0; layer = 1; layer = 1}
+	lg2clc1 {name = "lg2clc1"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clc1"; density = 0; layer = 1; layer = 1}
+	lg2clc2 {name = "lg2clc2"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clc2"; density = 0; layer = 1; layer = 1}
+	lg2clc3 {name = "lg2clc3"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clc3"; density = 0; layer = 1; layer = 1}
+	lg2clc4 {name = "lg2clc4"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clc4"; density = 0; layer = 1; layer = 1}
+	lg2clct1 {name = "lg2clct1"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clct1"; density = 0; layer = 1; layer = 1}
+	lg2clct2 {name = "lg2clct2"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clct2"; density = 0; layer = 1; layer = 1}
+	lg2clct3 {name = "lg2clct3"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clct3"; density = 0; layer = 1; layer = 1}
+	lg2clct4 {name = "lg2clct4"; icon = 'dmi/64/sand.dmi'; icon_state = "lg2clct4"; density = 0; layer = 1; layer = 1}
 	clastshorel {name = "clastshorel"; icon = 'dmi/64/sand.dmi'; icon_state = "clastshorel"; density = 1}
 	clastshorer {name = "clastshorer"; icon = 'dmi/64/sand.dmi'; icon_state = "clastshorer"; density = 1}
 	clastshoreblc {name = "clastshoreblc"; icon = 'dmi/64/sand.dmi'; icon_state = "clastshoreblc"; density = 1}
@@ -533,16 +537,16 @@ turf
 	rivnb {name = "rivnb"; icon = 'dmi/64/river.dmi'; icon_state = "nb"}
 	rivsb {name = "rivsb"; icon = 'dmi/64/river.dmi'; icon_state = "sb"}
 	towerbottom {name = "towerbottom"; icon = 'dmi/tower.dmi'; density = 1; opacity = 0}
-	towertop {name = "towertop"; icon = 'dmi/tower2.dmi'; opacity = 0; plane = MOB_LAYER+10}
-	towerbck {name = "towerbck"; icon = 'dmi/64/afterlife.dmi'; icon_state = "towerbck"; plane = 1; density = 1}
-	towerbckgrnd {name = "towerbckgrnd"; icon = 'dmi/64/afterlife.dmi'; icon_state = "towerbckgrnd"; plane = 1}
-	towerdoor {name = "towerdoor"; icon = 'dmi/64/afterlife.dmi'; icon_state = "towerdoor"; plane = 3}
-	towerfrnt {name = "towerfrnt"; icon = 'dmi/64/afterlife.dmi'; icon_state = "towerfrnt"; plane = 1}
-	square1 {name = "square1"; icon = 'dmi/64/build.dmi'; icon_state = "square1"; plane = 4}
-	square2 {name = "square2"; icon = 'dmi/64/build.dmi'; icon_state = "square2"; plane = 4}
-	square3 {name = "square3"; icon = 'dmi/64/build.dmi'; icon_state = "square3"; plane = 4}
-	square4 {name = "square4"; icon = 'dmi/64/build.dmi'; icon_state = "square4"; plane = 4}
-	squareflr {name = "squareflr"; icon = 'dmi/64/build.dmi'; icon_state = "sflr"; plane = 4}
+	towertop {name = "towertop"; icon = 'dmi/tower2.dmi'; opacity = 0; layer = MOB_LAYER+10}
+	towerbck {name = "towerbck"; icon = 'dmi/64/afterlife.dmi'; icon_state = "towerbck"; layer = 1; density = 1}
+	towerbckgrnd {name = "towerbckgrnd"; icon = 'dmi/64/afterlife.dmi'; icon_state = "towerbckgrnd"; layer = 1}
+	towerdoor {name = "towerdoor"; icon = 'dmi/64/afterlife.dmi'; icon_state = "towerdoor"; layer = 3}
+	towerfrnt {name = "towerfrnt"; icon = 'dmi/64/afterlife.dmi'; icon_state = "towerfrnt"; layer = 1}
+	square1 {name = "square1"; icon = 'dmi/64/build.dmi'; icon_state = "square1"; layer = 4}
+	square2 {name = "square2"; icon = 'dmi/64/build.dmi'; icon_state = "square2"; layer = 4}
+	square3 {name = "square3"; icon = 'dmi/64/build.dmi'; icon_state = "square3"; layer = 4}
+	square4 {name = "square4"; icon = 'dmi/64/build.dmi'; icon_state = "square4"; layer = 4}
+	squareflr {name = "squareflr"; icon = 'dmi/64/build.dmi'; icon_state = "sflr"; layer = 4}
 	sic1 {name = "sic1"; icon = 'dmi/64/Islbord.dmi'; icon_state = "sic1"; density = 1}
 	sic2 {name = "sic2"; icon = 'dmi/64/Islbord.dmi'; icon_state = "sic2"; density = 1}
 	sic3 {name = "sic3"; icon = 'dmi/64/Islbord.dmi'; icon_state = "sic3"; density = 1}
@@ -551,69 +555,69 @@ turf
 	sis {name = "sis"; icon = 'dmi/64/Islbord.dmi'; icon_state = "sis"; density = 1}
 	sie {name = "sie"; icon = 'dmi/64/Islbord.dmi'; icon_state = "sie"; density = 1}
 	siw {name = "siw"; icon = 'dmi/64/Islbord.dmi'; icon_state = "siw"; density = 1}
-	woodflr {name = "woodflr"; icon = 'dmi/64/build.dmi'; icon_state = "wflr"; plane = 3}
-	woodflrmtswll {name = "woodflrmtswll"; icon = 'dmi/64/build.dmi'; icon_state = "wflr"; plane = 3; density = 1}
-	woodstove {name = "woodstove"; icon = 'dmi/64/furnishings.dmi'; icon_state = "woodstove"; density = 1; plane = 4}
-	stovepipe {name = "stovepipe"; icon = 'dmi/64/furnishings.dmi'; icon_state = "stovepipe"; plane = 13}
+	woodflr {name = "woodflr"; icon = 'dmi/64/build.dmi'; icon_state = "wflr"; layer = 3}
+	woodflrmtswll {name = "woodflrmtswll"; icon = 'dmi/64/build.dmi'; icon_state = "wflr"; layer = 3; density = 1}
+	woodstove {name = "woodstove"; icon = 'dmi/64/furnishings.dmi'; icon_state = "woodstove"; density = 1; layer = 4}
+	stovepipe {name = "stovepipe"; icon = 'dmi/64/furnishings.dmi'; icon_state = "stovepipe"; layer = 13}
 	Dungeon
-		DWall1 {name = "DWall1"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall1"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall2 {name = "DWall2"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall3 {name = "DWall3"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall3"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall4 {name = "DWall4"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall4"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall5 {name = "DWall5"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall5"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall6 {name = "DWall6"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall6"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall7 {name = "DWall7"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall7"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall8 {name = "DWall8"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall8"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall9 {name = "DWall9"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall9"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall10 {name = "DWall10"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall10"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall11 {name = "DWall11"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall11"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall12 {name = "DWall12"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall12"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall13 {name = "DWall13"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall13"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall14 {name = "DWall14"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall14"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall1a {name = "DWall1a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall1a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall2a {name = "DWall2a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall2b {name = "DWall2b"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2b"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall2c {name = "DWall2c"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2c"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall2d {name = "DWall2d"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2d"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall1c {name = "DWall1c"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall1c"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall1d {name = "DWall1d"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall1d"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall3a {name = "DWall3a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall3a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall4a {name = "DWall4a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall4a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall5a {name = "DWall5a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall5a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall6a {name = "DWall6a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall6a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall7a {name = "DWall7a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall7a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWall8a {name = "DWall8a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall8a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWallC {name = "DWallC"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWallCa {name = "DWallCa"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallCa"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWallCb {name = "DWallCb"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallCb"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWallC1a {name = "DWallC1a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC1a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWallC1b {name = "DWallC1b"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC1b"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWallC2a {name = "DWallC2a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC2a"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DWallC2b {name = "DWallC2b"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC2b"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DEWall {name = "DEWall"; icon = 'dmi/64/gen.dmi'; icon_state = "DEWall"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		DESs {name = "DESs"; icon = 'dmi/64/gen.dmi'; icon_state = "dess"; opacity = 0; density = 0; plane = TURF_LAYER+3}
-		DESn {name = "DESn"; icon = 'dmi/64/gen.dmi'; icon_state = "desn"; opacity = 0; density = 0; plane = TURF_LAYER+3}
+		DWall1 {name = "DWall1"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall1"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall2 {name = "DWall2"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall3 {name = "DWall3"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall3"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall4 {name = "DWall4"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall4"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall5 {name = "DWall5"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall5"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall6 {name = "DWall6"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall6"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall7 {name = "DWall7"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall7"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall8 {name = "DWall8"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall8"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall9 {name = "DWall9"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall9"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall10 {name = "DWall10"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall10"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall11 {name = "DWall11"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall11"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall12 {name = "DWall12"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall12"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall13 {name = "DWall13"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall13"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall14 {name = "DWall14"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall14"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall1a {name = "DWall1a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall1a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall2a {name = "DWall2a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall2b {name = "DWall2b"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2b"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall2c {name = "DWall2c"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2c"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall2d {name = "DWall2d"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall2d"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall1c {name = "DWall1c"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall1c"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall1d {name = "DWall1d"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall1d"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall3a {name = "DWall3a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall3a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall4a {name = "DWall4a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall4a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall5a {name = "DWall5a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall5a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall6a {name = "DWall6a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall6a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall7a {name = "DWall7a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall7a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWall8a {name = "DWall8a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWall8a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWallC {name = "DWallC"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWallCa {name = "DWallCa"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallCa"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWallCb {name = "DWallCb"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallCb"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWallC1a {name = "DWallC1a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC1a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWallC1b {name = "DWallC1b"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC1b"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWallC2a {name = "DWallC2a"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC2a"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DWallC2b {name = "DWallC2b"; icon = 'dmi/64/gen.dmi'; icon_state = "DWallC2b"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DEWall {name = "DEWall"; icon = 'dmi/64/gen.dmi'; icon_state = "DEWall"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		DESs {name = "DESs"; icon = 'dmi/64/gen.dmi'; icon_state = "dess"; opacity = 0; density = 0; layer = TURF_LAYER+3}
+		DESn {name = "DESn"; icon = 'dmi/64/gen.dmi'; icon_state = "desn"; opacity = 0; density = 0; layer = TURF_LAYER+3}
 	WoodenWalls
-		SWS {name = "SWS"; icon = 'dmi/64/wall.dmi'; icon_state = "SWS"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWN {name = "SWN"; icon = 'dmi/64/wall.dmi'; icon_state = "SWN"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWNEC {name = "SWNEC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWNEC"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWNWC {name = "SWNWC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWNWC"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWE {name = "SWE"; icon = 'dmi/64/wall.dmi'; icon_state = "SWE"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWW {name = "SWW"; icon = 'dmi/64/wall.dmi'; icon_state = "SWW"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWSWC {name = "SWSWC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSWC"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWSEC {name = "SWSEC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSEC"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWSWRC {name = "SWSWRC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSWRC"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWSERC {name = "SWSERC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSERC"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWN3W {name = "SWN3W"; icon = 'dmi/64/wall.dmi'; icon_state = "SWN3W"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWS3W {name = "SWS3W"; icon = 'dmi/64/wall.dmi'; icon_state = "SWS3W"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWMIDns {name = "SWMIDns"; icon = 'dmi/64/wall.dmi'; icon_state = "SWMIDns"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SW1 {name = "SW1"; icon = 'dmi/64/wall.dmi'; icon_state = "SW1"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWC4W {name = "SWC4W"; icon = 'dmi/64/wall.dmi'; icon_state = "SWC4W"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWMIDwe {name = "SWMIDwe"; icon = 'dmi/64/wall.dmi'; icon_state = "SWMIDwe"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWMIDCE {name = "SWMIDCE"; icon = 'dmi/64/wall.dmi'; icon_state = "SWMIDCE"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWMIDCW {name = "SWMIDCW"; icon = 'dmi/64/wall.dmi'; icon_state = "SWMIDCW"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWSWC2 {name = "SWSWC2"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSWC2"; opacity = 0; density = 1; plane = TURF_LAYER+3}
-		SWSEC2 {name = "SWSEC2"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSEC2"; opacity = 0; density = 1; plane = TURF_LAYER+3}
+		SWS {name = "SWS"; icon = 'dmi/64/wall.dmi'; icon_state = "SWS"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWN {name = "SWN"; icon = 'dmi/64/wall.dmi'; icon_state = "SWN"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWNEC {name = "SWNEC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWNEC"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWNWC {name = "SWNWC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWNWC"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWE {name = "SWE"; icon = 'dmi/64/wall.dmi'; icon_state = "SWE"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWW {name = "SWW"; icon = 'dmi/64/wall.dmi'; icon_state = "SWW"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWSWC {name = "SWSWC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSWC"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWSEC {name = "SWSEC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSEC"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWSWRC {name = "SWSWRC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSWRC"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWSERC {name = "SWSERC"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSERC"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWN3W {name = "SWN3W"; icon = 'dmi/64/wall.dmi'; icon_state = "SWN3W"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWS3W {name = "SWS3W"; icon = 'dmi/64/wall.dmi'; icon_state = "SWS3W"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWMIDns {name = "SWMIDns"; icon = 'dmi/64/wall.dmi'; icon_state = "SWMIDns"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SW1 {name = "SW1"; icon = 'dmi/64/wall.dmi'; icon_state = "SW1"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWC4W {name = "SWC4W"; icon = 'dmi/64/wall.dmi'; icon_state = "SWC4W"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWMIDwe {name = "SWMIDwe"; icon = 'dmi/64/wall.dmi'; icon_state = "SWMIDwe"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWMIDCE {name = "SWMIDCE"; icon = 'dmi/64/wall.dmi'; icon_state = "SWMIDCE"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWMIDCW {name = "SWMIDCW"; icon = 'dmi/64/wall.dmi'; icon_state = "SWMIDCW"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWSWC2 {name = "SWSWC2"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSWC2"; opacity = 0; density = 1; layer = TURF_LAYER+3}
+		SWSEC2 {name = "SWSEC2"; icon = 'dmi/64/wall.dmi'; icon_state = "SWSEC2"; opacity = 0; density = 1; layer = TURF_LAYER+3}
 turf
 	var/owner = ""
 	Cold
@@ -752,7 +756,7 @@ turf
 							return
 
 		talken
-			//plane = 5
+			//layer = 5
 			Entered(S)
 				if(istype(usr,/mob/players))
 					winset(usr,"default.talk","is-visible=true")
@@ -762,49 +766,49 @@ turf
 					winset(usr,"default.talk","is-visible=false")
 				..()
 		//talkex
-			//plane = 5
+			//layer = 5
 			//Entered(S)
 				//if(istype(usr,/mob/players))
 				//	winset(usr,"default.talk","is-visible=false")
 				//..()
 		shopen
-			//plane = 5
+			//layer = 5
 			Entered(S)
 				if(istype(usr,/mob/players))
 					winset(usr,"default.talk","is-visible=true")
 				if(ismob(S) && S:client)
 					for(var/obj/Buildable/Roofing/Roof/R in oview(3))
-						R.plane = -10
+						R.layer = -10
 					for(var/obj/Buildable/Roofing/INTRoof/R in oview(3))
-						R.plane = -10
+						R.layer = -10
 					for(var/obj/Buildable/Roofing/HINTRoof/R in oview(3))
-						R.plane = -10
+						R.layer = -10
 				..()
 		shopex
-			//plane = 5
+			//layer = 5
 			Entered(S)
 				if(istype(usr,/mob/players))
 					winset(usr,"default.talk","is-visible=false")
 				if(ismob(S) && S:client)
 					for(var/obj/Buildable/Roofing/Roof/R in oview(3))
-						R.plane = -10
+						R.layer = -10
 					for(var/obj/Buildable/Roofing/INTRoof/R in oview(3))
-						R.plane = -10
+						R.layer = -10
 					for(var/obj/Buildable/Roofing/HINTRoof/R in oview(3))
-						R.plane = -10
+						R.layer = -10
 				/*if(ismob(S) && S:client)
 					for(var/obj/Roof/R in range(12,S))
-						R:plane = 10
+						R:layer = 10
 					for(var/obj/INTRoof/R in range(12,S))
-						R:plane = 10
+						R:layer = 10
 					for(var/obj/HINTRoof/R in range(12,S))
-						R:plane = 10*/
+						R:layer = 10*/
 				..()
 
 		cavernen1
 			name = "Caverns"
 			icon = 'dmi/64/blank.dmi'
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(225,199,4)
@@ -813,7 +817,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		cavernex1
 			name = "Dunes"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(5,196,1)
@@ -822,7 +826,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		cavernen1a
 			name = "Caverns"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(276,2,4)
@@ -831,7 +835,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		cavernex1a
 			name = "Forest"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(223,31,1)
@@ -840,7 +844,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		cavernen2
 			name = "Cave of Belief"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/cavernex2)
@@ -849,7 +853,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		cavernex2
 			name = "Principality of Belief"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(139,132,3)
@@ -858,7 +862,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		cavernen2a
 			name = "Caverns"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(276,2,4)
@@ -867,7 +871,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		cavernex2a
 			name = "Forest"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(223,31,1)
@@ -877,7 +881,7 @@ turf
 		dungeonen1
 			name = "dungeon"
 			icon = 'dmi/64/blank.dmi'
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(208,199,5)
@@ -887,7 +891,7 @@ turf
 		dungeonen1b
 			name = "dungeon"
 			icon = 'dmi/64/blank.dmi'
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(282,199,5)
@@ -896,7 +900,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		dungeonex1
 			name = "Ice Caverns"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(54,199,4)
@@ -905,7 +909,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		dungeonen1a
 			name = "Jungle"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(79,22,5)
@@ -914,7 +918,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		dungeonen1c
 			name = "Jungle"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(81,21,5)
@@ -923,7 +927,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		dungeonex1a
 			name = "dungeon"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(175,2,5)
@@ -1292,7 +1296,7 @@ turf
 		boat1captainpopr
 			name = "Boat Captain POPR"
 			density = 1
-			plane = 4
+			layer = 4
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "boat3captain"
 			verb
@@ -1312,7 +1316,7 @@ turf
 		boat1captainpoh
 			name = "Boat Captain POH"
 			density = 1
-			plane = 4
+			layer = 4
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "boat4captain"
 			verb
@@ -1351,7 +1355,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		cavernin
 			name = "caverns"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate()
@@ -1360,7 +1364,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		cavernout
 			name = "Dunes"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate()
@@ -1369,7 +1373,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		cavein1
 			name = "cave"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(149,159,2)
@@ -1378,7 +1382,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		caveout1
 			name = "aldoryn"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(220,123,2)
@@ -1387,7 +1391,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		gcavein1
 			name = "Goppel cave"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/gcaveout1)
@@ -1396,7 +1400,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		gcaveout1
 			name = "aldoryn"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/gcavein1)
@@ -1405,7 +1409,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		gcavein2
 			name = "Goppel cave"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/gcaveout2)
@@ -1414,7 +1418,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		gcaveout2
 			name = "aldoryn"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/gcavein2)
@@ -1423,7 +1427,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		gcavein1a
 			name = "Goppel cave"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/gcaveout1a)
@@ -1432,7 +1436,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		gcaveout1a
 			name = "aldoryn"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/gcavein1a)
@@ -1441,7 +1445,7 @@ turf
 					//M.PlayMusic(MUSIC_ALDORYN)
 		gcavein2a
 			name = "Goppel cave"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/gcaveout2a)
@@ -1450,7 +1454,7 @@ turf
 					//M.PlayMusic(MUSIC_LEARNCAVEL1)
 		gcaveout2a
 			name = "aldoryn"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			Entered(O)
 				if(istype(usr,/mob/players))
 					usr.loc = locate(/turf/Entrances/gcavein2a)
@@ -1477,26 +1481,26 @@ obj
 				if(disallow_out & O.dir)
 					return 0
 				. = ..()
-		JungleTree {name = "jungtree"; icon = 'dmi/64/tree.dmi'; icon_state = "jungletree"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
-		ClastTree {name = "ClastTree"; icon = 'dmi/64/tree.dmi'; icon_state = "ClastTree"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
-		PalmTree {name = "PalmTree"; icon = 'dmi/64/tree.dmi'; icon_state = "palm"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
-		aspen {name = "aspen"; icon = 'dmi/64/tree.dmi'; icon_state = "aspen"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 1; opacity = 0}
-	JungleFern {name = "jungfern"; icon = 'dmi/64/tree.dmi'; icon_state = "junglefern"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
-	elegrss {name = "elegrss"; icon = 'dmi/64/tree.dmi'; icon_state = "elegrss"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
-	shrtgrss {name = "shrtgrss"; icon = 'dmi/64/tree.dmi'; icon_state = "shrtgrss"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
+		JungleTree {name = "jungtree"; icon = 'dmi/64/tree.dmi'; icon_state = "jungletree"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
+		ClastTree {name = "ClastTree"; icon = 'dmi/64/tree.dmi'; icon_state = "ClastTree"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
+		PalmTree {name = "PalmTree"; icon = 'dmi/64/tree.dmi'; icon_state = "palm"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
+		aspen {name = "aspen"; icon = 'dmi/64/tree.dmi'; icon_state = "aspen"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 1; opacity = 0}
+	JungleFern {name = "jungfern"; icon = 'dmi/64/tree.dmi'; icon_state = "junglefern"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
+	elegrss {name = "elegrss"; icon = 'dmi/64/tree.dmi'; icon_state = "elegrss"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
+	shrtgrss {name = "shrtgrss"; icon = 'dmi/64/tree.dmi'; icon_state = "shrtgrss"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
 	Dskele {name = "Dskele"; icon = 'dmi/64/gen.dmi'; icon_state = "Dskele"; density = 0; mouse_opacity = 0}
 	Duskele {name = "Duskele"; icon = 'dmi/64/gen.dmi'; icon_state = "Duskele"; density = 0; mouse_opacity = 0}
-	//PalmTree {name = "PalmTree"; icon = 'dmi/64/tree.dmi'; icon_state = "palm"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
-	//aspen {name = "aspen"; icon = 'dmi/64/tree.dmi'; icon_state = "aspen"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
-	Crate {name = "Crate"; icon = 'dmi/64/gen.dmi'; icon_state = "Crate"; density = 1; plane = 3}
-	//ClastTree {name = "ClastTree"; icon = 'dmi/64/tree.dmi'; icon_state = "ClastTree"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0}
-	//UeikTree {name = "UeikTree"; icon = 'dmi/64/tree.dmi'; icon_state = "UeikTree"; density = 0; plane = MOB_LAYER+5; mouse_opacity = 0; dcout = SOUTH; dcin = NORTH}
+	//PalmTree {name = "PalmTree"; icon = 'dmi/64/tree.dmi'; icon_state = "palm"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
+	//aspen {name = "aspen"; icon = 'dmi/64/tree.dmi'; icon_state = "aspen"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
+	Crate {name = "Crate"; icon = 'dmi/64/gen.dmi'; icon_state = "Crate"; density = 1; layer = 3}
+	//ClastTree {name = "ClastTree"; icon = 'dmi/64/tree.dmi'; icon_state = "ClastTree"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0}
+	//UeikTree {name = "UeikTree"; icon = 'dmi/64/tree.dmi'; icon_state = "UeikTree"; density = 0; layer = MOB_LAYER+5; mouse_opacity = 0; dcout = SOUTH; dcin = NORTH}
 
 	PoisonDarts
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "PDarts"
 		name = "PoisonDarts"
-		plane = TURF_LAYER+3
+		layer = TURF_LAYER+3
 		Crossed(P)
 			if(istype(usr,/mob/players))
 				while(P in src.loc)
@@ -1554,7 +1558,7 @@ obj
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "Trap1"
 		name = "Trap1"
-		plane = 2
+		layer = 2
 		Crossed(O)
 			if(istype(usr,/mob/players))
 				while(O in src.loc)
@@ -1587,7 +1591,7 @@ obj
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "Trap2"
 		name = "Trap2"
-		plane = 4
+		layer = 4
 		Crossed(O)
 			if(istype(usr,/mob/players))
 				while(O in src.loc)
@@ -1619,7 +1623,7 @@ obj
 		icon = 'dmi/64/sand.dmi'
 		icon_state = "sand"
 		name = "QuickSand"
-		//plane = MOB_LAYER-1
+		//layer = MOB_LAYER-1
 		Crossed(O)
 			if(istype(usr,/mob/players))
 				while(O in src.loc)
@@ -1631,7 +1635,7 @@ obj
 		icon = 'dmi/64/tree.dmi'
 		icon_state = "WVines"
 		name = "WaterVines"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 		var/mob/players/M
 		DblClick()
 			if (!(src in range(1, usr))) return
@@ -1640,20 +1644,20 @@ obj
 		proc/usingmana(var/turf/WaterVines/J,amount)
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking from a Cut Vine..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, Refreshing. <b>[amount] stamina recovered."
 	PoisonVines
 		icon = 'dmi/64/tree.dmi'
 		icon_state = "PVines"
 		name = "PoisonVines"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 		var/mob/players/M
 		DblClick()
 			if (!(src in range(1, usr))) return
@@ -1704,7 +1708,7 @@ obj
 		icon = 'dmi/64/tree.dmi'
 		icon_state = "HVines"
 		name = "HealingVines"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 		var/mob/players/M
 		DblClick()
 			if (!(src in range(1, usr))) return
@@ -1745,7 +1749,7 @@ obj
 			icon = 'dmi/64/tree.dmi'
 			icon_state = "WCactus"
 			name = "WaterCactus"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			density = 0
 			disallow_in = NORTH
 			disallow_out = SOUTH
@@ -1757,20 +1761,20 @@ obj
 			proc/usingmana(var/turf/WaterCactus/J,amount)
 				var/mob/players/M
 				M = usr
-				if (amount > (M.MAXenergy-M.energy))
-					amount = (M.MAXenergy-M.energy)
+				if (amount > (M.MAXstamina-M.stamina))
+					amount = (M.MAXstamina-M.stamina)
 				usr << "You Begin drinking from a Sliced Cactus..."
 				sleep(2)
-				M.energy += amount
-				M.updateEN()
+				M.stamina += amount
+				M.updateST()
 				M.hydrated=1
 				sleep(2)
-				M << "Ahh, Refreshing. <b>[amount] energy recovered."
+				M << "Ahh, Refreshing. <b>[amount] stamina recovered."
 		PoisonCactus
 			icon = 'dmi/64/tree.dmi'
 			icon_state = "PCactus"
 			name = "PoisonCactus"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			density = 0
 			disallow_in = NORTH
 			disallow_out = SOUTH
@@ -1824,7 +1828,7 @@ obj
 			icon = 'dmi/64/tree.dmi'
 			icon_state = "HCactus"
 			name = "HealingCactus"
-			plane = MOB_LAYER+1
+			layer = MOB_LAYER+1
 			density = 0
 			disallow_in = NORTH
 			disallow_out = SOUTH
@@ -1853,7 +1857,7 @@ obj
 		icon = 'dmi/64/tree.dmi'
 		icon_state = "WFountain"
 		name = "WaterFountain"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 		density = 1
 		var/mob/players/M
 		DblClick()
@@ -1863,20 +1867,20 @@ obj
 		proc/usingmana(var/turf/WaterFountain/J,amount)
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking from a Water Fountain..."
 			sleep(12)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(6)
-			M << "Ahh, Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, Refreshing. <b>[amount] stamina recovered."
 	HealingFountain
 		icon = 'dmi/64/tree.dmi'
 		icon_state = "HFountain"
 		name = "HealingFountain"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 		density = 1
 		var/mob/players/M
 		DblClick()

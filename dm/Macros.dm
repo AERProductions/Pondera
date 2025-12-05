@@ -25,22 +25,20 @@ mob/players
 		// Find object in front of player (in player's current direction)
 		var/atom/target = get_step(src, src.dir)
 		
-		// Check if there's a dense usable object at that location
+		// Check if there's a usable object at that location
 		if(!target)
 			usr << "Nothing to use in that direction."
 			return
 			
-		// Find usable object (mob or obj) at target location
+		// Find usable object at target location and try to use it
 		for(var/atom/movable/A in target)
-			// Try to use the object
 			if(A.UseObject(usr))
-				return  // UseObject() handled the interaction
-		
-		usr << "Nothing to use in that direction."
+				return
 
 /**
- * atom/proc/UseObject() - Default interaction handler
- * Override in specific object types to implement custom behavior
+ * atom/proc/UseObject() - Base interaction handler
+ * All atoms have this proc. Objects override to implement custom behavior.
+ * Returns 1 if interaction was handled, 0 if not interactive.
  */
 atom/proc/UseObject(mob/user)
 	return 0  // Default: no interaction

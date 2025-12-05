@@ -12,6 +12,7 @@ obj
 		Ore
 			can_stack = TRUE
 			ore = 1
+			layer = 11
 			//var/stack = 1
 			Tname=""
 
@@ -70,7 +71,7 @@ obj
 				icon_state = "iron"
 				name = "Iron Ore"
 				description = "Iron Ore"
-				layer = 6
+				//layer = 6
 				Tname="Cool"
 				//stack = 1
 				ore = 1
@@ -85,7 +86,7 @@ obj
 				icon_state = "zinc"
 				name = "Zinc Ore"
 				description = "Zinc Ore"
-				layer = 6
+				//layer = 6
 				Tname="Cool"
 				//stack = 1
 				ore = 1
@@ -100,7 +101,7 @@ obj
 				icon_state = "copper"
 				name = "Copper Ore"
 				description = "Copper Ore"
-				layer = 6
+				//layer = 6
 				Tname="Cool"
 			//	stack = 1
 				ore = 1
@@ -115,7 +116,7 @@ obj
 				icon_state = "lead"
 				name = "Lead Ore"
 				description = "Lead Ore"
-				layer = 6
+				//layer = 6
 				Tname="Cool"
 				//stack = 1
 				ore = 1
@@ -131,7 +132,7 @@ obj
 				name = "Stone Ore"
 				description = "Stone Ore"//stone needs a tool like chisel to create stone bricks for stone buildings, grinding stones for wheat, statues/etc
 			//	stack = 1
-				layer = 6
+				//layer = 6
 				Tname="Cool"
 				ore = 1
 				verb/Description()
@@ -174,11 +175,11 @@ obj
 					var/obj/items/Ore/stone/ST = locate() in M.contents
 					//var/obj/items/Crafting/Created/Handle/H = new(usr, 1)
 					var/random/R = new()
-					//if(energy<=0)
+					//if(stamina<=0)
 					//	M<<"You are too tired."
 					//	return
 					if(M.CHequipped==1)
-						if(M.energy==0)		//Is your energy to low???
+						if(M.stamina==0)		//Is your stamina to low???
 							M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 							return
 						else
@@ -205,6 +206,7 @@ obj
 						return
 
 			Gems
+				layer = 11
 				can_stack=TRUE
 				Ruby
 					icon='dmi/64/gemstones.dmi'
@@ -264,7 +266,7 @@ obj
 			ore = 1
 			Tname = ""
 
-			plane = 2
+			layer = 11
 			var
 				ingot_type = ""
 				IB
@@ -565,6 +567,7 @@ obj
 			Scraps
 				can_stack = TRUE
 				//ingot_type
+				layer = 11
 				verb
 					Combine()
 						set popup_menu = 1
@@ -580,7 +583,7 @@ obj
 					ingot_type = "Iron"
 					description = "Scrap Iron"
 
-					plane = 7
+					//layer = 11
 					verb/Description()
 						set category=null
 						set popup_menu=1
@@ -606,7 +609,7 @@ obj
 					Tname = "Warm"
 					description = "Scrap Zinc"
 					ingot_type = "Zinc"
-					plane = 7
+					//layer = 11
 					verb/Description()
 						set category=null
 						set popup_menu=1
@@ -632,7 +635,7 @@ obj
 					Tname = "Warm"
 					description = "Scrap Lead"
 					ingot_type = "Lead"
-					plane = 7
+					//layer = 11
 					verb/Description()
 						set category=null
 						set popup_menu=1
@@ -658,7 +661,7 @@ obj
 					Tname = "Warm"
 					description = "Scrap Copper"
 					ingot_type = "Copper"
-					plane = 7
+					//layer = 11
 					verb/Description()
 						set category=null
 						set popup_menu=1
@@ -684,7 +687,7 @@ obj
 					Tname = "Warm"
 					description = "Scrap Brass"
 					ingot_type = "Brass"
-					plane = 7
+					//layer = 11
 					verb/Description()
 						set category=null
 						set popup_menu=1
@@ -710,7 +713,7 @@ obj
 					Tname = "Warm"
 					description = "Scrap Bronze"
 					ingot_type = "Bronze"
-					plane = 7
+					//layer = 11
 					verb/Description()
 						set category=null
 						set popup_menu=1
@@ -736,7 +739,7 @@ obj
 					Tname = "Warm"
 					description = "Scrap Steel"
 					ingot_type = "Steel"
-					plane = 7
+					//layer = 11
 					verb/Description()
 						set category=null
 						set popup_menu=1
@@ -763,8 +766,9 @@ obj
 				description = "Pure Iron Ingot"
 				ingot_type = "Iron"
 				IB = 1
-				plane = 7
-				layer = MOB_LAYER-1
+				//layer = 11
+				//plane = 7
+				//layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -792,8 +796,8 @@ obj
 				description = "Pure Zinc Ingot"
 				ingot_type = "Zinc"
 				ZB = 1
-				plane = 7
-				layer = MOB_LAYER-1
+				//layer = 11
+				//layer = MOB_LAYER-1
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -820,8 +824,7 @@ obj
 				description = "Pure Copper Ingot"
 				ingot_type = "Copper"
 				CB = 1
-				plane = 7
-				layer = MOB_LAYER-1
+				//layer = 11
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -848,8 +851,7 @@ obj
 				description = "Pure Lead Ingot"
 				ingot_type = "Lead"
 				LB = 1
-				plane = 7
-				layer = MOB_LAYER-1
+				//layer = 11
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -876,8 +878,7 @@ obj
 				description = "Brass Ingot"
 				ingot_type = "Brass"
 				BB = 1
-				plane = 7
-				layer = MOB_LAYER-1
+				//layer = 11
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -904,8 +905,7 @@ obj
 				description = "Bronze Ingot"
 				ingot_type = "Bronze"
 				BRB = 1
-				plane = 7
-				layer = MOB_LAYER-1
+				//layer = 11
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -933,8 +933,7 @@ obj
 				var/canbefolded = 1
 				ingot_type = "Steel"
 				STLB = 1
-				plane = 70
-				layer = MOB_LAYER-1
+				//layer = 11
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -962,8 +961,7 @@ obj
 				//var/isfolded = 1
 				ingot_type = "Damascus Steel"
 				DSTLB = 1
-				plane = 70
-				layer = MOB_LAYER-1
+				//layer = 11
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -1005,6 +1003,7 @@ var/global/orestage
 obj/Rocks							//Simple right??? Just defining objects, Trees!
 	//icon='dmi/64/creation.dmi'
 	//icon_state="iron"
+
 				//This makes it so we can make a Minimum log amount and a max log amount
 	var										//So each tree doesn't always have the same amount of logs each time...
 											//So it's random between the set numbers...
@@ -1014,13 +1013,13 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 		Rarity		//Basically how hard is it to hit the tree?
 		MinOre		//Minimum logs in tree
 		MaxOre		//Max logs that can be in tree
-
 		GiveXP		//Exp tree gives!
 		OreType		//Log type, What log does the tree give...  Its really just for Text purposes.
 		spawntime	//How long does it take for the tree to respawn???
 		mreq		//mrank lvl required to chop tree down...
 		otype		//Ore type, Rock or Cliff
 		//di
+		ExtraOre
 		isn
 		gem
 	New()
@@ -1056,6 +1055,8 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 							t.density = 0
 				else return
 	OreRocks
+		//layer = FLOAT_LAYER
+		layer = 10
 		proc/SetWSeason()
 			//if(otype=="Rock")
 
@@ -1102,7 +1103,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						return
 					if(Mining==1)		//This is saying if usr is already cuttin a tree...
 						return
-					if(M.energy==0)		//Is your energy to low???
+					if(M.stamina==0)		//Is your stamina to low???
 						M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
 						return
 					if(M.UPKequipped==1)			//Does the usr have a Axe to cut with?
@@ -1155,8 +1156,8 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 				return
 			M<<"You begin to work on the [OreType] rocks with your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Pickaxe."			//YAY YOU're CUTTING!!!
 			M.overlays += image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
-			if(M.energy<=5)			//Calling this again... Some screwy stuff could happen.
-				M<<"Your energy is too low."
+			if(M.stamina<=5)			//Calling this again... Some screwy stuff could happen.
+				M<<"Your stamina is too low."
 				return
 			if(Mining==1)
 				return
@@ -1173,12 +1174,12 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 				if(M.PXequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 					Miner<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> Pickaxe to use it on the [OreType] rocks."
 					return
-				/*if (M.energy < 5)
-					M << "Low energy."*/
+				/*if (M.stamina < 5)
+					M << "Low stamina."*/
 				else
 					Mining=1
-					M.energy -= 5	//Depletes one energy
-					M.updateEN()
+					M.stamina -= 5	//Depletes one stamina
+					M.updateST()
 					sleep(5)
 					if(prob(Rarity+M.mrank))		//Takes the rarity of the tree and your woodcutting lvl
 						Miner<<"You Finish working the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> [OreType] rocks and receive [OreType] Ore!"		//You get "tree being cut" Logs!
@@ -1215,7 +1216,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			icon='dmi/64/creation.dmi'
 			icon_state="srock"
 			name = "Stone Rocks"
-			plane = MOB_LAYER+1
+			//plane = MOB_LAYER+1
 			otype = "Rock"
 			MinOre=3
 			MaxOre=5
@@ -1228,6 +1229,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			spawntime=2420
 			mreq=0
 			OreType= "Stone"
+			ExtraOre= "Iron"
 
 			DblClick()
 				var/mob/players/M = usr
@@ -1237,6 +1239,9 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 					//	M<<"You need to be a Builder to mine."
 						//return
 				//var/obj/items/tools/UeikPickaxe/UPK = locate() in M.contents
+				if(M.PXequipped==1)
+					Mine(M)
+					return
 				if(M.UPKequipped==1)
 					if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)
 					//if(!(src in range(2, usr)))
@@ -1248,7 +1253,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						if(src in range(1, usr))
 							if(Mining==1)		//This is saying if usr is already cuttin a tree...
 								return
-							if(M.energy==0)		//Is your energy to low???
+							if(M.stamina==0)		//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
 								return
 							if(M.UPKequipped==0)			//Does the usr have a Axe to cut with?
@@ -1259,7 +1264,9 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 								return
 							else
 								if(OreAmount<=0&&M.UPKequipped==1)
-
+									src.overlays -= overlays
+									SetWSeason()
+									icon_state="erock"
 									M<<"These \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Rocks have been depleted."
 									return
 								..()
@@ -1271,7 +1278,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			icon='dmi/64/creation.dmi'
 			icon_state="irock"
 			name = "Iron Rocks"
-			plane = MOB_LAYER+1
+			//plane = MOB_LAYER+1
 			otype = "Rock"
 			MinOre=5
 			MaxOre=10
@@ -1290,7 +1297,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			icon='dmi/64/creation.dmi'
 			icon_state="zrock"
 			name = "Zinc Rocks"
-			plane = MOB_LAYER+1
+			//plane = MOB_LAYER+1
 			otype = "Rock"
 			isn = "zrock"
 			MinOre=4
@@ -1309,7 +1316,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			icon='dmi/64/creation.dmi'
 			icon_state="crock"
 			name = "Copper Rocks"
-			plane = MOB_LAYER+1
+			//plane = MOB_LAYER+1
 			otype = "Rock"
 			isn = "crock"
 			MinOre=2
@@ -1328,7 +1335,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			icon='dmi/64/creation.dmi'
 			icon_state="lrock"
 			name = "Lead Rocks"
-			plane = MOB_LAYER+1
+			//plane = MOB_LAYER+1
 			otype = "Rock"
 			isn = "lrock"
 			MinOre=2
@@ -1385,7 +1392,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						if(src in range(1, usr))
 							if(Mining==1)		//This is saying if usr is already cuttin a tree...
 								return
-							if(M.energy==0)		//Is your energy to low???
+							if(M.stamina==0)		//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
 								return
 							if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
@@ -1443,7 +1450,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						if(src in range(1, usr))
 							if(Mining==1)		//This is saying if usr is already cuttin a tree...
 								return
-							if(M.energy==0)		//Is your energy to low???
+							if(M.stamina==0)		//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
 								return
 							if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
@@ -1500,7 +1507,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						if(src in range(1, usr))
 							if(Mining==1)		//This is saying if usr is already cuttin a tree...
 								return
-							if(M.energy==0)		//Is your energy to low???
+							if(M.stamina==0)		//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
 								return
 							if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
@@ -1558,7 +1565,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						if(src in range(1, usr))
 							if(Mining==1)		//This is saying if usr is already cuttin a tree...
 								return
-							if(M.energy==0)		//Is your energy to low???
+							if(M.stamina==0)		//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
 								return
 							if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
@@ -1617,7 +1624,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						if(src in range(1, usr))
 							if(Mining==1)		//This is saying if usr is already cuttin a tree...
 								return
-							if(M.energy==0)		//Is your energy to low???
+							if(M.stamina==0)		//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='Filledjar'>Water."
 								return
 							if(M.PXequipped==0)			//Does the usr have a Axe to cut with?
@@ -1688,8 +1695,8 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 				return
 			M<<"You begin to work on the [OreType] rocks with your \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Pickaxe."			//YAY YOU're CUTTING!!!
 			M.overlays += image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
-			if(M.energy<=5)			//Calling this again... Some screwy stuff could happen.
-				M<<"Your energy is too low."
+			if(M.stamina<=5)			//Calling this again... Some screwy stuff could happen.
+				M<<"Your stamina is too low."
 				return
 			if(Mining==1)
 				return
@@ -1703,12 +1710,12 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 				if(M.PXequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 					Miner<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> Pickaxe to use it on the [OreType] rocks."
 					return
-				/*if (M.energy < 5)
-					M << "Low energy."*/
+				/*if (M.stamina < 5)
+					M << "Low stamina."*/
 				else
 					Mining=1
-					M.energy -= 5	//Depletes one energy
-					M.updateEN()
+					M.stamina -= 5	//Depletes one stamina
+					M.updateST()
 					sleep(5)
 					if(prob(Rarity+M.mrank))		//Takes the rarity of the tree and your woodcutting lvl
 						Miner<<"You Finish working the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> [OreType] rocks and receive [OreType] Ore!"		//You get "tree being cut" Logs!

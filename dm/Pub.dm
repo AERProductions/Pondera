@@ -179,7 +179,7 @@ mob
 		icon_state = "pub1"
 		density = 1
 		layer = 3
-		plane = 3
+		layer = 3
 		verb
 			Talk()
 				set hidden = 1
@@ -197,5 +197,5 @@ mob
 				set hidden = 1
 				set src in oview(2)
 				switch(alert("Would you like a Drink?","Drink?","Yes","No"))
-					if("Yes")		usr.Drunk=1	
-					else if("No")	usr.Drunk=0	
+					if("Yes")		usr.Drunk=1
+					else if("No")	usr.Drunk=0

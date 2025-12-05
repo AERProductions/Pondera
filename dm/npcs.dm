@@ -7,6 +7,7 @@ obj
 		icon = 'dmi/64/anctxt.dmi'
 		icon_state = "tut"
 		verb/Description()
+			set category=null
 			usr << "[description]"
 		Click()
 			//set hidden = 1
@@ -59,11 +60,11 @@ obj
 							M << {"<font color=#FFFB98><left>Your first night in the wilderness may feel overwhelming, but survival is mostly straightforward as
 							long as you stay calm and collected.<br> You require food (or potions) to heal yourself (Health = green bar). These are found by fishing
 							or hunting. Left Click/Left Double Click / Right Click(menu) handle most functions in the game.<br> You must drink water to stay
-							hydrated, replenishing your energy (Energy/Stamina = blue bar), to keep active. Any pond will do, but may also be carried in a Jar or
-							Vessel, found in Fountains, Oasis, Vines/Cacti.<br> You may use your equipment by clicking on it in your inventory tab to the left on
+							hydrated, replenishing your stamina (stamina/Stamina = blue bar), to keep active. Any pond will do, but may also be carried in a Jar or
+							Vessel, found in Fountains, Oasis, Vines/Cacti.<br> You may use your equipment by clicking on it in your inventory tab on
 							the interface. Click again to remove. Ctrl+E provides a quick-unequip<br> Arrow/WASD to walk, Left Click to use, Left Double Click to
-							run, or attack. <br> Stance Positions: V is Free Movement, C is Strafe mode, X is Hold Position. <br> Ctrl+G provides a quick-get,
-							Ctrl+Mouse Wheel is zoom in/out.<br>"}
+							 attack. <br> Stance Positions: V is Free Movement, C is Strafe mode, X is Hold Position. <br> Ctrl+G provides a quick-get,
+							Ctrl+Mouse Wheel is zoom in/out and Shift is run/walk.<br>"}
 							M.tutopen=0
 							if(M.tutopen==0)
 								src:icon_state = "tut"
@@ -688,7 +689,7 @@ obj
 mob
 	PonderaNPCS
 		layer = 3
-		plane = 3
+		//plane = 3
 		BoatCaptain
 			name = "Boat Captain"
 			density = 1
@@ -707,7 +708,7 @@ mob
 						return
 	FreedomNPCS
 		layer = 3
-		plane = 3
+		//plane = 3
 		Adventurer
 			name = "Adventurer"
 			density = 1
@@ -730,7 +731,7 @@ mob
 							return
 						else
 							if("Hmfp. What makes you think I can't survive?")
-								alert("Well, those creatures ~ for one ~ two, the fact that you Will run out of energy and if you don't have the resources to replinish yourself you Will Die and that is that. No coming back. Prepare Well before hand and survive in the long run.")
+								alert("Well, those creatures ~ for one ~ two, the fact that you Will run out of stamina and if you don't have the resources to replinish yourself you Will Die and that is that. No coming back. Prepare Well before hand and survive in the long run.")
 					if("What's it to you?")
 						alert("I suppose if you're new you might want to know to be well prepared before leaving for your Journey to the Crater and I Sincerely mean that, if that is your destination.","Discuss","Okay..")
 						if("Okay..")
@@ -829,7 +830,7 @@ mob
 							alert("Yeah that's right, back down and get out of here before you get hurt! I don't have anything here anyway, just some of my old rusty equipment that is too brittle to serve any purpose that you seek..","Discussion","Ah well, Guess i'm wasting my time.")
 	BeliefNPCS
 		layer = 3
-		plane = 3
+		//plane = 3
 		Adventurer
 			name = "Adventurer"
 			density = 1
@@ -972,7 +973,7 @@ mob
 						alert("As long as you keep your foreign nose out of our business we do not mind you being here, but we Believe Everyone to be Suspicious.","Discuss","I suppose I will find out soon enough...")
 	PrideNPCS
 		layer = 3
-		plane = 3
+		//plane = 3
 		Adventurer
 			name = "Adventurer"
 			density = 1
@@ -1097,7 +1098,7 @@ mob
 						alert("Relaxing before I have to go out and gather more wood, I'm a Lumberjack, gotta keep these houses warm in this climate!","Discuss","Yes, indeed.")
 	HonorNPCS
 		layer = 3
-		plane = 3
+		//plane = 3
 		Elder
 			name = "Elder"
 			density = 1

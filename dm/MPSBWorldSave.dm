@@ -1,4 +1,4 @@
-//the beginning of the new world save/load made by awesome programmer, F0lak!
+//the beginning of the new world save/load made by programmer F0lak
 
 var
 	map_save_manager/save_manager

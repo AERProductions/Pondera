@@ -1,7 +1,7 @@
 var
 	grank=1			//grank lvl gardening rank
 	grankEXP=0		//grank Exp
-	grankMAXEXP=10		//Exp till level				//energy
+	grankMAXEXP=10		//Exp till level				//stamina
 	MAXgrankLVL=0	//Maxgranklvl when set to one it stops more lvls...
 	//bgrowstate
 	gardening[1]
@@ -21,6 +21,7 @@ obj
 		Fruit
 			can_stack = TRUE
 			food = 1
+			layer = 11
 			/*verb
 				Get()
 					set category=null
@@ -68,7 +69,7 @@ obj
 				Worth = 7
 				food = 1
 				////var/stack = 1
-				description = "<b>Raspberry</b>  Restores 10 Health"
+				//description = "<b>Raspberry</b>  Restores 10 Health"
 				verb/Use()
 					set popup_menu = 1
 					//set category = "Commands"
@@ -88,7 +89,7 @@ obj
 				Worth = 14
 				food = 1
 				////var/stack = 1
-				description = "<b>Blueberry</b>  A ripe sapphire colored berry; Restores 10 Energy"
+				//description = "<b>Blueberry</b>  A ripe sapphire colored berry; Restores 10 stamina"
 				verb/Use()
 					set popup_menu = 1
 					//set category = "Commands"
@@ -99,7 +100,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Blueberry:</b>  A ripe sapphire colored berry; Restores 10 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Blueberry:</b>  A ripe sapphire colored berry; Restores 10 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 			proc/heal(var/obj/items/Fruit/J,amount)
 				var/mob/players/M
@@ -113,14 +114,75 @@ obj
 			proc/mana(var/obj/items/Fruit/J,amount)
 				var/mob/players/M
 				M = usr
-				if (amount > (M.MAXenergy-M.energy))
-					amount = (M.MAXenergy-M.energy)
-				M.energy += amount
-				M.updateEN()
-				M << "You used a [J]; <b>[amount] energy recovered."
+				if (amount > (M.MAXstamina-M.stamina))
+					amount = (M.MAXstamina-M.stamina)
+				M.stamina += amount
+				M.updateST()
+				M << "You used a [J]; <b>[amount] stamina recovered."
+				Del(src)
+
+
+			RaspberryCluster
+				icon='dmi/64/plants.dmi'
+				icon_state="rbc"
+				name = "Raspberry Cluster"
+				Worth = 7
+				food = 1
+				////var/stack = 1
+				//description = "<b>Raspberry Cluster</b>  Restores 100 Health"
+				verb/Use()
+					set popup_menu = 1
+					//set category = "Commands"
+					set src in usr
+					cheal(src,100)
+					//src.stack -= 1
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Raspberry Cluster:</b>  A cluster of ripe ruby colored berries; Restores 100 Health."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			BlueberryCluster
+				icon='dmi/64/plants.dmi'
+				icon_state="bbc"
+				name = "Blueberry Cluster"
+				Worth = 14
+				food = 1
+				////var/stack = 1
+				//description = "<b>Blueberry Cluster</b>  A cluster of ripe sapphire colored berries; Restores 100 stamina"
+				verb/Use()
+					set popup_menu = 1
+					//set category = "Commands"
+					set src in usr
+					cmana(src,100)
+					//src.stack -= 1
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "\  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <b>Blueberry Cluster:</b>  A cluster of ripe sapphire colored berries; Restores 100 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			proc/cheal(var/obj/items/Fruit/J,amount)
+				var/mob/players/M
+				M = usr
+				if (amount > (M.MAXHP-M.HP))
+					amount = (M.MAXHP-M.HP)
+				M.HP += amount
+				M.updateHP()
+				M << "You used a [J]; <b>[amount] Health recovered."
+				Del(src)
+			proc/cmana(var/obj/items/Fruit/J,amount)
+				var/mob/players/M
+				M = usr
+				if (amount > (M.MAXstamina-M.stamina))
+					amount = (M.MAXstamina-M.stamina)
+				M.stamina += amount
+				M.updateST()
+				M << "You used a [J]; <b>[amount] stamina recovered."
 				Del(src)
 
 		Vegetables
+			layer = 11
 			can_stack = TRUE
 			food = 1
 			Potato
@@ -227,6 +289,7 @@ obj
 		Grain
 			can_stack = TRUE
 			food = 1
+			layer = 11
 			Wheat
 				icon='dmi/64/gwheat.dmi'
 				icon_state="wheat"
@@ -257,6 +320,7 @@ obj
 		Seeds
 			icon = 'dmi/64/plants.dmi'
 			icon_state = "seeds"
+			layer = 10
 			var/greq
 			var/gxpg
 			var/Sown
@@ -438,10 +502,10 @@ mob/players/proc
 			if(M.loc==S&&F in M.contents)
 				F.RemoveFromStack(1)
 				new seed(locate(x,y,z))
-				M.energy -= 3
-				M.updateEN()
-			else if(M.energy == 0)
-				M<<"Low Energy."
+				M.stamina -= 3
+				M.updateST()
+			else if(M.stamina == 0)
+				M<<"Low stamina."
 				return*/
 
 var/global/bgrowstage
@@ -453,7 +517,7 @@ obj
 		icon='dmi/64/plants.dmi'
 		//var/bgrowstate//bgrowstate for bushes
 		//density = 1
-		plane = 3
+		layer = 9
 
 		//icon_state="rbb"
 		//New() FruitAmount=rand(MinFruit,MaxFruit)
@@ -463,6 +527,7 @@ obj
 			obj/items/Vegetables/vegetable
 			obj/items/Grain/grain
 			obj/items/Fruit/fruit	//Defines the certain log thats going to be made.
+			obj/items/Fruit/fruitc
 			obj/items/Seeds/seed
 			obj/Plants/plantb
 			FruitAmount	//Logs in the trees...
@@ -499,62 +564,71 @@ obj
 		proc/Grow()
 		proc/UpdatePlantPic()
 
+//sickle will pick an entire cluster of berries (new item), but berries should be able to be picked one
+//by one by hand -- So keep the proc the same for sickle, but add a new item (berry cluster) and
+//account for hand picking when no tool is equipped, which provides one berry and no seeds.
+//add hand picking to proc, create a new berry cluster item to replace single berry for sickle
+//make hand picking get single berry | done!
 
-
-		proc/Pick(mob/Picker)
+		proc/Pick(mob/Picker)//pickfruit this probably needs fixed so sickle cuts sprouts and players can pick the fruit without one
 			set waitfor = 0
 			var/mob/players/M
 			M = usr//Makes the usr become Picker... Not really neccesary.
 			if(grank<greq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 				M<<"<FONT COLOR=RED>You must have a Gardening Acuity of at least [greq] to pick [FruitType] plant.</FONT>"
 				return
-			if(FruitAmount==0)		//Does the tree have logs???
-				M<<"It's not worthwhile."
+			if(SeedAmount==0||FruitAmount==0)		//If log amount being called again...
+				M<<"You already picked the [FruitType] plant."
+				if(season!="Autumn")
+					src.icon_state="picked1"
+				else if(season=="Autumn")
+					src.icon_state="autpicked"
+				Picking=0
 				return
-			if(SeedAmount==0)		//Does the tree have logs???
-				M<<"It's not worthwhile."
-				return				//If no... Return!
 			if(M.SKequipped==0)			//Does the usr have a Axe to cut with?
-				Picker<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle to harvest."
-				return
-			M<<"You begin to work on the [FruitType] plant with your Sickle."			//YAY YOU're CUTTING!!!
-			M.overlays += image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
-			if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
-				M<<"Your energy is too low."
-				return
-			if(Picking==1)
-				return
-			Picking=1				//Setting this to one because the usr is cutting a tree now.
-			sleep(10)				//Sleeps about 2.5 seconds...
-			if(FruitAmount==0)		//If log amount being called again...
-				M<<"You already picked the [FruitType] plant."
-				Picking=0
-				return
-			if(SeedAmount==0)		//If log amount being called again...
-				M<<"You already picked the [FruitType] plant."
-				Picking=0
-				return
-			else
+				goto pickone//Picker<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle to harvest."
+				//return
+			else if(M.SKequipped==1)
+				M<<"You begin to work on the [FruitType] plant with your Sickle."			//YAY YOU're CUTTING!!!
+				M.overlays += image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
+				if(M.stamina==0||M.stamina<12)			//Calling this again... Some screwy stuff could happen.
+					M<<"Your stamina is too low."
+					Picking = 0
+					return
+				if(Picking==1)
+					return
+				Picking=1				//Setting this to one because the usr is cutting a tree now.
+				sleep(10)				//Sleeps about 2.5 seconds...
+			//else
 				if(M.SKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 					Picker<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle to use it on the [FruitType] plant."
+					Picking = 0
 					return
-				if (M.energy==0)
-					M << "Low energy."
+				if (M.stamina<12)
+					M << "Need more stamina to harvest this plant."
+					Picking = 0
+					return
 				else
-					M.energy -= 3	//Depletes one energy
-					M.updateEN()
+					M.stamina -= 12	//Depletes one stamina
+					M.updateST()
 					if(prob(Rarity+grank))		//Takes the rarity of the tree and your woodcutting lvl
-						src.icon_state="picked"
+
 						Picker<<"You Finish working the [FruitType] plant and receive [FruitType]!"		//You get "tree being cut" Logs!
 						M.overlays -= image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
-						new fruit(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
+						new fruitc(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 						new seed(usr)
 						grankEXP+=GiveXP				//  Add The exp from tree to you.
 						M.GNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 						Picking=0							// Picking is set to 0 so you are free to move and cut some more.
 						FruitAmount--
 						SeedAmount--							//Depletes one log from the Amount.
-						if(FruitAmount==0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
+						if(FruitAmount==0||SeedAmount==0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
+							Picking = 0
+							if(season!="Autumn")
+								src.icon_state="picked1"
+							else if(season=="Autumn")
+								src.icon_state="autpicked"
+							M << "Plant has been harvested."
 							//src.icon_state="picked"
 							//sleep(src.spawntime)		//Waiting the spawntime you set for your trees
 							//src.icon_state= initial(icon_state)		//Makes your trees come back to live
@@ -567,6 +641,59 @@ obj
 						Picker<<"You missed the [FruitType] plant."
 						sleep(10)		//You wernt lucky enough to hit the treee.
 						Picking=0
+						return
+			pickone
+			if(M.SKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
+				//Picker<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle to use it on the [FruitType] plant."
+				//Picking = 0
+				//return
+				if(M.stamina==0||M.stamina<3)			//Calling this again... Some screwy stuff could happen.
+					M<<"Your stamina is too low."
+					Picking = 0
+					return
+				if(Picking==1)
+					return
+				Picking=1				//Setting this to one because the usr is cutting a tree now.
+				sleep(10)				//Sleeps about 2.5 seconds...
+			//else
+				if (M.stamina<3)
+					M << "Need more stamina to harvest this plant."
+					Picking = 0
+					return
+				else
+					M.stamina -= 3	//Depletes one stamina
+					M.updateST()
+					if(prob(Rarity+grank))		//Takes the rarity of the tree and your woodcutting lvl
+
+						Picker<<"You pick a [FruitType] from the [FruitType] plant!"		//You get "tree being cut" Logs!
+						//M.overlays -= image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
+						new fruit(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
+						//new seed(usr)
+						grankEXP+=GiveXP				//  Add The exp from tree to you.
+						M.GNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+						Picking=0							// Picking is set to 0 so you are free to move and cut some more.
+						FruitAmount--
+						//SeedAmount--							//Depletes one log from the Amount.
+						if(FruitAmount==0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
+							Picking = 0
+							if(season!="Autumn")
+								src.icon_state="picked1"
+							else if(season=="Autumn")
+								src.icon_state="autpicked"
+							M << "Plant has been picked clean."
+							//src.icon_state="picked"
+							//sleep(src.spawntime)		//Waiting the spawntime you set for your trees
+							//src.icon_state= initial(icon_state)		//Makes your trees come back to live
+							//src.FruitAmount=rand(MinFruit,MaxFruit)			//Redefines new FruitAmounts.
+							//src.SeedAmount=rand(MinSeed,MaxSeed)
+							//del src
+							return
+					else
+						M.overlays -= image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
+						Picker<<"You missed the [FruitType] plant."
+						sleep(10)		//You wernt lucky enough to hit the treee.
+						Picking=0
+						return
 
 	/*Plants
 		parent_type = /obj
@@ -603,7 +730,7 @@ obj
 						if(M.SKequipped==1)//Makes sure the person is right beside the tree and facing it.
 							if(Picking==1)//This is saying if usr is already cuttin a tree...
 								return
-							if(energy==0)//Is your energy to low???
+							if(stamina==0)//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 								return
 							if((src.vgrowstate==4)||(src.vgrowstate==5))
@@ -649,8 +776,8 @@ obj
 					return
 				M<<"You begin to work on the [VegeType] plant with your Sickle."			//YAY YOU're CUTTING!!!
 				M.overlays += image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
-				if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
-					M<<"Your energy is too low."
+				if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
+					M<<"Your stamina is too low."
 					return
 				if(Picking==1)
 					return
@@ -668,17 +795,17 @@ obj
 					if(M.SKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 						Picker<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle to use it on the [VegeType] plant."
 						return
-					if (M.energy==0)
-						M << "Low energy."
+					if (M.stamina==0)
+						M << "Low stamina."
 					else
-						M.energy -= 3	//Depletes one energy
-						M.updateEN()
+						M.stamina -= 3	//Depletes one stamina
+						M.updateST()
 						if(prob(Rarity+grank))		//Takes the rarity of the tree and your woodcutting lvl
 							Picker<<"You Finish working the [VegeType] plant and receive [VegeType]!"		//You get "tree being cut" Logs!
 							M.overlays -= image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
 							src.icon_state="picked"
 							src.vgrowstate = 7
-							src.name = "Picked"
+							src.name = "Harvested"
 							new vegetable(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 							new seed(usr)
 							grankEXP+=GiveXP				//  Add The exp from tree to you.
@@ -833,7 +960,7 @@ obj
 				VegeType="Potato"
 				greq=1
 				//density = 0
-				plane = 2
+				layer = 2
 				mouse_opacity = 1
 				//disallow_in = NORTH
 				//disallow_out = SOUTH
@@ -856,7 +983,7 @@ obj
 				VegeType="Onion"
 				greq=2
 				//density = 0
-				plane = 2
+				layer = 2
 				mouse_opacity = 1
 				//disallow_in = NORTH
 				//disallow_out = SOUTH
@@ -879,7 +1006,7 @@ obj
 				VegeType="Carrot"
 				greq=3
 				//density = 0
-				plane = 2
+				layer = 2
 				mouse_opacity = 1
 				//disallow_in = NORTH
 				//disallow_out = SOUTH
@@ -901,7 +1028,7 @@ obj
 				VegeType="Tomato"
 				greq=4
 				//density = 0
-				plane = 2
+				layer = 2
 				mouse_opacity = 1
 				//disallow_in = NORTH
 				//disallow_out = SOUTH
@@ -923,7 +1050,7 @@ obj
 				VegeType="Pumpkin"
 				greq=5
 				//density = 0
-				plane = 2
+				layer = 2
 				mouse_opacity = 1
 				//disallow_in = NORTH
 				//disallow_out = SOUTH
@@ -955,7 +1082,7 @@ obj
 						if(M.SKequipped==1)//Makes sure the person is right beside the tree and facing it.
 							if(Picking==1)//This is saying if usr is already cuttin a tree...
 								return
-							if(energy==0)//Is your energy to low???
+							if(stamina==0)//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 								return
 							if((src.ggrowstate==4)||(src.ggrowstate==5))
@@ -1001,8 +1128,8 @@ obj
 					return
 				M<<"You begin to work on the [GrainType] plant with your Sickle."			//YAY YOU're CUTTING!!!
 				M.overlays += image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
-				if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
-					M<<"Your energy is too low."
+				if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
+					M<<"Your stamina is too low."
 					return
 				if(Picking==1)
 					return
@@ -1020,11 +1147,11 @@ obj
 					if(M.SKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 						Picker<<"You need to hold the \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle to use it on the [GrainType] plant."
 						return
-					if (M.energy==0)
-						M << "Low energy."
+					if (M.stamina==0)
+						M << "Low stamina."
 					else
-						M.energy -= 3	//Depletes one energy
-						M.updateEN()
+						M.stamina -= 3	//Depletes one stamina
+						M.updateST()
 						if(prob(Rarity+grank))		//Takes the rarity of the tree and your woodcutting lvl
 							Picker<<"You Finish working the [GrainType] plant and receive [GrainType]!"		//You get "tree being cut" Logs!
 							M.overlays -= image('dmi/64/SKoy.dmi',icon_state="[get_dir(M,src)]")
@@ -1180,7 +1307,7 @@ obj
 				GrainType="Wheat"
 				greq=4
 				//density = 0
-				plane = 2
+				layer = 2
 				mouse_opacity = 1
 				//disallow_in = NORTH
 				//disallow_out = SOUTH
@@ -1203,7 +1330,7 @@ obj
 				GrainType="Barley"
 				greq=5
 				//density = 0
-				plane = 2
+				layer = 2
 				mouse_opacity = 1
 				//disallow_in = NORTH
 				//disallow_out = SOUTH
@@ -1235,40 +1362,48 @@ obj
 				if(get_dist(src,M)>=2&&get_dir(src,M)<=M.dir)
 				//if(!(src in range(2, usr)))
 				//if(get_step_away(src,usr,3))
-					M<<"You need to be closer to cut."
+					M<<"You need to be closer."
 					return
 				else
-					if(M.SKequipped==0)			//Does the usr have a Axe to cut with?
+					if(M.SHequipped==1)
+						M<<"You dig up the bush."
+						del src
+						return
+					/*if(M.SKequipped==0)			//Does the usr have a Axe to cut with?
 						M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='sickle'>Sickle equipped."
 						return
 					else
 						if(M.SKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 							if(Picking==1)		//This is saying if usr is already cuttin a tree...
-								return
-							if(energy==0)		//Is your energy to low???
-								M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
-								return
-							if((src.bgrowstate==4)||(src.bgrowstate==5))
-								Pick(M)		//Calls the Pick() proc
-								sleep(2)
-							else
-								if(src.bgrowstate==1)
-									M<<"This [FruitType] Plant is just a seedling and too young to be viable to pick."
-									return
-								if(src.bgrowstate==2)
-									M<<"This [FruitType] Plant is just a sappling and therefor isn't viable to pick."
-									return
-								if(src.bgrowstate==3)
-									M<<"This [FruitType] Plant is barely blooming and isn't viable to pick."
-									return
-								if(src.bgrowstate==6)
-									M<<"This [FruitType] Plant is too old and brittle to pick."
-									return
+								return*/
+					if(stamina==0)		//Is your stamina to low???
+						M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
+						return
+					if((src.bgrowstate==4)||(src.bgrowstate==5))
+						Pick(M)		//Calls the Pick() proc
+						sleep(2)
+						return
+					else
+						if(src.bgrowstate==1)
+							M<<"This [FruitType] Bush is just a seedling and too young to be viable to pick."
+							return
+						if(src.bgrowstate==2)
+							M<<"This [FruitType] Bush is just a sappling and therefor isn't viable to pick."
+							return
+						if(src.bgrowstate==3)
+							M<<"This [FruitType] Bush is barely blooming and isn't viable to pick."
+							return
+						if(src.bgrowstate==51)
+							M<<"This [FruitType] Bush has no fruit to pick."
+							return
+						if(src.bgrowstate==6)
+							M<<"This [FruitType] Bush is too old and brittle to pick."
+							return
 
 
 
 			Grow()
-				var/randomvalue = rand(240,840)
+				var/randomvalue = rand(1240,1840)
 				spawn(randomvalue) // Normaly set to 12000, or twenty min.
 				// Cycle the bgrowstate var.
 					//if (bgrowstate == 1)
@@ -1278,23 +1413,32 @@ obj
 
 					if (month == "Shevat"&&day>=2)
 
-						src:bgrowstate = 2//sappling
+						src:bgrowstate = 6//old from winter
 
 					if (month == "Adar"&&day>=2)
 
-						src:bgrowstate = 3//bloom
+						src:bgrowstate = 2//sappling
 
-					if (month == "Nisan"&&day>=16)
+					if (month == "Nisan"&&day<16)
+
+						src:bgrowstate = 3//blooming
+
+					if (month == "Nisan"&&day>=16||season == "Summer")
 
 						src:bgrowstate = 4//ripe
 
-					if (season == "Summer")
+					/*if (season == "Summer")
 
 						src:bgrowstate = 4//ripe
+						*/
 
 					if (season == "Autumn")
 
 						src:bgrowstate = 5//ripe fall
+
+					if (season == "Autumn"&&month == "Cheshvan")
+
+						src:bgrowstate = 51
 
 					if (season == "Winter")
 
@@ -1314,38 +1458,54 @@ obj
 				//bgrowstate = bstateload
 				if (src.bgrowstate == 1)
 					src:icon_state = "seed1"
+					verbs -= /obj/Plants/proc/Pick
 					//src:bgrowstate = 1
-					src:name = "Seedling"
+					src:name = "Bush Seedling"
 					//growthstate = "Seedling"
 				if (src.bgrowstate == 2)
 					src:icon_state = "sapp1"
+					verbs -= /obj/Plants/proc/Pick
 					//src:bgrowstate = 2
-					src:name = "Sappling"
+					src:name = "Bush Sappling"
 					//growthstate = "Sappling"
 				if (src.bgrowstate == 3)
 					src:icon_state = "bloo1"
+					verbs -= /obj/Plants/proc/Pick
 					//src:bgrowstate = 3
-					src:name = "Bloom"
+					src:name = "Blooming Bush"
 					//growthstate = "Bloom"
 				if (src.bgrowstate == 4)
 					verbs += /obj/Plants/proc/Pick
 					// The Apple tree is ripe, so allow apple picking.
-					src:icon_state = "ripe1"
+					if(FruitType=="Raspberry")
+						src:icon_state = "ripe1"
+					if(FruitType=="Blueberry")
+						src:icon_state = "ripe2"
 					//src:bgrowstate = 4
-					src:name = "Ripe"
+					src:name = "Ripe [FruitType] Bush"
 					//growthstate = "Ripe"
 				if (src.bgrowstate == 5)
+					verbs += /obj/Plants/proc/Pick
 					//verbs -= /obj/Plants/proc/Pick
 					//Tree no longer ripe, take away the pick option.
-					src:icon_state = "aut"
+					if(FruitType=="Raspberry")
+						src:icon_state = "autorg"
+					if(FruitType=="Blueberry")
+						src:icon_state = "aut2org"
+					//src:icon_state = "aut"
 					//src:bgrowstate = 5
-					//src:name = "Old"
+					src:name = "Fading [FruitType] Bush"
+				if (src.bgrowstate == 51)
+					verbs -= /obj/Plants/proc/Pick
+					src:icon_state = "aut"
+					//src:bgrowstate = 3
+					src:name = "Hibernating Bush"
 				if (src.bgrowstate == 6)
 					verbs -= /obj/Plants/proc/Pick
 					//Tree no longer ripe, take away the pick option.
 					src:icon_state = "wint2"
 					//src:bgrowstate = 5
-					src:name = "Old"
+					src:name = "Dormant Bush"
 					//growthstate = "Old"
 				Grow()
 
@@ -1353,6 +1513,7 @@ obj
 			Raspberrybush
 				//This makes it so we can make a Minimum log amount and a max log amount
 				// bgrowstate is the tree's current 'phase'
+				name = "Raspberry Bush"
 				icon = 'dmi/64/plants.dmi'
 				icon_state = "rbs"
 				MinFruit=2
@@ -1362,6 +1523,7 @@ obj
 				GiveXP=5
 				FruitAmount = 0
 				SeedAmount = 0
+				fruitc=/obj/items/Fruit/RaspberryCluster
 				fruit=/obj/items/Fruit/Raspberry
 				seed=/obj/items/Seeds/Raspberryseed   //This is basically saying what log will be made when tree is cut...
 				plantb=/obj/Plants/Bush/Raspberrybush
@@ -1370,11 +1532,10 @@ obj
 				FruitType="Raspberry"
 				greq=1
 				//density = 0
-				plane = MOB_LAYER+5
+				layer = 10
 				mouse_opacity = 1
-				disallow_in = NORTH
-				disallow_out = SOUTH
-
+				disallow_in = NORTH||SOUTH
+				disallow_out = SOUTH||NORTH
 
 
 
@@ -1384,6 +1545,7 @@ obj
 			Blueberrybush
 				//This makes it so we can make a Minimum log amount and a max log amount
 				// bgrowstate is the tree's current 'phase'
+				name = "Blueberry Bush"
 				icon = 'dmi/64/plants.dmi'
 				icon_state = "bbs"
 				MinFruit=2
@@ -1393,6 +1555,7 @@ obj
 				GiveXP=5
 				FruitAmount = 0
 				SeedAmount = 0
+				fruitc=/obj/items/Fruit/BlueberryCluster
 				fruit=/obj/items/Fruit/Blueberry
 				seed=/obj/items/Seeds/Blueberryseed   //This is basically saying what log will be made when tree is cut...
 				plantb=/obj/Plants/Bush/Blueberrybush
@@ -1401,10 +1564,10 @@ obj
 				FruitType="Blueberry"
 				greq=1
 				//density = 0
-				plane = MOB_LAYER+5
+				layer = 10
 				mouse_opacity = 1
-				disallow_in = NORTH
-				disallow_out = SOUTH
+				disallow_in = NORTH||SOUTH
+				disallow_out = SOUTH||NORTH
 					//seeds = 1
 
 
@@ -1421,7 +1584,7 @@ obj
 			//var/S
 			//S = /obj/items/Seeds
 
-			plane = 1
+			layer = 1
 			Sowed = 0
 			Click()//does this need to block multiple menu instances opening? Need to test
 
@@ -1458,8 +1621,8 @@ obj
 				//if(month != "Shevat")
 					//M << "Can only plant in the month of Shevat."
 					//return
-				if(M.energy == 0)//Checking user's energy level
-					M<<"Low Energy."
+				if(M.stamina == 0)//Checking user's stamina level
+					M<<"Low stamina."
 					return
 
 				//if(F)
@@ -1500,8 +1663,8 @@ obj
 									M.grankEXP += S.gxpg
 									S.RemoveFromStack(1)//remove from stack
 									Sowed = 1//mark soil and sown
-									M.energy -= 8//remove energy
-									M.updateEN()
+									M.stamina -= 8//remove stamina
+									M.updateST()
 								if(M.MAXgrankLVL==1)
 									return
 								else
@@ -1514,7 +1677,7 @@ obj
 		richsoil
 			icon_state = "richsoil"
 			icon = 'dmi/64/gen.dmi'
-			plane = 1
+			layer = 1
 			Sowed = 0
 
 			Click()//does this need to block multiple menu instances opening? Need to test
@@ -1552,8 +1715,8 @@ obj
 				//if(month != "Shevat")
 					//M << "Can only plant in the month of Shevat."
 					//return
-				if(M.energy == 0)//Checking user's energy level
-					M<<"Low Energy."
+				if(M.stamina == 0)//Checking user's stamina level
+					M<<"Low stamina."
 					return
 
 				//if(F)
@@ -1594,8 +1757,8 @@ obj
 									M.grankEXP += S.gxpg
 									S.RemoveFromStack(1)//remove from stack
 									Sowed = 1//mark soil and sown
-									M.energy -= 8//remove energy
-									M.updateEN()
+									M.stamina -= 8//remove stamina
+									M.updateST()
 								if(M.MAXgrankLVL==1)
 									return
 								else
@@ -1627,7 +1790,7 @@ mob/players
 				usr << "You are currently sowing."
 				return
 			if (!(src in range(1, usr))) return
-			if(M.energy == 0)
+			if(M.stamina == 0)
 				return
 			/*if(src.loc == locate(x,y,2))
 				M<<"Can only sow soil in the Combat Area."
@@ -1646,8 +1809,8 @@ mob/players
 							a = new/obj/Soil/richsoil(src.loc)
 							M<<"You sow rich soil."
 							a:buildingowner = ckeyEx("[usr.key]")
-							M.energy -= 5
-							M.updateEN()
+							M.stamina -= 5
+							M.updateST()
 							M.Doing=0
 							if(M.MAXgrankLVL==1)
 								return
@@ -1665,8 +1828,8 @@ mob/players
 							a = new/obj/Soil/soil(src.loc)
 							M<<"You Finish sowing the soil."
 							a:buildingowner = ckeyEx("[usr.key]")
-							M.energy -= 5
-							M.updateEN()
+							M.stamina -= 5
+							M.updateST()
 							M.Doing=0
 							if(M.MAXgrankLVL==1)
 								return

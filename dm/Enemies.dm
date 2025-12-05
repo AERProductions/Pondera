@@ -16,13 +16,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==5)
-					new/obj/items/GiuHide (m,1)//var/obj/items/GiuHide/J = new (m,1)//(locate(X,Y,Z)) // drop a questitem
+					new/obj/items/CParts/GiuHide (m,1)//var/obj/items/GiuHide/J = new (m,1)//(locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>Giu Hide!"
 				else if(R!=5)
 					new/obj/items/Food/GiuMeat (m,1)//var/obj/items/Food/GiuMeat/J = new (m,1)//(locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>Giu Meat!"
 				if(R==9)
-					new/obj/items/GiuShell (m,1)//var/obj/items/GiuShell/J = new (m,1)//(locate(X,Y,Z)) // drop a questitem
+					new/obj/items/CParts/GiuShell (m,1)//var/obj/items/GiuShell/J = new (m,1)//(locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>Giu Shell!"
 	if(Q.type==/mob/enemies/Gou)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -32,13 +32,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==5)
-					var/obj/items/GouHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GouHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=5)
 					var/obj/items/Food/GouMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==13)
-					var/obj/items/GouShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GouShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 	if(Q.type==/mob/enemies/Gow)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -48,13 +48,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==5)
-					var/obj/items/GowHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GowHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=5)
 					var/obj/items/Food/GowMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==13)
-					var/obj/items/GowShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GowShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 	if(Q.type==/mob/enemies/Guwi)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -64,13 +64,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==5)
-					var/obj/items/GuwiHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GuwiHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=5)
 					var/obj/items/Food/GuwiMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==13)
-					var/obj/items/GuwiShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GuwiShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 	if(Q.type==/mob/enemies/Gowu)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -80,13 +80,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==4)
-					var/obj/items/GowuHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GowuHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=4)
 					var/obj/items/Food/GowuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==19)
-					var/obj/items/GowuShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GowuShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 	if(Q.type==/mob/enemies/Giuwo)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -96,13 +96,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==4)
-					var/obj/items/GiuwoHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GiuwoHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=4)
 					var/obj/items/Food/GiuwoMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==19)
-					var/obj/items/GiuwoShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GiuwoShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 	if(Q.type==/mob/enemies/Gouwo)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -112,13 +112,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==4)
-					var/obj/items/GouwoHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GouwoHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=4)
 					var/obj/items/Food/GouwoMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==19)
-					var/obj/items/GouwoShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GouwoShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 	if(Q.type==/mob/enemies/Gowwi)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -128,13 +128,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==4)
-					var/obj/items/GowwiHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GowwiHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=4)
 					var/obj/items/Food/GowwiMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==19)
-					var/obj/items/GowwiShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GowwiShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 	if(Q.type==/mob/enemies/Guwwi)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -144,13 +144,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==4)
-					var/obj/items/GuwwiHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GuwwiHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=4)
 					var/obj/items/Food/GuwwiMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==19)
-					var/obj/items/GuwwiShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GuwwiShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 	if(Q.type==/mob/enemies/Gowwu)
 		for(var/mob/players/m as mob in view(20)) // for each thing nearby
@@ -160,13 +160,13 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			//		var/obj/items/Food/GiuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 				//	m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==4)
-					var/obj/items/GowwuHide/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GowwuHide/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				else if(R!=4)
 					var/obj/items/Food/GowwuMeat/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 				if(R==19)
-					var/obj/items/GowwuShell/J = new (locate(X,Y,Z)) // drop a questitem
+					var/obj/items/CParts/GowwuShell/J = new (locate(X,Y,Z)) // drop a questitem
 					m << "<font color = #dc143c>The enemy dropped <b>[J]!"
 
 	//these are based on the enemy's level
@@ -177,7 +177,7 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			if (12) // 1% chance
 				var/obj/items/Tonics/vitaevial/J = new (locate(X,Y,Z)); Drop(J)
 			if (6) // 1% chance
-				var/obj/items/Tonics/energytonic/J = new (locate(X,Y,Z)); Drop(J)
+				var/obj/items/Tonics/staminatonic/J = new (locate(X,Y,Z)); Drop(J)
 	if (Q.level>10 && Q.level<16) // levels 2-4 for a chance to get a book
 		var/diceB = "2d20"
 		var B = roll(diceB) // roll 1d600, 0.1667% chance to get each of these
@@ -271,7 +271,7 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			if (1)
 				var/obj/items/Tonics/largevitaevial/J = new (locate(X,Y,Z)); Drop(J)
 			if (20)
-				var/obj/items/Tonics/strongenergytonic/J = new (locate(X,Y,Z)); Drop(J)
+				var/obj/items/Tonics/strongstaminatonic/J = new (locate(X,Y,Z)); Drop(J)
 	if (Q.level>33&&Q.level<42) // levels 5-7 chance to drop books
 		var/diceB = "2d20+10"
 		var B = roll(diceB) // 0.1667% chance for each, 0.6667% to just get a book in general here
@@ -359,7 +359,7 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			if (1)
 				var/obj/items/Tonics/vitaeliniments/J = new (locate(X,Y,Z)); Drop(J)
 			if (30)
-				var/obj/items/Tonics/energyspirits/J = new (locate(X,Y,Z)); Drop(J)
+				var/obj/items/Tonics/staminaspirits/J = new (locate(X,Y,Z)); Drop(J)
 	if (Q.level>55&&Q.level<62) // levels 8-10 for books
 		var/diceB = "3d20"
 		var B = roll(diceB)
@@ -442,7 +442,7 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			if (20)
 				var/obj/items/Tonics/antitoxin/J = new (locate(X,Y,Z)); Drop(J)
 			if (40)
-				var/obj/items/Tonics/strongenergyspirits/J = new (locate(X,Y,Z)); Drop(J)
+				var/obj/items/Tonics/strongstaminaspirits/J = new (locate(X,Y,Z)); Drop(J)
 	if (Q.level>76&&Q.level<84) // 11-13 for books
 		var/diceB = "2d20"
 		var B = roll(diceB)
@@ -458,7 +458,7 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			if (10)
 				var/obj/items/Tonics/vitaecurative/J = new (locate(X,Y,Z)); Drop(J)
 			if (20)
-				var/obj/items/Tonics/energyrestorative/J = new (locate(X,Y,Z)); Drop(J)
+				var/obj/items/Tonics/staminarestorative/J = new (locate(X,Y,Z)); Drop(J)
 	if (Q.level>88 && Q.level<96) // 12-14 for items
 		var/diceC = "2d20"
 		var/diceC2 = "2d20+10"
@@ -506,7 +506,7 @@ proc/itemdrop(var/mob/enemies/Q,X,Y,Z)
 			if (20)
 				var/obj/items/Tonics/qualityvitaecurative/J = new (locate(X,Y,Z)); Drop(J)
 			if (40)
-				var/obj/items/Tonics/strongenergyrestorative/J = new (locate(X,Y,Z)); Drop(J)
+				var/obj/items/Tonics/strongstaminarestorative/J = new (locate(X,Y,Z)); Drop(J)
 
 
 mob/enemies
@@ -583,14 +583,14 @@ mob
 				P = usr
 				P.waiter=0 // you can't attack again yet
 				var/damage = round(((rand(P.tempdamagemin,P.tempdamagemax))*((P.Strength/100)+1)),1) // calculate the damage
-				if(P.energy>P.MAXenergy)
-					P.energy=P.MAXenergy
-				if(P.energy<0)
-					P.energy=0
-				if(P.energy==0)			//Calling this again... Some screwy stuff could happen.
+				if(P.stamina>P.MAXstamina)
+					P.stamina=P.MAXstamina
+				if(P.stamina<0)
+					P.stamina=0
+				if(P.stamina==0)			//Calling this again... Some screwy stuff could happen.
 					P.waiter=0
-					P<<"Your energy is too low."
-				if(P.energy<=0)
+					P<<"Your stamina is too low."
+				if(P.stamina<=0)
 					P.waiter=1
 				if(P.waiter==0)
 
@@ -609,8 +609,8 @@ mob
 					s_damage(M, damage, "#32cd32") // show the damage on the enemy
 					M.HP -= damage // deal the actual damage to their variable
 					//J.updateHP()
-					P.energy -= damage
-					P.updateEN()
+					P.stamina -= damage
+					P.updateST()
 					M.DeadEnemy(src) // checking to see if the enemy is dead, and doing things about it
 					oview(P,3) << "[M] has perished..."//J.overlays -= image('dmi/64/LSoy.dmi',icon_state="[get_dir(J,src)]")//J.overlays -= overlays
 					sleep(P.attackspeed) // wait a time period based on your attack speed
@@ -735,7 +735,7 @@ mob
 
 							var/V = rand(1,6) // 1 in 6 chance to do something
 
-							//if the enemy has all 6 of these spells, it wont attack regularly until it is out of energy
+							//if the enemy has all 6 of these spells, it wont attack regularly until it is out of stamina
 							//if the enemy has 2 of these spells, it has a 1/6 chance to cast either of them and a 4/6 chance to attack
 							switch(V)
 								if(1)
@@ -867,28 +867,39 @@ mob
 				return
 
 			checkdeadplayer(var/mob/players/P)
-				if(P.HP <= 0&&P.affinity<=-0.1) // if you have less than or equal to 0 HP, you are dead
-					world << "<font color = red><b>[P] died to [src] and went to the Sheol"
-					var/G = round((P.lucre/4),1)
-					P << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
+				if(P.HP <= 0)//&&P.affinity<=-0.1) // if you have less than or equal to 0 HP, you are dead
+					world << "<font color = red><b>[P] died to [src]"
+					//var/G = round((P.lucre/4),1)
+					//P << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
 					//M.unlistenSoundmob(fb)
-					P.lucre-=G
+					//P.lucre-=G
+					P -= verbs
 					P.poisonD=0
 					P.poisoned=0
 					P.poisonDMG=0
 					P.overlays = null
+					P.icon = 'dmi/64/blank.dmi'
+					P.loc = locate(5,6,1)//locate(rand(100,157),rand(113,46),12)
+					P.location = "Sleep"
+					//usr << sound('mus.ogg',1, 0, 1024)
+					P.nomotion = 1
+					P.HP = 1
+					/*P.poisonD=0
+					P.poisoned=0
+					P.poisonDMG=0
+					P.overlays = null
 					P.needrev=1
-					var/turf/rd = locate(16,9,12)
+					var/turf/rd = locate(5,6,1)
 					//var/turf/fl = locate(pick(333,474),pick(678,613),pick(2,2)) //anti griefing spawn
 					//var/turf/fl = locate(pick(421,413),pick(692,686),pick(2,2)) //for testing
 					P.Move(rd)
 					//M.loc = locate(16,2,1)//locate(rand(100,157),rand(113,46),12)
-					P.location = "Sheol"
+					P.location = "Sleep"*/
 					//usr << sound('mus.ogg',1, 0, 1024)
 					//if(P.location=="Sheol")
 						//P.HP = P.MAXHP
 					return
-				else
+				/*else
 					if(P.HP <= 0&&P.affinity>=0)
 						world << "<font color = red><b>[P] died to [src] and went to the Holy Light"
 						var/G = round((P.lucre/4),1)
@@ -913,7 +924,7 @@ mob
 							//call(/soundmob/proc/unsetListener)(M)
 						//usr << sound('mus.ogg',1, 0, 1024)
 							//P.HP = P.MAXHP
-						return
+						return*/
 
 		//this Wander thing is what I based my enemy logic on, this function doesn't get called anymore, it was replaced by Unique(speed)
 	/*	proc/Wander(speed)
@@ -931,14 +942,14 @@ mob
 
 
 	*/
-		//these procedures get called by the main logic loop in order to cast spells if the enemy has the energy to do it, otherwise they just step towards you
+		//these procedures get called by the main logic loop in order to cast spells if the enemy has the stamina to do it, otherwise they just step towards you
 		proc
 			HEAT()
 				set waitfor = 0
-				if (energy < 1+(heatlevel*2))
+				if (stamina < 1+(heatlevel*2))
 					step_towards(src,P)
 				else
-					energy -= 1+(heatlevel*2)
+					stamina -= 1+(heatlevel*2)
 					missile(/obj/spells/heat,usr,P)
 					sleep(get_dist(usr,P))
 					var/damage = round(((rand(2+(heatlevel*2),4+(heatlevel*3)))*((Spirit/100)+1)),1)
@@ -952,10 +963,10 @@ mob
 						step_towards(src,P)
 			SHARDBURST()
 				set waitfor = 0
-				if (energy < 3+(shardburstlevel*2))
+				if (stamina < 3+(shardburstlevel*2))
 					step_towards(src,P)
 				else
-					energy -= 3+(shardburstlevel*2)
+					stamina -= 3+(shardburstlevel*2)
 					missile(/obj/spells/shardburst,usr,P)
 					sleep(get_dist(usr,P))
 					var/damage = round(((rand(1+(shardburstlevel*3),3+(shardburstlevel*3)))*((Spirit/100)+1)),1)
@@ -968,10 +979,10 @@ mob
 					step_towards(src,P)
 			WATERSHOCK()
 				set waitfor = 0
-				if (energy < 5+(watershocklevel*2))
-					usr << "Low energy."
+				if (stamina < 5+(watershocklevel*2))
+					usr << "Low stamina."
 				else
-					energy -= 5+(watershocklevel*2)
+					stamina -= 5+(watershocklevel*2)
 					missile(/obj/spells/watershock,usr,P)
 					sleep(get_dist(usr,P))
 					var/damage = round(((rand(1,round((10+(watershocklevel*10.72)),1)))*((Spirit/100)+1)),1)
@@ -984,19 +995,19 @@ mob
 					step_towards(src,P)
 			REPHASE()
 				set waitfor = 0
-				if (energy < 15+(rephaselevel*5))
+				if (stamina < 15+(rephaselevel*5))
 					step_towards(src,P)
 				else
-					energy -= 15+(rephaselevel*5)
+					stamina -= 15+(rephaselevel*5)
 					var/amount = round(((rand(5+(rephaselevel*3),10+(rephaselevel*5)))*((Spirit/100)+1)),1)
-					if (amount > (P.energy))
-						amount = (P.energy)
+					if (amount > (P.stamina))
+						amount = (P.stamina)
 					if (amount < 0)
 						amount = 0
 					missile(/obj/spells/cosmos,usr,P)
 					sleep(get_dist(usr,P))
 					s_damage(P, amount, "#4b7bdc")
-					P.energy -= amount
+					P.stamina -= amount
 					var/damage = round((amount*(0.092*rephaselevel)),1)
 					if (damage < 0)
 						damage = 0
@@ -1010,10 +1021,10 @@ mob
 					step_away(src,P)
 			ACID()
 				set waitfor = 0
-				if (energy < round(14*sqrt(acidlevel),1))
+				if (stamina < round(14*sqrt(acidlevel),1))
 					step_towards(src,P)
 				else
-					energy -= round(14*sqrt(acidlevel),1)
+					stamina -= round(14*sqrt(acidlevel),1)
 					missile(/obj/spells/acid,usr,P)
 					sleep(get_dist(usr,P))
 					P.overlays += /obj/spells/acid
@@ -1024,10 +1035,10 @@ mob
 					step_away(src,P)
 			BLUDGEON()
 				set waitfor = 0
-				if (energy < 9+(bludgeonlevel*2))
+				if (stamina < 9+(bludgeonlevel*2))
 					step_towards(src,P)
 				else
-					energy -= 9+(bludgeonlevel*2)
+					stamina -= 9+(bludgeonlevel*2)
 					missile(/obj/spells/bludgeon,usr,P)
 					sleep(get_dist(usr,P))
 					var/damage = round(((rand(10+(bludgeonlevel*2),16+(bludgeonlevel*3)))*((Strength/100)+1)),1)
@@ -1043,7 +1054,7 @@ mob
 		//these are all the different enemies and their variables and actions...
 
 		var // enemy variables
-			HP; MAXHP; energy; MAXenergy; expgive; lucregive; Strength; Spirit; level=0; Speed; Unique=0;
+			HP; MAXHP; stamina; MAXstamina; expgive; lucregive; Strength; Spirit; level=0; Speed; Unique=0;
 			fireres=0; iceres=0; watres=0; poisres=0; earthres=0; windres=0
 			firewk=0; icewk=0; watwk=0; poiswk=0; earthwk=0; windwk=0
 			hasspells=0; // the magi casters have different fighting logic
@@ -1057,8 +1068,8 @@ mob
 			Speed = 1
 			HP = 30
 			MAXHP = 30
-			energy = 5
-			MAXenergy = 5
+			stamina = 5
+			MAXstamina = 5
 			expgive = 12
 			lucregive = 4
 			Strength = 4
@@ -1110,8 +1121,8 @@ mob
 			Speed = 18
 			HP = 85
 			MAXHP = 85
-			energy = 10
-			MAXenergy = 10
+			stamina = 10
+			MAXstamina = 10
 			expgive = 24
 			lucregive = 13
 			Strength = 8
@@ -1151,8 +1162,8 @@ mob
 			Speed = 17
 			HP = 100
 			MAXHP = 100
-			energy = 15
-			MAXenergy = 15
+			stamina = 15
+			MAXstamina = 15
 			expgive = 16
 			lucregive = 36
 			Strength = 14
@@ -1193,8 +1204,8 @@ mob
 			Speed = 15
 			HP = 160
 			MAXHP = 160
-			energy = 35
-			MAXenergy = 35
+			stamina = 35
+			MAXstamina = 35
 			expgive = 49
 			lucregive = 42
 			Strength = 16
@@ -1235,8 +1246,8 @@ mob
 			Speed = 13
 			HP = 260
 			MAXHP = 260
-			energy = 43
-			MAXenergy = 43
+			stamina = 43
+			MAXstamina = 43
 			expgive = 67
 			lucregive = 54
 			Strength = 22
@@ -1286,8 +1297,8 @@ mob
 			Speed = 13
 			HP = 300
 			MAXHP = 300
-			energy = 64
-			MAXenergy = 64
+			stamina = 64
+			MAXstamina = 64
 			expgive = 84
 			lucregive = 65
 			Strength = 24
@@ -1334,8 +1345,8 @@ mob
 			Speed = 9
 			HP = 333
 			MAXHP = 333
-			energy = 75
-			MAXenergy = 75
+			stamina = 75
+			MAXstamina = 75
 			expgive = 92
 			lucregive = 72
 			Strength = 27
@@ -1379,8 +1390,8 @@ mob
 			Speed = 13
 			HP = 420
 			MAXHP = 420
-			energy = 113
-			MAXenergy = 113
+			stamina = 113
+			MAXstamina = 113
 			expgive = 124
 			lucregive = 91
 			Strength = 33
@@ -1428,8 +1439,8 @@ mob
 			Speed = 18
 			HP = 554
 			MAXHP = 554
-			energy = 183
-			MAXenergy = 183
+			stamina = 183
+			MAXstamina = 183
 			expgive = 184
 			lucregive = 111
 			Strength = 42
@@ -1477,8 +1488,8 @@ mob
 			Speed = 13
 			HP = 642
 			MAXHP = 642
-			energy = 213
-			MAXenergy = 213
+			stamina = 213
+			MAXstamina = 213
 			expgive = 264
 			lucregive = 171
 			Strength = 55
@@ -1526,8 +1537,8 @@ mob
 			Speed = 13
 			HP = 824
 			MAXHP = 824
-			energy = 333
-			MAXenergy = 333
+			stamina = 333
+			MAXstamina = 333
 			expgive = 304
 			lucregive = 213
 			Strength = 64

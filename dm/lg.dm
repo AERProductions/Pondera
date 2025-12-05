@@ -56,6 +56,8 @@ turf
 				//if(Fill(M))//Need to switch all of these fills over to the new 'detect container and fill volume' system
 					//var/obj/items/tools/Containers/Jar/J = FindJar(M)
 				var/obj/items/tools/Containers/Jar/J = FindJar(M)
+				var/obj/items/torches/Handtorch/HT = locate() in M
+				var/HandTorch=/obj/items/torches/Handtorch
 				//var/obj/items/tools/Containers/Vessel/J2 = FindVes(M)
 				//if(!J)
 					//return
@@ -74,10 +76,30 @@ turf
 					M<<"You Filled the Jar with Tar."
 					M.Doing = 0
 					return
-				else if(!J&&M.JRequipped==0)
-					M<<"Need to hold an empty Jar to collect Tar."
+				else if(!J&&M.JRequipped==0&&!HT)
+					M<<"Need to hold an empty Jar or have a Hand Torch to utilize Tar."
 					M.Doing = 0
 					return
+				else if(!J&&M.JRequipped==0&&HT)
+					if(HT.state=="Fueled Torch")
+						M << "Torch is already fueled."
+						M.Doing = 0
+						return
+					else
+						M<<"You dip the Wooden Torch into the Tar."
+						if(istype(HT,HandTorch))
+							HT.icon_state="torchfueled"
+							if(HT.state=="Empty Torch")
+								HT:state="Unlit Torch"
+								M.Doing = 0
+								return
+							if(HT.state=="Unfueled Torch")
+								HT:state="Fueled Torch"
+								M.Doing = 0
+								return
+								M<<"You add the fuel to the \  <IMG CLASS=icon SRC=\ref[HT.icon] ICONSTATE='[HT.icon_state]'>[HT.name]."
+						M.Doing = 0
+						return
 
 		/*
 		DblClick()
@@ -137,29 +159,30 @@ turf
 				//	J.CType=0
 				//if(Fill(M))//Need to switch all of these fills over to the new 'detect container and fill volume' system
 					//var/obj/items/tools/Containers/Jar/J = FindJar(M)
-				var/obj/items/tools/Containers/Jar/J = FindJar(M)
+				var/obj/items/tools/Containers/Jar/J = locate(M.contents)
 				//var/obj/items/tools/Containers/Vessel/J2 = FindVes(M)
 				//if(!J)
 					//return
-				if(M.JRequipped==1)
-					M.Doing = 1
-					M<<"You begin filling the Jar with Sand."
-					sleep(2)
+				for(J in M.contents)
+					if(M.JRequipped==1&&J.filled==0)
+						M.Doing = 1
+						M<<"You begin filling the Jar with Sand."
+						sleep(2)
 
-					J.icon_state = "Jars"
-					J.name="Filled Jar"
-					J.filled=1
-					J.CType="Sand"
-					J.volume=25
-					sleep(1)
-					//usr << "Ctype[J.CType] & Volume [J.volume]"//call(/obj/items/tools/Containers/Jar/proc/descr)(J)
-					M<<"You Filled the Jar with Sand."
-					M.Doing = 0
-					return
-				else if(M.JRequipped==0)
-					M<<"Need to hold an empty Jar to fill it."
-					M.Doing = 0
-					return
+						J.icon_state = "Jars"
+						J.name="Filled Jar"
+						J.filled=1
+						J.CType="Sand"
+						J.volume=25
+						sleep(1)
+						//usr << "Ctype[J.CType] & Volume [J.volume]"//call(/obj/items/tools/Containers/Jar/proc/descr)(J)
+						M<<"You Filled the Jar with Sand."
+						M.Doing = 0
+						return
+					else if(M.JRequipped==0)
+						M<<"Need to hold an empty Jar to fill it."
+						M.Doing = 0
+						return
 		/*
 		DblClick()
 
@@ -207,6 +230,7 @@ turf
 			else
 				giveclay(M)
 				sleep(2)
+				return
 		proc/giveclay(var/turf/ClayDeposit)
 			set waitfor = 0
 			set popup_menu = 1
@@ -221,6 +245,8 @@ turf
 			sleep(1)
 			Carving=0
 			M << "You've collected some Clay."
+			return
+
 	ObsidianField
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "obsidian"
@@ -235,6 +261,8 @@ turf
 			else
 				giveobsidian(M)
 				sleep(2)
+				//Carving=0
+				return
 		proc/giveobsidian(var/turf/ObsidianField)
 			set waitfor = 0
 			set popup_menu = 1
@@ -248,6 +276,7 @@ turf
 			sleep(1)
 			Carving=0
 			M << "You've collected some Obsidian."
+			return
 	pbords
 		var/mob/players/M
 		DblClick()
@@ -260,6 +289,7 @@ turf
 				set src in oview(1) //...
 				//set category = "Commands"
 				Fishing(M) //calls the fishing proc
+				return
 			/*Drink()
 				//set category = "Commands"
 				set src in oview(1)
@@ -274,15 +304,17 @@ turf
 					if(M.JRequipped==1)
 						M<<"You begin filling the Jar."
 						sleep(2)
-						J.overlays += /obj/liquid
+						J.overlays += /obj/liquid //WORKSTAMP needs changed to icon instead of overlay
 						J.filled=1
 						sleep(1)
 						M<<"You Filled the Jar."
+						return
 					else
 						M<<"Need to hold the Jar to fill it."
+						return
 					if(J.filled==1)
 						M<<"You already filled the Jar."
-						return 0
+						return
 			/*Hydrate()
 				set src in oview(1)
 				//set category = "Commands"
@@ -292,15 +324,16 @@ turf
 			set waitfor = 0
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, Refreshing. <b>[amount] stamina recovered."
+			return
 		pbord1
 			name = "pbord1"
 			icon = 'dmi/64/pbord1.dmi'
@@ -394,15 +427,15 @@ turf
 			set waitfor = 0
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, Refreshing. <b>[amount] stamina recovered."
 	OasisWater
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "water"
@@ -437,15 +470,15 @@ turf
 			set waitfor = 0
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	OasisWaterc1
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "waterc1"
@@ -480,15 +513,15 @@ turf
 			set waitfor = 0
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	OasisWaterc2
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "waterc2"
@@ -523,15 +556,15 @@ turf
 			set waitfor = 0
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	OasisWaterc3
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "waterc3"
@@ -566,15 +599,15 @@ turf
 			set waitfor = 0
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	OasisWaterc4
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "waterc4"
@@ -609,15 +642,15 @@ turf
 			set waitfor = 0
 			var/mob/players/M
 			M = usr
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	JungleWat
 		icon = 'dmi/64/gen.dmi'
 		JungleWater
@@ -653,15 +686,15 @@ turf
 				set waitfor = 0
 				var/mob/players/M
 				M = usr
-				if (amount > (M.MAXenergy-M.energy))
-					amount = (M.MAXenergy-M.energy)
+				if (amount > (M.MAXstamina-M.stamina))
+					amount = (M.MAXstamina-M.stamina)
 				usr << "You Begin drinking Water from the Jungle..."
 				sleep(2)
-				M.energy += amount
-				M.updateEN()
+				M.stamina += amount
+				M.updateST()
 				M.hydrated=1
 				sleep(2)
-				M << "It is not that refreshing... <b>[amount] energy recovered."
+				M << "It is not that refreshing... <b>[amount] stamina recovered."
 		JungleWaterc1
 			icon_state = "waterjc1"
 			density = 1
@@ -695,15 +728,15 @@ turf
 				set waitfor = 0
 				var/mob/players/M
 				M = usr
-				if (amount > (M.MAXenergy-M.energy))
-					amount = (M.MAXenergy-M.energy)
+				if (amount > (M.MAXstamina-M.stamina))
+					amount = (M.MAXstamina-M.stamina)
 				usr << "You Begin drinking the Water from the Oasis..."
 				sleep(2)
-				M.energy += amount
-				M.updateEN()
+				M.stamina += amount
+				M.updateST()
 				M.hydrated=1
 				sleep(2)
-				M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+				M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 		JungleWaterc2
 			icon_state = "waterjc2"
 			density = 1
@@ -737,15 +770,15 @@ turf
 				set waitfor = 0
 				var/mob/players/M
 				M = usr
-				if (amount > (M.MAXenergy-M.energy))
-					amount = (M.MAXenergy-M.energy)
+				if (amount > (M.MAXstamina-M.stamina))
+					amount = (M.MAXstamina-M.stamina)
 				usr << "You Begin drinking the Water from the Oasis..."
 				sleep(2)
-				M.energy += amount
-				M.updateEN()
+				M.stamina += amount
+				M.updateST()
 				M.hydrated=1
 				sleep(2)
-				M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+				M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 		JungleWaterc3
 			icon_state = "waterjc3"
 			density = 1
@@ -779,15 +812,15 @@ turf
 				set waitfor = 0
 				var/mob/players/M
 				M = usr
-				if (amount > (M.MAXenergy-M.energy))
-					amount = (M.MAXenergy-M.energy)
+				if (amount > (M.MAXstamina-M.stamina))
+					amount = (M.MAXstamina-M.stamina)
 				usr << "You Begin drinking the Water from the Oasis..."
 				sleep(2)
-				M.energy += amount
-				M.updateEN()
+				M.stamina += amount
+				M.updateST()
 				M.hydrated=1
 				sleep(2)
-				M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+				M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 		JungleWaterc4
 			icon_state = "waterjc4"
 			density = 1
@@ -821,77 +854,77 @@ turf
 				set waitfor = 0
 				var/mob/players/M
 				M = usr
-				if (amount > (M.MAXenergy-M.energy))
-					amount = (M.MAXenergy-M.energy)
+				if (amount > (M.MAXstamina-M.stamina))
+					amount = (M.MAXstamina-M.stamina)
 				usr << "You Begin drinking the Water from the Oasis..."
 				sleep(2)
-				M.energy += amount
-				M.updateEN()
+				M.stamina += amount
+				M.updateST()
 				M.hydrated=1
 				sleep(2)
-				M << "Ahh, that is Really Refreshing. <b>[amount] energy recovered."
+				M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 obj
 	//icon = 'dmi/64/gen.dmi'
 	liquid
 		icon = 'dmi/64/creation.dmi'
 		icon_state = "liquid"
-		plane = 10
+		layer = 10
 	liquidt
 		icon = 'dmi/64/creation.dmi'
 		icon_state = "liquidt"
-		plane = 10
+		layer = 10
 	liquido
 		icon = 'dmi/64/creation.dmi'
 		icon_state = "liquido"
-		plane = 10
+		layer = 10
 	vliquid
 		icon = 'dmi/64/creation.dmi'//vessel
 		icon_state = "vliquid"
-		plane = 10
+		layer = 10
 	vliquidt
 		icon = 'dmi/64/creation.dmi'//vessel
 		icon_state = "vliquidt"
-		plane = 10
+		layer = 10
 	vliquido
 		icon = 'dmi/64/creation.dmi'//vessel
 		icon_state = "vliquido"
-		plane = 10
+		layer = 10
 	vliquidHF
 		icon = 'dmi/64/creation.dmi'//vessel
 		icon_state = "vliquidHF"
-		plane = 10
+		layer = 10
 	vliquidHFt
 		icon = 'dmi/64/creation.dmi'//vessel
 		icon_state = "vliquidHFt"
-		plane = 10
+		layer = 10
 	vliquidHFo
 		icon = 'dmi/64/creation.dmi'//vessel
 		icon_state = "vliquidHFo"
-		plane = 10
+		layer = 10
 	bliquid
 		icon = 'dmi/64/creation.dmi'//barrel
 		icon_state = "bliquidw"
-		plane = 10
+		layer = 10
 	bliquidt
 		icon = 'dmi/64/creation.dmi'//barrel
 		icon_state = "bliquidt"
-		plane = 10
+		layer = 10
 	bliquido
 		icon = 'dmi/64/creation.dmi'//barrel
 		icon_state = "bliquido"
-		plane = 10
+		layer = 10
 	qbliquid
 		icon = 'dmi/64/creation.dmi'//barrel
 		icon_state = "qbliquid"
-		plane = 10
+		layer = 10
 	qbliquidt
 		icon = 'dmi/64/creation.dmi'//barrel
 		icon_state = "qbliquidt"
-		plane = 10
+		layer = 10
 	qbliquido
 		icon = 'dmi/64/creation.dmi'//barrel
 		icon_state = "qbliquido"
-		plane = 10
+		layer = 10
 
 		//plane = 10
 
@@ -900,96 +933,148 @@ obj
 		var/list/Spots = list(1)
 	Flowers
 		//density = 0
-		//mouse_opacity = 0
+		var/searched = 0
+		var/brk=0
+		mouse_opacity = 1
+		layer = 8
+		Click()
+			set popup_menu = 1
+			set src in oview(1)
+			var/mob/players/M = usr
+			if (!(src in range(1, usr))) return
+			if(M.SHequipped==1)
+				M<<"You dig up the plot."
+				del src
+				return
+			Searching(M)
+			//sleep(1)
+			return
+		proc
+			searched()
+				if(src.searched==1&&brk==0)
+					brk = 1
+					sleep(360)
+					src.searched=0
+					brk = 0
+					return
 		verb //...
 			Weed()
 				set category=null
 				set popup_menu = 1
 				set src in oview(1) //...
 				////set category = "Commands"
-				Weed1(usr)
-			Search() //...
+				var/mob/players/M = usr
+				Weed1(M)
+			Search() //finally working
 				set category=null
 				set popup_menu = 1
 				set src in oview(1) //...
 				////set category = "Commands"
-				Searching(usr) //calls the fishing proc
+				var/mob/players/M = usr
+				//usr << "Test"
+				Searching(M) //calls the fishing proc
 		icon = 'dmi/64/plants.dmi'
 		Redflower
 			name = "Red Flowers"
 			icon_state = "rf"
 			icon = 'dmi/64/plants.dmi'
 			density = 0
-			layer = 10
-			plane = 2
+			//mouse_opacity = 1
+			//layer = 10
+			//plane = 2
+			/*Click()//works
+				set popup_menu = 1
+				set src in oview(1)
+				var/mob/players/M = usr
+				M << "Test"
+				if (!(src in range(1, usr))) return
+				//else
+				Searching(M)
+				//sleep(1)
+				return*/
 		Blueflower
 			name = "Blue Flowers"
 			icon_state = "bf"
 			icon = 'dmi/64/plants.dmi'
 			density = 0
-			layer = 10
-			plane = 2
+			//layer = 10
+			//plane = 2
 		Pinkflower
 			name = "Pink Flowers"
 			icon_state = "pnkf"
 			icon = 'dmi/64/plants.dmi'
 			density = 0
-			layer = 10
-			plane = 2
+			//layer = 10
+			//plane = 2
 		Purpflower
 			name = "Purple Flowers"
 			icon_state = "pf"
 			icon = 'dmi/64/plants.dmi'
 			density = 0
-			layer = 10
-			plane = 2
+			//layer = 10
+			//plane = 2
 		Lightpurpflower
 			name = "Lavender Flowers"
 			icon_state = "lpf"
 			icon = 'dmi/64/plants.dmi'
 			density = 0
-			layer = 10
-			plane = 2
+			//layer = 10
+			//plane = 2
+		Tallgrass0
+			name = "Sprouts"
+			icon_state = "tg0"
+			icon = 'dmi/64/plants.dmi'
+			density = 0
+			//layer = 10
+			//plane = 2
 		Tallgrass
 			name = "Tallgrass"
 			icon_state = "tg"
 			icon = 'dmi/64/plants.dmi'
 			density = 0
-			layer = 10
-			plane = 2
+			//layer = 10
+			//plane = 2
 		Tallgrass1
 			name = "Tallgrass"
 			icon_state = "tg1"
 			icon = 'dmi/64/plants.dmi'
 			density = 0
-			layer = 10
-			plane = 2
+			//layer = 10
+			//plane = 2
 		Tallgrass2
 			name = "Tallgrass"
 			icon_state = "tg2"
 			icon = 'dmi/64/plants.dmi'
 			density = 0
-			layer = 10
-			plane = 2
+			//layer = 10
+			//plane = 2
 		Tallgrass3
 			name = "Tallgrass"
 			icon = 'dmi/64/plants.dmi'
 			icon_state = "tg3"
 			density = 0
-			layer = 10
-			plane = 2
+			//layer = 10
+			//plane = 2
+		Tallgrass4
+			name = "Dormant plants"
+			icon = 'dmi/64/plants.dmi'
+			icon_state = "tg4"
+			density = 0
+			//layer = 10
+			//plane = 2
 
 mob
 	insects
 		PLRButterfly
 			icon_state = "btf"
 			icon = 'dmi/64/plants.dmi'
-			plane = 4
+			//plane = 4
+			layer = 10
 			var/Speed = 20
 			var/HP = 30
 			New()
 				.=..()
-				src.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				src.color = rgb(rand(100,200),rand(100,200),rand(100,200))
 				spawn(1)
 					Wander(Speed)
 

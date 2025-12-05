@@ -1,0 +1,24 @@
+"a" = (/turf/Grass,/obj/nostart)
+"b" = (/obj/JungleFern,/turf/Grass,/obj/nostart)
+"c" = (/obj/Flowers/Lightpurpflower,/turf/Grass,/obj/nostart)
+"d" = (/obj/Flowers/Tallgrass0,/turf/Grass,/obj/nostart)
+"e" = (/obj/Flowers/Redflower,/turf/Grass,/obj/nostart)
+"f" = (/obj/Flowers/Purpflower,/turf/Grass,/obj/nostart)
+"g" = (/obj/Flowers/Pinkflower,/turf/Grass,/obj/nostart)
+"h" = (/obj/Flowers/Tallgrass,/turf/Grass,/obj/nostart)
+"i" = (/obj/Flowers/Blueflower,/turf/Grass,/obj/nostart)
+"j" = (/obj/Crate,/turf/Grass,/obj/nostart)
+"k" = (/obj/Duskele,/turf/cavernen,/obj/nostart)
+
+(1,1,1) = {"
+aabacaaada
+defaagadaa
+caahabihba
+abdajaaafa
+aaiakaaaac
+agaaabdaea
+ahadaaaaaa
+caabifhaga
+baaeaaaaba
+daaaaaacad
+"}

@@ -108,7 +108,7 @@ client/base_num_characters_allowed = 4
 */
 client/base_autoload_character = 1
 client/base_autosave_character = 1
-client/base_autodelete_mob = 1
+client/base_autodelete_mob = 0
 
 /*
  Saving verbs
@@ -164,14 +164,14 @@ mob/BaseCamp
 		<style type="text/css">
 		 body {
 		  background-color: #206B24;
-		  color: #10ca63;
+		  color: #767689;
 		  position: absolute;
 		  input: focus;
 		  max-height: 400px;
 		  max-width: 398px;
 		  text-align: center;
 		 }
-		 :link { color: #10ca63 }
+		 :link { color: #767689 }
 		 :visited { color: #003DCA }
 		</style>
 		<table align="center" id="Layer0" class="c0" cellspacing="2" cellpadding="2" border="0">
@@ -216,14 +216,14 @@ mob/BaseCamp
 		<style type="text/css">
 		 body {
 		  background-color: #206B24;
-		  color: #10ca63;
+		  color: #767689;
 		  position: absolute;
 		  input: focus;
 		  max-height: 400px;
 		  max-width: 398px;
 		  text-align: center;
 		 }
-		 :link { color: #10ca63 }
+		 :link { color: #767689 }
 		 :visited { color: #003DCA }
 		</style>
 		<table align="center" id="Layer0" class="c0" cellspacing="2" cellpadding="2" border="0">
@@ -246,6 +246,13 @@ mob/BaseCamp
 		src << browse(page, "window=CharacterMenu;titlebar=0;can_close=0;can_minimize=0;allow_transparency=true;size=400x398;focus=true;can_resize=0")
 
 	DeleteCharacterMenu(list/menu)
+		usr << browse_rsc('imgs/chcmenu.jpg', "chcmenu.jpg")
+		usr << browse_rsc('imgs/cscmenu.jpg', "cscmenu.jpg")
+		usr << browse_rsc('imgs/choose.png', "choose.png")
+		usr << browse_rsc('imgs/new.png', "new.png")
+		usr << browse_rsc('imgs/delete.png', "delete.png")
+		usr << browse_rsc('imgs/quit.png', "quit.png")
+		usr << browse_rsc('imgs/dcmenu.jpg', "dcmenu.jpg")
 		var/menu_rows = ""
 		for (var/item in menu)
 		//	menu_rows += {"<td align="center"><a href="?menu=deleting_character;choice=[item];src=\ref[src]"><img alt="" src="delete.jpg" border="0"></a></td>"}
@@ -258,14 +265,14 @@ mob/BaseCamp
 		<style type="text/css">
 		 body {
 		  background-color: #206B24;
-		  color: #10ca63;
+		  color: #767689;
 		  position: absolute;
 		  input: focus;
 		  max-height: 400px;
 		  max-width: 398px;
 		  text-align: center;
 		 }
-		 :link { color: #10ca63 }
+		 :link { color: #767689 }
 		 :visited { color: #003DCA }
 		</style>
 		<table align="center" id="Layer0" class="c0" cellspacing="2" cellpadding="2" border="0">
@@ -403,10 +410,20 @@ mob/BaseCamp
 //#include "Soundmob.dm"
 mob/base_InitFromSavefile()
 	//world << "Initfrom Save"
-	var/mob/players/M
-	M = src
-	M.browse_once = 0
-
+	//var/mob/players/M
+	//M = src
+	//M.browse_once = 0
+	//src << "Restoring Macros..."
+	//if(src)
+		//src.client.mob = src.mob
+	//winset(src, "macros","parent=default; is-visible = true; focus = true")
+	//winset(src, "default","parent=default; is-visible = true; focus = true")
+	//var W = url_encode("W"), S = url_encode("S")
+	//winset(src, "north", "parent=macros;command=.north")
+	//winset(src, "south", "parent=macros;command=.south")
+	//winset(src, "west", "parent=macros;command=.west")
+	//winset(src, "east", "parent=macros;command=.east")
+	//src << "Macros restored."
 	//spawn() if(client && _autotune_soundmobs) for(var/soundmob/soundmob in _autotune_soundmobs) listenSoundmob(soundmob)
 	//for(var/soundmob/soundmob in _autotune_soundmobs) //listenSoundmob(soundmob)
 	//call(/soundmob/proc/broadcast)(src)
@@ -427,7 +444,7 @@ mob/base_InitFromSavefile()
 	//client.focus = client
 	//call(/soundmob/Del)(src)
 	//call(/mob/proc/unlistenSoundmob)(src)
-
+	//client.SetLock()
 	return
 
 

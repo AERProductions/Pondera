@@ -28,6 +28,7 @@ obj
 				//amount = 1
 				wpnspd = 2
 				tlvl = 1
+				layer = 9
 				twohanded = 0
 				DamageMin = 0
 				DamageMax = 0

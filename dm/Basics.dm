@@ -8,6 +8,8 @@ What is taken shall be given too.
 var
 	bans[0]// global variables for banning people
 	partycounter=0// and counting the number of parties
+	obj/plant/ueiktree/Treesgs = new//tree const var for growth stages
+	obj/Plants/Plantsgs = new//bush const var for growth stages
 	//years_found
 	//date = "[day] / [month] / [year] O�C | [hour]: [minute1][minute2][ampm]"
 //mob/var
@@ -24,24 +26,39 @@ var
 		src<<"No guests"
 		del(src)
 	..()*/
-client
+/*client
 	Move()
-		if(!mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0)) return null
+		if(!mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0))
+			mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0)
 		else return ..()
+	proc/SetLock()
+		if(!mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0))
+			//mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0)
+		else return ..()*/
 
-
+mob
+	has_reflection = 1
 mob/var
 	special_features
 	//years_found
 	//date = "[day] / [month] / [year] O�C | [hour]: [minute1][minute2][ampm]"
 var/global/sl=0
 mob/players
+	layer = 9
+	glide_size = 4
+	//step_size = 64
+	animate_movement = 1
+	step_x = 32
+	step_y = 32
 	//opaque = 1
-	plane = 4
-	light = /light/circle
+	//plane = 2
+	//light = /light/circle
 	var // player variables
 		tmp/list/_listening_soundmobs = null
 		tmp/list/_channels_taken = null
+		speed = 3
+		walk = 0
+		run = 0
 		pvekills = 0
 		pvpkills = 0
 		affinity = 0
@@ -53,8 +70,8 @@ mob/players
 		level // your level?  most likely =] my code isnt that obfuscated
 		HP
 		MAXHP
-		energy
-		MAXenergy
+		stamina
+		MAXstamina
 		exp = 0 // yep
 		expneeded = 0 // yep yep
 		expgive = 0 // pvpexp?
@@ -199,7 +216,7 @@ mob/players
 		M = usr
 		spawn(randomvalue)
 			for(M)
-				if(M.energy >= M.MAXenergy)
+				if(M.stamina >= M.MAXstamina)
 					sleep(delay)
 					M.hungry=1
 					return
@@ -217,14 +234,21 @@ mob/players
 
 	New()
 		..()
+		src.updateHP()
+		src.updateST()
 		if(src.loc==locate(x,y,2))//this doesn't need to scan player location because it is set when they enter locations; As long as they're entering z level 2, they are entering Aldoryn..
 			src.location = "Aldoryn"
-		light = new /light/circle(src, 4)
+		//light = new /light/circle(src, 4)
+		//src.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0)
 		birthdatefed = world.timeofday
 		birthdatehydrated = world.timeofday
 		if(client && _autotune_soundmobs)
 			for(var/soundmob/soundmob in _autotune_soundmobs)
 				listenSoundmob(soundmob)
+		//if(!spotlight)
+			//client.draw_lighting_plane()
+			//return ..()
+		//src.remove_spotlight()
 		//if(src!=null&&src.loc!=null)
 		//this line is presenting an issue (if you comment it out, the shading doesn't go away if you boot up during daytime)
 		//minute = time2text(world.timeofday,"mm")
@@ -254,7 +278,7 @@ mob/players
 				birthdatehydrated = world.timeofday
 				goto S
 			if(src.minute > src.birthdatefed&&src.fed==0)//if the time passed is greater than the last moment set
-				src.hungry=1//set these vars that allow the hunger health and thirst energy ticks to hit
+				src.hungry=1//set these vars that allow the hunger health and thirst stamina ticks to hit
 				M << "Your stomach growls, find some thing to eat."
 			if(src.minute > src.birthdatehydrated&&src.hydrated==0)//if the time passed is greater than the last moment set
 				src.thirsty=1
@@ -269,13 +293,13 @@ mob/players
 				goto S
 			if(src:hungry==1) src:HP=src:HP-1//health tick for hunger damage
 			else if(src:hungry==0) goto S
-			if(src:thirsty==1) src:energy=src:energy-1//energy tick for thirst damage
+			if(src:thirsty==1) src:stamina=src:stamina-1//stamina tick for thirst damage
 			else if(src:thirsty==0) goto S
 			if(src.HP<=0)//HP check and fall check
 				src.HP = 0
 				src.checkdeadplayer2()
-			if(src.energy<=0)
-				src.energy = 0
+			if(src.stamina<=0)
+				src.stamina = 0
 			goto S
 
 			//if(M.hungry==1)
@@ -306,11 +330,19 @@ mob/players
 		//var/light/day_night/L
 		//var/list/effect/E
 			//winset(src,"default.Bludgeon","is-visible=false")
+		//src.umsl_ClearLock("right leg")
+		//src.umsl_ClearLock("left leg")
+		if(src.Doing==1 || src.Carving==1 || src.Cutting==1 || src.Picking==1 || src.Mining==1)
+			src.Doing=0
+			src.Carving=0
+			src.Cutting=0
+			src.Picking=0
+			src.Mining=0
 		browse_once=0
 		leaveparty(src)
-		if(src.light in lighting.lights)
-			lighting.lights -= src.light//this is the fix I have been looking for! Enables light garbage collection at logout so there are no null runtime errors! Hooray.
-		
+		//if(src.light in lighting.lights)
+		//	lighting.lights -= src.light//this is the fix I have been looking for! Enables light garbage collection at logout so there are no null runtime errors! Hooray.
+
 		//call(/soundmob/proc/unsetListeners)(_listening_soundmobs)
 		for(var/soundmob/soundmob in src._listening_soundmobs)
 			if(src in soundmob.listeners)
@@ -351,13 +383,13 @@ mob/players
 		level = 1 // your level?  most likely =] my code isnt that obfuscated
 		HP = 210 // life
 		MAXHP = 210 // maxlife
-		energy = 500 // yadda
-		MAXenergy = 500 // yadda yadda
+		stamina = 500 // yadda
+		MAXstamina = 500 // yadda yadda
 		tempdefense = 0
 		tempevade = 10
 		exp = 0 // yep
 		expneeded = 125 // yep yep
-		expgive = 40 // hrmm. never ienergylimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
+		expgive = 40 // hrmm. never istaminalimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
 		bankedlucre = 0 // Bank by Ripper man5
 		lucre = 0 // mmmmm money.  buy stuff.
 		Strength = 2 // strength variable
@@ -406,13 +438,13 @@ mob/players
 		level = 1 // your level?  most likely =] my code isnt that obfuscated
 		HP = 310 // life
 		MAXHP = 310 // maxlife
-		energy = 500 // yadda
-		MAXenergy = 500 // yadda yadda
+		stamina = 500 // yadda
+		MAXstamina = 500 // yadda yadda
 		tempdefense = 4
 		tempevade = 5
 		exp = 0 // yep
 		expneeded = 125 // yep yep
-		expgive = 40 // hrmm. never ienergylimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
+		expgive = 40 // hrmm. never istaminalimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
 		bankedlucre = 10 // Bank by Ripper man5
 		lucre = 10 // mmmmm money.  buy stuff.
 		Strength = 7 // strength variable
@@ -445,7 +477,7 @@ mob/players
 		icestormlevel = 0
 		cascadelightninglevel = 0
 		telekinesislevel = 0
-		abjurelevel = 1
+		abjurelevel = 0
 		cosmoslevel = 0
 		rephaselevel = 0
 		acidlevel = 0
@@ -468,14 +500,14 @@ mob/players
 		level = 1 // your level?  most likely =] my code isnt that obfuscated
 		HP = 390 // life
 		MAXHP = 390 // maxlife
-		energy = 500 // yadda
-		MAXenergy = 500 // yadda yadda
+		stamina = 500 // yadda
+		MAXstamina = 500 // yadda yadda
 		tempdefense = 5
 		tempevade = 3
 		//Lamount = 0
 		exp = 0 // yep
 		expneeded = 135 // yep yep
-		expgive = 10 // hrmm. never ienergylimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
+		expgive = 10 // hrmm. never istaminalimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
 		bankedlucre = 10 // Bank by Ripper man5
 		lucre = 100 // mmmmm money.  buy stuff.
 		Strength = 6 // strength variable
@@ -504,7 +536,7 @@ mob/players
 		icestormlevel = 0
 		cascadelightninglevel = 0
 		telekinesislevel = 0
-		abjurelevel = 1
+		abjurelevel = 0
 		cosmoslevel = 0
 		rephaselevel = 0
 		acidlevel = 0
@@ -515,21 +547,21 @@ mob/players
 		SMIopen = 0
 		SMEopen = 0
 		pvpkills = 0
-	Defender
-		char_class = "Defender"
+	Smithy
+		char_class = "Smithy"
 		icon_state = "fighter"
 		location = ""
 		attackspeed = 4
 		level = 1 // your level?  most likely =] my code isnt that obfuscated
 		HP = 345 // life
 		MAXHP = 345 // maxlife
-		energy = 500 // yadda
-		MAXenergy = 500 // yadda yadda
+		stamina = 500 // yadda
+		MAXstamina = 500 // yadda yadda
 		tempdefense = 10
 		tempevade = 1
 		exp = 0 // yep
 		expneeded = 145 // yep yep
-		expgive = 50 // hrmm. never ienergylimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
+		expgive = 50 // hrmm. never istaminalimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
 		bankedlucre = 10 // Bank by Ripper man5
 		lucre = 10 // mmmmm money.  buy stuff.
 		Strength = 7 // strength variable
@@ -556,19 +588,19 @@ mob/players
 		heatlevel = 0
 		shardburstlevel = 0
 		watershocklevel = 0
-		vitaelevel = 1
-		vitae2level = 1
+		vitaelevel = 0
+		vitae2level = 0
 		flamelevel = 0
 		icestormlevel = 0
 		cascadelightninglevel = 0
 		telekinesislevel = 0
-		abjurelevel = 1
-		cosmoslevel = 1
+		abjurelevel = 0
+		cosmoslevel = 0
 		rephaselevel = 0
 		acidlevel = 0
-		bludgeonlevel = 1
+		bludgeonlevel = 0
 		quietuslevel = 0
-		panacealevel = 1
+		panacealevel = 0
 		pvpkills = 0
 		//UEB = 0
 	Magus
@@ -579,13 +611,13 @@ mob/players
 		level = 1 // your level?  most likely =] my code isnt that obfuscated
 		HP = 365 // life
 		MAXHP = 365 // maxlife
-		energy = 500 // yadda
-		MAXenergy = 500 // yadda yadda
+		stamina = 500 // yadda
+		MAXstamina = 500 // yadda yadda
 		tempdefense = 2
 		tempevade = 0
 		exp = 0 // yep
 		expneeded = 155 // yep yep
-		expgive = 20 // hrmm. never ienergylimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
+		expgive = 20 // hrmm. never istaminalimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
 		bankedlucre = 10 // Bank by Ripper man5
 		lucre = 10 // mmmmm money.  buy stuff.
 		Strength = 4 // strength variable
@@ -643,13 +675,13 @@ mob/players
 		level = 9999 // your level?  most likely =] my code isnt that obfuscated
 		HP = 99999 // life
 		MAXHP = 99999 // maxlife
-		energy = 99999 // yadda
-		MAXenergy = 99999 // yadda yadda
+		stamina = 99999 // yadda
+		MAXstamina = 99999 // yadda yadda
 		tempdefense = 9999
 		tempevade = 99
 		exp = 0 // yep
 		expneeded = 999999 // yep yep
-		expgive = 0 // hrmm. never ienergylimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
+		expgive = 0 // hrmm. never istaminalimented pvp experience.  guess this just stuck around from before i made seperate mob classes for players and enemies
 		bankedlucre = 999999 // Bank by Ripper man5
 		lucre = 999999 // mmmmm money.  buy stuff.
 		Strength = 9999 // strength variable
@@ -690,14 +722,17 @@ mob/players
 		// oh yes...let the abilities roll forth!
 		verb
 			AVATAR_TEMP() // i used this verb for debugging alot, mostly making books and items from nothing
+				set category = "Commands"
 				var/obj/items/weapons/sumasamune/J = new(usr)
 				usr << "You materialized a [J]."
 			AVATAR_TELEPORT()
+				set category = "Commands"
 				var/_x=input("x location:","Go: x",x) as num
 				var/_y=input("y location:","Go: y",y) as num
 				var/_z=input("z location:","Go: z",z) as num
 				loc=locate(_x,_y,_z)
 			AVATAR_TELEPORTPLAYER()
+				set category = "Commands"
 				var/_x=input("x location:","Go: x",x) as num
 				var/_y=input("y location:","Go: y",y) as num
 				var/_z=input("z location:","Go: z",z) as num
@@ -798,21 +833,26 @@ mob/players
 			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_UNBAN
 			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_LEVELUP
 			AVATAR_REBOOT() // sometimes it just needs to happen.
+				set category = "Commands"
 				world.Reboot()
 			AVATAR_SHUTDOWN() // sometimes it just needs to happen.
+				set category = "Commands"
 				TimeSave()
 				Save_All()
 				shutdown()
 				//..()//TestStamp
 			AVATAR_TIMESAVE()
+				set category = "Commands"
 				usr << "Saving Time..."
 				TimeSave()
 				usr << "Time Saved."
 			AVATAR_SEASONSET()
+				set category = "Commands"
 				usr << "Setting season..."
 				call(/world/proc/SetSeason)()//this needs fixed?
 				usr << "[global.season]"
 			AVATAR_MUTE(var/mob/players/m in world) // quit talking.  now.
+				set category = "Commands"
 				if (istype(m,/mob/players))
 					world << "<font color = yellow>[usr] has removed [m]'s speech."
 					m.muted = 1 // you can no longer say things to us
@@ -820,13 +860,14 @@ mob/players
 				else
 					usr << "Cannot remove speech." // yell at myself for trying to mute an enemy
 			AVATAR_UNMUTE(var/mob/players/m in world) // ok you can talk now
-
+				set category = "Commands"
 				if (istype(m,/mob/players))
 					world << "<font color = yellow>[usr] has reunited [m] with speech."
 					m.muted = 0 // speak.  you can be heard.
 				else
 					usr << "Cannot restore speech."
 			AVATAR_KICK(var/mob/players/m in world) // this is a threat. you can come back, but quit being stupid
+				set category = "Commands"
 				if (istype(m,/mob/players))
 					world << "<font color = yellow>[m] suddenly fell over in a pool of blood."
 					m.muted = 1 // no speak for you!
@@ -835,6 +876,7 @@ mob/players
 				else
 					usr << "Cannot kick."
 			AVATAR_RESETAFF(var/mob/players/m in world) // this is a threat. you can come back, but quit being stupid
+				set category = "Commands"
 				if (istype(m,/mob/players))
 					world << "<font color = yellow> A bright light from above restores all affinity to neutral. "
 					m.affinity = 0 // no speak for you!
@@ -843,7 +885,7 @@ mob/players
 				else
 					usr << "Cannot reset"
 			AVATAR_RESTART(mob/players/M in world,why_quest as message|null) // very useful, move people back to the beginning
-				//for(M as mob in world)
+				set category = "Commands"//for(M as mob in world)
 				if((input("Want to Restart [M]?") in list("Yes","No")) != "Yes")
 					return
 					if(M.key)
@@ -870,29 +912,32 @@ mob/players
 			//	else
 			//		usr << "Cannot do that."
 			AVATAR_BAN(mob/players/M in world,why_quest as message|null) // yep yep. get out.
+				set category = "Commands"
 				if(M == usr) // what are you thinking?!
-					usr << "<b>You cannot Kill yourself!"
+					usr << "<b>You cannot Ban yourself!"
 					return
 				//lots of if crap to make sure that you want to ban them and send them a message saying why
-				if((input("Want to Kill (And Ban) [M]?") in list("Yes","No")) != "Yes")
+				if((input("Want to Ban [M]?") in list("Yes","No")) != "Yes")
 					return
 				if(M.key)
 					if(why_quest)
-						M << "<b>[src.name] cut you in half, killing you instantly. Reason:\n[why_quest]."
+						M << "<b>[src.name] has banned you. Reason:\n[why_quest]."
 					else
-						M << "<b>[src.name] cut you in half, killing you instantly!"
+						M << "<b>[src.name] banned you."
 					bans += M.ckey
-					world << "<b>[src.name] has instantly killed [M] by seperation down the middle. ([why_quest])"
+					world << "<b>[src.name] has banned [M]. (Reason: [why_quest])"
 					del(M)
 				else
 					usr << "Cannot do that."
 			AVATAR_UNBAN(key as text) // does this really need explanation? i think not
+				set category = "Commands"
 				if(!bans.Find(ckey(key)))
 					usr << "<b>No one banned with '[key]' this key."
 				else
 					usr << "<b>User: [key] has been unbanned."
 					bans -= ckey(key) // take em off the banned list
 			AVATAR_LEVELUP(mob/players/M in world) // more cheating for me.  leveling with a verb is helpful.  this originated for just debugging purposes and then served many uses
+				set category = "Commands"
 				if (istype(M,/mob/players))
 					M.exp+=(M.expneeded-M.exp) // give em the exp they need to level
 					checklevel(M) // and then run the function that checks to see if they've leveled yet
@@ -1021,27 +1066,28 @@ mob/players
 					P.poisonD=0 // lets not overkill you
 					P.poisoned=0 // you aren't poisoned after death anymore
 					P.poisonDMG=0 // just for kicks and checks
-					P.overlays = null // no more poison icon thing over you now
-					world << "\green<b>[P] succumbed to Acid." // let everyone know how much you suck
-					var/G = round((P.lucre/4),1) // you lose lucre for dying.  shame on you.
-					P << "\yellow<b>Your pouch slipped and spilled [G] Lucre." // we'll tell you how much you lost too so you will learn and not do it again
-					P.lucre-=G // YOINK!
+					//P.overlays = null // no more poison icon thing over you now
+					//WorkStamp
+					world << "\green<b>[P] succumbed to poison." // let everyone know how much you suck
+					//var/G = round((P.lucre/4),1) // you lose lucre for dying.  shame on you.
+					//P << "\yellow<b>Your pouch slipped and spilled [G] Lucre." // we'll tell you how much you lost too so you will learn and not do it again
+					//P.lucre-=G // YOINK!
 					//P.loc = locate(rand(119,125),rand(92,99),2) // back to the beginning
 					//P.location = "Aldoryn" // yep. you are in the first town now, sucka.
 					//usr << sound('mus.ogg',1,0,0) // town music
-					P.HP = P.MAXHP // i guess we'll give you your life back too, man i am so gracious
+					P.HP = 1 // i guess we'll give you your life back too, man i am so gracious
 					call(/mob/players/proc/checkdeadplayer2)(P)
 				sleep(10) // gotta wait a sec before we damage you again in this loop
 			P.poisonD=0 // i guess your poison time has expired
 			P.poisoned=0 // we'll stop the pain now
 			P.poisonDMG=0 // no more damage
-			P.overlays = null // good job. we'll take away those green bubbles too
+			//P.overlays = null // good job. we'll take away those green bubbles too
 	/*proc/Update(mob/M as mob) // calculations for the meters' visuals
 		for(var/obj/meter1/N in M.client.screen)
 			N.num = (src.HP/src.MAXHP)*N.width
 			N.Update()
 		for(var/obj/mmeter1/MM in M.client.screen)
-			MM.num = (src.energy/src.MAXenergy)*MM.width
+			MM.num = (src.stamina/src.MAXstamina)*MM.width
 			MM.Update()
 		for(var/obj/xmeter1/MM in M.client.screen)
 			MM.num = (src.exp-src.oldexp)/(src.expneeded-src.oldexp)*MM.width
@@ -1083,7 +1129,7 @@ mob/players
 	var/ratelimit=0 // quit spamming!!!!!!! this is used to keep you from typing too much too fast i think
 	verb
 		//heh. this variable used to be for everyone, now its just for me, the gamemaster
-		/*Teenergy()
+		/*Testamina()
 			var/obj/items/weapons/magicdagger/J = new(usr)
 			usr << "You got a [J]"*/
 		Save()
@@ -1291,11 +1337,10 @@ mob/players
 					awaymessage = J
 					away = 1
 					usr << "You are now Idle. ([awaymessage])"
-					if(away==1)
-						usr.overlays += image('dmi/64/magi.dmi',icon_state="afk")
+					usr.overlays += image('dmi/64/magi.dmi',icon_state="afk")
 						//usr.light = new/light/circle(usr,1)
 						//usr.light.color = rgb(rand(100,155),rand(100,155),rand(100,155))
-				else if(away==0)// no longer away if you click this button and you were away
+				else if(away==1)// no longer away if you click this button and you were away
 					away = 0
 					usr << "You are no longer Idle."
 					//if(away==0)
@@ -1306,32 +1351,32 @@ mob/players
 				away = 0
 				usr << "<font color = red>You seem unable to aquire words.  Cannot use AFK message."
 				return
-	proc/PlayMusic(music)
+	/*proc/PlayMusic(music)
 		var/mob/players/Player = usr
 		if(istype(Player, /mob/players))
 			Player.music = music
 			if(Player.music_off == 0) //off for testing
-				Player << sound(Player.music, 1, 0, 755)
+				Player << sound(Player.music, 1, 0, 755)*/
 
 	proc/GainLevel(var/mob/players/M) // isn't it a great feeling when this fires?
 		M << "\green<b>You've become Stronger." // There's the message that inspires the good feeling
 		//M.oldexp = M.expneeded // used for the green exp meter
-		M.expneeded+=(13*(M.level*M.level)) // my algorithm for coenergyuting experience required per level, no longer a secret
+		M.expneeded+=(13*(M.level*M.level)) // my algorithm for costaminauting experience required per level, no longer a secret
 		M.updateXP()
 		M.level+=1 // yep.  increment that sucker.
 		M.client.base_SaveMob()
 		//M.updateXP()
-		if (M.char_class=="Defender") // so you are a warrior eh?
+		if (M.char_class=="Smithy") // so you are a warrior eh?
 			var/Health = (rand(M.level)+(M.level)*9) // well thats how much we increment your HP
 			M.MAXHP+=Health
 			M.HP+=Health
 			M.updateHP()
 			M << "\green<b>You gain [Health] Health!"
-			var/energy = (rand(M.level)+(M.level)*4) // and your energy
-			M.MAXenergy+=energy
-			M.energy+=energy
-			M.updateEN()
-			M << "\green<b>You gain [energy] energy!"
+			var/stamina = (rand(M.level)+(M.level)*4) // and your stamina
+			M.MAXstamina+=stamina
+			M.stamina+=stamina
+			M.updateST()
+			M << "\green<b>You gain [stamina] stamina!"
 			var/diceST = "1d4+2"
 			var/St = roll(diceST)
 			M.Strength+=St
@@ -1351,11 +1396,11 @@ mob/players
 			M.HP+=Health
 			M.updateHP()
 			M << "\green<b>You gain [Health] Health!"
-			var/energy = (rand(M.level)+(M.level)*4) // and your energy
-			M.MAXenergy+=energy
-			M.energy+=energy
-			M.updateEN()
-			M << "\green<b>You gain [energy] energy!"
+			var/stamina = (rand(M.level)+(M.level)*4) // and your stamina
+			M.MAXstamina+=stamina
+			M.stamina+=stamina
+			M.updateST()
+			M << "\green<b>You gain [stamina] stamina!"
 			var/diceST = "1d4+2"
 			var/St = roll(diceST)
 			M.Strength+=St
@@ -1389,11 +1434,11 @@ mob/players
 			M.HP+=Health
 			M.updateHP()
 			M << "\green<b>You gain [Health] Health!"
-			var/energy = (rand(M.level)+(M.level)*5) // lots of energy for you
-			M.MAXenergy+=energy
-			M.energy+=energy
-			M.updateEN()
-			M << "\green<b>You gain [energy] energy!"
+			var/stamina = (rand(M.level)+(M.level)*5) // lots of stamina for you
+			M.MAXstamina+=stamina
+			M.stamina+=stamina
+			M.updateST()
+			M << "\green<b>You gain [stamina] stamina!"
 			var/diceST = "1d4+2"
 			var/St = roll(diceST)
 			M.Strength+=St
@@ -1412,11 +1457,11 @@ mob/players
 			M.HP+=Health
 			M.updateHP()
 			M << "\green<b>You gain [Health] Health!"
-			var/energy = (rand(M.level)+(M.level)*5) // lots of energy for you
-			M.MAXenergy+=energy
-			M.energy+=energy
-			M.updateEN()
-			M << "\green<b>You gain [energy] energy!"
+			var/stamina = (rand(M.level)+(M.level)*5) // lots of stamina for you
+			M.MAXstamina+=stamina
+			M.stamina+=stamina
+			M.updateST()
+			M << "\green<b>You gain [stamina] stamina!"
 			var/diceST = "1d4+2"
 			var/St = roll(diceST)
 			M.Strength+=St
@@ -1453,11 +1498,11 @@ mob/players
 			M.HP+=Health
 			M.updateHP()
 			M << "\green<b>You gain [Health] Health!"
-			var/energy = (rand(M.level)+(M.level)*2) // and a bit less than the wizard
-			M.MAXenergy+=energy
-			M.energy+=energy
-			M.updateEN()
-			M << "\green<b>You gain [energy] energy!"
+			var/stamina = (rand(M.level)+(M.level)*2) // and a bit less than the wizard
+			M.MAXstamina+=stamina
+			M.stamina+=stamina
+			M.updateST()
+			M << "\green<b>You gain [stamina] stamina!"
 			var/diceST = "1d4+2"
 			var/St = roll(diceST)
 			M.Strength+=St
@@ -1496,11 +1541,11 @@ mob/players
 			M.HP+=Health
 			M.updateHP()
 			M << "\green<b>You gain [Health] Health!"
-			var/energy = (rand(M.level)+(M.level)*7) // and a bit more than that uneducated fool
-			M.MAXenergy+=energy
-			M.energy+=energy
-			M.updateEN()
-			M << "\green<b>You gain [energy] energy!"
+			var/stamina = (rand(M.level)+(M.level)*7) // and a bit more than that uneducated fool
+			M.MAXstamina+=stamina
+			M.stamina+=stamina
+			M.updateST()
+			M << "\green<b>You gain [stamina] stamina!"
 			var/diceST = "1d4+2"
 			var/St = roll(diceST)
 			M.Strength+=St
@@ -1539,11 +1584,11 @@ mob/players
 			M.updateHP()
 			M << "\green<b>You gain [Health] Health!"
 			var/diceGMEN = "2d20"
-			var/energy = roll(diceGMEN) // and lots of mana.  mind over matter.
-			M.MAXenergy+=energy
-			M.energy+=energy
-			M.updateEN()
-			M << "\green<b>You gain [energy] energy!"
+			var/stamina = roll(diceGMEN) // and lots of mana.  mind over matter.
+			M.MAXstamina+=stamina
+			M.stamina+=stamina
+			M.updateST()
+			M << "\green<b>You gain [stamina] stamina!"
 			var/diceGMST = "1d20+2"
 			var/St = roll(diceGMST)
 			M.Strength+=St
@@ -1570,7 +1615,7 @@ mob/players
 		//spelllvlcheck(M)
 	var/waiter = 1 // used for delaying attacks, boolean
 	verb/attack()
-		set hidden = 1// the verb to attack enemies, called with the 5 key on the nuenergyad
+		set hidden = 1// the verb to attack enemies, called with the 5 key on the nustaminaad
 		set waitfor = 0
 		for(var/mob/players/M in get_step(src,src.dir)) // the enemy you are looking at.
 			if(istype(M,/mob/players)&&(waiter>0)) // if it is an enemy and you are allowed to fight now
@@ -1579,52 +1624,50 @@ mob/players
 				sleep(attackspeed) // delay based on your attack speed
 	Click(mob/players/P)      //When the mob Clicks into another mob
 		var/mob/players/J = usr
-		if(P.location!="Aldoryn"&&J.location!="Aldoryn")
-			P << "Cannot fight in the afterlife..."
-			J << "Cannot fight in the afterlife..."
+		if(P.location!=locate(x,y,2)&&J.location!=locate(x,y,2))
+			P << "The deceased cannot fight..."
+			J << "The deceased cannot fight..."
 			return
 		if (istype(P,/mob/players)&&(waiter>0))    //If the player is an enemy...pvp!
 			J.Attack(P)
 		else
 			sleep(J.attackspeed)
-		if(energy>MAXenergy)
-			energy=MAXenergy
-		if(energy<0)
-			energy=0
+		if(stamina>MAXstamina)
+			stamina=MAXstamina
+		if(stamina<0)
+			stamina=0
 			..()
 	Click()
 		if (!(src in range(1, usr)))
 			var/mob/players/Player = usr // define the player
 			var/mob/players/W = src // define the enemy
 			if(src in Player.inparty)
-				usr<<"Can Only Fight others outside of your party."
+				usr<<"Can only fight others outside of your party."
 				return
-			if(src.loc == locate(x,y,2))
-				usr<<"Can Only Fight in the Combat Area."
+			if(src.loc != locate(x,y,2))
+				usr<<"The deceased cannot fight..."
 				return
-			if(!Player.umsl_ObtainMultiLock(list("right leg", "left leg"), 2)) return null
-			else return ..()
-			if(Player.char_class!="Magus"&&Player.char_class!="Defender"&&Player.char_class!="GM")
+			//if(Player.char_class!="Magus"&&Player.char_class!="Smithy"&&Player.char_class!="GM")
 				//Player<<"Magus can attack anyone, Defenders hunt Magus."
-				return
-			else
-				if(Player.char_class=="Magus" && W in range(1)) // make sure that the person clicking is right by the emem
+				//return
+		//	else
+				/*if(Player.char_class=="Magus" && W in range(1)) // make sure that the person clicking is right by the emem
 					if(istype(W,/mob/players)&&Player.waiter > 0) //When the mob Clicks the enemies
 						Player.Attack(W)
 					else
 						sleep(Player.attackspeed)
+				else*/
+			if(W in range(1)) // make sure that the person clicking is right by the emem
+				if(istype(W,/mob/players)&&Player.waiter > 0) //When the mob Clicks the enemies
+					Player.Attack(W)
 				else
-					if(Player.char_class=="Defender" && W in range(1)) // make sure that the person clicking is right by the emem
-						if(istype(W,/mob/players/Magus)&&Player.waiter > 0) //When the mob Clicks the enemies
-							Player.Attack(W)
-						else
-							sleep(Player.attackspeed)
+					sleep(Player.attackspeed)
+			/*else
+				if(Player.char_class=="GM" && W in range(1)) // make sure that the person clicking is right by the emem
+					if(istype(W,/mob/players)&&Player.waiter > 0) //When the mob Clicks the enemies
+						Player.Attack(W)
 					else
-						if(Player.char_class=="GM" && W in range(1)) // make sure that the person clicking is right by the emem
-							if(istype(W,/mob/players)&&Player.waiter > 0) //When the mob Clicks the enemies
-								Player.Attack(W)
-							else
-								sleep(Player.attackspeed)
+						sleep(Player.attackspeed)*/
 		else return
 	proc
 		Destroy(obj/Buildable/Walls/W) // hit that enemy
@@ -1634,36 +1677,37 @@ mob/players
 			var/mob/players/M = usr
 			//var/obj/items/tools/WarHammer/O =/obj/items/tools/WarHammer
 			var/typi=""
-			if(M.energy>M.MAXenergy)
-				M.energy=M.MAXenergy
-			if(M.energy<0)
-				M.energy=0
-			if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+			if(M.stamina>M.MAXstamina)
+				M.stamina=M.MAXstamina
+			if(M.stamina<0)
+				M.stamina=0
+			if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 				waiter=0
-				M<<"Your energy is too low."
+				M<<"Your stamina is too low."
 				return 0
 			//..()
-			if(M.energy<7)
+			if(M.stamina<=7)
 				waiter=1
+				M << "You are too tired, drink some water!"
 				return
 			if(WHequipped!=1&&typi!="WH")
 				waiter=1
-				M<<"You need a WarHammer equipped to destroy enemy walls."
+				M<<"You must utilize a WarHammer to destroy walls."
 				return
 			else
 				waiter=1
 				M.overlays += image('dmi/64/WHoy.dmi',icon_state="[get_dir(M,src)]")
 				s_damage(W, damage, "#32cd32") // show the damage on the enemy
 				W.HP -= damage // deal the actual damage to their variable
-				M.energy -= 8
-				M.updateEN()
+				M.stamina -= 8
+				M.updateST()
 				M.dexp += 25
 				DestroyedWall(W) // checking to see if the enemy is dead, and doing things about it
 				M.overlays -= image('dmi/64/WHoy.dmi',icon_state="[get_dir(M,src)]")
 				sleep(attackspeed) // wait a time period based on your attack speed
 				waiter=1 // you can fight again
 				return call(/obj/proc/DestroyingCheck)()
-			..()
+			//..()
 
 	proc/Attack() // hit that enemy
 		var/mob/players/M
@@ -1674,22 +1718,22 @@ mob/players
 		J.waiter=0 // you can't attack again yet
 
 		var/damage = round(((rand(J.tempdamagemin,J.tempdamagemax))*((J.Strength/100)+1)),1) // calculate the damage
-		if(J.energy>J.MAXenergy)
-			J.energy=J.MAXenergy
-		if(J.energy<0)
-			J.energy=0
-		if(J.energy==0)			//Calling this again... Some screwy stuff could happen.
+		if(J.stamina>J.MAXstamina)
+			J.stamina=J.MAXstamina
+		if(J.stamina<0)
+			J.stamina=0
+		if(J.stamina==0)			//Calling this again... Some screwy stuff could happen.
 			J.waiter=0
-			J<<"Your energy is too low."
+			J<<"Your stamina is too low."
 			return
 		//..()
-		if(J.energy<=0)
+		if(J.stamina<=0)
 			J.waiter=1
 			return
 		//..()
 		if(J.waiter==0)
 				//waiter=1
-			if(J.WHequipped==1)
+			if(J.WHequipped==1)//WorkStamp need to add all of the weapon overlays!
 				J.overlays += image('dmi/64/WHoy.dmi',icon_state="[get_dir(J,M)]")
 			if(J.LSequipped==1)
 				J.overlays += image('dmi/64/LSoy.dmi',icon_state="[get_dir(J,M)]")
@@ -1707,9 +1751,9 @@ mob/players
 				M.HP -= damage // deal the actual damage to their variable
 				M.updateHP()
 				J.updateHP()
-				J.energy -= damage
-				M.updateEN()
-				J.updateEN()
+				J.stamina -= damage
+				M.updateST()
+				J.updateST()
 				checkdeadplayer2(M) // checking to see if the enemy is dead, and doing things about it
 				J.overlays -= overlays
 				sleep(attackspeed) // wait a time period based on your attack speed
@@ -1717,25 +1761,29 @@ mob/players
 				return
 			//..()
 	proc/checkdeadplayer2(var/mob/players/M)
-		if(M.HP <= 0&&M.affinity<=-0.1) // if you have less than or equal to 0 HP, you are dead
-			world << "<font color = #660000><b>[M] died to [src] and went to the Sheol"
-			var/G = round((M.lucre/4),1)
-			M << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
-			M.lucre-=G
+		if(M.HP <= 0)//&&src.affinity<=-0.1) // if you have less than or equal to 0 HP, you are dead
+			world << "<font color = #660000><b>[M] died to [src]"
+			//var/G = round((M.lucre/4),1)
+			//M << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
+			//M.lucre-=G
 			//M.unlistenSoundmob()
 			//_listening_soundmobs -= src
+			M -= verbs//do some basic clearing out so they can't do anything (maybe check inventory too)
 			M.poisonD=0
 			M.poisoned=0
 			M.poisonDMG=0
 			M.overlays = null
+			M.icon = 'dmi/64/blank.dmi'
 			M.needrev=1
-			M.loc = locate(16,9,12)//locate(rand(100,157),rand(113,46),12)
-			M.location = "Sheol"
+			M.loc = locate(5,6,1)//locate(rand(100,157),rand(113,46),12)
+			M.location = "Sleep"
+			M.nomotion = 1
+			M.HP = 1
 			//usr << sound('mus.ogg',1, 0, 1024)
-			if(M.location=="Sheol")
+			/*if(M.location=="Sleep")
 				M.HP = M.MAXHP
-				return
-		else
+				return*/
+		/*else
 			if(M.HP <= 0&&M.affinity>=0)
 				world << "<font color = #f8f8ff><b>[M] died to [src] and went to the Holy Light"
 				var/G = round((M.lucre/4),1)
@@ -1756,7 +1804,7 @@ mob/players
 							//call(/soundmob/proc/unsetListener)(M)
 						//usr << sound('mus.ogg',1, 0, 1024)
 					M.HP = M.MAXHP
-					return
+					return*/
 	proc/DestroyedWall(obj/Buildable/Walls/W)
 		if(W.HP <= 0) // if the enemy is dead
 			var/mob/players/J = usr // get a reference to the player
@@ -1794,14 +1842,14 @@ mob/players
 	proc
 		heal(mob/players/M)
 			set waitfor = 0
-			var/Energygive = rand(1,3)
-			var/Increase = Energygive
-			if(M.energy==M.MAXenergy)
+			var/staminagive = rand(1,3)
+			var/Increase = staminagive
+			if(M.stamina==M.MAXstamina)
 				return
 			else
-				M.energy+=Increase
+				M.stamina+=Increase
 				updateHP(M)
-				usr<<"You've regained [Increase] energy."
+				usr<<"You've regained [Increase] stamina."
 				sleep(50)
 	proc
 		updateHP(var/N)
@@ -1815,16 +1863,16 @@ mob/players
 			HP = min(HP, MAXHP)
 			winset(src,"bar1","value=[100 * HP / MAXHP]")
 	proc
-		updateEN(var/N)
+		updateST(var/N)
 			if(!client)
 				return
-			if(src.energy > src.MAXenergy)
-				src.energy = src.MAXenergy
-			if(src.energy < 0)
-				src.energy = 0
-			energy += N
-			energy = min(energy, MAXenergy)
-			winset(src,"bar2","value=[100 * energy / MAXenergy]")
+			if(src.stamina > src.MAXstamina)
+				src.stamina = src.MAXstamina
+			if(src.stamina < 0)
+				src.stamina = 0
+			stamina += N
+			stamina = min(stamina, MAXstamina)
+			winset(src,"bar2","value=[100 * stamina / MAXstamina]")
 	proc
 		updateXP(var/N)
 			if(!client)
@@ -1960,13 +2008,13 @@ mob/players
 		var/mob/players/M = usr
 		//if your rate limit is between 5 and 10, you can't talk, if it is over 0, you decrement it in time
 		//this controls the spamming.
-		if(ratelimit>0)
+		/*if(ratelimit>0)
 			sleep(240) // we'll decrement this counter every 10
 			M.ratelimit--
 			if(ratelimit==5) // ill give you a warning before i slap you down
 				M << "<b>If you flood the chat, you will be muted."
 			else if(ratelimit>5) // if you cant speak, we're going to wait until you are below 5 before you can again, this tells the time before you can speak again
-				M << "<b>Chat Flood limit: [(M.ratelimit)]"
+				M << "<b>Entry Rate limit > [(M.ratelimit)]"*/
 
 		//if(M.poisoned==1) // if you recently got poisoned
 			//spawn(0) poisoned(M) // call the poison function
@@ -1997,7 +2045,7 @@ mob/players
 		//M << output("| [day] / [month] / [year] O�C� |","Label2")
 		//M << output("| � [name] � |","Label3")
 		//M << output("[HP]/[MAXHP]","Label4")
-		//M << output("[energy]/[MAXenergy]","Label5")
+		//M << output("[stamina]/[MAXstamina]","Label5")
 		//M << output(time2text(world.timeofday),"rltime")
 		//M << output("|.��� [lucre] |","Label7")
 		//M << output("| � [hour]: [minute1][minute2][ampm] � | [day]/[month]/[year] O�C�","ptime")//Tells you the time on a Statpanel.
@@ -2010,12 +2058,22 @@ mob/players
 		//M << output("| [Crank] |","Label12")
 		//M << output("| [grank] |","Label13")
 		//M << output("| [vitaelevel] |","Label14")
-		M << output("| [TC2()] |","sunmoon")
+		//M << output("| [TC2()] |","sunmoon")
 		statpanel("|Overview|")
 		//stat("=~~~~~~~~~~~~~~~~~~=")
-		stat("[TC()]")
+		if (time_of_day == DAY)
+			stat("<font color = #f9d71c>...The Sun is overhead...</font>")//It tells you the time.
+			goto cont//return
+				//oview() << "<font color = green><b>[usr]</b> looks at the Sky."			//And tells everyone in your view that you're looking at the clock.
+				//sleep(3)
+				//return
+		else if(time_of_day == NIGHT)
+			stat("<font color = #e3e1D7>...The Moon is overhead...</font>")
+			goto cont//return
+		//stat("[TC()]")
 		//stat("[TC2()]")
-		stat("Pondera Time","[hour]: [minute1][minute2][ampm]")//Tells you the time on a Statpanel.
+		cont
+		stat("Pondera Time","[hour]: [minute1][minute2] [ampm]")//Tells you the time on a Statpanel.
 		stat("Pondera Date","[day] / [month] / [season] / AM [year]")//Tells you the date on a Statpanel.
 		//stat("RL Time","[world.time]")
 		//stat("RL Date",time2text(world.timeofday)) dexp (destroy fexp (fishing seexp (Searching
@@ -2023,41 +2081,41 @@ mob/players
 		//if(M.char_class=="Special1")
 		stat("Grid Location","[x]/[y]/[z]")
 		stat("<font color = #32cd32>Life</font>","[HP] / [MAXHP]")
-		stat("<font color = #6495ed>Energy</font>","[energy] / [MAXenergy]")
+		stat("<font color = #6495ed>Stamina</font>","[stamina] / [MAXstamina]")
 		stat("<font color = #ffdead>Name</font>",name)
 		stat("<font color = #d2691e>Enlistment</font>",char_class)
 		stat("<font color = #ffd700>Lucre</font>",lucre)
-		stat("<font color = #4b7bdc>Acuity</font>",level)
-		stat("<font color = #87cefa>Total XP</font>","[exp] / [expneeded] | TNL: [(expneeded-exp)]")
-		stat("<font color = #ff7f50>Strength</font>",Strength)
-		stat("<font color = #f5fffa>Spirit</font>",Spirit)
-		stat("<font color = #cd5c5c>Offense</font>","[round((usr.tempdamagemin*((Strength/100)+1)),1)]-[round((usr.tempdamagemax*((Strength/100)+1)),1)]")
-		stat("<font color = #1e90ff>Defense</font>",tempdefense)
+		//stat("<font color = #4b7bdc>Acuity</font>",level)
+		//stat("<font color = #87cefa>Total XP</font>","[exp] / [expneeded] | TNL: [(expneeded-exp)]")
+		//stat("<font color = #ff7f50>Strength</font>",Strength)
+		//stat("<font color = #f5fffa>Spirit</font>",Spirit)
+		//stat("<font color = #cd5c5c>Offense</font>","[round((usr.tempdamagemin*((Strength/100)+1)),1)]-[round((usr.tempdamagemax*((Strength/100)+1)),1)]")
+		//stat("<font color = #1e90ff>Defense</font>",tempdefense)
 		//stat("<font color = #d8bfd8>Evasion</font>","[tempevade]%")
 		stat("<font color = #fdf5e6>Affinity</font>","dark-  [affinity]  +light")
-		stat("<font size = 1><font color = #ffd700>=~�<font color = #dda0dd>Knowledge Acuity</font>�~=</font>")
+		stat("|-------------------------","<font size = 1>Knowledge Acuity   ---------------------|")
 		//stat("�<font color = #dda0dd>Rank Acuity</font>�")
-		stat("<font color = #cd853f>Digging</font>","Aq: [drank] | XP: [digexp] / [mdigexp] | TNL: [(mdigexp-digexp)]")
-		stat("<font color = #4682b4>Building</font>","Aq: [brank] | XP: [buildexp] / [mbuildexp] | TNL: [(mbuildexp-buildexp)]")
-		stat("<font color = #5f9ea0>Smelting</font>","Aq: [smerank] | XP: [smeexp] / [msmeexp] | TNL: [(msmeexp-smeexp)]")
-		stat("<font color = #e6e8fa>Smithing</font>","Aq: [smirank] | XP: [smiexp] / [msmiexp] | TNL: [(msmiexp-smiexp)]")
-		stat("<font color = #b2a68c>Carving</font>","Aq: [Crank] | XP: [CrankEXP] / [CrankMAXEXP] | TNL: [(CrankMAXEXP-CrankEXP)]")
-		stat("<font color = #0ed145>Botany</font>","Aq: [CSRank] | XP: [CSRankEXP] / [CSRankMAXEXP] | TNL: [(CSRankMAXEXP-CSRankEXP)]")
-		stat("<font color = #f08080>Gardening</font>","Aq: [grank] | XP: [grankEXP] / [grankMAXEXP] | TNL: [(grankMAXEXP-grankEXP)]")
-		stat("<font color = #d3d3d3>Mining</font>","Aq: [mrank] | XP: [mrankEXP] / [mrankMAXEXP] | TNL: [(mrankMAXEXP-mrankEXP)]")
-		stat("<font color = #f4a460>Harvesting</font>","Aq: [hrank] | XP: [hrankEXP] / [hrankMAXEXP] | TNL: [(hrankMAXEXP-hrankEXP)]")
-		stat("<font color = #00bfff>Fishing</font>","Aq: [fishinglevel] | XP: [fexp] / [fexpneeded] | TNL: [(fexpneeded-fexp)]")
-		stat("<font color = #adff2f>Searching</font>","Aq: [searchinglevel] | XP: [seexp] / [seexpneeded] | TNL: [(seexpneeded-seexp)]")
-		if(M.char_class=="Magus")
-			stat("<font color = #660000>Destroy</font>","Aq: [destroylevel] | XP: [dexp] / [dexpneeded] | TNL: [(dexpneeded-dexp)]")
-		stat("<font size = 1><font color = #ffd700>=~�<font color = #87ceed>Resistance / Weakness</font>�~=</font>")
+		stat("|<font color = #cd853f>Digging</font>","Acuity: [drank] | XP: [digexp] / [mdigexp] | TNL: [(mdigexp-digexp)]")
+		stat("|<font color = #4682b4>Building</font>","Acuity: [brank] | XP: [buildexp] / [mbuildexp] | TNL: [(mbuildexp-buildexp)]")
+		stat("|<font color = #5f9ea0>Smelting</font>","Acuity: [smerank] | XP: [smeexp] / [msmeexp] | TNL: [(msmeexp-smeexp)]")
+		stat("|<font color = #e6e8fa>Smithing</font>","Acuity: [smirank] | XP: [smiexp] / [msmiexp] | TNL: [(msmiexp-smiexp)]")
+		stat("|<font color = #b2a68c>Carving</font>","Acuity: [Crank] | XP: [CrankEXP] / [CrankMAXEXP] | TNL: [(CrankMAXEXP-CrankEXP)]")
+		stat("|<font color = #0ed145>Botany</font>","Acuity: [CSRank] | XP: [CSRankEXP] / [CSRankMAXEXP] | TNL: [(CSRankMAXEXP-CSRankEXP)]")
+		stat("|<font color = #f08080>Gardening</font>","Acuity: [grank] | XP: [grankEXP] / [grankMAXEXP] | TNL: [(grankMAXEXP-grankEXP)]")
+		stat("|<font color = #d3d3d3>Mining</font>","Acuity: [mrank] | XP: [mrankEXP] / [mrankMAXEXP] | TNL: [(mrankMAXEXP-mrankEXP)]")
+		stat("|<font color = #f4a460>Harvesting</font>","Acuity: [hrank] | XP: [hrankEXP] / [hrankMAXEXP] | TNL: [(hrankMAXEXP-hrankEXP)]")
+		stat("|<font color = #00bfff>Fishing</font>","Acuity: [fishinglevel] | XP: [fexp] / [fexpneeded] | TNL: [(fexpneeded-fexp)]")
+		stat("|<font color = #adff2f>Searching</font>","Acuity: [searchinglevel] | XP: [seexp] / [seexpneeded] | TNL: [(seexpneeded-seexp)]")
+		if(M.char_class=="Smithy")
+			stat("|<font color = #660000>Destroy</font>","Acuity: [destroylevel] | XP: [dexp] / [dexpneeded] | TNL: [(dexpneeded-dexp)]")
+		//stat("<font size = 1><font color = #ffd700>=~�<font color = #87ceed>Resistance / Weakness</font>�~=</font>")
 		//stat("�<font color = #87ceed>Element Resistance / Weakness</font>�")
-		stat("<font color = #ff4500>Fire</font>","<center>[fireres]% / <right>[firewk]%")
+		/*stat("<font color = #ff4500>Fire</font>","<center>[fireres]% / <right>[firewk]%")
 		stat("<font color = #a5f2f3>Ice</font>","<center>[iceres]% / <right>[icewk]%")
 		stat("<font color = #fff0f5>Wind</font>","<center>[windres]% / <right>[windwk]%")
 		stat("<font color = #00ffff>Water</font>","<center>[watres]% / <right>[watwk]%")
 		stat("<font color = #a0522d>Earth</font>","<center>[earthres]% / <right>[earthwk]%")
-		stat("<font color = #98fb98>Poison</font>","<center>[poisres]% / <right>[poiswk]%")
+		stat("<font color = #98fb98>Poison</font>","<center>[poisres]% / <right>[poiswk]%")*/
 		//stat("<font color = #ffd700>=~~~~~~~~~~~~~~~~~~~~~~~~~~~=</font>")
 		//src.addHP(src)
 //BLABLABNL
@@ -2089,37 +2147,37 @@ mob/players
 		M << output("<font size=1%>Ancient Tomes <font size=1%>Bonuses Included","SpellTitle")
 		//if its level is greater than 0, show it and info about it, including the calculations with strength/intelligence
 		if (heatlevel > 0)
-			M << output("Heat Rev: [heatlevel] | Energy Req: [(heatlevel*2)+1] | Damage Dealt: [round(((2+(heatlevel*2))*((Spirit/100)+1)),1)]-[round(((4+(heatlevel*3))*((Spirit/100)+1)),1)]","SpellLabel1")
+			M << output("Heat Rev: [heatlevel] | stamina Req: [(heatlevel*2)+1] | Damage Dealt: [round(((2+(heatlevel*2))*((Spirit/100)+1)),1)]-[round(((4+(heatlevel*3))*((Spirit/100)+1)),1)]","SpellLabel1")
 		if (shardburstlevel > 0)
-			M << output("Shard Burst Rev: [shardburstlevel] | Energy Req: [(shardburstlevel*2)+3] | Damage Dealt: [round(((1+(shardburstlevel*3))*((Spirit/100)+1)),1)]-[round(((3+(shardburstlevel*3))*((Spirit/100)+1)),1)]","SpellLabel2")
+			M << output("Shard Burst Rev: [shardburstlevel] | stamina Req: [(shardburstlevel*2)+3] | Damage Dealt: [round(((1+(shardburstlevel*3))*((Spirit/100)+1)),1)]-[round(((3+(shardburstlevel*3))*((Spirit/100)+1)),1)]","SpellLabel2")
 		if (watershocklevel > 0)
-			M << output("Water Shock Rev: [watershocklevel] | Energy Req: [(watershocklevel*2)+5] | Damage Dealt: [1]-[round(((10+(watershocklevel*10.72))*((Spirit/100)+1)),1)]","SpellLabel3")
+			M << output("Water Shock Rev: [watershocklevel] | stamina Req: [(watershocklevel*2)+5] | Damage Dealt: [1]-[round(((10+(watershocklevel*10.72))*((Spirit/100)+1)),1)]","SpellLabel3")
 		if (vitaelevel > 0)
-			M << output("Vitae Rev: [vitaelevel] | Energy Req: [(vitaelevel*2)+1] | Health Amount: [round(((2+(vitaelevel*2))*((Spirit/100)+1)),1)]-[round(((4+(vitaelevel*3))*((Spirit/100)+1)),1)]","SpellLabel4")
+			M << output("Vitae Rev: [vitaelevel] | stamina Req: [(vitaelevel*2)+1] | Health Amount: [round(((2+(vitaelevel*2))*((Spirit/100)+1)),1)]-[round(((4+(vitaelevel*3))*((Spirit/100)+1)),1)]","SpellLabel4")
 		if (flamelevel > 0)
-			M << output("Flame Rev: [flamelevel] | Energy Req: [(flamelevel*3)+17] | Damage Dealt: [round(((2+(flamelevel*2))*((Spirit/100)+1)),1)]-[round(((4+(flamelevel*3))*((Spirit/100)+1)),1)]","SpellLabel5")
+			M << output("Flame Rev: [flamelevel] | stamina Req: [(flamelevel*3)+17] | Damage Dealt: [round(((2+(flamelevel*2))*((Spirit/100)+1)),1)]-[round(((4+(flamelevel*3))*((Spirit/100)+1)),1)]","SpellLabel5")
 		if (icestormlevel > 0)
-			M << output("Ice Storm Rev: [icestormlevel] | Energy Req: [(icestormlevel*3)+20] | Damage Dealt: [round(((3+(icestormlevel*3))*((Spirit/100)+1)),1)]-[round(((4+(icestormlevel*3))*((Spirit/100)+1)),1)]","SpellLabel6")
+			M << output("Ice Storm Rev: [icestormlevel] | stamina Req: [(icestormlevel*3)+20] | Damage Dealt: [round(((3+(icestormlevel*3))*((Spirit/100)+1)),1)]-[round(((4+(icestormlevel*3))*((Spirit/100)+1)),1)]","SpellLabel6")
 		if (cascadelightninglevel > 0)
-			M << output("Cascade Lightning Rev: [cascadelightninglevel] | Energy Req: [(cascadelightninglevel*3)+23] | Damage Dealt: [1]-[round(((10+(cascadelightninglevel*10.72))*((Spirit/100)+1)),1)]","SpellLabel7")
-		var/teleenergy = (telekinesislevel*4/2)
-		if (teleenergy<0) // telekinesis shouldn't show a negative energy cost as well, because it doesnt give you energy =]
-			teleenergy=0
+			M << output("Cascade Lightning Rev: [cascadelightninglevel] | stamina Req: [(cascadelightninglevel*3)+23] | Damage Dealt: [1]-[round(((10+(cascadelightninglevel*10.72))*((Spirit/100)+1)),1)]","SpellLabel7")
+		var/telestamina = (telekinesislevel*4/2)
+		if (telestamina<0) // telekinesis shouldn't show a negative stamina cost as well, because it doesnt give you stamina =]
+			telestamina=0
 		if (telekinesislevel > 0)
-			M << output("Telekinesis Rev: [telekinesislevel] | Energy Req: [teleenergy] | Picks up target item","SpellLabel8")
-		var/wenergy = (abjurelevel*2-50)
-		if (wenergy<0) // nor should warp show negative energy cost
-			wenergy=0
+			M << output("Telekinesis Rev: [telekinesislevel] | stamina Req: [telestamina] | Picks up target item","SpellLabel8")
+		var/wstamina = (abjurelevel*2-50)
+		if (wstamina<0) // nor should warp show negative stamina cost
+			wstamina=0
 		if (abjurelevel > 0)
-			M << output("Abjure Rev: [abjurelevel] | Energy Req: [wenergy] | Revives you from the afterlife.","SpellLabel9")
+			M << output("Abjure Rev: [abjurelevel] | stamina Req: [wstamina] | Revives you from the afterlife.","SpellLabel9")
 		if (cosmoslevel > 0)
-			M << output("Cosmos Rev: [cosmoslevel] | Health: [15+(cosmoslevel*5)] | Energy Req: [round(((5+(cosmoslevel*3))*((Spirit/100)+1)),1)]-[round(((10+(cosmoslevel*5))*((Spirit/100)+1)),1)] | Energy+: [round(cosmoslevel*4.9,1)]%","SpellLabel10")
+			M << output("Cosmos Rev: [cosmoslevel] | Health: [15+(cosmoslevel*5)] | stamina Req: [round(((5+(cosmoslevel*3))*((Spirit/100)+1)),1)]-[round(((10+(cosmoslevel*5))*((Spirit/100)+1)),1)] | stamina+: [round(cosmoslevel*4.9,1)]%","SpellLabel10")
 		if (rephaselevel > 0)
-			M << output("Rephase Rev: [rephaselevel] | Energy Req: [15+(rephaselevel*5)] | Energy Req: [round(((5+(rephaselevel*3))*((Spirit/100)+1)),1)]-[round(((10+(rephaselevel*5))*((Spirit/100)+1)),1)] | Damage Dealt: [round(rephaselevel*9.2,1)]%","SpellLabel11")
+			M << output("Rephase Rev: [rephaselevel] | stamina Req: [15+(rephaselevel*5)] | stamina Req: [round(((5+(rephaselevel*3))*((Spirit/100)+1)),1)]-[round(((10+(rephaselevel*5))*((Spirit/100)+1)),1)] | Damage Dealt: [round(rephaselevel*9.2,1)]%","SpellLabel11")
 		if (acidlevel > 0)
-			M << output("Acid Rev: [acidlevel] | Energy Req: [round(14*sqrt(acidlevel),1)] | Damage Dealt: [round(10*(sqrt(acidlevel*((Spirit/100)+1))),1)]-[round(13*(sqrt(acidlevel*((Spirit/100)+1))),1)] | Lasts: [round(4+(acidlevel/2),1)] seconds","SpellLabel12")
+			M << output("Acid Rev: [acidlevel] | stamina Req: [round(14*sqrt(acidlevel),1)] | Damage Dealt: [round(10*(sqrt(acidlevel*((Spirit/100)+1))),1)]-[round(13*(sqrt(acidlevel*((Spirit/100)+1))),1)] | Lasts: [round(4+(acidlevel/2),1)] seconds","SpellLabel12")
 		if (bludgeonlevel > 0)
-			M << output("Bludgeon Rev: [bludgeonlevel] | Energy Req: [(bludgeonlevel*2)+9] | Damage Dealt: [round(((10+(bludgeonlevel*2))*((Strength/100)+1)),1)]-[round(((16+(bludgeonlevel*3))*((Strength/100)+1)),1)]","SpellLabel13")
+			M << output("Bludgeon Rev: [bludgeonlevel] | stamina Req: [(bludgeonlevel*2)+9] | Damage Dealt: [round(((10+(bludgeonlevel*2))*((Strength/100)+1)),1)]-[round(((16+(bludgeonlevel*3))*((Strength/100)+1)),1)]","SpellLabel13")
 		//demi calculations are pretty weird, it has lots of restrictions and stuff
 		var/demil = round(((sqrt(quietuslevel*Strength))/2),1)
 		var/demih = round(((sqrt(quietuslevel*Strength))/1.4),1)
@@ -2128,11 +2186,11 @@ mob/players
 		var/dmgred = round(25+(0.5*quietuslevel),1)
 		if (dmgred>90) dmgred = 90
 		if (quietuslevel > 0)
-			M << output("Quietus Rev: [quietuslevel] | Energy Req: [round(24*(sqrt(quietuslevel)),1)] | Damage Dealt: [demil]-[demih]% | Max Reduction: [dmgred]%","SpellLabel14")
+			M << output("Quietus Rev: [quietuslevel] | stamina Req: [round(24*(sqrt(quietuslevel)),1)] | Damage Dealt: [demil]-[demih]% | Max Reduction: [dmgred]%","SpellLabel14")
 		var/dmghealed = round(((panacealevel)*((Spirit/100)+1)),1)
 		if (dmghealed>70) dmghealed=70
 		if (panacealevel > 0)
-			M << output("Panacea Rev: [panacealevel] | Energy Req: [95+(panacealevel*5)] | Health Amount: [dmghealed]% | Relieves of Toxins","SpellLabel15")
+			M << output("Panacea Rev: [panacealevel] | stamina Req: [95+(panacealevel*5)] | Health Amount: [dmghealed]% | Relieves of Toxins","SpellLabel15")
 
 /*	Stat() // i think we all know what this does
 		..()
@@ -2146,23 +2204,25 @@ mob/players
 	proc
 		TC()
 
-			if(time_of_day == 1)
+			/*if(time_of_day == 1)
 				stat("<font color = #fd535e>...The Sun is setting on the horizon...</font>")
 				//return
 			else
 				if(time_of_day == 0)
 					stat("<font color = #ffca7c>...The Sun is rising on the horizon...</font>")
 					//return
-				else
-					if (time_of_day == 2)
-						stat("<font color = #f9d71c>...The Sun is overhead...</font>")//It tells you the time.
-						//oview() << "<font color = green><b>[usr]</b> looks at the Sky."			//And tells everyone in your view that you're looking at the clock.
-						//sleep(3)
-						//return
-					else
-						if(time_of_day == 3)
-							stat("<font color = #e3e1D7>...The Moon is overhead...</font>")
-		TC2() //1 = setting 0 = rising 2 = day
+				else*/
+			if (time_of_day == DAY)
+				stat("<font color = #f9d71c>...The Sun is overhead...</font>")//It tells you the time.
+				return
+				//oview() << "<font color = green><b>[usr]</b> looks at the Sky."			//And tells everyone in your view that you're looking at the clock.
+				//sleep(3)
+				//return
+			else
+				if(time_of_day == NIGHT)
+					stat("<font color = #e3e1D7>...The Moon is overhead...</font>")
+					return
+		/*TC2() //1 = setting 0 = rising 2 = day
 
 			if(browse_once==0)
 				browsersc()
@@ -2212,8 +2272,91 @@ mob/players/proc
 		usr << browse_rsc(sunoverhead, "sunoverhead.gif")
 		usr << browse_rsc(moonoverhead, "moonoverhead.gif")
 		usr << browse_rsc(bg, "smbg.gif")
-		browse_once=1
+		browse_once=1*/
+
+Form/TechTree
+	/*
+	   The form_window variable provides the browse() options that the form will use.
+	   We want the form to show up in its own window (not the built-in browser view).
+	*/
+	form_window = "window=TechTree;titlebar=1;can_scroll=1;can_close=1;can_minimize=1;allow_transparency=true;size=600x800;focus=true;can_resize=1"
+
+	Initialize()
+		/*
+		   This sets the initial values for the form each time before it is displayed.
+		   The browse_rsc() calls sends an image to the player that is used
+		   in the web page.
+		*/
+
+		usr << browse_rsc('imgs/tech.jpg', "tech.jpg")
+
+	HtmlLayout()
+		/*
+		   You control the appearance of the form here.
+
+		   We have added an error_text variable to the creating character mob, so we
+		   can display an error if the form wasn't filled out correctly and needs to
+		   be redisplayed with a message.  The error_text variable can't be part of
+		   the form object, because then the form tries to let the player edit it.
+
+		   When you embed a variable such as [name], the html library automatically
+		   puts in the HTML for the text field or radio button or whatever is needed.
+		   In the case of radio buttons, you place the numbered variables where each
+		   should be displayed.
+
+		   The [submit] variable puts in the necessary submit button at that spot.
+		   You can also place a [reset] button if you want.
+
+		   There is an image here, which was sent to the player in Initialize()
+		   to put it on their system so it would show up on the page.
+
+		   This example puts everything in table to make layout control easier.
+		   Some of the table rows are blank to provide extra space between options.
+		   You can change the HTML in any way you like for your game.*/
+
+		var/page = {"<style type="text/css">
+
+		 table.c1 {position:absolute; left:0px; top:0px; width:800px; height:px; z-index:0}
+		 body {
+		  input: focus;
+		 }
+		 input {
+		  background-color: transparent;
+		 }
+		 :link { color: #767689 }
+		 :visited { color: #003DCA }
+		</style>
+		<table id="Layer1" class="c1" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<tr>
+		<td><img src="tech.jpg" alt="" border="0"></td>
+		</tr>
+		</tbody>
+		</table>
+		"}
+		return page
+
 mob/players/verb
+	ShowTech()//works!
+		//var
+			//Form/TechTree/TT_form = new()
+		set hidden = 1
+		var/tt = 'imgs/tech.jpg'
+		src << browse_rsc(tt, "tech.jpg")
+
+			//var/page = {"<style type="text/css">"}
+		src << browse(tt, "window=TechTree")
+			//return page
+		//src.TT_form.DisplayForm()
+			//winset(src, "techtree","parent=default; is-visible = true; focus = true")
+			/*var/V = winget(src,"techtree","is-visible")
+
+		if (V == "false")
+			winshow(src,"techtree",1)
+			winset(src,"default","focus=true")
+		else if (V == "true")
+			winshow(src,"techtree",0)*/
+		//winshow(src, "techtree", 1)
 	ShowSpells()
 		set hidden = 1
 		winset(src, "spells","parent=spells; is-visible = true; focus = true")/*

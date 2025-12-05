@@ -1,4 +1,7 @@
-/*Thank you and praises to Lord Yeshua for everything. May you continue to be our Saviour and provide your everlasting forgiveness and love*/
+/*Thank you and praises to Lord Yeshua for everything. May you continue to bless us with the holy spirit and thank you for being our Saviour and provide your everlasting forgiveness and love*/
+
+//possibly make some kind of "Restart Game" option that uses fdel to delete directory folders and files
+//MapSaves, players, and timesave -- that way players don't have to do it manually through the directory
 
 mob
 	timekeeper
@@ -16,15 +19,24 @@ mob
 			//..()
 client
 	//base_num_characters_allowed = 2
-	perspective=EYE_PERSPECTIVE
+	perspective=EDGE_PERSPECTIVE | EYE_PERSPECTIVE
 	control_freak = 0
 	preload_rsc = 1
+	tick_lag = 0.25
+	lazy_eye = "0x0"
+	view = "17x9"
 //	fps=50
 //proc/igd()
 //	world.status("Date: [day] / [month] / [year] O�C�")
+	New()
+		..()
+
+		//sound_system = new(src)
+		//SetLock()
+
 var
-	t = /area/outside/proc/time
-	weather = /area/outside/proc/weather
+	t = /area/screen_fx/day_night/proc/wtime
+	weather = /area/screen_fx/day_night/proc/weather
 	cheats = 0 //The thing that you don't want to be changeable.
 	securityoffset1 = 4132370
 /*First line of defense against the hacking program.  Uses a
@@ -56,6 +68,8 @@ matches securityoffset1!*/
 	MP
 	SB
 	SM
+	//sound_system/sound_system
+
 
 world
 	name = "Pondera (OpenTest-SmallMap-FrequentReset)"
@@ -69,21 +83,23 @@ world
 	//hub = "AERProductions.SimpleStoryDemo"
 	hub_password = "2R5Joy3ty5GRACES4mi" //Hub pass ~ Change Frequently
 	//status="Date: [day] / [month] / [year] O�C�"
-	loop_checks=0
+	loop_checks=1
 	mob = /mob/mob
-	map_format = TOPDOWN_MAP
+	//map_format = TOPDOWN_MAP
+	movement_mode = PIXEL_MOVEMENT_MODE
 	icon_size = "64x64"
+	tick_lag = 1
 	//maxx = 30
 	//maxy = 30
-	view=13
+	view="24x24"
 //	fps=20
 	fps=40
 	turf=/turf/temperate
-	area = /area/outside
+	//area = /area/screen_fx/day_night
 	New()
 		..()
 		Host = "[world.host]"
-
+		//src << load_resource('snd/cleaned/fire2.ogg', -1)
 		securityoffset2 = rand(1,1000000)
 	/*Set the second line of defense as a random var between 1 and 100.
 	Will check later with cheats.  Set your own range of random vars!*/
@@ -125,25 +141,25 @@ world
 		//new/mob/snd/sfx/apof/forestbirds(locate(495,645,2))//soundmob(src, 100, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
 		call(/proc/Debug_Edges)(world)
 
-		lighting = new
+		//lighting = new
 		// BEGIN Map Save System Startup
 		StartMapSave()
 		// END Map Save System Startup
 
 		// BEGIN Map Generation
 		if(map_loaded == FALSE)
-			GenerateMap(lakes = 25, hills = 25)
+			GenerateMap(lakes = 15, hills = 15)
 		// END Map Generation
 
-		lighting.startloop()
+		//lighting.startloop()
 
 		//TimeStuff
 		//TimeLoad()
 		//SetMode()
 
 
-		lighting.init(2)
-		call(/proc/Debug_Lamps)(world)
+		//lighting.init(2)
+		//call(/proc/Debug_Lamps)(world)
 		call(t)(world)//time()
 		//call(/plant/ueiktree/proc/Grow)(world)
 //		call(/obj/Plants/Bush/Raspberrybush/proc/Grow)(world)
@@ -153,6 +169,7 @@ world
 		GrowBushes()
 		GrowTrees()
 		SetSeason(world)
+
 		world.status = "[world.name] <br> [season] / [day] / [month] / AM [year]"
 		//L()
 		//LightsOn()
@@ -163,42 +180,54 @@ world
 
 	Del()
 		//world.save_all()
+		wo = 0
+		for(var/obj/spawns/spawnpointB1/S in world)
+			S:spawned = 0
+		for(var/mob/players/M in world)
+			//if(M.Doing==1 || src.Carving==1 || src.Cutting==1 || src.Picking==1 || src.Mining==1)
+			M:Doing=0
+			Carving=0
+			Cutting=0
+			Picking=0
+			Mining=0
+			M.Save()
+		LightsOff()
 		TimeSave()
 		//shutdown(src,1)
-		//LightsOff()
+
 			//for(F in lighting.lights)
 				//lighting.lights -= F//testing light fix TestStamp
 		..()
-	proc/LightsOn()
-		/*for(var/obj/Buildable/Fire/F)
+	/*proc/LightsOn()
+		for(var/obj/Buildable/Fire/F)
 			if(!F.light)
 				new /light/circle(F)
-				call(/light/proc/off)(F)*/
+				call(/light/proc/off)(F)
 		for(var/obj/TownTorches/Torch/F)
 			if(!F.light)
-				new /light/directional(F, 8)
+				//new /light/directional(F, 8)
 		for(var/obj/TownTorches/Torcha/F)
 			if(!F.light)
-				new /light/directional(F, 8)
+				//new /light/directional(F, 8)
 		for(var/obj/TownTorches/Torchb/F)
 			if(!F.light)
-				new /light/directional(F, 8)
+				//new /light/directional(F, 8)
 		for(var/obj/TownTorches/Torchc/F)
 			if(!F.light)
-				new /light/directional(F, 8)
+				//new /light/directional(F, 8)
 		for(var/obj/TownTorches/btmwll1a/F)
 			if(!F.light)
-				new /light/directional(F, 8)
+				//new /light/directional(F, 8)
 		for(var/obj/TownTorches/castlwll5a/F)
 			if(!F.light)
-				new /light/directional(F, 8)
+				//new /light/directional(F, 8)
 		for(var/obj/TownTorches/introof6a/F)
 			if(!F.light)
-				new /light/directional(F, 8)
+				//new /light/directional(F, 8)
 		for(var/obj/townlamp/F)
 			if(!F.light)
-				new /light/circle(F, 8)
-		/*for(var/obj/items/torches/F)
+				//new /light/circle(F, 8)
+		for(var/obj/items/torches/F)
 			if(!F.light)
 				new /light/directional(F)
 		for(var/obj/items/Buildable/lamps/F)
@@ -208,36 +237,48 @@ world
 			if(!F.light)
 				new /light/directional(F)*/
 	proc/LightsOff()
-		for(var/obj/Buildable/Fire/F)
+		for(var/obj/Buildable/Fire/F in world)
 
 			F.name = "Empty Fire"
 			F.icon_state="snuffedfire"
-			call(/light/proc/off)(F)
+			F.overlays -= F.overlays
+			F.remove_spotlight()
+			//call(/light/proc/off)(F)
 		for(var/obj/TownTorches/F)
 
 			//F.name = "Empty Torch"
 			F.icon_state=""
-			call(/light/proc/off)(F)
+			F.overlays -= F.overlays
+			F.remove_spotlight()
+			//call(/light/proc/off)(F)
 		for(var/obj/townlamp/F)
 
 			//F.name = "Empty Torch"
 			F.icon_state=""
-			call(/light/proc/off)(F)
+			F.overlays -= F.overlays
+			F.remove_spotlight()
+			//call(/light/proc/off)(F)
 		for(var/obj/items/torches/F)
 
 			F.name = "Empty Torch"
 			F.icon_state=""
-			call(/light/proc/off)(F)
+			F.overlays -= F.overlays
+			F.remove_spotlight()
+			//call(/light/proc/off)(F)
 		for(var/obj/items/Buildable/lamps/F)
 
 			F.name = "Empty Lamp"
 			F.icon_state=""
-			call(/light/proc/off)(F)
+			F.overlays -= F.overlays
+			F.remove_spotlight()
+			//call(/light/proc/off)(F)
 		for(var/obj/Buildable/Smithing/Forge/F)
 
 			F.name = "Empty Forge"
-			F.icon_state=""
-			call(/light/proc/off)(F)
+			F.icon_state="forge"
+			F.overlays -= F.overlays
+			F.remove_cone()
+			//call(/light/proc/off)(F)
 	proc/changethirdlinevar()
 		spawn(100) //After 10 seconds, run this.
 			if(cheats + offsetamount1 == securityoffset1) //Check it.
@@ -261,17 +302,17 @@ world
 			world.status="[data]"
 			return
 
-	proc
-		L()
-			var/my = world.maxy
-			var/mx = world.maxx
+	//proc
+		//L()
+			//var/my = world.maxy
+			//var/mx = world.maxx
 			//var turf/L
 			//L = locate(rand(1,mx),rand(1,my),2)
 			//new /light/day_night(L)//kind of works? but leaves darkness on the map, guess it could be fog of war...
-			var/turf/L
-			L = locate(mx,my,2)
+			//var/turf/L
+			//L = locate(mx,my,2)
 			//new /mob/timekeeper(L)
-			new /light/circle(L)
+			//new /light/circle(L)
 
 
 			//return
@@ -284,10 +325,14 @@ world
 					W.SetWSeason()
 				for(var/obj/border/water/W)
 					W.SetBSeason()
+				for(var/obj/Plants/Bush/B)
+					B.name = "Dormant Bush"
+					B.icon_state = "aftwint"
+					B.bgrowstate = "6"
 				for(var/obj/Flowers/J)
 					//J.overlays -= J.overlays
 					J.name="Dormant Plants"
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg3")
+					J.icon_state = "tg3a"//overlays += icon('dmi/64/plants.dmi',icon_state="tg3")
 				for(var/turf/temperate/A)
 					A.overlays -= A.overlays
 					A.name="Grass"
@@ -365,10 +410,14 @@ world
 					RS.overlays -= RS.overlays
 				for(var/obj/Rocks/OreRocks/R)
 					R.SetWSeason()
+				for(var/obj/Plants/Bush/B)
+					B.name = "Bush Seedling"
+					B.icon_state = "seed1"
+					B.bgrowstate = "1"
 				for(var/obj/Flowers/J)
 					//J.overlays -= J.overlays
 					J.name="Seedlings"
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg0")
+					J.icon_state = "tg0"//overlays += icon('dmi/64/plants.dmi',icon_state="tg0")
 				for(var/turf/water/W)
 					W.SetWSeason()
 				for(var/obj/border/water/W)
@@ -406,6 +455,10 @@ world
 				for(var/turf/temperate/A)
 					A.overlays -= A.overlays
 					A.name="Grass"
+				for(var/obj/Plants/Bush/B)
+					B.name = "Bush Sappling"
+					B.icon_state = "sapp1"
+					B.bgrowstate = "2"
 				for(var/turf/ClayDeposit/CD)
 					CD.overlays -= CD.overlays
 				for(var/turf/ObsidianField/OF)
@@ -431,16 +484,16 @@ world
 					//UTH.overlays -= UTH.overlays
 					//UTH.icon = ''
 					UTH.icon_state = "uthregrow2"
-				for(var/obj/Flowers/Redflower/J)
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg0")
+				for(var/obj/Flowers/J)
+					J.icon_state = "tg0"//overlays -= J.overlays//+= icon('dmi/64/plants.dmi',icon_state="tg0")
 					J.name="Sprouts"
-				for(var/obj/Flowers/Blueflower/J)
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg0")
-					J.name="Sprouts"
+				/*for(var/obj/Flowers/Blueflower/J)
+					J.overlays -= J.overlays//+= icon('dmi/64/plants.dmi',icon_state="tg0")
+					J.name="Sprouts"*/
 				for(var/obj/Flowers/Tallgrass/J)
-					J.overlays -= J.overlays
+					J.icon_state = "tg"//overlays -= J.overlays
 					J.name="Tallgrass"
-				for(var/obj/Flowers/Pinkflower/J)
+				/*for(var/obj/Flowers/Pinkflower/J)
 					J.overlays -= J.overlays
 					J.name="Pink Flower"
 				for(var/obj/Flowers/Lightpurpflower/J)
@@ -448,7 +501,7 @@ world
 					J.name="Lavender Flower"
 				for(var/obj/Flowers/Purpflower/J)
 					J.overlays -= J.overlays
-					J.name="Purple Flower"
+					J.name="Purple Flower"*/
 
 			else if(month=="Iyar")
 				season = "Spring"
@@ -480,23 +533,31 @@ world
 					//UTH.overlays -= UTH.overlays
 					//UTH.icon = ''
 					UTH.icon_state = "UTH"
+				for(var/obj/Plants/Bush/Raspberrybush/B)
+					B.name = "Blooming Bush"
+					B.icon_state = "bloo1"
+					B.bgrowstate = "3"
+				for(var/obj/Plants/Bush/Blueberrybush/B)
+					B.name = "Blooming Bush"
+					B.icon_state = "bloo2"
+					B.bgrowstate = "3"
 				for(var/obj/Flowers/Redflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "rf"//overlays -= J.overlays
 					J.name="Red Flower"
 				for(var/obj/Flowers/Blueflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "bf"//overlays -= J.overlays
 					J.name="Blue Flower"
 				for(var/obj/Flowers/Tallgrass/J)
-					J.overlays -= J.overlays
+					J.icon_state = "tg"//overlays -= J.overlays
 					J.name="Tallgrass"
 				for(var/obj/Flowers/Pinkflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "pnkf"//overlays -= J.overlays
 					J.name="Pink Flower"
 				for(var/obj/Flowers/Lightpurpflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "lpf"//overlays -= J.overlays
 					J.name="Lavender Flower"
 				for(var/obj/Flowers/Purpflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "pf"//overlays -= J.overlays
 					J.name="Purple Flower"
 			else if(month=="Sivan")
 				season = "Summer"
@@ -528,23 +589,31 @@ world
 					//UTH.overlays -= UTH.overlays
 					//UTH.icon = ''
 					UTH.icon_state = "UTH"
+				for(var/obj/Plants/Bush/Raspberrybush/B)
+					B.name = "Ripe Raspberry Bush"
+					B.icon_state = "ripe1"
+					B.bgrowstate = "4"
+				for(var/obj/Plants/Bush/Blueberrybush/B)
+					B.name = "Ripe Blueberry Bush"
+					B.icon_state = "ripe2"
+					B.bgrowstate = "4"
 				for(var/obj/Flowers/Redflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "rf"//overlays -= J.overlays
 					J.name="Red Flower"
 				for(var/obj/Flowers/Blueflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "bf"//overlays -= J.overlays
 					J.name="Blue Flower"
 				for(var/obj/Flowers/Tallgrass/J)
-					J.overlays -= J.overlays
+					J.icon_state = "tg"//overlays -= J.overlays
 					J.name="Tallgrass"
 				for(var/obj/Flowers/Pinkflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "pnkf"//overlays -= J.overlays
 					J.name="Pink Flower"
 				for(var/obj/Flowers/Lightpurpflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "lpf"//overlays -= J.overlays
 					J.name="Lavender Flower"
 				for(var/obj/Flowers/Purpflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "pf"//overlays -= J.overlays
 					J.name="Purple Flower"
 			else if(month=="Tammuz")
 				season = "Summer"
@@ -576,23 +645,31 @@ world
 					//UTH.overlays -= UTH.overlays
 					//UTH.icon = ''
 					UTH.icon_state = "UTH"
+				for(var/obj/Plants/Bush/Raspberrybush/B)
+					B.name = "Ripe Raspberry Bush"
+					B.icon_state = "ripe1"
+					B.bgrowstate = "4"
+				for(var/obj/Plants/Bush/Blueberrybush/B)
+					B.name = "Ripe Blueberry Bush"
+					B.icon_state = "ripe2"
+					B.bgrowstate = "4"
 				for(var/obj/Flowers/Redflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "rf"//overlays -= J.overlays
 					J.name="Red Flower"
 				for(var/obj/Flowers/Blueflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "bf"//overlays -= J.overlays
 					J.name="Blue Flower"
 				for(var/obj/Flowers/Tallgrass/J)
-					J.overlays -= J.overlays
+					J.icon_state = "tg"//overlays -= J.overlays
 					J.name="Tallgrass"
 				for(var/obj/Flowers/Pinkflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "pnkf"//overlays -= J.overlays
 					J.name="Pink Flower"
 				for(var/obj/Flowers/Lightpurpflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "lpf"//overlays -= J.overlays
 					J.name="Lavender Flower"
 				for(var/obj/Flowers/Purpflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "pf"//overlays -= J.overlays
 					J.name="Purple Flower"
 			else if(month=="Av")
 				season = "Summer"
@@ -624,23 +701,31 @@ world
 					//UTH.overlays -= UTH.overlays
 					//UTH.icon = ''
 					UTH.icon_state = "UTH"
+				for(var/obj/Plants/Bush/Raspberrybush/B)
+					B.name = "Ripe Raspberry Bush"
+					B.icon_state = "ripe1"
+					B.bgrowstate = "4"
+				for(var/obj/Plants/Bush/Blueberrybush/B)
+					B.name = "Ripe Blueberry Bush"
+					B.icon_state = "ripe2"
+					B.bgrowstate = "4"
 				for(var/obj/Flowers/Redflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "rf"//overlays -= J.overlays
 					J.name="Red Flower"
 				for(var/obj/Flowers/Blueflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "bf"//overlays -= J.overlays
 					J.name="Blue Flower"
 				for(var/obj/Flowers/Tallgrass/J)
-					J.overlays -= J.overlays
+					J.icon_state = "tg"//overlays -= J.overlays
 					J.name="Tallgrass"
 				for(var/obj/Flowers/Pinkflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "pnkf"//overlays -= J.overlays
 					J.name="Pink Flower"
 				for(var/obj/Flowers/Lightpurpflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "lpf"//overlays -= J.overlays
 					J.name="Lavender Flower"
 				for(var/obj/Flowers/Purpflower/J)
-					J.overlays -= J.overlays
+					J.icon_state = "pf"//overlays -= J.overlays
 					J.name="Purple Flower"
 			else if(month=="Elul")
 				season = "Autumn"
@@ -654,8 +739,17 @@ world
 				for(var/obj/plant/UeikTreeH/UTH)
 					//UTH.overlays += icon('64/tree.dmi',icon_state="UTHaut")//it should probably be handled differently
 					UTH.icon_state="UTHaut"
+				for(var/obj/Plants/Bush/Raspberrybush/B)
+					B.name = "Raspberry Bush"
+					B.icon_state = "autorg"
+					B.bgrowstate = "5"
+				for(var/obj/Plants/Bush/Blueberrybush/B)
+					B.name = "Blueberry Bush"
+					B.icon_state = "aut2org"
+					B.bgrowstate = "5"
 				for(var/obj/Flowers/J)
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg1")//perhaps initilize them at runtime based on season/month
+					J.icon_state = "tg2"//overlays += icon('dmi/64/plants.dmi',icon_state="tg1")//perhaps initilize them at runtime based on season/month
+
 				for(var/turf/temperate/A)
 					//if(prob(15))
 					A.overlays += icon('dmi/64/gen.dmi',icon_state="grassaut")//otherwise, if the server goes down after these dates
@@ -678,8 +772,16 @@ world
 				for(var/obj/plant/UeikTreeH/UTH)
 					//UTH.overlays += icon('64/tree.dmi',icon_state="UTHaut")//it should probably be handled differently
 					UTH.icon_state="UTHaut"
+				for(var/obj/Plants/Bush/Raspberrybush/B)
+					B.name = "Raspberry Bush"
+					B.icon_state = "autorg"
+					B.bgrowstate = "5"
+				for(var/obj/Plants/Bush/Blueberrybush/B)
+					B.name = "Blueberry Bush"
+					B.icon_state = "aut2org"
+					B.bgrowstate = "5"
 				for(var/obj/Flowers/J)
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg1")//perhaps initilize them at runtime based on season/month
+					J.icon_state = "tg2"//overlays += icon('dmi/64/plants.dmi',icon_state="tg1")//perhaps initilize them at runtime based on season/month
 				for(var/turf/temperate/A)
 					//if(prob(15))
 					A.overlays += icon('dmi/64/gen.dmi',icon_state="grassaut")//otherwise, if the server goes down after these dates
@@ -702,7 +804,11 @@ world
 					//UTH.overlays += icon('64/tree.dmi',icon_state="UTHaut")//it should probably be handled differently
 					UTH.icon_state="UTHaut"
 				for(var/obj/Flowers/J)
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg2")
+					J.icon_state = "tg3"//overlays += icon('dmi/64/plants.dmi',icon_state="tg2")
+				for(var/obj/Plants/Bush/B)
+					B.name = "Hibernating Bush"
+					B.icon_state = "aut"
+					B.bgrowstate = "51"
 				for(var/turf/temperate/A)
 					//if(prob(15))
 					A.overlays += icon('dmi/64/gen.dmi',icon_state="grassaut")//otherwise, if the server goes down after these dates
@@ -718,8 +824,12 @@ world
 					W.SetWSeason()
 				for(var/obj/border/water/W)
 					W.SetBSeason()
+				for(var/obj/Plants/Bush/B)
+					B.name = "Hibernating Bush"
+					B.icon_state = "aut"
+					B.bgrowstate = "51"
 				for(var/obj/Flowers/J)
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg3")
+					J.icon_state = "tg1"//overlays += icon('dmi/64/plants.dmi',icon_state="tg3")
 				for(var/obj/plant/UeikTreeA/UTA)
 
 					UTA.icon_state = "UTAwint"
@@ -745,6 +855,10 @@ world
 					W.SetWSeason()
 				for(var/obj/border/water/W)
 					W.SetBSeason()
+				for(var/obj/Plants/Bush/B)
+					B.name = "Dormant Bush"
+					B.icon_state = "wint2"
+					B.bgrowstate = "6"
 				//year = [year]+=1
 				//month = "Tevet"
 				//day = 1
@@ -783,7 +897,7 @@ world
 					UTH.icon_state = "UTHwinth"
 				for(var/obj/Flowers/J)
 					J.name="Dormant Plants"
-					J.overlays += icon('dmi/64/plants.dmi',icon_state="tg4")
+					J.icon_state = "tg4"//overlays += icon('dmi/64/plants.dmi',icon_state="tg4")
 				for(var/turf/temperate/G)
 					if(prob(0.1))
 						G.overlays += icon('dmi/64/gen.dmi',icon_state="stcks")
@@ -919,7 +1033,7 @@ mob/mob
 		//world << "<center><b><font color=#00bfff>Welcome [src.key].<br>|Game is in Early <|Alpha|> Testing|<br> Enjoy.<br>"
 		world << "<center><b><font color=#00bfff>[src.key] has entered this realm!<p>"
 		sleep(3)
-		//src << "<font color=gold><center>Information: <font color=gold>Arrow or wasd keys to walk, click/double-click to sprint, use, or attack. <br> Use the stance positions, V is sprint mode, C is Strafe mode and X is Hold Position. <br>Ctrl+E provides a quick-unequip menu and Ctrl+G provides a quick-get menu and ctrl+mouse wheel is zoom."
+		//src << "<font color=gold><center>Information: <font color=gold>Arrow or wasd keys to walk, click/double-click to sprint, use or attack. <br> Use the stance positions, V is sprint mode, C is Strafe mode and X is Hold Position. <br>Ctrl+E provides a quick-unequip menu and Ctrl+G provides a quick-get menu and ctrl+mouse wheel is zoom."
 		src << "<center><b><font color=#00bfff>[src.key], Welcome to Pondera Sandbox mode! <p> Find Bugs? Report on the Hub, Pager or e-mail (AERSupport@live.com).<br>"// - (http://pondera.aerproductions.com | AERSupport@live.com)."
 		src.char_form.DisplayForm()*/
 		// First we create new images contained by src for /image/master_plane and /image/darkness.
@@ -942,9 +1056,9 @@ mob/mob
 		//if(HostGM.Find(src.key))
 			//call(/proc/Debug_Lamps)(usr)				//world.log << "<center><b><font color=#00bfff>Welcome [src.key].<br>|Game Is In Open Early <|Alpha|> Testing|<br> Enjoy.<br>"
 			//call(/proc/Debug_Edges)(usr)
-	var/tmp
-		list/_listening_soundmobs = null
-		list/_channels_taken = null
+	//var/tmp
+		//list/_listening_soundmobs = null
+		//list/_channels_taken = null
 
 	New()
 		..()
@@ -959,7 +1073,7 @@ mob/mob
 
 
 
-	proc
+	/*proc
 		_unlockChannel(channel)
 			if(channel in _channels_taken)
 				_channels_taken -= channel
@@ -996,7 +1110,7 @@ mob/mob
 
 				_listening_soundmobs -= soundmob
 				if(!length(_listening_soundmobs)) _listening_soundmobs = null
-				soundmob.unsetListener(src)
+				soundmob.unsetListener(src)*/
 //Character Choosing form
 
 
@@ -1041,7 +1155,7 @@ Form/ModeMenu
 		//class_3 = "Builder"
 		//class_4 = "Magus"
 		//class_5 = "special1"
-		//class_values = list("Landscaper","Defender","Builder","Magus","Feline")
+		//class_values = list("Landscaper","Smithy","Builder","Magus","Feline")
 	Initialize()
 		/*
 		   This sets the initial values for the form each time before it is displayed.
@@ -1098,7 +1212,7 @@ Form/ModeMenu
 		  border: none;
 		  font-family: verdana;
 		  font-size: 13px;
-		  color: #10ca63;
+		  color: #767689;
 		  overflow: hidden;
 		  position: absolute;
 		  input: focus;
@@ -1110,9 +1224,9 @@ Form/ModeMenu
 		  border: none;
 		  font-family: verdana;
 		  font-size: 18px;
-		  color: #10ca63;
+		  color: #767689;
 		 }
-		 :link { color: #10ca63 }
+		 :link { color: #767689 }
 		 :visited { color: #003DCA }
 		</style>
 		<table id="Layer0" class="c0" cellspacing="10" cellpadding="10" border="0">
@@ -1173,24 +1287,24 @@ Form/ModeMenu
 					//mob = new /mob/players/Landscaper()
 					SP = 1
 					MP = 0
-					//mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+					//mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 				if ("Multi-Player")
 					MP = 1
 					SP = 0
-					//mob = new /mob/players/Defender()
-					//mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+					//mob = new /mob/players/Smithy()
+					//mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 			switch(instance)
 				if ("Sandbox")
 					//mob = new /mob/players/Landscaper()
 					SM = 0
 					SB = 1
-					//mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+					//mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 				if ("Story")
 					SM = 1
 					SB = 0
 		else if(SP==1||MP==1)
 			mob/BaseCamp.ChooseCharacter()
-				//mob = new /mob/players/Defender()
+				//mob = new /mob/players/Smithy()
 		//switch(class_3)
 		//	if ("Builder")		player = new /mob/players/Builder()
 		//for(class_4)
@@ -1218,22 +1332,22 @@ Form/ModeMenu
 			if(instance=="Sandbox")
 				fl = locate(25,25,2)
 				//mob.icon_state = "Kitty"
-				//mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				//mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 		if (mode=="Single Player")
 			if(instance=="Story")
 				fl = locate(25,25,3)
 				//mob.icon_state = "Ffriar"
-				//mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				//mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 		if (mode=="Multi-Player")
 			if(instance=="Sandbox")
 				fl = locate(25,25,2)
 				//mob.icon_state = "Kitty"
-				//mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				//mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 		if (mode=="Multi-Player")
 			if(instance=="Story")
 				fl = locate(25,25,3)*/
 				//mob.icon_state = "Ffriar"
-				//mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				//mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 		winset(usr, "loadscrn","parent=loadscrn; is-visible = false; focus = false")
 		winset(usr, "default","parent=default; is-visible = true; focus = true")
 		//player.new /light/day_night(src, 4)
@@ -1316,7 +1430,7 @@ Form/NewCharacterSB
 		gender
 		gender_1 = "Male"
 		gender_2 = "Female"
-		gender_3 = "Feline"
+		//gender_3 = "Feline"
 
 		/*
 		   To create a popup menu they can choose from, put the options in a list
@@ -1324,11 +1438,11 @@ Form/NewCharacterSB
 		*/
 		class //DAB Sandbox class selection
 		class_1 = "Landscaper"
-		class_2 = "Defender"
+		class_2 = "Smithy"
 		class_3 = "Builder"
-		class_4 = "Magus"
+		//class_4 = "Magus"
 		//class_5 = "special1"
-		//class_values = list("Landscaper","Defender","Builder","Magus","Feline")
+		//class_values = list("Landscaper","Smithy","Builder","Magus","Feline")
 
 	Initialize()
 		/*
@@ -1340,12 +1454,12 @@ Form/NewCharacterSB
 		if (!name)	 name = pick(names)
 		if (!gender) gender = "Male"
 		if (!gender) gender = "Female"
-		if (!gender) gender = "Feline"
+		//if (!gender) gender = "Feline"
 		if (!class)	 class = "Landscaper"
-		if (!class)	 class = "Defender"
+		if (!class)	 class = "Smithy"
 		if (!class)	 class = "Builder"
-		if (!class)	 class = "Magus"
-		if (!class)	 class = "Feline"
+		//if (!class)	 class = "Magus"
+		//if (!class)	 class = "Feline"
 		//usr << browse_rsc('demomenu.jpg', "demomenu.jpg")
 		usr << browse_rsc('imgs/csmenu.jpg', "csmenu.jpg")
 		usr << browse_rsc('imgs/submit.png', "submit.png")
@@ -1378,13 +1492,13 @@ Form/NewCharacterSB
 		   You can change the HTML in any way you like for your game.*/
 
 		var/mob/mob/mob = usr
-
+//table.c7 {position:absolute; left:270px; top:235px; width:px; height:px; z-index:2}
 		var/page = {"<style type="text/css">
-		 table.c8 {position:absolute; left:100px; top:317px; width:px; height:px; z-index:4}
-		 table.c7 {position:absolute; left:270px; top:235px; width:px; height:px; z-index:2}
-		 table.c6 {position:absolute; left:167px; top:235px; width:px; height:px; z-index:2}
-		 table.c5 {position:absolute; left:270px; top:198px; width:px; height:px; z-index:2}
-		 table.c4 {position:absolute; left:167px; top:198px; width:px; height:px; z-index:2}
+		 table.c8 {position:absolute; left:125px; top:155px; width:px; height:px; z-index:4}
+		 table.c7 {position:absolute; left:215px; top:155px; width:px; height:px; z-index:2}
+		 table.c6 {position:absolute; left:110px; top:190px; width:px; height:px; z-index:2}
+		 table.c5 {position:absolute; left:156px; top:226px; width:px; height:px; z-index:2}
+		 table.c4 {position:absolute; left:215px; top:190px; width:px; height:px; z-index:2}
 		 table.c3 {position:absolute; left:110px; top:115px; width:px; height:px; z-index:1}
 		 table.c2 {position:absolute; left:125px; top:260px; width:px; height:px; z-index:3}
 		 table.c1 {position:absolute; left:0px; top:0px; width:px; height:px; z-index:0}
@@ -1394,7 +1508,7 @@ Form/NewCharacterSB
 		  border: none;
 		  font-family: verdana;
 		  font-size: 13px;
-		  color: #10ca63;
+		  color: #767689;
 		  overflow: hidden;
 		  position: absolute;
 		  input: focus;
@@ -1406,9 +1520,9 @@ Form/NewCharacterSB
 		  border: none;
 		  font-family: verdana;
 		  font-size: 18px;
-		  color: #10ca63;
+		  color: #767689;
 		 }
-		 :link { color: #10ca63 }
+		 :link { color: #767689 }
 		 :visited { color: #003DCA }
 		</style>
 		<table id="Layer0" class="c0" cellspacing="10" cellpadding="10" border="0">
@@ -1446,20 +1560,21 @@ Form/NewCharacterSB
 		<tbody>
 		<td>[class_3]</td>
 		</tbody>
+		<table id="Layer5" class="c8" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<td>[gender_1]</td>
+		</tbody>
 		<table id="Layer4" class="c7" cellspacing="0" cellpadding="0" border="0">
 		<tbody>
-		<td>[class_4]</td>
-		</tbody>
-		<table id="Layer5" class="c8" cellspacing="15" cellpadding="10" border="0">
-		<tbody>
-		<td>[gender]</td>
-		<td>[gender_1]</td>
 		<td>[gender_2]</td>
-		<td>[gender_3]</td>
 		</tbody>
 		"}
 		return page
-
+//<td>[gender_3]</td> feline
+/*		<table id="Layer4" class="c7" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<td>[class_4]</td>
+		</tbody> magus*/
 	ProcessForm()
 		/*
 		   This is called when the player submits the form.
@@ -1491,18 +1606,18 @@ Form/NewCharacterSB
 		switch(class)
 			if ("Landscaper")
 				mob = new /mob/players/Landscaper()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if ("Defender")
-				mob = new /mob/players/Defender()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			if ("Smithy")
+				mob = new /mob/players/Smithy()
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
 			if ("Builder")
 				mob = new /mob/players/Builder()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if ("Magus")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			/*if ("Magus")
 				mob = new /mob/players/Magus()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 			if ("Feline")
-				mob = new /mob/players/Feline()
+				mob = new /mob/players/Feline()*/
 			//if ("special1")
 				//mob = new /mob/players/Special1()
 		//switch(class_3)
@@ -1519,7 +1634,7 @@ Form/NewCharacterSB
 		// Set the new mob's attributes.
 		mob.name = name
 		// Now switch the player client over to the new mob and delete myself since I'm no longer needed.
-		if (gender=="Feline")
+		/*if (gender=="Feline")
 			class = "Feline"
 			//player = new /mob/players/Feline()
 			//var/obj/items/tools/Shovel/S = new(player)
@@ -1535,19 +1650,19 @@ Form/NewCharacterSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You are a Clever, Feisty Feline! Utilize your paws ([H]) to dig, create rich soil and spread seeds! Catch fish with [FP]! Equip by clicking in inventory. You have received [TUT]."//You've received a [Deed]!"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
-
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+*/
 		if (class=="Landscaper")
 			//var/obj/Deed/Deed = new(mob)
 			var/obj/IG/TUT = new(mob)
@@ -1579,20 +1694,20 @@ Form/NewCharacterSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You've chosen Landscaper, terraform the wilderness around you. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
-		if (class=="Defender")
+		if (class=="Smithy")
 			//var/obj/Deed/Deed = new(mob)
 			var/obj/IG/TUT = new(mob)
 			/*var/obj/items/tools/Containers/Jar/J = new(mob)
@@ -1617,18 +1732,18 @@ Form/NewCharacterSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
-			usr << "<font color=silver>You are a Defender, Fight to protect! You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=silver>You are a Smithy, form metal to your will!You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
 		if (class=="Builder")
 		//	var/obj/Deed/Deed = new(mob)
@@ -1655,11 +1770,11 @@ Form/NewCharacterSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 
@@ -1667,9 +1782,9 @@ Form/NewCharacterSB
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You are a Builder, founding kingdoms with one stone. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
-		if (class=="Magus")
+		/*if (class=="Magus")
 			var/obj/IG/TUT = new(mob)
 			/*var/obj/items/tools/Containers/Jar/J = new(mob)
 			//var/obj/Deed/Deed = new(mob)
@@ -1689,36 +1804,36 @@ Form/NewCharacterSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
-			usr << "<font color=silver>You are a Magus, wielding aertherical bonds. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
-
-		if (gender=="Feline")
+			usr << "<font color=silver>You are a Magus, wielding aetherical bonds. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+*/
+		/*if (gender=="Feline")
 			if(class=="Feline")
 				mob.icon_state = "Kitty"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))*/
 		if (gender=="Female")
 			if(class=="Landscaper")
 				mob.icon_state = "Ffriar"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if(class=="Defender")
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
+			if(class=="Smithy")
 				mob.icon_state = "Ffighter"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 			if(class=="Builder")
 				mob.icon_state = "Ftheurgist"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if(class=="Magus")
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
+			/*if(class=="Magus")
 				mob.icon_state = "Fmagus"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))*/
 		winset(usr, "loadscrn","parent=loadscrn; is-visible = false; focus = false")
 		winset(usr, "default","parent=default; is-visible = true; focus = true")
 		//player.new /light/day_night(src, 4)
@@ -1739,14 +1854,15 @@ Form/NewCharacterSB
 			//player.Move(mfl)
 		//var/turf/fl = locate(15,550,2)
 		//var/turf/fl = locate(467,682,1)
-		var/turf/fl = locate(25,25,2)
+		//var/turf/fl = locate(25,25,2)
+		var/turf/fl = locate(/turf/start)
 		//var/turf/fl = locate(pick(333,474),pick(678,613),pick(2,2)) //anti griefing spawn
 		//var/turf/fl = locate(pick(421,413),pick(692,686),pick(2,2)) //for testing
 		//var/turf/fl = locate(pick(133,274),pick(178,213),pick(2,2)) //anti griefing spawn
 		mob.loc = fl
 		mob.base_save_allowed=1
 		mob.base_save_location=1
-
+		//mob.remove_spotlight()
 		//player.new /light/day_night(usr, 4)
 		//player.light = new(player, 4)
 		//player.mlight = new (usr.loc)
@@ -1784,7 +1900,7 @@ Form/NewCharacterSM
 		gender
 		gender_1 = "Male"
 		gender_2 = "Female"
-		gender_3 = "Feline"
+		//gender_3 = "Feline"
 
 		/*
 		   To create a popup menu they can choose from, put the options in a list
@@ -1792,11 +1908,11 @@ Form/NewCharacterSM
 		*/
 		class //DAB Sandbox class selection
 		class_1 = "Landscaper"
-		class_2 = "Defender"
+		class_2 = "Smithy"
 		class_3 = "Builder"
-		class_4 = "Magus"
+		//class_4 = "Magus"
 		//class_5 = "special1"
-		//class_values = list("Landscaper","Defender","Builder","Magus","Feline")
+		//class_values = list("Landscaper","Smithy","Builder","Magus","Feline")
 
 	Initialize()
 		/*
@@ -1808,12 +1924,12 @@ Form/NewCharacterSM
 		if (!name)	 name = pick(names)
 		if (!gender) gender = "Male"
 		if (!gender) gender = "Female"
-		if (!gender) gender = "Feline"
+		//if (!gender) gender = "Feline"
 		if (!class)	 class = "Landscaper"
-		if (!class)	 class = "Defender"
+		if (!class)	 class = "Smithy"
 		if (!class)	 class = "Builder"
-		if (!class)	 class = "Magus"
-		if (!class)	 class = "Feline"
+		//if (!class)	 class = "Magus"
+		//if (!class)	 class = "Feline"
 		//usr << browse_rsc('demomenu.jpg', "demomenu.jpg")
 		usr << browse_rsc('imgs/csmenu.jpg', "csmenu.jpg")
 		usr << browse_rsc('imgs/submit.png', "submit.png")
@@ -1846,13 +1962,13 @@ Form/NewCharacterSM
 		   You can change the HTML in any way you like for your game.*/
 
 		var/mob/mob/mob = usr
-
+//table.c7 {position:absolute; left:270px; top:235px; width:px; height:px; z-index:2}
 		var/page = {"<style type="text/css">
-		 table.c8 {position:absolute; left:100px; top:317px; width:px; height:px; z-index:4}
-		 table.c7 {position:absolute; left:270px; top:235px; width:px; height:px; z-index:2}
-		 table.c6 {position:absolute; left:167px; top:235px; width:px; height:px; z-index:2}
-		 table.c5 {position:absolute; left:270px; top:198px; width:px; height:px; z-index:2}
-		 table.c4 {position:absolute; left:167px; top:198px; width:px; height:px; z-index:2}
+		 table.c8 {position:absolute; left:125px; top:155px; width:px; height:px; z-index:4}
+		 table.c7 {position:absolute; left:215px; top:155px; width:px; height:px; z-index:2}
+		 table.c6 {position:absolute; left:110px; top:190px; width:px; height:px; z-index:2}
+		 table.c5 {position:absolute; left:156px; top:226px; width:px; height:px; z-index:2}
+		 table.c4 {position:absolute; left:215px; top:190px; width:px; height:px; z-index:2}
 		 table.c3 {position:absolute; left:110px; top:115px; width:px; height:px; z-index:1}
 		 table.c2 {position:absolute; left:125px; top:260px; width:px; height:px; z-index:3}
 		 table.c1 {position:absolute; left:0px; top:0px; width:px; height:px; z-index:0}
@@ -1862,7 +1978,7 @@ Form/NewCharacterSM
 		  border: none;
 		  font-family: verdana;
 		  font-size: 13px;
-		  color: #10ca63;
+		  color: #767689;
 		  overflow: hidden;
 		  position: absolute;
 		  input: focus;
@@ -1874,9 +1990,9 @@ Form/NewCharacterSM
 		  border: none;
 		  font-family: verdana;
 		  font-size: 18px;
-		  color: #10ca63;
+		  color: #767689;
 		 }
-		 :link { color: #10ca63 }
+		 :link { color: #767689 }
 		 :visited { color: #003DCA }
 		</style>
 		<table id="Layer0" class="c0" cellspacing="10" cellpadding="10" border="0">
@@ -1914,20 +2030,21 @@ Form/NewCharacterSM
 		<tbody>
 		<td>[class_3]</td>
 		</tbody>
+		<table id="Layer5" class="c8" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<td>[gender_1]</td>
+		</tbody>
 		<table id="Layer4" class="c7" cellspacing="0" cellpadding="0" border="0">
 		<tbody>
-		<td>[class_4]</td>
-		</tbody>
-		<table id="Layer5" class="c8" cellspacing="15" cellpadding="10" border="0">
-		<tbody>
-		<td>[gender]</td>
-		<td>[gender_1]</td>
 		<td>[gender_2]</td>
-		<td>[gender_3]</td>
 		</tbody>
 		"}
 		return page
-
+//<td>[gender_3]</td> feline
+/*		<table id="Layer4" class="c7" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<td>[class_4]</td>
+		</tbody> magus*/
 	ProcessForm()
 		/*
 		   This is called when the player submits the form.
@@ -1959,18 +2076,18 @@ Form/NewCharacterSM
 		switch(class)
 			if ("Landscaper")
 				mob = new /mob/players/Landscaper()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if ("Defender")
-				mob = new /mob/players/Defender()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			if ("Smithy")
+				mob = new /mob/players/Smithy()
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
 			if ("Builder")
 				mob = new /mob/players/Builder()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if ("Magus")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			/*if ("Magus")
 				mob = new /mob/players/Magus()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 			if ("Feline")
-				mob = new /mob/players/Feline()
+				mob = new /mob/players/Feline()*/
 			//if ("special1")
 				//mob = new /mob/players/Special1()
 		//switch(class_3)
@@ -1987,7 +2104,7 @@ Form/NewCharacterSM
 		// Set the new mob's attributes.
 		mob.name = name
 		// Now switch the player client over to the new mob and delete myself since I'm no longer needed.
-		if (gender=="Feline")
+		/*if (gender=="Feline")
 			class = "Feline"
 			//player = new /mob/players/Feline()
 			//var/obj/items/tools/Shovel/S = new(player)
@@ -2003,19 +2120,19 @@ Form/NewCharacterSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You are a Clever, Feisty Feline! Utilize your paws ([H]) to dig, create rich soil and spread seeds! Catch fish with [FP]! Equip by clicking in inventory. You have received [TUT]."//You've received a [Deed]!"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
-
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+*/
 		if (class=="Landscaper")
 			//var/obj/Deed/Deed = new(mob)
 			var/obj/IG/TUT = new(mob)
@@ -2047,20 +2164,20 @@ Form/NewCharacterSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You've chosen Landscaper, terraform the wilderness around you. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
-		if (class=="Defender")
+		if (class=="Smithy")
 			//var/obj/Deed/Deed = new(mob)
 			var/obj/IG/TUT = new(mob)
 			/*var/obj/items/tools/Containers/Jar/J = new(mob)
@@ -2085,18 +2202,18 @@ Form/NewCharacterSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
-			usr << "<font color=silver>You are a Defender, Fight to protect! You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=silver>You are a Smithy, form metal to your will!You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
 		if (class=="Builder")
 		//	var/obj/Deed/Deed = new(mob)
@@ -2123,11 +2240,11 @@ Form/NewCharacterSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 
@@ -2135,9 +2252,9 @@ Form/NewCharacterSM
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You are a Builder, founding kingdoms with one stone. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
-		if (class=="Magus")
+		/*if (class=="Magus")
 			var/obj/IG/TUT = new(mob)
 			/*var/obj/items/tools/Containers/Jar/J = new(mob)
 			//var/obj/Deed/Deed = new(mob)
@@ -2157,36 +2274,36 @@ Form/NewCharacterSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
-			usr << "<font color=silver>You are a Magus, wielding aertherical bonds. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
-
-		if (gender=="Feline")
+			usr << "<font color=silver>You are a Magus, wielding aetherical bonds. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+*/
+		/*if (gender=="Feline")
 			if(class=="Feline")
 				mob.icon_state = "Kitty"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))*/
 		if (gender=="Female")
 			if(class=="Landscaper")
 				mob.icon_state = "Ffriar"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if(class=="Defender")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			if(class=="Smithy")
 				mob.icon_state = "Ffighter"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
 			if(class=="Builder")
 				mob.icon_state = "Ftheurgist"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if(class=="Magus")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			/*if(class=="Magus")
 				mob.icon_state = "Fmagus"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))*/
 		winset(usr, "loadscrn","parent=loadscrn; is-visible = false; focus = false")
 		winset(usr, "default","parent=default; is-visible = true; focus = true")
 		//player.new /light/day_night(src, 4)
@@ -2207,7 +2324,7 @@ Form/NewCharacterSM
 			//player.Move(mfl)
 		//var/turf/fl = locate(15,550,2)
 		//var/turf/fl = locate(467,682,1)
-		var/turf/fl = locate(150,106,2)
+		var/turf/fl = locate(25,25,2)
 		//var/turf/fl = locate(pick(333,474),pick(678,613),pick(2,2)) //anti griefing spawn
 		//var/turf/fl = locate(pick(421,413),pick(692,686),pick(2,2)) //for testing
 		//var/turf/fl = locate(pick(133,274),pick(178,213),pick(2,2)) //anti griefing spawn
@@ -2252,7 +2369,7 @@ Form/NewCharacterMPSB
 		gender
 		gender_1 = "Male"
 		gender_2 = "Female"
-		gender_3 = "Feline"
+		//gender_3 = "Feline"
 
 		/*
 		   To create a popup menu they can choose from, put the options in a list
@@ -2260,11 +2377,11 @@ Form/NewCharacterMPSB
 		*/
 		class //DAB Sandbox class selection
 		class_1 = "Landscaper"
-		class_2 = "Defender"
+		class_2 = "Smithy"
 		class_3 = "Builder"
-		class_4 = "Magus"
+		//class_4 = "Magus"
 		class_5 = "special1"
-		//class_values = list("Landscaper","Defender","Builder","Magus","Feline")
+		//class_values = list("Landscaper","Smithy","Builder","Magus","Feline")
 
 	Initialize()
 		/*
@@ -2276,12 +2393,13 @@ Form/NewCharacterMPSB
 		if (!name)	 name = pick(names)
 		if (!gender) gender = "Male"
 		if (!gender) gender = "Female"
-		if (!gender) gender = "Feline"
+		//if (!gender) gender = "Feline"
 		if (!class)	 class = "Landscaper"
-		if (!class)	 class = "Defender"
+		if (!class)	 class = "Smithy"
 		if (!class)	 class = "Builder"
-		if (!class)	 class = "Magus"
-		if (!class)	 class = "Feline"
+		//if (!class)	 class = "special1"
+		//if (!class)	 class = "Magus"
+		//if (!class)	 class = "Feline"
 		//usr << browse_rsc('demomenu.jpg', "demomenu.jpg")
 		usr << browse_rsc('imgs/csmenu.jpg', "csmenu.jpg")
 		usr << browse_rsc('imgs/submit.png', "submit.png")
@@ -2314,13 +2432,13 @@ Form/NewCharacterMPSB
 		   You can change the HTML in any way you like for your game.*/
 
 		var/mob/mob/mob = usr
-
+//table.c7 {position:absolute; left:270px; top:235px; width:px; height:px; z-index:2}
 		var/page = {"<style type="text/css">
-		 table.c8 {position:absolute; left:100px; top:317px; width:px; height:px; z-index:4}
-		 table.c7 {position:absolute; left:270px; top:235px; width:px; height:px; z-index:2}
-		 table.c6 {position:absolute; left:167px; top:235px; width:px; height:px; z-index:2}
-		 table.c5 {position:absolute; left:270px; top:198px; width:px; height:px; z-index:2}
-		 table.c4 {position:absolute; left:167px; top:198px; width:px; height:px; z-index:2}
+		 table.c8 {position:absolute; left:125px; top:155px; width:px; height:px; z-index:4}
+		 table.c7 {position:absolute; left:215px; top:155px; width:px; height:px; z-index:2}
+		 table.c6 {position:absolute; left:110px; top:190px; width:px; height:px; z-index:2}
+		 table.c5 {position:absolute; left:156px; top:226px; width:px; height:px; z-index:2}
+		 table.c4 {position:absolute; left:215px; top:190px; width:px; height:px; z-index:2}
 		 table.c3 {position:absolute; left:110px; top:115px; width:px; height:px; z-index:1}
 		 table.c2 {position:absolute; left:125px; top:260px; width:px; height:px; z-index:3}
 		 table.c1 {position:absolute; left:0px; top:0px; width:px; height:px; z-index:0}
@@ -2330,7 +2448,7 @@ Form/NewCharacterMPSB
 		  border: none;
 		  font-family: verdana;
 		  font-size: 13px;
-		  color: #10ca63;
+		  color: #767689;
 		  overflow: hidden;
 		  position: absolute;
 		  input: focus;
@@ -2342,9 +2460,9 @@ Form/NewCharacterMPSB
 		  border: none;
 		  font-family: verdana;
 		  font-size: 18px;
-		  color: #10ca63;
+		  color: #767689;
 		 }
-		 :link { color: #10ca63 }
+		 :link { color: #767689 }
 		 :visited { color: #003DCA }
 		</style>
 		<table id="Layer0" class="c0" cellspacing="10" cellpadding="10" border="0">
@@ -2382,20 +2500,21 @@ Form/NewCharacterMPSB
 		<tbody>
 		<td>[class_3]</td>
 		</tbody>
+		<table id="Layer5" class="c8" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<td>[gender_1]</td>
+		</tbody>
 		<table id="Layer4" class="c7" cellspacing="0" cellpadding="0" border="0">
 		<tbody>
-		<td>[class_4]</td>
-		</tbody>
-		<table id="Layer5" class="c8" cellspacing="15" cellpadding="10" border="0">
-		<tbody>
-		<td>[gender]</td>
-		<td>[gender_1]</td>
 		<td>[gender_2]</td>
-		<td>[gender_3]</td>
 		</tbody>
 		"}
 		return page
-
+//<td>[gender_3]</td> feline
+/*		<table id="Layer4" class="c7" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<td>[class_4]</td>
+		</tbody> magus*/
 	ProcessForm()
 		/*
 		   This is called when the player submits the form.
@@ -2427,18 +2546,18 @@ Form/NewCharacterMPSB
 		switch(class)
 			if ("Landscaper")
 				mob = new /mob/players/Landscaper()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if ("Defender")
-				mob = new /mob/players/Defender()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			if ("Smithy")
+				mob = new /mob/players/Smithy()
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
 			if ("Builder")
 				mob = new /mob/players/Builder()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if ("Magus")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			/*if ("Magus")
 				mob = new /mob/players/Magus()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 			if ("Feline")
-				mob = new /mob/players/Feline()
+				mob = new /mob/players/Feline()*/
 			if ("special1")
 				mob = new /mob/players/Special1()
 		//switch(class_3)
@@ -2455,7 +2574,7 @@ Form/NewCharacterMPSB
 		// Set the new mob's attributes.
 		mob.name = name
 		// Now switch the player client over to the new mob and delete myself since I'm no longer needed.
-		if (gender=="Feline")
+		/*if (gender=="Feline")
 			class = "Feline"
 			//player = new /mob/players/Feline()
 			//var/obj/items/tools/Shovel/S = new(player)
@@ -2471,19 +2590,19 @@ Form/NewCharacterMPSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You are a Clever, Feisty Feline! Utilize your paws ([H]) to dig, create rich soil and spread seeds! Catch fish with [FP]! Equip by clicking in inventory. You have received [TUT]."//You've received a [Deed]!"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
-
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+*/
 		if (class=="Landscaper")
 			//var/obj/Deed/Deed = new(mob)
 			var/obj/IG/TUT = new(mob)
@@ -2515,20 +2634,20 @@ Form/NewCharacterMPSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You've chosen Landscaper, terraform the wilderness around you. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
-		if (class=="Defender")
+		if (class=="Smithy")
 			//var/obj/Deed/Deed = new(mob)
 			var/obj/IG/TUT = new(mob)
 			/*var/obj/items/tools/Containers/Jar/J = new(mob)
@@ -2553,18 +2672,18 @@ Form/NewCharacterMPSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
-			usr << "<font color=silver>You are a Defender, Fight to protect! You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=silver>You are a Smithy, form metal to your will!You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
 		if (class=="Builder")
 		//	var/obj/Deed/Deed = new(mob)
@@ -2591,11 +2710,11 @@ Form/NewCharacterMPSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 
@@ -2603,9 +2722,9 @@ Form/NewCharacterMPSB
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You are a Builder, founding kingdoms with one stone. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
-		if (class=="Magus")
+		/*if (class=="Magus")
 			var/obj/IG/TUT = new(mob)
 			/*var/obj/items/tools/Containers/Jar/J = new(mob)
 			//var/obj/Deed/Deed = new(mob)
@@ -2625,19 +2744,19 @@ Form/NewCharacterMPSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
-			usr << "<font color=silver>You are a Magus, wielding aertherical bonds. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
-
+			usr << "<font color=silver>You are a Magus, wielding aetherical bonds. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+*/
 		if (class=="special1")
 			winset(usr,"default.Build","is-visible=true")
 			winset(usr,"default.Dig","is-visible=true")
@@ -2649,7 +2768,7 @@ Form/NewCharacterMPSB
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			//winset(usr,"default.label1","is-visible=true")
 			//winset(usr,"default.label2","is-visible=true")
 			//winset(usr,"default.label4","is-visible=false")
@@ -2660,32 +2779,32 @@ Form/NewCharacterMPSB
 			//winset(usr,"default.label11","is-visible=true")
 			//winset(usr,"default.label12","is-visible=true")
 			//winset(usr,"default.label13","is-visible=true")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			usr << "<font color=silver>You've chosen the GM, hey wait a minute! You are the Host/GM serving a Multiplayer Sandbox instance."
 
-		if (gender=="Feline")
+		/*if (gender=="Feline")
 			if(class=="Feline")
 				mob.icon_state = "Kitty"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))*/
 		if (gender=="Female")
 			if(class=="Landscaper")
 				mob.icon_state = "Ffriar"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if(class=="Defender")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			if(class=="Smithy")
 				mob.icon_state = "Ffighter"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
 			if(class=="Builder")
 				mob.icon_state = "Ftheurgist"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if(class=="Magus")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			/*if(class=="Magus")
 				mob.icon_state = "Fmagus"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))*/
 		winset(usr, "loadscrn","parent=loadscrn; is-visible = false; focus = false")
 		winset(usr, "default","parent=default; is-visible = true; focus = true")
 		//player.new /light/day_night(src, 4)
 		//usr.client.mob.listenSoundmob(/soundmob)
 		usr.client.mob = mob
-
+		world.visibility=1
 		//new /light/day_night(player, 4)
 		//player.logincheck = 0
 		//#include "Soundmob.dm"
@@ -2700,13 +2819,15 @@ Form/NewCharacterMPSB
 			//player.Move(mfl)
 		//var/turf/fl = locate(15,550,2)
 		//var/turf/fl = locate(467,682,1)
-		var/turf/fl = locate(25,25,2)
+		//var/turf/fl = locate(25,25,2)
 		//var/turf/fl = locate(pick(333,474),pick(678,613),pick(2,2)) //anti griefing spawn
 		//var/turf/fl = locate(pick(421,413),pick(692,686),pick(2,2)) //for testing
 		//var/turf/fl = locate(pick(133,274),pick(178,213),pick(2,2)) //anti griefing spawn
+		var/turf/fl = locate(/turf/start)
 		mob.loc = fl
 		mob.base_save_allowed=1
 		mob.base_save_location=1
+
 
 		//player.new /light/day_night(usr, 4)
 		//player.light = new(player, 4)
@@ -2724,6 +2845,43 @@ Form/NewCharacterMPSB
 		//player.listenSoundmob(/soundmob)
 		// And finally, blank out their web page since they don't need it now.
 		return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2745,7 +2903,7 @@ Form/NewCharacterMPSM
 		gender
 		gender_1 = "Male"
 		gender_2 = "Female"
-		gender_3 = "Feline"
+		//gender_3 = "Feline"
 
 		/*
 		   To create a popup menu they can choose from, put the options in a list
@@ -2753,11 +2911,11 @@ Form/NewCharacterMPSM
 		*/
 		class //DAB Sandbox class selection
 		class_1 = "Landscaper"
-		class_2 = "Defender"
+		class_2 = "Smithy"
 		class_3 = "Builder"
-		class_4 = "Magus"
-		class_5 = "special1"
-		//class_values = list("Landscaper","Defender","Builder","Magus","Feline")
+		//class_4 = "Magus"
+		//class_5 = "special1"
+		//class_values = list("Landscaper","Smithy","Builder","Magus","Feline")
 
 	Initialize()
 		/*
@@ -2769,12 +2927,12 @@ Form/NewCharacterMPSM
 		if (!name)	 name = pick(names)
 		if (!gender) gender = "Male"
 		if (!gender) gender = "Female"
-		if (!gender) gender = "Feline"
+		//if (!gender) gender = "Feline"
 		if (!class)	 class = "Landscaper"
-		if (!class)	 class = "Defender"
+		if (!class)	 class = "Smithy"
 		if (!class)	 class = "Builder"
-		if (!class)	 class = "Magus"
-		if (!class)	 class = "Feline"
+		//if (!class)	 class = "Magus"
+		//if (!class)	 class = "Feline"
 		//usr << browse_rsc('demomenu.jpg', "demomenu.jpg")
 		usr << browse_rsc('imgs/csmenu.jpg', "csmenu.jpg")
 		usr << browse_rsc('imgs/submit.png', "submit.png")
@@ -2807,13 +2965,13 @@ Form/NewCharacterMPSM
 		   You can change the HTML in any way you like for your game.*/
 
 		var/mob/mob/mob = usr
-
+//table.c7 {position:absolute; left:270px; top:235px; width:px; height:px; z-index:2}
 		var/page = {"<style type="text/css">
-		 table.c8 {position:absolute; left:100px; top:317px; width:px; height:px; z-index:4}
-		 table.c7 {position:absolute; left:270px; top:235px; width:px; height:px; z-index:2}
-		 table.c6 {position:absolute; left:167px; top:235px; width:px; height:px; z-index:2}
-		 table.c5 {position:absolute; left:270px; top:198px; width:px; height:px; z-index:2}
-		 table.c4 {position:absolute; left:167px; top:198px; width:px; height:px; z-index:2}
+		 table.c8 {position:absolute; left:125px; top:155px; width:px; height:px; z-index:4}
+		 table.c7 {position:absolute; left:215px; top:155px; width:px; height:px; z-index:2}
+		 table.c6 {position:absolute; left:110px; top:190px; width:px; height:px; z-index:2}
+		 table.c5 {position:absolute; left:156px; top:226px; width:px; height:px; z-index:2}
+		 table.c4 {position:absolute; left:215px; top:190px; width:px; height:px; z-index:2}
 		 table.c3 {position:absolute; left:110px; top:115px; width:px; height:px; z-index:1}
 		 table.c2 {position:absolute; left:125px; top:260px; width:px; height:px; z-index:3}
 		 table.c1 {position:absolute; left:0px; top:0px; width:px; height:px; z-index:0}
@@ -2823,7 +2981,7 @@ Form/NewCharacterMPSM
 		  border: none;
 		  font-family: verdana;
 		  font-size: 13px;
-		  color: #10ca63;
+		  color: #767689;
 		  overflow: hidden;
 		  position: absolute;
 		  input: focus;
@@ -2835,9 +2993,9 @@ Form/NewCharacterMPSM
 		  border: none;
 		  font-family: verdana;
 		  font-size: 18px;
-		  color: #10ca63;
+		  color: #767689;
 		 }
-		 :link { color: #10ca63 }
+		 :link { color: #767689 }
 		 :visited { color: #003DCA }
 		</style>
 		<table id="Layer0" class="c0" cellspacing="10" cellpadding="10" border="0">
@@ -2875,20 +3033,21 @@ Form/NewCharacterMPSM
 		<tbody>
 		<td>[class_3]</td>
 		</tbody>
+		<table id="Layer5" class="c8" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<td>[gender_1]</td>
+		</tbody>
 		<table id="Layer4" class="c7" cellspacing="0" cellpadding="0" border="0">
 		<tbody>
-		<td>[class_4]</td>
-		</tbody>
-		<table id="Layer5" class="c8" cellspacing="15" cellpadding="10" border="0">
-		<tbody>
-		<td>[gender]</td>
-		<td>[gender_1]</td>
 		<td>[gender_2]</td>
-		<td>[gender_3]</td>
 		</tbody>
 		"}
 		return page
-
+//<td>[gender_3]</td> feline
+/*		<table id="Layer4" class="c7" cellspacing="0" cellpadding="0" border="0">
+		<tbody>
+		<td>[class_4]</td>
+		</tbody> */
 	ProcessForm()
 		/*
 		   This is called when the player submits the form.
@@ -2910,8 +3069,8 @@ Form/NewCharacterMPSM
 			return
 		//switch(usr.key)
 			//if("AERProductions")
-		if(ckeyEx("[usr.key]") == world.host)//~~~~~~~~~~~~~admin class key
-			class = "special1"
+		//if(ckeyEx("[usr.key]") == world.host)//~~~~~~~~~~~~~admin class key
+			//class = "special1"
 		// Everything is okay, so create the new mob based on the class they chose.
 		//var/mob/mob
 		//switch(gender)
@@ -2920,18 +3079,18 @@ Form/NewCharacterMPSM
 		switch(class)
 			if ("Landscaper")
 				mob = new /mob/players/Landscaper()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if ("Defender")
-				mob = new /mob/players/Defender()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			if ("Smithy")
+				mob = new /mob/players/Smithy()
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
 			if ("Builder")
 				mob = new /mob/players/Builder()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if ("Magus")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			/*if ("Magus")
 				mob = new /mob/players/Magus()
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))
 			if ("Feline")
-				mob = new /mob/players/Feline()
+				mob = new /mob/players/Feline()*/
 			if ("special1")
 				mob = new /mob/players/Special1()
 		//switch(class_3)
@@ -2948,7 +3107,7 @@ Form/NewCharacterMPSM
 		// Set the new mob's attributes.
 		mob.name = name
 		// Now switch the player client over to the new mob and delete myself since I'm no longer needed.
-		if (gender=="Feline")
+		/*if (gender=="Feline")
 			class = "Feline"
 			//player = new /mob/players/Feline()
 			//var/obj/items/tools/Shovel/S = new(player)
@@ -2964,19 +3123,19 @@ Form/NewCharacterMPSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You are a Clever, Feisty Feline! Utilize your paws ([H]) to dig, create rich soil and spread seeds! Catch fish with [FP]! Equip by clicking in inventory. You have received [TUT]."//You've received a [Deed]!"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
-
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+*/
 		if (class=="Landscaper")
 			//var/obj/Deed/Deed = new(mob)
 			var/obj/IG/TUT = new(mob)
@@ -3008,20 +3167,20 @@ Form/NewCharacterMPSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You've chosen Landscaper, terraform the wilderness around you. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
-		if (class=="Defender")
+		if (class=="Smithy")
 			//var/obj/Deed/Deed = new(mob)
 			var/obj/IG/TUT = new(mob)
 			/*var/obj/items/tools/Containers/Jar/J = new(mob)
@@ -3046,18 +3205,18 @@ Form/NewCharacterMPSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
-			usr << "<font color=silver>You are a Defender, Fight to protect! You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=silver>You are a Smithy, form metal to your will! You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
 		if (class=="Builder")
 		//	var/obj/Deed/Deed = new(mob)
@@ -3084,11 +3243,11 @@ Form/NewCharacterMPSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 
@@ -3096,9 +3255,9 @@ Form/NewCharacterMPSM
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
 			usr << "<font color=silver>You are a Builder, founding kingdoms with one stone. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
 
-		if (class=="Magus")
+		/*if (class=="Magus")
 			var/obj/IG/TUT = new(mob)
 			/*var/obj/items/tools/Containers/Jar/J = new(mob)
 			//var/obj/Deed/Deed = new(mob)
@@ -3118,67 +3277,42 @@ Form/NewCharacterMPSM
 			//winset(usr,"default.Plant","is-visible=false")
 			winset(usr,"default.bar1","is-visible=true")
 			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
+			//winset(usr,"default.bar3","is-visible=true")
 			winset(usr,"default.label3","is-visible=false")
 			//winset(usr,"default.label4","is-visible=false")
 			//winset(usr,"default.label5","is-visible=false")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
+			//winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
 			//winset(usr,"default.label6","is-visible=true")
 			winset(usr,"default.label7","is-visible=false")
 			//winset(usr,"default.Heat","is-visible=true")
 			//winset(usr,"default.Vitae","is-visible=false")
 			//winset(usr,"default.label15","is-visible=true")
-			usr << "<font color=silver>You are a Magus, wielding aertherical bonds. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
-			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to run, use, or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
-
-		if (class=="special1")
-			winset(usr,"default.Build","is-visible=false")
-			winset(usr,"default.Dig","is-visible=false")
-			//winset(usr,"default.Vitae","is-visible=true")
-			winset(usr,"default.Sow","is-visible=false")
-			//winset(usr,"default.Heat","is-visible=true")
-			winset(usr,"default.Smelt","is-visible=false")
-			winset(usr,"default.Smith","is-visible=false")
-			//winset(usr,"default.Plant","is-visible=false")
-			winset(usr,"default.bar1","is-visible=true")
-			winset(usr,"default.bar2","is-visible=true")
-			winset(usr,"default.bar3","is-visible=true")
-			//winset(usr,"default.label1","is-visible=true")
-			//winset(usr,"default.label2","is-visible=true")
-			//winset(usr,"default.label4","is-visible=false")
-			//winset(usr,"default.label5","is-visible=false")
-			//winset(usr,"default.label8","is-visible=true")
-			//winset(usr,"default.label9","is-visible=true")
-			//winset(usr,"default.label10","is-visible=true")
-			//winset(usr,"default.label11","is-visible=true")
-			//winset(usr,"default.label12","is-visible=true")
-			//winset(usr,"default.label13","is-visible=true")
-			winset(usr,"default.Abjure","is-visible=true")//so anyone can revive
-			usr << "<font color=silver>You've chosen the GM, hey wait a minute! You are the Host/GM serving a Multiplayer Story instance."
-
-		if (gender=="Feline")
+			usr << "<font color=silver>You are a Magus, wielding aetherical bonds. You have received [TUT]; utilize it to learn how to survive in the wild, create your first fire and craft your first set of rudimentary tools."//, [FI], [UF], [WS], [HN], [HH], [OB], [S], [GV], [FP], [PS], [HM], [H], [A], [OK], [J], [C], [FL], [HT] and [TR]. Equip by clicking in Inventory. <p>Fill and light your hand torch if it is dark! (Equip Knife and Flint to light)"
+			usr << "<font color=#00bfff><center>Information: <font color=green>Arrow/WASD to walk, click/double-click to use or attack. <br> Stance Positions:, V is Sprint mode, C is Strafe mode, X is Hold Position. <br>Ctrl+E provides a quick-unequip and Ctrl+G provides a quick-get, ctrl+mouse wheel is zoom+/-."
+*/
+		/*if (gender=="Feline")
 			if(class=="Feline")
 				mob.icon_state = "Kitty"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))*/
 		if (gender=="Female")
 			if(class=="Landscaper")
 				mob.icon_state = "Ffriar"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if(class=="Defender")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			if(class=="Smithy")
 				mob.icon_state = "Ffighter"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
 			if(class=="Builder")
 				mob.icon_state = "Ftheurgist"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
-			if(class=="Magus")
+				mob.color = rgb(rand(100,200),rand(100,200),rand(100,200))
+			/*if(class=="Magus")
 				mob.icon_state = "Fmagus"
-				mob.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+				mob.color = rgb(rand(25,185),rand(25,185),rand(25,185))*/
 		winset(usr, "loadscrn","parent=loadscrn; is-visible = false; focus = false")
 		winset(usr, "default","parent=default; is-visible = true; focus = true")
 		//player.new /light/day_night(src, 4)
 		//usr.client.mob.listenSoundmob(/soundmob)
 		usr.client.mob = mob
-
+		world.visibility=0
 		//new /light/day_night(player, 4)
 		//player.logincheck = 0
 		//#include "Soundmob.dm"
@@ -3193,14 +3327,15 @@ Form/NewCharacterMPSM
 			//player.Move(mfl)
 		//var/turf/fl = locate(15,550,2)
 		//var/turf/fl = locate(467,682,1)
-		//var/turf/fl = locate(25,25,3)
-		var/turf/fl = locate(pick(144,156),pick(106,106),pick(2,2))
+		//var/turf/fl = locate(25,25,2)
+		var/turf/fl = locate(/turf/start)
 		//var/turf/fl = locate(pick(333,474),pick(678,613),pick(2,2)) //anti griefing spawn
 		//var/turf/fl = locate(pick(421,413),pick(692,686),pick(2,2)) //for testing
 		//var/turf/fl = locate(pick(133,274),pick(178,213),pick(2,2)) //anti griefing spawn
 		mob.loc = fl
 		mob.base_save_allowed=1
 		mob.base_save_location=1
+
 
 		//player.new /light/day_night(usr, 4)
 		//player.light = new(player, 4)
@@ -3218,5 +3353,3 @@ Form/NewCharacterMPSM
 		//player.listenSoundmob(/soundmob)
 		// And finally, blank out their web page since they don't need it now.
 		return
-
-

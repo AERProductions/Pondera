@@ -57,7 +57,7 @@ mob/players
 					return
 				else if(usr.gender=="Female")
 					flick('dmi/64/blank.dmi', usr)
-			if(char_class=="Defender")
+			if(char_class=="Smithy")
 				if(usr.gender=="Male")
 					flick('dmi/64/blank.dmi', usr)
 				else if(usr.gender=="Female")

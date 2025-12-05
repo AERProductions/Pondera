@@ -104,7 +104,7 @@ obj
 		CBottomDoor                               //starts a obj called "door" (this is the part you've been waiting for!)             //it's icon is 'door.dmi'
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "closed"
-			plane = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
+			layer = MOB_LAYER+5          //it's icon_state is "closed" (this is so the door is closed at first)
 			density = 1                    //cant walk through it                    //cant see through it
 			unlocked = 1
 			DblClick(var/obj/doors/CBottomDoor/O)
@@ -118,7 +118,7 @@ obj
 		CRightDoor                               //starts a obj called "door" (this is the part you've been waiting for!)              //it's icon is 'door.dmi'
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "sclosedr"
-			plane = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
+			layer = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
 			density = 1                    //cant walk through it                    //cant see through it
 			unlocked = 1
 			DblClick(var/obj/doors/CRightDoor/O)
@@ -132,7 +132,7 @@ obj
 		CTopDoor                               //starts a obj called "door" (this is the part you've been waiting for!)             //it's icon is 'door.dmi'
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "sclosedt"
-			plane = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
+			layer = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
 			density = 1                    //cant walk through it                    //cant see through it
 			unlocked = 1
 			DblClick(var/obj/doors/CTopDoor/O)
@@ -146,7 +146,7 @@ obj
 		CLeftDoor                               //starts a obj called "door" (this is the part you've been waiting for!)             //it's icon is 'door.dmi'
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "sclosedl"
-			plane = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
+			layer = MOB_LAYER+5          //it's icon_state is "closed" (this is so the door is closed at first)
 			density = 1                    //cant walk through it                    //cant see through it
 			unlocked = 1
 			DblClick(var/obj/doors/CLeftDoor/O)
@@ -163,7 +163,7 @@ obj
 		HBottomDoor                               //starts a obj called "door" (this is the part you've been waiting for!)             //it's icon is 'door.dmi'
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "hclosed"
-			plane = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
+			layer = MOB_LAYER+5          //it's icon_state is "closed" (this is so the door is closed at first)
 			density = 1                    //cant walk through it                    //cant see through it
 			unlocked = 1
 			DblClick(var/obj/hdoors/HBottomDoor/O)
@@ -177,7 +177,7 @@ obj
 		HRightDoor                               //starts a obj called "door" (this is the part you've been waiting for!)              //it's icon is 'door.dmi'
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "hsclosedr"
-			plane = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
+			layer = MOB_LAYER+5          //it's icon_state is "closed" (this is so the door is closed at first)
 			density = 1                    //cant walk through it                    //cant see through it
 			unlocked = 1
 			DblClick(var/obj/hdoors/HRightDoor/O)
@@ -191,7 +191,7 @@ obj
 		HTopDoor                               //starts a obj called "door" (this is the part you've been waiting for!)             //it's icon is 'door.dmi'
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "hsclosedt"
-			plane = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
+			layer = MOB_LAYER+5          //it's icon_state is "closed" (this is so the door is closed at first)
 			density = 1                    //cant walk through it                    //cant see through it
 			unlocked = 1
 			DblClick(var/obj/hdoors/HTopDoor/O)
@@ -205,7 +205,7 @@ obj
 		HLeftDoor                               //starts a obj called "door" (this is the part you've been waiting for!)             //it's icon is 'door.dmi'
 			icon = 'dmi/64/Castl.dmi'
 			icon_state = "hsclosedl"
-			plane = MOB_LAYER+3          //it's icon_state is "closed" (this is so the door is closed at first)
+			layer = MOB_LAYER+5          //it's icon_state is "closed" (this is so the door is closed at first)
 			density = 1                    //cant walk through it                    //cant see through it
 			unlocked = 1
 			DblClick(var/obj/hdoors/HLeftDoor/O)
@@ -228,7 +228,7 @@ obj
 			LeftDoor
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "sclosedl"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked
 				unlocked
 				density = 1
@@ -317,7 +317,7 @@ obj
 				unlocked = 1
 				icon_state = "sclosedr"
 				icon = 'dmi/64/doors.dmi'
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				name = "Wood Fort East Door"
 				//description = "Wooden House Left Door
 				DblClick()
@@ -398,7 +398,7 @@ obj
 			TopDoor
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "tclosed"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked = 0
 				unlocked = 1
 				density = 1
@@ -487,7 +487,7 @@ obj
 				unlocked = 1
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "closed"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				name = "Wood Fort South Door"
 				//description = "Wooden House Left Door
 				DblClick()
@@ -568,7 +568,7 @@ obj
 			SLeftDoor
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "Ssclosedl"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked = 0
 				unlocked = 1
 				density = 1
@@ -658,7 +658,7 @@ obj
 				unlocked = 1
 				icon_state = "Ssclosedr"
 				icon = 'dmi/64/doors.dmi'
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				name = "Stone Fort East Door"
 				//description = "Wooden House Left Door
 				DblClick()
@@ -739,7 +739,7 @@ obj
 			STopDoor
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "Stclosed"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked = 0
 				unlocked = 1
 				density = 1
@@ -828,7 +828,7 @@ obj
 				unlocked = 1
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "Sclosed"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				name = "Stone Fort West Door"
 				//description = "Wooden House Left Door
 				DblClick()
@@ -909,7 +909,7 @@ obj
 			HTLeftDoor
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "htlclosed"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked = 0
 				unlocked = 1
 				density = 1
@@ -957,7 +957,7 @@ obj
 				unlocked = 1
 				icon_state = "htrclosed"
 				icon = 'dmi/64/doors.dmi'
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				proc/tryit(var/mob/m,var/obj/Buildable/Doors/O)  //Procedure for asking for the password
 					set background = 1
 					if(O.locked == 1&&O.unlocked == 0)
@@ -983,7 +983,7 @@ obj
 			HTTopDoor
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "htnclosed"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked = 0
 				unlocked = 1
 				density = 1
@@ -1017,7 +1017,7 @@ obj
 				unlocked = 1
 				icon = 'dmi/64/doors.dmi'
 				icon_state = "htsclosed"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				proc/tryit(var/mob/m,var/obj/Buildable/Doors/O)  //Procedure for asking for the password
 					set background = 1
 					if(O.locked == 1&&O.unlocked == 0)
@@ -1044,7 +1044,7 @@ obj
 			WHLeftDoor
 				icon = 'dmi/64/wall.dmi'
 				icon_state = "whdlc"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				name = "Wooden House West Door"
 				//description = "Wooden House Left Door
 				locked = 0
@@ -1134,7 +1134,7 @@ obj
 				unlocked = 1
 				icon = 'dmi/64/wall.dmi'
 				icon_state = "whdrc"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				name = "Wooden House East Door"
 				//description = "Wooden House Left Door
 				DblClick()
@@ -1215,7 +1215,7 @@ obj
 			WHTopDoor
 				icon = 'dmi/64/wall.dmi'
 				icon_state = "whdtc"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked = 0
 				unlocked = 1
 				density = 1
@@ -1305,7 +1305,7 @@ obj
 				unlocked = 1
 				icon = 'dmi/64/wall.dmi'
 				icon_state = "whdc"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				//buildingowner=""
 				name = "Wooden House South Door"
 				//description = "Wooden House Left Door
@@ -1387,7 +1387,7 @@ obj
 			SHLeftDoor
 				icon = 'dmi/64/wall.dmi'
 				icon_state = "shdlc"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked = 0
 				unlocked = 1
 				density = 1
@@ -1477,7 +1477,7 @@ obj
 				unlocked = 1
 				icon = 'dmi/64/wall.dmi'
 				icon_state = "shdrc"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				name = "Stone House East Door"
 				//description = "Wooden House Left Door
 				DblClick()
@@ -1558,7 +1558,7 @@ obj
 			SHTopDoor
 				icon = 'dmi/64/wall.dmi'
 				icon_state = "shdtc"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				locked = 0
 				unlocked = 1
 				density = 1
@@ -1647,7 +1647,7 @@ obj
 				unlocked = 1
 				icon = 'dmi/64/wall.dmi'
 				icon_state = "shdc"
-				plane = MOB_LAYER+3
+				layer = MOB_LAYER+5
 				name = "Stone House South Door"
 				//description = "Wooden House Left Door
 				DblClick()

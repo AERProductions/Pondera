@@ -19,8 +19,8 @@ client
 
 			// dmf-free zoom macro insertion (parent must be your window's macro ID)
 			var a = url_encode("Ctrl+="), b = url_encode("Ctrl+-")
-			winset(src, "zoom_in_key", "parent=macro;name=[a];command=\"byond://?zoom_in\"")
-			winset(src, "zoom_out_key", "parent=macro;name=[b];command=\"byond://?zoom_out\"")
+			winset(src, "zoom_in_key", "parent=macros;name=[a];command=\"byond://?zoom_in\"")
+			winset(src, "zoom_out_key", "parent=macros;name=[b];command=\"byond://?zoom_out\"")
 
 		MapZoomTopic(Action)
 			Action == "zoom_in" ? map_zoom.ZoomIn() : Action == "zoom_out" && map_zoom.ZoomOut()

@@ -1,5 +1,38 @@
-//var/tmp/waterfall = locate(429,683,2)
-/*var/global/tmp/forestbirds = locate(340,359,2)
+/*
+================================================================================
+  Pondera Sound Effect System - Ambient & Environmental Sounds
+================================================================================
+
+This file defines all sound effect objects that provide ambient environmental
+audio throughout Pondera. Each sound object creates a soundmob instance attached
+to the object's location, which automatically manages player listening based on
+proximity and audio range.
+
+Sound Effect Categories:
+- obj/soundmob/SFX/: Specialized sound effect objects (fire, river, rain)
+- obj/snd/sfx/: Ambient environmental sounds (crickets, fire, wind, water, etc.)
+- obj/snd/sfx/apof/: Ambient-point-of-focus sounds (waterfalls, forest ambience)
+- obj/snd/sfx/bpob/: Biome-point-of-focus sounds (desert, oasis ambience)
+- obj/snd/sfx/cpop/: Cold-point-of-focus sounds (snow, wind through trees)
+- obj/snd/sfx/dpoh/: Desolate-point-of-focus sounds (wasteland ambience)
+- obj/snd/sfx/epog/: Exotic-point-of-focus sounds (alien/otherworldly ambience)
+
+Sound Soundmob Parameters:
+- soundmob(src, range, file, autotune=TRUE, channel=null, volume, repeat=TRUE)
+  - range: Audible distance in tiles
+  - file: Sound file path
+  - autotune: Automatically manage listeners
+  - volume: Maximum volume (0-100)
+  - repeat: Loop continuously
+
+Note: Legacy commented soundmob turf variables removed (caused save file conflicts).
+      Use sound effect objects instead of direct soundmob instances for persistence.
+
+================================================================================
+*/
+
+/*  === LEGACY SOUNDMOB VARIABLE DECLARATIONS (Deprecated - Use Sound Effect Objects) ===
+
 var/global/tmp/forestbirds1 = locate(598,309,2)
 var/global/tmp/forestbirds2 = locate(122,433,2)
 var/global/tmp/forestbirds3 = locate(314,582,2)
@@ -51,194 +84,106 @@ var/tmp/ref/soundmob/de = soundmob(desert, 150, 'snd/blowwind.ogg', FALSE, 0, 40
 var/tmp/ref/soundmob/be = soundmob(beach, 30, 'snd/waves.ogg', FALSE, 0, 40, TRUE)
 var/tmp/ref/soundmob/sw = soundmob(snowwind, 149, 'snd/dizzywind.ogg', FALSE, 0, 40, TRUE)
 var/tmp/ref/soundmob/rv = soundmob(river, 160, 'snd/creek.ogg', FALSE, 0, 40, TRUE)
-var/tmp/ref/soundmob/rv2 = soundmob(river2, 160, 'snd/creek.ogg', FALSE, 0, 40, TRUE)*/
-//^plays sounds but breaks saving^
-//soundmob
-	//wf
-		//Write()
-		//	return
-		///mob/snd/sfx/apof/waterfall
+var/tmp/ref/soundmob/rv2 = soundmob(river2, 160, 'snd/creek.ogg', FALSE, 0, 40, TRUE)
 
+*/  // End legacy variables
 
-//radius = 0, file, autotune = TRUE, channel = null, volume = 100, repeat = FALSE) Sound settings
+// --- Sound Effect Object Definitions ---
 obj
 	soundmob
 		SFX
 			no_save = TRUE
 			fire3
-				//Read()
-					//return
-				//Write()
-					//return
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
 					//soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40)
-					soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 40, TRUE)
-
-
+					soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, null, 30, TRUE)
+			river
+				icon = 'dmi/64/blank.dmi'
+				New()
+					..()  
+					soundmob(src, 15, 'snd/creek.ogg', TRUE, null, 15, TRUE)
+			rain
+				icon = 'dmi/64/blank.dmi'
+				New()
+					..()
+					soundmob(src, 300, 'snd/lrain.ogg', TRUE, null, 20, TRUE)
 
 
 obj
 
 	snd
-		//var
 		no_save = TRUE
-			//status = SOUND_STREAM
-		Read()
-			return //ahhhhhhhhhhhhh the fix for bringing sound in with loading saved mob was removing these dumb read/write returns. Wow....
-		Write()
-			return
-		//parent_type = /mob
 		sfx
-			//Read()
-				//return
-			//Write()
-				//return
+			Del()
+				world << sound(src)
+				..()  
 			density = 0
 			crickets
-				//Read()
-					//return
-				//Write()
-					//return
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
 //radius = 0, file, autotune = TRUE, channel = null, volume = 100, repeat = FALSE) Sound settings
-					soundmob(src, 30, 'snd/nightcrickets.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 30, 'snd/nightcrickets.ogg', TRUE, null, 40, TRUE)
+				Del()
+					world << sound(src)
+					..()
 
 			waves
-				//Read()
-					//return
-				//Write()
-					//return
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
-					//if(client in range(60,src))
-						//var/global/tmp/waves = locate(352,70,2)
-						//var/global/tmp/ref/soundmob/wv = soundmob(waves, 60, 'snd/waterfall.ogg', FALSE, 0, 40, TRUE)
-					//else
-						//call(/soundmob/Del)()
-					soundmob(src, 40, 'snd/waterfall.ogg', TRUE, 0, 30, TRUE)
+					soundmob(src, 40, 'snd/waterfall.ogg', TRUE, null, 30, TRUE)
 
 			fire
-				//Read()
-					//return
-				//Write()
-					//return
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
-					soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 30, 'snd/fire.ogg', TRUE, null, 40, TRUE)
 			fire2
-				//Read()
-					//return
-				//Write()
-					//return
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
-					soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 30, 'snd/fire2a.ogg', TRUE, null, 40, TRUE)
 			fire3
-				//Read()
-					//return
-				//Write()
-					//return
 				icon = 'dmi/64/blank.dmi'
 				New()
-					..()
-					//soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40)
-					soundmob(src, 15, 'snd/cleaned/fire2.ogg', FALSE, 0, 40, TRUE)
-
+					..()  
+					soundmob(src, 15, 'snd/cleaned/fire2.ogg', FALSE, null, 40, TRUE)
 			river
-				//Read()
-					//return
-				//Write()
-					//return
 				icon = 'dmi/64/blank.dmi'
 				New()
-					..()
-					soundmob(src, 150, 'snd/creek.ogg', TRUE, 0, 40, TRUE)
+					..()  
+					soundmob(src, 15, 'snd/creek.ogg', TRUE, null, 40, TRUE)
 			beach
-				//Read()
-					//return
-				//Write()
-					//return
 				icon = 'dmi/64/watr.dmi'
 				icon_state = "bbd1"
 				New()
 					..()
-					soundmob(src, 30, 'snd/wave.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 30, 'snd/wave.ogg', TRUE, null, 40, TRUE)
 			apof
-				//Read()
-					//return
-				//Write()
-					//return
 				waterfall
-					//Read()
-						//return
-					//Write()
-						//return
 					icon = 'dmi/64/blank.dmi'
 
 					New()
 						..()
-						soundmob(src, 30, 'snd/waterfalldeep.ogg', TRUE, 0, 30, TRUE)
-						//if(/client in range(30,src))
-							//listenSoundmob(s)
-						/*var/mob/players/M = client plays sound but breaks saving...
-						if(client in world)
-							if(client in range(30,src))
-								var/global/tmp/waterfall = locate(429,683,2)
-								var/global/tmp/soundmob/wf = soundmob(waterfall, 30, 'snd/waterfalldeep.ogg', FALSE, 0, 40, TRUE)
-								M.listenSoundmob(src)
-							else
-								if(client in !range(30,src))
-									M.unlistenSoundmob(src)*/
-							//el
-								//call(/soundmob/Del)(/soundmob/wf)
-						//if(client in range(50,src))
-						//if(client in world)
-						//if(client in range(30,src))
-							//client in range(30,src)<<'snd/waterfalldeep.ogg'
-						//else return
-						//var/tmp/mob/players/M
-						//for(client in world)
-						//if(client in range(30,src))
-								//var/tmp/mob/players/M
-								//wf = new/soundmob(src, 30, 'snd/waterfalldeep.ogg', FALSE, 0, 40, TRUE)
-							//M.listenSoundmob(wf)
-
-						//soundmob(src, 30, 'snd/waterfalldeep.ogg', TRUE, 0, 40)
-						//..()
+						soundmob(src, 30, 'snd/waterfalldeep.ogg', TRUE, null, 30, TRUE)
 				forestwind
-					//Read()
-						//return
-					//Write()
-						//return
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 60, 'snd/hollowwind.ogg', TRUE, 0, 30, TRUE)
+						soundmob(src, 60, 'snd/hollowwind.ogg', TRUE, null, 30, TRUE)
 				forestbirds
-					Read()
-						return
-					Write()
-						return
 					icon = 'dmi/64/blank.dmi'
 					//var/mob/players/M
-					Del()
-						if(src)
-							if(global.season=="Winter")
-								del src
-						..()
+
 					New()
 						..()
 						//if(client in world)
 						//if(client in range(100,src))
 								//var/waterfall = locate(510,645,2)
-						soundmob(src, 100, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 100, 'snd/cycadas.ogg', TRUE, null, 40, TRUE)
 						//var/soundmob/s = soundmob(src, 100, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
 						//if(src in range(100,/client))
 						//	listenSoundmob(s)
@@ -270,76 +215,36 @@ obj
 							//else if(M.location!="Aldoryn")
 						//soundmob(src, 150, 'snd/cycadas.ogg', FALSE, 0, 40, TRUE)
 			bpob
-				//Read()
-					//return
-				//Write()
-					//return
 				desertamb
-					//Read()
-						//return
-					//Write()
-						//return
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 150, 'snd/blowwind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 150, 'snd/blowwind.ogg', TRUE, null, 40, TRUE)
 				oasisamb
-					//Read()
-						//return
-					//Write()
-						//return
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 50, 'snd/creek.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 50, 'snd/creek.ogg', TRUE, null, 40, TRUE)
 			cpop
-				//Read()
-					//return
-				//Write()
-					//return
 				snowwind
-					//Read()
-						//return
-					//Write()
-						//return
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 30, 'snd/dizzywind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 30, 'snd/dizzywind.ogg', TRUE, null, 40, TRUE)
 				windthrutrees
-					//Read()
-						//return
-					//Write()
-						//return
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 150, 'snd/wind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 150, 'snd/wind.ogg', TRUE, null, 40, TRUE)
 			dpoh
-				//Read()
-					//return
-				//Write()
-					//return
 				desolate
-					//Read()
-						//return
-					//Write()
-						//return
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 30, 'snd/wastewind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 30, 'snd/wastewind.ogg', TRUE, null, 40, TRUE)
 			epog
-				//Read()
-					//return
-				//Write()
-					//return
 				dryair
-					//Read()
-						//return
-					//Write()
-						//return
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 150, 'snd/alienwind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 150, 'snd/alienwind.ogg', TRUE, null, 40, TRUE)

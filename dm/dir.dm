@@ -7,7 +7,7 @@ turf
 		icon = 'dmi/64/tree.dmi'
 		icon_state = "tree"
 		density = 1
-		plane = 3
+		layer = 3
 		borders=NORTH
 	/*exits
 		onewayN

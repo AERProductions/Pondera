@@ -26,7 +26,7 @@ client/var/tmp
 	base_num_characters_allowed = 4
 	base_autoload_character = 1
 	base_autosave_character = 1
-	base_autodelete_mob = 1
+	base_autodelete_mob = 0
 	base_save_verbs = 1
 
 mob/players
@@ -79,6 +79,7 @@ mob
 				del(src)
 				return
 		//	var/destination = locate(last_x, last_y, last_z)
+			//umsl_ObtainMultiLock(list("right leg", "left leg"), 0)
 			loc=locate(last_x, last_y, last_z)
 			//if (!Move(destination))
 				//loc = destination
@@ -94,6 +95,35 @@ mob
 		// Call the default Read() behavior for mobs.
 		..()
 		return*/
+mob
+	Login()//character login
+		client.draw_lighting_plane()
+			//S
+		draw_spotlight(0, 0, "#FFFFFF", 1.3, 255)
+		remove_spotlight()
+		winset(src, "R", "parent=macros;name=Run;command=Run")
+		winset(src, "NORTH", "parent=macros;name=NORTH+REP;command=")
+		winset(src, "SOUTH", "parent=macros;name=SOUTH+REP;command=")
+		winset(src, "EAST", "parent=macros;name=EAST+REP;command=")
+		winset(src, "WEST", "parent=macros;name=WEST+REP;command=")
+		winset(src, "NORTH", "parent=macros;name=NORTH;command=MoveNorth")
+		winset(src, "SOUTH", "parent=macros;name=SOUTH;command=MoveSouth")
+		winset(src, "EAST", "parent=macros;name=EAST;command=MoveEast")
+		winset(src, "WEST", "parent=macros;name=WEST;command=MoveWest")
+		winset(src, "W", "parent=macros;name=W+REP;command=")
+		winset(src, "S", "parent=macros;name=S+REP;command=")
+		winset(src, "D", "parent=macros;name=D+REP;command=")
+		winset(src, "A", "parent=macros;name=A+REP;command=")
+		winset(src, "W", "parent=macros;name=W;command=MoveNorth")
+		winset(src, "S", "parent=macros;name=S;command=MoveSouth")
+		winset(src, "D", "parent=macros;name=D;command=MoveEast")
+		winset(src, "A", "parent=macros;name=A;command=MoveWest")
+		src.move=1
+		src.Moving=0
+		//src.updateHP()
+		//src.updateST()
+			//sleep(5)
+			//goto S
 
 mob/BaseCamp
 	base_save_allowed = 0			// BaseCamp mobs are for admin only.
@@ -103,11 +133,12 @@ mob/BaseCamp
 		Form/NewCharacterMPSB/MPSBchar_form = new()
 		Form/NewCharacterMPSM/MPSMchar_form = new()
 		Form/ModeMenu/mode_form = new()
+		Form/TechTree/TT_form = new()
 		//Form/SOS/mode2_form = new()
 		//Form/ChooseCharacter/choose_char = new()
 		error_text = ""
 
-	Login()
+	Login()//login character creation start
 		var/list/available_char_names = client.base_CharacterNames()
 		var/list/menu = new()
 		menu += available_char_names
@@ -119,6 +150,9 @@ mob/BaseCamp
 		//call(/soundmob/proc/broadcast)(src)
 		// Don't use any other Login() code.
 		//call(/soundmob/proc/setListener)()
+		//client.draw_lighting_plane()
+		//usr.draw_spotlight(-17, -17, "#FFFFFF", 1.3, 255)
+		//src.remove_spotlight()
 		winset(usr, "loadscrn","parent=loadscrn; is-visible = true; focus = true")
 		winset(usr, "default","parent=default; is-visible = true; focus = true")
 		//sleep(9)
@@ -128,7 +162,7 @@ mob/BaseCamp
 		//world << "Tree amount = [treelist.len]"
 		//sleep(3)
 		//src << "<font color=gold><center>Information: <font color=gold>Arrow or wasd keys to walk, click/double-click to sprint, use, or attack. <br> Use the stance positions, V is sprint mode, C is Strafe mode and X is Hold Position. <br>Ctrl+E provides a quick-unequip menu and Ctrl+G provides a quick-get menu and ctrl+mouse wheel is zoom."
-		src << "<center><b><font color=#00bfff>[src.key], Welcome to Pondera! <p> Find Bugs? Report on the Hub, Pager or e-mail (AERSupport@live.com).<p> Hint: If the delete character menu shows a blank page, Hit F5!<br>"// - (http://pondera.aerproductions.com | AERSupport@live.com)."
+		src << "<center><b><font color=#00bfff>[src.key], Welcome to Pondera! <p> Find Bugs? Report on the Hub, Pager or e-mail (AERSupport@live.com) - https://aerproductions.com/pond .<br>"// - (http://pondera.aerproductions.com | AERSupport@live.com)."
 		//spawn()
 		//ChooseCharacter()
 		//QuitMenu()
@@ -148,6 +182,9 @@ mob/BaseCamp
 			FirstTimePlayer()
 		else
 			ChooseCharacter()
+
+		if(ckeyEx("[usr.key]") == world.host&&MP==1)
+			verbs += typesof(/mob/players/Special1/verb)
 			//ooseCharacterMenu(menu)
 		//client.base_ChooseCharacter()
 		/*winset(usr,"default.Build","is-visible=false")
@@ -205,7 +242,7 @@ mob/BaseCamp
 			ChooseCharacter()
 
 			//src.mode_form.DisplayForm()
-		return ..()
+		return //..()
 
 
 //mob/BaseCamp/ChoosingCharacter
@@ -531,7 +568,8 @@ client
 			if (base_save_verbs && Mob.base_saved_verbs)
 				for (var/item in Mob.base_saved_verbs)
 					Mob.verbs += item
-			Mob << "Loaded Character"
+			//Mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2)
+			Mob << "Loading Complete"
 			return Mob
 		else return
 

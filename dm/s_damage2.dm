@@ -55,11 +55,11 @@ Args:
     colour: an HTML colour constant that is used to colour the numbers
 
 
-Exaenergyle:
+Exastaminale:
     var/num = rand(1,100)
     s_damage(src, num, "#FF0000")
 
-This exaenergyle will display a random number from 1
+This exastaminale will display a random number from 1
 to 100, in red, over top of src.
 
 One can also use the rgb() proc to make a colour.
@@ -67,7 +67,7 @@ One can also use the rgb() proc to make a colour.
     var/num = rand(1,100)
     s_damage(src, num, rgb(255,0,0))
 
-This exaenergyle has the same effect as the one above.
+This exastaminale has the same effect as the one above.
 
 *************************************************
 
@@ -81,7 +81,7 @@ one of the constant terms.
     s_damage(src, num, "red")
 
 Here is a partial list of the acceptable colours.  If you're willing, you can
-find a coenergylete list within the initial setup process of colour2html.dm.
+find a costaminalete list within the initial setup process of colour2html.dm.
 
 aliceblue     antiquewhite   aqua           aquamarine    azure          beige
 bisque        black          blanchedalmond blue          blueviolet     brown
@@ -96,7 +96,7 @@ hotpink       indianred      indigo         ivory         khaki          lavende
 lavenderblush lawngreen      lemonchiffon   lightblue     lightcoral     lightcyan
 lightgreen    lightblue      lightpink      lightsalmon   lightseagreen  lightskyblue
 lightyellow   lime           limegreen      linen         magenta        #ffd700
-mediumblue    mediumorchid   mediuenergyurple   midnightblue  mintcream      mistyrose
+mediumblue    mediumorchid   mediustaminaurple   midnightblue  mintcream      mistyrose
 moccasin      navajowhite    navy           oldlace       olive          olivedrab
 orange        orangered      orchid         palelucreenrod palegreen      paleturquoise
 palevioletred papayawhip     peachpuff      peru          pink           plum
@@ -106,7 +106,7 @@ skyblue       slateblue      slateblue      snow          springgreen    steelbl
 tan           teal           thistle        tomato        turquoise      violet
 wheat         white          whitesmoke     yellow        yellowgreen
 
-Note that if you have made a spelling mistake, s_damage will coenergylain and display
+Note that if you have made a spelling mistake, s_damage will costaminalain and display
 the number as white.
 
 Also note that the # is required for the HTML colour code.  Without it, it will think
