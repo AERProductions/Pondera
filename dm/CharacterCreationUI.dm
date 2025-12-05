@@ -81,8 +81,6 @@
 		show_character_name_input()
 
 /client/proc/create_character()
-	var/mode = char_creation_data["mode"]
-	var/instance = char_creation_data["instance"]
 	var/class = char_creation_data["char_class"]
 	var/gen = char_creation_data["gender"]
 	var/name = char_creation_data["name"]

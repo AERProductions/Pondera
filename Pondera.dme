@@ -37,6 +37,8 @@
 #include "dm\HUDManager.dm"
 #include "dm\CharacterCreationUI.dm"
 #include "dm\CharacterCreationIntegration.dm"
+#include "dm\EquipmentOverlaySystem.dm"
+//#include "dm\EquipmentOverlayIntegration.dm"  // Disabled until weapon overlay DMI files are created
 #include "dm\armors.dm"
 #include "dm\Basics.dm"
 #include "dm\colour2html.dm"
