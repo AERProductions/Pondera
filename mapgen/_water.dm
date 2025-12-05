@@ -14,23 +14,32 @@ obj
 	border
 		water
 			ramp_chance = 0
-			icon = 'abeach.dmi'
+			icon = 'dmi/64/abeach.dmi'
 			name = "Shore"
 			//SetBSeason()
 			//icon_state = "beach"
+			New()
+				..()
+				//new /obj/soundmob/SFX/river(src)
+				//soundmob(src, 20, 'snd/creek.ogg', TRUE, 20, 40, TRUE)
+		//vis_flags = VIS_HIDE
+		//layer = 999
+			Del()
+				//world << sound(src)
+				..()
 			proc/SetBSeason()
 				if(global.season=="Winter")
 					density=0
-					icon = 'awbeach.dmi'
+					icon = 'dmi/64/awbeach.dmi'
 					//name = "Shore"
 					//mouse_opacity=1
-					plane = 2
+					layer = 2
 					verbs -= /turf/water/verb/Fill_
 					verbs -= /turf/water/verb/Fish
 					verbs -= /turf/water/verb/Quench
 				else if(global.season!="Winter")
 					density = 1
-					icon = 'abeach.dmi'
+					icon = 'dmi/64/abeach.dmi'
 					//mouse_opacity=0
 					//name = "Water"
 					verbs += /turf/water/verb/Fill_
@@ -38,31 +47,39 @@ obj
 					verbs += /turf/water/verb/Quench
 turf
 	water
-		icon = 'gen.dmi'
+		icon = 'dmi/64/gen.dmi'
 		icon_state = "water"
 		border_type = /obj/border/water
 		density = TRUE
 		spawn_resources = FALSE
+		plane = REFLECTION_PLANE
 
-		wsfx = list(
-					)
-		sfx = list( /obj/snd/sfx/waves
-					)
+		sfxwat = list ( ///obj/soundmob/SFX/river
+						)//water sound effect
 
 		SetElevation(n)
 			elevation = -5
+
+
 		var/mob/players/M
-		//New()
-			//..()
+		New()
+			..()
+			soundmob(src, 20, 'snd/creek.ogg', TRUE, 20, null, TRUE)
+	//vis_flags = VIS_HIDE
+	//layer = 999
+		Del()
+			world << sound(src)
+			..()
+			//SpawnSoundEffectsWAT()
 		//	soundmob(src, 20, 'snd/creek.ogg', TRUE, 0, 50)
 		DblClick()
 			set popup_menu = 1
 			M = usr
 			if (!(src in range(1, M))) return
-			if(M.energy==M.MAXenergy)
+			if(M.stamina==M.MAXstamina)
 				M << "You aren't thirsty right now."
 				return
-			else if(M.energy<M.MAXenergy)
+			else if(M.stamina<M.MAXstamina)
 				usingmana(M,200)
 				sleep(1)
 				return
@@ -971,7 +988,7 @@ turf
 			if(global.season=="Winter")
 				density=0
 				icon_state = "ice"
-				plane = 2
+				layer = 2
 				//mouse_opacity=1
 				verbs -= /turf/water/verb/Fill_
 				verbs -= /turf/water/verb/Fish
@@ -1005,12 +1022,12 @@ turf
 				sleep(5)
 				return
 
-			if (amount > (M.MAXenergy-M.energy))
-				amount = (M.MAXenergy-M.energy)
+			if (amount > (M.MAXstamina-M.stamina))
+				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water..."
 			sleep(2)
-			M.energy += amount
-			M.updateEN()
+			M.stamina += amount
+			M.updateST()
 			M.hydrated=1
 			sleep(2)
-			M << "Ahh, Refreshing. <b>[amount] energy recovered."
+			M << "Ahh, Refreshing. <b>[amount] stamina recovered."

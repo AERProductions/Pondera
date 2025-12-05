@@ -9,12 +9,12 @@ turf
 				Entered(O)
 					if(ismob(O) && O:client)
 						for(var/obj/Buildable/Roofing/Roof/R in oview(3))
-							R.plane = -10
+							R.layer = -10
 					..()
 				Exited(O)
 					if(ismob(O) && O:client)
 						for(var/obj/Buildable/Roofing/Roof/R in range(12,O))
-							R:plane = 10
+							R:layer = 10
 					..()
 			Cfoundation
 				icon = 'dmi/64/build.dmi'
@@ -24,12 +24,12 @@ turf
 				Entered(O)
 					if(ismob(O) && O:client)
 						for(var/obj/Buildable/Roofing/INTRoof/R in oview(3))
-							R.plane = -10
+							R.layer = -10
 					..()
 				Exited(O)
 					if(ismob(O) && O:client)
 						for(var/obj/Buildable/Roofing/INTRoof/R in range(12,O))
-							R:plane = 10
+							R:layer = 10
 					..()
 			Pfoundation
 				icon = 'dmi/64/build.dmi'
@@ -39,12 +39,12 @@ turf
 				Entered(O)
 					if(ismob(O) && O:client)
 						for(var/obj/Buildable/Roofing/HINTRoof/R in oview(3))
-							R.plane = -10
+							R.layer = -10
 					..()
 				Exited(O)
 					if(ismob(O) && O:client)
 						for(var/obj/Buildable/Roofing/HINTRoof/R in range(12,O))
-							R:plane = 10
+							R:layer = 10
 					..()
 
 obj
@@ -52,18 +52,18 @@ obj
 		Roofing
 			Roof
 				icon = 'dmi/64/whroof.dmi'
-				plane = 10
+				layer = 10
 				mouse_opacity = 0
 			HINTRoof
 				icon = 'dmi/64/hroof.dmi'
-				plane = 10
+				layer = 10
 				mouse_opacity = 0
 			INTRoof
 				icon = 'dmi/64/introof.dmi'
-				plane = 10
+				layer = 10
 				mouse_opacity = 0
 			woodfloor
 				icon = 'dmi/64/build.dmi'
 				icon_state = "woodfloor"
-				plane = 3
+				layer = 3
 				mouse_opacity = 0

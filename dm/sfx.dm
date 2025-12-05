@@ -74,9 +74,22 @@ obj
 				New()
 					..()
 					//soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40)
-					soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, null, 30, TRUE)
+			river
+				//Read()
+					//return
+				//Write()
+					//return
+				icon = 'dmi/64/blank.dmi'
+				New()
+					..()
+					soundmob(src, 15, 'snd/creek.ogg', TRUE, null, 15, TRUE)
 
-
+			rain
+				icon = 'dmi/64/blank.dmi'
+				New()
+					..()
+					soundmob(src, 300, 'snd/lrain.ogg', TRUE, null, 20, TRUE)
 
 
 obj
@@ -85,12 +98,15 @@ obj
 		//var
 		no_save = TRUE
 			//status = SOUND_STREAM
-		Read()
-			return //ahhhhhhhhhhhhh the fix for bringing sound in with loading saved mob was removing these dumb read/write returns. Wow....
-		Write()
-			return
+		//Read()
+			//return //ahhhhhhhhhhhhh the fix for bringing sound in with loading saved mob was removing these dumb read/write returns. Wow....
+		//Write()
+			//return
 		//parent_type = /mob
 		sfx
+			Del()//solves the issue of playing continuity
+				world << sound(src)
+				..()
 			//Read()
 				//return
 			//Write()
@@ -105,7 +121,10 @@ obj
 				New()
 					..()
 //radius = 0, file, autotune = TRUE, channel = null, volume = 100, repeat = FALSE) Sound settings
-					soundmob(src, 30, 'snd/nightcrickets.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 30, 'snd/nightcrickets.ogg', TRUE, null, 40, TRUE)
+				Del()
+					world << sound(src)
+					..()
 
 			waves
 				//Read()
@@ -120,7 +139,7 @@ obj
 						//var/global/tmp/ref/soundmob/wv = soundmob(waves, 60, 'snd/waterfall.ogg', FALSE, 0, 40, TRUE)
 					//else
 						//call(/soundmob/Del)()
-					soundmob(src, 40, 'snd/waterfall.ogg', TRUE, 0, 30, TRUE)
+					soundmob(src, 40, 'snd/waterfall.ogg', TRUE, null, 30, TRUE)
 
 			fire
 				//Read()
@@ -130,7 +149,7 @@ obj
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
-					soundmob(src, 30, 'snd/fire.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 30, 'snd/fire.ogg', TRUE, null, 40, TRUE)
 			fire2
 				//Read()
 					//return
@@ -139,7 +158,7 @@ obj
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
-					soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 30, 'snd/fire2a.ogg', TRUE, null, 40, TRUE)
 			fire3
 				//Read()
 					//return
@@ -149,7 +168,7 @@ obj
 				New()
 					..()
 					//soundmob(src, 30, 'snd/fire2a.ogg', TRUE, 0, 40)
-					soundmob(src, 15, 'snd/cleaned/fire2.ogg', FALSE, 0, 40, TRUE)
+					soundmob(src, 15, 'snd/cleaned/fire2.ogg', FALSE, null, 40, TRUE)
 
 			river
 				//Read()
@@ -159,7 +178,8 @@ obj
 				icon = 'dmi/64/blank.dmi'
 				New()
 					..()
-					soundmob(src, 150, 'snd/creek.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 15, 'snd/creek.ogg', TRUE, null, 40, TRUE)
+
 			beach
 				//Read()
 					//return
@@ -169,7 +189,7 @@ obj
 				icon_state = "bbd1"
 				New()
 					..()
-					soundmob(src, 30, 'snd/wave.ogg', TRUE, 0, 40, TRUE)
+					soundmob(src, 30, 'snd/wave.ogg', TRUE, null, 40, TRUE)
 			apof
 				//Read()
 					//return
@@ -184,7 +204,7 @@ obj
 
 					New()
 						..()
-						soundmob(src, 30, 'snd/waterfalldeep.ogg', TRUE, 0, 30, TRUE)
+						soundmob(src, 30, 'snd/waterfalldeep.ogg', TRUE, null, 30, TRUE)
 						//if(/client in range(30,src))
 							//listenSoundmob(s)
 						/*var/mob/players/M = client plays sound but breaks saving...
@@ -220,7 +240,7 @@ obj
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 60, 'snd/hollowwind.ogg', TRUE, 0, 30, TRUE)
+						soundmob(src, 60, 'snd/hollowwind.ogg', TRUE, null, 30, TRUE)
 				forestbirds
 					Read()
 						return
@@ -228,17 +248,13 @@ obj
 						return
 					icon = 'dmi/64/blank.dmi'
 					//var/mob/players/M
-					Del()
-						if(src)
-							if(global.season=="Winter")
-								del src
-						..()
+
 					New()
 						..()
 						//if(client in world)
 						//if(client in range(100,src))
 								//var/waterfall = locate(510,645,2)
-						soundmob(src, 100, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 100, 'snd/cycadas.ogg', TRUE, null, 40, TRUE)
 						//var/soundmob/s = soundmob(src, 100, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
 						//if(src in range(100,/client))
 						//	listenSoundmob(s)
@@ -282,7 +298,7 @@ obj
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 150, 'snd/blowwind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 150, 'snd/blowwind.ogg', TRUE, null, 40, TRUE)
 				oasisamb
 					//Read()
 						//return
@@ -291,7 +307,7 @@ obj
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 50, 'snd/creek.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 50, 'snd/creek.ogg', TRUE, null, 40, TRUE)
 			cpop
 				//Read()
 					//return
@@ -305,7 +321,7 @@ obj
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 30, 'snd/dizzywind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 30, 'snd/dizzywind.ogg', TRUE, null, 40, TRUE)
 				windthrutrees
 					//Read()
 						//return
@@ -314,7 +330,7 @@ obj
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 150, 'snd/wind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 150, 'snd/wind.ogg', TRUE, null, 40, TRUE)
 			dpoh
 				//Read()
 					//return
@@ -328,7 +344,7 @@ obj
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 30, 'snd/wastewind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 30, 'snd/wastewind.ogg', TRUE, null, 40, TRUE)
 			epog
 				//Read()
 					//return
@@ -342,4 +358,4 @@ obj
 					icon = 'dmi/64/blank.dmi'
 					New()
 						..()
-						soundmob(src, 150, 'snd/alienwind.ogg', TRUE, 0, 40, TRUE)
+						soundmob(src, 150, 'snd/alienwind.ogg', TRUE, null, 40, TRUE)

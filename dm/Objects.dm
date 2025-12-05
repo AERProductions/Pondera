@@ -15,7 +15,7 @@ var
 obj
 	vitae
 		icon_state = "vitae"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 
 /*obj
 	lucre
@@ -49,6 +49,7 @@ obj
 	items
 		Crafting
 			Created
+				layer = 11
 				can_stack = TRUE
 				//var/stack = 1
 				var/needssharpening = 0
@@ -490,8 +491,8 @@ obj
 							else if(src.needssharpening==1)
 								src:verbs += /obj/items/Crafting/Created/HammerHead/verb/Sharpen
 							sleep(240)
-							if(!usr.umsl_ObtainMultiLock(list("right leg", "left leg"), 6.0)) return null//attempt to make heavy objects slow the user down -- needs testing TestStamp
-							else return ..()
+							//if(!usr.umsl_ObtainMultiLock(list("right leg", "left leg"), 6.0)) return null//attempt to make heavy objects slow the user down -- needs testing TestStamp
+							//else return ..()
 
 				Bricks//Maybe add a needschiseled/needsfiled system for stone works?
 					icon = 'dmi/64/creation.dmi'
@@ -2724,65 +2725,85 @@ obj
 								//Description()//description = "<br><font color = #e6e8fa><center><b>[name]:</b><br>  Used with\  <IMG CLASS=bigicon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='pole'>Pole to create a <IMG CLASS=icon SRC=\ref'dmi/64/build.dmi' ICONSTATE='bronzelamp'>Bronze Lamp. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					proc/FindJar(mob/players/M)
 						for(var/obj/items/tools/Containers/Jar/J in M.contents)
-							if(J.suffix=="Equipped"&&J.CType=="Sand")
+							locate(J)
+							if(J:suffix=="Equipped"&&J:CType=="Sand"&&J:filled==1)
 								return J
 					verb
-						Combine()
+						Combine()//fixed 1/21/2024
 							set waitfor = 0
 							//set src in oview(1)
 							set popup_menu = 1
 							set category = null
 							var/mob/players/M
-							var/obj/items/tools/Containers/Jar/J = FindJar(M)
-							//var/random/R = rand(1,5) //1 in 5 chance to smith
 							M = usr
+							var/obj/items/tools/Containers/Jar/J = locate(M.contents)// = FindJar(M.contents)
+							//var/random/R = rand(1,5) //1 in 5 chance to smith
+
 							//J = locate(M.contents)
-							locate(J in M.contents)//fixed don't add any dumb inputs :) J
-							if(!J in M.contents)
-								M << "You need a Filled Jar of Sand to combine with Clay to create Mortar..."
-								return
-							else
-								if(J in M.contents&&J.suffix=="Equipped"&&J.filled==1&&J.CType=="Sand")
+							//for(J in M.contents)
+							//locate(J)
+								//if(J:suffix=="Equipped"&&J:CType=="Sand"&&J:filled==1)
+									//return J
+							//if(!J in M.contents)
+								//M << "You need a Filled Jar of Sand to combine with Clay to create Mortar..."
+								//return
+							//if(J in M.contents)
+							//locate(J) in M.contents
+							for(J in M.contents)
+								if(J.suffix=="Equipped"&&J.filled==1&&J.CType=="Sand")
 									//input("Create Mortar?","Combine") in list("Yes","No")
 									//if("No")
 										//return
 									//if("Yes")
 									//if(J.stack_amount>=1)
 
-									//if(J.name=="Clay")
+										//if(J.name=="Clay")
 									var/dice = "1d8"
 									var/R = roll(dice)
 									if(R>=5)
+										locate(J) in M.contents
 										M<<"You start to combine the Clay with the Sand..."
 										//sleep(5)
 										//J.RemoveFromStack(1)
 											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 
 										sleep(15)
-										J.icon_state = "Jar"
-										J.volume = 0
-										//if(volume<0)
-										//	volume=0
-										//	M<<"The Jar is empty."
-										J.CType="Empty"
-										J.name = "Jar"
-										J.filled=0
+										for(J in M.contents)
+											if(J.suffix=="Equipped"&&J.filled==1&&J.CType=="Sand")
+												J.icon_state = "Jar"
+												J.volume = 0
+												//if(volume<0)
+												//	volume=0
+												//	M<<"The Jar is empty."
+												J.CType="Empty"
+												J.name = "Jar"
+												J.filled=0
+
 										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										M<<"You finish combining the Clay with the Sand and create Mortar."
+
 										new /obj/items/Mortar(M)
 										//del src
+										if(src.stack_amount >1)
+											src.RemoveFromStack(1)
+										else if(src.stack_amount ==1)
+											del src
 										return
 									else
-										if(R<=4)
-											src.RemoveFromStack(1)
-													//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-											sleep(15)
-											//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
-											M<<"The materials fail at combining and are lost in the process."
+										//if(R<=4)
 
-											return
+													//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+										sleep(15)
+											//del src	//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+										M<<"The materials fail at combining and are lost in the process."
+										if(src.stack_amount >1)
+											src.RemoveFromStack(1)
+										else if(src.stack_amount ==1)
+											del src
+
+										return
 								else
-									M << "You need to use a Filled Jar of Sand to create Mortar."
+									M << "You need to hold a Jar filled of sand to create Mortar."
 									return
 					verb/Form_Jar()
 						set waitfor = 0
@@ -3159,7 +3180,7 @@ obj
 						Process
 						if(Carving==1)		//This is saying if usr is already cuttin a tree...
 							return
-						if(energy==0)		//Is your energy too low???
+						if(stamina==0)		//Is your stamina too low???
 							M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 							return
 						else
@@ -3771,7 +3792,7 @@ obj
 							else
 								var/i = input("Combine?","Combine") in list("Hammer head","Carving Knife blade","Sickle blade")
 								//var/obj/items/Crafting/Created/J
-								if(M.energy==0)
+								if(M.stamina==0)
 									M<<"You are too tired, drink water!"
 									return
 								else
@@ -4908,6 +4929,7 @@ obj
 			icon_state = "sand"
 			name = "Sand"
 			can_stack = TRUE
+			layer = 11
 			verb
 				Combine()
 					set waitfor = 0
@@ -4919,7 +4941,7 @@ obj
 					//var/random/R = rand(1,5) //1 in 5 chance to smith
 					M = usr
 					//J = locate(M.contents)
-					locate(J in M.contents)//fixed don't add any dumb inputs :) J
+					locate(J) in M.contents//fixed don't add any dumb inputs :) J
 					if(!J in M.contents)
 						M << "You need Clay to combine Sand..."
 						return
@@ -4976,7 +4998,7 @@ obj
 					del J
 			else
 				usr << "You can't sell that."
-	proc //.....
+	//proc //.....
 		FishingCheck() //name of proc dexp (destroy fexp (fishing seexp (Searching
 			var/mob/players/M = usr
 			if(M.fexp >= M.fexpneeded) //if users mining experience is or gos past users max ming experience
@@ -5025,8 +5047,9 @@ obj
 				M.destroylevel+=1 //users mining gos up by 1
 				M.dexp=0 //resets user mining experience to 0
 				M.dexpneeded+=30 //add 30 to users max mining experience
-				world << "\green<b>[M]'s getting better at Destroying..."
-	proc //Procedures
+				//world << "\green<b>[M]'s getting better at Destroying..."
+				return
+	//proc //Procedures
 		Destroying() //Name of proc
 			set waitfor = 0
 			var/mob/players/M = usr
@@ -5067,10 +5090,18 @@ obj
 
 		Searching() //Name of proc
 			set waitfor = 0
-			set popup_menu = 1
+			//set popup_menu = 1
+		//	set hidden = 0
+			//set src in oview(1)
 			var/mob/players/M = usr
+			var/obj/Flowers/O = src
+			//M<<"You are searching!"
 			if(M.Doing == 1)
 				M<<"You are already searching!"
+				return
+			if(O.searched==1)
+				M<<"You've already searched here!"
+				O.searched()
 				return
 			else
 				if(M.searchinglevel <= 1) //If user mining skill is less than or equal to 19
@@ -5082,6 +5113,7 @@ obj
 						SearchingCheck() //go to proc miningcheck
 						new /obj/items/Rock(M,1)
 						M << "You found a Rock!"
+						O.searched=1
 						//var/obj/items/Rock/A = new(M)
 						//usr << "You found [A]!" //message to user saying he/she mined something
 						M.Doing = 0
@@ -5092,186 +5124,335 @@ obj
 						M.Doing = 1
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
+						O.searched=1
 						M.seexp += 5 //user mining experiance increases by 15
 						SearchingCheck() //same as before....
 						M.Doing = 0
 						return
-				else
-					if(M.searchinglevel <= 2)
-						if(prob(25)) //30% probabilty of something happening
-							usr << "You begin to search."
-							M.Doing = 1
-							sleep(30) //Delay 3 seconds
-							M.seexp += 20 //user gets 25 mining experience
-							//M.searchinglevel = 11
-							SearchingCheck() //go to proc miningcheck
-							new /obj/items/tools/Flint(M,1)
-							M << "You found some Flint!"
-							//var/obj/items/tools/Flint/B = new(M)
-							//usr << "You found [B]!" //message to user saying he/she mined something
-							M.Doing = 0
-							return
-						if(prob(10))
-							//if(prob(40)) //probablity ...
-							usr << "You begin to search."
-							M.Doing = 1
-							sleep(15) //Delay 3 seconds
-							new /obj/items/Rock(M,1)
-							M << "You found a Rock!"
-							M.seexp += 5 //user mining experiance increases by 15
-							SearchingCheck() //same as before....
-							M.Doing = 0
-							return
+					return
+				if(M.searchinglevel <= 2)
+					if(prob(25)) //30% probabilty of something happening
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(30) //Delay 3 seconds
+						M.seexp += 20 //user gets 25 mining experience
+						//M.searchinglevel = 11
+						SearchingCheck() //go to proc miningcheck
+						new /obj/items/tools/Flint(M,1)
+						M << "You found some Flint!"
+						O.searched=1
+						//var/obj/items/tools/Flint/B = new(M)
+						//usr << "You found [B]!" //message to user saying he/she mined something
+						M.Doing = 0
+						return
 					else
-						if(M.searchinglevel <= 3) //if user mining is greater than or equal to 20
-							if(prob(25)) //30% probabilty
-								usr << "You begin to search."
-								M.Doing = 1
-								sleep(15) //Delay 3 seconds
-								M.seexp += 25 //same as before
-								new /obj/items/AUS(M,1)
-								M << "You found an Ancient Ueik Splinter!"
-								//var/obj/items/AUS/C = new(M)
-								//usr << "You found [C]!" //same as before
-								SearchingCheck() //same as before
-								M.Doing = 0
-								return
-							if(prob(10))
-								//if(prob(40)) //probablity ...
-								usr << "You begin to search."
-								M.Doing = 1
-								sleep(15) //Delay 3 seconds
-								M << "You didn't find anything!"
-								M.seexp += 15 //user mining experiance increases by 15
-								SearchingCheck() //same as before....
-								M.Doing = 0
-								return
-						else
-							if(M.searchinglevel <= 4)
-								if(prob(30)) //probabilty of 20%
-									usr << "You begin to search."
-									M.Doing = 1
-									sleep(15) //Delay 3 seconds
-									M.seexp += 20 //user mining experiance increases by 30
-									//M.searchinglevel = 15
-									SearchingCheck() //same as before
-									new /obj/items/tools/Pyrite(M,1)
-									M << "You found some Pyrite!"
-									//var/obj/items/tools/Pyrite/D = new(M)
-									//usr << "You found [D]!" //message to user saying he/she mined steel ore
-									M.Doing = 0
-									return
-								if(prob(15))
-									//if(prob(40)) //probablity ...
-									usr << "You begin to search."
-									M.Doing = 1
-									sleep(15) //Delay 3 seconds
-									new /obj/items/WDHNCH(M,1)
-									M << "You found a Wooden Haunch!"
-									M.seexp += 15 //user mining experiance increases by 15
-									SearchingCheck() //same as before....
-									M.Doing = 0
-									return
-							else
-								if(M.searchinglevel >= 5)
-									if(prob(35)) //30% probabilty of something happening
-										usr << "You begin to search."
-										M.Doing = 1
-										sleep(10) //Delay 3 seconds
-										M.seexp += 25 //user gets 25 mining experience
-										SearchingCheck() //go to proc miningcheck
-										new /obj/items/tools/Whetstone(M,1)
-										M << "You found a Whetstone!"
-										//var/obj/items/Rock/A = new(M)
-										//usr << "You found [A]!" //message to user saying he/she mined something
-										M.Doing = 0
-										return
-									if(prob(25))
-										//if(prob(1)) //30% probabilty of something happening
-										usr << "You begin to search."
-										M.Doing = 1
-										sleep(10) //Delay 3 seconds
-										M.seexp += 5 //user gets 25 mining experience
-										SearchingCheck() //go to proc miningcheck
-										new /obj/items/tools/Flint(M,1)
-										M << "You found some Flint!"
-										//var/obj/items/tools/Flint/B = new(M)
-										//usr << "You found [B]!" //message to user saying he/she mined something
-										M.Doing = 0
-										return
-									if(prob(25)) //30% probabilty
-										usr << "You begin to search."
-										M.Doing = 1
-										sleep(10) //Delay 3 seconds
-										M.seexp += 25 //same as before
-										new /obj/items/AUS(M,1)
-										M << "You found an Ancient Ueik Splinter!"
-										//var/obj/items/AUS/C = new(M)
-										//usr << "You found [C]!" //same as before
-										SearchingCheck() //same as before
-										M.Doing = 0
-										return
-									if(prob(25))
-										//if(prob(2)) //probabilty of 20%
-										usr << "You begin to search."
-										M.Doing = 1
-										sleep(10) //Delay 3 seconds
-										M.seexp += 10 //user mining experiance increases by 30
-										SearchingCheck() //same as before
-										new /obj/items/tools/Pyrite(M,1)
-										M << "You found some Pyrite!"
-										//var/obj/items/tools/Pyrite/D = new(M)
-										//usr << "You found [D]!" //message to user saying he/she mined steel ore
-										M.Doing = 0
-										return
-									if(prob(20)) //30% probabilty
-										usr << "You begin to search."
-										M.Doing = 1
-										sleep(10) //Delay 3 seconds
-										M.seexp += 25 //same as before
-										new /obj/items/Carbon(M,1)
-										M << "You found Carbon!"
-										//var/obj/items/AUS/C = new(M)
-										//usr << "You found [C]!" //same as before
-										SearchingCheck() //same as before
-										M.Doing = 0
-										return
-									if(prob(15))
-										//if(prob(2)) //probabilty of 20%
-										usr << "You begin to search."
-										M.Doing = 1
-										sleep(10) //Delay 3 seconds
-										M.seexp += 10 //user mining experiance increases by 30
-										SearchingCheck() //same as before
-										new /obj/items/Rock(M,1)
-										M << "You found a Rock!"
-										//var/obj/items/tools/Pyrite/D = new(M)
-										//usr << "You found [D]!" //message to user saying he/she mined steel ore
-										M.Doing = 0
-										return
-									if(prob(15))
-										//if(prob(40)) //probablity ...
-										usr << "You begin to search."
-										M.Doing = 1
-										sleep(15) //Delay 3 seconds
-										new /obj/items/WDHNCH(M,1)
-										M << "You found a Wooden Haunch!"
-										M.seexp += 15 //user mining experiance increases by 15
-										SearchingCheck() //same as before....
-										M.Doing = 0
-										return
-									if(prob(10)) //30% probabilty
-										usr << "You begin to search..."
-										M.Doing = 1
-										sleep(10) //Delay 3 seconds
-										M.seexp += 35 //same as before
-										new /obj/items/Activated_Carbon(M,1)
-										M << "You found Activated Carbon!"
-										//var/obj/items/AUS/C = new(M)
-										//usr << "You found [C]!" //same as before
-										SearchingCheck() //same as before
-										M.Doing = 0
-										return
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(10))
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						new /obj/items/Rock(M,1)
+						M << "You found a Rock!"
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+
+					return//else
+				if(M.searchinglevel <= 3) //if user mining is greater than or equal to 20
+					if(prob(25)) //30% probabilty
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						M.seexp += 25 //same as before
+						new /obj/items/AUS(M,1)
+						M << "You found an Ancient Ueik Splinter!"
+						O.searched=1
+						//var/obj/items/AUS/C = new(M)
+						//usr << "You found [C]!" //same as before
+						SearchingCheck() //same as before
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					return//else
+				if(M.searchinglevel <= 4)
+					if(prob(30)) //probabilty of 20%
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						M.seexp += 20 //user mining experiance increases by 30
+						//M.searchinglevel = 15
+						SearchingCheck() //same as before
+						new /obj/items/tools/Pyrite(M,1)
+						M << "You found some Pyrite!"
+						O.searched=1
+						//var/obj/items/tools/Pyrite/D = new(M)
+						//usr << "You found [D]!" //message to user saying he/she mined steel ore
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(15))
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						new /obj/items/WDHNCH(M,1)
+						M << "You found a Wooden Haunch!"
+						O.searched=1
+						M.seexp += 15 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					return//else
+				if(M.searchinglevel >= 5)
+					if(prob(35)) //30% probabilty of something happening
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(10) //Delay 3 seconds
+						M.seexp += 25 //user gets 25 mining experience
+						SearchingCheck() //go to proc miningcheck
+						new /obj/items/tools/Whetstone(M,1)
+						M << "You found a Whetstone!"
+						O.searched=1
+						//var/obj/items/Rock/A = new(M)
+						//usr << "You found [A]!" //message to user saying he/she mined something
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(25))
+						//if(prob(1)) //30% probabilty of something happening
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(10) //Delay 3 seconds
+						M.seexp += 5 //user gets 25 mining experience
+						SearchingCheck() //go to proc miningcheck
+						new /obj/items/tools/Flint(M,1)
+						M << "You found some Flint!"
+						O.searched=1
+						//var/obj/items/tools/Flint/B = new(M)
+						//usr << "You found [B]!" //message to user saying he/she mined something
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(25)) //30% probabilty
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(10) //Delay 3 seconds
+						M.seexp += 25 //same as before
+						new /obj/items/AUS(M,1)
+						M << "You found an Ancient Ueik Splinter!"
+						O.searched=1
+						//var/obj/items/AUS/C = new(M)
+						//usr << "You found [C]!" //same as before
+						SearchingCheck() //same as before
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(25))
+						//if(prob(2)) //probabilty of 20%
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(10) //Delay 3 seconds
+						M.seexp += 10 //user mining experiance increases by 30
+						SearchingCheck() //same as before
+						new /obj/items/tools/Pyrite(M,1)
+						M << "You found some Pyrite!"
+						O.searched=1
+						//var/obj/items/tools/Pyrite/D = new(M)
+						//usr << "You found [D]!" //message to user saying he/she mined steel ore
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(20)) //30% probabilty
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(10) //Delay 3 seconds
+						M.seexp += 25 //same as before
+						new /obj/items/Carbon(M,1)
+						M << "You found Carbon!"
+						O.searched=1
+						//var/obj/items/AUS/C = new(M)
+						//usr << "You found [C]!" //same as before
+						SearchingCheck() //same as before
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(15))
+						//if(prob(2)) //probabilty of 20%
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(10) //Delay 3 seconds
+						M.seexp += 10 //user mining experiance increases by 30
+						SearchingCheck() //same as before
+						new /obj/items/Rock(M,1)
+						M << "You found a Rock!"
+						O.searched=1
+						//var/obj/items/tools/Pyrite/D = new(M)
+						//usr << "You found [D]!" //message to user saying he/she mined steel ore
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(15))
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						new /obj/items/WDHNCH(M,1)
+						M << "You found a Wooden Haunch!"
+						O.searched=1
+						M.seexp += 15 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					if(prob(10)) //30% probabilty
+						usr << "You begin to search..."
+						M.Doing = 1
+						sleep(10) //Delay 3 seconds
+						M.seexp += 35 //same as before
+						new /obj/items/Activated_Carbon(M,1)
+						M << "You found Activated Carbon!"
+						O.searched=1
+						//var/obj/items/AUS/C = new(M)
+						//usr << "You found [C]!" //same as before
+						SearchingCheck() //same as before
+						M.Doing = 0
+						return
+					else
+						//if(prob(40)) //probablity ...
+						usr << "You begin to search."
+						M.Doing = 1
+						sleep(15) //Delay 3 seconds
+						usr << "You didn't find anything!" //same as before
+						O.searched=1
+						M.seexp += 5 //user mining experiance increases by 15
+						SearchingCheck() //same as before....
+						M.Doing = 0
+						return
+					return
 //Smithing
 			//else
 			//	usr << "You are already searching!"
@@ -5302,7 +5483,7 @@ obj
 			if(M.SMIopen==1)
 				//M << "Smithing menu is currently open.."
 				return
-			if(M.energy == 0)
+			if(M.stamina == 0)
 				return
 			if(M.Doing == 0)
 				if(M.HMequipped == 1) //If user Hammer is more than or equal to 1
@@ -5343,8 +5524,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new IN(M)
 											usr << "You smith Iron Nails!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5363,8 +5544,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new SCI(M)
 												usr << "The materials fail to react well together and produce iron scrap..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
@@ -5395,8 +5576,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new IR(M)
 											usr << "You smith an Iron Ribbon!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5415,8 +5596,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new SCI(M)
 												usr << "The materials fail to react well together and produce iron scrap..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
@@ -5455,8 +5636,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new CKB(M)
 											usr << "You smith a Carving Knife Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5474,8 +5655,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5503,8 +5684,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new SHD(M)
 											usr << "You smith a Shovel Head!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5522,8 +5703,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5544,7 +5725,7 @@ obj
 										return call(/proc/smithinglevel)()
 								if("Axe head")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot")&&(M.energy>=5))
+									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot")&&(M.stamina>=5))
 										var/dice = "1d4"
 										var/R = roll(dice)
 										if(R == 2)
@@ -5555,8 +5736,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new AHD(M)
 											usr << "You smith a Axe Head!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5574,8 +5755,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5604,8 +5785,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new PHD(M)
 											usr << "You smith a Pickaxe Head!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5623,8 +5804,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5656,8 +5837,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new HHD(M)
 											usr << "You smith a Hammer Head!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5675,8 +5856,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5708,8 +5889,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new HBD(M)
 											usr << "You smith a Hoe Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5727,8 +5908,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5760,8 +5941,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new SBD(M)
 											usr << "You smith a Sickle Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5779,8 +5960,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5812,8 +5993,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new CHBD(M)
 											usr << "You smith a Chisel Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5831,8 +6012,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5867,14 +6048,14 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 
 											//new /obj/items/Crafting/Created/FileBlade(M)
 
 											// = rgb(rand(0,15),rand(0,15),rand(0,15))
 											new FIBD(M)
-											locate(FIBD in M)
+											locate(FIBD) in M
 											if(FIBD in M)
 												for(FIBD in M)
 													Tname="Hot"
@@ -5899,8 +6080,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5932,8 +6113,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new SWBD(M)
 											usr << "You smith a Saw Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -5951,8 +6132,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -5985,8 +6166,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new TWBD(M)
 											usr << "You smith a Trowel Blade!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -6004,8 +6185,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -6037,8 +6218,8 @@ obj
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
 											M.smiexp += 15 //go to proc miningcheck
-											M.energy -= 5
-											M.updateEN()
+											M.stamina -= 5
+											M.updateST()
 											new IR(M)
 											usr << "You smith an Iron Reel!" //message to user saying he/she mined something
 											//BSB:Tname="Hot"
@@ -6056,8 +6237,8 @@ obj
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
 												M.smiexp += 15 //....
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 												src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 												M.Doing = 0
@@ -6095,8 +6276,8 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												M.smiexp += 15 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new BSB(locate(x,y,z))
 												usr << "You smith a Broad Sword Blade!" //message to user saying he/she mined something
 												//BSB:Tname="Hot"
@@ -6114,8 +6295,8 @@ obj
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
 													M.smiexp += 15 //....
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
 													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 													M.Doing = 0
@@ -6151,8 +6332,8 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												M.smiexp += 15 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new WSWB(locate(x,y,z))
 												usr << "You smith a War Sword Blade!" //message to user saying he/she mined something
 												//BSB:Tname="Hot"
@@ -6170,8 +6351,8 @@ obj
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
 													M.smiexp += 15 //....
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 													M.Doing = 0
@@ -6207,8 +6388,8 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												M.smiexp += 15 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new BSWB(locate(x,y,z))
 												usr << "You smith a Battle Sword Blade!" //message to user saying he/she mined something
 												//BSB:Tname="Hot"
@@ -6226,8 +6407,8 @@ obj
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
 													M.smiexp += 15 //....
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 													M.Doing = 0
@@ -6263,8 +6444,8 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												M.smiexp += 15 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new BSWB(locate(x,y,z))
 												usr << "You smith a Long Sword Blade!" //message to user saying he/she mined something
 												//BSB:Tname="Hot"
@@ -6282,8 +6463,8 @@ obj
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
 													M.smiexp += 15 //....
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 													M.Doing = 0
@@ -6319,8 +6500,8 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												M.smiexp += 15 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new BHS(locate(x,y,z))
 												usr << "You smith a Battle Hammer Sledge!" //message to user saying he/she mined something
 												//BHS:Tname="Hot"
@@ -6338,8 +6519,8 @@ obj
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
 													M.smiexp += 15 //....
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 													M.Doing = 0
@@ -6375,8 +6556,8 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												M.smiexp += 15 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new WSB(locate(x,y,z))
 												usr << "You smith a War Scythe Blade!" //message to user saying he/she mined something
 												//BSB:Tname="Hot"
@@ -6394,8 +6575,8 @@ obj
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
 													M.smiexp += 15 //....
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 													M.Doing = 0
@@ -6431,8 +6612,8 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												M.smiexp += 15 //go to proc miningcheck
-												M.energy -= 5
-												M.updateEN()
+												M.stamina -= 5
+												M.updateST()
 												new BSCB(locate(x,y,z))
 												usr << "You smith a Broad Scythe Blade!" //message to user saying he/she mined something
 												//BSB:Tname="Hot"
@@ -6450,8 +6631,8 @@ obj
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
 													M.smiexp += 15 //....
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 													src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 													M.Doing = 0
@@ -6495,7 +6676,7 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -6509,8 +6690,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Giu Hide Vestments!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -6529,8 +6710,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -6553,7 +6734,7 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-												var/obj/items/GiuShell/GS1 = locate() in M.contents
+												var/obj/items/CParts/GiuShell/GS1 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -6567,8 +6748,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Giu Shell Vestments!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -6587,8 +6768,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -6611,8 +6792,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-												var/obj/items/GouHide/GH2 = locate() in M.contents
-												var/obj/items/GouShell/GS2 = locate() in M.contents
+												var/obj/items/CParts/GouHide/GH2 = locate() in M.contents
+												var/obj/items/CParts/GouShell/GS2 = locate() in M.contents
 												if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GH2 in M.contents)&&(GS2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -6627,8 +6808,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Gou ShellHide Vestments!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -6648,8 +6829,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -6672,7 +6853,7 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-												var/obj/items/GowHide/GH3 = locate() in M.contents
+												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -6686,8 +6867,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Coppermail Vestments!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -6706,8 +6887,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -6730,7 +6911,7 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-												var/obj/items/GuwiShell/GS4 = locate() in M.contents
+												var/obj/items/CParts/GuwiShell/GS4 = locate() in M.contents
 												if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -6744,8 +6925,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Zinc ShellPlate Vestments!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -6764,8 +6945,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -6788,7 +6969,7 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
-												var/obj/items/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
 												if((STLB in M.contents)&&(STLB.stack_amount>=3)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -6802,8 +6983,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Steel ShellPlate Vestments!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -6822,8 +7003,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -6848,7 +7029,7 @@ obj
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												//var/obj/items/GiuShell/GS0 = locate() in M.contents
-												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&/*(GS0 in M.contents)&&(GS0.stack_amount>=1)&&*/(GH0 in M.contents)&&(GH0.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -6863,8 +7044,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Monk Tunic!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -6884,8 +7065,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -6908,7 +7089,7 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-												var/obj/items/GouHide/GH1 = locate() in M.contents
+												var/obj/items/CParts/GouHide/GH1 = locate() in M.contents
 												//var/obj/items/GouShell/GS1 = locate() in M.contents
 												if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot")&&(GH1 in M.contents)&&(GH1.stack_amount>=1))//&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
@@ -6924,8 +7105,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Iron Studded Tunic!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -6945,8 +7126,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -6969,8 +7150,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-												var/obj/items/GouHide/GH2 = locate() in M.contents
-												var/obj/items/GouShell/GS2 = locate() in M.contents
+												var/obj/items/CParts/GouHide/GH2 = locate() in M.contents
+												var/obj/items/CParts/GouShell/GS2 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2 in M.contents)&&(GS2.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -6985,8 +7166,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Copper ShellPlate Tunic!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7006,8 +7187,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7030,7 +7211,7 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-												var/obj/items/GowHide/GH3 = locate() in M.contents
+												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
 												if((BRB in M.contents)&&(BRB.stack_amount>=2)&&(BRB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7044,8 +7225,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Bronzemail Tunic!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7064,8 +7245,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7088,7 +7269,7 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-												var/obj/items/GuwiHide/GH4 = locate() in M.contents
+												var/obj/items/CParts/GuwiHide/GH4 = locate() in M.contents
 												if((ZB in M.contents)&&(ZB.stack_amount>=2)&&(ZB.Tname=="Hot")&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7102,8 +7283,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Zincmail Tunic!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7122,8 +7303,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7146,8 +7327,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
-												var/obj/items/GowuShell/GS5 = locate() in M.contents
-												var/obj/items/GowuHide/GH5 = locate() in M.contents
+												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/CParts/GowuHide/GH5 = locate() in M.contents
 												if((STLB in M.contents)&&(STLB.stack_amount>=2)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7162,8 +7343,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Landscaper Tunic!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7183,8 +7364,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7208,8 +7389,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-												var/obj/items/GiuShell/GS0 = locate() in M.contents
-												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												var/obj/items/CParts/GiuShell/GS0 = locate() in M.contents
+												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
 												if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7224,8 +7405,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Giu ShellHide Corslet!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7245,8 +7426,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7269,8 +7450,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-												var/obj/items/GouShell/GS1 = locate() in M.contents
-												var/obj/items/GouHide/GH1 = locate() in M.contents
+												var/obj/items/CParts/GouShell/GS1 = locate() in M.contents
+												var/obj/items/CParts/GouHide/GH1 = locate() in M.contents
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1 in M.contents)&&(GH1.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7285,8 +7466,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Gou ShellPlate Corslet!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7306,8 +7487,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7330,8 +7511,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-												var/obj/items/GouShell/GS2 = locate() in M.contents
-												var/obj/items/GouHide/GH2 = locate() in M.contents
+												var/obj/items/CParts/GouShell/GS2 = locate() in M.contents
+												var/obj/items/CParts/GouHide/GH2 = locate() in M.contents
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2 in M.contents)&&(GH2.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7346,8 +7527,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Iron Platemail Corslet!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7367,8 +7548,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7391,8 +7572,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-												var/obj/items/GowShell/GS3 = locate() in M.contents
-												var/obj/items/GowHide/GH3 = locate() in M.contents
+												var/obj/items/CParts/GowShell/GS3 = locate() in M.contents
+												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=3)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7407,8 +7588,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Copper Platemail Corslet!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7428,8 +7609,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7452,8 +7633,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-												var/obj/items/GuwiShell/GS4 = locate() in M.contents
-												var/obj/items/GuwiHide/GH4 = locate() in M.contents
+												var/obj/items/CParts/GuwiShell/GS4 = locate() in M.contents
+												var/obj/items/CParts/GuwiHide/GH4 = locate() in M.contents
 												if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7468,8 +7649,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Bronzemail Corslet!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7489,8 +7670,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7513,8 +7694,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-												var/obj/items/GowuShell/GS5 = locate() in M.contents
-												var/obj/items/GowuHide/GH5 = locate() in M.contents
+												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/CParts/GowuHide/GH5 = locate() in M.contents
 												if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5 in M.contents)&&(GH5.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7529,8 +7710,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Zinc Platemail Corslet!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7550,8 +7731,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7584,8 +7765,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-												var/obj/items/GiuShell/GS0 = locate() in M.contents
-												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												var/obj/items/CParts/GiuShell/GS0 = locate() in M.contents
+												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=4)&&(CB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7600,8 +7781,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith a CopperPlate Cuirass!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7621,8 +7802,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7645,8 +7826,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/LB = locate() in M.contents
-												var/obj/items/GouShell/GS1 = locate() in M.contents
-												var/obj/items/GouHide/GH1 = locate() in M.contents
+												var/obj/items/CParts/GouShell/GS1 = locate() in M.contents
+												var/obj/items/CParts/GouHide/GH1 = locate() in M.contents
 												if((LB in M.contents)&&(LB.stack_amount>=4)&&(LB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7661,8 +7842,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith a IronPlate Cuirass!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7682,8 +7863,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7706,8 +7887,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-												var/obj/items/GowShell/GS2 = locate() in M.contents
-												var/obj/items/GowHide/GH2 = locate() in M.contents
+												var/obj/items/CParts/GowShell/GS2 = locate() in M.contents
+												var/obj/items/CParts/GowHide/GH2 = locate() in M.contents
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7722,8 +7903,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith a Iron HalfPlate Cuirass!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7743,8 +7924,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7767,8 +7948,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-												var/obj/items/GowShell/GS3 = locate() in M.contents
-												var/obj/items/GowHide/GH3 = locate() in M.contents
+												var/obj/items/CParts/GowShell/GS3 = locate() in M.contents
+												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
 												if((BRB in M.contents)&&(BRB.stack_amount>=5)&&(BRB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7783,8 +7964,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith a Bronze SolidPlate Cuirass!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7804,8 +7985,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7828,8 +8009,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-												var/obj/items/GuwiShell/GS4 = locate() in M.contents
-												var/obj/items/GuwiHide/GH4 = locate() in M.contents
+												var/obj/items/CParts/GuwiShell/GS4 = locate() in M.contents
+												var/obj/items/CParts/GuwiHide/GH4 = locate() in M.contents
 												if((ZB in M.contents)&&(ZB.stack_amount>=5)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7844,8 +8025,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith a Boreal ZincPlate Cuirass!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7865,8 +8046,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7889,8 +8070,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
-												var/obj/items/GowuShell/GS5 = locate() in M.contents
-												var/obj/items/GowuHide/GH5 = locate() in M.contents
+												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/CParts/GowuHide/GH5 = locate() in M.contents
 												if((STLB in M.contents)&&(STLB.stack_amount>=7)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7905,8 +8086,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith a Aurelian SteelPlate Cuirass!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7926,8 +8107,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -7960,8 +8141,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
-												var/obj/items/GiuShell/GS0 = locate() in M.contents
-												var/obj/items/GiuHide/GH0 = locate() in M.contents
+												var/obj/items/CParts/GiuShell/GS0 = locate() in M.contents
+												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
 												if((IB in M.contents)&&(IB.stack_amount>=5)&&(IB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -7976,8 +8157,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith IronPlate Battlegear!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -7997,8 +8178,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -8021,8 +8202,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-												var/obj/items/GouShell/GS1 = locate() in M.contents
-												var/obj/items/GouHide/GH1 = locate() in M.contents
+												var/obj/items/CParts/GouShell/GS1 = locate() in M.contents
+												var/obj/items/CParts/GouHide/GH1 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=5)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -8037,8 +8218,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith CopperPlate Battlegear!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -8058,8 +8239,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -8082,8 +8263,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-												var/obj/items/GowShell/GS2 = locate() in M.contents
-												var/obj/items/GowHide/GH2 = locate() in M.contents
+												var/obj/items/CParts/GowShell/GS2 = locate() in M.contents
+												var/obj/items/CParts/GowHide/GH2 = locate() in M.contents
 												if((BRB in M.contents)&&(BRB.stack_amount>=5)&&(BRB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d6"
@@ -8098,8 +8279,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith BronzePlate Battlegear!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -8119,8 +8300,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -8144,8 +8325,8 @@ obj
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/LB = locate() in M.contents
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
-												var/obj/items/GowShell/GS3 = locate() in M.contents
-												var/obj/items/GowHide/GH3 = locate() in M.contents
+												var/obj/items/CParts/GowShell/GS3 = locate() in M.contents
+												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
 												if((LB in M.contents)&&(LB.stack_amount>=3)&&(LB.Tname=="Hot")&&(CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d10"
@@ -8161,8 +8342,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith Omphalos AlloyPlate Battlegear!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -8183,8 +8364,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -8207,8 +8388,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-												var/obj/items/GuwiShell/GS4 = locate() in M.contents
-												var/obj/items/GuwiHide/GH4 = locate() in M.contents
+												var/obj/items/CParts/GuwiShell/GS4 = locate() in M.contents
+												var/obj/items/CParts/GuwiHide/GH4 = locate() in M.contents
 												if((ZB in M.contents)&&(ZB.stack_amount>=5)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d12"
@@ -8223,8 +8404,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith ZincPlate Battlegear!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -8244,8 +8425,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -8268,8 +8449,8 @@ obj
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
-												var/obj/items/GowuShell/GS5 = locate() in M.contents
-												var/obj/items/GowuHide/GH5 = locate() in M.contents
+												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
+												var/obj/items/CParts/GowuHide/GH5 = locate() in M.contents
 												if((STLB in M.contents)&&(STLB.stack_amount>=5)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
 													//var/obj/items/tools/BroadSword/BS
 													var/dice = "1d20"
@@ -8284,8 +8465,8 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														M.smiexp += 15 //go to proc miningcheck
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														new AV(M)//(locate(x,y,z))
 														usr << "You smith SteelPlate Battlegear!" //message to user saying he/she mined something
 														//BSB:Tname="Hot"
@@ -8305,8 +8486,8 @@ obj
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
 															M.smiexp += 15 //....
-															M.energy -= 5
-															M.updateEN()
+															M.stamina -= 5
+															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
 															src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 															M.Doing = 0
@@ -8352,8 +8533,8 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													M.smiexp += 15 //go to proc miningcheck
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													new ILH(locate(x,y,z))
 													usr << "You smith a Iron Lamp Head!" //message to user saying he/she mined something
 													//BSB:Tname="Hot"
@@ -8371,8 +8552,8 @@ obj
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
 														M.smiexp += 15 //....
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 														M.Doing = 0
@@ -8407,8 +8588,8 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													M.smiexp += 15 //go to proc miningcheck
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													new CLH(locate(x,y,z))
 													usr << "You smith a Copper Lamp Head!" //message to user saying he/she mined something
 													//BSB:Tname="Hot"
@@ -8426,8 +8607,8 @@ obj
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
 														M.smiexp += 15 //....
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 														M.Doing = 0
@@ -8462,8 +8643,8 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													M.smiexp += 15 //go to proc miningcheck
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													new BRLH(locate(x,y,z))
 													usr << "You smith a Bronze Lamp Head!" //message to user saying he/she mined something
 													//BSB:Tname="Hot"
@@ -8481,8 +8662,8 @@ obj
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
 														M.smiexp += 15 //....
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 														M.Doing = 0
@@ -8517,8 +8698,8 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													M.smiexp += 15 //go to proc miningcheck
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													new BLH(locate(x,y,z))
 													usr << "You smith a Brass Lamp Head!" //message to user saying he/she mined something
 													//BSB:Tname="Hot"
@@ -8536,8 +8717,8 @@ obj
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
 														M.smiexp += 15 //....
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 														M.Doing = 0
@@ -8572,8 +8753,8 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													M.smiexp += 15 //go to proc miningcheck
-													M.energy -= 5
-													M.updateEN()
+													M.stamina -= 5
+													M.updateST()
 													new STLH(locate(x,y,z))
 													usr << "You smith a Steel Lamp Head!" //message to user saying he/she mined something
 													//BSB:Tname="Hot"
@@ -8591,8 +8772,8 @@ obj
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
 														M.smiexp += 15 //....
-														M.energy -= 5
-														M.updateEN()
+														M.stamina -= 5
+														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
 														src.overlays -= image('dmi/64/creation.dmi',icon_state="anvilL")
 														M.Doing = 0
@@ -8624,16 +8805,18 @@ obj
 
 		Smelting() //Name of proc
 			set waitfor = 0
-			var/mob/players/M = usr
+			var/mob/players/M
+			M = usr
 
 			//var/sme
 			//sme = smeltingunlock(arglist(smelt))
-			call(/proc/smeltingunlock)(M)
-			call(/proc/smeltinglevel)(M)
-			if(M.energy == 0)
+			//smeltingunlock()
+			//call(/proc/smeltingunlock)(usr)
+			//smeltinglevel()
+			if(M.stamina == 0)
 				return
 			if(M.Doing == 1)
-				usr << "You are already smelting!"
+				M << "You are already smelting!"
 				return
 			if(M.GVequipped == 1&&src.name=="Lit Forge")
 				M.SMEopen = 1
@@ -8660,8 +8843,8 @@ obj
 							sleep(30) //Delay 3 seconds
 								//user gets 25 mining experience
 							M.smeexp += 5 //go to proc miningcheck
-							M.energy -= 5
-							M.updateEN()
+							M.stamina -= 5
+							M.updateST()
 								//IB:Tname="Hot"
 							new IB(locate(x,y,z))
 							M << "You smelt an Iron Anvil Head!" //message to user saying he/she mined something
@@ -8686,8 +8869,8 @@ obj
 								sleep(30) //Delay 3 seconds
 								//user mining skill gos up by 15
 								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap iron!" //message to user saying he/she didn't mine anything
 									//SCI:Tname="Hot"
 								new SCI(locate(x,y,z))
@@ -8709,8 +8892,8 @@ obj
 							sleep(30) //Delay 3 seconds
 								//user gets 25 mining experience
 							M.smeexp += 5 //go to proc miningcheck
-							M.energy -= 5
-							M.updateEN()
+							M.stamina -= 5
+							M.updateST()
 								//IB:Tname="Hot"
 							new IB(locate(x,y,z))
 							M << "You smelt an Iron Ingot!" //message to user saying he/she mined something
@@ -8735,8 +8918,8 @@ obj
 								sleep(30) //Delay 3 seconds
 								//user mining skill gos up by 15
 								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap iron!" //message to user saying he/she didn't mine anything
 									//SCI:Tname="Hot"
 								new SCI(locate(x,y,z))
@@ -8761,8 +8944,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
 								M.smeexp += 5 //go to proc miningcheck
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								new LB(locate(x,y,z))
 								//LB:Tname="Hot"
 								usr << "You smelt a Lead Ingot!" //message to user saying he/she mined something
@@ -8786,8 +8969,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap lead!" //message to user saying he/she didn't mine anything
 								new SCL(locate(x,y,z))
 								//SCL:Tname="Hot"
@@ -8815,8 +8998,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
 								M.smeexp += 5 //go to proc miningcheck
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								new ZB(locate(x,y,z))
 								//ZB:Tname="Hot"
 								usr << "You smelt a Zinc Ingot!" //message to user saying he/she mined something
@@ -8838,8 +9021,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap zinc!" //message to user saying he/she didn't mine anything
 								new SCZ(locate(x,y,z))
 								//SCZ:Tname="Hot"
@@ -8866,8 +9049,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
 								M.smeexp += 5 //go to proc miningcheck
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								//M.copperbar += 1
 								new CB(locate(x,y,z))
 								//CB:Tname="Hot"
@@ -8890,8 +9073,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap copper!" //message to user saying he/she didn't mine anything
 								new SCC(locate(x,y,z))
 								//SCC:Tname="Hot"
@@ -8920,8 +9103,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
 								M.smeexp += 5 //go to proc miningcheck
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 									//M.copperbar += 1
 								new BRB(locate(x,y,z))
 								//BRB:Tname="Hot"
@@ -8945,8 +9128,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap bronze!" //message to user saying he/she didn't mine anything
 								new SCBR(locate(x,y,z))
 								//SCBR:Tname="Hot"
@@ -8975,8 +9158,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
 								M.smeexp += 5 //go to proc miningcheck
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								//M.copperbar += 1
 								new BB(locate(x,y,z))
 								//BB:Tname="Hot"
@@ -9000,8 +9183,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap brass!" //message to user saying he/she didn't mine anything
 								new SCB(locate(x,y,z))
 								//SCB:Tname="Hot"
@@ -9031,8 +9214,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
 								M.smeexp += 5 //go to proc miningcheck
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 									//M.copperbar += 1
 								new STB(locate(x,y,z))
 								//STB:Tname="Hot"
@@ -9056,8 +9239,8 @@ obj
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
 								M.smeexp += 5 //....
-								M.energy -= 5
-								M.updateEN()
+								M.stamina -= 5
+								M.updateST()
 								M << "The material used was too pitted to smelt properly and was lost in the process!" //message to user saying he/she didn't mine anything
 								//new SCBR(locate(x,y,z))
 								//SCBR:Tname="Hot"
@@ -9076,10 +9259,10 @@ obj
 				usr << "You need to use Gloves to hold the hot materials to be produced from a Lit Forge! Status:[src.name]" //message to user saying that they need a pick axe to mine
 				M.UESME = 0
 				M.SMEopen=0
-				return
+				return call(/proc/smeltinglevel)()
 	//These are all pretty self-explanatory.  Define what the object is, how it works, and protect from letting the player do anything stupid.
 obj/npcs
-	plane = 3
+	//plane = 3
 	layer = 3
 	Inn1
 		name = "Scrollkeeper"
@@ -9092,7 +9275,7 @@ obj/npcs
 				set hidden = 1
 				var/mob/players/M
 				M = usr
-				var/amount = round(((M.MAXHP-M.HP)+(M.MAXenergy-M.energy))/10,5) // calculation for cost based on your HP and energy
+				var/amount = round(((M.MAXHP-M.HP)+(M.MAXstamina-M.stamina))/10,5) // calculation for cost based on your HP and stamina
 				src.verbs-=new/obj/npcs/Inn1/verb/Talk() // protection against talking multiple times
 				M.nomotion=1 // protection against opening the dialog and moving around
 				//var/I = input("Refresh with Ancient Scrolls for [amount] lucre?","Scrollkeep") in list ("Yes","No")
@@ -9100,7 +9283,7 @@ obj/npcs
 					if ("Yes") // taking a rest
 						if (M.lucre>=amount) // if you can afford it
 							M.HP = M.MAXHP
-							M.energy = M.MAXenergy
+							M.stamina = M.MAXstamina
 							M.poisonD=0
 							M.poisoned=0
 							M.poisonDMG=0
@@ -9128,7 +9311,7 @@ obj/npcs
 				set hidden = 1
 				var/mob/players/M
 				M = usr
-				var/amount = round(((M.MAXHP-M.HP)+(M.MAXenergy-M.energy))/10,5) // calculation for cost based on your HP and energy
+				var/amount = round(((M.MAXHP-M.HP)+(M.MAXstamina-M.stamina))/10,5) // calculation for cost based on your HP and stamina
 				src.verbs-=new/obj/npcs/Inn1/verb/Talk() // protection against talking multiple times
 				M.nomotion=1 // protection against opening the dialog and moving around
 				//var/I = input("Refresh with Ancient Scrolls for [amount] lucre?","Scrollkeep") in list ("Yes","No")
@@ -9136,7 +9319,7 @@ obj/npcs
 					if ("Yes") // taking a rest
 						if (M.lucre>=amount) // if you can afford it
 							M.HP = M.MAXHP
-							M.energy = M.MAXenergy
+							M.stamina = M.MAXstamina
 							M.poisonD=0
 							M.poisoned=0
 							M.poisonDMG=0
@@ -9164,7 +9347,7 @@ obj/npcs
 				set hidden = 1
 				var/mob/players/M
 				M = usr
-				var/amount = round(((M.MAXHP-M.HP)+(M.MAXenergy-M.energy))/10,5) // calculation for cost based on your HP and energy
+				var/amount = round(((M.MAXHP-M.HP)+(M.MAXstamina-M.stamina))/10,5) // calculation for cost based on your HP and stamina
 				src.verbs-=new/obj/npcs/Inn1/verb/Talk() // protection against talking multiple times
 				M.nomotion=1 // protection against opening the dialog and moving around
 				//var/I = input("Refresh with Ancient Scrolls for [amount] lucre?","Scrollkeep") in list ("Yes","No")
@@ -9172,7 +9355,7 @@ obj/npcs
 					if ("Yes") // taking a rest
 						if (M.lucre>=amount) // if you can afford it
 							M.HP = M.MAXHP
-							M.energy = M.MAXenergy
+							M.stamina = M.MAXstamina
 							M.poisonD=0
 							M.poisoned=0
 							M.poisonDMG=0
@@ -9200,7 +9383,7 @@ obj/npcs
 				set hidden = 1
 				var/mob/players/M
 				M = usr
-				var/amount = round(((M.MAXHP-M.HP)+(M.MAXenergy-M.energy))/40,5) // calculation for cost based on your HP and energy
+				var/amount = round(((M.MAXHP-M.HP)+(M.MAXstamina-M.stamina))/40,5) // calculation for cost based on your HP and stamina
 				src.verbs-=new/obj/npcs/Inn1/verb/Talk() // protection against talking multiple times
 				M.nomotion=1 // protection against opening the dialog and moving around
 				//var/I = input("Refresh with Ancient Scrolls for [amount] lucre?","Scrollkeep") in list ("Yes","No")
@@ -9208,7 +9391,7 @@ obj/npcs
 					if ("Yes") // taking a rest
 						if (M.lucre>=amount) // if you can afford it
 							M.HP = M.MAXHP
-							M.energy = M.MAXenergy
+							M.stamina = M.MAXstamina
 							M.poisonD=0
 							M.poisoned=0
 							M.poisonDMG=0
@@ -9230,14 +9413,14 @@ obj/npcs
 		density = 1
 		icon = 'dmi/64/npcs.dmi'
 		icon_state = "inn2"
-		plane = 6
+		layer = 6
 		verb
 			Talk()
 				set src in oview(2)
 				set hidden = 1
 				var/mob/players/M
 				M = usr
-				var/amount = round(((M.MAXHP-M.HP)+(M.MAXenergy-M.energy))/10,5)
+				var/amount = round(((M.MAXHP-M.HP)+(M.MAXstamina-M.stamina))/10,5)
 				src.verbs-=new/obj/npcs/Inn2/verb/Talk()
 				M.nomotion=1
 				//var/I = input("Would you like a room for [amount] Lucre?","INN") in list ("Yes","No")
@@ -9245,7 +9428,7 @@ obj/npcs
 					if ("Yes")
 						if (M.lucre>=amount)
 							M.HP = M.MAXHP
-							M.energy = M.MAXenergy
+							M.stamina = M.MAXstamina
 							M.poisonD=0
 							M.poisoned=0
 							M.poisonDMG=0
@@ -9267,14 +9450,14 @@ obj/npcs
 		density = 1
 		icon = 'dmi/64/npcs.dmi'
 		icon_state = "inn3"
-		plane = 6
+		layer = 6
 		verb
 			Talk()
 				set src in oview(2)
 				set hidden = 1
 				var/mob/players/M
 				M = usr
-				var/amount = round(((M.MAXHP-M.HP)+(M.MAXenergy-M.energy))/17,5)
+				var/amount = round(((M.MAXHP-M.HP)+(M.MAXstamina-M.stamina))/17,5)
 				src.verbs-=new/obj/npcs/Inn2/verb/Talk()
 				M.nomotion=1
 				//var/I = input("Would you like a room for [amount] Lucre?","INN") in list ("Yes","No")
@@ -9282,7 +9465,7 @@ obj/npcs
 					if ("Yes")
 						if (M.lucre>=amount)
 							M.HP = M.MAXHP
-							M.energy = M.MAXenergy
+							M.stamina = M.MAXstamina
 							M.poisonD=0
 							M.poisoned=0
 							M.poisonDMG=0
@@ -9304,14 +9487,14 @@ obj/npcs
 		density = 1
 		icon = 'dmi/64/npcs.dmi'
 		icon_state = "hinn"
-		plane = 6
+		layer = 6
 		verb
 			Talk()
 				set src in oview(2)
 				set hidden = 1
 				var/mob/players/M
 				M = usr
-				var/amount = round(((M.MAXHP-M.HP)+(M.MAXenergy-M.energy))/27,5)
+				var/amount = round(((M.MAXHP-M.HP)+(M.MAXstamina-M.stamina))/27,5)
 				src.verbs-=new/obj/npcs/Inn2/verb/Talk()
 				M.nomotion=1
 				//var/I = input("Would you like a room for [amount] Lucre?","INN") in list ("Yes","No")
@@ -9319,7 +9502,7 @@ obj/npcs
 					if ("Yes")
 						if (M.lucre>=amount)
 							M.HP = M.MAXHP
-							M.energy = M.MAXenergy
+							M.stamina = M.MAXstamina
 							M.poisonD=0
 							M.poisoned=0
 							M.poisonDMG=0
@@ -9336,6 +9519,31 @@ obj/npcs
 						usr << "<font color = teal>Sorry but it seems that you do not have enough Lucre."
 						M.nomotion=0
 						src.verbs+=new/obj/npcs/Inn2/verb/Talk()
+
+	weapon_dealer
+
+		var/inventory[] // the inventory of the shopkeeper (these are object prototypes)
+		var/money		// how much money the shopkeeper has available to them
+
+
+
+		town
+			name = "Town Weapon Dealer"
+			icon = 'dmi/64/npcs.dmi'
+			icon_state = "weap1"
+
+			inventory = list(
+							/obj/items/weapons/avganlace,
+							/obj/items/weapons/ordianlace,
+							/obj/items/weapons/avgmarubo,
+							/obj/items/weapons/avgbrand,
+							/obj/items/weapons/avgestoc,
+							/obj/items/weapons/avgtanto,
+							/obj/items/weapons/avgferule
+							)
+
+		village
+
 	Weapons1
 		name = "Town Weapon Dealer"
 		density = 1
@@ -9350,69 +9558,69 @@ obj/npcs
 				var/K = (input("Welcome","WEAPONS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Russet (Anlace)  2-4 DMG, 1 STRReq, 1H : 4 lucre"
-								temp2 = "Ochroid (Anlace) 7-11 DMG, 4 STRReq, 1H : 84 lucre"
-								temp3 = "Firm (Marubo): 7-8 DMG, 3 STRReq, 2H : 25 lucre"
-								temp4 = "Russet (Brand): 8-10 DMG, 5 STRReq, 2H : 45 lucre"
-								temp5 = "Ecru (Estoc): 4-8 DMG, 2 STRReq, 1H : 11 lucre"
-								temp6 = "Worn (Tanto): 3-5 DMG, 1 STRReq, 1H : 20 lucre"
-								temp7 = "Blackjack (Ferule): 4-6 DMG, 2 STRReq, 1H : 33 lucre"
-						I = input("What would you like to buy?","WEAPONS",I) in list (temp1,temp2,temp3,temp4,temp5,temp6,temp7,"Leave")
-						switch(I)
-							if(temp1)
-								if (M.lucre>=4)
-									M.lucre-=4
-									var/obj/items/weapons/avganlace/J = new(M)
-									usr << "Thank you for buying [J]."
-								else
-									NoLucre()
-							if(temp2)
-								if (M.lucre>=84)
-									M.lucre-=84
-									var/obj/items/weapons/ordianlace/J = new(M)
-									usr << "Thank you for buying [J]."
-								else
-									NoLucre()
-							if(temp3)
-								if (M.lucre>=25)
-									M.lucre-=25
-									var/obj/items/weapons/avgmarubo/J = new(M)
-									usr << "Thank you for buying [J]."
-								else
-									NoLucre()
-							if(temp4)
-								if (M.lucre>=45)
-									M.lucre-=45
-									var/obj/items/weapons/avgbrand/J = new(M)
-									usr << "Thank you for buying [J]."
-								else
-									NoLucre()
-							if(temp5)
-								if (M.lucre>=11)
-									M.lucre-=11
-									var/obj/items/weapons/avgestoc/J = new(M)
-									usr << "Thank you for buying [J]."
-								else
-									NoLucre()
-							if(temp6)
-								if (M.lucre>=20)
-									M.lucre-=20
-									var/obj/items/weapons/avgtanto/J = new(M)
-									usr << "Thank you for buying [J]."
-								else
-									NoLucre()
-							if(temp7)
-								if (M.lucre>=33)
-									M.lucre-=33
-									var/obj/items/weapons/avgferule/J = new(M)
-									usr << "Thank you for buying [J]."
-								else
-									NoLucre()
+						var/choices = list(
+							"Russet (Anlace)  2-4 DMG, 1 STRReq, 1H : 4 lucre",
+							"Ochroid (Anlace) 7-11 DMG, 4 STRReq, 1H : 84 lucre",
+							"Firm (Marubo): 7-8 DMG, 3 STRReq, 2H : 25 lucre",
+							"Russet (Brand): 8-10 DMG, 5 STRReq, 2H : 45 lucre",
+							"Ecru (Estoc): 4-8 DMG, 2 STRReq, 1H : 11 lucre",
+							"Worn (Tanto): 3-5 DMG, 1 STRReq, 1H : 20 lucre",
+							"Blackjack (Ferule): 4-6 DMG, 2 STRReq, 1H : 33 lucre",
+							"Leave"
+										)
+
+						var/I = input("What would you like to buy?","WEAPONS") in choices
+						if(I == choices[1])
+							if (M.lucre>=4)
+								M.lucre-=4
+								var/obj/items/weapons/avganlace/J = new(M)
+								usr << "Thank you for buying [J]."
 							else
-								usr << "<font color = teal>Maybe next time."
+								NoLucre()
+						if(I == choices[2])
+							if (M.lucre>=84)
+								M.lucre-=84
+								var/obj/items/weapons/ordianlace/J = new(M)
+								usr << "Thank you for buying [J]."
+							else
+								NoLucre()
+						if(I == choices[3])
+							if (M.lucre>=25)
+								M.lucre-=25
+								var/obj/items/weapons/avgmarubo/J = new(M)
+								usr << "Thank you for buying [J]."
+							else
+								NoLucre()
+						if(I == choices[4])
+							if (M.lucre>=45)
+								M.lucre-=45
+								var/obj/items/weapons/avgbrand/J = new(M)
+								usr << "Thank you for buying [J]."
+							else
+								NoLucre()
+						if(I == choices[5])
+							if (M.lucre>=11)
+								M.lucre-=11
+								var/obj/items/weapons/avgestoc/J = new(M)
+								usr << "Thank you for buying [J]."
+							else
+								NoLucre()
+						if(I == choices[6])
+							if (M.lucre>=20)
+								M.lucre-=20
+								var/obj/items/weapons/avgtanto/J = new(M)
+								usr << "Thank you for buying [J]."
+							else
+								NoLucre()
+						if(I == choices[7])
+							if (M.lucre>=33)
+								M.lucre-=33
+								var/obj/items/weapons/avgferule/J = new(M)
+								usr << "Thank you for buying [J]."
+							else
+								NoLucre()
+						else
+							usr << "<font color = teal>Maybe next time."
 					if("Sell")
 						Selling(input("What would you like to sell") in usr)
 					else
@@ -9431,16 +9639,12 @@ obj/npcs
 				var/K = (input("Welcome","WEAPONS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Russet (Anlace)  2-4 DMG, 1 STRReq : 4 lucre"
-								temp2 = "Firm (Marubo): 7-8 DMG, 3 STRReq : 25 lucre"
-								temp3 = "Ecru (Estoc): 4-8 DMG, 2 STRReq : 11 lucre"
-								temp4 = "Worn (Tanto): 3-5 DMG, 1 STRReq : 20 lucre"
-								temp5 = "Blackjack (Ferule): 4-6 DMG, 2 STRReq : 33 lucre"
-						I = input("What would you like to buy?","WEAPONS",I) in list (temp1,temp2,temp3,temp4,temp5,"Leave")
-						switch(I)
+						var/const/temp1 = "Russet (Anlace)  2-4 DMG, 1 STRReq : 4 lucre"
+						var/const/temp2 = "Firm (Marubo): 7-8 DMG, 3 STRReq : 25 lucre"
+						var/const/temp3 = "Ecru (Estoc): 4-8 DMG, 2 STRReq : 11 lucre"
+						var/const/temp4 = "Worn (Tanto): 3-5 DMG, 1 STRReq : 20 lucre"
+						var/const/temp5 = "Blackjack (Ferule): 4-6 DMG, 2 STRReq : 33 lucre"
+						switch(input("What would you like to buy?","WEAPONS") in list (temp1,temp2,temp3,temp4,temp5,"Leave"))
 							if(temp1)
 								if (M.lucre>=4)
 									M.lucre-=4
@@ -9487,7 +9691,7 @@ obj/npcs
 		density = 1
 		icon = 'dmi/64/npcs.dmi'
 		icon_state = "weap2"
-		plane = 6
+		layer = 6
 		verb
 			Talk()
 				set hidden = 1
@@ -9497,17 +9701,13 @@ obj/npcs
 				var/K = (input("Welcome","WEAPONS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Worn (Yawara): 4-9 dmg, 10 str req::142 lucre"
-								temp2 = "Elde (Eiku): 8-10 dmg, 24 str req::133 lucre"
-								temp3 = "Swift (Kakubo): 3-6 dmg, 9 str req::113 lucre"
-								temp4 = "Butcher (Tinberochin): 5-11 dmg, 22 str req, 2H::234 lucre"
-								temp5 = "Dull (Katar): 4-7 dmg, 16 str req::164 lucre"
-								temp6 = "Precise (Brand): 18-18 dmg, 20 str req::184 lucre"
-						I = input("What would you like to buy?","WEAPONS",I) in list (temp1,temp2,temp3,temp4,temp5,temp6,"Leave")
-						switch(I)
+						var/const/temp1 = "Worn (Yawara): 4-9 dmg, 10 str req::142 lucre"
+						var/const/temp2 = "Elde (Eiku): 8-10 dmg, 24 str req::133 lucre"
+						var/const/temp3 = "Swift (Kakubo): 3-6 dmg, 9 str req::113 lucre"
+						var/const/temp4 = "Butcher (Tinberochin): 5-11 dmg, 22 str req, 2H::234 lucre"
+						var/const/temp5 = "Dull (Katar): 4-7 dmg, 16 str req::164 lucre"
+						var/const/temp6 = "Precise (Brand): 18-18 dmg, 20 str req::184 lucre"
+						switch(input("What would you like to buy?","WEAPONS") in list (temp1,temp2,temp3,temp4,temp5,temp6,"Leave"))
 							if(temp1)
 								if (M.lucre>=142)
 									M.lucre-=142
@@ -9570,17 +9770,13 @@ obj/npcs
 				var/K = (input("Welcome","WEAPONS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Dull (Voulge): 13-24 dmg, 28 str req::275 lucre"
-								temp2 = "Studded (Rakkakubo): 16-26 dmg, 33 str req::264 lucre"
-								temp3 = "Harvest (Kama): 11-13 dmg, 18 str req::184 lucre"
-								temp4 = "Rustic (Wakizashi): 7-17 dmg, 21 str req::204 lucre"
-								temp5 = "Worn (Nagamaki): 9-23 dmg, 24 str req::190 lucre"
-								temp6 = "Relic (Tachi): 11-19 dmg, 28 str req::240 lucre"
-						I = input("What would you like to buy?","WEAPONS",I) in list (temp1,temp2,temp3,temp4,temp5,temp6,"Leave")
-						switch(I)
+						var/const/temp1 = "Dull (Voulge): 13-24 dmg, 28 str req::275 lucre"
+						var/const/temp2 = "Studded (Rakkakubo): 16-26 dmg, 33 str req::264 lucre"
+						var/const/temp3 = "Harvest (Kama): 11-13 dmg, 18 str req::184 lucre"
+						var/const/temp4 = "Rustic (Wakizashi): 7-17 dmg, 21 str req::204 lucre"
+						var/const/temp5 = "Worn (Nagamaki): 9-23 dmg, 24 str req::190 lucre"
+						var/const/temp6 = "Relic (Tachi): 11-19 dmg, 28 str req::240 lucre"
+						switch(input("What would you like to buy?","WEAPONS") in list (temp1,temp2,temp3,temp4,temp5,temp6,"Leave"))
 							if(temp1)
 								if (M.lucre>=275)
 									M.lucre-=275
@@ -9643,16 +9839,12 @@ obj/npcs
 				var/K = (input("What do you want?","WEAPONS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Rusty (Uchigatana): 170-178 dmg, 52 str req::364 lucre"
-								temp3 = "Relic (Naginata): 142-184 dmg, 38 str req::333 lucre"
-								temp4 = "Hard (Hakkakubo): 160-201 dmg, 66 str req::313 lucre"
-								temp5 = "Edge (Wakizashi): 290-334 dmg, 58 str req::664 lucre"
-								temp6 = "Edge (Kama): 174-195 dmg, 52 str req::672 lucre"
-						I = input("What do you want to buy?","WEAPONS",I) in list (temp1,temp3,temp4,temp5,temp6,"Leave")
-						switch(I)
+						var/const/temp1 = "Rusty (Uchigatana): 170-178 dmg, 52 str req::364 lucre"
+						var/const/temp3 = "Relic (Naginata): 142-184 dmg, 38 str req::333 lucre"
+						var/const/temp4 = "Hard (Hakkakubo): 160-201 dmg, 66 str req::313 lucre"
+						var/const/temp5 = "Edge (Wakizashi): 290-334 dmg, 58 str req::664 lucre"
+						var/const/temp6 = "Edge (Kama): 174-195 dmg, 52 str req::672 lucre"
+						switch(input("What do you want to buy?","WEAPONS") in list (temp1,temp3,temp4,temp5,temp6,"Leave"))
 							if(temp1)
 								if (M.lucre>=364)
 									M.lucre-=364
@@ -9706,7 +9898,7 @@ obj/npcs
 				set src in oview(2)
 				M = usr
 				var/I
-				I = input("Singular Wakizashi:  348-390 damage, one-handed, Increased Attack Speed, +60 Str, +20 Int, +600-1000 HP(varies), +600-1000 energy(varies), +5-10 Demi(varies), +24-33 Resist All(varies), 240 strength required","INVISOMAN",I) in list ("Yes","No")
+				I = input("Singular Wakizashi:  348-390 damage, one-handed, Increased Attack Speed, +60 Str, +20 Int, +600-1000 HP(varies), +600-1000 stamina(varies), +5-10 Demi(varies), +24-33 Resist All(varies), 240 strength required","INVISOMAN",I) in list ("Yes","No")
 				switch(I)
 					if("Yes")
 						if (M.lucre>=5000000)
@@ -9731,16 +9923,12 @@ obj/npcs
 				var/K = (input("Welcome","ARMORS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Vestments: 2 DEF, 6% eva, 3 STR-REQ : 15 lucre"
-								temp2 = "Ringmail Vestments: 13 DEF, 4% eva, 15 STR-REQ : 75 lucre"
-								temp3 = "Tunic: 5 DEF, 8% Eva, 5 STR-REQ : 30 lucre"
-								temp4 = "Corslet: 14 DEF, 4% eva, 11 STR-REQ, : 67 lucre"
-								temp5 = "Bastion: 11 DEF, 3% eva, 6 STR-REQ : 50 lucre"
-						I = input("What would you like to buy?","ARMORS",I) in list (temp1,temp2,temp3,temp4,temp5,"Leave")
-						switch(I)
+						var/const/temp1 = "Vestments: 2 DEF, 6% eva, 3 STR-REQ : 15 lucre"
+						var/const/temp2 = "Ringmail Vestments: 13 DEF, 4% eva, 15 STR-REQ : 75 lucre"
+						var/const/temp3 = "Tunic: 5 DEF, 8% Eva, 5 STR-REQ : 30 lucre"
+						var/const/temp4 = "Corslet: 14 DEF, 4% eva, 11 STR-REQ, : 67 lucre"
+						var/const/temp5 = "Bastion: 11 DEF, 3% eva, 6 STR-REQ : 50 lucre"
+						switch(input("What would you like to buy?","ARMORS") in list (temp1,temp2,temp3,temp4,temp5,"Leave"))
 							if(temp1)
 								if (M.lucre>=15)
 									M.lucre-=15
@@ -9796,16 +9984,12 @@ obj/npcs
 				var/K = (input("Welcome","ARMORS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Vestments: 2 DEF, 6% eva, 3 STR-REQ : 15 lucre"
-								temp2 = "Ringmail Vestments: 13 DEF, 4% eva, 15 STR-REQ : 75 lucre"
-								temp3 = "Tunic: 5 DEF, 8% Eva, 5 STR-REQ : 30 lucre"
-								temp4 = "Corslet: 14 DEF, 4% eva, 11 STR-REQ, : 67 lucre"
-								temp5 = "Bastion: 11 DEF, 3% eva, 6 STR-REQ : 50 lucre"
-						I = input("What would you like to buy?","ARMORS",I) in list (temp1,temp2,temp3,temp4,temp5,"Leave")
-						switch(I)
+						var/const/temp1 = "Vestments: 2 DEF, 6% eva, 3 STR-REQ : 15 lucre"
+						var/const/temp2 = "Ringmail Vestments: 13 DEF, 4% eva, 15 STR-REQ : 75 lucre"
+						var/const/temp3 = "Tunic: 5 DEF, 8% Eva, 5 STR-REQ : 30 lucre"
+						var/const/temp4 = "Corslet: 14 DEF, 4% eva, 11 STR-REQ, : 67 lucre"
+						var/const/temp5 = "Bastion: 11 DEF, 3% eva, 6 STR-REQ : 50 lucre"
+						switch(input("What would you like to buy?","ARMORS") in list (temp1,temp2,temp3,temp4,temp5,"Leave"))
 							if(temp1)
 								if (M.lucre>=15)
 									M.lucre-=15
@@ -9861,16 +10045,12 @@ obj/npcs
 				var/K = (input("Welcome","ARMORS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Bronzemail (Tunic): 13 def, 7% eva, 11 str req::89 lucre"
-								temp2 = "CopperPlate (Cuirass): 23 def, 1% eva, 12 str req::250 lucre"
-								temp3 = "Vanfos: 15 DEF, 10% Evasion, 12 STR-REQ::99 lucre"
-								temp4 = "Screen Vanfos: 30 DEF, 2% Evasion, 20 STR-REQ::164 lucre"
-								temp5 = "Aegis: 60 DEF, 4% Evasion, 30 STR-REQ::224 lucre"
-						I = input("What would you like to buy?","ARMORS",I) in list (temp1,temp2,temp3,temp4,temp5,"Leave")
-						switch(I)
+						var/const/temp1 = "Bronzemail (Tunic): 13 def, 7% eva, 11 str req::89 lucre"
+						var/const/temp2 = "CopperPlate (Cuirass): 23 def, 1% eva, 12 str req::250 lucre"
+						var/const/temp3 = "Vanfos: 15 DEF, 10% Evasion, 12 STR-REQ::99 lucre"
+						var/const/temp4 = "Screen Vanfos: 30 DEF, 2% Evasion, 20 STR-REQ::164 lucre"
+						var/const/temp5 = "Aegis: 60 DEF, 4% Evasion, 30 STR-REQ::224 lucre"
+						switch(input("What would you like to buy?","ARMORS") in list (temp1,temp2,temp3,temp4,temp5,"Leave"))
 							if(temp1)
 								if (M.lucre>=89)
 									M.lucre-=89
@@ -9926,15 +10106,11 @@ obj/npcs
 				var/K = (input("Welcome","ARMORS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Bronze SolidPlate (Cuirass): 28 def, 2% eva, 25 str req::250 lucre"
-								temp2 = "Omphalos IronPlate (Battlegear): 18 def, 1% eva, 17 str req::176 lucre"
-								temp3 = "Murrion Aegis: 84 DEF, 28% Evasion, 46 STR-REQ::224 lucre"
-								temp4 = "Ravelin: 113 DEF, 21% Evasion, 67 STR-REQ::324 lucre"
-						I = input("What would you like to buy?","ARMORS",I) in list (temp1,temp2,temp3,temp4,"Leave")
-						switch(I)
+						var/const/temp1 = "Bronze SolidPlate (Cuirass): 28 def, 2% eva, 25 str req::250 lucre"
+						var/const/temp2 = "Omphalos IronPlate (Battlegear): 18 def, 1% eva, 17 str req::176 lucre"
+						var/const/temp3 = "Murrion Aegis: 84 DEF, 28% Evasion, 46 STR-REQ::224 lucre"
+						var/const/temp4 = "Ravelin: 113 DEF, 21% Evasion, 67 STR-REQ::324 lucre"
+						switch(input("What would you like to buy?","ARMORS") in list (temp1,temp2,temp3,temp4,"Leave"))
 							if(temp1)
 								if (M.lucre>=250)
 									M.lucre-=250
@@ -9983,15 +10159,11 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ARMORS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "ZincPlate (Battlegear): 189 def, 22% eva, 97 str req::445 lucre"
-								temp2 = "SteelPlate (Battlegear): 264 def, 14% eva, 141 str req::2240 lucre"
-								temp3 = "Thureos Shield: 155 def, 22% eva, 105 str req::760 lucre"
-								temp4 = "Ravenous Thureos Shield: 285 def, 15% eva, 142 str req::1380 lucre"
-						I = input("What did I tell you?","ARMORS",I) in list (temp1,temp2,temp3,temp4,"Leave")
-						switch(I)
+						var/const/temp1 = "ZincPlate (Battlegear): 189 def, 22% eva, 97 str req::445 lucre"
+						var/const/temp2 = "SteelPlate (Battlegear): 264 def, 14% eva, 141 str req::2240 lucre"
+						var/const/temp3 = "Thureos Shield: 155 def, 22% eva, 105 str req::760 lucre"
+						var/const/temp4 = "Ravenous Thureos Shield: 285 def, 15% eva, 142 str req::1380 lucre"
+						switch(input("What did I tell you?","ARMORS") in list (temp1,temp2,temp3,temp4,"Leave"))
 							if(temp1)
 								if (M.lucre>=445)
 									M.lucre-=445
@@ -10040,14 +10212,11 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ITEMS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Vitae Vial: restores up to 39 HP::42 lucre"
-								temp2 = "Energy Tonic: restores up to 24 energy::33 lucre"
-								temp3 = "Large Vitae Vial: restores up to 64 HP::59 lucre"
-								temp4 = "Strong Energy Tonic: restores up to 42 energy::64 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Vitae Vial: restores up to 39 HP::42 lucre"
+						var/const/temp2 = "stamina Tonic: restores up to 24 stamina::33 lucre"
+						var/const/temp3 = "Large Vitae Vial: restores up to 64 HP::59 lucre"
+						var/const/temp4 = "Strong stamina Tonic: restores up to 42 stamina::64 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10066,7 +10235,7 @@ obj/npcs
 									if (M.lucre>=33*N)
 										M.lucre-=33*N
 										while(N>0)
-											var/obj/items/Tonics/energytonic/J = new(M)
+											var/obj/items/Tonics/staminatonic/J = new(M)
 											usr << "Thank you for buying [J]."
 											N--
 									else
@@ -10084,7 +10253,7 @@ obj/npcs
 									if (M.lucre>=64*N)
 										M.lucre-=64*N
 										while(N>0)
-											var/obj/items/Tonics/strongenergytonic/J = new(M)
+											var/obj/items/Tonics/strongstaminatonic/J = new(M)
 											usr << "Thank you for buying [J]."
 											N--
 									else
@@ -10107,14 +10276,11 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ITEMS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Vitae Vial: restores up to 39 HP::45 lucre"
-								temp2 = "Energy Tonic: restores up to 24 energy::35 lucre"
-								temp3 = "Large Vitae Vial: restores up to 64 HP::120 lucre"
-								temp4 = "Strong Energy Tonic: restores up to 42 energy::90 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Vitae Vial: restores up to 39 HP::45 lucre"
+						var/const/temp2 = "stamina Tonic: restores up to 24 stamina::35 lucre"
+						var/const/temp3 = "Large Vitae Vial: restores up to 64 HP::120 lucre"
+						var/const/temp4 = "Strong stamina Tonic: restores up to 42 stamina::90 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10133,7 +10299,7 @@ obj/npcs
 									if (M.lucre>=35*N)
 										M.lucre-=35*N
 										while(N>0)
-											var/obj/items/Tonics/energytonic/J = new(M)
+											var/obj/items/Tonics/staminatonic/J = new(M)
 											usr << "Thank you for buying [J]."
 											N--
 									else
@@ -10151,7 +10317,7 @@ obj/npcs
 									if (M.lucre>=90*N)
 										M.lucre-=90*N
 										while(N>0)
-											var/obj/items/Tonics/strongenergytonic/J = new(M)
+											var/obj/items/Tonics/strongstaminatonic/J = new(M)
 											usr << "Thank you for buying [J]."
 											N--
 									else
@@ -10174,12 +10340,9 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ITEMS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Vitae Vial: restores up to 39 HP::45 lucre"
-								temp2 = "Energy Tonic: restores up to 24 energy::33 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,"Leave")
+						var/const/temp1 = "Vitae Vial: restores up to 39 HP::45 lucre"
+						var/const/temp2 = "stamina Tonic: restores up to 24 stamina::33 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10198,7 +10361,7 @@ obj/npcs
 									if (M.lucre>=33*N)
 										M.lucre-=33*N
 										while(N>0)
-											var/obj/items/Tonics/energytonic/J = new(M)
+											var/obj/items/Tonics/staminatonic/J = new(M)
 											usr << "Thank you for buying [J]."
 											N--
 									else
@@ -10221,14 +10384,11 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ITEMS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Vitae Liniments: restores up to 84 HP::88 lucre"
-								temp2 = "Energy Spirits: restores up to 64 energy::93 lucre"
-								temp3 = "Quality Vitae Liniments: restores up to 113 HP::118 lucre"
-								temp4 = "Strong Energy Spirits: restores up to 204 energy::124 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Vitae Liniments: restores up to 84 HP::88 lucre"
+						var/const/temp2 = "stamina Spirits: restores up to 64 stamina::93 lucre"
+						var/const/temp3 = "Quality Vitae Liniments: restores up to 113 HP::118 lucre"
+						var/const/temp4 = "Strong stamina Spirits: restores up to 204 stamina::124 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10247,7 +10407,7 @@ obj/npcs
 									if (M.lucre>=93*N)
 										M.lucre-=93*N
 										while(N>0)
-											var/obj/items/Tonics/energyspirits/J = new(M)
+											var/obj/items/Tonics/staminaspirits/J = new(M)
 											N--
 											usr << "Thank you for buying [J]."
 									else
@@ -10265,7 +10425,7 @@ obj/npcs
 									if (M.lucre>=124*N)
 										M.lucre-=124*N
 										while(N>0)
-											var/obj/items/Tonics/strongenergyspirits/J = new(M)
+											var/obj/items/Tonics/strongstaminaspirits/J = new(M)
 											N--
 											usr << "Thank you for buying [J]."
 											N--
@@ -10289,15 +10449,12 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ITEMS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Vitae Curative: restores up to 184 HP::190 lucre"
-								temp2 = "Energy Restorative: restores up to 168 energy::204 lucre"
-								temp3 = "Quality Vitae Curative: restores up to 264 HP::313 lucre"
-								temp4 = "Strong energy Restorative: restores up to 224 energy::324 lucre"
-								temp5 = "Antitoxin: counteracts toxins::150 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Vitae Curative: restores up to 184 HP::190 lucre"
+						var/const/temp2 = "stamina Restorative: restores up to 168 stamina::204 lucre"
+						var/const/temp3 = "Quality Vitae Curative: restores up to 264 HP::313 lucre"
+						var/const/temp4 = "Strong stamina Restorative: restores up to 224 stamina::324 lucre"
+						var/const/temp5 = "Antitoxin: counteracts toxins::150 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10316,7 +10473,7 @@ obj/npcs
 									if (M.lucre>=204*N)
 										M.lucre-=204*N
 										while(N>0)
-											var/obj/items/Tonics/energyrestorative/J = new(M)
+											var/obj/items/Tonics/staminarestorative/J = new(M)
 											N--
 											usr << "Thank you for buying [J]."
 									else
@@ -10334,7 +10491,7 @@ obj/npcs
 									if (M.lucre>=324*N)
 										M.lucre-=324*N
 										while(N>0)
-											var/obj/items/Tonics/strongenergyrestorative/J = new(M)
+											var/obj/items/Tonics/strongstaminarestorative/J = new(M)
 											N--
 											usr << "Thank you for buying [J]."
 									else
@@ -10367,13 +10524,10 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ITEMS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Large Quality Vitae Curative: restores up to 364 HP::420 lucre"
-								temp2 = "Large Strong Energy Restorative: restores up to 324 energy::444 lucre"
-								temp3 = "Strong Antitoxin: Counteracts Toxins::250 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,"Leave")
+						var/const/temp1 = "Large Quality Vitae Curative: restores up to 364 HP::420 lucre"
+						var/const/temp2 = "Large Strong stamina Restorative: restores up to 324 stamina::444 lucre"
+						var/const/temp3 = "Strong Antitoxin: Counteracts Toxins::250 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10392,7 +10546,7 @@ obj/npcs
 									if (M.lucre>=324*N)
 										M.lucre-=324*N
 										while(N>0)
-											var/obj/items/Tonics/stronglargeenergyrestorative/J = new(M)
+											var/obj/items/Tonics/stronglargestaminarestorative/J = new(M)
 											N--
 											usr << "Thank you for buying [J]."
 									else
@@ -10427,14 +10581,11 @@ obj/npcs
 				var/K = (input("What Scroll would you like?","Ancient Scrolls") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Ancient Tome of Heat::400 lucre"
-								temp2 = "Ancient Tome of Shard Burst::500 lucre"
-								temp3 = "Ancient Tome of Water Shock::600 lucre"
-								temp4 = "Ancient Tome of Vitae::400 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Ancient Tome of Heat::400 lucre"
+						var/const/temp2 = "Ancient Tome of Shard Burst::500 lucre"
+						var/const/temp3 = "Ancient Tome of Water Shock::600 lucre"
+						var/const/temp4 = "Ancient Tome of Vitae::400 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10485,7 +10636,7 @@ obj/npcs
 		density = 1
 		icon = 'dmi/64/npcs.dmi'
 		icon_state = "mag2"
-		plane = 6
+		layer = 6
 		verb
 			Talk()
 				set hidden = 1
@@ -10495,14 +10646,11 @@ obj/npcs
 				var/K = (input("What Scroll would you like?","Ancient Scrolls") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Ancient Tome of Heat::400 lucre"
-								temp2 = "Ancient Tome of Shard Burst::500 lucre"
-								temp3 = "Ancient Tome of Water Shock::600 lucre"
-								temp4 = "Ancient Tome of Vitae::400 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Ancient Tome of Heat::400 lucre"
+						var/const/temp2 = "Ancient Tome of Shard Burst::500 lucre"
+						var/const/temp3 = "Ancient Tome of Water Shock::600 lucre"
+						var/const/temp4 = "Ancient Tome of Vitae::400 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10562,14 +10710,11 @@ obj/npcs
 				var/K = (input("What Scroll would you like?","Ancient Scrolls") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Ancient Tome of Heat::400 lucre"
-								temp2 = "Ancient Tome of Shard Burst::500 lucre"
-								temp3 = "Ancient Tome of Water Shock::600 lucre"
-								temp4 = "Ancient Tome of Vitae::400 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Ancient Tome of Heat::400 lucre"
+						var/const/temp2 = "Ancient Tome of Shard Burst::500 lucre"
+						var/const/temp3 = "Ancient Tome of Water Shock::600 lucre"
+						var/const/temp4 = "Ancient Tome of Vitae::400 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10629,14 +10774,11 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ITEMS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Ancient Tome of Flame::2000 lucre"
-								temp2 = "Ancient Tome of Ice Storm::2500 lucre"
-								temp3 = "Ancient Tome of Cascade Lightning::3000 lucre"
-								temp4 = "Ancient Tome of Telekinesis::1000 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Ancient Tome of Flame::2000 lucre"
+						var/const/temp2 = "Ancient Tome of Ice Storm::2500 lucre"
+						var/const/temp3 = "Ancient Tome of Cascade Lightning::3000 lucre"
+						var/const/temp4 = "Ancient Tome of Telekinesis::1000 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10696,14 +10838,11 @@ obj/npcs
 				var/K = (input("What would you like to purchase?","ITEMS") in list("Buy","Sell","Leave"))
 				switch(K)
 					if("Buy")
-						var
-							I
-							const
-								temp1 = "Ancient Tome of Bludgeon::5000 lucre"
-								temp2 = "Ancient Tome Acid::5000 lucre"
-								temp3 = "Ancient Tome Cosmos::6000 lucre"
-								temp4 = "Ancient Tome Rephase::6000 lucre"
-						I = input("Items?","ITEMS",I) in list (temp1,temp2,temp3,temp4,"Leave")
+						var/const/temp1 = "Ancient Tome of Bludgeon::5000 lucre"
+						var/const/temp2 = "Ancient Tome Acid::5000 lucre"
+						var/const/temp3 = "Ancient Tome Cosmos::6000 lucre"
+						var/const/temp4 = "Ancient Tome Rephase::6000 lucre"
+						var/I = input("Items?","ITEMS") in list (temp1,temp2,temp3,temp4,"Leave")
 						var/N
 						if(I!="Leave")
 							N = input("How many?","ITEMS") as num
@@ -10952,7 +11091,7 @@ proc
 										//M << "<b><font color=silver>You've reached Max Build Rank!"
 										M.smerank = 7
 										return
-	..()
+		//..()
 proc
 	smeltinglevel()
 		set background = 1
@@ -11006,7 +11145,6 @@ proc
 			if(M.smerank >= 7)
 				//M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
 				M.smerank = 7
-	..()
 
 proc
 	smithingunlock()

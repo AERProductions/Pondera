@@ -62,6 +62,7 @@ obj
 obj
 	items
 		ancscrlls
+			layer = 9
 			can_stack = TRUE
 			icon = 'dmi/64/at32.dmi'
 			//Del()
@@ -801,13 +802,13 @@ obj
 		proc/usingmana(var/obj/items/J,num)
 			var/mob/players/M
 			M = usr
-			if (num > (M.MAXenergy-M.energy))
-				num = (M.MAXenergy-M.energy)
+			if (num > (M.MAXstamina-M.stamina))
+				num = (M.MAXstamina-M.stamina)
 			if(istype(J,/obj/items/Tonics))
 				M.hydrated=1
-			M.energy += num
-			M.updateEN()
-			M << "You used a [J]; <b>[num] energy recovered."
+			M.stamina += num
+			M.updateST()
+			M << "You used a [J]; <b>[num] stamina recovered."
 			J.RemoveFromStack(1)
 			//Del(src)
 		questitem
@@ -825,6 +826,7 @@ obj
 			icon_state = "charcoal"
 			//description = "<b>Used with Iron to make Steel"
 			Worth = 100
+			layer = 9
 			can_stack = TRUE
 			verb/Description()
 				set category=null
@@ -870,7 +872,7 @@ obj
 			icon_state = "Carbon"
 			//description = "<b>Used with Fire to make Activated Carbon"
 			Worth = 100
-			plane = 5
+			layer = 9
 			can_stack = TRUE
 			verb/Description()
 				set category=null
@@ -882,6 +884,7 @@ obj
 			name = "Tar"
 			icon_state = "tar"
 			//description = "<b>Used to Fuel Lamps and Torches"
+			layer = 11
 			Worth = 20
 			can_stack = TRUE
 			verb/Description()
@@ -940,14 +943,15 @@ obj
 		Salve
 			name = "Salve"
 			icon_state = "salve"
-			//description = "<b>Used to Heal wounds and restore Energy"
+			//description = "<b>Used to Heal wounds and restore stamina"
+			layer = 11
 			Worth = 20
 			can_stack = TRUE
 			verb/Description()
 				set category=null
 				set popup_menu=1
 				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Salve:</b>  <br>Used to Heal wounds and restore energy. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Salve:</b>  <br>Used to Heal wounds and restore stamina. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 			verb/Use()
 				//set category = "Commands"
@@ -958,6 +962,7 @@ obj
 			name = "Mortar"
 			icon_state = "Mortar"
 			//description = "<b>Used with stone bricks to create Stone Walls"
+			layer = 11
 			Worth = 20
 			can_stack = TRUE
 			verb/Description()
@@ -971,6 +976,7 @@ obj
 			icon_state = "obsidian"
 			//description = "<b>Used with Wooden Haunch to create an Obisidian Knife"
 			Worth = 5
+			layer = 11
 			Tname="Cool"
 			can_stack = TRUE
 			verb/Description()
@@ -983,6 +989,7 @@ obj
 			name = "Rock"
 			icon_state = "rock"
 			//description = "<b>Used with Wooden Haunch to create a Stone Hammer."
+			layer = 11
 			Worth = 0
 			Tname="Cool"
 			can_stack = TRUE
@@ -993,6 +1000,7 @@ obj
 				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Rock:</b>  <br>Combined with <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to create a <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='StoneHammer'>Stone Hammer. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		UeikThorn
+			layer = 11
 			name = "Ueik Thorn"
 			icon_state = "UeikThorn"
 			//description = "<b>Used with Wooden Haunch to create a Ueik Pickaxe."
@@ -1008,6 +1016,7 @@ obj
 		AUS
 			name = "Ancient Ueik Splinter"
 			icon_state = "AUS"
+			layer = 9
 			//description = "<b>Used with Ueik Fir to create Gloves."
 			Worth = 0
 			Tname="Cool"
@@ -1019,6 +1028,7 @@ obj
 				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Ancient Ueik Splinter:</b>  <br>Utilized to sew <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikFir'>Ueik Fir to create a set of<IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='gloves'>Gloves. "//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		UeikFir
+			layer = 11
 			name = "Ueik Fir"
 			icon_state = "UeikFir"
 			//description = "<b>Used with Ancient Ueik Splinter to create Gloves."
@@ -1184,8 +1194,8 @@ obj
 				var/mob/players/M
 				M = usr
 				//var/obj/items/Crafting/Created/Whetstone/S = locate() in M.contents
-				if(M.energy<=0)
-					M << "You are too tired, hydrate to regain energy"
+				if(M.stamina<=0)
+					M << "You are too tired, hydrate to regain stamina"
 					return
 //Tool Call
 				var/obj/items/Crafting/Created/HammerHead/J = call(/obj/items/UeikFir/proc/FindHMf)(M)//locate() in M.contents
@@ -1422,16 +1432,16 @@ obj
 						M<<"You run the Ueik Fir across the [J]."
 						J.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J] could use more polishing."
 						J.needspolished=1
 						return
@@ -1440,16 +1450,16 @@ obj
 						M<<"You run the Ueik Fir across the [J1]."
 						J1.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J1] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J1]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J1] could use more polishing."
 						J1.needspolished=1
 						return
@@ -1458,16 +1468,16 @@ obj
 						M<<"You run the Ueik Fir across the [J2]."
 						J2.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J2] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J2]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J2] could use more polishing."
 						J2.needspolished=1
 						return
@@ -1476,16 +1486,16 @@ obj
 						M<<"You run the Ueik Fir across the [J3]."
 						J3.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J3] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J3]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J3] could use more polishing."
 						J3.needspolished=1
 						return
@@ -1494,16 +1504,16 @@ obj
 						M<<"You run the Ueik Fir across the [J4]."
 						J4.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J4] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J4]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J4] could use more polishing."
 						J4.needspolished=1
 						return
@@ -1512,16 +1522,16 @@ obj
 						M<<"You run the Ueik Fir across the [J5]."
 						J5.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J5] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J5]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J5] could use more polishing."
 						J5.needspolished=1
 						return
@@ -1530,16 +1540,16 @@ obj
 						M<<"You run the Ueik Fir across the [J6]."
 						J6.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J6] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J6]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J6] could use more polishing."
 						J6.needspolished=1
 						return
@@ -1548,16 +1558,16 @@ obj
 						M<<"You run the Ueik Fir across the [J7]."
 						J7.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J7] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J7]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J7] could use more polishing."
 						J7.needspolished=1
 						return
@@ -1566,16 +1576,16 @@ obj
 						M<<"You run the Ueik Fir across the [J8]."
 						J8.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J8] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J8]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J8] could use more polishing."
 						J8.needspolished=1
 						return
@@ -1584,16 +1594,16 @@ obj
 						M<<"You run the Ueik Fir across the [J9]."
 						J9.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J9] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J9]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J9] could use more polishing."
 						J9.needspolished=1
 						return
@@ -1602,16 +1612,16 @@ obj
 						M<<"You run the Ueik Fir across the [J10]."
 						J10.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J10] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J10]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J10] could use more polishing."
 						J10.needspolished=1
 						return
@@ -1621,16 +1631,16 @@ obj
 						M<<"You run the Ueik Fir across the [J11]."
 						J11.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J11] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J11]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J11] could use more polishing."
 						J11.needspolished=1
 						return
@@ -1639,16 +1649,16 @@ obj
 						M<<"You run the Ueik Fir across the [J12]."
 						J12.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J12] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J12]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J12] could use more polishing."
 						J12.needspolished=1
 						return
@@ -1657,16 +1667,16 @@ obj
 						M<<"You run the Ueik Fir across the [J13]."
 						J13.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J13] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J13]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J13] could use more polishing."
 						J13.needspolished=1
 						return
@@ -1675,16 +1685,16 @@ obj
 						M<<"You run the Ueik Fir across the [J14]."
 						J14.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J14] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J14]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J14] could use more polishing."
 						J14.needspolished=1
 						return
@@ -1693,16 +1703,16 @@ obj
 						M<<"You run the Ueik Fir across the [J15]."
 						J15.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J15] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J15]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J15] could use more polishing."
 						J15.needspolished=1
 						return
@@ -1711,16 +1721,16 @@ obj
 						M<<"You run the Ueik Fir across the [J16]."
 						J6.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J16] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J16]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J16] could use more polishing."
 						J16.needspolished=1
 						return
@@ -1729,16 +1739,16 @@ obj
 						M<<"You run the Ueik Fir across the [J17]."
 						J17.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J17] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J17]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J17] could use more polishing."
 						J17.needspolished=1
 						return
@@ -1747,16 +1757,16 @@ obj
 						M<<"You run the Ueik Fir across the [J18]."
 						J18.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J18] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J18]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J18] could use more polishing."
 						J18.needspolished=1
 						return
@@ -1765,16 +1775,16 @@ obj
 						M<<"You run the Ueik Fir across the [J19]."
 						J19.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J19] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J19]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J19] could use more polishing."
 						J19.needspolished=1
 						return
@@ -1783,16 +1793,16 @@ obj
 						M<<"You run the Ueik Fir across the [J20]."
 						J20.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J20] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J20]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J20] could use more polishing."
 						J20.needspolished=1
 						return
@@ -1802,16 +1812,16 @@ obj
 						M<<"You run the Ueik Fir across the [J21]."
 						J21.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J21] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J21]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J21] could use more polishing."
 						J21.needspolished=1
 						return
@@ -1820,16 +1830,16 @@ obj
 						M<<"You run the Ueik Fir across the [J22]."
 						J22.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J22] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J22]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J22] could use more polishing."
 						J22.needspolished=1
 						return
@@ -1838,16 +1848,16 @@ obj
 						M<<"You run the Ueik Fir across the [J23]."
 						J23.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J23] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J23]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J23] could use more polishing."
 						J23.needspolished=1
 						return
@@ -1856,16 +1866,16 @@ obj
 						M<<"You run the Ueik Fir across the [J24]."
 						J24.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J24] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J24]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J24] could use more polishing."
 						J24.needspolished=1
 						return
@@ -1874,16 +1884,16 @@ obj
 						M<<"You run the Ueik Fir across the [J25]."
 						J25.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J25] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J25]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J25] could use more polishing."
 						J25.needspolished=1
 						return
@@ -1893,16 +1903,16 @@ obj
 						M<<"You run the Ueik Fir across the [J26]."
 						J26.needspolished=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"[J26] has been polished to a shine!"
 						return
 					else
 						M<<"You run the Ueik Fir across the [J26]."
 						//J.needsfiled=0
 						sleep(3)
-						M.energy -= 2
-						M.updateEN()//insert sfx and flick an animation
+						M.stamina -= 2
+						M.updateST()//insert sfx and flick an animation
 						M<<"The [J26] could use more polishing."
 						J26.needspolished=1
 						return
@@ -1916,7 +1926,7 @@ obj
 				//var/obj/items/UeikFir/UF = locate() in M.contents
 				//var/random/R = rand(1,5) //1 in 5 chance to smith
 				if(J in M.contents)
-					if(M.energy==0)
+					if(M.stamina==0)
 						M<<"You are too tired, drink some water."
 						return
 					else
@@ -1953,7 +1963,7 @@ obj
 					return
 		WDHNCH
 			name = "Wooden Haunch"
-
+			layer = 9
 			icon_state = "WDHNCH"
 			//description = "<b>Used to create rudimentary Tools and Materials."
 			Worth = 10
@@ -1981,7 +1991,7 @@ obj
 				//var/obj/items/Tar/J = locate() in M.contents
 				var/obj/items/WDHNCH/W = locate() in M.contents
 				M = usr
-				if(M.energy<=0)
+				if(M.stamina<=0)
 					M<<"You are too tired."
 					return
 				if(M.OKequipped==1||M.CKequipped==1)
@@ -1994,8 +2004,8 @@ obj
 								//J.RemoveFromStack(1)
 								W.RemoveFromStack(1)
 								new /obj/items/torches/Handtorch(M, 1)
-								M.energy -= 2	//Depletes one energy
-								M.updateEN()
+								M.stamina -= 2	//Depletes one stamina
+								M.updateST()
 								sleep(2)
 								M << "You've created a \  <IMG CLASS=icon SRC=\ref'dmi/64/fire.dmi' ICONSTATE='ht'>Hand Torch."
 								M.Carving=0
@@ -2004,8 +2014,8 @@ obj
 								M<<"\ The <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Wooden Haunch just wasn't suitable, so you discard it."
 								W.RemoveFromStack(1)
 								//M.Carving=0
-								M.energy -= 2	//Depletes one energy
-								M.updateEN()
+								M.stamina -= 2	//Depletes one stamina
+								M.updateST()
 								return
 					else
 						M<<"You need \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> Wooden Haunch to continue..."
@@ -2030,7 +2040,7 @@ obj
 				//var/obj/items/tools/ObsidianKnife/OK = locate() in M.contents
 				//var/obj/items/Kindling/ueikkindling/UK = new(usr, 1)
 				var/obj/items/WDHNCH/WH = locate() in M.contents
-				if(M.energy==0)
+				if(M.stamina==0)
 					M<<"You are too tired."
 					return
 				if(M.OKequipped==1||M.CKequipped==1)
@@ -2042,8 +2052,8 @@ obj
 								sleep(2)
 								//UK += M.contents
 								new /obj/items/Kindling/ueikkindling(M, 1)
-								M.energy -= 2	//Depletes one energy
-								M.updateEN()
+								M.stamina -= 2	//Depletes one stamina
+								M.updateST()
 								sleep(2)
 								M << "You've carved \  <IMG CLASS=icon SRC=\ref'dmi/64/tree.dmi' ICONSTATE='kind1'>Kindling."
 								WH.RemoveFromStack(1) //del src
@@ -2081,11 +2091,11 @@ obj
 				//var/random/R = new()
 				var/dice = "1d4"
 				var/R = roll(dice)
-				//if(energy<=0)
+				//if(stamina<=0)
 				//	M<<"You are too tired."
 				//	return
 				if(M.OKequipped==1||M.CKequipped==1)
-					if(M.energy==0)		//Is your energy to low???
+					if(M.stamina==0)		//Is your stamina to low???
 						M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 						return
 					else
@@ -2135,12 +2145,13 @@ obj
 				var/R = roll(dice)//if(J in M.contents)
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				if(energy==0)		//Is your energy to low???
+				if(stamina==0)		//Is your stamina to low???
 					M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 					return
 				else
 					if(S.stack_amount==0)
 						M<<"You need \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='WDHNCH'>Wooden Haunch to continue..."
+						Carving=0
 						return
 					else
 						//input("Affix?","Affix") in list("Obsidian","Rock","Ueik Thorn")
@@ -2187,6 +2198,7 @@ obj
 												return
 								else
 									M<<"You need \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='Obsidian'>Obsidian to continue..."
+									Carving=0
 									return
 
 							if("Rock")
@@ -2222,6 +2234,7 @@ obj
 												return
 								else
 									M<<"You need a \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='rock'>Rock to continue..."
+									Carving=0
 									return
 							else
 								if("Ueik Thorn")
@@ -2256,12 +2269,14 @@ obj
 													return
 									else
 										M<<"You need \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='UeikThorn'>Ueik Thorn to continue..."
+										Carving=0
 										return
 		Lockpick
 			name = "Lockpick"
 			icon_state = "Lockpick"
 			//description = "<b>Used on Doors to permit entrance"
 			Worth = 10
+			layer = 11
 			can_stack = TRUE
 			verb/Description()
 				set category=null
@@ -2270,6 +2285,7 @@ obj
 				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Lockpick:</b>  <br>Utilize to gain entry into secured areas."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
 		DoorKey
+			layer = 11
 			icon_state = "Key"
 			name = "Key"
 			//description = "<b>Used to lock or unlock Doors"
@@ -2287,271 +2303,272 @@ obj
 		//	icon_state = "Clay"
 		//	description = "<b>Used with Fire to make Pottery"
 		//	Worth = 100
-
-		GiuHide
-			name = "Giu Hide"
-			icon_state = "GiuHide"
-			Worth = 7
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Giu Hide</b> Odd Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giu'>Giu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GouHide
-			name = "Gou Hide"
-			icon_state = "GouHide"
-			Worth = 14
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gou Hide</b> Different Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gou Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gou'>Gou."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GowHide
-			name = "Gow Hide"
-			icon_state = "GowHide"
-			Worth = 21
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gow Hide</b> Weird Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gow Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gow'>Gow."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GuwiHide
-			name = "Guwi Hide"
-			icon_state = "GuwiHide"
-			Worth = 24
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Guwi Hide</b> Strange Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwi'>Guwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GowuHide
-			name = "Gowu Hide"
-			icon_state = "GowuHide"
-			Worth = 33
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gowu Hide</b> Mysterious Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowu'>Gowu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GiuwoHide
-			name = "Giuwo Hide"
-			icon_state = "GiuwoHide"
-			Worth = 42
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Giuwo Hide</b> Mysterious Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giuwo Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giuwo'>Giuwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GouwoHide
-			name = "Gouwo Hide"
-			icon_state = "GouwoHide"
-			Worth = 62
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gouwo Hide</b> Mysterious Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gouwu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gouwu'>Gouwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GowwiHide
-			name = "Gowwi Hide"
-			icon_state = "GowwiHide"
-			Worth = 62
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gowwi Hide</b> Mysterious Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwi'>Gowwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GuwwiHide
-			name = "Guwwi Hide"
-			icon_state = "GuwwiHide"
-			Worth = 62
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Guwwi Hide</b> Mysterious Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwwi'>Guwwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GowwuHide
-			name = "Gowwu Hide"
-			icon_state = "GowwuHide"
-			Worth = 62
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gowwu Hide</b> Mysterious Hide that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwu'>Gowwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GiuShell
-			name = "Giu Shell"
-			icon_state = "GiuShell"
-			Worth = 7
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Giu Shell</b> Odd shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giu'>Giu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GouShell
-			name = "Gou Shell"
-			icon_state = "GouShell"
-			Worth = 14
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gou Shell</b> Different shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gou Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gou'>Gou."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GowShell
-			name = "Gow Shell"
-			icon_state = "GowShell"
-			Worth = 21
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gow Shell</b> Weird shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gow Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gow'>Gow."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GuwiShell
-			name = "Guwi Shell"
-			icon_state = "GuwiShell"
-			Worth = 24
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Guwi Shell</b> Strange shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwi'>Guwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GowuShell
-			name = "Gowu Shell"
-			icon_state = "GowuShell"
-			Worth = 33
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gowu Shell</b> Mysterious shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowu'>Gowu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GiuwoShell
-			name = "Giuwo Shell"
-			icon_state = "GiuwoShell"
-			Worth = 42
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Giuwo Shell</b> Mysterious shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giuwo Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giuwo'>Giuwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GouwoShell
-			name = "Gouwo Shell"
-			icon_state = "GouwoShell"
-			Worth = 62
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gouwo Shell</b> Mysterious shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gouwo Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gouwo'>Gouwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GowwiShell
-			name = "Gowwi Shell"
-			icon_state = "GowwiShell"
-			Worth = 62
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gowwi Shell</b> Mysterious shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwi'>Gowwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GuwwiShell
-			name = "Guwwi Shell"
-			icon_state = "GuwwiShell"
-			Worth = 62
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Guwwi Shell</b> Mysterious shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwwi'>Guwwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
-		GowwuShell
-			name = "Gowwu Shell"
-			icon_state = "GowwuShell"
-			Worth = 62
-			can_stack = TRUE
-			//var/stack = 1
-			//description = "<b>Gowwu Shell</b> Mysterious shell that can be used for creating Armor."
-			verb/Description()
-				set category=null
-				set popup_menu=1
-				set src in usr
-				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwu'>Gowwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
-				return
+		CParts
+			layer = 11
+			GiuHide
+				name = "Giu Hide"
+				icon_state = "GiuHide"
+				Worth = 7
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Giu Hide</b> Odd Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giu'>Giu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GouHide
+				name = "Gou Hide"
+				icon_state = "GouHide"
+				Worth = 14
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gou Hide</b> Different Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gou Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gou'>Gou."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GowHide
+				name = "Gow Hide"
+				icon_state = "GowHide"
+				Worth = 21
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gow Hide</b> Weird Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gow Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gow'>Gow."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GuwiHide
+				name = "Guwi Hide"
+				icon_state = "GuwiHide"
+				Worth = 24
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Guwi Hide</b> Strange Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwi'>Guwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GowuHide
+				name = "Gowu Hide"
+				icon_state = "GowuHide"
+				Worth = 33
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gowu Hide</b> Mysterious Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowu'>Gowu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GiuwoHide
+				name = "Giuwo Hide"
+				icon_state = "GiuwoHide"
+				Worth = 42
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Giuwo Hide</b> Mysterious Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giuwo Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giuwo'>Giuwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GouwoHide
+				name = "Gouwo Hide"
+				icon_state = "GouwoHide"
+				Worth = 62
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gouwo Hide</b> Mysterious Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gouwu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gouwu'>Gouwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GowwiHide
+				name = "Gowwi Hide"
+				icon_state = "GowwiHide"
+				Worth = 62
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gowwi Hide</b> Mysterious Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwi'>Gowwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GuwwiHide
+				name = "Guwwi Hide"
+				icon_state = "GuwwiHide"
+				Worth = 62
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Guwwi Hide</b> Mysterious Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwwi Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwwi'>Guwwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GowwuHide
+				name = "Gowwu Hide"
+				icon_state = "GowwuHide"
+				Worth = 62
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gowwu Hide</b> Mysterious Hide that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwu Hide:</b>  <br>The hide of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwu'>Gowwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GiuShell
+				name = "Giu Shell"
+				icon_state = "GiuShell"
+				Worth = 7
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Giu Shell</b> Odd shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giu'>Giu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GouShell
+				name = "Gou Shell"
+				icon_state = "GouShell"
+				Worth = 14
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gou Shell</b> Different shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gou Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gou'>Gou."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GowShell
+				name = "Gow Shell"
+				icon_state = "GowShell"
+				Worth = 21
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gow Shell</b> Weird shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gow Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gow'>Gow."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GuwiShell
+				name = "Guwi Shell"
+				icon_state = "GuwiShell"
+				Worth = 24
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Guwi Shell</b> Strange shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwi'>Guwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GowuShell
+				name = "Gowu Shell"
+				icon_state = "GowuShell"
+				Worth = 33
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gowu Shell</b> Mysterious shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowu'>Gowu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GiuwoShell
+				name = "Giuwo Shell"
+				icon_state = "GiuwoShell"
+				Worth = 42
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Giuwo Shell</b> Mysterious shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Giuwo Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Giuwo'>Giuwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GouwoShell
+				name = "Gouwo Shell"
+				icon_state = "GouwoShell"
+				Worth = 62
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gouwo Shell</b> Mysterious shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gouwo Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gouwo'>Gouwo."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GowwiShell
+				name = "Gowwi Shell"
+				icon_state = "GowwiShell"
+				Worth = 62
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gowwi Shell</b> Mysterious shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwi'>Gowwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GuwwiShell
+				name = "Guwwi Shell"
+				icon_state = "GuwwiShell"
+				Worth = 62
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Guwwi Shell</b> Mysterious shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Guwwi Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Guwwi'>Guwwi."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
+			GowwuShell
+				name = "Gowwu Shell"
+				icon_state = "GowwuShell"
+				Worth = 62
+				can_stack = TRUE
+				//var/stack = 1
+				//description = "<b>Gowwu Shell</b> Mysterious shell that can be used for creating Armor."
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Gowwu Shell:</b>  <br>The shell of a <IMG CLASS=icon SRC=\ref'dmi/64/ene.dmi' ICONSTATE='Gowwu'>Gowwu."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					return
 		Food
 			food = 1
 			//stack = 1
-			plane = 4
+			layer = 11
 
 			trout
 				name = "Trout"
@@ -2684,7 +2701,7 @@ obj
 				icon_state = "GiuMeat"
 				Worth = 7
 				can_stack = TRUE
-				plane = 6
+				layer = 6
 				//var/stack = 1
 				//description = "<b>Giu Meat:</b> Odd meat that can be eaten raw or cooked for better quality; Restores 20 Health."
 				verb/Description()
@@ -2723,7 +2740,7 @@ obj
 				icon_state = "GowMeat"
 				Worth = 21
 				can_stack = TRUE
-				plane = 4
+				layer = 4
 				//var/stack = 1
 				//description = "<b>Gow Meat</b> Weird meat that can be eaten raw or cooked for better quality; Restores 40 Health."
 				verb/Description()
@@ -2998,7 +3015,7 @@ obj
 				name = "Cooked Giu Meat"
 				icon_state = "CookedGiuMeat"
 				Worth = 7
-				plane = 6
+				layer = 6
 				can_stack = TRUE
 				//var/stack = 1
 				//description = "<b>Cooked Giu Meat</b> Odd meat that can be eaten raw or cooked for better quality; Restores 40 Health."
@@ -3091,7 +3108,7 @@ obj
 				icon='dmi/64/inven.dmi'
 				icon_state="OCM"
 				Worth = 1
-				plane = 6
+				layer = 6
 				verb/Description()
 					set category=null
 					set popup_menu=1
@@ -3100,6 +3117,7 @@ obj
 					return
 				//var/stack = 1
 		Tonics
+			layer = 11
 			antitoxin
 				name = "Antitoxin"
 				icon_state = "antitoxin"
@@ -3166,19 +3184,19 @@ obj
 					set src in usr
 					usingheal(src,40)
 					//stack -= 1
-			energytonic
+			staminatonic
 				items = 1
-				name = "Energy Tonic"
+				name = "stamina Tonic"
 				icon_state = "enertonic"
 				Worth = 33
 				//var/stack = 1
 				can_stack = TRUE
-				//description = "<b>Energy Tonic</b>  Recovers up to 33 Energy"
+				//description = "<b>stamina Tonic</b>  Recovers up to 33 stamina"
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Energy Tonic:</b>  <br>A weak tonic; Recovers 33 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>stamina Tonic:</b>  <br>A weak tonic; Recovers 33 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category=null
@@ -3203,18 +3221,18 @@ obj
 					set popup_menu=1
 					set src in usr
 					usingheal(src,64)
-			strongenergytonic
-				name = "Strong Energy Tonic"
+			strongstaminatonic
+				name = "Strong stamina Tonic"
 				icon_state = "strngenertonic"
 				Worth = 64
 				//var/stack = 1
-				//description = "<b>Strong Energy Tonic</b>  Recovers up to 42 Energy"
+				//description = "<b>Strong stamina Tonic</b>  Recovers up to 42 stamina"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Energy Tonic:</b>  <br>A strong tonic; Recovers 64 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong stamina Tonic:</b>  <br>A strong tonic; Recovers 64 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -3239,18 +3257,18 @@ obj
 					set popup_menu=1
 					set src in usr
 					usingheal(src,84)
-			energyspirits
-				name = "Energy Spirits"
+			staminaspirits
+				name = "stamina Spirits"
 				icon_state = "enerspiri"
 				Worth = 93
 				//var/stack = 1
-				//description = "<b>Magi Spirits</b>  Recovers up to 84 Energy"
+				//description = "<b>Magi Spirits</b>  Recovers up to 84 stamina"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Magi Spirits:</b>  <br>Energy healing spirits; Recovers 84 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Magi Spirits:</b>  <br>stamina healing spirits; Recovers 84 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -3274,18 +3292,18 @@ obj
 					set popup_menu=1
 					set src in usr
 					usingheal(src,113)
-			strongenergyspirits
-				name = "Strong Energy Spirits"
+			strongstaminaspirits
+				name = "Strong stamina Spirits"
 				icon_state = "strngenerspiri"
 				Worth = 124
 				//var/stack = 1
-				//description = "<b>Strong Energy Spirits</b>  Recovers up to 104 Energy"
+				//description = "<b>Strong stamina Spirits</b>  Recovers up to 104 stamina"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Energy Spirits:</b>  <br>Energy healing spirits with a kick; Recovers 104 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong stamina Spirits:</b>  <br>stamina healing spirits with a kick; Recovers 104 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -3310,18 +3328,18 @@ obj
 					set popup_menu=1
 					set src in usr
 					usingheal(src,184)
-			energyrestorative
-				name = "Energy Restorative"
+			staminarestorative
+				name = "stamina Restorative"
 				icon_state = "enerrestora"
 				Worth = 204
 				//var/stack = 1
-				//description = "<b>Energy Restorative</b>  Recovers up to 168 Energy"
+				//description = "<b>stamina Restorative</b>  Recovers up to 168 stamina"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Energy Restorative:</b> Recovers 168 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>stamina Restorative:</b> Recovers 168 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -3345,18 +3363,18 @@ obj
 					set popup_menu=1
 					set src in usr
 					usingheal(src,264)
-			strongenergyrestorative
-				name = "Strong Energy Restorative"
+			strongstaminarestorative
+				name = "Strong stamina Restorative"
 				icon_state = "strngenerrestor"
 				Worth = 324
 				//var/stack = 1
-				//description = "<b>Strong Energy Restorative</b>  Recovers up to 224 Energy"
+				//description = "<b>Strong stamina Restorative</b>  Recovers up to 224 stamina"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Energy Restorative:</b> Recovers 224 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong stamina Restorative:</b> Recovers 224 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -3381,18 +3399,18 @@ obj
 					set popup_menu=1
 					set src in usr
 					usingheal(src,464)
-			stronglargeenergyrestorative
-				name = "Strong Energy Restorative"
+			stronglargestaminarestorative
+				name = "Strong stamina Restorative"
 				icon_state = "strnglrgenerrestor"
 				Worth = 444
 				//var/stack = 1
-				//description = "<b>Strong Large Energy Restorative</b>  Recovers up to 324 Energy"
+				//description = "<b>Strong Large stamina Restorative</b>  Recovers up to 324 stamina"
 				can_stack = TRUE
 				verb/Description()
 					set category=null
 					set popup_menu=1
 					set src in usr
-					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Large Energy Restorative:</b> Recovers 324 Energy."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Strong Large stamina Restorative:</b> Recovers 324 stamina."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					return
 				verb/Use()
 					set category = null
@@ -3421,7 +3439,7 @@ obj
 			STRbonus = 0
 			SPRTbonus = 0
 			HEALTHbonus = 0
-			ENERGYbonus = 0
+			staminabonus = 0
 			FIREres = 0
 			ICEres = 0
 			WINDres = 0
@@ -3462,7 +3480,7 @@ obj
 			STRbonus = 0
 			SPRTbonus = 0
 			HEALTHbonus = 0
-			ENERGYbonus = 0
+			staminabonus = 0
 			FIREres = 0
 			ICEres = 0
 			WINDres = 0
@@ -3484,6 +3502,7 @@ obj
 		weapons
 			//yeah, this gets pretty wild
 			icon = 'dmi/64/weaps.dmi'
+			layer = 11
 
 			var
 				//these first vars are for the description of the item
@@ -3507,7 +3526,7 @@ obj
 				STRbonus = 0
 				SPRTbonus = 0
 				HEALTHbonus = 0
-				ENERGYbonus = 0
+				staminabonus = 0
 				FIREres = 0
 				ICEres = 0
 				WINDres = 0
@@ -3579,8 +3598,9 @@ obj
 				if(usr!=null)
 					src.Worth*=2 // magic items sell for twice as much
 					//lots of switches and random number generations in order to pick based on weapon level (wlvl) and probabilities
-					var
-						A;B;C;
+					var/A
+					var/B
+					var/C
 					A = rand(1,3)
 					if(A==1||A==2)
 						C = rand(1,3)
@@ -3684,7 +3704,7 @@ obj
 										if(5)
 											add = rand(21,25)
 											src.of = " of Insight"
-									src.adds = "+[add] Energy"
+									src.adds = "+[add] stamina"
 									src.SPRTbonus = add
 								if(2)
 									switch(wlvl)
@@ -3757,7 +3777,7 @@ obj
 										if(5)
 											add = rand(21,25)
 											src.of = " of Obscurity"
-									src.adds = "+[add] energy, +[add] Strength"
+									src.adds = "+[add] stamina, +[add] Strength"
 									src.STRbonus = add
 									src.SPRTbonus = add
 								if(2)
@@ -3974,8 +3994,8 @@ obj
 											if(5)
 												add2 = rand(301,800)
 												adj = "Tarragon's "
-										src.adds2 = "+[add2] Energy"
-										src.ENERGYbonus = add2
+										src.adds2 = "+[add2] stamina"
+										src.staminabonus = add2
 
 						src.adj = "[adj]"
 					src.name = "[adj][name][src.of]"
@@ -4014,9 +4034,9 @@ obj
 								M.Strength += src.STRbonus
 								M.Spirit += src.SPRTbonus
 								M.HP += src.HEALTHbonus
-								M.energy += src.ENERGYbonus
+								M.stamina += src.staminabonus
 								M.MAXHP += src.HEALTHbonus
-								M.MAXenergy += src.ENERGYbonus
+								M.MAXstamina += src.staminabonus
 								M.fireres += src.FIREres
 								M.iceres += src.ICEres
 								M.windres += src.WINDres
@@ -4051,9 +4071,9 @@ obj
 								M.Strength += src.STRbonus
 								M.Spirit += src.SPRTbonus
 								M.HP += src.HEALTHbonus
-								M.energy += src.ENERGYbonus
+								M.stamina += src.staminabonus
 								M.MAXHP += src.HEALTHbonus
-								M.MAXenergy += src.ENERGYbonus
+								M.MAXstamina += src.staminabonus
 								M.fireres += src.FIREres
 								M.iceres += src.ICEres
 								M.windres += src.WINDres
@@ -4098,16 +4118,16 @@ obj
 								M.attackspeed = 7
 							else if(M.char_class=="Magus")
 								M.attackspeed = 5
-							else if(M.char_class=="Defender")
+							else if(M.char_class=="Smithy")
 								M.attackspeed = 8
 							else
 								M.attackspeed = 5
 							M.Strength -= src.STRbonus
 							M.Spirit -= src.SPRTbonus
 							M.HP -= src.HEALTHbonus
-							M.energy -= src.ENERGYbonus
+							M.stamina -= src.staminabonus
 							M.MAXHP -= src.HEALTHbonus
-							M.MAXenergy -= src.ENERGYbonus
+							M.MAXstamina -= src.staminabonus
 							M.fireres -= src.FIREres
 							M.iceres -= src.ICEres
 							M.windres -= src.WINDres
@@ -4141,16 +4161,16 @@ obj
 								M.attackspeed = 7
 							else if(M.char_class=="Magus")
 								M.attackspeed = 5
-							else if(M.char_class=="Defender")
+							else if(M.char_class=="Smithy")
 								M.attackspeed = 8
 							else
 								M.attackspeed = 5
 							M.Strength -= src.STRbonus
 							M.Spirit -= src.SPRTbonus
 							M.HP -= src.HEALTHbonus
-							M.energy -= src.ENERGYbonus
+							M.stamina -= src.staminabonus
 							M.MAXHP -= src.HEALTHbonus
-							M.MAXenergy -= src.ENERGYbonus
+							M.MAXstamina -= src.staminabonus
 							M.fireres -= src.FIREres
 							M.iceres -= src.ICEres
 							M.windres -= src.WINDres
@@ -4180,9 +4200,9 @@ obj
 							M.Strength -= src.STRbonus
 							M.Spirit -= src.SPRTbonus
 							M.HP -= src.HEALTHbonus
-							M.energy -= src.ENERGYbonus
+							M.stamina -= src.staminabonus
 							M.MAXHP -= src.HEALTHbonus
-							M.MAXenergy -= src.ENERGYbonus
+							M.MAXstamina -= src.staminabonus
 							M.fireres -= src.FIREres
 							M.iceres -= src.ICEres
 							M.windres -= src.WINDres
@@ -4212,9 +4232,9 @@ obj
 							M.Strength -= src.STRbonus
 							M.Spirit -= src.SPRTbonus
 							M.HP -= src.HEALTHbonus
-							M.energy -= src.ENERGYbonus
+							M.stamina -= src.staminabonus
 							M.MAXHP -= src.HEALTHbonus
-							M.MAXenergy -= src.ENERGYbonus
+							M.MAXstamina -= src.staminabonus
 							M.fireres -= src.FIREres
 							M.iceres -= src.ICEres
 							M.windres -= src.WINDres
@@ -5100,7 +5120,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad1 = "+[staminabonus] stamina"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					//return
 					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>Worth [Worth]"
@@ -5110,8 +5130,8 @@ obj
 					Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					SetRank(rank||4)
 					if(usr!=null)
-						ENERGYbonus = rand(24,42)
-						//var/addd = "+[ENERGYbonus] Energy"
+						staminabonus = rand(24,42)
+						//var/addd = "+[staminabonus] stamina"
 						Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[addd]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			ordianlace
@@ -6390,7 +6410,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad1 = "+[staminabonus] stamina"
 					var/ad2 = "+[WATbonus] Water Shock"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					//return
@@ -6402,8 +6422,8 @@ obj
 					//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						ENERGYbonus = rand(5,20)
-						//var/addd1 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(5,20)
+						//var/addd1 = "+[staminabonus] stamina"
 						WATbonus = rand(1,6)
 						//var/addd2 = "+[WATbonus] Water Shock"
 						Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
@@ -6568,7 +6588,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad1 = "+[staminabonus] stamina"
 					var/ad2 = "+[SHARDBURSTbonus] Shard Burst"
 					var/ad3 = "+[ICEres] Ice Proof"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
@@ -6580,8 +6600,8 @@ obj
 					SetRank(rank||4)
 					//Description()//description = "<font color = #e6e8fa><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 					if(usr!=null)
-						ENERGYbonus = rand(5,20)
-						//var/addd1 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(5,20)
+						//var/addd1 = "+[staminabonus] stamina"
 						SHARDBURSTbonus = rand(1,6)
 						//var/addd2 = "+[SHARDBURSTbonus] Shard Burst"
 						ICEres = rand(1,10)
@@ -7005,7 +7025,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad1 = "+[staminabonus] stamina"
 					var/ad2 = "+[ACIDbonus] Acid"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					//return
@@ -7017,8 +7037,8 @@ obj
 					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						ENERGYbonus = rand(50,100)
-						//var/addd1 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(50,100)
+						//var/addd1 = "+[staminabonus] stamina"
 						ACIDbonus = rand(1,2)
 						//var/addd2 = "+[ACIDbonus] Acid"
 						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[addd1]<br>[addd2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
@@ -7200,7 +7220,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[staminabonus] stamina"
 					var/ad1 = "+[HEALTHbonus] Health"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					//return
@@ -7214,8 +7234,8 @@ obj
 					if(usr!=null)
 						HEALTHbonus = rand(30,90)
 						//var/ad1 = "+[HEALTHbonus] Health"
-						ENERGYbonus = rand(30,90)
-						//var/ad2 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(30,90)
+						//var/ad2 = "+[staminabonus] stamina"
 						Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 	//tinberochin done
 			avgkatar
@@ -7480,7 +7500,7 @@ obj
 					set popup_menu=1
 					set src in usr
 					var/ad1 = "+[FIREres] Fire Proof"
-					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[staminabonus] stamina"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 					//return
 					usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>Worth [Worth]"
@@ -7493,8 +7513,8 @@ obj
 					if(usr!=null)
 						FIREres = rand(5,10)
 						//var/ad1 = "+[FIREres] Fire Proof"
-						ENERGYbonus = rand(1,50)
-						//var/ad2 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(1,50)
+						//var/ad2 = "+[staminabonus] stamina"
 						Description()//description = "<font color = #c0c0c0><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 			choivoulge
@@ -7774,7 +7794,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad1 = "+[staminabonus] stamina"
 					var/ad2 = "+[ICEres] Ice Proof"
 					var/ad3 = "+[WATres] Water Proof"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
@@ -7787,8 +7807,8 @@ obj
 					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						ENERGYbonus = rand(50,150)
-						//var/ad1 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(50,150)
+						//var/ad1 = "+[staminabonus] stamina"
 						ICEres = rand(15,30)
 						//var/ad2 = "+[ICEres] Ice Proof"
 						WATres = rand(15,30)
@@ -7969,7 +7989,7 @@ obj
 					set category=null
 					set popup_menu=1
 					set src in usr
-					var/ad1 = "+[ENERGYbonus] Energy"
+					var/ad1 = "+[staminabonus] stamina"
 					var/ad2 = "+[BLUDGEONbonus] Bludgeon"
 					var/ad3 = "+[COSMOSbonus] Cosmos"
 					var/ad4 = "+[resroll] Omni-Proof"
@@ -7983,8 +8003,8 @@ obj
 					//Description()//description = "<font color = #ffd700><center><b>[name]</b><br>[rarity]<br>Weapon Level [wlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>+[SPRTbonus] Spirit<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
 					if(usr!=null)
-						ENERGYbonus = rand(200,300)
-						//var/ad1 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(200,300)
+						//var/ad1 = "+[staminabonus] stamina"
 						BLUDGEONbonus = rand(20,35)
 						//var/ad2 = "+[BLUDGEONbonus] Bludgeon"
 						COSMOSbonus = rand(5,10)
@@ -8074,7 +8094,7 @@ obj
 					set popup_menu=1
 					set src in usr
 					var/ad1 = "+[HEALTHbonus] Health"
-					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[staminabonus] stamina"
 					var/ad3 = "+[ACIDbonus] Acid"
 					var/ad4 = "+[WATres] Water Proof"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
@@ -8089,8 +8109,8 @@ obj
 					if(usr!=null)
 						HEALTHbonus = rand(250,350)
 						//var/ad1 = "+[HEALTHbonus] Health"
-						ENERGYbonus = rand(150,250)
-						//var/ad2 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(150,250)
+						//var/ad2 = "+[staminabonus] stamina"
 						ACIDbonus = rand(10,15)
 						//var/ad3 = "+[ACIDbonus] Acid"
 						WATres = rand(20,30)
@@ -8174,7 +8194,7 @@ obj
 					set popup_menu=1
 					set src in usr
 					var/ad1 = "+[HEALTHbonus] Health"
-					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[staminabonus] stamina"
 					var/ad3 = "+[QUIETUSbonus] Quietus"
 					var/ad4 = "+[resroll] Omni-Proof"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
@@ -8189,8 +8209,8 @@ obj
 					if(usr!=null)
 						HEALTHbonus = rand(600,1000)
 						//var/ad1 = "+[HEALTHbonus] Health"
-						ENERGYbonus = rand(600,1000)
-						//var/ad2 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(600,1000)
+						//var/ad2 = "+[staminabonus] stamina"
 						QUIETUSbonus = rand(5,10)
 						//var/ad3 = "+[QUIETUSbonus] Quietus"
 						resroll = rand(24,33)
@@ -9270,7 +9290,7 @@ obj
 					set popup_menu=1
 					set src in usr
 					var/ad1 = "+[HEALTHbonus] Health"
-					var/ad2 = "+[ENERGYbonus] Energy"
+					var/ad2 = "+[staminabonus] stamina"
 					var/ad3 = "+[BLUDGEONbonus] Bludgeon"
 					var/ad4 = "+[resroll] Omni-Proof"
 					//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
@@ -9284,8 +9304,8 @@ obj
 					if(usr!=null)
 						HEALTHbonus = rand(420,840)
 						//var/ad1 = "+[HEALTHbonus] Health"
-						ENERGYbonus = rand(420,840)
-						//var/ad2 = "+[ENERGYbonus] Energy"
+						staminabonus = rand(420,840)
+						//var/ad2 = "+[staminabonus] stamina"
 						BLUDGEONbonus = rand(13,37)
 						//var/ad3 = "+[BLUDGEONbonus] Bludgeon"
 						resroll = rand(42,84)
@@ -9360,7 +9380,7 @@ obj
 						volumecap = 100
 						//color = rgb(0,0,0)
 						HEALTHbonus -= rand(30,40)
-						//var/ad1 = "+[ENERGYbonus] Energy"
+						//var/ad1 = "+[staminabonus] stamina"
 						ACIDbonus = rand(42,84)
 						//var/ad2 = "+[ACIDbonus] Acid"
 						WATbonus = rand(13,37)

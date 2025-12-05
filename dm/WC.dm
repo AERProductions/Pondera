@@ -11,7 +11,7 @@ var
 	PLRank=1		//Pole? rank
 	PLRankEXP=0
 	PLRankMAXEXP=100
-	energy				//energy
+	stamina				//stamina
 	MAXhrankLVL=0	//Maxhranklvl when set to one it stops more lvls...
 	MAXCrankLVL=0
 	//stack=1
@@ -63,18 +63,20 @@ obj
 	items
 		plant
 			Fruit
+				layer = 9
 
 				//Pomegranite
 
 				olives
 					can_stack=TRUE
-					icon='plants.dmi'
+					icon='dmi/64/plants.dmi'
 					icon_state="olives"
 					name = "Olives"
 
 				//Date
 
 			Sprouts
+				layer = 9
 				//can_stack = TRUE
 				/*verb
 					Get()
@@ -125,7 +127,7 @@ obj
 					name = "Ueik Sprout"
 					density = 1
 					mouse_opacity = 1
-					plane = 4
+					//layer = 4
 					var/sproutisplanted=0
 
 
@@ -151,8 +153,8 @@ obj
 								//if(get_dist(src,usr)>1/*&&get_dir(usr,src)==usr.dir*/)
 								//	M<<"Stand on the soil to plant the sprout."
 								//	return
-								if(M.energy == 0)
-									M<<"Low Energy."
+								if(M.stamina == 0)
+									M<<"Low stamina."
 									return
 								else
 									if(F in M.contents&&F.stack_amount>=1)
@@ -162,13 +164,14 @@ obj
 										UT:growstate=00
 										//F:sproutisplanted=1
 										F.RemoveFromStack(1)
-										M.energy -= 8
-										M.updateEN()
+										M.stamina -= 8
+										M.updateST()
 
 									else
 										return
 
 		Kindling
+			layer = 9
 			//can_stack = TRUE
 			verb
 				/*Get()
@@ -225,7 +228,7 @@ obj
 						if(M.CKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 							if(Carving==1)		//This is saying if usr is already cuttin a tree...
 								return
-							if(energy==0)		//Is your energy to low???
+							if(stamina==0)		//Is your stamina to low???
 								M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 								return
 							for(J in M.contents)
@@ -238,7 +241,7 @@ obj
 					else
 						if(Carving==1)		//This is saying if usr is already cuttin a tree...
 							return
-						if(energy==0)		//Is your energy to low???
+						if(stamina==0)		//Is your stamina to low???
 							M<<"<font color=#00bfff>You're too tired to do anything!</font>"
 							return
 						for(J in M.contents)
@@ -257,7 +260,7 @@ obj
 				logs = 1
 				//amount = 1
 				mouse_opacity = 1
-				plane = 4
+				//layer = 4
 
 			proc/createnovicefire(mob/Carver)
 				set waitfor = 0
@@ -278,7 +281,7 @@ obj
 					M<<"<font color=#00bfff>You need an Obsidian Knife equipped.</font>"
 					return
 				M<<"Carving"			//YAY YOU're CUTTING!!!
-				if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+				if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 					M<<"<font color=#00bfff>You are too tired, drink some water.</font>"
 					return
 				if(Carving==1)
@@ -291,7 +294,7 @@ obj
 				else
 					//if(J.stack_amount>=1)// J.RemoveFromStack(1)
 					Carving=1
-					M.energy -= 5	//Depletes one energy
+					M.stamina -= 5	//Depletes one stamina
 					if(prob(50))		//Takes the rarity of the tree and your woodcutting lvl
 						M<<"<font color=green>You create a fire in front of you!</font>"		//You get "tree being cut" Logs!
 						Fire = new/obj/Buildable/Fire(usr.loc)
@@ -359,7 +362,7 @@ obj/plant//Simple right??? Just defining objects, Trees!
 		icon_state = "UTH"
 		name = "Ueik Tree Hallow"
 		density = 0
-		plane = MOB_LAYER+5
+		layer = 10
 		mouse_opacity = 1
 		disallow_in = NORTH
 		disallow_out = SOUTH
@@ -419,7 +422,7 @@ obj/plant//Simple right??? Just defining objects, Trees!
 		icon_state = "UTA"
 		name = "Ueik Tree Ancient"
 		density = 0
-		plane = MOB_LAYER+5
+		layer = 10
 		mouse_opacity = 1
 		disallow_in = NORTH
 		disallow_out = SOUTH
@@ -452,15 +455,17 @@ obj/plant//Simple right??? Just defining objects, Trees!
 				//sleep(15)
 				//M << "The Mature Ueik makes a Hallowed sound as you pluck off a Wooden Haunch."
 				//sleep(1)
+
 			if(prob(50))
 				M << "<font color=#00bfff>The Ancient Ueik tree is hard as rock but you manage to find a sharp branch on the ground.</font>"
 				new /obj/items/UeikThorn(M)
+				M << "<font color=#00bfff>You found a Ueik Thorn!</font>"
 				return
-
 			else
 				//sleep(10)
 				M << "The material collected is too brittle to be used."
 				return
+
 		proc/Gather_Fir()
 			set waitfor = 0
 			set popup_menu = 1
@@ -473,7 +478,7 @@ obj/plant//Simple right??? Just defining objects, Trees!
 				//sleep(1)
 			if(M.OKequipped==1||M.CKequipped==1)
 				if(prob(50))
-					M << "<font color=#00bfff>You slice some leather-like bark from the Ancient Ueik tree.</font>"
+					M << "<font color=#00bfff>You slice some leather-esque bark from the Ancient Ueik tree.</font>"
 					new /obj/items/UeikFir(M)
 					return
 				else
@@ -621,7 +626,11 @@ obj/items/plant/stump//When you cut down a tree and don't harvest it, leaving a 
 		else
 			usr << "Need to use a Hammer with the Carving Knife."
 			return
-
+obj/plant/ueiktree/ueikstump
+	name = "Stump"
+	icon_state ="ustump"
+	growstate = 7
+	mature = 1
 obj/plant/ueiktree
 			// Growstate is the tree's current 'phase'
 			//var/growstate//Also grow state for trees?
@@ -655,7 +664,7 @@ obj/plant/ueiktree
 	MinLog=1
 	MaxLog=3
 	GiveXP=5
-	plane=5
+	layer = 10
 	mature=0//this flag handles if a tree has grown to a mature stage, so that it can carry through winter into the new year
 	LogAmount=1
 	log=/obj/items/Logs/UeikLog    //This is basically saying what log will be made when tree is cut...
@@ -695,14 +704,14 @@ obj/plant/ueiktree
 			if(Cutting==1)		//This is saying if usr is already cuttin a tree...
 				M<<"You are already cutting!"
 				return
-			else if(energy==0)		//Is your energy to low???
+			else if(stamina==0)		//Is your stamina to low???
 				M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 				return
 			else if(M.GVequipped==1&&growstate==6)
 				Celebrate(M)		//Calls the Cut() proc
 				sleep(5)
 				return
-			else if(M.SKequipped==1&&growstate==3||M.SKequipped==1&&growstate==42||M.SKequipped==1&&growstate==43||M.SKequipped==1&&growstate==7)
+			else if(M.SKequipped==1&&growstate==3||M.SKequipped==1&&growstate==42||M.SKequipped==1&&growstate==43)
 				Cut_Sprout(M)		//Calls the Cut() proc
 				sleep(5)
 				return
@@ -749,11 +758,19 @@ obj/plant/ueiktree
 
 	New()
 		..()
-		if(!LogAmount)
+		if(growstate!=7)
+			treelist+=src
+			if(!LogAmount)
+				src.LogAmount = rand(src.MinLog, src.MaxLog)
+			if(!SproutAmount)
+				src.SproutAmount = rand(src.MinSprout, src.MaxSprout)
+		else if(growstate==7||istype(/obj,/obj/plant/ueiktree/ueikstump))
+			return
+		/*if(!LogAmount)
 			src.LogAmount = rand(src.MinLog, src.MaxLog)
 		if(!SproutAmount)
-			src.SproutAmount = rand(src.MinSprout, src.MaxSprout)
-		treelist+=src
+			src.SproutAmount = rand(src.MinSprout, src.MaxSprout)*/
+
 	Del()
 		treelist-=src
 		..()
@@ -782,7 +799,7 @@ obj/plant/ueiktree
 		spawn(randomvalue)
 		//spawn(420) // Normaly set to 12000, or twenty min.
 		// Cycle the growstate var.
-			if (growstate == 7)
+			if (growstate == 7||istype(/obj,/obj/plant/ueiktree/ueikstump))
 				// chopped down? It is now a stump, no more growth until I implement a random seed
 				src:growstate = 7//stump
 				//src:growstate = 0//this will make stumps grow new trees
@@ -986,11 +1003,11 @@ obj/plant/ueiktree
 			src:verbs += /obj/plant/ueiktree/proc/Celebrate
 			src:name = "Celebration Tree"
 			//goto label
-		else if (growstate == 7)
+		else if (growstate == 7||istype(/obj,/obj/plant/ueiktree/ueikstump))
 			src:icon_state ="ustump"
 			src:verbs += /obj/plant/ueiktree/proc/RemoveStump
 			src:verbs -= /obj/plant/ueiktree/proc/Cut
-			src:verbs += /obj/plant/ueiktree/proc/Cut_Sprout
+			src:verbs -= /obj/plant/ueiktree/proc/Cut_Sprout
 			src:verbs -= /obj/plant/ueiktree/proc/Gather_Torch_Material
 			src:verbs -= /obj/plant/ueiktree/proc/Celebrate
 			src:name = "Stump"
@@ -1000,6 +1017,7 @@ obj/plant/ueiktree
 		//Grow2()
 		if(growstate!=7)
 			Grow()
+		else if(growstate==7||istype(/obj,/obj/plant/ueiktree/ueikstump)) return
 	//..()
 	proc
 		RemoveStump()
@@ -1020,7 +1038,7 @@ obj/plant/ueiktree
 					if(M.SHequipped==1)		//Makes sure the person is right beside the tree and facing it.
 						if(Cutting==1)		//This is saying if usr is already cuttin a tree...
 							return
-						if(energy==0)		//Is your energy to low???
+						if(stamina==0)		//Is your stamina to low???
 							M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 							return
 						else if(growstate==7)
@@ -1050,8 +1068,8 @@ obj/plant/ueiktree
 			if(M.AXequipped==0||M.SAXequipped==0)			//Does the usr have a Axe to cut with?
 				Cutter<<"<font color=#00bfff>You need an Axe equipped.</font>"
 				return
-			if(M.energy<=5)			//Calling this again... Some screwy stuff could happen.
-				M<<"<font color=#00bfff>Your energy is too low.</font>"
+			if(M.stamina<=5)			//Calling this again... Some screwy stuff could happen.
+				M<<"<font color=#00bfff>Your stamina is too low.</font>"
 				return
 			if(Cutting==1)
 				return
@@ -1065,16 +1083,16 @@ obj/plant/ueiktree
 				if(M.AXequipped==0||M.SAXequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 					Cutter<<"<font color=#00bfff>You need to hold an Axe to use it on the [LogType] tree.</font>"
 					return
-				/*if (M.energy < 5)
-					M << "Low energy."*/
+				/*if (M.stamina < 5)
+					M << "Low stamina."*/
 
 				else if(M.AXequipped==1||M.SAXequipped==1||growstate==4||growstate==51||growstate==52||growstate==41||growstate==42||growstate==43||growstate==431||growstate==44)
 					M<<"<font color=green>You begin to work on the [LogType] tree with your Axe.</font>"			//YAY YOU're CUTTING!!!
 					M.overlays += image('dmi/64/axeoy.dmi',icon_state="[get_dir(M,src)]")
 					Cutting=1
 					sleep(10)
-					M.energy -= 5	//Depletes one energy
-					M.updateEN()
+					M.stamina -= 5	//Depletes one stamina
+					M.updateST()
 					if(prob(Rarity+hrank))		//Takes the rarity of the tree and your woodcutting lvl
 						Cutter<<"<font color=green>You Finish working the [LogType] tree and receive [LogType] log!</font>"		//You get "tree being cut" Logs!
 						M.overlays -= image('dmi/64/axeoy.dmi',icon_state="[get_dir(M,src)]")
@@ -1146,7 +1164,7 @@ obj/plant/ueiktree
 					if(M.SKequipped==1)//Makes sure the person is right beside the tree and facing it.
 						if(Cutting==1)//This is saying if usr is already cuttin a tree...
 							return
-						if(energy==0)//Is your energy to low???
+						if(stamina==0)//Is your stamina to low???
 							M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 							return
 						for(J in M.contents)
@@ -1170,7 +1188,7 @@ obj/plant/ueiktree
 				Cutting=0
 				return
 			M<<"You begin to harvest a [SproutType] sprout."			//YAY YOU're CUTTING!!!
-			if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+			if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 				M<<"<font color=#00bfff>You are too tired, drink some water.</font>"
 				Cutting=0
 				return
@@ -1187,11 +1205,11 @@ obj/plant/ueiktree
 					M<<"<font color=#00bfff>You need to use a Sickle.</font>"
 					Cutting=0
 					return
-				/*if (M.energy < 5)
-					M << "Low energy."*/
+				/*if (M.stamina < 5)
+					M << "Low stamina."*/
 				else
 					Cutting=1
-					M.energy -= 5	//Depletes one energy
+					M.stamina -= 5	//Depletes one stamina
 					if(prob(Chance+CSRank))		//Takes the rarity of the tree and your woodcutting lvl
 						M<<"You get [SproutType] sprout!"		//You get "tree being cut" Logs!
 						new sprout(usr.loc)
@@ -1252,11 +1270,11 @@ obj/plant/ueiktree
 			if(growstate==42||growstate==43)
 				M<<"<font color=#00bfff>The tree is too green to use as a torch...</font>"
 				return*/
-#include "time.dm"
 
 
 obj/items/Logs
 	//can_stack = TRUE
+	layer = 9
 
 	var// Growstate is the tree's current 'phase'
 		obj/items/Kindling/kindling
@@ -1299,7 +1317,7 @@ obj/items/Logs
 		icon_state="UeikLog"
 		name = "Ueik Log"
 		//stack = 1
-		plane = 4
+		//layer = 4
 		logs=1
 		//amount = 10
 		MinKind=4
@@ -1347,7 +1365,7 @@ obj/items/Logs
 				if(M.CKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 					if(Carving==1)		//This is saying if usr is already cuttin a tree...
 						return
-					if(energy==0)		//Is your energy to low???
+					if(stamina==0)		//Is your stamina to low???
 						M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 						return
 					for(J in M.contents)
@@ -1358,7 +1376,7 @@ obj/items/Logs
 			if(M.CKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				if(energy==0)		//Is your energy to low???
+				if(stamina==0)		//Is your stamina to low???
 					M<<"<font color=#00bfff>You're too tired to do anything!</font>"
 					return
 				for(J in M.contents)
@@ -1381,7 +1399,7 @@ obj/items/Logs
 				if(M.CKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 					if(Carving==1)		//This is saying if usr is already cuttin a tree...
 						return
-					if(energy==0)		//Is your energy to low???
+					if(stamina==0)		//Is your stamina to low???
 						M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 						return
 					for(J in M.contents)
@@ -1392,7 +1410,7 @@ obj/items/Logs
 			if(M.CKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				if(energy==0)		//Is your energy to low???
+				if(stamina==0)		//Is your stamina to low???
 					M<<"<font color=#00bfff>You're too tired to do anything!</font>"
 					return
 				for(J in M.contents)
@@ -1401,7 +1419,7 @@ obj/items/Logs
 						carve()		//Calls the Cut() proc
 						sleep(5)
 						return
-				..()
+				//..()
 		Carve_Handle()
 			set waitfor = 0
 			set category=null
@@ -1414,7 +1432,7 @@ obj/items/Logs
 			if(M.CKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				if(M.energy==0)		//Is your energy to low???
+				if(M.stamina==0)		//Is your stamina to low???
 					M<<"<font color=#00bfff>You're too tired to do anything!</font>"
 					return
 				for(J in M.contents)
@@ -1423,7 +1441,7 @@ obj/items/Logs
 						carveH()		//Calls the Cut() proc
 						sleep(5)
 						return
-				..()
+				//..()
 		Carve_Pole()
 			set waitfor = 0
 			set category=null
@@ -1436,7 +1454,7 @@ obj/items/Logs
 			if(M.CKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				if(energy==0)		//Is your energy to low???
+				if(stamina==0)		//Is your stamina to low???
 					M<<"<font color=#00bfff>You're too tired to do anything!</font>"
 					return
 				for(J in M.contents)
@@ -1445,7 +1463,7 @@ obj/items/Logs
 						carveP()		//Calls the Cut() proc
 						sleep(5)
 						return
-				..()
+				//..()
 		Carve_Wooden_Torch_Head()
 			set waitfor = 0
 			set category=null
@@ -1458,7 +1476,7 @@ obj/items/Logs
 			if(M.CKequipped==1)		//Makes sure the person is right beside the tree and facing it.
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				if(energy==0)		//Is your energy to low???
+				if(stamina==0)		//Is your stamina to low???
 					M<<"<font color=#00bfff>You're too tired to do anything!</font>"
 					return
 				for(J in M.contents)
@@ -1467,7 +1485,7 @@ obj/items/Logs
 						carveWTH()		//Calls the Cut() proc
 						sleep(5)
 						return
-				..()
+				//..()
 		Saw_Board()
 			set waitfor = 0
 			set category=null
@@ -1480,7 +1498,7 @@ obj/items/Logs
 			if(M.SWequipped==1)		//Makes sure the person is right beside the tree and facing it.
 				if(Carving==1)		//This is saying if usr is already cuttin a tree...
 					return
-				if(energy==0)		//Is your energy to low???
+				if(stamina==0)		//Is your stamina to low???
 					M<<"<font color=#00bfff>You're too tired to do anything!</font>"
 					return
 				for(J in M.contents)
@@ -1489,7 +1507,7 @@ obj/items/Logs
 						sawB()		//Calls the Cut() proc
 						sleep(5)
 						return
-				..()
+				//..()
 	//Kindling
 	//	ueikkindling
 	//		icon = 'dmi/64/tree.dmi'
@@ -1512,7 +1530,7 @@ obj/items/Logs
 			M<<"<font color=#00bfff>You need a Carving Knife equipped.</font>"
 			return
 		M<<"You begin to assemble a fire."			//YAY YOU're CUTTING!!!
-		if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+		if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 			M<<"<font color=#00bfff>You are too tired, drink some water.</font>"
 			return
 		if(Carving==1)
@@ -1527,11 +1545,11 @@ obj/items/Logs
 			if(M.CKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 				M<<"<font color=#00bfff>You need to use a Carving Knife.</font>"
 				return
-			/*if (M.energy < 5)
-				M << "Low energy."*/
+			/*if (M.stamina < 5)
+				M << "Low stamina."*/
 			else
 				//if(J.stack_amount>=1)// J.RemoveFromStack(1)
-				M.energy -= 5	//Depletes one energy
+				M.stamina -= 5	//Depletes one stamina
 				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a fire in front of you!</font>"		//You get "tree being cut" Logs!
 					Fire = new/obj/Buildable/Fire(usr.loc)
@@ -1569,7 +1587,7 @@ obj/items/Logs
 			M<<"<font color=#00bfff>You need a Carving Knife equipped.</font>"
 			return
 		M<<"Carving"			//YAY YOU're CUTTING!!!
-		if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+		if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 			M<<"<font color=#00bfff>You are too tired, drink some water.</font>"
 			return
 		if(Carving==1)
@@ -1584,11 +1602,11 @@ obj/items/Logs
 			if(M.CKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 				M<<"<font color=#00bfff>You need to use a Carving Knife.</font>"
 				return
-			/*if (M.energy < 5)
-				M << "Low energy."*/
+			/*if (M.stamina < 5)
+				M << "Low stamina."*/
 			else
 				//if(J.stack_amount>=1)// J.RemoveFromStack(1)
-				M.energy -= 5	//Depletes one energy
+				M.stamina -= 5	//Depletes one stamina
 				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a [KindType] kindling infront of you!</font>"		//You get "tree being cut" Logs!
 					new kindling(usr.loc)
@@ -1623,7 +1641,7 @@ obj/items/Logs
 			M<<"<font color=#00bfff>You need a Carving Knife equipped.</font>"
 			return
 		M<<"Carving"			//YAY YOU're CUTTING!!!
-		if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+		if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 			M<<"<font color=#00bfff>You are too tired, drink some water.</font>"
 			return
 		if(Carving==1)
@@ -1638,10 +1656,10 @@ obj/items/Logs
 			if(M.CKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 				M<<"<font color=#00bfff>You need to use a Carving Knife.</font>"
 				return
-			/*if (M.energy < 5)
-				M << "Low energy."*/
+			/*if (M.stamina < 5)
+				M << "Low stamina."*/
 			else
-				M.energy -= 5	//Depletes one energy
+				M.stamina -= 5	//Depletes one stamina
 				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					//var/obj/items/Crafting/Created/Handle
 					M<<"<font color=green>You create a [HandType] handle infront of you!</font>"		//You get "tree being cut" Logs!
@@ -1678,7 +1696,7 @@ obj/items/Logs
 			M<<"<font color=#00bfff>You need a Saw equipped.</font>"
 			return
 		M<<"Sawing"			//YAY YOU're CUTTING!!!
-		if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+		if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 			M<<"<font color=#00bfff>You are too tired, drink some water.</font>"
 			return
 		if(Carving==1)
@@ -1693,10 +1711,10 @@ obj/items/Logs
 			if(M.SWequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 				M<<"<font color=#00bfff>You need to use a Saw.</font>"
 				return
-			/*if (M.energy < 5)
-				M << "Low energy."*/
+			/*if (M.stamina < 5)
+				M << "Low stamina."*/
 			else
-				M.energy -= 5	//Depletes one energy
+				M.stamina -= 5	//Depletes one stamina
 				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a [BoardType] board infront of you!</font>"		//You get "tree being cut" Logs!
 					new board(usr)
@@ -1731,7 +1749,7 @@ obj/items/Logs
 			M<<"<font color=#00bfff>You need a Carving Knife equipped.</font>"
 			return
 		M<<"Carving"			//YAY YOU're CUTTING!!!
-		if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+		if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 			M<<"<font color=#00bfff>You are too tired, drink some water.</font>"
 			return
 		if(Carving==1)
@@ -1746,10 +1764,10 @@ obj/items/Logs
 			if(M.CKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 				M<<"<font color=#00bfff>You need to use a Carving Knife.</font>"
 				return
-			/*if (M.energy < 5)
-				M << "Low energy."*/
+			/*if (M.stamina < 5)
+				M << "Low stamina."*/
 			else
-				M.energy -= 5	//Depletes one energy
+				M.stamina -= 5	//Depletes one stamina
 				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a [PoleType] pole infront of you!</font>"		//You get "tree being cut" Logs!
 					new pole(usr)
@@ -1784,7 +1802,7 @@ obj/items/Logs
 			M<<"<font color=#00bfff>You need a Carving Knife equipped.</font>"
 			return
 		M<<"Carving"			//YAY YOU're CUTTING!!!
-		if(M.energy==0)			//Calling this again... Some screwy stuff could happen.
+		if(M.stamina==0)			//Calling this again... Some screwy stuff could happen.
 			M<<"<font color=#00bfff>You are too tired, drink some water.</font>"
 			return
 		if(Carving==1)
@@ -1799,10 +1817,10 @@ obj/items/Logs
 			if(M.CKequipped==0)// Calling this again cause players like to drop axes just to see what will happen while they cut...
 				M<<"<font color=#00bfff>You need to use a Carving Knife.</font>"
 				return
-			/*if (M.energy < 5)
-				M << "Low energy."*/
+			/*if (M.stamina < 5)
+				M << "Low stamina."*/
 			else
-				M.energy -= 5	//Depletes one energy
+				M.stamina -= 5	//Depletes one stamina
 				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a [HeadType] Wooden Torch Head infront of you!</font>"		//You get "tree being cut" Logs!
 					new WTH(usr)

@@ -1,8 +1,10 @@
 
 obj
 	items
+		var/base_value // How much the item is worth without rarity modifiers
 
 		armors
+			layer = 9
 			//yeah, this gets pretty wild
 			icon = 'dmi/64/armor.dmi'
 			var
@@ -23,7 +25,7 @@ obj
 				STRbonus = 0
 				SPRTbonus = 0
 				HEALTHbonus = 0
-				ENERGYbonus = 0
+				staminabonus = 0
 				FIREres = 0
 				ICEres = 0
 				WINDres = 0
@@ -90,9 +92,9 @@ obj
 								M.Strength += src.STRbonus
 								M.Spirit += src.SPRTbonus
 								M.HP += src.HEALTHbonus
-								M.energy += src.ENERGYbonus
+								M.stamina += src.staminabonus
 								M.MAXHP += src.HEALTHbonus
-								M.MAXenergy += src.ENERGYbonus
+								M.MAXstamina += src.staminabonus
 								M.fireres += src.FIREres
 								M.iceres += src.ICEres
 								M.windres += src.WINDres
@@ -132,9 +134,9 @@ obj
 							M.Strength -= src.STRbonus
 							M.Spirit -= src.SPRTbonus
 							M.HP -= src.HEALTHbonus
-							M.energy -= src.ENERGYbonus
+							M.stamina -= src.staminabonus
 							M.MAXHP -= src.HEALTHbonus
-							M.MAXenergy -= src.ENERGYbonus
+							M.MAXstamina -= src.staminabonus
 							M.fireres -= src.FIREres
 							M.iceres -= src.ICEres
 							M.windres -= src.WINDres
@@ -782,8 +784,8 @@ obj/items/armors
 		SPRTbonus = 10
 		New()
 			if(usr!=null)
-				ENERGYbonus = rand(10,50)
-				var/ad1 = "+[ENERGYbonus] energy"
+				staminabonus = rand(10,50)
+				var/ad1 = "+[staminabonus] stamina"
 				ICEres = rand(5,20)
 				var/ad2 = "+[ICEres] Ice Proof"
 				description = "<font color = #ffd700><center><b><br>LeadPlate Cuirass (Cuirass):</b><br>77 Defense<br>7% Evasion<br>+3 Strength<br>+10 Spirit<br>[ad1]<br>[ad2]<br>47 Strength-Req"

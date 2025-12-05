@@ -1,6 +1,7 @@
 obj
 	items
 		shields
+			layer = 9
 			//yeah, this gets pretty wild
 			icon = 'dmi/64/shields.dmi'
 			var
@@ -21,7 +22,7 @@ obj
 				STRbonus = 0
 				SPRTbonus = 0
 				HEALTHbonus = 0
-				ENERGYbonus = 0
+				staminabonus = 0
 				FIREres = 0
 				ICEres = 0
 				WINDres = 0
@@ -92,9 +93,9 @@ obj
 								M.Strength += src.STRbonus
 								M.Spirit += src.SPRTbonus
 								M.HP += src.HEALTHbonus
-								M.energy += src.ENERGYbonus
+								M.stamina += src.staminabonus
 								M.MAXHP += src.HEALTHbonus
-								M.MAXenergy += src.ENERGYbonus
+								M.MAXstamina += src.staminabonus
 								M.fireres += src.FIREres
 								M.iceres += src.ICEres
 								M.windres += src.WINDres
@@ -124,9 +125,9 @@ obj
 							M.Strength -= src.STRbonus
 							M.Spirit -= src.SPRTbonus
 							M.HP -= src.HEALTHbonus
-							M.energy -= src.ENERGYbonus
+							M.stamina -= src.staminabonus
 							M.MAXHP -= src.HEALTHbonus
-							M.MAXenergy -= src.ENERGYbonus
+							M.MAXstamina -= src.staminabonus
 							M.fireres -= src.FIREres
 							M.iceres -= src.ICEres
 							M.windres -= src.WINDres
@@ -733,7 +734,7 @@ obj/items/shields
 			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 			//return
 			var/ad1 = "+[HEALTHbonus] Health"
-			var/ad2 = "+[ENERGYbonus] energy"
+			var/ad2 = "+[staminabonus] stamina"
 			var/ad3 = "+[resroll] Omni-Proof"
 			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[SPRTbonus] Spirit<br>+[STRbonus] Strength<br>[ad1]<br>[ad2]<br>[ad3]<br>Worth [Worth]"
 
@@ -745,8 +746,8 @@ obj/items/shields
 			if(usr!=null)
 				HEALTHbonus = rand(200,300)
 				//var/ad1 = "+[HEALTHbonus] Health"
-				ENERGYbonus = rand(200,300)
-				//var/ad2 = "+[ENERGYbonus] energy"
+				staminabonus = rand(200,300)
+				//var/ad2 = "+[staminabonus] stamina"
 				resroll = rand(33,42)
 				FIREres = resroll
 				ICEres = resroll
@@ -923,7 +924,7 @@ obj/items/shields
 			//usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>[src.description]"//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 			//return
 			var/ad1 = "+[HEALTHbonus] Health"
-			var/ad2 = "+[ENERGYbonus] energy"
+			var/ad2 = "+[staminabonus] stamina"
 			var/ad3 = "+[resroll] Omni-Proof"
 			usr << "\  <center><IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'><br><font color = [desc_color]><center><b>[name]</b><br>[rarity]<br>Shield Level [slvl]<br>[Adefense] Shield Defense<br>[Aevade] Shield Evasion<br>[strreq] Strength-Req<br>+[STRbonus] Strength<br>+[SPRTbonus] Spirit<br>[ad1]<br>[ad2]<br>[ad3]<br>Worth [Worth]"
 
@@ -935,8 +936,8 @@ obj/items/shields
 			if(usr!=null)
 				HEALTHbonus = rand(200,300)
 				//var/ad1 = "+[HEALTHbonus] Health"
-				ENERGYbonus = rand(200,300)
-				//var/ad2 = "+[ENERGYbonus] energy"
+				staminabonus = rand(200,300)
+				//var/ad2 = "+[staminabonus] stamina"
 				resroll = rand(33,42)
 				FIREres = resroll
 				ICEres = resroll

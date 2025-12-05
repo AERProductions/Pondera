@@ -6,7 +6,7 @@ map_generator
 obj/border
 
 	sand
-		icon = 'acliffs.dmi'
+		icon = 'dmi/64/acliffs.dmi'
 		//icon_state = "4dh"
 		density = TRUE
 
@@ -21,7 +21,7 @@ obj/border
 turf
 	sand
 		name = "Grass"
-		icon = 'gen.dmi'
+		icon = 'dmi/64/gen.dmi'
 		icon_state = "grass"
 		border_type = /obj/border/sand
 

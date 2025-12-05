@@ -1,4 +1,4 @@
-//the beginning of the new world save/load made by awesome programmer, F0lak!
+//the beginning of the new world save/load made by programmer F0lak
 
 var
 	map_save_manager/save_manager
@@ -155,8 +155,8 @@ mob/save_category = "mobs"
 
 savedatum
 
-var last_save
-var save_period = 1440	//	minutes
+var/last_save
+var/save_period = 1440	//	minutes
 
 mob/players/Special1/verb
 	set_save_period() save_period = input(src, "How many minutes should the auto-saver wait between saves?", "Save Period", save_period) || save_period
@@ -245,7 +245,7 @@ world
 	proc/SaveLoop()
 		set waitfor = FALSE
 		for()
-			sleep 1
+			sleep(1)
 			if(world.time >= last_save + save_period * 600)
 				last_save = world.time
 				save_all(TRUE)
@@ -490,8 +490,8 @@ savedatum
 
 
 save_chunk
-	var saved_stuff[0]
-	var loaded_stuff[0]
+	var/saved_stuff[0]
+	var/loaded_stuff[0]
 
 	New()
 		..()

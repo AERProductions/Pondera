@@ -65,11 +65,11 @@ proc
 		..()*/
 proc
 	Review_Name(name)
-		var
-			fill_name = ckey(name)
-			capitalletters = 0
-			config = "065-090&097-122&032"//"048-057&065-090&097-122&032"
-			name_length = length(name)
+		var/fill_name = ckey(name)
+		var/capitalletters = 0
+		var/config = "065-090&097-122&032"//"048-057&065-090&097-122&032"
+		var/name_length = length(name)
+		
 		if(!fill_name)
 			alert("You must enter a name","Error")
 			return 1

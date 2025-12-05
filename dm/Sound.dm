@@ -1,14 +1,65 @@
-#include "Basics.dm"
-world
+/*
+soundmob, by Koil
+
+See Demo.dm for an easy to understand example.
+
+soundmob is a 3D sound library that allows you to attach sounds (called soundmobs)
+to movable atoms. You can then output the sound to a player and the sound will
+automatically update itself so that it sounds as if it is moving with the atom
+it is attached to.
+
+There are two ways to create a soundmob. You can use the soundmob() proc, which returns
+a /soundmob object, or you can create a /soundmob object directly. Both are created
+as follows:
 
 
+	var/soundmob/s = new/soundmob(attached, radius, file, autotune, channel, volume)
+	var/soundmob/s = soundmob(attached, radius, file, autotune, channel, volume)
+
+	Required Arguments:
+		* attached: This is the movable atom that the soundmob is attached to.
+		* radius: This is the maximum distance that a player can be from the sound
+				  before it is too far to be heard. This also determines the rate
+				  at which the volume of the sound diminishes with distance.
+		* file: This is the sound file that will be played.
+
+	Optional Arguments:
+		* autotune: See below.
+		* channel: You probably should leave this at it's default value of 0, because
+					the library automatically manages available channels.
+		* volume: This is 100 by default. This is the maximum volume that the sound will
+					be played. The volume will not exceed this amount even if you are right
+					on top of the soundmob.
+
+The autotune argument can be set to TRUE (1) if you want players to automatically hear
+the soundmob without having to manually send it to them. If autotune is set to TRUE, even
+when a new player logs in, they will automatically be sent the sound, and they will hear it
+if they are within radius of the soundmob.
+
+If autotune is not set to TRUE, you will have to manually call the proc mob.listenSoundmob() with
+the argument as the /soundmob object. unlistenSoundmob(/soundmob) will stop the player from hearing
+the soundmob.
+
+You'll want to keep a reference to the /soundmob objects you create around, because they must be
+deleted (using del()) in order to completely stop the sound from playing and so the garbage
+collector can kick in.
+
+A movable atom can have as many soundmobs attached to it as you'd like.
+
+Although it shouldn't matter, the library "reserves" the last 268 audio channels available (channels
+756 - 1024). You probably shouldn't need this many channels. The library "locks" channels that are
+currently being used by a soundmob, and "unlocks" them when done, so new soundmobs can use them. You will
+get an error if you output more than 268 soundmobs to a single player. If you absolutely need more
+channels than this, you can set the range of channels for the library to use by setting _channel_reserve_start
+and _channel_reserve_end.
+*/
 
 var/const
 	_channel_reserve_start = 756
 	_channel_reserve_end = 1024
 var/global/upd = 0
 var/tmp/list/_autotune_soundmobs = null
-var/r = rand(1,700)
+var/r = rand(2,700)
 var/A = 0
 proc
 	_addAutotuneSoundmob(soundmob/soundmob)
@@ -30,13 +81,14 @@ soundmob
 		return
 	Read()
 		return
+
 	var
 		atom/attached
 		list/listeners = new
 
 		file = null
 		autotune = TRUE
-		channel = 0
+		channel = null
 		repeat = FALSE
 		radius = 0
 		volume = 100
@@ -48,8 +100,8 @@ soundmob
 		environment = -1
 		list/echo = null
 
-	New(atom/_attached, _radius = 0, _file, _autotune = TRUE, _channel = 0, _volume = 100, _repeat = FALSE)
-		//if(_attached) ASSERT(_attached && _file)
+	New(atom/_attached, _radius = 0, _file, _autotune = TRUE, _channel = null, _volume = 100, _repeat = FALSE)
+		if(_attached) ASSERT(_attached && _file)
 
 
 		attached = _attached
@@ -102,8 +154,8 @@ soundmob
 			//ASSERT(src in mob._listening_soundmobs)
 			var/sound/sound = mob._listening_soundmobs[src]
 			var/distance = sqrt((mob.x - attached.x) * (mob.x - attached.x) + (mob.y - attached.y) * (mob.y - attached.y))
-			var/tmp/update = volume - (distance / radius * volume)
-			for(src&&sound)
+			var/update = volume - (distance / radius * volume)
+			if(src&&sound)
 				if(mob.x && mob.y && mob.z == attached.x && attached.y && attached.z) sound.pan = 0
 				if(mob.x && mob.y && mob.z > attached.x && attached.y && attached.z) sound.pan = -75
 				if(mob.x && mob.y && mob.z < attached.x && attached.y && attached.z) sound.pan = 75
@@ -111,9 +163,9 @@ soundmob
 				//if(mob in listeners && sound in mob._listening_soundmobs)
 			sound:volume = update//volume - (distance / radius * volume)
 			sound:frequency = frequency
-			//sound:channel = channel
+			sound:channel = channel
 			sound:priority = priority
-					//sound.repeat = repeat
+			sound.repeat = repeat
 			sound:environment = environment
 			sound:echo = echo
 
@@ -171,7 +223,7 @@ soundmob
 			//ASSERT(src in mob._listening_soundmobs)
 			//world << "setListener from [src] [usr]"
 			if(!(mob:_listening_soundmobs[src]))
-				var/tmp/sound/s = new(src.file)
+				var/sound/s = new(src.file)
 				mob:_listening_soundmobs[src] = s
 			else return
 
@@ -195,9 +247,9 @@ soundmob
 			sound.volume = volume - (distance / radius * volume)
 
 			sound.frequency = frequency
-			//sound.channel = channel
+			sound.channel = channel
 			sound.priority = priority
-			//sound.repeat = repeat
+			sound.repeat = repeat
 			sound.environment = environment
 			sound.echo = echo
 
@@ -208,7 +260,7 @@ soundmob
 		unsetListener(mob/mob)
 
 			if((mob in listeners) && (src in mob:_listening_soundmobs))
-				var/tmp/sound/sound = mob:_listening_soundmobs[src]
+				var/sound/sound = mob:_listening_soundmobs[src]
 				//world << "unsetListener"
 				for(var/i = sound.volume, i >= 0, i --)
 					sound.status = SOUND_UPDATE
@@ -228,7 +280,7 @@ soundmob
 atom
 	var/tmp/list/_attached_soundmobs
 	var/tmp/list/listeners = null
-/*
+
 	proc/unsetListener(mob/mob)
 		set waitfor=0
 
@@ -248,12 +300,12 @@ atom
 			mob:_unlockChannel(sound.channel)
 
 			listeners -= mob
-			if(!length(listeners)) listeners = null*/
-	//Del()
-		//if(_attached_soundmobs) for(var/soundmob/soundmob in _attached_soundmobs) del(soundmob)
+			if(!length(listeners)) listeners = null
+	Del()
+		if(_attached_soundmobs) for(var/soundmob/soundmob in _attached_soundmobs) del(soundmob)
 		//else return
 		//world << "atom Del"
-		//..()
+		..()
 
 	//Move()
 		//..()
@@ -287,13 +339,13 @@ obj
 	New()
 		..()
 
-		//spawn() if(src in world && _autotune_soundmobs) for(var/soundmob/soundmob in _autotune_soundmobs) listenSoundmob(soundmob)
+		spawn() if(src in world && _autotune_soundmobs) for(var/soundmob/soundmob in _autotune_soundmobs) listenSoundmob(soundmob)
 
-	//Del()
-		//if(_listening_soundmobs) for(var/soundmob/soundmob in _listening_soundmobs) unlistenSoundmob(soundmob)
+	Del()
+		if(_listening_soundmobs) for(var/soundmob/soundmob in _listening_soundmobs) unlistenSoundmob(soundmob)
 		//else return
 		//world << "obj Del"
-		//..()
+		..()
 
 	//Move()
 		//..()
@@ -311,10 +363,10 @@ obj
 				if(!_channels_taken) _channels_taken = list()
 				_channels_taken += channel
 
-		//_updateListeningSoundmobs()
-			//if(_listening_soundmobs)
-				//for(var/soundmob/soundmob in _listening_soundmobs)
-					//soundmob.setListener(src)
+		_updateListeningSoundmobs()
+			if(_listening_soundmobs)
+				for(var/soundmob/soundmob in _listening_soundmobs)
+					soundmob.setListener(src)
 
 		_getAvailableChannel()
 			for(var/channel = _channel_reserve_start, channel <= _channel_reserve_end, channel++)
@@ -331,7 +383,7 @@ obj
 
 		unlistenSoundmob(soundmob/soundmob)
 			if(soundmob in _listening_soundmobs)
-				var/tmp/sound/sound = _listening_soundmobs[soundmob]
+				var/sound/sound = _listening_soundmobs[soundmob]
 				_channels_taken -= sound.channel
 
 				_listening_soundmobs -= soundmob

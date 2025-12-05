@@ -8,17 +8,17 @@ mob/players
 			J.Attack(M)
 		else
 			sleep(J.attackspeed)
-		if(energy>MAXenergy)
-			energy=MAXenergy
-		if(energy<0)
-			energy=0
+		if(stamina>MAXstamina)
+			stamina=MAXstamina
+		if(stamina<0)
+			stamina=0
 			..()
 		if(Attack(J))
 			waiter = 0
 			J<<"Don't want to do that."
-		if(J.energy==0)			//Calling this again... Some screwy stuff could happen.
+		if(J.stamina==0)			//Calling this again... Some screwy stuff could happen.
 			waiter = 0
-			J<<"Your energy is too low."*/
+			J<<"Your stamina is too low."*/
 
 	var // enemy variables
 		lucregive; Speed; Unique=0;
@@ -32,16 +32,16 @@ obj/spells // these are the actual magi icons that get created and moved around
 	//H = locate(world.contents)//view(world.contents)
 	chainlightning //m
 		icon_state = "chainlightning"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	cascadelightning //m
 		icon_state = "cascadelightning"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	heat //m
 		icon_state = "heat"
-		//plane = MOB_LAYER+1
+		//layer = MOB_LAYER+1
 		//light = new/light/circle
 
-		//plane = MOB_LAYER+1
+		//layer = MOB_LAYER+1
 		//ght = new /light/circle()
 			//light.loc = src.loc
 			//lightS.update()
@@ -61,52 +61,52 @@ obj/spells // these are the actual magi icons that get created and moved around
 			//light.on = 1
 	icestorm //m
 		icon_state = "icestorm"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	shardburst //m
 		icon_state = "shardburst"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	watershock //m
 		icon_state = "watershock"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	acid //f
 		icon_state = "acid"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	vitae1 //f
 		icon_state = "vitae1"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 		New()
 			..()
-			new /light/circle(src,2)
+			//new /light/circle(src,2)
 	vitae2 //t
 		icon_state = "vitae2"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	manahealing //?
 		icon_state = "manaheal"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	gmanahealing //?
 		icon_state = "gmanaheal"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	cosmos //m
 		icon_state = "cosmos"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	abjure //t
 		icon_state = "abjure"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	rephase //?
 		icon_state = "rephase"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	toxin //?
 		icon_state = "toxin"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	bludgeon //f
 		icon_state = "bludgeon"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	quietus //m
 		icon_state = "quietus"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 	panacea //t
 		icon_state = "panacea"
-		plane = MOB_LAYER+1
+		layer = MOB_LAYER+1
 mob/players
 	verb
 		vitae()//party spells
@@ -337,20 +337,19 @@ mob/players/proc
 mob/players/
 	spells // healing spells
 
-#include "colour2html.dm"
 
 	proc/VitaE()//working?
 		set waitfor = 0
 		if(vitaelevel>0)
-			if (energy < 1+(vitaelevel*2)) // make sure you have enough energy
-				usr << "Low energy."
+			if (stamina < 1+(vitaelevel*2)) // make sure you have enough stamina
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 			else
-				energy -= 1+(vitaelevel*2) // take the energy cost
-				updateEN()
+				stamina -= 1+(vitaelevel*2) // take the stamina cost
+				updateST()
 				//this J list, C var, and M reference counter stuff is to find the people who can be targets of this magi
 				var/list/J[1]
 				var/C = 1
@@ -383,15 +382,15 @@ mob/players/
 	proc/VitaE2()//working?
 		set waitfor = 0
 		if(vitae2level>0)
-			if (energy <1+(vitae2level*2)) // make sure you have enough energy
-				usr << "Low energy."
+			if (stamina <1+(vitae2level*2)) // make sure you have enough stamina
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 			else
-				energy -= 1+(vitae2level*2) // take the energy cost
-				updateEN()
+				stamina -= 1+(vitae2level*2) // take the stamina cost
+				updateST()
 				//this J list, C var, and M reference counter stuff is to find the people who can be targets of this magi
 				var/mob/players/M
 				for(M in view(5))
@@ -422,11 +421,11 @@ mob/players/
 		if(telekinesislevel>0)
 			if (telecost < 0)
 				telecost = 0
-			if (energy < telecost)
-				usr << "Low energy."
+			if (stamina < telecost)
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 			for(TI in oview(13,usr))
 				if (istype(M,/mob/players))
@@ -435,8 +434,8 @@ mob/players/
 					J.len++
 					(input("Which object?") in TI)
 				if(J[1]!=null)
-					energy -= telecost
-					updateEN()
+					stamina -= telecost
+					updateST()
 				//this stuff is to find the nearby items to pick from
 					TI.Move(usr)
 					usr << "You move [TI] with your mind!"
@@ -467,8 +466,8 @@ mob/players/
 		var/warpcost = 50-(abjurelevel*2)
 		if (warpcost < 0)
 			warpcost = 0
-		if (energy < warpcost)
-			usr << "Low energy."
+		if (stamina < warpcost)
+			usr << "Low stamina."
 		else
 			if((input("Want to Restart [M]?") in list("Yes","No")) != "Yes")
 				return
@@ -476,7 +475,7 @@ mob/players/
 					if(M.needrev==1)
 						for(M)
 							if(M.location=="Sheol")
-								energy -= warpcost
+								stamina -= warpcost
 								usr.overlays += /obj/spells/abjure // add the cool little color sparkles
 								sleep(3) // wait a while
 								M.loc = locate(627,64,2)
@@ -486,7 +485,7 @@ mob/players/
 								spawn(3) overlays -= /obj/spells/abjure
 								return
 							if(M.location=="Holy Light")
-								energy -= warpcost
+								stamina -= warpcost
 								usr.overlays += /obj/spells/abjure // add the cool little color sparkles
 								sleep(3) // wait a while
 								M.loc = locate(pick(421,413),pick(692,686),pick(2,2))
@@ -524,32 +523,32 @@ mob/players/
 		var/mob/players/M
 		var/mob/players/LC
 		LC = usr
-		if (LC.energy < LC.MAXenergy)//+(abjurelevel*2))
-			usr << "Low energy. Need Full energy to revive."
+		if (LC.stamina < LC.MAXstamina)//+(abjurelevel*2))
+			usr << "Low stamina. Need Full stamina to revive."
 			return
-		else if (LC.energy <= 0)
-			usr << "Low energy."
+		else if (LC.stamina <= 0)
+			usr << "Low stamina."
 			return
 
-		else if(LC.energy==LC.MAXenergy) // if you have enough energy
+		else if(LC.stamina==LC.MAXstamina) // if you have enough stamina
 			//find the closest enemy
 
-			var/warpcost = LC.MAXenergy//50-(abjurelevel*2)
+			var/warpcost = LC.MAXstamina//50-(abjurelevel*2)
 			if (warpcost < 0)
 				warpcost = 0
-			if (energy < warpcost)
-				usr << "Low energy."
+			if (stamina < warpcost)
+				usr << "Low stamina."
 				return
 			if(LC.location=="Aldoryn"&&J[1]==null)
 				usr << "Nobody needs revived."
 				return
 			if(LC.location!="Aldoryn")
 				//usr << "A soft peaceful voice echoes in your mind: <i>It appears you are the one who needs reviving</i>..."
-				energy -= warpcost
-				updateEN()
+				stamina -= warpcost
+				updateST()
 				usr.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
-				if(energy <=0)
-					energy = 0
+				if(stamina <=0)
+					stamina = 0
 					//loc = locate(pick(421,413),pick(692,686),pick(2,2))
 					M.loc = LC.loc
 					usr << "You've been granted another life!"
@@ -570,15 +569,15 @@ mob/players/
 							J.len++
 					(input("Whom do you want to revive?") in J)
 					if(J[1]!=null) // if you found one
-						energy -= 1+(abjurelevel*2) // decrement energy by cost
-						updateEN()
+						stamina -= 1+(abjurelevel*2) // decrement stamina by cost
+						updateST()
 						M = J[1] // reference to the enemy
 						spawn(3) //overlays -= /obj/spells/abjure // visuals
 							M.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
 						if(M)
 							if(M.location=="Sheol")
-								energy -= warpcost
-								updateEN()
+								stamina -= warpcost
+								updateST()
 								//usr.overlays += /obj/spells/abjure // add the cool little color sparkles
 								spawn(3)
 									usr.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
@@ -591,8 +590,8 @@ mob/players/
 									M.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
 								return
 							if(M.location=="Holy Light")
-								energy -= warpcost
-								updateEN()
+								stamina -= warpcost
+								updateST()
 								//usr.overlays += /obj/spells/abjure // add the cool little color sparkles
 								spawn(3)
 									usr.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
@@ -616,16 +615,16 @@ mob/players/
 	proc/PanaceA(var/mob/players/M in oview(3)) //working?
 		set waitfor = 0
 		if(panacealevel>0)
-			if (energy <95+(panacealevel*5))
-				usr << "Low energy."
+			if (stamina <95+(panacealevel*5))
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 
 			else
-				energy -= 95+(panacealevel*5)
-				updateEN()
+				stamina -= 95+(panacealevel*5)
+				updateST()
 				//var/mob/players/M
 				for(M as mob in view(5)) // cast on everyone nearby
 					if(istype(M,/mob/players)) // at least just the players anyway
@@ -725,11 +724,11 @@ mob/players/
 
 	proc/HeaT() //fixed?
 		set waitfor = 0
-		if (energy < 17+(heatlevel*3))
-			usr << "Low energy."
+		if (stamina < 17+(heatlevel*3))
+			usr << "Low stamina."
 			return
-		if (energy <= 0)
-			usr << "Low energy."
+		if (stamina <= 0)
+			usr << "Low stamina."
 			return
 
 		else
@@ -740,8 +739,8 @@ mob/players/
 			//check to make sure there is an enemy nearby
 			//for ((M as mob in oview(5))&&(istype(M,/mob/players)))//&&(M.pvptest=1))
 			if(heatlevel>0) // if there is an enemy nearby
-				//energy -= 17+(heatlevel*3) // decrement energy by cost
-				//updateEN()
+				//stamina -= 17+(heatlevel*3) // decrement stamina by cost
+				//updateST()
 				//for (M as mob in oview(4)) // visually shoot every enemy within 4
 					//if (istype(M,/mob/players))
 						//missile(/obj/spells/heat,usr,M)
@@ -785,8 +784,8 @@ mob/players/
 							damage = round(damage*(1+(J.firewk/100)),1)
 						if (J.fireres>0)
 							damage -= round(damage*(J.fireres/100),1)
-						energy -= 17+(heatlevel*3) // decrement energy by cost
-						updateEN()
+						stamina -= 17+(heatlevel*3) // decrement stamina by cost
+						updateST()
 						usr << "<font color=#660000>You shoot a fireball at [J]!</font>"
 						missile(/obj/spells/heat,usr,J)
 
@@ -861,11 +860,11 @@ mob/players/
 	proc/ShardBursT()//fixed.
 		set waitfor = 0
 		if(shardburstlevel>0)
-			if (energy < 3+(shardburstlevel*2))
-				usr << "Low energy."
+			if (stamina < 3+(shardburstlevel*2))
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 
 			else
@@ -879,8 +878,8 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null)
-					energy -= 3+(shardburstlevel*2)
-					updateEN()
+					stamina -= 3+(shardburstlevel*2)
+					updateST()
 					for(M in oview(13,usr))
 						if(M.HP<=0)
 							//M.overlays -= image('dmi/64/creation.dmi',icon_state="heat")
@@ -919,8 +918,8 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null)//below is fixed
-					energy -= 3+(shardburstlevel*2)
-					updateEN()
+					stamina -= 3+(shardburstlevel*2)
+					updateST()
 
 					for(E in oview(13,usr))
 						var/damage = round(((rand(1+(shardburstlevel*3),3+(shardburstlevel*3)))*((Spirit/100)+1)),1)
@@ -967,11 +966,11 @@ mob/players/
 	proc/WatershocK()//fixed.
 		set waitfor = 0
 		if(watershocklevel>0)///obj/spells/watershock watershocklevel watres watwk
-			if (energy < 5+(watershocklevel*2))
-				usr << "Low energy."
+			if (stamina < 5+(watershocklevel*2))
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 
 			else
@@ -987,8 +986,8 @@ mob/players/
 				//else
 					//usr << "No targets in range..."
 				if(J[1]!=null)
-					energy -= 5+(watershocklevel*2)
-					updateEN()
+					stamina -= 5+(watershocklevel*2)
+					updateST()
 					for(M in oview(13,usr))
 						if(M.HP<=0)
 							//M.overlays -= image('dmi/64/creation.dmi',icon_state="heat")
@@ -1031,8 +1030,8 @@ mob/players/
 				//else
 					//usr << "No targets in range..."
 				if(J[1]!=null)
-					energy -= 5+(watershocklevel*2)
-					updateEN()
+					stamina -= 5+(watershocklevel*2)
+					updateST()
 					for(E in oview(13))
 						world << "<font color=#ffffe0>[usr] sends electrified water towards [E]!</font>"
 						missile(/obj/spells/watershock,usr,E)
@@ -1070,11 +1069,11 @@ mob/players/
 			return
 	proc/FlamE() //working.
 		set waitfor = 0
-		if (energy < 17+(flamelevel*3))
-			usr << "Low energy."
+		if (stamina < 17+(flamelevel*3))
+			usr << "Low stamina."
 			return
-		if (energy <= 0)
-			usr << "Low energy."
+		if (stamina <= 0)
+			usr << "Low stamina."
 			return
 
 		else
@@ -1085,8 +1084,8 @@ mob/players/
 			//check to make sure there is an enemy nearby
 			//for ((M as mob in oview(5))&&(istype(M,/mob/players)))//&&(M.pvptest=1))
 			if(flamelevel>0) // if there is an enemy nearby
-				//energy -= 17+(flamelevel*3) // decrement energy by cost
-				//updateEN()
+				//stamina -= 17+(flamelevel*3) // decrement stamina by cost
+				//updateST()
 				//for (M as mob in oview(4)) // visually shoot every enemy within 4
 					//if (istype(M,/mob/players))
 						//missile(/obj/spells/heat,usr,M)
@@ -1114,8 +1113,8 @@ mob/players/
 						if (J.fireres>0)
 							damage -= round(damage*(J.fireres/100),1)
 						usr << "<font color=#660000>You spontaneously combust [J]!</font>"
-						energy -= 17+(flamelevel*3) // decrement energy by cost
-						updateEN()
+						stamina -= 17+(flamelevel*3) // decrement stamina by cost
+						updateST()
 						missile(/obj/spells/heat,usr,J) // shoot at them too visually
 						J.overlays += image('dmi/64/creation.dmi',icon_state="ffire")
 						//sleep(15)
@@ -1146,8 +1145,8 @@ mob/players/
 							damage -= round(damage*(M.fireres/100),1) //resistance damage reduced
 							//M.HP -= damage
 						world << "<font color=#660000>[usr] spontaneously combusts [M]!</font>"
-						energy -= 17+(flamelevel*3) // decrement energy by cost
-						updateEN()
+						stamina -= 17+(flamelevel*3) // decrement stamina by cost
+						updateST()
 						missile(/obj/spells/heat,usr,M)
 						M.overlays += image('dmi/64/creation.dmi',icon_state="ffire")
 						//sleep(15)
@@ -1170,11 +1169,11 @@ mob/players/
 				return
 	proc/IceStorM()//working, very fun, needs cool SFX
 		set waitfor = 0
-		if (energy < 20+(icestormlevel*3))
-			usr << "Low energy."
+		if (stamina < 20+(icestormlevel*3))
+			usr << "Low stamina."
 			return
-		if (energy <= 0)
-			usr << "Low energy."
+		if (stamina <= 0)
+			usr << "Low stamina."
 			return
 
 		else
@@ -1185,8 +1184,8 @@ mob/players/
 				//if (istype(M,/mob/players))
 					//testmonsters=1
 			if(icestormlevel>0) // making sure that there is at least 1 monster nearby
-				energy -= 20+(icestormlevel*3) // decrement energy by cost
-				updateEN()
+				stamina -= 20+(icestormlevel*3) // decrement stamina by cost
+				updateST()
 				world << "<font color =#f0f8ff>Ice flies in every direction!</font>"
 				//lots of visual junk =]
 				missile(/obj/spells/shardburst,usr,locate(usr.x,usr.y+5,usr.z))
@@ -1257,12 +1256,16 @@ mob/players/
 				return
 	proc/CascadeLightninG()//fixed!
 		set waitfor = 0
-		var/mob/enemies/U = locate(oview(13,src))
-		var/mob/enemies
-			U2=locate(oview(13,src));U3=locate(oview(13,src));U4=locate(oview(13,src));U5=locate(oview(13,src));
-		var/mob/players/P = locate(oview(13,src))
-		var/mob/players
-			P2=locate(oview(13,src));P3=locate(oview(13,src));P4=locate(oview(13,src));P5=locate(oview(13,src));
+		var/mob/enemies/U	=	locate(oview(13,src))
+		var/mob/enemies/U2	=	locate(oview(13,src))
+		var/mob/enemies/U3	=	locate(oview(13,src))
+		var/mob/enemies/U4	=	locate(oview(13,src))
+		var/mob/enemies/U5	=	locate(oview(13,src))
+		var/mob/players/P	=	locate(oview(13,src))
+		var/mob/players/P2	=	locate(oview(13,src))
+		var/mob/players/P3	=	locate(oview(13,src))
+		var/mob/players/P4	=	locate(oview(13,src))
+		var/mob/players/P5	=	locate(oview(13,src))
 				//make a list of all the nearby enemies
 		var/stillcharged
 		if(stillcharged==1)
@@ -1273,11 +1276,11 @@ mob/players/
 			var/K = 1
 			var/list/J[1]
 			//usr << "test"
-			if (energy < 23+(cascadelightninglevel*3))
-				usr << "Low energy."
+			if (stamina < 23+(cascadelightninglevel*3))
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 			for (U in oview(src,13))
 				if(istype(U,/mob/enemies) in oview(src,13))
@@ -1288,8 +1291,8 @@ mob/players/
 				//U = J[1] // reference it with U
 				if(U!=null) // making sure it exists and is an enemy
 					usr << "<font color=#ffff00>You blast a cascade of lightning at [U]!</font>"
-					energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-					updateEN()
+					stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+					updateST()
 					missile(/obj/spells/cascadelightning,src,U) // visually shoot it
 					sleep(get_dist(src,U)) // and wait until it gets there
 					//var/mob/enemies // references to the next enemies to attack
@@ -1328,8 +1331,8 @@ mob/players/
 						//U2 = J[1]
 						if(U2!=null) // making sure it exists and is an enemy
 							usr << "<font color=#ffff00>Lightning chains to [U2]!</font>"
-							energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-							updateEN()
+							stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+							updateST()
 							missile(/obj/spells/chainlightning,U,U2) // visually shoot it
 							sleep(get_dist(U,U2)) // and wait until it gets there
 							//var/mob/enemies // references to the next enemies to attack
@@ -1361,8 +1364,8 @@ mob/players/
 							//U3 = J[1]
 							if(U3!=null) // making sure it exists and is an enemy
 								usr << "<font color=#ffff00>Lightning chains to [U3]!</font>"
-								energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-								updateEN()
+								stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+								updateST()
 								missile(/obj/spells/chainlightning,U2,U3) // visually shoot it
 								sleep(get_dist(U2,U3)) // and wait until it gets there
 								//var/mob/enemies // references to the next enemies to attack
@@ -1393,8 +1396,8 @@ mob/players/
 									//U5 = J[1]
 									if(U4!=null) // making sure it exists and is an enemy
 										usr << "<font color=#ffff00>Lightning chains to [U4]!</font>"
-										energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-										updateEN()
+										stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+										updateST()
 										missile(/obj/spells/chainlightning,U3,U4) // visually shoot it
 										sleep(get_dist(U3,U4)) // and wait until it gets there
 										//var/mob/enemies // references to the next enemies to attack
@@ -1425,8 +1428,8 @@ mob/players/
 										//U5 = J[1]
 										if(U5!=null) // making sure it exists and is an enemy
 											usr << "<font color=#ffff00>Lightning chains to [U5]!</font>"
-											energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-											updateEN()
+											stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+											updateST()
 											missile(/obj/spells/chainlightning,U4,U5) // visually shoot it
 											sleep(get_dist(U4,U5)) // and wait until it gets there
 											//var/mob/enemies // references to the next enemies to attack
@@ -1457,8 +1460,8 @@ mob/players/
 				//U = J[1] // reference it with U
 				if(P!=null) // making sure it exists and is an enemy
 					usr << "<font color=#ffff00>You blast a cascade of lightning at [P]!</font>"
-					energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-					updateEN()
+					stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+					updateST()
 					missile(/obj/spells/cascadelightning,src,P) // visually shoot it
 					sleep(get_dist(src,P)) // and wait until it gets there
 					//var/mob/enemies // references to the next enemies to attack
@@ -1491,8 +1494,8 @@ mob/players/
 						//P2 = J[1]
 						if(P2!=null) // making sure it exists and is an enemy
 							usr << "<font color=#ffff00>Lightning chains to [P2]!</font>"
-							energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-							updateEN()
+							stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+							updateST()
 							missile(/obj/spells/chainlightning,P,P2) // visually shoot it
 							sleep(get_dist(P,P2)) // and wait until it gets there
 							//var/mob/enemies // references to the next enemies to attack
@@ -1523,8 +1526,8 @@ mob/players/
 							//P3 = J[1]
 							if(P3!=null) // making sure it exists and is an enemy
 								usr << "<font color=#ffff00>Lightning chains to [P3]!</font>"
-								energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-								updateEN()
+								stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+								updateST()
 								missile(/obj/spells/chainlightning,P2,P3) // visually shoot it
 								sleep(get_dist(P2,P3)) // and wait until it gets there
 								//var/mob/enemies // references to the next enemies to attack
@@ -1554,8 +1557,8 @@ mob/players/
 									//P5 = J[1]
 									if(P4!=null) // making sure it exists and is an enemy
 										usr << "<font color=#ffff00>Lightning chains to [P4]!</font>"
-										energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-										updateEN()
+										stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+										updateST()
 										missile(/obj/spells/chainlightning,P3,P4) // visually shoot it
 										sleep(get_dist(P3,P4)) // and wait until it gets there
 										//var/mob/enemies // references to the next enemies to attack
@@ -1585,8 +1588,8 @@ mob/players/
 										//P5 = J[1]
 										if(P5!=null) // making sure it exists and is an enemy
 											usr << "<font color=#ffff00>Lightning chains to [P5]!</font>"
-											energy -= 23+(cascadelightninglevel*3) // decrement energy by cost
-											updateEN()
+											stamina -= 23+(cascadelightninglevel*3) // decrement stamina by cost
+											updateST()
 											missile(/obj/spells/chainlightning,P4,P5) // visually shoot it
 											sleep(get_dist(P4,P5)) // and wait until it gets there
 											//var/mob/enemies // references to the next enemies to attack
@@ -1611,14 +1614,14 @@ mob/players/
 		else
 			usr << "You simply cannot fathom how to cast such a magi...(Magi Acuity: [cascadelightninglevel])"
 			return
-	proc/CosmoS()//steals enemy energy. --fixed
+	proc/CosmoS()//steals enemy stamina. --fixed
 		set waitfor = 0
 		if(cosmoslevel>0)
 			if (HP < 15+(cosmoslevel*5))
-				usr << "Low energy."
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 
 			else
@@ -1643,31 +1646,31 @@ mob/players/
 						s_damage(usr, 15+(cosmoslevel*5), "#660000")
 					M = J[1]
 					var/amount = round(((rand(5+(cosmoslevel*3),10+(cosmoslevel*5)))*((Spirit/100)+1)),1) // calculate amount
-					if (amount > (M.energy))
-						amount = (M.energy)
+					if (amount > (M.stamina))
+						amount = (M.stamina)
 					if (amount < 0)
 						amount = 0
 					missile(/obj/spells/cosmos,usr,M) // visual
 					sleep(get_dist(usr,M)) // wait for the visual to get there
 					s_damage(M, amount, "#4b7bdc")
-					M.energy -= amount // YOINK!
-					M.updateEN()
+					M.stamina -= amount // YOINK!
+					M.updateST()
 					var/damage = round((amount*(0.049*cosmoslevel)),1) // calculate the damage you'll take from doing this
 					if (damage < 0)
 						damage = 0
 					missile(/obj/spells/manahealing,M,usr) //visual
 					sleep(get_dist(M,usr)) // wait for the visual to get there
-					if (damage > (MAXenergy-energy))
-						amount = (MAXenergy-energy)
+					if (damage > (MAXstamina-stamina))
+						amount = (MAXstamina-stamina)
 					if (damage < 0)
 						damage = 0
-					energy += damage // ahhhhhh more energy!
-					updateEN()
+					stamina += damage // ahhhhhh more stamina!
+					updateST()
 					s_damage(usr, damage, "#adff2f")
-					if (energy > MAXenergy)
-						energy = MAXenergy
-					usr << "[M] been sapped of [damage] Energy!"
-					usr << "Your energy has been replenished. ([damage]+)"
+					if (stamina > MAXstamina)
+						stamina = MAXstamina
+					usr << "[M] been sapped of [damage] stamina!"
+					usr << "Your stamina has been replenished. ([damage]+)"
 					return
 				//else
 					//usr << "No targets in range..."
@@ -1688,30 +1691,30 @@ mob/players/
 						s_damage(usr, 15+(cosmoslevel*5), "#660000")
 					E = J[1]
 					var/amount = round(((rand(5+(cosmoslevel*3),10+(cosmoslevel*5)))*((Spirit/100)+1)),1) // calculate amount
-					if (amount > (E.energy))
-						amount = (E.energy)
+					if (amount > (E.stamina))
+						amount = (E.stamina)
 					if (amount < 0)
 						amount = 0
 					missile(/obj/spells/cosmos,usr,E) // visual
 					sleep(get_dist(usr,E)) // wait for the visual to get there
 					s_damage(E, amount, "#4b7bdc")
-					E.energy -= amount // YOINK!
+					E.stamina -= amount // YOINK!
 					var/damage = round((amount*(0.049*cosmoslevel)),1) // calculate the damage you'll take from doing this
 					if (damage < 0)
 						damage = 0
 					missile(/obj/spells/manahealing,E,usr) //visual
 					sleep(get_dist(E,usr)) // wait for the visual to get there
-					if (damage > (MAXenergy-energy))
-						amount = (MAXenergy-energy)
+					if (damage > (MAXstamina-stamina))
+						amount = (MAXstamina-stamina)
 					if (damage < 0)
 						damage = 0
-					energy += damage // ahhhhhh more energy!
-					updateEN()
+					stamina += damage // ahhhhhh more stamina!
+					updateST()
 					s_damage(usr, damage, "#adff2f")
-					if (energy > MAXenergy)
-						energy = MAXenergy
-					usr << "[E] been sapped of [damage] Energy!"
-					usr << "Your energy has been replenished. ([damage]+)"
+					if (stamina > MAXstamina)
+						stamina = MAXstamina
+					usr << "[E] been sapped of [damage] stamina!"
+					usr << "Your stamina has been replenished. ([damage]+)"
 					return
 				//else
 					//usr << "No targets in range..."
@@ -1719,14 +1722,14 @@ mob/players/
 		else
 			usr << "You simply cannot fathom how to cast such a magi...(Magi Acuity: [cosmoslevel])"
 			return
-	proc/RephasE() //damages enemy energy and then attacks again based on that dmg -- fixed.
+	proc/RephasE() //damages enemy stamina and then attacks again based on that dmg -- fixed.
 
 		if(rephaselevel>0)
-			if (energy < 15+(rephaselevel*5))
-				usr << "Low energy."
+			if (stamina < 15+(rephaselevel*5))
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 
 			else
@@ -1740,29 +1743,29 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null)
-					energy-=15+(rephaselevel*5)
-					updateEN()
+					stamina-=15+(rephaselevel*5)
+					updateST()
 					M = J[1]
 					var/amount = round(((rand(5+(rephaselevel*3),10+(rephaselevel*5)))*((Spirit/1)+1)),1)
-					if (amount > M.energy)
-						amount = M.energy
-					if (amount < M.energy)
+					if (amount > M.stamina)
+						amount = M.stamina
+					if (amount < M.stamina)
 						amount = amount
 					else
 						if(amount <= 0)
 							amount = 1
-					missile(/obj/spells/rephase,usr,M)//energy missile
+					missile(/obj/spells/rephase,usr,M)//stamina missile
 					//sleep(get_dist(usr,M))
 					M.overlays += image('dmi/64/magi.dmi',icon_state="rephase")
-					M.energy -= amount//damages enemy energy
+					M.stamina -= amount//damages enemy stamina
 					s_damage(M, amount, "#4b7bdc")
-					M.updateEN()
+					M.updateST()
 					var/damage = round((amount*(9*rephaselevel)),1)
 					if (damage <= 0)
 						damage = 0
 					else
-						if(damage>M.energy)
-							amount=M.energy
+						if(damage>M.stamina)
+							amount=M.stamina
 					damage = round(24*(sqrt(rephaselevel)))
 					M.HP -= damage
 					M.updateHP()
@@ -1797,27 +1800,27 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null)
-					energy-=15+(rephaselevel*5)
-					updateEN()
+					stamina-=15+(rephaselevel*5)
+					updateST()
 					E = J[1]
 					var/amount = round(((rand(5+(rephaselevel*3),10+(rephaselevel*5)))*((Spirit/1)+1)),1)
-					if (amount > E.energy)
-						amount = E.energy
-					if (amount < E.energy)
+					if (amount > E.stamina)
+						amount = E.stamina
+					if (amount < E.stamina)
 						amount = amount
 					else
 						if(amount <= 0)
 							amount = 1
-					missile(/obj/spells/rephase,usr,E)//energy missile
+					missile(/obj/spells/rephase,usr,E)//stamina missile
 					E.overlays += image('dmi/64/magi.dmi',icon_state="rephase")
-					E.energy -= amount//damages enemy energy
+					E.stamina -= amount//damages enemy stamina
 					s_damage(E, amount, "#4b7bdc")
 					var/damage = round((amount+(9*rephaselevel)),1)
 					if (damage <= 0)
 						damage = 0
 					else
-						if(damage>E.energy)
-							amount=E.energy
+						if(damage>E.stamina)
+							amount=E.stamina
 					damage = round(24/(sqrt(rephaselevel)))
 					E.overlays -= image('dmi/64/magi.dmi',icon_state="rephase")
 					E.HP -= damage
@@ -1825,7 +1828,7 @@ mob/players/
 					//E.HP -= damage
 					//sleep(get_dist(usr,E))
 					//s_damage(E, amount, "#4b7bdc")
-					//E.energy -= amount//damages enemy energy
+					//E.stamina -= amount//damages enemy stamina
 					//E.overlays += image('dmi/64/magi.dmi',icon_state="rephase")
 
 					//M.overlays += image('dmi/64/magi.dmi',icon_state="rephase")
@@ -1856,11 +1859,11 @@ mob/players/
 	proc/AciD() //fixed
 		set waitfor = 0
 		if(acidlevel>0)
-			if (energy < round(14*sqrt(acidlevel),1))
-				usr << "Low energy."
+			if (stamina < round(14*sqrt(acidlevel),1))
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 
 			else
@@ -1874,8 +1877,8 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null)
-					energy -= round(14*sqrt(acidlevel),1)
-					updateEN()
+					stamina -= round(14*sqrt(acidlevel),1)
+					updateST()
 					M = J[1]
 					missile(/obj/spells/acid,usr,M)
 					//M.overlays += image('dmi/64/magi.dmi',icon_state="acid")
@@ -1926,8 +1929,8 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null)
-					energy -= round(14*sqrt(acidlevel),1)
-					updateEN()
+					stamina -= round(14*sqrt(acidlevel),1)
+					updateST()
 					E = J[1]
 					missile(/obj/spells/acid,usr,E)
 					sleep(get_dist(usr,E))
@@ -1975,11 +1978,11 @@ mob/players/
 	proc/BludgeoN() // just like the other bolts, but strength based.    and now its fixed.
 		set waitfor = 0
 		if(bludgeonlevel>0)
-			if (energy < 9+(bludgeonlevel*2))
-				usr << "Low energy."
+			if (stamina < 9+(bludgeonlevel*2))
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 
 			else
@@ -1993,19 +1996,19 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null)
-					energy -= 9+(bludgeonlevel*2)
-					updateEN()
+					stamina -= 9+(bludgeonlevel*2)
+					updateST()
 					M = J[1]
 					missile(/obj/spells/bludgeon,usr,M)
 					//var/fistsoffury
 					//fistsoffury = image('magi.dmi',"bludgeon",usr)
 					//flick(fistsoffury,usr)
 					var/fistsoffury
-					fistsoffury = image('magi.dmi',"bludgeon1",M)
+					fistsoffury = image('dmi/64/magi.dmi',"bludgeon1",M)
 					//flick(fistsoffury,E)
 					M.overlays += fistsoffury
 					var/quickstrikes
-					quickstrikes = image('magi.dmi',"bludgeon",M)
+					quickstrikes = image('dmi/64/magi.dmi',"bludgeon",M)
 					M.overlays += quickstrikes
 					if(M.HP<=0)
 						//usr << "[M]'s dead, Jim."//M.overlays -= image('dmi/64/creation.dmi',icon_state="heat")
@@ -2054,19 +2057,19 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null)
-					energy -= 9+(bludgeonlevel*2)
-					updateEN()
+					stamina -= 9+(bludgeonlevel*2)
+					updateST()
 					E = J[1]
 					missile(/obj/spells/bludgeon,usr,E)
 					//var/fistsoffury
 					//fistsoffury = image('magi.dmi',"bludgeon",usr)
 					//flick(fistsoffury,usr)
 					var/fistsoffury
-					fistsoffury = image('magi.dmi',"bludgeon1",E)
+					fistsoffury = image('dmi/64/magi.dmi',"bludgeon1",E)
 					//flick(fistsoffury,E)
 					E.overlays += fistsoffury
 					var/quickstrikes
-					quickstrikes = image('magi.dmi',"bludgeon",E)
+					quickstrikes = image('dmi/64/magi.dmi',"bludgeon",E)
 					E.overlays += quickstrikes
 					//flick(quickstrikes,E)
 					if(E.HP<=0)
@@ -2107,14 +2110,14 @@ mob/players/
 		else
 			usr << "You simply cannot fathom how to cast such a magi...(Magi Acuity: [bludgeonlevel])"
 			return
-	proc/QuietuS()//fixed -- its like demi, it calculates damage based on enemy energy until it does 0, leaving you easy prey to claim -- alternately a nasty side bonus  if the damage calculated equates to more than the targets max HP it straight up kills them dead with one shot.
+	proc/QuietuS()//fixed -- its like demi, it calculates damage based on enemy stamina until it does 0, leaving you easy prey to claim -- alternately a nasty side bonus  if the damage calculated equates to more than the targets max HP it straight up kills them dead with one shot.
 		set waitfor = 0
 		if(quietuslevel>0)
-			if (energy < round(24*(sqrt(quietuslevel)),1))
-				usr << "Low energy."
+			if (stamina < round(24*(sqrt(quietuslevel)),1))
+				usr << "Low stamina."
 				return
-			if (energy <= 0)
-				usr << "Low energy."
+			if (stamina <= 0)
+				usr << "Low stamina."
 				return
 
 			else
@@ -2128,8 +2131,8 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null) // making sure that there is an enemy nearby
-					energy -= round(24*(sqrt(quietuslevel)),1) // decrementing energy according to cost
-					updateEN()
+					stamina -= round(24*(sqrt(quietuslevel)),1) // decrementing stamina according to cost
+					updateST()
 					for(M in oview(13)) // casting demi on everything within 5
 						if (istype(M,/mob/players)) // if it is an enemy of course
 							missile(/obj/spells/quietus,usr,M) // visuals
@@ -2148,9 +2151,9 @@ mob/players/
 								//if(damage>M.MAXHP)
 									//damage = M.MAXHP
 									//usr << "[damage] must be > than [M.MAXHP]"
-								var/reduced = round(M.MAXenergy-((75*(0.5*quietuslevel))/50),1)
-								if(reduced<=round(M.MAXenergy*0.1,1))
-									reduced = round(M.MAXenergy*0.1,1)
+								var/reduced = round(M.MAXstamina-((75*(0.5*quietuslevel))/50),1)
+								if(reduced<=round(M.MAXstamina*0.1,1))
+									reduced = round(M.MAXstamina*0.1,1)
 								if(M.HP>=reduced)
 									damage = perc
 								if(damage>M.MAXHP)//too weak? you're gone
@@ -2176,8 +2179,8 @@ mob/players/
 						C++
 						J.len++
 				if(J[1]!=null) // making sure that there is an enemy nearby
-					energy -= round(24*(sqrt(quietuslevel)),1) // decrementing energy according to cost
-					updateEN()
+					stamina -= round(24*(sqrt(quietuslevel)),1) // decrementing stamina according to cost
+					updateST()
 					for(E in oview(13)) // casting demi on everything within 5
 						if (istype(E,/mob/enemies)) // if it is an enemy of course
 							missile(/obj/spells/quietus,usr,E) // visuals
@@ -2196,9 +2199,9 @@ mob/players/
 								//if(damage>E.MAXHP)
 									//damage = E.MAXHP+1
 									//usr << "[damage] must be > than [E.MAXHP]"
-								var/reduced = round(E.MAXenergy-((75*(0.5*quietuslevel))/50),1)
-								if(reduced<=round(E.MAXenergy*0.1,1))
-									reduced = round(E.MAXenergy*0.1,1)
+								var/reduced = round(E.MAXstamina-((75*(0.5*quietuslevel))/50),1)
+								if(reduced<=round(E.MAXstamina*0.1,1))
+									reduced = round(E.MAXstamina*0.1,1)
 								if(E.HP>=reduced)
 									damage = perc
 								if(damage>E.MAXHP)

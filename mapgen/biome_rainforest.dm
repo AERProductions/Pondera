@@ -6,7 +6,7 @@ map_generator
 obj/border
 
 	jungle
-		icon = 'acliffs.dmi'
+		icon = 'dmi/64/acliffs.dmi'
 		//icon_state = "4dh"
 		density = TRUE
 
@@ -21,7 +21,7 @@ obj/border
 turf
 	jungle
 		name = "Grass"
-		icon = 'drkgrss.dmi'
+		icon = 'dmi/64/drkgrss.dmi'
 		//icon_state = "drkgrss"
 		border_type = /obj/border/jungle
 

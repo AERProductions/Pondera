@@ -6,7 +6,7 @@ map_generator
 obj/border
 
 	snow
-		icon = 'acliffs.dmi'
+		icon = 'dmi/64/acliffs.dmi'
 		//icon_state = "4dh"
 		density = TRUE
 
@@ -21,7 +21,7 @@ obj/border
 turf
 	snow
 		name = "Snow"
-		icon = 'gen.dmi'
+		icon = 'dmi/64/gen.dmi'
 		icon_state = "snow"
 		border_type = /obj/border/snow
 

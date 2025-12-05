@@ -139,10 +139,9 @@ Form/New()
 
 //Examines user-defined variables and creates list of form interface elements.
 Form/MakeFormVarList()
-	var
-		V
-		myvars[] = vars.Copy()  //vars list is slow, so save a copy of it
-		control_tags = list("values"=1,"validate"=1,"maxlen"=1,"size"=1,"wrap"=1,"extra"=1,"label"=1,"hidden"=1,"interface"=1)
+	var/V
+	var/myvars[] = vars.Copy()  //vars list is slow, so save a copy of it
+	var/control_tags[] = list("values"=1,"validate"=1,"maxlen"=1,"size"=1,"wrap"=1,"extra"=1,"label"=1,"hidden"=1,"interface"=1)
 
 	for(V in myvars)
 		var/control = findtextEx(V,"_")

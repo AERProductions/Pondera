@@ -8,7 +8,7 @@ region
 		//density = 0
 		name = ""//deed name variable
 
-		var//some of these might not be needed
+		var //some of these might not be needed
 			owner = ""
 			zonex = 10
 			zoney = 10
@@ -20,10 +20,8 @@ region
 			list/deedname["name"]
 			obj/DeedToken/dt//defining a reference
 
-		dt = /obj/DeedToken//setting the reference
-
 		Entered(mob/players/m)//When a mob is detected entering this region
-			locate(dt in oview(10))//locate a Deed Token in oview of this region
+			dt = locate() in oview(10)//locate a Deed Token in oview of this region
 			//grantpermissions(m)//grant the user entering permissions set in the deed token
 			if(dt)
 				for(src)//for the deed token, we're setting deed variables by using the tokens reference variables
@@ -76,7 +74,7 @@ region
 
 		proc
 			DeedCheck()
-				locate(dt in oview(src,10))
+				dt = locate() in oview(10, src)//locate a Deed Token in oview of this region
 				if(dt)
 					for(dt)//when this region is created, check the deed token that creates it for information
 						src:name = dt.name
@@ -137,7 +135,7 @@ obj
 		name = ""
 		density = 1
 		var/description = "A witness for Land Claims."
-		icon = 'anctxt.dmi'
+		icon = 'dmi/64/anctxt.dmi'
 		icon_state = "token"
 
 		var/turf/t
@@ -365,7 +363,7 @@ obj
 
 		name = "Land Deed"
 		var/description = "A scroll for claiming land."
-		icon = 'at32.dmi'
+		icon = 'dmi/64/at32.dmi'
 		icon_state = "deed"
 		var/deedused = 0
 		var/mob/players/M
@@ -388,7 +386,7 @@ obj
 			set src in usr
 			var/mob/players/M
 			M = usr
-			var/dt = /obj/DeedToken
+			var/obj/DeedToken/dt
 			var/turf/t = locate(obounds(10))
 			M.deedopen=1//if this menu is open
 			if(M.deedopen==1)//set the icon state to reflect that
@@ -432,7 +430,8 @@ obj
 									for(t)
 										t:landclaimed=1
 									new dt(usr.loc)//Creates a new deed token which handles creating the region and the zone permissions
-									locate(dt in obounds(10))
+									
+									dt = locate() in oview(10)//locate a Deed Token in oview of this region
 									for(dt)
 										if(istype(dt,/obj/DeedToken))
 											naming

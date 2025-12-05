@@ -48,7 +48,7 @@ mob/players
 			//usr.density = 0
 			if(char_class=="Landscaper")
 				if(gender=="Male")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 					moveMode_ = MOVE_FACE
 					density = 0
 					sleep(10)
@@ -56,29 +56,29 @@ mob/players
 					moveMode_ = MOVE_NORMAL
 					return
 				else if(usr.gender=="Female")
-					flick('blank.dmi', usr)
-			if(char_class=="Defender")
+					flick('dmi/64/blank.dmi', usr)
+			if(char_class=="Smithy")
 				if(usr.gender=="Male")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 				else if(usr.gender=="Female")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 			if(char_class=="Builder")
 				if(usr.gender=="Male")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 				else if(usr.gender=="Female")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 			if(char_class=="Magus")
 				if(usr.gender=="Male")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 				else if(usr.gender=="Female")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 			if(char_class=="Feline")
 				if(usr.gender=="Male")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 				else if(usr.gender=="Female")
-					flick('blank.dmi', usr)
+					flick('dmi/64/blank.dmi', usr)
 			if(char_class=="GM")
-				flick('blank.dmi', usr)
+				flick('dmi/64/blank.dmi', usr)
 
 //----------------------------------------------------------------------------------------
 

@@ -164,7 +164,7 @@ var
 // turf that are used to graphically show the darkness
 // as a result of dynamic lighting.
 shading
-	icon = 'blank.dmi'
+	icon = 'dmi/64/blank.dmi'
 	icon_state = "divider"
 	//appearance_flags = TILE_BOUND
 	mouse_opacity = 0
@@ -281,5 +281,5 @@ shading
 					u3.changed = 1
 					lighting.changed += u3
 	null_shading
-		icon = 'blank.dmi'
+		icon = 'dmi/64/blank.dmi'
 		icon_state = "divider"

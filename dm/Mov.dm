@@ -12,26 +12,44 @@ turf
 			sleep(1)
 			usr.c = 0
 	endif*/
+mob/players/verb/Run()// a run verb
+	set hidden = 1//"Verbs"//the name of the tab
+	var/mob/players/M
+	M = src
+	if(!M.run)//if thier run variable isnt 1
+		//M<<"You start to run!"//thell them they are running
+		M.speed = 2//take away the delay
+		M.run = 1//make their run variable = 1
+		return//stop here
+	else
+		//M<<"You start to walk!"//tell them they are walking
+		M.speed = 3//restore their old speed
+		M.run = 0
 
 mob
-    var/c = 0
-
-turf
+	var/c = 0
+	var/Ax=0
+	var/Az=0
+	var/Ay=0
+	var/Bx=0
+	var/Bz=0
+	var/By=0
+/*turf
 	DblClick (O)
 		if(O:density < 1)
 			usr.c = 1
 			walk_to(usr,O,0,world.tick_lag/TIME_STEP,0)
 			sleep(1)
-			usr.c = 0
-
-#define MOVE_SLIDE 1
-#define MOVE_JUMP 2
-#define MOVE_TELEPORT 4
-
-#define TILE_WIDTH  64
-#define TILE_HEIGHT 64
-#define TICK_LAG    4 //set to (10 / world.fps) a define is faster, though
-#include "Sound.dm"
+			usr.c = 0*/
+client
+	Northeast()
+		return
+	Northwest()
+		return
+	Southeast()
+		return
+	Southwest()
+		return
 
 //removeafterchanging
 var
@@ -39,8 +57,53 @@ var
 	Carving
 	Picking
 	Mining
+	//moving = 0
 atom/movable
-	appearance_flags = LONG_GLIDE //make diagonal and horizontal moves take the same amount of time
+	Move()
+		if(istype(src,/mob/players))
+			var/mob/players/Z=src
+			Z._updateListeningSoundmobs()
+			//call(/sound/proc/update)()
+			//var/obj/O = Z.Target
+			//if(O) //If you have a target.
+				//for(var/obj/Navi/Arrow/A in Z.client.screen)
+					//animate(A, transform = turn(matrix(), get_angle_nums(src.x,src.y,O.x,O.y)), time = 3, loop = 1)
+			if(Z.walk)//if they are frozen then dont let them move
+				return
+			else//if theyre not froze
+				Z.walk = 1//make their froze variable = 1
+				..()//do what it would normally do(in this case move)
+				sleep(Z.speed)//waits however many ticks you set speed for
+				Z.walk = 0//makes them able to move again
+
+			if(Z.Cutting||Z.Carving||Z.Picking||Z.Mining)			//This basically stops the usr from moving when he's cutting.
+				return
+
+			if(Z.nomotion==0) // this is used so that you can't talk to shopkeepers a ton and then run around with their GUIs open
+				if(Z.away != 0) // if you are away
+					Z.away = 0 // now you aren't!
+					Z << "You are no longer Idle."
+				//if(Z.poisoned==0) // not poisoned anymore?
+				//	Z.overlays -= poison  //this is the proper way to remove the poison overlay, turn the poison overlay into an image and call it by name
+				//	Z.overlays = null // this is the improper way, as it will remove ALL overlays -- this was made before many overlays were being used
+				// problems with lag making me need to be sure that their hp and stamina are within acceptable ranges
+				// so this lets them cast a few extra spells by spamming, but whatever...
+				if(Z.HP>Z.MAXHP)
+					Z.HP=Z.MAXHP
+				if(Z.stamina>Z.MAXstamina)
+					Z.stamina=Z.MAXstamina
+				if(Z.stamina<0)
+					Z.stamina=0
+			else if(Z.nomotion==1)
+				return
+		..()
+
+
+
+
+/*
+	appearance_flags = KEEP_TOGETHER | LONG_GLIDE //make diagonal and horizontal moves take the same amount of time
+	vis_flags = VIS_INHERIT_ID
 	var
 		move_delay = 0 //how long between self movements this movable should be forced to wait.
 		move_dir //= 0 //the direction of the current/last movement
@@ -49,7 +112,8 @@ atom/movable
 			last_move = 0 //the world.time value of the last self movement
 			move_flags = 0 //the type of the current/last movement
 
-	Move(atom/NewLoc,Dir=0)//MOVEMENT
+
+	Move(/*atom/NewLoc,Dir=0*/)//MOVEMENT
 		//var/mob/players/M
 		//_updateAttachedSoundmobListeners()
 
@@ -66,22 +130,22 @@ atom/movable
 					X << "You are no longer Idle."
 				if(X.poisonDMG<=0) // not poisoned anymore?
 					X.overlays = null // i guess we can take those poison things off your icon then
-				// problems with lag making me need to be sure that their hp and energy are within acceptable ranges
+				// problems with lag making me need to be sure that their hp and stamina are within acceptable ranges
 				// so this lets them cast a few extra spells by spamming, but whatever...
 				if(X.HP>X.MAXHP)
 					X.HP=X.MAXHP
-				if(X.energy>X.MAXenergy)
-					X.energy=X.MAXenergy
-				if(X.energy<0)
-					X.energy=0
+				if(X.stamina>X.MAXstamina)
+					X.stamina=X.MAXstamina
+				if(X.stamina<0)
+					X.stamina=0
 			else
-				return // don't even think about moving, chuenergy!
+				return // don't even think about moving, chustamina!
 
-		var/time = world.time
+		/*var/time = world.time
 		if(next_move>time)
 			world << "[src] Can't move yet"
-			return 0
-		if(!NewLoc) //if the new location is null, treat this as a failed slide and an edge bump.
+			return 0*/
+		/*if(!NewLoc) //if the new location is null, treat this as a failed slide and an edge bump.
 			move_dir = Dir
 			move_flags = MOVE_SLIDE
 		else if(isturf(loc)&&isturf(NewLoc)) //if this is a movement between two turfs
@@ -109,7 +173,7 @@ atom/movable
 		last_move = time //set the last movement time
 		if(.)
 			next_move = time+move_delay
-
+*/
 			if(istype(src,/mob/players))
 				var/mob/players/Z=src
 				Z._updateListeningSoundmobs()
@@ -117,11 +181,112 @@ atom/movable
 				if(O) //If you have a target.
 					for(var/obj/Navi/Arrow/A in Z.client.screen)
 						animate(A, transform = turn(matrix(), get_angle_nums(src.x,src.y,O.x,O.y)), time = 3, loop = 1) //Play with the time to have it look cooler
+*/
+/*mob/proc
+	Moved(var/D)
+		src.moving = 1
+		var/T = 0.2
+		if(D) T = T*D
+		spawn(T) if(src) src.moving = 0
+mob/var
+	north = 0
+	east = 0
+	south = 0
+	west = 0
+	moving = 0
+mob/players/verb
+	DOWNNORTH()
+		set hidden = 1
+		set instant = 1
+		src.north = 1
+	DOWNEAST()
+		set hidden = 1
+		set instant = 1
+		src.east = 1
+	DOWNSOUTH()
+		set hidden = 1
+		set instant = 1
+		src.south = 1
+	DOWNWEST()
+		set hidden = 1
+		set instant = 1
+		src.west = 1
+	UPNORTH()
+		set hidden = 1
+		set instant = 1
+		src.north = 0
+	UPEAST()
+		set hidden = 1
+		set instant = 1
+		src.east = 0
+	UPSOUTH()
+		set hidden = 1
+		set instant = 1
+		src.south = 0
+	UPWEST()
+		set hidden = 1
+		set instant = 1
+		src.west = 0
 
 
-
-
-
+client
+	North()
+		if(src.mob.east)
+			src.Northeast()
+			return
+		else if(src.mob.west)
+			src.Northwest()
+			return
+		if(src.mob.moving) return
+		src.mob.Moved()
+		..()
+	East()
+		if(src.mob.north)
+			src.Northeast()
+			return
+		else if(src.mob.south)
+			src.Southeast()
+			return
+		if(src.mob.moving) return
+		src.mob.Moved()
+		..()
+	South()
+		if(src.mob.east)
+			src.Southeast()
+			return
+		else if(src.mob.west)
+			src.Southwest()
+			return
+		if(src.mob.moving) return
+		src.mob.Moved()
+		..()
+	West()
+		if(src.mob.north)
+			src.Northwest()
+			return
+		else if(src.mob.south)
+			src.Southwest()
+			return
+		if(src.mob.moving) return
+		src.mob.Moved()
+		..()
+	Northeast()
+		if(src.mob.moving) return
+		src.mob.Moved(2)
+		..()
+	Northwest()
+		if(src.mob.moving) return
+		src.mob.Moved(2)
+		..()
+	Southeast()
+		if(src.mob.moving) return
+		src.mob.Moved(2)
+		..()
+	Southwest()
+		if(src.mob.moving) return
+		src.mob.Moved(2)
+		..()
+*/
 
 /*mob
 	MouseDrag(atom/M,turf/Y,turf/T)

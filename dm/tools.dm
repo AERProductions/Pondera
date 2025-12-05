@@ -2002,7 +2002,7 @@ obj
 								usr.tempdamagemin -= src.DamageMin
 								usr.tempdamagemax -= src.DamageMax
 								var/mob/players/M = usr
-								if(M.char_class=="Defender")
+								if(M.char_class=="Smithy")
 									M.attackspeed = 5
 								return
 								//else
@@ -2043,7 +2043,7 @@ obj
 									usr.tempdamagemin -= src.DamageMin
 									usr.tempdamagemax -= src.DamageMax
 									var/mob/players/M = usr
-									if(M.char_class=="Defender")
+									if(M.char_class=="Smithy")
 										M.attackspeed = 4
 									return
 									//else
@@ -2082,7 +2082,7 @@ obj
 										usr.tempdamagemin -= src.DamageMin
 										usr.tempdamagemax -= src.DamageMax
 										var/mob/players/M = usr
-										if(M.char_class=="Defender")
+										if(M.char_class=="Smithy")
 											M.attackspeed = 5
 										return
 										//else
@@ -2121,7 +2121,7 @@ obj
 											usr.tempdamagemin -= src.DamageMin
 											usr.tempdamagemax -= src.DamageMax
 											var/mob/players/M = usr
-											if(M.char_class=="Defender")
+											if(M.char_class=="Smithy")
 												M.attackspeed = 6
 											return
 									else
@@ -2158,7 +2158,7 @@ obj
 												usr.tempdamagemin -= src.DamageMin
 												usr.tempdamagemax -= src.DamageMax
 												var/mob/players/M = usr
-												if(M.char_class=="Defender")
+												if(M.char_class=="Smithy")
 													M.attackspeed = 6
 												return
 											//	else
@@ -2197,7 +2197,7 @@ obj
 													usr.tempdamagemin -= src.DamageMin
 													usr.tempdamagemax -= src.DamageMax
 													var/mob/players/M = usr
-													if(M.char_class=="Defender")
+													if(M.char_class=="Smithy")
 														M.attackspeed = 7
 													return
 												//	else
@@ -2238,7 +2238,7 @@ obj
 														usr.tempdamagemin -= src.DamageMin
 														usr.tempdamagemax -= src.DamageMax
 														var/mob/players/M = usr
-														if(M.char_class=="Defender")
+														if(M.char_class=="Smithy")
 															M.attackspeed = 6
 														return
 													//	else
@@ -2277,7 +2277,7 @@ obj
 															usr.tempdamagemin -= src.DamageMin
 															usr.tempdamagemax -= src.DamageMax
 															var/mob/players/M = usr
-															if(M.char_class=="Defender")
+															if(M.char_class=="Smithy")
 																M.attackspeed = 7
 															return
 															//else
@@ -2312,10 +2312,10 @@ obj
 																usr.tempdamagemin -= src.DamageMin
 																usr.tempdamagemax -= src.DamageMax
 																var/mob/players/M = usr
-																if(M.char_class=="Defender")
+																if(M.char_class=="Smithy")
 																	M.attackspeed = 7
 																return
-																//else if(M.char_class=="Defender")
+																//else if(M.char_class=="Smithy")
 																	//M.attackspeed = 8
 																//else
 																	//M.attackspeed = 1
@@ -2353,7 +2353,7 @@ obj
 																	usr.tempdamagemin -= src.DamageMin
 																	usr.tempdamagemax -= src.DamageMax
 																	var/mob/players/M = usr
-																	if(M.char_class=="Defender")
+																	if(M.char_class=="Smithy")
 																		M.attackspeed = 8
 																	return
 																	//else
@@ -2394,7 +2394,7 @@ obj
 																		usr.tempdamagemin -= src.DamageMin
 																		usr.tempdamagemax -= src.DamageMax
 																		var/mob/players/M = usr
-																		if(M.char_class=="Defender")
+																		if(M.char_class=="Smithy")
 																			M.attackspeed = 8
 																		return
 																		//else
@@ -2435,7 +2435,7 @@ obj
 																			usr.tempdamagemin -= src.DamageMin
 																			usr.tempdamagemax -= src.DamageMax
 																			var/mob/players/M = usr
-																			if(M.char_class=="Defender")
+																			if(M.char_class=="Smithy")
 																				M.attackspeed = 8
 																			return
 																			//else
@@ -2476,7 +2476,7 @@ obj
 																				usr.tempdamagemin -= src.DamageMin
 																				usr.tempdamagemax -= src.DamageMax
 																				var/mob/players/M = usr
-																				if(M.char_class=="Defender")
+																				if(M.char_class=="Smithy")
 																					M.attackspeed = 1
 																				return
 																				//else
@@ -2517,7 +2517,7 @@ obj
 																					usr.tempdamagemin -= src.DamageMin
 																					usr.tempdamagemax -= src.DamageMax
 																					var/mob/players/M = usr
-																					if(M.char_class=="Defender")
+																					if(M.char_class=="Smithy")
 																						M.attackspeed = 1
 																					return
 																					//else
@@ -2558,7 +2558,7 @@ obj
 																						usr.tempdamagemin -= src.DamageMin
 																						usr.tempdamagemax -= src.DamageMax
 																						var/mob/players/M = usr
-																						if(M.char_class=="Defender")
+																						if(M.char_class=="Smithy")
 																							M.attackspeed = 1
 																						return
 																						//else
@@ -2597,7 +2597,7 @@ obj
 																							usr.tempdamagemin -= src.DamageMin
 																							usr.tempdamagemax -= src.DamageMax
 																							var/mob/players/M = usr
-																							if(M.char_class=="Defender")
+																							if(M.char_class=="Smithy")
 																								M.attackspeed = 8
 																							return
 																							//else
@@ -2638,7 +2638,7 @@ obj
 																								usr.tempdamagemin -= src.DamageMin
 																								usr.tempdamagemax -= src.DamageMax
 																								var/mob/players/M = usr
-																								if(M.char_class=="Defender")
+																								if(M.char_class=="Smithy")
 																									M.attackspeed = 1
 																								return
 																						else
@@ -2677,7 +2677,7 @@ obj
 																									usr.tempdamagemin -= src.DamageMin
 																									usr.tempdamagemax -= src.DamageMax
 																									var/mob/players/M = usr
-																									if(M.char_class=="Defender")
+																									if(M.char_class=="Smithy")
 																										M.attackspeed = 1
 																									return
 																							else
@@ -2716,7 +2716,7 @@ obj
 																										usr.tempdamagemin -= src.DamageMin
 																										usr.tempdamagemax -= src.DamageMax
 																										var/mob/players/M = usr
-																										if(M.char_class=="Defender")
+																										if(M.char_class=="Smithy")
 																											M.attackspeed = 1
 																										return
 																								else
@@ -2755,7 +2755,7 @@ obj
 																											usr.tempdamagemin -= src.DamageMin
 																											usr.tempdamagemax -= src.DamageMax
 																											var/mob/players/M = usr
-																											if(M.char_class=="Defender")
+																											if(M.char_class=="Smithy")
 																												M.attackspeed = 1
 																											return
 																									else
@@ -2794,7 +2794,7 @@ obj
 																												usr.tempdamagemin -= src.DamageMin
 																												usr.tempdamagemax -= src.DamageMax
 																												var/mob/players/M = usr
-																												if(M.char_class=="Defender")
+																												if(M.char_class=="Smithy")
 																													M.attackspeed = 1
 																												return
 																										else
@@ -2833,7 +2833,7 @@ obj
 																													usr.tempdamagemin -= src.DamageMin
 																													usr.tempdamagemax -= src.DamageMax
 																													var/mob/players/M = usr
-																													if(M.char_class=="Defender")
+																													if(M.char_class=="Smithy")
 																														M.attackspeed = 1
 																													return
 																											else
@@ -2872,7 +2872,7 @@ obj
 																														usr.tempdamagemin -= src.DamageMin
 																														usr.tempdamagemax -= src.DamageMax
 																														var/mob/players/M = usr
-																														if(M.char_class=="Defender")
+																														if(M.char_class=="Smithy")
 																															M.attackspeed = 1
 																														return
 																												else
@@ -2912,7 +2912,7 @@ obj
 																															usr.tempdamagemin -= src.DamageMin
 																															usr.tempdamagemax -= src.DamageMax
 																															var/mob/players/M = usr
-																															if(M.char_class=="Defender")
+																															if(M.char_class=="Smithy")
 																																M.attackspeed = 1
 																															return
 
@@ -3035,10 +3035,10 @@ obj
 					..()
 					Description()//description = "<br><font color = #e6e8fa><center><b>[name]</b><br>Tool Level [tlvl]<br>[DamageMin]-[DamageMax] Damage<br>[wpnspd] Speed<br>[strreq] Strength-Req<br>[twohanded?"Two Handed":"One Handed"]<br>Worth [Worth]"
 
-				/*DblClick(mob/players/Defender/M)       //When the mob buenergys into another mob
-					if (istype(M,/mob/players/Defender))    //If the mob is a PC...
+				/*DblClick(mob/players/Smithy/M)       //When the mob bustaminas into another mob
+					if (istype(M,/mob/players/Smithy))    //If the mob is a PC...
 						Attack(M)
-				proc/Attack(mob/players/Defender/M)
+				proc/Attack(mob/players/Smithy/M)
 					//flick("Giu_attack",src)
 					sleep(2)  //This give the animation time to play, and sets the attack  delay for this mob.  Dont put this on PCs or evil little errors will keep popping up.  I can make it different though so just ask me how to make a more advanced attack verb for PCs.
 					if (prob(M.tempevade))
@@ -4581,6 +4581,7 @@ obj
 				var/volumecap = 0
 				var/CType = 0//contents Type 0 empty 1 water 2 tar 3 oil
 				var/filled = 0
+				layer = 9
 				FruitPress //name of object
 					icon_state = "FruitPress" //icon state of object
 					//typi = "JR"
@@ -4695,7 +4696,7 @@ obj
 					icon_state = "UBJar" //icon state of object
 					//typi = "JR"
 					//strreq = 1
-					plane = 4
+					//layer = 4
 					name = "Unbaked Jar"
 					//description = "<font color = #8C7853><center><b>Jar:</b><br>2-4 Damage,<br>1 Strength-Req<br>liquid"
 					Worth = 1
@@ -4718,7 +4719,7 @@ obj
 					strreq = 1
 					name = "Jar"
 					//description = "<font color = #8C7853><center><b>Jar:</b><br>2-4 Damage,<br>1 Strength-Req<br>liquid"
-					plane = 4
+					//layer = 4
 					Worth = 1
 					wpnspd = 1
 					tlvl = 1
@@ -4991,10 +4992,10 @@ obj
 						//description = "<font color = #ffd700><center><b>Water Jar</b>"
 					proc/usingjar(var/obj/items/tools/Containers/Jar/J,amount)
 						var/mob/players/M = usr
-						if (amount > (M.MAXenergy-M.energy))
-							amount = (M.MAXenergy-M.energy)
-						M.energy += amount
-						M << "You drink the water from the Filled Jar; Ahh, Refreshing... <b>[amount] energy recovered."
+						if (amount > (M.MAXstamina-M.stamina))
+							amount = (M.MAXstamina-M.stamina)
+						M.stamina += amount
+						M << "You drink the water from the Filled Jar; Ahh, Refreshing... <b>[amount] stamina recovered."
 						return
 
 
@@ -5290,6 +5291,7 @@ obj
 					CType = "Empty"
 					volumecap = 100
 					tlvl = 1
+					//layer=4
 					var/pushing = 0
 					blockcarry=1
 					//twohanded = 1
@@ -7025,7 +7027,7 @@ obj
 						set src in view()
 						//var/turf/t = get_step(src,dir)
 						M << "You push the barrel."
-						locate(usr in oview(src))
+						locate(usr) in oview(src)
 						src.pushing=1
 						//FindB(M)
 						if(src in range(1, usr))
@@ -9597,7 +9599,7 @@ obj
 						set src in view()
 						//var/turf/t = get_step(src,dir)
 						M << "You push the barrel."
-						locate(usr in oview(src))
+						locate(usr) in oview(src)
 						src.pushing=1
 						//FindB(M)
 						if(src in range(1, usr))
@@ -9987,20 +9989,24 @@ obj
 			s_damage(M, damage, "red") // show the damage taken
 			checkdeadplayerPVP(M,src) // see if the enemy killed the player
 		proc/checkdeadplayerPVP(var/mob/players/M,var/mob/players/E=usr)
-			if(M.HP <= 0&&M.affinity<=-0.1) // if you have less than or equal to 0 HP, you are dead
-				world << "<font color = red><b>[M] died to [E] and went to Sheol"
-				var/G = round((M.lucre/4),1)
-				M << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
-				M.lucre-=G
+			if(M.HP <= 0)//&&M.affinity<=-0.1) // if you have less than or equal to 0 HP, you are dead
+				world << "<font color = red><b>[M] died to [E]"
+				//var/G = round((M.lucre/4),1)
+				//M << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
+				//M.lucre-=G
+				M -= verbs
 				M.poisonD=0
 				M.poisoned=0
 				M.poisonDMG=0
 				M.overlays = null
-				M.loc = locate(16,9,12)//locate(rand(100,157),rand(113,46),12)
-				M.location = "Sheol"
+				M.icon = 'dmi/64/blank.dmi'
+				M.loc = locate(5,6,1)//locate(rand(100,157),rand(113,46),12)
+				M.location = "Sleep"
 				//usr << sound('mus.ogg',1, 0, 1024)
-				M.HP = M.MAXHP
-			else if(M.HP <= 0&&M.affinity>=0)
+				M.nomotion = 1
+				M.HP = 1
+				//del M.client.mob//don't know if this is the right thing to do
+			/*else if(M.HP <= 0&&M.affinity>=0)
 				world << "<font color = red><b>[M] died to [E] and went to the Holy Light"
 				var/G = round((M.lucre/4),1)
 				M << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
@@ -10009,10 +10015,10 @@ obj
 				M.poisoned=0
 				M.poisonDMG=0
 				M.overlays = null
-				M.loc = locate(101,159,12)//locate(rand(100,157),rand(113,46),12)
+				M.loc = locate(101,159,1)//locate(rand(100,157),rand(113,46),12)
 				M.location = "Holy Light"
 				//usr << sound('mus.ogg',1, 0, 1024)
-				M.HP = M.MAXHP
+				M.HP = M.MAXHP*/
 
 /*var/const
 	POLE_LAYER = FLOAT_LAYER+1
@@ -10054,22 +10060,26 @@ obj
 			Forge//working
 				name = "Empty Forge"
 				density = 1
-				plane = MOB_LAYER+1
+				layer = MOB_LAYER+7
 				icon = 'dmi/64/creation.dmi'
 				icon_state = "forge"
 				var/spawntime = "5000"
-				var/soundmob/s
-				var/mob/players/M
-				light = /light/directional
+				//var/soundmob/s
+
+				//light = /light/directional
 				New()
 					..()
 				Click()
-					if(usr in orange(5,src))
-						for(usr in orange(5,src))
-							winset(usr,"default.Smelt","is-visible=true")
-					else if(!usr in orange(5,src))
-						winset(usr,"default.Smelt","is-visible=false")
-						return
+					var/mob/players/M
+					M = usr
+					locate(M in view(5,src))
+					for(M in view(5,src))
+						if(M.smerank >=1)
+							winset(M,"default.Smelt","is-visible=true")
+							return
+						else if(!M in view(5,src)&&(M.smerank <=0))
+							winset(M,"default.Smelt","is-visible=false")
+							return
 					// we make the lamps have directional light sources,
 					// the /light/directional object is defined at the
 					// top of this file.
@@ -10097,6 +10107,8 @@ obj
 						if(M.SMEopen==1)
 							return
 						else
+							call(/proc/smeltingunlock)()
+							call(/proc/smeltinglevel)()
 							//M << "You begin to smelt ore..."
 							Smelting(M) //calls the mining proc
 					Heat()//works
@@ -10251,9 +10263,13 @@ obj
 								//J.RemoveFromStack(1)
 								//src.overlays -= overlays
 								//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
-								src.icon_state="forgeD"
-								src:light.off()
-								M.unlistenSoundmob(s)
+								//src.icon_state="forgeD"
+								flick("forgeD",src)
+								src.icon_state="forgeO"
+								//src:light.off()
+								src.remove_cone()
+								world << sound(src)
+								//M.unlistenSoundmob(s)
 								src:name="Unlit Forge"
 								return
 					Prepare_Forge()//works
@@ -10283,8 +10299,10 @@ obj
 						set src in oview(1)
 						//set category = "Commands"
 						//src.s = new/soundmob(src, 20, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
+						//var/L = locate(src)
 						var/mob/players/M
 						M = locate(usr) in oview(src,10)
+
 					//	if(src.name=="Lit Forge")
 						//	M<<"Forge already Lit."
 					//		return 0
@@ -10305,11 +10323,37 @@ obj
 
 								//if(src.name=="Dead Forge") M.unlistenSoundmob(s)
 								if((M.CKequipped==1) && (M.FLequipped==1) ||(M.PYequipped==1) && (M.FLequipped==1))
-									light = new/light/directional(src,3)
+									//light = new/light/directional(src,3)
 									src:name="Lit Forge"
-									src.s = new/soundmob(src, 20, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
-									src.light.on()
-									M.listenSoundmob(src.s)
+									//src.s = new/soundmob(src, 20, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, TRUE)
+									var/sound/F2 = soundmob(src, 20, 'snd/cleaned/fire2.ogg', TRUE, 10, 60, TRUE)
+									//var/sound/FM2 = soundmob(src, 0, 'snd/cleaned/fire2.ogg', TRUE, 10, 0, FALSE)
+									//var/sound/FM2 = soundmob(src, 20, null, TRUE, channel=10)
+									//var/sound/FM = soundmob(src, 0, 'snd/cleaned/fire2.ogg', TRUE, 0, 0, TRUE, channel = 10)
+									//src.light.on()
+									if(cone)
+										src.edit_cone(src,-32, 0, 2.5, 255)
+									if(!cone)
+										src.draw_cone(src,-32, 0, 2.5, 255)
+									//world << sound_system.PlaySound('snd/cleaned/fire2.ogg', L, environment=15)
+									//F1.x = x - src.x
+									//F1.y = y - src.y
+									//F1.x = src.x - M.x
+									//F1.y = (src.y - M.y) / sqrt(2)
+									//F1.z = F1.y
+									/*F1.x = src.x - M.x
+									var/sy = src.y - M.y
+									var/sz = src.z - M.z
+									F1.y = (sy + sz) * 0.707106781187
+									F1.z = (sy - sz) * 0.707106781187*/
+									//F1.falloff = 0
+									//F1.environment = -1
+									//M << F1 //sound('snd/cleaned/fire2.ogg')
+									//F1.status=SOUND_UPDATE
+
+									//var/sound/F2 = _SoundEngine('snd/cleaned/fire2.ogg', src, channel=11, range = 10, repeat = 1)//works but the range deletes the sound! boo
+									//world << F1
+									world << F2
 									//if(src.dir=="South")//TestStamp -- Need to test if this works
 									//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeF")//These overlays need to be changed
 									//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")//WorkStamp -- These overlays only work for one direction - South
@@ -10322,8 +10366,9 @@ obj
 									//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeF")
 									//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
 									M<<"The \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='forgeD'>Forge is dying"
+									src.edit_cone(src,-32, 0, 1.5, 200)
 									//if(src.dir=="South")
-									src.light.off()
+									//src.light.off()
 									//light.off(src)
 									//light.off()
 									//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeD")
@@ -10331,6 +10376,13 @@ obj
 									src.icon_state="forgeO"
 									//src:name="Unfueled Fire"
 									//src.light.off()
+									src.remove_cone()
+									//world << End
+									//F1.status=SOUND_MUTE
+									//F1.status=SOUND_UPDATE
+									world << sound(src)//works O_O all those days I spent trying to get the soundmob to stop and this was it?!?!?!?!?!?!
+									//world<<F2
+									//world << F2
 									M<<"The \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'>Forge dies"
 									//if(src.dir=="South")
 									//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeL")
@@ -10338,7 +10390,8 @@ obj
 									//src:name="Dead Forge"
 									//if(src.name=="Dead Forge")
 									//src.light.off()
-									M.unlistenSoundmob(src.s)
+
+									//M.unlistenSoundmob(src.s)
 									src:name="Empty Forge"
 
 									//del light
@@ -10355,7 +10408,7 @@ obj
 			Anvil
 				name = "Anvil"
 				density = 1
-				plane = 5
+				layer = 10
 				icon = 'dmi/64/creation.dmi'
 				icon_state = "anvil"
 				var/mob/players/M
