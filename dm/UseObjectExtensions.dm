@@ -1,7 +1,7 @@
 /**
  * E-Key UseObject Extensions
- * Extends the E-key macro system to work with doors, gathering objects, NPCs, and other interactive objects
- * Provides UseObject() overrides for common interactive types
+ * Comprehensive E-key interaction system extending macro framework to all major interactive objects
+ * Supports: doors, furnishings, crafting structures, NPCs, gathering, and environmental objects
  */
 
 // ==================== DOOR BASE CLASS ====================
@@ -131,6 +131,40 @@ obj/Buildable/Doors/HTTopDoor
 obj/Buildable/Doors/HTDoor
 	UseObject(mob/user)
 		call(src, /obj/Buildable/Doors/HTDoor/proc/tryit)(user, src)
+		return 1
+
+// ==================== FURNISHINGS & STORAGE ====================
+/**
+ * Equipment racks for storing/retrieving weapons and armor
+ */
+
+obj/Buildable/Furnishings/WeaponRack
+	UseObject(mob/user)
+		if(user)
+			user.Click(src)
+		return 1
+
+obj/Buildable/Furnishings/ArmorRack
+	UseObject(mob/user)
+		if(user)
+			user.Click(src)
+		return 1
+
+// ==================== CRAFTING & SMITHING ====================
+/**
+ * Forges and Anvils - core crafting structures
+ */
+
+obj/Buildable/Smithing/Forge
+	UseObject(mob/user)
+		if(user)
+			user.Click(src)
+		return 1
+
+obj/Buildable/Smithing/Anvil
+	UseObject(mob/user)
+		if(user)
+			user.Click(src)
 		return 1
 
 // ==================== NPC INTERACTIONS ====================
