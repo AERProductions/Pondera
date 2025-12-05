@@ -35,6 +35,8 @@
 #include "dm\MiscExtensions.dm"
 #include "dm\CustomUI.dm"
 #include "dm\HUDManager.dm"
+#include "dm\CharacterCreationUI.dm"
+#include "dm\CharacterCreationIntegration.dm"
 #include "dm\armors.dm"
 #include "dm\Basics.dm"
 #include "dm\colour2html.dm"

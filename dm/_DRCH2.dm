@@ -236,7 +236,8 @@ mob/BaseCamp
 		//src << "SP [SP] | MP [MP] | SB [SB] | SM [SM]"
 		//SelectMode()
 
-			src.mode_form.DisplayForm()
+			// Use new character creation UI instead of HTML forms
+			start_character_creation_ui()
 		else
 		//else if(global.SP==1||global.SB==1||global.MP==1||global.SM==1)
 			ChooseCharacter()
