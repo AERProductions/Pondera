@@ -1823,6 +1823,52 @@ obj
 																													else
 																														usr << "<font color = teal>You do not meet or exceed the strength requirements!"
 																														return
+																												else if ((typi=="SPX")&&(twohanded==1))
+																													if (usr.tempstr>=src.strreq)
+																														if(usr.SPXequipped==2)
+																															usr << "Unable to use right now."
+																															return
+																														else if(usr.SPXequipped==0)
+																															usr << "You wield the Steel Pickaxe."
+																															src.suffix="Equipped"
+																															usr.Wequipped = 2
+																															usr.Sequipped = 2
+																															usr.LSequipped = 2
+																															usr.AXequipped = 2
+																															usr.WHequipped = 2
+																															usr.JRequipped = 2
+																															usr.FPequipped = 2
+																															usr.PXequipped = 2
+																															usr.SPXequipped = 1
+																															usr.SHequipped = 2
+																															usr.HMequipped = 2
+																															usr.SKequipped = 2
+																															usr.HOequipped = 2
+																															usr.CKequipped = 2
+																															usr.FLequipped = 2
+																															usr.PYequipped = 2
+																															usr.OKequipped = 2
+																															usr.SHMequipped = 2
+																															usr.UPKequipped = 2
+																															usr.CHequipped = 2
+																															usr.TWequipped = 2
+																															usr.FIequipped = 2
+																															usr.SWequipped = 2
+																															usr.WSequipped = 2
+																															usr.SHHequipped = 2
+																															usr.SSHequipped = 2
+																															usr.SHOequipped = 2
+																															usr.SSH2equipped = 2
+																															usr.SCHequipped = 2
+																															usr.SFIequipped = 2
+																															usr.tempdamagemin += src.DamageMin
+																															usr.tempdamagemax += src.DamageMax
+																															var/mob/players/M = usr
+																															M.attackspeed -= src.wpnspd
+																															return
+																													else
+																														usr << "<font color = teal>You do not meet or exceed the strength requirements!"
+																														return
 																												else
 																													if ((typi=="SAX")&&(twohanded==0))
 																														if (usr.tempstr>=src.strreq)
@@ -3342,6 +3388,48 @@ obj
 																														var/mob/players/M = usr
 																														if(M.char_class=="Smithy")
 																															M.attackspeed = 4
+																														return
+																												else if (typi=="SPX" && twohanded==1)
+																													if(usr.SPXequipped==0)
+																														usr << "<font color = teal>You don't have [src.name] equipped!"
+																													else if(usr.SPXequipped!=0)
+																														usr << "You holster the [src.name]."
+																														src.suffix = ""
+																														usr.Wequipped = 0
+																														usr.Sequipped = 0
+																														usr.LSequipped = 0
+																														usr.AXequipped = 0
+																														usr.WHequipped = 0
+																														usr.JRequipped = 0
+																														usr.FPequipped = 0
+																														usr.PXequipped = 0
+																														usr.SPXequipped = 0
+																														usr.SHequipped = 0
+																														usr.HMequipped = 0
+																														usr.SKequipped = 0
+																														usr.HOequipped = 0
+																														usr.CKequipped = 0
+																														usr.FLequipped = 0
+																														usr.PYequipped = 0
+																														usr.OKequipped = 0
+																														usr.SHMequipped = 0
+																														usr.UPKequipped = 0
+																														usr.CHequipped = 0
+																														usr.TWequipped = 0
+																														usr.FIequipped = 0
+																														usr.SWequipped = 0
+																														usr.WSequipped = 0
+																														usr.SHHequipped = 0
+																														usr.SSHequipped = 0
+																														usr.SHOequipped = 0
+																														usr.SSH2equipped = 0
+																														usr.SCHequipped = 0
+																														usr.SFIequipped = 0
+																														usr.tempdamagemin -= src.DamageMin
+																														usr.tempdamagemax -= src.DamageMax
+																														var/mob/players/M = usr
+																														if(M.char_class=="Smithy")
+																															M.attackspeed = 6
 																														return
 																												else
 																													if (typi=="SAX" && twohanded==0)
