@@ -47,6 +47,7 @@
 #include "dm\EquipmentOverlaySystem.dm"
 #include "dm\EdgeDetectionAndExpansion.dm"
 #include "dm\F0laks Debug Messager.dm"
+#include "dm\FishingSystem.dm"
 #include "dm\ForgeUIIntegration.dm"
 #include "dm\fullscreen.dm"
 #include "dm\FurnitureExtensions.dm"

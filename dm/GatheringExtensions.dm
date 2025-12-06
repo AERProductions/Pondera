@@ -346,9 +346,19 @@ turf/water
 	UseObject(mob/user)
 		if(user in range(1, src))
 			set waitfor = 0
-			// Attempt to drink or fish - delegate to existing DblClick behavior
-			user.DblClick(src)
-			return 1
+			// Check if user wants to fish instead of drink
+			var/action = input(user, "What do you want to do?", "Water Interaction") in list("Fish", "Drink", "Cancel")
+			
+			switch(action)
+				if("Fish")
+					if(istype(user, /mob/players))
+						var/mob/players/M = user
+						M.StartFishing(src)
+					return 1
+				if("Drink")
+					// Attempt to drink or use existing water interaction
+					user.DblClick(src)
+					return 1
 		return 0
 
 // Water variants (c1-c4) inherit from turf/water and use its UseObject
