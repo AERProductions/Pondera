@@ -1,16 +1,4 @@
 var
-	hrank=1			//Harvesting hrank lvl Woodcutting
-	hrankEXP=0		//hrank Exp
-	hrankMAXEXP=10		//Exp till level
-	Crank=1			//carving rank
-	CrankEXP=0
-	CrankMAXEXP=10
-	CSRank=1		//cutsproutrank
-	CSRankEXP=0
-	CSRankMAXEXP=10
-	PLRank=1		//Pole? rank
-	PLRankEXP=0
-	PLRankMAXEXP=100
 	stamina				//stamina
 	MAXhrankLVL=0	//Maxhranklvl when set to one it stops more lvls...
 	MAXCrankLVL=0
@@ -25,7 +13,7 @@ mob/var
 		Carving=0
 		Cutting=0			//Defines cutting.
 
-mob/proc/CLvl()
+mob/players/proc/CLvl()
 	if(Crank>=5)//Carving rank Seeing if usr is maxlvl
 		//CrankMAXEXP=1
 		MAXCrankLVL=1
@@ -43,7 +31,7 @@ mob/proc/CLvl()
 			return
 
 
-mob/proc/CSLvl()
+mob/players/proc/CSLvl()
 	if(CSRank>=5)//Cutting Sprout -- should probably be rewritten to just use harvesting rank
 		//CSRankMAXEXP=1
 		CSRankMAXEXP=1
@@ -271,7 +259,7 @@ obj
 				var/obj/items/Kindling/ueikkindling/J = locate() in M.contents
 				var/Fire//=/obj/Fire
 				//Makes the usr become Cutter... Not really neccesary.
-				//if(Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+				//if(M.Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 					//M<<"<FONT COLOR=RED>You must have a Carving Acuity of at least [Creq] to create a fire.</FONT>"
 					//return
 				/*if(KindAmount==0)		//Does the tree have logs???
@@ -318,7 +306,7 @@ mob
 					if(1)return 5*10;if(2)return 2*30;if(3)return 2*70;if(4)return 2*103;if(5)return 2*150
 			else return 150
 
-mob/proc
+mob/players/proc
 	WCLvl()
 		if(hrank>=5)				//Seeing if usr is maxlvl
 			MAXhrankLVL=1
@@ -1052,7 +1040,7 @@ obj/plant/ueiktree
 			var/mob/players/M
 			//var/obj/items/Logs/UeikLog/UL = new(src)
 			M = usr		//Makes the usr become Cutter... Not really neccesary.
-			if(hrank<hreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+			if(M.hrank<hreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 				M<<"<FONT COLOR=RED>You must have a Harvesting Acuity of at least [hreq] to cut [LogType] trees.</FONT>"//eventually at some point I need to actually setup the rank restrictions and add additional higher rank content -- after all the fundamentals are rock solid and bugs squashed
 				return
 			if(growstate==7||growstage==7||src.icon_state=="ustump")
@@ -1093,13 +1081,13 @@ obj/plant/ueiktree
 					sleep(10)
 					M.stamina -= 5	//Depletes one stamina
 					M.updateST()
-					if(prob(Rarity+hrank))		//Takes the rarity of the tree and your woodcutting lvl
+					if(prob(Rarity+M.hrank))		//Takes the rarity of the tree and your woodcutting lvl
 						Cutter<<"<font color=green>You Finish working the [LogType] tree and receive [LogType] log!</font>"		//You get "tree being cut" Logs!
 						M.overlays -= image('dmi/64/axeoy.dmi',icon_state="[get_dir(M,src)]")
 						new log(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 						//new UL
-						hrankEXP+=GiveXP				//  Add The exp from tree to you.
-						Cutter.WCLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+						M.hrankEXP+=GiveXP				//  Add The exp from tree to you.
+						M.WCLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 						Cutting=0							// Cutting is set to 0 so you are free to move and cut some more.
 						LogAmount--							//Depletes one log from the Amount.
 						if(LogAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
@@ -1175,7 +1163,7 @@ obj/plant/ueiktree
 			set waitfor = 0
 			var/mob/players/M
 			M = usr		//Makes the usr become Cutter... Not really neccesary.
-			if(CSRank<CSReq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+			if(M.CSRank<CSReq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 				M<<"<FONT COLOR=GREEN>You must have a Botany rank of at least [CSReq] to cut [SproutType].</FONT>"
 				Cutting=0
 				return
@@ -1210,11 +1198,11 @@ obj/plant/ueiktree
 				else
 					Cutting=1
 					M.stamina -= 5	//Depletes one stamina
-					if(prob(Chance+CSRank))		//Takes the rarity of the tree and your woodcutting lvl
+					if(prob(Chance+M.CSRank))		//Takes the rarity of the tree and your woodcutting lvl
 						M<<"You get [SproutType] sprout!"		//You get "tree being cut" Logs!
 						new sprout(usr.loc)
 						//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-						CSRankEXP+=GivenXP				//  Add The exp from tree to you.
+						M.CSRankEXP+=GivenXP				//  Add The exp from tree to you.
 						M.CSLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 						Cutting=0							// Cutting is set to 0 so you are free to move and cut some more.
 						SproutAmount--							//Depletes one log from the Amount.
@@ -1520,7 +1508,7 @@ obj/items/Logs
 		var/obj/items/Logs/UeikLog/J
 		var/Fire//=/obj/Fire
 		M = usr		//Makes the usr become Cutter... Not really neccesary.
-		if(Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+		if(M.Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 			M<<"<FONT COLOR=RED>You must have a Carving Acuity of at least [Creq] to create a fire.</FONT>"
 			return
 		/*if(KindAmount==0)		//Does the tree have logs???
@@ -1550,14 +1538,14 @@ obj/items/Logs
 			else
 				//if(J.stack_amount>=1)// J.RemoveFromStack(1)
 				M.stamina -= 5	//Depletes one stamina
-				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
+				if(prob(Chance+M.Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a fire in front of you!</font>"		//You get "tree being cut" Logs!
 					Fire = new/obj/Buildable/Fire(usr.loc)
 					Fire:buildingowner = "[ckeyEx("usr.key")]"
 					//new Fire(usr.loc)
 					//Fire:buildingowner = "[M.key]"
 					//J.RemoveFromStack(1)//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					CrankEXP+=GivenXP				//  Add The exp from tree to you.
+					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
 					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					//KindAmount--							//Depletes one log from the Amount.
@@ -1577,7 +1565,7 @@ obj/items/Logs
 		var/mob/players/M
 		var/obj/items/Logs/UeikLog/J
 		M = usr		//Makes the usr become Cutter... Not really neccesary.
-		if(Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+		if(M.Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 			M<<"<FONT COLOR=RED>You must have a Carving Acuity of at least [Creq] to carve [KindType] kindling.</FONT>"
 			return
 		/*if(KindAmount==0)		//Does the tree have logs???
@@ -1607,11 +1595,11 @@ obj/items/Logs
 			else
 				//if(J.stack_amount>=1)// J.RemoveFromStack(1)
 				M.stamina -= 5	//Depletes one stamina
-				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
+				if(prob(Chance+M.Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a [KindType] kindling infront of you!</font>"		//You get "tree being cut" Logs!
 					new kindling(usr.loc)
 					//J.RemoveFromStack(1)//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					CrankEXP+=GivenXP				//  Add The exp from tree to you.
+					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
 					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					KindAmount--							//Depletes one log from the Amount.
@@ -1631,7 +1619,7 @@ obj/items/Logs
 		var/mob/players/M
 		var/obj/items/Logs/UeikLog/J
 		M = usr		//Makes the usr become Cutter... Not really neccesary.
-		if(Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+		if(M.Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 			M<<"<FONT COLOR=RED>You must have a crank lvl of at least [Creq] to carve [HandType] Handles.</FONT>"
 			return
 		/*if(HandleAmount==0)		//Does the tree have logs???
@@ -1660,13 +1648,13 @@ obj/items/Logs
 				M << "Low stamina."*/
 			else
 				M.stamina -= 5	//Depletes one stamina
-				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
+				if(prob(Chance+M.Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					//var/obj/items/Crafting/Created/Handle
 					M<<"<font color=green>You create a [HandType] handle infront of you!</font>"		//You get "tree being cut" Logs!
 					//Handle += M.contents
 					new Handle(usr)
 					//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					CrankEXP+=GivenXP				//  Add The exp from tree to you.
+					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
 					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					HandleAmount--							//Depletes one log from the Amount.
@@ -1686,7 +1674,7 @@ obj/items/Logs
 		var/mob/players/M
 		var/obj/items/Logs/UeikLog/J
 		M = usr		//Makes the usr become Cutter... Not really neccesary.
-		if(Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+		if(M.Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 			M<<"<FONT COLOR=RED>You must have a Carving Acuity of at least [Creq] to carve [BoardType] Boards.</FONT>"
 			return
 		if(BoardAmount==0)		//Does the tree have logs???
@@ -1715,11 +1703,11 @@ obj/items/Logs
 				M << "Low stamina."*/
 			else
 				M.stamina -= 5	//Depletes one stamina
-				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
+				if(prob(Chance+M.Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a [BoardType] board infront of you!</font>"		//You get "tree being cut" Logs!
 					new board(usr)
 					//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					CrankEXP+=GivenXP				//  Add The exp from tree to you.
+					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
 					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					BoardAmount--							//Depletes one log from the Amount.
@@ -1739,7 +1727,7 @@ obj/items/Logs
 		var/mob/players/M
 		var/obj/items/Logs/UeikLog/J
 		M = usr		//Makes the usr become Cutter... Not really neccesary.
-		if(Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+		if(M.Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 			M<<"<FONT COLOR=RED>You must have a Carving Acuity of at least [Creq] to carve [PoleType] Poles.</FONT>"
 			return
 		if(PoleAmount==0)		//Does the tree have logs???
@@ -1768,11 +1756,11 @@ obj/items/Logs
 				M << "Low stamina."*/
 			else
 				M.stamina -= 5	//Depletes one stamina
-				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
+				if(prob(Chance+M.Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a [PoleType] pole infront of you!</font>"		//You get "tree being cut" Logs!
 					new pole(usr)
 					//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					CrankEXP+=GivenXP				//  Add The exp from tree to you.
+					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
 					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					PoleAmount--							//Depletes one log from the Amount.
@@ -1792,7 +1780,7 @@ obj/items/Logs
 		var/mob/players/M
 		var/obj/items/Logs/UeikLog/J
 		M = usr		//Makes the usr become Cutter... Not really neccesary.
-		if(Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+		if(M.Crank<Creq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 			M<<"<FONT COLOR=RED>You must have a Carving Acuity of at least [Creq] to carve [HeadType] Wooden Torch Head.</FONT>"
 			return
 		if(HeadAmount==0)		//Does the tree have logs???
@@ -1821,11 +1809,11 @@ obj/items/Logs
 				M << "Low stamina."*/
 			else
 				M.stamina -= 5	//Depletes one stamina
-				if(prob(Chance+Crank))		//Takes the rarity of the tree and your woodcutting lvl
+				if(prob(Chance+M.Crank))		//Takes the rarity of the tree and your woodcutting lvl
 					M<<"<font color=green>You create a [HeadType] Wooden Torch Head infront of you!</font>"		//You get "tree being cut" Logs!
 					new WTH(usr)
 					//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					CrankEXP+=GivenXP				//  Add The exp from tree to you.
+					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
 					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					HeadAmount--							//Depletes one log from the Amount.
