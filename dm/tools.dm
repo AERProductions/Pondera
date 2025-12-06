@@ -10204,18 +10204,11 @@ obj
 									if((CC in M.contents)&&(src.name=="Lit Forge"))
 										//var/obj/items/Kindling/J = locate() in M.contents
 										if(CC.Tname!="Hot")
-											M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type]."
+											M<<"You begin to heat the item..."
 											sleep(30)
-											//J.RemoveFromStack(1)
-											//src.overlays -= overlays
-											//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
-											//light.off()
-											CC:Tname="Hot"
-											CC:name="[CC.ingot_type] Ingot (Hot)"
-											//CC:name="[CC.ingot_type] Ingot (Hot)"
-											//call(/obj/items/Ingots/proc/Temp)(locate(CC))
-											//CC:suffix="Hot"
-											M<<"\  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type] is hot."
+											CC.Tname="Hot"
+											CC.name="Heated Ingot (Hot)"
+											M<<"The item glows orange and is ready to work!"
 										//else
 											//M<<"[J] is already Hot"
 											//call(proc/Temp)(J)
@@ -10233,15 +10226,11 @@ obj
 									if((CC in M.contents)&&(src.name=="Lit Forge"))
 										//var/obj/items/Kindling/J = locate() in M.contents
 										if(CC.Tname!="Hot")
-											M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type]."
+											M<<"You begin to heat the scrap..."
 											sleep(30)
-											//J.RemoveFromStack(1)
-											//src.overlays -= overlays
-											//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
-											//light.off()
-											CC:Tname="Hot"
-											CC:name="[CC.ingot_type] Ingot (Hot)"
-											M<<"\  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type] is hot."
+											CC.Tname="Hot"
+											CC.name="Heated Scrap (Hot)"
+											M<<"The scrap glows orange and is ready to combine!"
 										//else
 											//M<<"[J] is already Hot"
 											//call(proc/Temp)(J)

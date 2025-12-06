@@ -146,6 +146,10 @@ world
 		StartMapSave()
 		// END Map Save System Startup
 
+		// BEGIN Dynamic Zone System Startup
+		InitializeDynamicZones()
+		// END Dynamic Zone System Startup
+
 		// BEGIN Map Generation
 		if(map_loaded == FALSE)
 			GenerateMap(lakes = 15, hills = 15)

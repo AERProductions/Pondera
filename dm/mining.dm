@@ -262,6 +262,7 @@ obj
 					name="Beryl"
 	//items
 		Ingots
+			parent_type = /obj/items/thermable
 			can_stack = TRUE
 			ore = 1
 			Tname = ""
@@ -277,6 +278,16 @@ obj
 				BRB
 				STLB
 				DSTLB
+			
+			New()
+				..()
+				// Initialize temperature system for ingot
+				if(Tname == "Hot")
+					temperature_stage = TEMP_HOT
+					spawn(1)
+						StartCooling()
+				else
+					temperature_stage = TEMP_COOL
 			/*	description
 			New()
 				stack()
@@ -563,18 +574,32 @@ obj
 						return
 
 
-//scrap metal
+		//scrap metal
 			Scraps
+				parent_type = /obj/items/Ingots
 				can_stack = TRUE
-				//ingot_type
 				layer = 11
+				
+				New()
+					..()
+					// Initialize temperature system for scrap
+					if(Tname == "Warm")
+						temperature_stage = TEMP_WARM
+						spawn(1)
+							StartCooling()
+					else if(Tname == "Hot")
+						temperature_stage = TEMP_HOT
+						spawn(1)
+							StartCooling()
+					else
+						temperature_stage = TEMP_COOL
+				
 				verb
 					Combine()
 						set popup_menu = 1
 						set src in oview(1)
 						set category = null//"Commands"
-						//var/mob/players/M
-						Combine_Scrap()
+						Combine_Scrap(src)
 				scrapiron
 					icon = 'dmi/64/build.dmi'
 					icon_state = "sci"
@@ -594,14 +619,8 @@ obj
 					New()
 						set waitfor = 0
 						..()
-							// initialize the list of mobs to be spawned
-						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							Start
-							if(Tname=="Hot")
-								src.STemp()
-							//else return
-							sleep(240)
-							goto Start
+						spawn(1)
+							StartCooling()
 				scrapzinc
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scz"
@@ -620,14 +639,8 @@ obj
 					New()
 						set waitfor = 0
 						..()
-							// initialize the list of mobs to be spawned
-						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							Start
-							if(Tname=="Hot")
-								src.STemp()
-							//else return
-							sleep(240)
-							goto Start
+						spawn(1)
+							StartCooling()
 				scraplead
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scl"
@@ -646,14 +659,8 @@ obj
 					New()
 						set waitfor = 0
 						..()
-							// initialize the list of mobs to be spawned
-						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							Start
-							if(Tname=="Hot")
-								src.STemp()
-							//else return
-							sleep(240)
-							goto Start
+						spawn(1)
+							StartCooling()
 				scrapcopper
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scc"
@@ -672,14 +679,8 @@ obj
 					New()
 						set waitfor = 0
 						..()
-							// initialize the list of mobs to be spawned
-						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							Start
-							if(Tname=="Hot")
-								src.STemp()
-							//else return
-							sleep(240)
-							goto Start
+						spawn(1)
+							StartCooling()
 				scrapbrass
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scb"
@@ -698,14 +699,8 @@ obj
 					New()
 						set waitfor = 0
 						..()
-							// initialize the list of mobs to be spawned
-						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							Start
-							if(Tname=="Hot")
-								src.STemp()
-							//else return
-							sleep(240)
-							goto Start
+						spawn(1)
+							StartCooling()
 				scrapbronze
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scbr"
@@ -724,14 +719,8 @@ obj
 					New()
 						set waitfor = 0
 						..()
-							// initialize the list of mobs to be spawned
-						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							Start
-							if(Tname=="Hot")
-								src.STemp()
-							//else return
-							sleep(240)
-							goto Start
+						spawn(1)
+							StartCooling()
 				scrapsteel
 					icon = 'dmi/64/build.dmi'
 					icon_state = "scs"
@@ -750,14 +739,8 @@ obj
 					New()
 						set waitfor = 0
 						..()
-							// initialize the list of mobs to be spawned
-						spawn while (src) // More efficient to put in a loop like Deadron's event loop
-							Start
-							if(Tname=="Hot")
-								src.STemp()
-							//else return
-							sleep(240)
-							goto Start
+						spawn(1)
+							StartCooling()
 			ironbar
 				icon = 'dmi/64/build.dmi'
 				icon_state = "ib"

@@ -678,28 +678,22 @@ obj
 						if("Scraps")
 							var/list/options = list()
 							var/obj/items/Ingots/Scraps/CC
+							var/obj/items/thermable/selectedItem
 							for(CC in M)
 							      // show a pretty list of options with prices included
-								options["[CC]"] = CC
+								if(istype(CC, /obj/items/Ingots/Scraps))
+									options["[CC]"] = CC
 							var/choice = input("Which item would you like to heat?","Metal Scraps") as null|anything in options
-							CC = options[choice]
-							//switch(input("Which item would you like to heat?","Tool Parts") in CC)
-							if(CC)
-								if((CC in M.contents)&&(src.name=="Lit Fire"))
-									//var/obj/items/Kindling/J = locate() in M.contents
-									if(CC.Tname!="Hot")
-										M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type]."
+							if(choice)
+								selectedItem = options[choice]
+								if(selectedItem && (selectedItem in M.contents) && (src.name=="Lit Fire"))
+									if(selectedItem.Tname != "Hot")
+										M<<"You begin to heat [selectedItem] for further work."
 										sleep(30)
-										//J.RemoveFromStack(1)
-										//src.overlays -= overlays
-										//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
-										//light.off()
-										CC:Tname="Hot"
-										CC:name="[CC.ingot_type] Ingot (Hot)"
-										M<<"\  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type] is hot."
-									//else
-										//M<<"[J] is already Hot"
-										//call(proc/Temp)(J)
+										selectedItem.Tname = "Hot"
+										selectedItem.Heat()
+										selectedItem.UpdateDisplay()
+										M<<"[selectedItem] is now hot and ready for smithing!"
 										return
 				Cook()
 					set waitfor = 0

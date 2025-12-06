@@ -66,22 +66,22 @@ mob
 		// Map typi codes to overlay properties (matches tools.dm equipment system)
 		if(item.typi == "LS")	// LongSword
 			icon_state_base = "LS"
-			dmi_file = 'dmi/LSoy.dmi'
+			dmi_file = 'dmi/64/LSoy.dmi'
 		else if(item.typi == "WH")	// WarHammer
 			icon_state_base = "WH"
-			dmi_file = 'dmi/WHoy.dmi'
+			dmi_file = 'dmi/64/WHoy.dmi'
 		else if(item.typi == "GM")	// GreatMace
 			icon_state_base = "GM"
-			dmi_file = 'dmi/GMoy.dmi'
+			dmi_file = 'dmi/64/GMoy.dmi'
 		else if(item.typi == "PX")	// Pickaxe
 			icon_state_base = "PX"
-			dmi_file = 'dmi/PXoy.dmi'
+			dmi_file = 'dmi/64/PXoy.dmi'
 		else if(item.typi == "AX")	// Axe
 			icon_state_base = "AX"
-			dmi_file = 'dmi/axeoy.dmi'
+			dmi_file = 'dmi/64/axeoy.dmi'
 		else if(item.typi == "SK")	// Scythe
 			icon_state_base = "SK"
-			dmi_file = 'dmi/SKoy.dmi'
+			dmi_file = 'dmi/64/SKoy.dmi'
 		
 		// Apply the overlay if we found a mapping
 		if(icon_state_base && dmi_file)
@@ -104,18 +104,6 @@ mob
 				src.equipped_overlays = list()
 			src.equipped_overlays[item.typi] = overlay_img
 
-	// Helper proc to remove equipment overlay when item is unequipped
-	// Call this from tools.dm Unequip() verb after clearing the item state
-	proc/remove_equipment_overlay(obj/items/tools/item)
-		if(!item || !ismob(src)) return
-		if(!src.equipped_overlays) return
-		
-		// Remove the stored overlay for this item type
-		var/image/old_overlay = src.equipped_overlays[item.typi]
-		if(old_overlay)
-			src.overlays -= old_overlay
-			src.equipped_overlays -= item.typi
-
 	// Refresh overlays when direction changes (called from Bump override in EquipmentOverlaySystem)
 	proc/refresh_equipment_overlays()
 		if(!src.equipped_overlays || !src.equipped_overlays.len) return
@@ -136,12 +124,12 @@ mob
 			if(old_img)
 				// Determine DMI file from slot
 				var/dmi_file = null
-				if(slot == "LS") dmi_file = 'dmi/LSoy.dmi'
-				else if(slot == "WH") dmi_file = 'dmi/WHoy.dmi'
-				else if(slot == "GM") dmi_file = 'dmi/GMoy.dmi'
-				else if(slot == "PX") dmi_file = 'dmi/PXoy.dmi'
-				else if(slot == "AX") dmi_file = 'dmi/axeoy.dmi'
-				else if(slot == "SK") dmi_file = 'dmi/SKoy.dmi'
+				if(slot == "LS") dmi_file = 'dmi/64/LSoy.dmi'
+				else if(slot == "WH") dmi_file = 'dmi/64/WHoy.dmi'
+				else if(slot == "GM") dmi_file = 'dmi/64/GMoy.dmi'
+				else if(slot == "PX") dmi_file = 'dmi/64/PXoy.dmi'
+				else if(slot == "AX") dmi_file = 'dmi/64/axeoy.dmi'
+				else if(slot == "SK") dmi_file = 'dmi/64/SKoy.dmi'
 				
 				if(dmi_file)
 					var/new_state = "[slot][dir_num]"
