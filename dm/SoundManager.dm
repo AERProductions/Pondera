@@ -75,6 +75,13 @@ sound_manager
 			"category" = "craft",
 			"loop" = FALSE
 		)
+		sound_properties["thunder"] = list(
+			"file" = 'snd/wind.ogg',
+			"radius" = 1000,
+			"volume" = 95,
+			"category" = "weather",
+			"loop" = FALSE
+		)
 
 	// ==================== SOUND ACTIVATION API ====================
 

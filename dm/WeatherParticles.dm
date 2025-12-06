@@ -106,6 +106,9 @@ obj/weather_fx
 				particles = new/particles/dust_storm
 			if("hail")
 				particles = new/particles/hail
+			if("thunderstorm")
+				// Thunderstorm: hail + periodic lightning
+				particles = new/particles/hail
 			if("drizzle")
 				particles = new/particles/drizzle
 			else
@@ -120,6 +123,8 @@ obj/weather_fx
 				ApplyWeatherSounds("dust_storm", src)
 			if("hail")
 				ApplyWeatherSounds("hail", src)
+			if("thunderstorm")
+				ApplyWeatherSounds("thunderstorm", src)
 			if("drizzle", "rain")
 				ApplyWeatherSounds("rain", src)
 
@@ -236,6 +241,10 @@ proc/ApplyBiomeWeather(mob/players/M, weather_type)
 			M.UpdateWeatherParticles("dust_storm")
 		if("hail")
 			M.UpdateWeatherParticles("hail")
+		if("thunderstorm")
+			M.UpdateWeatherParticles("thunderstorm")
+			// Also trigger lightning strikes
+			ApplyThunderstormWeather("thunderstorm", M.loc)
 		if("rain", "drizzle")
 			M.UpdateWeatherParticles("drizzle")
 		else

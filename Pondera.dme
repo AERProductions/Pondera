@@ -58,6 +58,7 @@
 #include "dm\lg.dm"
 #include "dm\Light.dm"
 #include "dm\Lighting.dm"
+#include "dm\LightningSystem.dm"
 #include "dm\Macros.dm"
 #include "dm\mining.dm"
 #include "dm\MiscExtensions.dm"

@@ -220,28 +220,32 @@ dynamic_zone
 		SelectWeatherForBiome()
 
 	proc/SelectWeatherForBiome()
-		// Weather based on biome and humidity
+		// Weather based on biome and humidity (with thunderstorm chances)
 		var/rand_weather = rand(1, 100)
 		
 		switch(terrain_type)
 			if("water")
-				if(rand_weather < 40)
+				if(rand_weather < 10)
+					weather_type = "thunderstorm"
+				else if(rand_weather < 40)
 					weather_type = "rain"
 				else if(rand_weather < 70)
 					weather_type = "fog"
 				else
 					weather_type = "clear"
 			if("temperate")
-				if(rand_weather < 30)
+				if(rand_weather < 8)
+					weather_type = "thunderstorm"
+				else if(rand_weather < 30)
 					weather_type = "rain"
 				else if(rand_weather < 50)
 					weather_type = "cloudy"
 				else
 					weather_type = "clear"
 			if("arctic")
-				if(rand_weather < 50)
-					weather_type = "snow"
-				else if(rand_weather < 75)
+				if(rand_weather < 15)
+					weather_type = "hail"
+				else if(rand_weather < 40)
 					weather_type = "cloudy"
 				else
 					weather_type = "clear"
