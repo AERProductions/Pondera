@@ -97,6 +97,7 @@
 #include "dm\time.dm"
 #include "dm\TimeSave.dm"
 #include "dm\tools.dm"
+#include "dm\SteelTools.dm"
 #include "dm\Turf.dm"
 #include "dm\UseObjectExtensions.dm"
 #include "dm\w.dm"

@@ -62,7 +62,7 @@ obj/Rocks
 	UseObject(mob/user)
 		if(user in range(1, src))
 			set waitfor = 0
-			if(user:PXequipped || user:UPKequipped)
+			if(user:PXequipped || user:UPKequipped || user:SPXequipped)
 				user.DblClick(src)
 				return 1
 			else
@@ -74,11 +74,11 @@ obj/Rocks/SRocks
 	UseObject(mob/user)
 		if(user in range(1, src))
 			set waitfor = 0
-			if(user:PXequipped == 1)
+			if(user.PXequipped == 1 || user.SPXequipped == 1)
 				user.DblClick(src)
 				return 1
 			else
-				user << "You need a pickaxe equipped to mine."
+				user << "You need an Iron Pickaxe or better to mine this."
 				return 0
 		return 0
 
@@ -86,11 +86,11 @@ obj/Rocks/HRocks
 	UseObject(mob/user)
 		if(user in range(1, src))
 			set waitfor = 0
-			if(user:PXequipped == 1)
+			if(user.SPXequipped == 1)
 				user.DblClick(src)
 				return 1
 			else
-				user << "You need a pickaxe equipped to mine."
+				user << "You need a Steel Pickaxe to mine this."
 				return 0
 		return 0
 

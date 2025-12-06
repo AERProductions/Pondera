@@ -272,7 +272,7 @@ elevation/ditch
 // Fog rolls into ditches naturally (lower pressure areas)
 elevation/ditch/proc/GenerateFog()
 	set waitfor = 0
-	var/fog_intensity = clamp(1.0 - ((elevel / 4) * 0.5), 0.3, 1.0)
+	//var/fog_intensity = clamp(1.0 - ((elevel / 4) * 0.5), 0.3, 1.0)  // TODO: Use for future fog intensity effects
 	
 	// Check nearby mobs and apply fog effect
 	for(var/mob/players/M in view(10, src))

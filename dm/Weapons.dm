@@ -27,6 +27,13 @@ mob
 		SWequipped = 0
 		WSequipped = 0
 		SAXequipped = 0
+		SPXequipped = 0  // Steel Pickaxe
+		SHHequipped = 0  // Steel Hammer
+		SSHequipped = 0  // Steel Shovel
+		SHOequipped = 0  // Steel Hoe
+		SSH2equipped = 0 // Steel Sickle
+		SCHequipped = 0  // Steel Chisel
+		SFIequipped = 0  // Steel File
 		tempdefense = 0
 		tempevade = 0
 		tempdamagemin = 1
