@@ -34,6 +34,7 @@
 #include "dm\InventoryState.dm"
 #include "dm\EquipmentState.dm"
 #include "dm\VitalState.dm"
+#include "dm\RecipeState.dm"
 #include "dm\CentralizedEquipmentSystem.dm"
 #include "dm\CharacterCreationIntegration.dm"
 #include "dm\CharacterCreationUI.dm"

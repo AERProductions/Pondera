@@ -4,6 +4,7 @@
 
 /datum/character_data
 	var
+		// === SKILL RANKS & EXPERIENCE ===
 		// Rank Levels (0-5 for most, configurable per skill)
 		frank = 0           // Fishing rank
 		crank = 0           // Crafting rank
@@ -45,6 +46,9 @@
 		CrankMAXEXP = 10
 		CSRankMAXEXP = 10
 		PLRankMAXEXP = 100
+
+		// === RECIPE & KNOWLEDGE STATE ===
+		datum/recipe_state/recipe_state = null  // Tracks discovered recipes and knowledge
 
 /datum/character_data/proc/Initialize()
 	// Reset all ranks and exp to zero on creation
@@ -96,3 +100,7 @@
 	PLRank = 0
 	PLRankEXP = 0
 	PLRankMAXEXP = 100
+
+	// Initialize recipe state with defaults
+	recipe_state = new /datum/recipe_state()
+	recipe_state.SetRecipeDefaults()

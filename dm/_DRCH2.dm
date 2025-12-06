@@ -78,6 +78,11 @@ mob
 			if(player.vital_state)
 				player.vital_state.CaptureVitals(player)
 				F["vital_state"] << player.vital_state
+			
+			// Save recipe/knowledge state (discovered recipes, learned topics)
+			if(player.character && player.character.recipe_state)
+				player.character.recipe_state.ValidateRecipeState()
+				F["recipe_state"] << player.character.recipe_state
 		return
 
 	Read(savefile/F)
@@ -127,6 +132,14 @@ mob
 				player.vital_state = new /datum/vital_state()
 			else
 				player.vital_state.RestoreVitals(player)
+			
+			// Restore recipe/knowledge state (discovered recipes, learned topics)
+			F["recipe_state"] >> player.character.recipe_state
+			if(!player.character.recipe_state)
+				player.character.recipe_state = new /datum/recipe_state()
+				player.character.recipe_state.SetRecipeDefaults()
+			else
+				player.character.recipe_state.ValidateRecipeState()
 		return
 	//verb/Mode()
 		//src << "verb SP [SP] | MP [MP] | SB [SB] | SM [SM] && SPs [SPs] | MPs [MPs] | SBs [SBs] | SMs [SMs]"
