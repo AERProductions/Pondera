@@ -100,6 +100,7 @@
 #include "dm\tchst.dm"
 #include "dm\time.dm"
 #include "dm\TimeSave.dm"
+#include "dm\TimeState.dm"
 #include "dm\tools.dm"
 #include "dm\SteelTools.dm"
 #include "dm\Turf.dm"
