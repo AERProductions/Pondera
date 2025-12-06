@@ -191,17 +191,23 @@ player_reputation = list(
 
 ### **What is Affinity?**
 
-**Affinity** is the player's net moral alignment derived from reputation:
+**Affinity** is an existing player variable representing moral alignment on a -1 to +1 scale. The new **Reputation System** drives affinity changes:
 
 ```
-player_affinity = (freedom + belief + honor + pride) - greed
+// Existing variable (in mob/players)
+affinity = 0  // -1.0 (pure dark) to +1.0 (pure light)
+
+// New reputation system (Phase 6) updates affinity:
+player_affinity = ((freedom + belief + honor + pride) - greed) / max_reputation_value
+// Normalized to -1.0 to +1.0 range
 ```
 
-- **Strong Light Affinity** (+200+): Virtuous path, anti-corruption, natural hero
-- **Light Affinity** (+50 to +200): Aligned with allied kingdoms
-- **Neutral** (-50 to +50): Pragmatist, fence-sitter, opportunist
-- **Dark Affinity** (-200 to -50): Committed to Greed's dominion
-- **Strong Dark Affinity** (-200-): Villain path, full corruption, natural antagonist
+**Affinity Tiers**:
+- **Strong Light Affinity** (+0.75 to +1.0): Virtuous path, anti-corruption, natural hero
+- **Light Affinity** (+0.25 to +0.75): Aligned with allied kingdoms
+- **Neutral** (-0.25 to +0.25): Pragmatist, fence-sitter, peaceful option
+- **Dark Affinity** (-0.75 to -0.25): Committed to Greed's dominion
+- **Strong Dark Affinity** (-1.0 to -0.75): Villain path, full corruption, natural antagonist
 
 ### **Affinity Applications**
 
