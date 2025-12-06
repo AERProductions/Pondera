@@ -171,6 +171,12 @@ mob/players
 		copperbar = 0
 		// Character Data Datum - centralized skill/progression storage
 		datum/character_data/character
+		// Inventory State Datum - tracks item stacks across save/load
+		datum/inventory_state/inventory_state
+		// Equipment State Datum - tracks which items are equipped
+		datum/equipment_state/equipment_state
+		// Vital State Datum - tracks HP, stamina, status
+		datum/vital_state/vital_state
 		brank = 0 //buildingrank
 		drank = 0 //diggingrank
 		frank = 0 //fighting rank?
@@ -2287,6 +2293,15 @@ mob/players
 		if(!character)
 			character = new /datum/character_data()
 			character.Initialize()
+		// Create inventory state datum if not already set
+		if(!inventory_state)
+			inventory_state = new /datum/inventory_state()
+		// Create equipment state datum if not already set
+		if(!equipment_state)
+			equipment_state = new /datum/equipment_state()
+		// Create vital state datum if not already set
+		if(!vital_state)
+			vital_state = new /datum/vital_state()
 
 mob/players/proc
 	browsersc()

@@ -56,12 +56,28 @@ mob
 			F["last_y"] << y
 			F["last_z"] << z
 		
-		// Save character progression data (skill levels, exp, etc)
-		// The character datum is automatically serialized if defined
+		// Save character and equipment data
 		if(ismob(src, /mob/players))
 			var/mob/players/player = src
+			
+			// Save character progression datum
 			if(player.character)
 				F["character"] << player.character
+			
+			// Save inventory state (item stacks)
+			if(player.inventory_state)
+				player.inventory_state.CaptureInventory(player)
+				F["inventory_state"] << player.inventory_state
+			
+			// Save equipment state (equipped items)
+			if(player.equipment_state)
+				player.equipment_state.CaptureEquipment(player)
+				F["equipment_state"] << player.equipment_state
+			
+			// Save vital state (HP, stamina, status)
+			if(player.vital_state)
+				player.vital_state.CaptureVitals(player)
+				F["vital_state"] << player.vital_state
 		return
 
 	Read(savefile/F)
@@ -83,15 +99,34 @@ mob
 				return
 			loc=locate(last_x, last_y, last_z)
 		
-		// Restore character progression data (skill levels, exp, etc)
-		// The character datum is automatically deserialized if present
+		// Restore character progression data and equipment
 		if(ismob(src, /mob/players))
 			var/mob/players/player = src
+			
+			// Restore character progression datum
 			F["character"] >> player.character
-			// Ensure character datum exists (fallback for old saves)
 			if(!player.character)
 				player.character = new /datum/character_data()
 				player.character.Initialize()
+			
+			// Restore inventory state (item stacks)
+			F["inventory_state"] >> player.inventory_state
+			if(!player.inventory_state)
+				player.inventory_state = new /datum/inventory_state()
+			
+			// Restore equipment state (equipped flags)
+			F["equipment_state"] >> player.equipment_state
+			if(!player.equipment_state)
+				player.equipment_state = new /datum/equipment_state()
+			else
+				player.equipment_state.RestoreEquipment(player)
+			
+			// Restore vital state (HP, stamina, status)
+			F["vital_state"] >> player.vital_state
+			if(!player.vital_state)
+				player.vital_state = new /datum/vital_state()
+			else
+				player.vital_state.RestoreVitals(player)
 		return
 	//verb/Mode()
 		//src << "verb SP [SP] | MP [MP] | SB [SB] | SM [SM] && SPs [SPs] | MPs [MPs] | SBs [SBs] | SMs [SMs]"
