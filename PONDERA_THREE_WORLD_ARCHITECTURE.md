@@ -466,9 +466,60 @@ Each continent features a **per-continent stall system** tailored to its gamepla
 - PvP: Economic warfare (stalls as raid targets)
 - Profits ARE shared (encourages cross-world engagement)
 
-### **Travel System**
+### **Travel System (Portals & Port Ships)**
 
-**Port Town** (on each continent):
+**Two complementary travel methods** enable world-switching:
+
+#### **Teleportation Portals** (Instant, Magic-Based)
+```dm
+/obj/portal
+  // Instant magical travel between continents
+  // Found at designated portal locations
+  // One-way or two-way depending on design
+  
+  Click(mob/players/M)
+    TravelToContinent(M, destination_continent)
+```
+
+**Usage**:
+- Fast travel to known locations
+- Can be restricted/gated by story progression
+- Portal hubs in major towns
+
+#### **Port Ships** (Immersive, Traveling, Economy-Based) [FUTURE]
+```dm
+/obj/ship
+  // Seagoing vessel traveling between port towns
+  // Passengers board, ship travels to destination
+  // Creates downtime and world immersion
+  
+  var
+    current_port = ""         // Which port currently docked
+    destination = ""          // Where ship is sailing
+    passengers = list()       // Who's aboard
+    cargo = list()            // Trade goods
+    departure_time = 0        // When ship leaves
+    arrival_time = 0          // When ship arrives
+    
+  proc/Board(mob/players/player)
+    // Player enters ship, gets teleported on arrival
+    // Creates journey roleplay moment
+    
+  proc/Travel()
+    // Simulate journey over several minutes
+    // Arrive at destination, unload passengers
+```
+
+**Economy Impact**:
+- Ship captains (NPC or player-controlled)
+- Cargo trading between ports (economic gameplay)
+- Costs (passage fees, cargo fees)
+- Timing matters (ships have schedules)
+
+**Design Note**: 
+Both systems coexist. Portals provide instant convenience travel for gameplay. Ships provide immersive, economic travel for roleplay and resource movement. Can be unlocked/unavailable depending on story progression.
+
+### **Port Town (on each continent)**
 ```dm
 mob/players/verb/TravelToContinent()
   set category = "Travel"
