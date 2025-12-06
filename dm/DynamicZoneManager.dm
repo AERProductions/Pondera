@@ -161,6 +161,7 @@ dynamic_zone
 		zone_owner = ""
 		list/zone_permissions = list()
 		terrain_type = "temperate"
+		water_type = "fresh"  // Water type: "fresh", "salt", "both"
 		base_elevation = 0
 		avg_temperature = 15
 		humidity = 0.5
@@ -187,33 +188,39 @@ dynamic_zone
 		// Biome selection based on elevation
 		switch(base_elevation)
 			if(0 to 0.8)
-				// Water/Swamp
+				// Water/Swamp - Coastal zone (salt water)
 				terrain_type = "water"
+				water_type = "salt"
 				avg_temperature = 18
 				humidity = 0.9
 			if(0.8 to 1.2)
-				// Temperate
+				// Temperate - Coastal/river region (can have both)
 				terrain_type = "temperate"
+				water_type = "both"
 				avg_temperature = 15
 				humidity = 0.6
 			if(1.2 to 1.8)
-				// Forest/Grassland
+				// Forest/Grassland - Fresh water region
 				terrain_type = "temperate"
+				water_type = "fresh"
 				avg_temperature = 12
 				humidity = 0.7
 			if(1.8 to 2.4)
-				// Highland/Rocky
+				// Highland/Rocky - Fresh water streams
 				terrain_type = "arctic"
+				water_type = "fresh"
 				avg_temperature = 5
 				humidity = 0.4
 			if(2.4 to 3.0)
-				// Mountain
+				// Mountain - Alpine fresh water
 				terrain_type = "arctic"
+				water_type = "fresh"
 				avg_temperature = -5
 				humidity = 0.3
 			else
-				// Peak
+				// Peak - Minimal water
 				terrain_type = "arctic"
+				water_type = "fresh"
 				avg_temperature = -15
 				humidity = 0.2
 		
@@ -269,6 +276,7 @@ dynamic_zone
 					switch(terrain_type)
 						if("water")
 							t = new /turf/water(x, y, 2)
+							t:water_type = water_type  // Apply biome water type to turf
 						if("arctic")
 							// Use mountain type for arctic/highland terrain
 							t = new /turf/mntn(x, y, 2)

@@ -16,6 +16,7 @@
 #define FISH_LEGENDARY 4
 
 // ==================== FISH DATABASE ====================
+// Water types: "fresh", "salt", "both" (anadromous - migrate between fresh and salt)
 
 var/global/list/fish_database = list(
 	"Sunfish" = list(
@@ -26,7 +27,8 @@ var/global/list/fish_database = list(
 		"struggle_power" = 1,
 		"difficulty" = 1,
 		"value" = 10,
-		"color" = "#FFD700"
+		"color" = "#FFD700",
+		"water_type" = "fresh"
 	),
 	"Catfish" = list(
 		"rarity" = FISH_COMMON,
@@ -36,7 +38,8 @@ var/global/list/fish_database = list(
 		"struggle_power" = 2,
 		"difficulty" = 2,
 		"value" = 25,
-		"color" = "#8B4513"
+		"color" = "#8B4513",
+		"water_type" = "fresh"
 	),
 	"Trout" = list(
 		"rarity" = FISH_UNCOMMON,
@@ -46,7 +49,8 @@ var/global/list/fish_database = list(
 		"struggle_power" = 3,
 		"difficulty" = 2,
 		"value" = 35,
-		"color" = "#DEB887"
+		"color" = "#DEB887",
+		"water_type" = "both"
 	),
 	"Bass" = list(
 		"rarity" = FISH_UNCOMMON,
@@ -56,7 +60,8 @@ var/global/list/fish_database = list(
 		"struggle_power" = 4,
 		"difficulty" = 3,
 		"value" = 45,
-		"color" = "#2F4F4F"
+		"color" = "#2F4F4F",
+		"water_type" = "both"
 	),
 	"Pike" = list(
 		"rarity" = FISH_RARE,
@@ -66,7 +71,8 @@ var/global/list/fish_database = list(
 		"struggle_power" = 6,
 		"difficulty" = 4,
 		"value" = 75,
-		"color" = "#556B2F"
+		"color" = "#556B2F",
+		"water_type" = "fresh"
 	),
 	"Golden Carp" = list(
 		"rarity" = FISH_RARE,
@@ -76,7 +82,8 @@ var/global/list/fish_database = list(
 		"struggle_power" = 7,
 		"difficulty" = 5,
 		"value" = 100,
-		"color" = "#FFD700"
+		"color" = "#FFD700",
+		"water_type" = "fresh"
 	),
 	"Leviathan Salmon" = list(
 		"rarity" = FISH_LEGENDARY,
@@ -86,7 +93,41 @@ var/global/list/fish_database = list(
 		"struggle_power" = 10,
 		"difficulty" = 6,
 		"value" = 200,
-		"color" = "#FF6347"
+		"color" = "#FF6347",
+		"water_type" = "both"
+	),
+	"Cod" = list(
+		"rarity" = FISH_COMMON,
+		"size_min" = 7, "size_max" = 12,
+		"weight" = 2.2,
+		"bite_delay_min" = 6, "bite_delay_max" = 14,
+		"struggle_power" = 3,
+		"difficulty" = 2,
+		"value" = 40,
+		"color" = "#696969",
+		"water_type" = "salt"
+	),
+	"Flounder" = list(
+		"rarity" = FISH_UNCOMMON,
+		"size_min" = 5, "size_max" = 10,
+		"weight" = 1.8,
+		"bite_delay_min" = 7, "bite_delay_max" = 16,
+		"struggle_power" = 2,
+		"difficulty" = 2,
+		"value" = 38,
+		"color" = "#808080",
+		"water_type" = "salt"
+	),
+	"Tuna" = list(
+		"rarity" = FISH_RARE,
+		"size_min" = 12, "size_max" = 20,
+		"weight" = 6.5,
+		"bite_delay_min" = 12, "bite_delay_max" = 28,
+		"struggle_power" = 8,
+		"difficulty" = 5,
+		"value" = 120,
+		"color" = "#1C1C1C",
+		"water_type" = "salt"
 	)
 )
 
@@ -220,16 +261,27 @@ obj/fishing_session
 
 	proc/SelectFish()
 		/**
-		 * Randomly select fish based on skill and location
+		 * Randomly select fish based on skill, location, and water type
 		 */
 		var/skill_level = angler.fishinglevel || 1
 		var/rarity_roll = rand(1, 100)
 		var/selected_fish = null
 		
-		// Weight fish selection by skill and rarity
+		// Determine water type from current location
+		var/location_water_type = "fresh"  // Default to fresh
+		if(fishing_location)
+			if(istype(fishing_location, /turf/water))
+				location_water_type = fishing_location:water_type
+		
+		// Weight fish selection by skill, rarity, and water type
 		for(var/fish_name in fish_database)
 			var/fish_info = fish_database[fish_name]
 			var/difficulty = fish_info["difficulty"]
+			var/fish_water_type = fish_info["water_type"] || "fresh"
+			
+			// Check if fish can be caught in this water type
+			if(fish_water_type != location_water_type && fish_water_type != "both")
+				continue  // Skip fish not available in this water
 			
 			// Higher skill = access to harder fish
 			if(difficulty <= (skill_level / 2))
@@ -408,8 +460,12 @@ mob/players
 mob/players
 	proc/StartFishing(turf/location)
 		/**
-		 * Initiate a fishing session
+		 * Initiate a fishing session - requires fishing pole equipped
 		 */
+		if(FPequipped != 1)
+			src << "<font color='red'>You need to equip a Fishing Pole first!</font>"
+			return
+		
 		if(is_fishing)
 			src << "You're already fishing!"
 			return

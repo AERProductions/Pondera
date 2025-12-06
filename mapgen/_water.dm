@@ -53,6 +53,10 @@ turf
 		density = TRUE
 		spawn_resources = FALSE
 		plane = REFLECTION_PLANE
+		
+		var
+			water_type = "fresh"  // Fresh water by default (can be overridden by biome)
+			mob/players/M
 
 		sfxwat = list ( ///obj/soundmob/SFX/river
 						)//water sound effect
@@ -60,8 +64,6 @@ turf
 		SetElevation(n)
 			elevation = -5
 
-
-		var/mob/players/M
 		New()
 			..()
 			soundmob(src, 20, 'snd/creek.ogg', TRUE, 20, null, TRUE)
