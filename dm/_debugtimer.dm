@@ -13,6 +13,7 @@ var
 world/New()
 	..()
 	timers = new
+	InitializeContinents()  // Initialize three-world continental system
 	InitWeatherController()
 	spawn() DynamicWeatherTick()
 

@@ -49,6 +49,17 @@
 
 		// === RECIPE & KNOWLEDGE STATE ===
 		datum/recipe_state/recipe_state = null  // Tracks discovered recipes and knowledge
+		
+		// === MULTI-WORLD SYSTEM ===
+		// Continent & World variables
+		current_continent = CONT_STORY       // Which continent player is on
+		continent_positions = list()         // Saved positions per continent: CONT_STORY = list(x,y,z,dir)
+		
+		// Stall system (per-continent trading)
+		stall_owner = ""                     // NPC stall owner name (story continent)
+		stall_inventory = list()             // Items for sale in stall
+		stall_prices = list()                // Prices for items
+		stall_profits = 0                    // Accumulated stall profits (shared globally)
 
 /datum/character_data/proc/Initialize()
 	// Reset all ranks and exp to zero on creation

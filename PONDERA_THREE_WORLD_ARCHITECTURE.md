@@ -326,6 +326,146 @@ Character Data (Shared):
    └─ Player Position (respawn at port when switching worlds)
 ```
 
+### **Player Stall System (Cross-World Trading)**
+
+Each continent features a **per-continent stall system** tailored to its gameplay:
+
+#### **Story Continent: NPC-Rented Merchant Stalls**
+```dm
+/obj/npc_merchant_stall
+  // Player rents stall from NPC merchant
+  // NPC handles sales while player offline
+  // Player earns profits (10% commission to NPC)
+  
+  var
+    owner_name = ""           // Character who rents stall
+    stall_name = ""           // "Glom's Smithing Supplies"
+    inventory = list()        // Up to 20 items for sale
+    prices = list()           // Prices per item
+    daily_profit = 0          // Earnings from NPC sales
+    
+  proc/AddToStall(obj/item, price)
+    if(inventory.len >= 20) return 0
+    inventory += item
+    prices[item.id] = price
+    return 1
+  
+  proc/NPC_SellItem()
+    // Called by NPC merchant proc every 10 ticks
+    // If customer wants item, NPC sells at list price
+    // Takes 10% commission, adds 90% to owner's profits
+```
+
+**Economics**:
+- Player inputs goods → NPC manages sales
+- Passive income when offline
+- Profits go to global character account (usable across worlds)
+- Encourages engagement with story world economy
+
+**Location**: Found in story towns (Kingdom of Freedom, Kingdom of Behist, settlements)
+
+#### **Sandbox Continent: Player-Crafted Market Stalls**
+```dm
+/obj/market_stall
+  // Player-built furniture object
+  // Can be placed anywhere, customized, decorated
+  
+  var
+    owner_name = ""
+    stall_name = ""
+    contents = list()         // Unlimited items (player chooses limit)
+    prices = list()
+    is_locked = 0             // Can be closed/opened by owner
+    
+  New()
+    ..()
+    name = "Market Stall"
+    desc = "A vendor stall. Click to browse."
+    icon = 'dmi/furniture.dmi'
+    icon_state = "stall"
+  
+  Click(mob/players/M)
+    if(M == owner) OpenOwnerUI(M)
+    else OpenBuyerUI(M)
+  
+  proc/OpenBuyerUI(mob/players/buyer)
+    // Shows items + prices
+    // Buyer clicks item to purchase
+    // Instant transaction, no NPC middleman
+    
+  proc/OpenOwnerUI(mob/players/owner)
+    // Owner can add items, set prices, collect profits
+    // Can lock stall to prevent access
+```
+
+**Building Requirements**:
+- Costs: 20 wood + 20 stone (craftable)
+- Can be placed in player-owned plots or public areas
+- Can be decorated (signs, lights, banners)
+
+**Economics**:
+- No commission (direct peer-to-peer)
+- All profits go directly to seller
+- Encourages player markets and trading hubs
+
+**Location**: Player-placed anywhere (homes, market districts, trading plazas)
+
+#### **PvP Continent: Fortified Trading Posts**
+```dm
+/obj/structure/trading_post
+  // Built within player territory
+  // Can be raided, destroyed, defended
+  // High-risk, high-reward economy
+  
+  var
+    territory_owner = ""
+    contents = list()
+    prices = list()
+    vault_level = 0           // Defensive level (harder to raid)
+    is_locked = 1             // Always locked by default
+    hp = 200                  // Can be destroyed by attackers
+    
+  proc/DealDamage(amount)
+    hp -= amount
+    if(hp <= 0)
+      // Stall destroyed, contents lootable
+      territory_owner.AlertOwner("Trading post destroyed!")
+      SpillContents()
+      del(src)
+  
+  proc/SpillContents()
+    // Items drop on ground, raiders can loot
+    for(var/item in contents)
+      item.loc = src.loc
+```
+
+**Economics**:
+- Profits from sales
+- BUT contents can be stolen via raiding
+- Vault upgrades increase raid difficulty
+- Territory control = economic control
+
+**Location**: Built in player territories on PvP continent
+
+#### **Cross-Continent Profit Sharing**
+```dm
+// Profits are NOT continent-specific
+// Profit earned in Story world (NPC stall) = Global account
+// Can be spent in any continent
+// Example workflow:
+//   1. Grind story world → Build profit at NPC stall
+//   2. Withdraw profits → Stock sandbox market
+//   3. Trade in sandbox → Accumulate wealth
+//   4. Transfer to PvP → Build trading post + defense
+```
+
+**Design Philosophy**:
+- Each continent's stall system reflects its gameplay
+- Story: Passive income from participation
+- Sandbox: Direct trading between players
+- PvP: Economic warfare (stalls as raid targets)
+- Profits ARE shared (encourages cross-world engagement)
+
 ### **Travel System**
 
 **Port Town** (on each continent):
@@ -346,8 +486,10 @@ mob/players/verb/TravelToContinent()
 **Practical Effect**:
 - Switch worlds instantly at ports
 - Keep learned skills/recipes
+- Keep profits/money (shared across worlds)
 - But inventory/equipment separate per world
 - Buildings don't travel (you can't take your house)
+- Stalls persist independently per continent
 - Character feels "equipped for this world" not "displaced"
 
 ---

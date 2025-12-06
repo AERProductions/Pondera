@@ -177,6 +177,15 @@ mob/players
 		datum/equipment_state/equipment_state
 		// Vital State Datum - tracks HP, stamina, status
 		datum/vital_state/vital_state
+		
+		// Multi-World Continental System
+		current_continent = CONT_STORY       // Which continent player is on
+		continent_positions = list()         // Saved positions per continent
+		stall_owner = ""                     // NPC stall owner name (story mode)
+		stall_inventory = list()             // Items in player's stall
+		stall_prices = list()                // Prices for stall items
+		stall_profits = 0                    // Accumulated stall profits
+		
 		brank = 0 //buildingrank
 		drank = 0 //diggingrank
 		frank = 0 //fighting rank?

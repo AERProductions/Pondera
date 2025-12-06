@@ -210,7 +210,7 @@ mob/players/proc
 		for(var/obj/items/thermable/item in contents)
 			var/color = item.GetTemperatureColor()
 			var/temp_name = item.GetTemperatureName()
-			temps += "[item.name]: [temp_name]"
+			temps += "<span style='color:[color]'>[item.name]: [temp_name]</span>"
 		
 		if(temps.len > 0)
 			var/output = "<div style='position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 5px; font-family: monospace;'>"

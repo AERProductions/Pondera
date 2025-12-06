@@ -83,6 +83,14 @@ mob
 			if(player.character && player.character.recipe_state)
 				player.character.recipe_state.ValidateRecipeState()
 				F["recipe_state"] << player.character.recipe_state
+			
+			// Save multi-world continent data
+			F["current_continent"] << player.current_continent
+			F["continent_positions"] << player.continent_positions
+			F["stall_owner"] << player.stall_owner
+			F["stall_inventory"] << player.stall_inventory
+			F["stall_prices"] << player.stall_prices
+			F["stall_profits"] << player.stall_profits
 		return
 
 	Read(savefile/F)
@@ -140,6 +148,37 @@ mob
 				player.character.recipe_state.SetRecipeDefaults()
 			else
 				player.character.recipe_state.ValidateRecipeState()
+			
+			// Restore multi-world continent data
+			F["current_continent"] >> player.current_continent
+			if(!player.current_continent)
+				player.current_continent = CONT_STORY
+			
+			F["continent_positions"] >> player.continent_positions
+			if(!player.continent_positions)
+				player.continent_positions = list()
+				player.continent_positions[CONT_STORY] = GetContinentSpawnPoint(CONT_STORY)
+				player.continent_positions[CONT_SANDBOX] = GetContinentSpawnPoint(CONT_SANDBOX)
+				player.continent_positions[CONT_PVP] = GetContinentSpawnPoint(CONT_PVP)
+			else
+				// Fill in any missing continents
+				if(!(CONT_STORY in player.continent_positions))
+					player.continent_positions[CONT_STORY] = GetContinentSpawnPoint(CONT_STORY)
+				if(!(CONT_SANDBOX in player.continent_positions))
+					player.continent_positions[CONT_SANDBOX] = GetContinentSpawnPoint(CONT_SANDBOX)
+				if(!(CONT_PVP in player.continent_positions))
+					player.continent_positions[CONT_PVP] = GetContinentSpawnPoint(CONT_PVP)
+			
+			F["stall_owner"] >> player.stall_owner
+			F["stall_inventory"] >> player.stall_inventory
+			F["stall_prices"] >> player.stall_prices
+			F["stall_profits"] >> player.stall_profits
+			
+			// Initialize any missing stall variables
+			if(!player.stall_owner) player.stall_owner = ""
+			if(!player.stall_inventory) player.stall_inventory = list()
+			if(!player.stall_prices) player.stall_prices = list()
+			if(!player.stall_profits) player.stall_profits = 0
 		return
 	//verb/Mode()
 		//src << "verb SP [SP] | MP [MP] | SB [SB] | SM [SM] && SPs [SPs] | MPs [MPs] | SBs [SBs] | SMs [SMs]"

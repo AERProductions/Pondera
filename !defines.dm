@@ -18,3 +18,12 @@
 #define TILE_WIDTH  32
 #define TILE_HEIGHT 32
 #define TICK_LAG    4 //set to (10 / world.fps) a define is faster, though
+
+// Continent & World System
+#define CONTINENT_PEACEFUL  (1<<0)  // No combat, safe sandbox
+#define CONTINENT_CREATIVE  (1<<1)  // Building-focused, no pressure
+#define CONTINENT_COMBAT    (1<<2)  // PvP, survival, competition
+
+#define CONT_STORY    "story"        // Kingdom of Freedom (procedural with story)
+#define CONT_SANDBOX  "sandbox"      // Creative Sandbox (peaceful building)
+#define CONT_PVP      "pvp"          // Battlelands (competitive survival)
