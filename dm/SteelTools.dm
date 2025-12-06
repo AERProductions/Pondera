@@ -7,6 +7,7 @@ obj
 				typi = "SPX"
 				strreq = 2
 				name = "Steel PickAxe"
+				description = "<font color=#8C7853>A superior mining tool crafted from refined steel (Tier 3)."
 				Worth = 2
 				wpnspd = 1
 				tlvl = 3
@@ -19,6 +20,7 @@ obj
 				typi = "SHH"
 				strreq = 2
 				name = "Steel Hammer"
+				description = "<font color=#8C7853>A refined steel hammer for smithing and crafting (Tier 3)."
 				Worth = 2
 				wpnspd = 2
 				tlvl = 3
@@ -31,6 +33,7 @@ obj
 				typi = "SSH"
 				strreq = 2
 				name = "Steel Shovel"
+				description = "<font color=#8C7853>A superior digging tool made of refined steel (Tier 3)."
 				Worth = 2
 				wpnspd = 1
 				tlvl = 3
@@ -43,6 +46,7 @@ obj
 				typi = "SHO"
 				strreq = 2
 				name = "Steel Hoe"
+				description = "<font color=#8C7853>A quality farming tool forged from refined steel (Tier 3)."
 				Worth = 2
 				wpnspd = 1
 				tlvl = 3
@@ -55,6 +59,7 @@ obj
 				typi = "SSH2"
 				strreq = 2
 				name = "Steel Sickle"
+				description = "<font color=#8C7853>A finely crafted harvesting tool made of refined steel (Tier 3)."
 				Worth = 2
 				wpnspd = 2
 				tlvl = 3
@@ -67,6 +72,7 @@ obj
 				typi = "SCH"
 				strreq = 2
 				name = "Steel Chisel"
+				description = "<font color=#8C7853>A precision tool crafted from refined steel for detailed work (Tier 3)."
 				Worth = 2
 				wpnspd = 2
 				tlvl = 3
@@ -79,6 +85,7 @@ obj
 				typi = "SFI"
 				strreq = 2
 				name = "Steel File"
+				description = "<font color=#8C7853>A high-quality finishing tool made of refined steel (Tier 3)."
 				Worth = 2
 				wpnspd = 4
 				tlvl = 3

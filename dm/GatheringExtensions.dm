@@ -78,7 +78,7 @@ obj/Rocks/SRocks
 				user.DblClick(src)
 				return 1
 			else
-				user << "You need an Iron Pickaxe or better to mine this."
+				user << "You need an Iron Pickaxe or Steel Pickaxe to mine this."
 				return 0
 		return 0
 
@@ -111,7 +111,7 @@ obj/Cliff
 	UseObject(mob/user)
 		if(user in range(1, src))
 			set waitfor = 0
-			if(user:PXequipped == 1)
+			if(user:PXequipped == 1 || user:SPXequipped == 1)
 				user.DblClick(src)
 				return 1
 			else
