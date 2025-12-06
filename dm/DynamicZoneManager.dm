@@ -1,15 +1,75 @@
 /*
-	Dynamic Zone Manager - Simplified Working Version
+	Dynamic Zone Manager - Enhanced with Perlin Noise Biomes & Elevation System
 	
 	Manages infinite procedural zones with seamless expansion.
 	- Zones pre-generate as players approach boundaries
+	- Perlin noise-based biome selection for natural clustering
+	- Elevation-aware generation (water flows to lowest points)
+	- Temperature scales with elevation (higher = colder)
+	- Weather system integrated per biome
 	- Multiplayer: persisted via savefile
 	- Single-player: dynamic with optional saving
 */
 
+var/noise_generator/perlin_noise = null
 var/zone_manager/zone_mgr = null
 var/list/zone_registry = list()
 var/map_mode = "MULTIPLAYER"
+
+// Perlin-like noise generator using seeded random
+noise_generator
+	var
+		seed = 12345
+		octaves = 4
+		persistence = 0.5
+		lacunarity = 2.0
+		scale = 50
+	
+	proc/Hash(x, y)
+		// Seeded hash function for consistent noise
+		var/n = sin((x + y * 73) * 12.9898) * 43758.5453
+		return n - floor(n)
+	
+	proc/Lerp(a, b, t)
+		return a + (b - a) * t
+	
+	proc/Fade(t)
+		return t * t * t * (t * (t * 6 - 15) + 10)
+	
+	proc/GetNoise(x, y)
+		var/value = 0
+		var/amplitude = 1
+		var/frequency = 1
+		var/max_value = 0
+		
+		for(var/i = 0; i < octaves; i++)
+			var/sample_x = (x * frequency) / scale
+			var/sample_y = (y * frequency) / scale
+			
+			var/ix = floor(sample_x)
+			var/iy = floor(sample_y)
+			var/fx = sample_x - ix
+			var/fy = sample_y - iy
+			
+			var/u = Fade(fx)
+			var/v = Fade(fy)
+			
+			var/n00 = Hash(ix, iy)
+			var/n10 = Hash(ix + 1, iy)
+			var/n01 = Hash(ix, iy + 1)
+			var/n11 = Hash(ix + 1, iy + 1)
+			
+			var/nx0 = Lerp(n00, n10, u)
+			var/nx1 = Lerp(n01, n11, u)
+			var/nxy = Lerp(nx0, nx1, v)
+			
+			value += nxy * amplitude
+			max_value += amplitude
+			
+			amplitude *= persistence
+			frequency *= lacunarity
+		
+		return value / max_value
 
 zone_manager
 	var
@@ -18,9 +78,13 @@ zone_manager
 		generate_distance = 3
 		chunk_size = 10
 		zone_counter = 0
+		base_water_level = 1.0
+		elevation_scale = 3.0
 
 	New()
 		zone_mgr = src
+		if(!perlin_noise)
+			perlin_noise = new /noise_generator()
 		LoadZoneRegistry()
 		SpawnZoneMonitor()
 
@@ -76,6 +140,16 @@ zone_manager
 
 	proc/GetChunkCoords(turf/t)
 		return list(round(t.x / chunk_size), round(t.y / chunk_size))
+	
+	proc/GenerateElevation(chunk_x, chunk_y)
+		// Generate elevation using Perlin noise
+		var/noise_x = chunk_x * chunk_size
+		var/noise_y = chunk_y * chunk_size
+		var/noise_value = perlin_noise.GetNoise(noise_x, noise_y)
+		
+		// Convert noise (-1 to 1) to elevation (0 to 4)
+		var/elevation = ((noise_value + 1) / 2) * elevation_scale
+		return elevation
 
 dynamic_zone
 	var
@@ -87,6 +161,10 @@ dynamic_zone
 		zone_owner = ""
 		list/zone_permissions = list()
 		terrain_type = "temperate"
+		base_elevation = 0
+		avg_temperature = 15
+		humidity = 0.5
+		weather_type = "clear"
 		is_dirty = FALSE
 		is_loaded = FALSE
 
@@ -94,16 +172,84 @@ dynamic_zone
 		zone_id = id
 		chunk_x = x
 		chunk_y = y
-		SelectBiome()
+		GenerateZoneElevation()
+		SelectBiomeFromElevation()
 		is_dirty = TRUE
 
-	proc/SelectBiome()
-		var/check = (chunk_x + chunk_y) % 4
-		switch(check)
-			if(0) terrain_type = "temperate"
-			if(1) terrain_type = "arctic"
-			if(2) terrain_type = "desert"
-			if(3) terrain_type = "rainforest"
+	proc/GenerateZoneElevation()
+		// Get base elevation from noise generator
+		if(zone_mgr && perlin_noise)
+			base_elevation = zone_mgr.GenerateElevation(chunk_x, chunk_y)
+		else
+			base_elevation = 1.0
+
+	proc/SelectBiomeFromElevation()
+		// Biome selection based on elevation
+		switch(base_elevation)
+			if(0 to 0.8)
+				// Water/Swamp
+				terrain_type = "water"
+				avg_temperature = 18
+				humidity = 0.9
+			if(0.8 to 1.2)
+				// Temperate
+				terrain_type = "temperate"
+				avg_temperature = 15
+				humidity = 0.6
+			if(1.2 to 1.8)
+				// Forest/Grassland
+				terrain_type = "temperate"
+				avg_temperature = 12
+				humidity = 0.7
+			if(1.8 to 2.4)
+				// Highland/Rocky
+				terrain_type = "arctic"
+				avg_temperature = 5
+				humidity = 0.4
+			if(2.4 to 3.0)
+				// Mountain
+				terrain_type = "arctic"
+				avg_temperature = -5
+				humidity = 0.3
+			else
+				// Peak
+				terrain_type = "arctic"
+				avg_temperature = -15
+				humidity = 0.2
+		
+		SelectWeatherForBiome()
+
+	proc/SelectWeatherForBiome()
+		// Weather based on biome and humidity
+		var/rand_weather = rand(1, 100)
+		
+		switch(terrain_type)
+			if("water")
+				if(rand_weather < 40)
+					weather_type = "rain"
+				else if(rand_weather < 70)
+					weather_type = "fog"
+				else
+					weather_type = "clear"
+			if("temperate")
+				if(rand_weather < 30)
+					weather_type = "rain"
+				else if(rand_weather < 50)
+					weather_type = "cloudy"
+				else
+					weather_type = "clear"
+			if("arctic")
+				if(rand_weather < 50)
+					weather_type = "snow"
+				else if(rand_weather < 75)
+					weather_type = "cloudy"
+				else
+					weather_type = "clear"
+			if("desert")
+				if(rand_weather < 10)
+					weather_type = "dust_storm"
+				else
+					weather_type = "clear"
 
 	proc/GenerateZoneTerrain()
 		var/start_x = chunk_x * zone_mgr.chunk_size + 1
@@ -115,7 +261,20 @@ dynamic_zone
 			for(var/y = start_y; y <= end_y; y++)
 				var/turf/t = locate(x, y, 2)
 				if(!t)
-					t = new /turf/temperate(x, y, 2)
+					// Generate turf with appropriate type based on terrain
+					switch(terrain_type)
+						if("water")
+							t = new /turf/water(x, y, 2)
+						if("arctic")
+							// Use mountain type for arctic/highland terrain
+							t = new /turf/mntn(x, y, 2)
+						if("desert")
+							// Use dark grass for desert
+							t = new /turf/drkgrss(x, y, 2)
+						else
+							// Use light grass for temperate
+							t = new /turf/lghtgrss(x, y, 2)
+				
 				turfs += t
 				t.SpawnResource()
 		
@@ -132,6 +291,9 @@ dynamic_zone
 		F["name"] = zone_name
 		F["owner"] = zone_owner
 		F["perms"] = zone_permissions
+		F["elevation"] = base_elevation
+		F["temperature"] = avg_temperature
+		F["weather"] = weather_type
 		is_dirty = FALSE
 
 	proc/LoadFromDisk()
@@ -144,6 +306,9 @@ dynamic_zone
 		zone_name = F["name"]
 		zone_owner = F["owner"]
 		zone_permissions = F["perms"]
+		base_elevation = F["elevation"]
+		avg_temperature = F["temperature"]
+		weather_type = F["weather"]
 		is_loaded = TRUE
 
 	proc/MarkDirty()
