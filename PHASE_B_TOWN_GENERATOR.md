@@ -159,49 +159,94 @@ var/list/town_types = InitializeTownTypes()
 		story_location = 0          // Is this a story waypoint?
 		accessibility = ""          // "free" (anytime) or "gated" (skill requirement)
 		skill_gate = ""             // "smithing 2", "harvesting 5", etc. if gated
+		kingdom = ""                // "freedom", "belief", "pride", "greed", "neutral"
+		theme = ""                  // Thematic name for debugging/UI
 
-// Define story anchors for key towns
+// Define story anchors for four kingdoms
 /proc/InitializeStoryAnchors()
 	var/list/anchors = list()
 	
-	// Kingdom of Freedom: Starting hub, always exists
+	// KINGDOM 1: Kingdom of Freedom (Temperate, Starting Region, No Gates)
 	var/datum/story_anchor/freedom = new()
 	freedom.town_type = "hub"
-	freedom.required_npcs = list("blacksmith", "healer", "innkeeper", "guard_captain")
+	freedom.required_npcs = list("guard_captain", "blacksmith", "healer", "innkeeper")
 	freedom.npc_recipes = list(
-		"blacksmith" = list("stone_hammer", "iron_hammer", "basic_smithing"),
-		"healer" = list("healing_knowledge", "herb_gathering"),
-		"innkeeper" = list("shelter", "comfort", "rest_system")
+		"guard_captain" = list("combat_basics", "guard_training"),
+		"blacksmith" = list("stone_hammer", "iron_hammer", "basic_smithing", "copper_tools"),
+		"healer" = list("healing_knowledge", "herb_gathering", "first_aid"),
+		"innkeeper" = list("shelter", "comfort", "rest_system", "basic_food")
 	)
 	freedom.story_location = 1
-	freedom.accessibility = "free"  // Always accessible
-	anchors["freedom"] = freedom
+	freedom.accessibility = "free"           // Always accessible
+	freedom.kingdom = "freedom"
+	freedom.theme = "Foundational Survival & Community"
+	anchors["city_of_the_free"] = freedom
 	
-	// Kingdom of Behist: Advanced crafting hub (gated)
+	// KINGDOM 2: Kingdom of Belief (Hilly, Scholarly, Gated: Smithing 2+)
 	var/datum/story_anchor/behist = new()
 	behist.town_type = "hub"
-	behist.required_npcs = list("master_smith", "alchemist", "architect")
+	behist.required_npcs = list("master_smith", "alchemist", "librarian", "architect")
 	behist.npc_recipes = list(
-		"master_smith" = list("steel_tools", "advanced_smithing", "armor_crafting"),
-		"alchemist" = list("refinement", "essence_extraction", "potions"),
-		"architect" = list("advanced_building", "fortification", "blueprints")
+		"master_smith" = list("steel_tools", "advanced_smithing", "armor_crafting", "enchanted_forging"),
+		"alchemist" = list("refinement", "essence_extraction", "potions", "alchemical_transmutation"),
+		"librarian" = list("lore_knowledge", "ancient_texts", "recipe_discovery"),
+		"architect" = list("advanced_building", "fortification", "blueprints", "temple_design")
 	)
 	behist.story_location = 1
 	behist.accessibility = "gated"
-	behist.skill_gate = "smithing 2"  // Must have Smithing rank 2+
-	anchors["behist"] = behist
+	behist.skill_gate = "smithing 2"         // Must have Smithing rank 2+
+	behist.kingdom = "belief"
+	behist.theme = "Knowledge, Crafting Mastery & Enlightenment"
+	anchors["spire_of_behist"] = behist
 	
-	// Port Town: All continents have one (travel hub)
+	// KINGDOM 3: Kingdom of Pride (Mountains, Martial, Gated: Combat 4+ & Smithing 3+)
+	var/datum/story_anchor/pride = new()
+	pride.town_type = "hub"
+	pride.required_npcs = list("war_champion", "armor_smith", "general", "weaponsmith")
+	pride.npc_recipes = list(
+		"war_champion" = list("legendary_combat", "dueling_techniques", "battle_strategy"),
+		"armor_smith" = list("plate_armor", "legendary_armor", "fortified_gear"),
+		"general" = list("military_tactics", "siege_warfare", "formation_strategy"),
+		"weaponsmith" = list("legendary_weapons", "war_forged_steel", "enchanted_blades")
+	)
+	pride.story_location = 1
+	pride.accessibility = "gated"
+	pride.skill_gate = "combat 4 + smithing 3"  // High-tier gates
+	pride.kingdom = "pride"
+	pride.theme = "Martial Excellence, Honor & Legendary Achievement"
+	anchors["castle_of_pride"] = pride
+	
+	// KINGDOM 4: Kingdom of Greed (Coastal, Economic, Gated: Wealth + Trading 3+)
+	var/datum/story_anchor/greed = new()
+	greed.town_type = "hub"
+	greed.required_npcs = list("master_merchant", "banker", "ship_captain", "trade_broker")
+	greed.npc_recipes = list(
+		"master_merchant" = list("merchant_mastery", "trading_routes", "commodity_knowledge"),
+		"banker" = list("wealth_management", "investment", "currency_exchange"),
+		"ship_captain" = list("shipping", "cargo_handling", "maritime_routes", "naval_trading"),
+		"trade_broker" = list("stock_market", "market_analysis", "profit_optimization")
+	)
+	greed.story_location = 1
+	greed.accessibility = "gated"
+	greed.skill_gate = "trading 3 + wealth 500"  // Economic gate
+	greed.kingdom = "greed"
+	greed.theme = "Commerce, Wealth & Economic Influence"
+	anchors["port_of_plenty"] = greed
+	
+	// PORT TOWN: Accessible from all continents (travel nexus)
 	var/datum/story_anchor/port = new()
 	port.town_type = "hub"
-	port.required_npcs = list("port_master", "ship_captain", "merchant")
+	port.required_npcs = list("port_master", "ship_captain", "world_merchant")
 	port.npc_recipes = list(
-		"port_master" = list("travel_knowledge"),
-		"ship_captain" = list("sailing", "cargo_handling")
+		"port_master" = list("inter_continental_travel", "world_knowledge"),
+		"ship_captain" = list("sailing", "cargo_handling", "world_routes"),
+		"world_merchant" = list("exotic_goods", "continental_trade")
 	)
 	port.story_location = 1
-	port.accessibility = "free"
-	anchors["port"] = port
+	port.accessibility = "free"              // Always accessible once unlocked
+	port.kingdom = "neutral"
+	port.theme = "Travel Hub & World Connection"
+	anchors["port_town"] = port
 	
 	return anchors
 
@@ -598,14 +643,33 @@ proc/GenerateMap(lakes, hills)
 	return 1
 
 /proc/GenerateStoryTowns()
-	// Place procedurally-generated towns with story anchors
+	// Place all four kingdom hubs with story anchors
 	
-	// Ensure required towns exist
-	// Kingdom of Freedom: always near world origin
-	GenerateTown("freedom", "hub", 100, 100, world.time)
+	// Kingdom 1: Freedom (Starting point, no skill gates)
+	GenerateTown("city_of_the_free", "hub", 100, 100, world.time)
 	
-	// Kingdom of Behist: mid-distance (story progression gate)
-	GenerateTown("behist", "hub", 300, 250, world.time + 100)
+	// Kingdom 2: Belief (Scholarly, gated at Smithing 2+)
+	GenerateTown("spire_of_behist", "hub", 300, 250, world.time + 100)
+	
+	// Kingdom 3: Pride (Martial, gated at Combat 4+ & Smithing 3+)
+	GenerateTown("castle_of_pride", "hub", 500, 150, world.time + 200)
+	
+	// Kingdom 4: Greed (Economic, gated at Trading 3+ & Wealth 500+)
+	GenerateTown("port_of_plenty", "hub", 200, 400, world.time + 150)
+	
+	// Spawn secondary settlements in each kingdom region
+	GenerateKingdomSettlements("freedom", 3)     // 3 villages in Freedom region
+	GenerateKingdomSettlements("belief", 3)      // 3 settlements in Belief region
+	GenerateKingdomSettlements("pride", 3)       // 3 military settlements in Pride region
+	GenerateKingdomSettlements("greed", 3)       // 3 trading posts in Greed region
+
+/proc/GenerateKingdomSettlements(kingdom, count)
+	// Spawn procedural settlements in kingdom region
+	for(var/i = 1; i <= count; i++)
+		var/x = rand(50, 400)
+		var/y = rand(50, 400)
+		var/settlement_type = pick("settlement", "outpost")
+		GenerateTown("[kingdom]_[settlement_type]_[i]", settlement_type, x, y, world.time + rand(50, 300))
 	
 	// Random settlements, outposts based on biome
 	// Places settlements near forest/grassland areas

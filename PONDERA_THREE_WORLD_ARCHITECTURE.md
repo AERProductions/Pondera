@@ -22,38 +22,92 @@ Pondera evolves from a single-world design into a **three-connected-worlds archi
 ## World 1: Story Continent (Aldoryn)
 
 ### **Core Concept**
-Procedurally-generated world with **narrative anchors** that ensure consistent story progression while maintaining infinite replayability.
+Procedurally-generated world divided into **four feudal kingdoms**, each representing a societal archetype and story progression tier. Each kingdom features:
+- **Central Hub City** (seat of power, story milestone, economic center)
+- **Villages & Settlements** (farming communities, craftspeople, story NPCs)
+- **Outposts & Wilderness** (scattered adventure locations, rare resources, encounters)
 
-**Philosophy**: Same story beats, different world every playthrough.
+**Philosophy**: Same story progression and kingdom structure, infinite wilderness variation per playthrough.
 
-### **World Structure**
+### **The Four Kingdoms**
+
+#### **1. Kingdom of Freedom** (Temperate, Foundational)
+- **Theme**: Liberty, independence, fundamental survival and community
+- **Geography**: Forests, grasslands, rivers, accessible terrain
+- **Hub City**: City of the Free (starting sanctuary, mentorship center)
+- **Architecture**: Practical wood and stone, welcoming design
+- **Key NPCs**: Guard Captain, Hunter, Blacksmith, Healer, Innkeeper
+- **Story Role**: Tutorial/onboarding, foundational skills, community values
+- **Skill Gates**: None (accessible immediately)
+- **Resources**: Wood, common stone, copper ore, basic crops
+- **Progression**: Freedom → Belief (requires Smithing 2+)
+
+#### **2. Kingdom of Belief** (Hilly, Scholarly) [Behist]
+- **Theme**: Faith, knowledge, enlightenment, magical understanding
+- **Geography**: Rolling hills, ancient ruins, temple complexes, sacred groves
+- **Hub City**: Spire of Behist (nexus of learning, crafting hub, library)
+- **Architecture**: Stone temples, scholarly gardens, enchantment circles
+- **Key NPCs**: Master Smith, Alchemist, Librarian, Monk, Architect
+- **Story Role**: Advanced crafting mastery, recipe discovery, magical lore
+- **Skill Gates**: Smithing 2+, Harvesting 3+
+- **Resources**: Rare ore, alchemical plants, ancient artifacts, enchantment materials
+- **Progression**: Belief → Pride or Greed (multiple paths, player chooses)
+
+#### **3. Kingdom of Pride** (Mountains, Martial)
+- **Theme**: Strength, honor, martial excellence, legendary achievement
+- **Geography**: Mountains, fortresses, plateaus, crystalline caves
+- **Hub City**: Castle of Pride (military headquarters, tournament grounds, war room)
+- **Architecture**: Imposing stone fortifications, training grounds, trophy halls
+- **Key NPCs**: War Champion, Armor Smith, General, Mercenary Captain, Weaponsmith
+- **Story Role**: High-level combat, elite equipment, legendary weapons, martial rankings
+- **Skill Gates**: Combat 4+, Smithing 3+, Strategy-based quests
+- **Resources**: Mithril-tier ore, dragon scales, legendary materials, war-forged steel
+- **Progression**: Pride ↔ Greed (economic-military alliance); Prime endgame path
+- **Special**: Arena rankings, dueling system, legendary weapon quests
+
+#### **4. Kingdom of Greed** (Coastal, Economic)
+- **Theme**: Commerce, wealth, trade networks, material prosperity
+- **Geography**: Coastal ports, merchant districts, trade roads, harbor towns
+- **Hub City**: Port of Plenty (trading nexus, banking hub, merchant guildhall)
+- **Architecture**: Grand merchant stalls, warehouses, mansions, stock exchange
+- **Key NPCs**: Master Merchant, Banker, Ship Captain, Trade Broker, Wealthy Patron
+- **Story Role**: Economic gameplay, trade systems, wealth accumulation, market influence
+- **Skill Gates**: Wealth-based (requires minimum lucre) + Trading 3+
+- **Resources**: Luxury goods, trade commodities, exotic imports, rare spices
+- **Progression**: Greed ↔ Pride (military-economic alliance); Secondary endgame path
+- **Special**: Stock market, trading routes, merchant guilds, financial quests
+
+### **World Structure Hierarchy**
 
 ```
-PROCEDURAL LAYERS:
-├─ Base Terrain (Biomes)
-│  ├─ Temperate (forests, grasslands)
-│  ├─ Arctic (snow, mountains)
-│  ├─ Desert (sand, oasis)
-│  └─ Rainforest (jungle, canopy)
-│
-├─ Towns (Procedurally Placed Story Anchors)
-│  ├─ Kingdom of Freedom (starting region mentor hub)
-│  ├─ Kingdom of Behist (advanced crafting hub)
-│  ├─ Various smaller settlements (skill-gated access)
-│  └─ Each town: Bank, Blacksmith, Healer, Tavern, Housing
-│
-├─ Wilderness (Procedural Dungeons & Encounters)
-│  ├─ Forests (creatures, resources, hidden groves)
-│  ├─ Mountains (ore deposits, caves, hermit settlements)
-│  ├─ Rivers (fishing, water wheels, crossings)
-│  └─ Ruins (lore, rare materials, story locations)
-│
-└─ Portals (Guarantee Connectivity)
-   ├─ Start → Kingdom of Freedom (always reachable)
-   ├─ Kingdom of Freedom ↔ Kingdom of Behist (story progression gate)
-   ├─ Kingdom of Behist → Adventure Zones (skill-gated access)
-   └─ All zones → Port Town (escape to other worlds)
+STORY CONTINENT (ALDORYN):
+
+Kingdom of Freedom (Starting Region - No Gates)
+├─ City of the Free (Hub, permanent home base)
+├─ 3-5 farming villages (scattered procedurally)
+├─ 2-3 wilderness outposts
+└─ Mentor NPCs guarantee all basic recipes
+
+Kingdom of Belief (Scholarly Region - Gated: Smithing 2+)
+├─ Spire of Behist (Hub, crafting center)
+├─ 3-5 monastic/library settlements (procedurally placed)
+├─ 2-3 ruin exploration sites (adventure locations)
+└─ Master crafters teach advanced recipes
+
+Kingdom of Pride (Military Region - Gated: Combat 4+)
+├─ Castle of Pride (Hub, combat center)
+├─ 3-5 military settlements (training villages, garrisons)
+├─ 2-3 arena/battle sites (dueling tournaments, legendary encounters)
+└─ War champions teach legendary weapon crafting
+
+Kingdom of Greed (Economic Region - Gated: Wealth + Trading 3+)
+├─ Port of Plenty (Hub, trade center)
+├─ 3-5 merchant settlements (coastal trading posts, markets)
+├─ 2-3 shipping routes/caravans (mobile trade sites)
+└─ Master merchants teach trade recipes and market mechanics
 ```
+
+### **Procedural Generation Rules**
 
 ### **Procedural Generation Rules**
 
