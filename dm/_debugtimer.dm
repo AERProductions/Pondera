@@ -16,6 +16,7 @@ world/New()
 	InitializeContinents()  // Initialize three-world continental system
 	InitWeatherController()
 	spawn() DynamicWeatherTick()
+	spawn(50) InitializeTownSystem()  // Initialize Phase B town generator (after continents)
 
 DEBUG_TIMER
 	var
