@@ -55,10 +55,13 @@ mob
 			F["last_x"] << x
 			F["last_y"] << y
 			F["last_z"] << z
-			//if(/soundmob)
-				//return
-		//	if(/obj/snd/sfx)//sound not loading has something to do with read/write. Got the sound (although, without atunement) to play but it was black screen (no loc for usr)
-			//	return
+		
+		// Save character progression data (skill levels, exp, etc)
+		// The character datum is automatically serialized if defined
+		if(ismob(src, /mob/players))
+			var/mob/players/player = src
+			if(player.character)
+				F["character"] << player.character
 		return
 
 	Read(savefile/F)
@@ -78,12 +81,18 @@ mob
 			if(last_x>world.maxx)
 				del(src)
 				return
-		//	var/destination = locate(last_x, last_y, last_z)
-			//umsl_ObtainMultiLock(list("right leg", "left leg"), 0)
 			loc=locate(last_x, last_y, last_z)
-			//if (!Move(destination))
-				//loc = destination
-			return
+		
+		// Restore character progression data (skill levels, exp, etc)
+		// The character datum is automatically deserialized if present
+		if(ismob(src, /mob/players))
+			var/mob/players/player = src
+			F["character"] >> player.character
+			// Ensure character datum exists (fallback for old saves)
+			if(!player.character)
+				player.character = new /datum/character_data()
+				player.character.Initialize()
+		return
 	//verb/Mode()
 		//src << "verb SP [SP] | MP [MP] | SB [SB] | SM [SM] && SPs [SPs] | MPs [MPs] | SBs [SBs] | SMs [SMs]"
 /*
