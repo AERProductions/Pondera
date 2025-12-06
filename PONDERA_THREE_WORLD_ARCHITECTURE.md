@@ -185,6 +185,131 @@ player_reputation = list(
 - Betray kingdoms → lose reputation with that kingdom, gain with enemy
 - Expose hypocrisy → gain reputation with moralists, lose with hypocrites
 
+---
+
+## **Affinity System & PvP Safeguards**
+
+### **What is Affinity?**
+
+**Affinity** is the player's net moral alignment derived from reputation:
+
+```
+player_affinity = (freedom + belief + honor + pride) - greed
+```
+
+- **Strong Light Affinity** (+200+): Virtuous path, anti-corruption, natural hero
+- **Light Affinity** (+50 to +200): Aligned with allied kingdoms
+- **Neutral** (-50 to +50): Pragmatist, fence-sitter, opportunist
+- **Dark Affinity** (-200 to -50): Committed to Greed's dominion
+- **Strong Dark Affinity** (-200-): Villain path, full corruption, natural antagonist
+
+### **Affinity Applications**
+
+#### **1. Magic System (Story & Sandbox)**
+- **Light Magic**: Healing, protection, purification (requires light affinity)
+- **Dark Magic**: Corruption, domination, exploitation (requires dark affinity)
+- **Neutral Magic**: Transmutation, elemental, utility (no affinity lock)
+- **Hybrid Magic**: Forbidden spells unavailable until player commits to path
+
+#### **2. Luck & Fortune (All Modes)**
+- **Light Affinity**: +luck in noble endeavors, harvest bonus, NPC aid
+- **Neutral**: Standard luck
+- **Dark Affinity**: +luck in theft, deception, corruption, resource extraction
+- Creates natural playstyle advantages for chosen path
+
+#### **3. NPC Interaction (Story Mode)**
+- **Light Affinity**: NPCs help willingly, quests easier, better prices
+- **Dark Affinity**: NPCs demand higher prices, can be bribed/coerced for dark quests
+- **Neutral**: Standard interaction
+
+#### **4. Environmental Effects (Story Mode)**
+- **Light Path**: Healing wells, protective auras in allied kingdoms
+- **Dark Path**: Corrupted ruins, forbidden knowledge in Greed territory
+- **Neutral Path**: Standard environment, fewer bonuses
+
+### **Story Mode PvP Safeguards**
+
+**Critical Design Decision**: Story mode allows **ideological conflict but prevents griefing**.
+
+#### **Rule 1: Level-Gated Conflict**
+- Players can only attack enemies within **±5 levels** of their own level
+- Exception: Equal-level dueling (arenas, agreed combat)
+- Prevents high-level villains from steamrolling low-level heroes
+
+#### **Rule 2: Reputation-Gated Attacks**
+- Players can only attack in **kingdom territory matching their allegiance**
+- **Light Affinity Heroes**: Can attack dark affinity players in allied kingdoms
+- **Dark Affinity Villains**: Can attack light affinity players in Greed territory
+- **Neutral Players**: Cannot initiate attacks (defensive only)
+- Prevents griefing across all territories
+
+#### **Rule 3: Safe Zones & Sanctuaries**
+- **Starting town** (City of the Free): Always safe, no PvP
+- **Kingdom hubs**: Safe zones for aligned players (you can't attack allies in their capital)
+- **Neutral market areas**: Safe trade zones (no PvP)
+- **Wilderness**: Open PvP (level-gated, reputation-gated)
+
+#### **Rule 4: Consensus-Based Conflict**
+- Large-scale kingdom vs. kingdom warfare **requires player consensus**
+- If heroes and villains declare war, conflict becomes explicit and server-wide
+- War periods are **announced with 24-hour notice** (real time)
+- War zones are **designated beforehand** (not the entire story world)
+- Post-war peace periods prevent constant griefing
+
+#### **Rule 5: Consequence & Recovery**
+- Defeating players yields **no XP** (no incentive to camp lowbies)
+- Defeated players recover quickly (**25% health in sanctuary**)
+- Reputation loss from attacking much weaker players (cowardice penalty)
+- Defeated players can request **safe passage** to sanctuary
+
+### **Sandbox & PvP Mode Contrast**
+
+| Feature | Story Mode | Sandbox | PvP Mode |
+|---------|-----------|---------|----------|
+| **Affinity Lock** | Soft (can switch) | None (irrelevant) | Hard (determines side) |
+| **PvP Rules** | Strict (level/reputation gated) | None (creative only) | Loose (open warfare) |
+| **Safe Zones** | Many (hubs, start) | None (creative freedom) | Strategic points |
+| **Griefing** | Heavily protected | N/A | Allowed/encouraged |
+| **Conflict Type** | Ideological | N/A | Territorial & resource |
+| **Consequence** | Reputation shifts | N/A | Territory loss |
+
+### **Managing Ideological Conflict**
+
+**Design Goal**: Create **meaningful opposition** without **toxic griefing**.
+
+**Mechanics**:
+1. **Explicit Enemy Status**
+   - Light Affinity & Dark Affinity players show as "Enemy" overhead
+   - Natural conflict emerges from player choice, not forced mechanics
+   
+2. **Territory Control (Non-Griefing)**
+   - Villains can take control of Greed towns (requires coordinated effort)
+   - Heroes can liberate Greed towns (raids, sieges, story events)
+   - Control grants faction NPCs & quest access, not permanent dominion
+   
+3. **Quest Conflict**
+   - Hero quest: "Protect village from Greed bandits"
+   - Villain quest: "Raid village for Greed's profit"
+   - Same location, opposing objectives, natural conflict
+   - Low-level protection quests don't target high-level villains
+   
+4. **Peaceful Coexistence Option**
+   - Players can **opt out of conflict** (neutral affinity)
+   - Neutral players trade with both sides, take neither's quests
+   - No forced participation in ideological war
+
+### **Implementation Checklist**
+
+- [ ] Affinity calculation system (Phase 6)
+- [ ] Magic affinity locks (Phase 7)
+- [ ] Luck system tied to affinity (Phase 6)
+- [ ] PvP level-gating enforcement (Phase 6)
+- [ ] Reputation-based attack restrictions (Phase 6)
+- [ ] Safe zone system (Phase 5)
+- [ ] War declaration mechanics (Phase 8)
+- [ ] Consequence system for bullying (Phase 6)
+- [ ] Territory control system (Phase 8)
+
 ### **World Structure Hierarchy**
 
 ```
