@@ -169,6 +169,8 @@ mob/players
 		ironbar = 0
 		zincbar = 0
 		copperbar = 0
+		// Character Data Datum - centralized skill/progression storage
+		datum/character_data/character
 		brank = 0 //buildingrank
 		drank = 0 //diggingrank
 		frank = 0 //fighting rank?
@@ -2278,6 +2280,13 @@ mob/players
 				usr << browse({"<body scroll=no bgcolor=transparent allow_transparency=true background="smbg.gif">
 				<img src=moonoverhead.gif body scroll=no bgcolor=transparent allow_transparency=true></body>"},"body scroll=no;bgcolor=transparent;background-color:transparent;allow_transparency=true")
 				return
+	// Initialize character data on player creation
+	New()
+		..()
+		// Create character data datum if not already set
+		if(!character)
+			character = new /datum/character_data()
+			character.Initialize()
 
 mob/players/proc
 	browsersc()

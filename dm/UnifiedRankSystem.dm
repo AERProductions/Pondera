@@ -3,13 +3,12 @@
  * Consolidates all skill/rank progression into a single parameterized framework
  * Eliminates code duplication across frank, crank, grank, wrank, mrank, smirank, fshrank, etc.
  * 
- * DESIGN NOTE: Currently some ranks are stored as mob/players/var while others (hrank, Crank, 
- * CSRank, PLRank) are stored as global var in WC.dm. This should be consolidated so all ranks
- * are mob/players/var for proper multi-player support.
+ * DESIGN: All ranks now stored in datum/character_data for cleaner variable organization
+ * and easier save/load functionality. Character datum created in mob/players/New().
  * 
  * Usage Pattern:
  *   M.UpdateRankExp(rank_type, exp_gain)
- *   M.CheckRankLevel(rank_type, required_level)
+ *   M.CheckRankRequirement(rank_type, required_level)
  *   M.AdvanceRank(rank_type)
  * 
  * Rank Types (defined as constants):
@@ -22,9 +21,9 @@
  *   - RANK_SMELTING (smerank)
  *   - RANK_BUILDING (brank)
  *   - RANK_DIGGING (drank)
- *   - RANK_CARVING (Crank - wood carving) [GLOBAL - should be mob/var]
- *   - RANK_SPROUT_CUTTING (CSRank) [GLOBAL - should be mob/var]
- *   - RANK_POLE (PLRank) [GLOBAL - should be mob/var]
+ *   - RANK_CARVING (Crank - wood carving)
+ *   - RANK_SPROUT_CUTTING (CSRank)
+ *   - RANK_POLE (PLRank)
  */
 
 #define RANK_FISHING "frank"
@@ -50,19 +49,20 @@
 	 * Returns the current level of the specified rank type
 	 * Returns 1 if rank type not found
 	 */
+	if(!character) return 1  // Safety check
 	switch(rank_type)
-		if(RANK_FISHING) return src.frank
-		if(RANK_CRAFTING) return src.crank
-		if(RANK_GARDENING) return src.grank
-		if(RANK_WOODCUTTING) return src.hrank
-		if(RANK_MINING) return src.mrank
-		if(RANK_SMITHING) return src.smirank
-		if(RANK_SMELTING) return src.smerank
-		if(RANK_BUILDING) return src.brank
-		if(RANK_DIGGING) return src.drank
-		if(RANK_CARVING) return src.Crank
-		if(RANK_SPROUT_CUTTING) return src.CSRank
-		if(RANK_POLE) return src.PLRank
+		if(RANK_FISHING) return character.frank
+		if(RANK_CRAFTING) return character.crank
+		if(RANK_GARDENING) return character.grank
+		if(RANK_WOODCUTTING) return character.hrank
+		if(RANK_MINING) return character.mrank
+		if(RANK_SMITHING) return character.smirank
+		if(RANK_SMELTING) return character.smerank
+		if(RANK_BUILDING) return character.brank
+		if(RANK_DIGGING) return character.drank
+		if(RANK_CARVING) return character.Crank
+		if(RANK_SPROUT_CUTTING) return character.CSRank
+		if(RANK_POLE) return character.PLRank
 		else return 1
 
 /mob/players/proc/SetRankLevel(rank_type, new_level)
@@ -70,39 +70,41 @@
 	 * SetRankLevel(rank_type, new_level)
 	 * Sets the rank level for the specified rank type
 	 */
+	if(!character) return
 	new_level = min(new_level, MAX_RANK_LEVEL)  // Cap at max level
 	switch(rank_type)
-		if(RANK_FISHING) src.frank = new_level
-		if(RANK_CRAFTING) src.crank = new_level
-		if(RANK_GARDENING) src.grank = new_level
-		if(RANK_WOODCUTTING) src.hrank = new_level
-		if(RANK_MINING) src.mrank = new_level
-		if(RANK_SMITHING) src.smirank = new_level
-		if(RANK_SMELTING) src.smerank = new_level
-		if(RANK_BUILDING) src.brank = new_level
-		if(RANK_DIGGING) src.drank = new_level
-		if(RANK_CARVING) src.Crank = new_level
-		if(RANK_SPROUT_CUTTING) src.CSRank = new_level
-		if(RANK_POLE) src.PLRank = new_level
+		if(RANK_FISHING) character.frank = new_level
+		if(RANK_CRAFTING) character.crank = new_level
+		if(RANK_GARDENING) character.grank = new_level
+		if(RANK_WOODCUTTING) character.hrank = new_level
+		if(RANK_MINING) character.mrank = new_level
+		if(RANK_SMITHING) character.smirank = new_level
+		if(RANK_SMELTING) character.smerank = new_level
+		if(RANK_BUILDING) character.brank = new_level
+		if(RANK_DIGGING) character.drank = new_level
+		if(RANK_CARVING) character.Crank = new_level
+		if(RANK_SPROUT_CUTTING) character.CSRank = new_level
+		if(RANK_POLE) character.PLRank = new_level
 
 /mob/players/proc/GetRankExp(rank_type)
 	/**
 	 * GetRankExp(rank_type) -> current_exp
 	 * Returns current experience points for the rank type
 	 */
+	if(!character) return 0
 	switch(rank_type)
-		if(RANK_FISHING) return src.frankEXP
-		if(RANK_CRAFTING) return src.CrankEXP
-		if(RANK_GARDENING) return src.grankEXP
-		if(RANK_WOODCUTTING) return src.hrankEXP
-		if(RANK_MINING) return src.mrankEXP
-		if(RANK_SMITHING) return src.smiexp
-		if(RANK_SMELTING) return src.smeexp
-		if(RANK_BUILDING) return src.brankEXP
-		if(RANK_DIGGING) return src.drankEXP
-		if(RANK_CARVING) return src.CrankEXP
-		if(RANK_SPROUT_CUTTING) return src.CSRankEXP
-		if(RANK_POLE) return src.PLRankEXP
+		if(RANK_FISHING) return character.frankEXP
+		if(RANK_CRAFTING) return character.crankEXP
+		if(RANK_GARDENING) return character.grankEXP
+		if(RANK_WOODCUTTING) return character.hrankEXP
+		if(RANK_MINING) return character.mrankEXP
+		if(RANK_SMITHING) return character.smirankEXP
+		if(RANK_SMELTING) return character.smerankEXP
+		if(RANK_BUILDING) return character.brankEXP
+		if(RANK_DIGGING) return character.drankEXP
+		if(RANK_CARVING) return character.CrankEXP
+		if(RANK_SPROUT_CUTTING) return character.CSRankEXP
+		if(RANK_POLE) return character.PLRankEXP
 		else return 0
 
 /mob/players/proc/SetRankExp(rank_type, new_exp)
@@ -110,39 +112,41 @@
 	 * SetRankExp(rank_type, new_exp)
 	 * Sets the current experience for the rank type
 	 */
+	if(!character) return
 	new_exp = max(new_exp, 0)  // Can't have negative exp
 	switch(rank_type)
-		if(RANK_FISHING) src.frankEXP = new_exp
-		if(RANK_CRAFTING) src.CrankEXP = new_exp
-		if(RANK_GARDENING) src.grankEXP = new_exp
-		if(RANK_WOODCUTTING) src.hrankEXP = new_exp
-		if(RANK_MINING) src.mrankEXP = new_exp
-		if(RANK_SMITHING) src.smiexp = new_exp
-		if(RANK_SMELTING) src.smeexp = new_exp
-		if(RANK_BUILDING) src.brankEXP = new_exp
-		if(RANK_DIGGING) src.drankEXP = new_exp
-		if(RANK_CARVING) src.CrankEXP = new_exp
-		if(RANK_SPROUT_CUTTING) src.CSRankEXP = new_exp
-		if(RANK_POLE) src.PLRankEXP = new_exp
+		if(RANK_FISHING) character.frankEXP = new_exp
+		if(RANK_CRAFTING) character.crankEXP = new_exp
+		if(RANK_GARDENING) character.grankEXP = new_exp
+		if(RANK_WOODCUTTING) character.hrankEXP = new_exp
+		if(RANK_MINING) character.mrankEXP = new_exp
+		if(RANK_SMITHING) character.smirankEXP = new_exp
+		if(RANK_SMELTING) character.smerankEXP = new_exp
+		if(RANK_BUILDING) character.brankEXP = new_exp
+		if(RANK_DIGGING) character.drankEXP = new_exp
+		if(RANK_CARVING) character.CrankEXP = new_exp
+		if(RANK_SPROUT_CUTTING) character.CSRankEXP = new_exp
+		if(RANK_POLE) character.PLRankEXP = new_exp
 
 /mob/players/proc/GetRankMaxExp(rank_type)
 	/**
 	 * GetRankMaxExp(rank_type) -> max_exp_for_level
 	 * Returns the maximum experience needed to level up at current level
 	 */
+	if(!character) return 100
 	switch(rank_type)
-		if(RANK_FISHING) return src.frankMAXEXP
-		if(RANK_CRAFTING) return src.CrankMAXEXP
-		if(RANK_GARDENING) return src.grankMAXEXP
-		if(RANK_WOODCUTTING) return src.hrankMAXEXP
-		if(RANK_MINING) return src.mrankMAXEXP
-		if(RANK_SMITHING) return src.msmiexp
-		if(RANK_SMELTING) return src.msmeexp
-		if(RANK_BUILDING) return src.brankMAXEXP
-		if(RANK_DIGGING) return src.drankMAXEXP
-		if(RANK_CARVING) return src.CrankMAXEXP
-		if(RANK_SPROUT_CUTTING) return src.CSRankMAXEXP
-		if(RANK_POLE) return src.PLRankMAXEXP
+		if(RANK_FISHING) return character.frankMAXEXP
+		if(RANK_CRAFTING) return character.crankMAXEXP
+		if(RANK_GARDENING) return character.grankMAXEXP
+		if(RANK_WOODCUTTING) return character.hrankMAXEXP
+		if(RANK_MINING) return character.mrankMAXEXP
+		if(RANK_SMITHING) return character.smirankMAXEXP
+		if(RANK_SMELTING) return character.smerankMAXEXP
+		if(RANK_BUILDING) return character.brankMAXEXP
+		if(RANK_DIGGING) return character.drankMAXEXP
+		if(RANK_CARVING) return character.CrankMAXEXP
+		if(RANK_SPROUT_CUTTING) return character.CSRankMAXEXP
+		if(RANK_POLE) return character.PLRankMAXEXP
 		else return 100
 
 /mob/players/proc/SetRankMaxExp(rank_type, new_max_exp)
@@ -150,20 +154,21 @@
 	 * SetRankMaxExp(rank_type, new_max_exp)
 	 * Sets the maximum experience threshold for the current level
 	 */
+	if(!character) return
 	new_max_exp = max(new_max_exp, 10)  // Minimum 10 exp per level
 	switch(rank_type)
-		if(RANK_FISHING) src.frankMAXEXP = new_max_exp
-		if(RANK_CRAFTING) src.CrankMAXEXP = new_max_exp
-		if(RANK_GARDENING) src.grankMAXEXP = new_max_exp
-		if(RANK_WOODCUTTING) src.hrankMAXEXP = new_max_exp
-		if(RANK_MINING) src.mrankMAXEXP = new_max_exp
-		if(RANK_SMITHING) src.msmiexp = new_max_exp
-		if(RANK_SMELTING) src.msmeexp = new_max_exp
-		if(RANK_BUILDING) src.brankMAXEXP = new_max_exp
-		if(RANK_DIGGING) src.drankMAXEXP = new_max_exp
-		if(RANK_CARVING) src.CrankMAXEXP = new_max_exp
-		if(RANK_SPROUT_CUTTING) src.CSRankMAXEXP = new_max_exp
-		if(RANK_POLE) src.PLRankMAXEXP = new_max_exp
+		if(RANK_FISHING) character.frankMAXEXP = new_max_exp
+		if(RANK_CRAFTING) character.crankMAXEXP = new_max_exp
+		if(RANK_GARDENING) character.grankMAXEXP = new_max_exp
+		if(RANK_WOODCUTTING) character.hrankMAXEXP = new_max_exp
+		if(RANK_MINING) character.mrankMAXEXP = new_max_exp
+		if(RANK_SMITHING) character.smirankMAXEXP = new_max_exp
+		if(RANK_SMELTING) character.smerankMAXEXP = new_max_exp
+		if(RANK_BUILDING) character.brankMAXEXP = new_max_exp
+		if(RANK_DIGGING) character.drankMAXEXP = new_max_exp
+		if(RANK_CARVING) character.CrankMAXEXP = new_max_exp
+		if(RANK_SPROUT_CUTTING) character.CSRankMAXEXP = new_max_exp
+		if(RANK_POLE) character.PLRankMAXEXP = new_max_exp
 
 /mob/players/proc/GetRankIsMaxed(rank_type)
 	/**
@@ -186,6 +191,7 @@
 	 */
 	if(!src.client)
 		return
+	if(!character) return
 	
 	if(GetRankIsMaxed(rank_type))
 		return  // No point gaining exp if already maxed
@@ -211,6 +217,8 @@
 	 * Handle a single rank level-up
 	 * Called internally by UpdateRankExp when exp threshold met
 	 */
+	if(!character) return
+	
 	var/current_level = GetRankLevel(rank_type)
 	var/current_exp = GetRankExp(rank_type)
 	var/max_exp = GetRankMaxExp(rank_type)
@@ -246,6 +254,7 @@
 	 *       usr << "You need Mining level 3 to mine this."
 	 *       return
 	 */
+	if(!character) return 0
 	return GetRankLevel(rank_type) >= required_level
 
 /mob/players/proc/UpdateRankUI(rank_type)
@@ -254,6 +263,8 @@
 	 * Update the HUD progress bar for the specified rank
 	 * Maps each rank type to its appropriate UI element
 	 */
+	if(!character) return
+	
 	var/current_exp = GetRankExp(rank_type)
 	var/max_exp = GetRankMaxExp(rank_type)
 	var/progress = 100 * current_exp / max_exp
@@ -294,64 +305,9 @@
 	/**
 	 * InitializeRanks()
 	 * Called during character creation to set up all rank variables
+	 * Now delegates to character datum's Initialize() method
 	 * Ensures consistent initialization across all rank types
 	 */
-	// Fishing rank
-	if(!src.frank) src.frank = 1
-	if(!src.frankEXP) src.frankEXP = 0
-	if(!src.frankMAXEXP) src.frankMAXEXP = 100
-	
-	// Crafting rank
-	if(!src.crank) src.crank = 1
-	if(!src.CrankEXP) src.CrankEXP = 0
-	if(!src.CrankMAXEXP) src.CrankMAXEXP = 10
-	
-	// Gardening rank
-	if(!src.grank) src.grank = 1
-	if(!src.grankEXP) src.grankEXP = 0
-	if(!src.grankMAXEXP) src.grankMAXEXP = 100
-	
-	// Woodcutting rank
-	if(!src.hrank) src.hrank = 1
-	if(!src.hrankEXP) src.hrankEXP = 0
-	if(!src.hrankMAXEXP) src.hrankMAXEXP = 10
-	
-	// Mining rank
-	if(!src.mrank) src.mrank = 1
-	if(!src.mrankEXP) src.mrankEXP = 0
-	if(!src.mrankMAXEXP) src.mrankMAXEXP = 10
-	
-	// Smithing rank
-	if(!src.smirank) src.smirank = 1
-	if(!src.smiexp) src.smiexp = 0
-	if(!src.msmiexp) src.msmiexp = 100
-	
-	// Smelting rank
-	if(!src.smerank) src.smerank = 1
-	if(!src.smeexp) src.smeexp = 0
-	if(!src.msmeexp) src.msmeexp = 100
-	
-	// Building rank
-	if(!src.brank) src.brank = 1
-	if(!src.brankEXP) src.brankEXP = 0
-	if(!src.brankMAXEXP) src.brankMAXEXP = 100
-	
-	// Digging rank
-	if(!src.drank) src.drank = 1
-	if(!src.drankEXP) src.drankEXP = 0
-	if(!src.drankMAXEXP) src.drankMAXEXP = 100
-	
-	// Carving rank (wood carving)
-	if(!src.Crank) src.Crank = 1
-	if(!src.CrankEXP) src.CrankEXP = 0
-	if(!src.CrankMAXEXP) src.CrankMAXEXP = 10
-	
-	// Sprout cutting rank
-	if(!src.CSRank) src.CSRank = 1
-	if(!src.CSRankEXP) src.CSRankEXP = 0
-	if(!src.CSRankMAXEXP) src.CSRankMAXEXP = 10
-	
-	// Pole rank
-	if(!src.PLRank) src.PLRank = 1
-	if(!src.PLRankEXP) src.PLRankEXP = 0
-	if(!src.PLRankMAXEXP) src.PLRankMAXEXP = 100
+	if(!character)
+		character = new /datum/character_data()
+	character.Initialize()

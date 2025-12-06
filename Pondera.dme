@@ -30,6 +30,7 @@
 #include "dm\_DRCH2.dm"
 #include "dm\armors.dm"
 #include "dm\Basics.dm"
+#include "dm\CharacterData.dm"
 #include "dm\CentralizedEquipmentSystem.dm"
 #include "dm\CharacterCreationIntegration.dm"
 #include "dm\CharacterCreationUI.dm"
