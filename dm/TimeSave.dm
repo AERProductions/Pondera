@@ -117,3 +117,16 @@ proc/GetDateString()
 // Helper: Get full datetime with season
 proc/GetFullTimeString()
 	return "[GetTimeString()] - [GetDateString()] ([season])"
+
+// Background loop: Periodically save time state to prevent data loss on crashes.
+// Saves every ~10 game hours (36000 ticks at tick_lag=0.25 = ~150 real seconds)
+proc/StartPeriodicTimeSave()
+	set waitfor = 0
+	set background = 1
+	
+	var/save_interval = 36000  // ~10 game hours between saves
+	
+	while(1)
+		sleep(save_interval)
+		TimeSave()
+

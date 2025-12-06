@@ -158,7 +158,7 @@ world
 		//lighting.startloop()
 
 		//TimeStuff
-		//TimeLoad()
+		TimeLoad()
 		//SetMode()
 
 
@@ -169,10 +169,13 @@ world
 //		call(/obj/Plants/Bush/Raspberrybush/proc/Grow)(world)
 //		call(/obj/Plants/Bush/Blueberrybush/proc/Grow)(world)
 		call(weather)(world)
+		spawn StartPeriodicTimeSave()  // Start background time saves every ~10 game hours
 		//call(/proc/GenerateTurfs)(world)
 		GrowBushes()
 		GrowTrees()
-		SetSeason(world)
+		// SetSeason() disabled - was workaround for broken persistence (TimeLoad/TimeSave)
+		// With persistence fixed, overlays will persist naturally through savefiles
+		// SetSeason(world)
 
 		world.status = "[world.name] <br> [season] / [day] / [month] / AM [year]"
 		//L()
