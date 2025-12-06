@@ -85,6 +85,7 @@
 #include "dm\SkillExtensions.dm"
 #include "dm\Sound.dm"
 #include "dm\SoundEngine.dm"
+#include "dm\SoundManager.dm"
 #include "dm\Spawn.dm"
 #include "dm\Spells.dm"
 #include "dm\stacking.dm"

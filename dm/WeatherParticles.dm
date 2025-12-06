@@ -115,13 +115,13 @@ obj/weather_fx
 		set waitfor = 0
 		switch(weather_type)
 			if("fog", "mist")
-				soundmob(src, 400, 'snd/wind.ogg', TRUE, null, 10, FALSE)
+				ApplyWeatherSounds("fog", src)
 			if("dust_storm")
-				soundmob(src, 400, 'snd/wind.ogg', TRUE, null, 25, FALSE)
+				ApplyWeatherSounds("dust_storm", src)
 			if("hail")
-				soundmob(src, 400, 'snd/lrain.ogg', TRUE, null, 20, FALSE)
+				ApplyWeatherSounds("hail", src)
 			if("drizzle", "rain")
-				soundmob(src, 400, 'snd/lrain.ogg', TRUE, null, 15, FALSE)
+				ApplyWeatherSounds("rain", src)
 
 	New(mob/player)
 		if(!player) return

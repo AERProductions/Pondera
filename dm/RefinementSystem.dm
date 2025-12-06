@@ -106,6 +106,9 @@ obj/items/tools/refinement
 		var/tool_name = item.GetToolName(refine_tool_type)
 		M << "You apply the [tool_name] to the [item.name] ([stage_name])."
 
+		// Play refinement sound effect
+		PlayRefinementSound(refine_tool_type, M.loc)
+
 		sleep(3)  // Refinement takes time
 
 		if(success)
@@ -129,6 +132,23 @@ obj/items/tools/refinement
 			item.refine_durability = max(20, item.refine_durability - rand(3, 8))
 			M << "[item.name] could use more refinement."
 			return FALSE
+
+	proc/PlayRefinementSound(tool_type, location)
+		/**
+		 * Play appropriate refinement sound based on tool type
+		 */
+		if(!sound_mgr) return
+		
+		switch(tool_type)
+			if(REFINE_TOOL_FILE)
+				// File scraping sound
+				sound_mgr.PlayEffectSound("hammer", location)  // Use hammer as placeholder; add "file_scrape" sound later
+			if(REFINE_TOOL_WHETSTONE)
+				// Whetstone sharpening sound
+				sound_mgr.PlayEffectSound("hammer", location)  // Use hammer as placeholder; add "whetstone_scrape" sound later
+			if(REFINE_TOOL_POLISH_CLOTH)
+				// Polishing sound
+				sound_mgr.PlayEffectSound("hammer", location)  // Use hammer as placeholder; add "polish_cloth" sound later
 
 // File tool
 obj/items/tools/refinement/File

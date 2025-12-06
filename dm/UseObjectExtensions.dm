@@ -156,14 +156,27 @@ obj/Buildable/Furnishings/ArmorRack
  */
 
 obj/Buildable/Smithing/Forge
+	var
+		is_lit = FALSE
+	
 	UseObject(mob/user)
 		if(user)
+			is_lit = !is_lit  // Toggle forge state
+			if(is_lit)
+				user << "You light the forge."
+				PlayForgeAmbient(src, TRUE)
+			else
+				user << "You extinguish the forge flames."
+				PlayForgeAmbient(src, FALSE)
 			user.Click(src)
 		return 1
 
 obj/Buildable/Smithing/Anvil
 	UseObject(mob/user)
 		if(user)
+			// Play hammer strike sound when using anvil
+			PlayHammerStrike(src)
+			user << "You strike the anvil with your hammer."
 			user.Click(src)
 		return 1
 
