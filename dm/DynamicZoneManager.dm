@@ -278,8 +278,26 @@ dynamic_zone
 				turfs += t
 				t.SpawnResource()
 		
+		// Apply weather effects to nearby players
+		ApplyZoneWeatherToNearbyPlayers()
+		
 		is_loaded = TRUE
 		is_dirty = FALSE
+
+	proc/ApplyZoneWeatherToNearbyPlayers()
+		// Find all players in this zone and update their weather
+		for(var/mob/players/M in world)
+			if(!M.client) continue
+			
+			// Check if player is in this zone's area
+			var/zone_min_x = chunk_x * zone_mgr.chunk_size + 1
+			var/zone_max_x = chunk_x * zone_mgr.chunk_size + zone_mgr.chunk_size
+			var/zone_min_y = chunk_y * zone_mgr.chunk_size + 1
+			var/zone_max_y = chunk_y * zone_mgr.chunk_size + zone_mgr.chunk_size
+			
+			if(M.x >= zone_min_x && M.x <= zone_max_x && M.y >= zone_min_y && M.y <= zone_max_y)
+				// Apply this zone's weather
+				ApplyBiomeWeather(M, weather_type)
 
 	proc/SaveToDisk()
 		if(!is_dirty) return

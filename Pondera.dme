@@ -69,6 +69,7 @@
 #include "dm\obj.dm"
 #include "dm\Objects.dm"
 #include "dm\Particles-Weather.dm"
+#include "dm\WeatherParticles.dm"
 #include "dm\pickrandomname.dm"
 #include "dm\plant.dm"
 #include "dm\Pub.dm"

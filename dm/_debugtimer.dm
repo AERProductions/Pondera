@@ -13,6 +13,8 @@ var
 world/New()
 	..()
 	timers = new
+	InitWeatherController()
+	spawn() DynamicWeatherTick()
 
 DEBUG_TIMER
 	var
