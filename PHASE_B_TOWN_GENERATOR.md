@@ -23,12 +23,32 @@ Phase B creates the **town generation system** that places procedurally-varied t
 - ✅ Resource spawning (biome-specific goods)
 - ✅ Connectivity to main map generator
 - ✅ Port town implementation (for ship/portal travel)
+- ✅ Reputation-aware NPC placement (allies vs. enemies based on player choice)
+- ✅ Dual-path town mechanics (hero path + villain path)
 
 ### What This Phase Does NOT Include
 - ❌ NPC dialogue/interaction (deferred to Phase 7)
 - ❌ Quests/story progression (deferred to Phase 6)
 - ❌ Player housing (deferred to Phase 4/Sandbox)
 - ❌ Dynamic events (deferred to Phase 8)
+- ❌ Reputation calculation (deferred to Phase 6/NPC Integration)
+
+### Design Note: Player Choice & Dual Paths
+
+**Critical**: This phase establishes towns that support BOTH heroic and villainous playstyles:
+
+- **Heroic Allies** (Freedom, Belief, Honor, Pride): Standard NPC services, protection against Greed
+- **Villainous Greed**: Black market services, exploitation quests, recruitment for dominion
+- **Reputation-Aware**: Same town layout, different NPC behaviors based on player allegiance
+  - Hero reputation → Allied NPCs welcome you, Greed NPCs hostile
+  - Villain reputation → Greed NPCs welcome you, Allied NPCs hostile
+  - Neutral reputation → Everyone cautious, prices adjusted
+
+This requires:
+1. **Town layouts are neutral** (not faction-locked)
+2. **NPC roles have faction variants** (blacksmith vs. slave trader, healer vs. poison alchemist)
+3. **Reputation checks** determine which NPCs appear (implemented in Phase 6)
+4. **Greed-specific resources** available in Greed towns (contraband, stolen goods, enslaved labor)
 
 ---
 
@@ -248,6 +268,25 @@ var/list/town_types = InitializeTownTypes()
 	greed.kingdom = "greed"
 	greed.theme = "Avarice, Exploitation & Corruption (ANTAGONIST)"
 	greed.is_antagonist = 1  // Flag as story antagonist
+	
+	// VILLAIN PATH MECHANICS:
+	// Players with high Greed reputation unlock special NPCs and quests:
+	// - Merchant Prince recruits players as "lieutenants" to dominate trade
+	// - Black Market Broker trades in stolen goods and contraband
+	// - Corrupt Judge offers morally-dark quest chains
+	// - Tax Collector teaches exploitation and wealth extraction
+	// 
+	// These recipes are EXCLUSIVE to villain path:
+	// - Forced labor management systems
+	// - Black market trading operations
+	// - Bribery and corruption techniques
+	// - Territory domination tactics
+	//
+	// Resistance NPCs (unlocked with HIGH REPUTATION for hero kingdoms):
+	// - Underground rebels in Greed settlements
+	// - Liberation commanders offering anti-Greed quests
+	// - Freed slaves teaching resistance knowledge
+	
 	anchors["port_of_plenty"] = greed
 	
 	// PORT TOWN: Accessible from all continents (travel nexus)

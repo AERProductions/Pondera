@@ -99,11 +99,91 @@ Procedurally-generated world divided into **five feudal kingdoms**, each represe
 The central narrative tension:
 - **Four Allied Kingdoms** (Freedom, Belief, Honor, Pride) represent virtues: liberty, wisdom, justice, strength
 - **Kingdom of Greed** represents vice: unchecked avarice and exploitation
-- **Player Agency**: Players can:
-  - Support the allied kingdoms (heroic path)
-  - Challenge Greed's corruption (revolutionary path)
-  - Navigate neutrality (merchant/pragmatist path)
-  - Expose hypocrisy in allied kingdoms (moralist path)
+- **Player Agency - True Choice System**: Players can:
+  1. **Heroic Path**: Support the allied kingdoms fighting Greed's oppression (traditional hero)
+  2. **Villain Path**: Join Kingdom of Greed and help dominate the other kingdoms (play the antagonist)
+  3. **Revolutionary Path**: Challenge Greed's corruption from within resistance movements (rebel)
+  4. **Pragmatist Path**: Navigate neutrality, profit from conflict without moral commitment (merchant)
+  5. **Moralist Path**: Expose hypocrisy in allied kingdoms while resisting Greed (idealist)
+
+**Key Design**: Player choice affects:
+- **Reputation** with each kingdom (ally/enemy/neutral status)
+- **Quest availability** (different quests per allegiance)
+- **NPC reactions** (some allies, some enemies based on path)
+- **Rewards & recipes** (unique to chosen path, some exclusive to villain route)
+- **Story events** (different cutscenes, encounter outcomes, ending variations)
+- **PvP interactions** (allied players cooperate, opposed players conflict)
+- **Stall access** (heroes use legitimate markets, villains use black markets)
+
+### **World Structure Hierarchy**
+
+```
+STORY CONTINENT (ALDORYN):
+
+Kingdom of Freedom (Starting Region - No Gates)
+├─ City of the Free (Hub, permanent home base)
+├─ 3-5 farming villages (scattered procedurally)
+├─ 2-3 wilderness outposts
+└─ Mentor NPCs guarantee all basic recipes
+└─ CHOICE POINT: Join freedom defenders or take Greed's coin?
+
+Kingdom of Belief (Scholarly Region - Gated: Smithing 2+)
+├─ Spire of Behist (Hub, crafting center)
+├─ 3-5 monastic/library settlements (procedurally placed)
+├─ 2-3 ruin exploration sites (adventure locations)
+└─ Master crafters teach advanced recipes
+└─ CHOICE POINT: Pursue wisdom or steal alchemical secrets for Greed?
+
+Kingdom of Honor (Chivalric Region - Gated: Combat 2+ & Reputation)
+├─ Keep of Honor (Hub, knightly stronghold)
+├─ 3-5 noble settlements (villages, watchtowers, temples)
+├─ 2-3 justiciar sites (courts, defense posts, memorial sites)
+└─ Knights teach virtue and protection-based gameplay
+└─ CHOICE POINT: Take the knightly oath or sabotage them for coin?
+
+Kingdom of Pride (Military Region - Gated: Combat 4+ & Reputation)
+├─ Castle of Pride (Hub, combat center)
+├─ 3-5 military settlements (training villages, garrisons)
+├─ 2-3 arena/battle sites (dueling tournaments, legendary encounters)
+└─ War champions teach legendary weapon crafting
+└─ CHOICE POINT: Defend against Greed or become Greed's military asset?
+
+Kingdom of Greed (Economic Region - ANTAGONIST - Multiple Entry Points)
+├─ Port of Plenty (Hub, corrupt trading nexus)
+├─ 3-5 exploitative settlements (slave ports, black markets, fortified mansions)
+├─ 2-3 resistance sites (hidden rebel bases, underground networks, liberation camps)
+└─ VILLAIN PATH: Climb ranks, recruit allies, dominate trade and territory
+└─ REBEL PATH: Secretly work with resistance to liberate enslaved peoples
+└─ PRAGMATIST PATH: Trade with everyone, exploit market instability
+```
+
+### **Reputation & Allegiance System**
+
+Each player has a **reputation variable** tracking standing with all 5 kingdoms:
+
+```
+player_reputation = list(
+	"freedom" = 0,        // -100 (enemy) to +100 (hero)
+	"belief" = 0,
+	"honor" = 0,
+	"pride" = 0,
+	"greed" = 0           // Negative = resisting, positive = collaborating
+)
+```
+
+**Reputation Effects**:
+- **-100**: Hunted (enemies attack on sight, banned from kingdom)
+- **-50**: Hostile (NPCs won't trade, guards bar entry)
+- **-25**: Distrusted (expensive prices, limited quests)
+- **0**: Neutral (normal prices, standard quests)
+- **+25**: Respected (small discounts, special quests)
+- **+100**: Honored (titles, unique quests, exclusive recipes, faction leader status)
+
+**Faction-Specific Gains**:
+- Help Freedom → gain Freedom reputation (unlocks hero quests, defensive lore)
+- Help Greed → gain Greed reputation (unlocks villain quests, exploitation recipes)
+- Betray kingdoms → lose reputation with that kingdom, gain with enemy
+- Expose hypocrisy → gain reputation with moralists, lose with hypocrites
 
 ### **World Structure Hierarchy**
 
