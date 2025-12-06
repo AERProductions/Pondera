@@ -159,10 +159,9 @@ var/list/town_types = InitializeTownTypes()
 		story_location = 0          // Is this a story waypoint?
 		accessibility = ""          // "free" (anytime) or "gated" (skill requirement)
 		skill_gate = ""             // "smithing 2", "harvesting 5", etc. if gated
-		kingdom = ""                // "freedom", "belief", "pride", "greed", "neutral"
+		kingdom = ""                // "freedom", "belief", "honor", "pride", "greed"
 		theme = ""                  // Thematic name for debugging/UI
-
-// Define story anchors for four kingdoms
+		is_antagonist = 0           // Is this the antagonist kingdom? (1 for Greed)// Define story anchors for five kingdoms
 /proc/InitializeStoryAnchors()
 	var/list/anchors = list()
 	
@@ -177,7 +176,7 @@ var/list/town_types = InitializeTownTypes()
 		"innkeeper" = list("shelter", "comfort", "rest_system", "basic_food")
 	)
 	freedom.story_location = 1
-	freedom.accessibility = "free"           // Always accessible
+	freedom.accessibility = "free"
 	freedom.kingdom = "freedom"
 	freedom.theme = "Foundational Survival & Community"
 	anchors["city_of_the_free"] = freedom
@@ -194,12 +193,29 @@ var/list/town_types = InitializeTownTypes()
 	)
 	behist.story_location = 1
 	behist.accessibility = "gated"
-	behist.skill_gate = "smithing 2"         // Must have Smithing rank 2+
+	behist.skill_gate = "smithing 2"
 	behist.kingdom = "belief"
 	behist.theme = "Knowledge, Crafting Mastery & Enlightenment"
 	anchors["spire_of_behist"] = behist
 	
-	// KINGDOM 3: Kingdom of Pride (Mountains, Martial, Gated: Combat 4+ & Smithing 3+)
+	// KINGDOM 3: Kingdom of Honor (Forests, Chivalric, Gated: Combat 2+ & Moral Alignment)
+	var/datum/story_anchor/honor = new()
+	honor.town_type = "hub"
+	honor.required_npcs = list("paladin", "justice_warden", "temple_healer", "knight_captain")
+	honor.npc_recipes = list(
+		"paladin" = list("righteous_combat", "virtue_channeling", "holy_protection"),
+		"justice_warden" = list("moral_arbitration", "justice_quests", "virtue_teaching"),
+		"temple_healer" = list("blessed_healing", "sanctuary_knowledge", "protective_wards"),
+		"knight_captain" = list("knightly_order", "chivalric_code", "noble_defense")
+	)
+	honor.story_location = 1
+	honor.accessibility = "gated"
+	honor.skill_gate = "combat 2 + moral alignment"
+	honor.kingdom = "honor"
+	honor.theme = "Righteousness, Justice & Noble Virtue"
+	anchors["keep_of_honor"] = honor
+	
+	// KINGDOM 4: Kingdom of Pride (Mountains, Martial, Gated: Combat 4+ & Smithing 3+)
 	var/datum/story_anchor/pride = new()
 	pride.town_type = "hub"
 	pride.required_npcs = list("war_champion", "armor_smith", "general", "weaponsmith")
@@ -211,26 +227,27 @@ var/list/town_types = InitializeTownTypes()
 	)
 	pride.story_location = 1
 	pride.accessibility = "gated"
-	pride.skill_gate = "combat 4 + smithing 3"  // High-tier gates
+	pride.skill_gate = "combat 4 + smithing 3"
 	pride.kingdom = "pride"
-	pride.theme = "Martial Excellence, Honor & Legendary Achievement"
+	pride.theme = "Martial Excellence & Legendary Achievement"
 	anchors["castle_of_pride"] = pride
 	
-	// KINGDOM 4: Kingdom of Greed (Coastal, Economic, Gated: Wealth + Trading 3+)
+	// KINGDOM 5: Kingdom of Greed (Coastal, Economic, ANTAGONIST, Gated: Exploration)
 	var/datum/story_anchor/greed = new()
 	greed.town_type = "hub"
-	greed.required_npcs = list("master_merchant", "banker", "ship_captain", "trade_broker")
+	greed.required_npcs = list("merchant_prince", "corrupt_judge", "black_market_broker", "tax_collector")
 	greed.npc_recipes = list(
-		"master_merchant" = list("merchant_mastery", "trading_routes", "commodity_knowledge"),
-		"banker" = list("wealth_management", "investment", "currency_exchange"),
-		"ship_captain" = list("shipping", "cargo_handling", "maritime_routes", "naval_trading"),
-		"trade_broker" = list("stock_market", "market_analysis", "profit_optimization")
+		"merchant_prince" = list("exploitative_trade", "wealth_accumulation", "market_domination"),
+		"corrupt_judge" = list("corruption_knowledge", "bribery", "legal_exploitation"),
+		"black_market_broker" = list("black_market_goods", "stolen_artifacts", "contraband_trafficking"),
+		"tax_collector" = list("wealth_extraction", "forced_labor_systems", "exploitation_tactics")
 	)
 	greed.story_location = 1
 	greed.accessibility = "gated"
-	greed.skill_gate = "trading 3 + wealth 500"  // Economic gate
+	greed.skill_gate = "exploration + wealth knowledge"
 	greed.kingdom = "greed"
-	greed.theme = "Commerce, Wealth & Economic Influence"
+	greed.theme = "Avarice, Exploitation & Corruption (ANTAGONIST)"
+	greed.is_antagonist = 1  // Flag as story antagonist
 	anchors["port_of_plenty"] = greed
 	
 	// PORT TOWN: Accessible from all continents (travel nexus)
@@ -243,12 +260,11 @@ var/list/town_types = InitializeTownTypes()
 		"world_merchant" = list("exotic_goods", "continental_trade")
 	)
 	port.story_location = 1
-	port.accessibility = "free"              // Always accessible once unlocked
+	port.accessibility = "free"
 	port.kingdom = "neutral"
 	port.theme = "Travel Hub & World Connection"
 	anchors["port_town"] = port
-	
-	return anchors
+		return anchors
 
 var/list/story_anchors = InitializeStoryAnchors()
 ```
@@ -643,25 +659,29 @@ proc/GenerateMap(lakes, hills)
 	return 1
 
 /proc/GenerateStoryTowns()
-	// Place all four kingdom hubs with story anchors
+	// Place all five kingdom hubs with story anchors
 	
-	// Kingdom 1: Freedom (Starting point, no skill gates)
+	// Kingdom 1: Freedom (Starting point, temperate, no skill gates)
 	GenerateTown("city_of_the_free", "hub", 100, 100, world.time)
 	
 	// Kingdom 2: Belief (Scholarly, gated at Smithing 2+)
 	GenerateTown("spire_of_behist", "hub", 300, 250, world.time + 100)
 	
-	// Kingdom 3: Pride (Martial, gated at Combat 4+ & Smithing 3+)
+	// Kingdom 3: Honor (Chivalric, gated at Combat 2+ & Moral Alignment)
+	GenerateTown("keep_of_honor", "hub", 150, 300, world.time + 75)
+	
+	// Kingdom 4: Pride (Martial, gated at Combat 4+ & Smithing 3+)
 	GenerateTown("castle_of_pride", "hub", 500, 150, world.time + 200)
 	
-	// Kingdom 4: Greed (Economic, gated at Trading 3+ & Wealth 500+)
+	// Kingdom 5: Greed (Economic ANTAGONIST, gated at Exploration)
 	GenerateTown("port_of_plenty", "hub", 200, 400, world.time + 150)
 	
 	// Spawn secondary settlements in each kingdom region
 	GenerateKingdomSettlements("freedom", 3)     // 3 villages in Freedom region
 	GenerateKingdomSettlements("belief", 3)      // 3 settlements in Belief region
+	GenerateKingdomSettlements("honor", 3)       // 3 settlements in Honor region
 	GenerateKingdomSettlements("pride", 3)       // 3 military settlements in Pride region
-	GenerateKingdomSettlements("greed", 3)       // 3 trading posts in Greed region
+	GenerateKingdomSettlements("greed", 3)       // 3 exploitative settlements in Greed region
 
 /proc/GenerateKingdomSettlements(kingdom, count)
 	// Spawn procedural settlements in kingdom region

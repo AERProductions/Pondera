@@ -22,14 +22,14 @@ Pondera evolves from a single-world design into a **three-connected-worlds archi
 ## World 1: Story Continent (Aldoryn)
 
 ### **Core Concept**
-Procedurally-generated world divided into **four feudal kingdoms**, each representing a societal archetype and story progression tier. Each kingdom features:
+Procedurally-generated world divided into **five feudal kingdoms**, each representing a societal archetype and story progression tier. Four allied kingdoms vs. one adversarial kingdom drives the central narrative conflict. Each kingdom features:
 - **Central Hub City** (seat of power, story milestone, economic center)
 - **Villages & Settlements** (farming communities, craftspeople, story NPCs)
 - **Outposts & Wilderness** (scattered adventure locations, rare resources, encounters)
 
 **Philosophy**: Same story progression and kingdom structure, infinite wilderness variation per playthrough.
 
-### **The Four Kingdoms**
+### **The Five Kingdoms**
 
 #### **1. Kingdom of Freedom** (Temperate, Foundational)
 - **Theme**: Liberty, independence, fundamental survival and community
@@ -40,6 +40,7 @@ Procedurally-generated world divided into **four feudal kingdoms**, each represe
 - **Story Role**: Tutorial/onboarding, foundational skills, community values
 - **Skill Gates**: None (accessible immediately)
 - **Resources**: Wood, common stone, copper ore, basic crops
+- **Allegiance**: Allied (foundational)
 - **Progression**: Freedom → Belief (requires Smithing 2+)
 
 #### **2. Kingdom of Belief** (Hilly, Scholarly) [Behist]
@@ -51,9 +52,23 @@ Procedurally-generated world divided into **four feudal kingdoms**, each represe
 - **Story Role**: Advanced crafting mastery, recipe discovery, magical lore
 - **Skill Gates**: Smithing 2+, Harvesting 3+
 - **Resources**: Rare ore, alchemical plants, ancient artifacts, enchantment materials
-- **Progression**: Belief → Pride or Greed (multiple paths, player chooses)
+- **Allegiance**: Allied (wisdom keepers)
+- **Progression**: Belief → Honor or Pride (multiple paths, player chooses)
 
-#### **3. Kingdom of Pride** (Mountains, Martial)
+#### **3. Kingdom of Honor** (Forests/Foothills, Chivalric)
+- **Theme**: Righteousness, justice, noble virtue, protection of the weak
+- **Geography**: Dense forests, rolling foothills, sacred groves, watchtowers
+- **Hub City**: Keep of Honor (knightly stronghold, justiciar courts, healing temple)
+- **Architecture**: Elegant stone keeps, training yards, memorial gardens
+- **Key NPCs**: Paladin, Justice Warden, Temple Healer, Knight Captain, Virtue Sage
+- **Story Role**: Moral choices, righteous quests, noble causes, protecting villages
+- **Skill Gates**: Combat 2+, Moral alignment quests
+- **Resources**: Holy relics, blessed ores, healing herbs, noble materials
+- **Allegiance**: Allied (moral anchor)
+- **Special**: Moral alignment system, knightly orders, virtue-based quests
+- **Progression**: Honor ↔ Pride (knightly brotherhood)
+
+#### **4. Kingdom of Pride** (Mountains, Martial)
 - **Theme**: Strength, honor, martial excellence, legendary achievement
 - **Geography**: Mountains, fortresses, plateaus, crystalline caves
 - **Hub City**: Castle of Pride (military headquarters, tournament grounds, war room)
@@ -62,20 +77,33 @@ Procedurally-generated world divided into **four feudal kingdoms**, each represe
 - **Story Role**: High-level combat, elite equipment, legendary weapons, martial rankings
 - **Skill Gates**: Combat 4+, Smithing 3+, Strategy-based quests
 - **Resources**: Mithril-tier ore, dragon scales, legendary materials, war-forged steel
-- **Progression**: Pride ↔ Greed (economic-military alliance); Prime endgame path
+- **Allegiance**: Allied (military strength)
 - **Special**: Arena rankings, dueling system, legendary weapon quests
+- **Progression**: Pride ↔ Honor (knightly alliance); Prime endgame path
 
-#### **4. Kingdom of Greed** (Coastal, Economic)
-- **Theme**: Commerce, wealth, trade networks, material prosperity
-- **Geography**: Coastal ports, merchant districts, trade roads, harbor towns
-- **Hub City**: Port of Plenty (trading nexus, banking hub, merchant guildhall)
-- **Architecture**: Grand merchant stalls, warehouses, mansions, stock exchange
-- **Key NPCs**: Master Merchant, Banker, Ship Captain, Trade Broker, Wealthy Patron
-- **Story Role**: Economic gameplay, trade systems, wealth accumulation, market influence
+#### **5. Kingdom of Greed** (Coastal, Economic) [ANTAGONIST]
+- **Theme**: Avarice, exploitation, unchecked ambition, corruption
+- **Geography**: Coastal ports, merchant districts, corrupt harbor towns, slum areas
+- **Hub City**: Port of Plenty (exploitative trading hub, corruption nexus, black market)
+- **Architecture**: Gaudy merchant mansions, slave docks, fortified counting houses, slums
+- **Key NPCs**: Merchant Prince, Slave Master, Corrupt Judge, Black Market Broker, Tax Collector
+- **Story Role**: Economic antagonist, moral corruption, exploitation quests, resistance storylines
 - **Skill Gates**: Wealth-based (requires minimum lucre) + Trading 3+
-- **Resources**: Luxury goods, trade commodities, exotic imports, rare spices
-- **Progression**: Greed ↔ Pride (military-economic alliance); Secondary endgame path
-- **Special**: Stock market, trading routes, merchant guilds, financial quests
+- **Resources**: Luxury goods, black market contraband, slave labor products, stolen artifacts
+- **Allegiance**: OPPOSED (antagonistic force seeking domination)
+- **Special**: Moral conflict zones, rebellion quests, resistance networks, redemption paths
+- **Progression**: Greed ↔ Resistance (allied kingdoms work to contain/reform Greed)
+
+### **Story Conflict Framework**
+
+The central narrative tension:
+- **Four Allied Kingdoms** (Freedom, Belief, Honor, Pride) represent virtues: liberty, wisdom, justice, strength
+- **Kingdom of Greed** represents vice: unchecked avarice and exploitation
+- **Player Agency**: Players can:
+  - Support the allied kingdoms (heroic path)
+  - Challenge Greed's corruption (revolutionary path)
+  - Navigate neutrality (merchant/pragmatist path)
+  - Expose hypocrisy in allied kingdoms (moralist path)
 
 ### **World Structure Hierarchy**
 
@@ -94,17 +122,23 @@ Kingdom of Belief (Scholarly Region - Gated: Smithing 2+)
 ├─ 2-3 ruin exploration sites (adventure locations)
 └─ Master crafters teach advanced recipes
 
+Kingdom of Honor (Chivalric Region - Gated: Combat 2+ & Moral Alignment)
+├─ Keep of Honor (Hub, knightly stronghold)
+├─ 3-5 noble settlements (villages, watchtowers, temples)
+├─ 2-3 justiciar sites (courts, defense posts, memorial sites)
+└─ Knights teach virtue and protection-based gameplay
+
 Kingdom of Pride (Military Region - Gated: Combat 4+)
 ├─ Castle of Pride (Hub, combat center)
 ├─ 3-5 military settlements (training villages, garrisons)
 ├─ 2-3 arena/battle sites (dueling tournaments, legendary encounters)
 └─ War champions teach legendary weapon crafting
 
-Kingdom of Greed (Economic Region - Gated: Wealth + Trading 3+)
-├─ Port of Plenty (Hub, trade center)
-├─ 3-5 merchant settlements (coastal trading posts, markets)
-├─ 2-3 shipping routes/caravans (mobile trade sites)
-└─ Master merchants teach trade recipes and market mechanics
+Kingdom of Greed (Economic Region - ANTAGONIST - Gated: Wealth + Exploration)
+├─ Port of Plenty (Hub, corrupt trading nexus)
+├─ 3-5 exploitative settlements (slave ports, black markets, fortified mansions)
+├─ 2-3 resistance sites (hidden rebel bases, underground networks, liberation camps)
+└─ NPCs teach merchant skills AND moral corruption resistance
 ```
 
 ### **Procedural Generation Rules**
