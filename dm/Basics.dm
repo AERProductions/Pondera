@@ -191,6 +191,25 @@ mob/players
 		mbuildexp = 100
 		mdigexp = 100
 		mfightexp = 100
+		// Carving, Sprout Cutting, Pole ranks (moved from global in WC.dm)
+		Crank = 0
+		CrankEXP = 0
+		CrankMAXEXP = 10
+		CSRank = 0
+		CSRankEXP = 0
+		CSRankMAXEXP = 10
+		PLRank = 0
+		PLRankEXP = 0
+		PLRankMAXEXP = 100
+		hrankEXP = 0
+		hrankMAXEXP = 10
+		frankEXP = 0
+		frankMAXEXP = 100
+		crank = 0
+		brankEXP = 0
+		brankMAXEXP = 100
+		drankEXP = 0
+		drankMAXEXP = 100
 		needrev = 1
 		UEB = 0
 		UED = 0

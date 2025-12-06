@@ -99,6 +99,7 @@
 #include "dm\tools.dm"
 #include "dm\SteelTools.dm"
 #include "dm\Turf.dm"
+#include "dm\UnifiedRankSystem.dm"
 #include "dm\UseObjectExtensions.dm"
 #include "dm\w.dm"
 #include "dm\WC.dm"
