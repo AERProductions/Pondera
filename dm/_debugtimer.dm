@@ -23,6 +23,7 @@ world/New()
 	spawn(250) InitializeMultiWorldSystem()  // Initialize Phase F multi-world integration
 	spawn(300) InitializePhase4System()  // Initialize Phase 4 character data & market trading
 	spawn(350) InitializeNPCRecipeSystem()  // Initialize NPC recipe teaching system
+	spawn(400) InitializeSkillRecipeSystem()  // Initialize skill-based recipe discovery
 
 DEBUG_TIMER
 	var

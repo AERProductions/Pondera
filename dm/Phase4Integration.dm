@@ -86,24 +86,7 @@
 // CHARACTER PROGRESSION UNLOCK SYSTEM
 // ============================================================================
 
-/proc/CheckAndUnlockRecipeBySkill(mob/players/player, skill_name, skill_level)
-	// Auto-unlock recipes when player reaches required skill level
-	if(!player || !player.character) return 0
-	
-	if(!player.character.recipe_state)
-		player.character.recipe_state = new /datum/recipe_state()
-	
-	// Example: Smithing level 3 unlocks steel sword
-	switch(skill_name)
-		if("smithing")
-			if(skill_level >= 3 && !player.character.recipe_state.discovered_steel_sword)
-				player.character.recipe_state.DiscoverRecipe("steel_sword")
-				if(player) player << "PHASE4 Your smithing skill unlocked recipe: Steel Sword!"
-		
-		if("building")
-			if(skill_level >= 3 && !player.character.recipe_state.discovered_forge)
-				player.character.recipe_state.DiscoverRecipe("forge")
-				if(player) player << "PHASE4 Your building skill unlocked recipe: Forge!"
+// CheckAndUnlockRecipeBySkill moved to SkillRecipeUnlock.dm - now with full skill system integration
 
 // ============================================================================
 // TRADING SYSTEM - Player to Player
