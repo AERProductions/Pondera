@@ -19,6 +19,7 @@ world/New()
 	spawn(50) InitializeTownSystem()  // Initialize Phase B town generator (after continents)
 	spawn(100) InitializeStoryWorld()  // Initialize Phase C story world integration
 	spawn(150) InitializeSandboxSystem()  // Initialize Phase D sandbox continent
+	spawn(200) InitializePvPSystem()  // Initialize Phase E PvP continent mechanics
 
 DEBUG_TIMER
 	var

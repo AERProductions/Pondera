@@ -119,6 +119,8 @@
 #include "dm\StoryWorldIntegration.dm"
 #include "dm\SandboxSystem.dm"
 #include "dm\SandboxData.dm"
+#include "dm\PvPSystem.dm"
+#include "dm\PvPData.dm"
 #include "dm\Zoom.dm"
 #include "libs\BaseCamp.dm"
 #include "libs\Compas.dm"
