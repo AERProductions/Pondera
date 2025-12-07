@@ -121,6 +121,8 @@
 #include "dm\SandboxData.dm"
 #include "dm\PvPSystem.dm"
 #include "dm\PvPData.dm"
+#include "dm\MultiWorldIntegration.dm"
+#include "dm\MultiWorldConfig.dm"
 #include "dm\Zoom.dm"
 #include "libs\BaseCamp.dm"
 #include "libs\Compas.dm"

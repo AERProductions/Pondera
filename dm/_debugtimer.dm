@@ -20,6 +20,7 @@ world/New()
 	spawn(100) InitializeStoryWorld()  // Initialize Phase C story world integration
 	spawn(150) InitializeSandboxSystem()  // Initialize Phase D sandbox continent
 	spawn(200) InitializePvPSystem()  // Initialize Phase E PvP continent mechanics
+	spawn(250) InitializeMultiWorldSystem()  // Initialize Phase F multi-world integration
 
 DEBUG_TIMER
 	var
