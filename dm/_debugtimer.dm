@@ -24,6 +24,7 @@ world/New()
 	spawn(300) InitializePhase4System()  // Initialize Phase 4 character data & market trading
 	spawn(350) InitializeNPCRecipeSystem()  // Initialize NPC recipe teaching system
 	spawn(360) InitializeNPCRecipeHandlers()  // Initialize NPC recipe handlers for existing NPCs
+	spawn(370) InitializeSkillLevelUpIntegration()  // Initialize skill level-up recipe hooks
 	spawn(375) InitializeMarketTransactionSystem()  // Initialize market transaction & currency system
 	spawn(400) InitializeSkillRecipeSystem()  // Initialize skill-based recipe unlocks
 

@@ -100,6 +100,7 @@
 #include "dm\sfx.dm"
 #include "dm\shields.dm"
 #include "dm\SkillExtensions.dm"
+#include "dm\SkillLevelUpIntegration.dm"
 #include "dm\SkillRecipeUnlock.dm"
 #include "dm\Sound.dm"
 #include "dm\SoundEngine.dm"
