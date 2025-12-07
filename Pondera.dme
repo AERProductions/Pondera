@@ -40,6 +40,7 @@
 #include "dm\KingdomMaterialExchange.dm"
 #include "dm\ItemInspectionSystem.dm"
 #include "dm\DynamicMarketPricingSystem.dm"
+#include "dm\TreasuryUISystem.dm"
 #include "dm\DayNight.dm"
 #include "dm\deed.dm"
 #include "dm\dir.dm"
