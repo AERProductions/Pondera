@@ -16,7 +16,7 @@ obj
 			 * Updates in real-time as currency changes
 			 */
 			layer = FLOAT_LAYER
-			plane = HUD_PLANE
+			plane = 2  // HUD plane
 			icon = null
 			screen_loc = "TOP-RIGHT:30,TOP-1"
 			mouse_opacity = 0

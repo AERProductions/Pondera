@@ -28,6 +28,7 @@ world/New()
 	spawn(375) InitializeMarketTransactionSystem()  // Initialize market transaction & currency system
 	spawn(378) InitializeCurrencyDisplayUI()  // Initialize currency display HUD
 	spawn(380) InitializeInventoryManagementExtensions()  // Initialize inventory management extensions
+	spawn(382) InitializeRecipeDiscoveryRateBalancing()  // Initialize recipe discovery rate balancing
 	spawn(400) InitializeSkillRecipeSystem()  // Initialize skill-based recipe unlocks
 
 DEBUG_TIMER
