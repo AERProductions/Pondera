@@ -121,7 +121,6 @@
 		seed = 0                    // procedural seed
 
 /building/house
-	type = "house"
 	width = 2
 	height = 2
 	build_purpose = "housing"

@@ -266,7 +266,7 @@ proc/SaveTownStateWithPlayer(mob/players/P)
 	if(current_town)
 		// TODO: Save town state to P.save_data when persistence system is ready
 		// Placeholder for future persistence integration
-		null
+		return
 
 proc/LoadTownStateWithPlayer(mob/players/P)
 	if(!P) return

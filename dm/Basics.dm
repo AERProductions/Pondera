@@ -244,6 +244,7 @@ mob/players
 		hungry=0
 		fed = 0
 		hydrated = 0
+		story_progress = null  // Phase C: Story progression tracking (/datum/story_progress)
 	/*proc/hungercheck()
 		set waitfor=0
 		var/randomvalue = rand(1200,2000)

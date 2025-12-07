@@ -17,6 +17,7 @@ world/New()
 	InitWeatherController()
 	spawn() DynamicWeatherTick()
 	spawn(50) InitializeTownSystem()  // Initialize Phase B town generator (after continents)
+	spawn(100) InitializeStoryWorld()  // Initialize Phase C story world integration
 
 DEBUG_TIMER
 	var
