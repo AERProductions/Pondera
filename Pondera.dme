@@ -117,6 +117,8 @@
 #include "dm\TownData.dm"
 #include "dm\TownIntegration.dm"
 #include "dm\StoryWorldIntegration.dm"
+#include "dm\SandboxSystem.dm"
+#include "dm\SandboxData.dm"
 #include "dm\Zoom.dm"
 #include "libs\BaseCamp.dm"
 #include "libs\Compas.dm"
