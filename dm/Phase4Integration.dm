@@ -5,6 +5,7 @@
 	world << "PHASE4 Character Data Integration & Market System Initialization"
 	ValidateRecipeState()
 	InitializeMarketTradingSystem()
+	InitializeMarketStallUI()
 
 // ============================================================================
 // RECIPE STATE VALIDATION & RECOVERY
@@ -79,46 +80,7 @@
 /proc/InitializeMarketTradingSystem()
 	world << "PHASE4 Market Trading System Initialized"
 
-/proc/ShowMarketStallOwnerUI(mob/players/owner, obj/market_stall/stall)
-	// Owner management interface
-	if(!owner || !stall) return
-	
-	owner << "PHASE4 Market Stall Management (Phase 4 owner UI)"
-	owner << "PHASE4  Stall Name: [stall.stall_name]"
-	
-	var/item_count = length(stall.stall_items)
-	owner << "PHASE4  Items Listed: [item_count]"
-	
-	owner << "PHASE4  Daily Profit: [stall.daily_profit] SP"
-	owner << "PHASE4  Status: [stall.is_locked ? "CLOSED" : "OPEN"]"
-	owner << "PHASE4  Commands: (Phase 4 not yet implemented)"
-	owner << "PHASE4    - List item"
-	owner << "PHASE4    - Remove item"
-	owner << "PHASE4    - Set price"
-	owner << "PHASE4    - Lock/unlock stall"
-	owner << "PHASE4    - View profits"
-
-/proc/ShowMarketStallBuyerUI(mob/players/buyer, obj/market_stall/stall)
-	// Buyer shopping interface
-	if(!buyer || !stall) return
-	
-	buyer << "PHASE4 Market Stall Shopping (Phase 4 buyer ui)"
-	buyer << "PHASE4  Stall: [stall.stall_name]"
-	buyer << "PHASE4  Owner: [stall.owner_name]"
-	
-	var/item_count = length(stall.stall_items)
-	if(!item_count)
-		buyer << "PHASE4  (Empty stall)"
-		return
-	
-	buyer << "PHASE4  Items:"
-	for(var/item_id = 1 to item_count)
-		var/item = stall.stall_items[item_id]
-		var/price = stall.prices[item_id] || 0
-		if(item)
-			buyer << "PHASE4    [item_id]. [item] - [price] SP"
-	
-	buyer << "PHASE4  Purchasing disabled (Phase 4 not yet implemented)"
+// Market Stall UI functions are defined in MarketStallUI.dm
 
 // ============================================================================
 // CHARACTER PROGRESSION UNLOCK SYSTEM

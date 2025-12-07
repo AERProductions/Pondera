@@ -103,7 +103,7 @@
 			ShowBuyerUI(M)
 	
 	proc/ShowOwnerUI(mob/owner)
-		owner << "Market stall management Phase 4 not yet implemented"
+		ShowMarketStallOwnerUI(owner, src)
 	
 	proc/ShowBuyerUI(mob/buyer)
 		if(is_locked)
@@ -115,7 +115,7 @@
 			buyer << "This stall has no items."
 			return
 		
-		buyer << "Stall has " + item_count + " items purchasing Phase 4 not yet implemented"
+		ShowMarketStallBuyerUI(buyer, src)
 
 /proc/SwitchToContinentRecipes(mob/M, continent_id)
 	if(!M)
