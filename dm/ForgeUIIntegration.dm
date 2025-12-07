@@ -208,9 +208,9 @@ mob/players/proc
 		// Create dynamic screen overlay showing item temperatures
 		var/list/temps = list()
 		for(var/obj/items/thermable/item in contents)
-			var/color = item.GetTemperatureColor()
+			var/color_hex = item.GetTemperatureColor()
 			var/temp_name = item.GetTemperatureName()
-			temps += "<span style='color:[color]'>[item.name]: [temp_name]</span>"
+			temps += "<span style='color:[color_hex]'>[item.name]: [temp_name]</span>"
 		
 		if(temps.len > 0)
 			var/output = "<div style='position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 5px; font-family: monospace;'>"

@@ -163,12 +163,11 @@ obj/elevation_weather_controller
 	proc/UpdateWeatherForElevation(mob/players/M)
 		// Get current elevation from zone manager
 		var/current_elevel = M.elevel || 1.0
-		var/current_temp = 15
+		var/current_temp = 15  // Tracks temperature by elevation for future use
 		
 		// Adjust weather based on elevation
 		if(current_elevel < 1.0)
 			// Water level - high humidity
-			current_temp = 18
 			if(prob(40)) weather_type = "mist"
 			else if(prob(30)) weather_type = "fog"
 			else weather_type = "clear"
