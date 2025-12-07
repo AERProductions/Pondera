@@ -32,6 +32,8 @@ world/New()
 	spawn(382) InitializeItemInspectionSystem()  // Initialize item inspection & reverse-recipe lookup
 	spawn(383) InitializeDynamicMarketPricingSystem()  // Initialize dynamic market pricing
 	spawn(385) InitializeTreasuryUISystem()  // Initialize treasury UI visualization
+	spawn(386) InitializeMarketBoardUI()  // Initialize market board system
+	spawn(387) MarketBoardUpdateLoop()  // Start market board maintenance loop
 	spawn(380) InitializeInventoryManagementExtensions()  // Initialize inventory management extensions
 	spawn(384) InitializeRecipeDiscoveryRateBalancing()  // Initialize recipe discovery rate balancing
 	spawn(400) InitializeSkillRecipeSystem()  // Initialize skill-based recipe unlocks
