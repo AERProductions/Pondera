@@ -26,6 +26,8 @@ world/New()
 	spawn(360) InitializeNPCRecipeHandlers()  // Initialize NPC recipe handlers for existing NPCs
 	spawn(370) InitializeSkillLevelUpIntegration()  // Initialize skill level-up recipe hooks
 	spawn(375) InitializeMarketTransactionSystem()  // Initialize market transaction & currency system
+	spawn(378) InitializeCurrencyDisplayUI()  // Initialize currency display HUD
+	spawn(380) InitializeInventoryManagementExtensions()  // Initialize inventory management extensions
 	spawn(400) InitializeSkillRecipeSystem()  // Initialize skill-based recipe unlocks
 
 DEBUG_TIMER
