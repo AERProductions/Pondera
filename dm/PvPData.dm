@@ -263,12 +263,12 @@ var/list/pvp_port_layout = list(
 )
 
 // Beginner Guide for PvP Continent
-var/list/pvp_beginner_guide = list(
-	1 = "Welcome to the Battlelands! This is a full-PvP zone with deadly competition and territorial conflict.",
-	2 = "Claim a territory to establish your faction base. You'll need 100 Stone + 50 Wood to claim.",
-	3 = "Build fortifications (walls, towers, gates) to defend your territory from raids.",
-	4 = "Gain Combat Experience by defeating other players and completing dynamic events.",
-	5 = "Join a faction (Crimson Legion, Silver Guard, Shadow Guild, or Golden Dawn) for faction-specific bonuses."
+var/list/pvp_beginner_guide = alist(
+	1, "Welcome to the Battlelands! This is a full-PvP zone with deadly competition and territorial conflict.",
+	2, "Claim a territory to establish your faction base. You'll need 100 Stone + 50 Wood to claim.",
+	3, "Build fortifications (walls, towers, gates) to defend your territory from raids.",
+	4, "Gain Combat Experience by defeating other players and completing dynamic events.",
+	5, "Join a faction (Crimson Legion, Silver Guard, Shadow Guild, or Golden Dawn) for faction-specific bonuses."
 )
 
 /proc/ShowPvPBeginnersGuide(mob/player)
