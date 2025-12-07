@@ -8,8 +8,6 @@
 /obj/portal
 	name = "Portal"
 	desc = "A shimmering gateway to another realm. Click to enter."
-	icon = 'dmi/area.dmi'
-	icon_state = "grass"  // Use grass tileset as placeholder
 	density = 0
 	opacity = 0
 	luminosity = 2
