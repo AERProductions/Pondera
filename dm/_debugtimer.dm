@@ -21,6 +21,7 @@ world/New()
 	spawn(150) InitializeSandboxSystem()  // Initialize Phase D sandbox continent
 	spawn(200) InitializePvPSystem()  // Initialize Phase E PvP continent mechanics
 	spawn(250) InitializeMultiWorldSystem()  // Initialize Phase F multi-world integration
+	spawn(300) InitializePhase4System()  // Initialize Phase 4 character data & market trading
 
 DEBUG_TIMER
 	var
