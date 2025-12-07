@@ -913,20 +913,20 @@ mob
 			var/Speed = 13
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
 				if (!(src in range(1, usr))) return
-				var/K = (input("I go back and forth between these two principalities, trading and offering my services","Discuss") in list("What do you do?","Why do I care?"))
+				var/mob/players/M = usr
+				
+				var/K = (input("I go back and forth between these two principalities, trading and offering my services","Discuss") in list("What do you do?","Why do I care?","Teach Me"))
 				switch(K)
 					if("What do you do?")
 						alert("I fill various needs, finding wild goods and bringing them to merchants.","Discuss","Okay?","Give me an example?")
-						//if("Alright, Thanks.")
-							//return
 						if("Give me an example?")
 							alert("An example? I've carved planks for house building, cut stone for walls, gathered food and spice; I've also distributed random goods like Hand Made Blankets to the masses, there are only so many colors though.")
 					if("Why do I care?")
 						alert("You're the one talking to me.","Discuss","Ah, right.")
+					if("Teach Me")
+						TravelerRecipeDialog(M)
 		Scribe
 			name = "Scribe"
 			density = 1
@@ -1107,18 +1107,18 @@ mob
 			var/Speed = 13
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
 				if (!(src in range(1, usr))) return
-				var/K = (input("Ahh, a young survivor...","Discuss") in list("Survivor?","Young?"))
+				var/mob/players/M = usr
+				
+				var/K = (input("Ahh, a young survivor...","Discuss") in list("Survivor?","Young?","Teach Me"))
 				switch(K)
 					if("Survivor?")
 						alert("Yes, you are a survivor are you not? You've made it this far and I've seen many days pass where not a single soul has arrived to these steps.","Discuss","Well, I suppose I am then.")
-						//if("Alright, Thanks.")
-							//return
 					if("Young?")
 						alert("Yes, compared to me you are young as I am an Elder, but it is not an insult; rather just a compliment or even envy of your remaining days over mine.","Discuss","Wise words, Elder.")
+					if("Teach Me")
+						ElderRecipeDialog(M)
 
 		Veteran
 			name = "Veteran"
