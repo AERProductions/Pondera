@@ -22,6 +22,7 @@ world/New()
 	spawn(200) InitializePvPSystem()  // Initialize Phase E PvP continent mechanics
 	spawn(250) InitializeMultiWorldSystem()  // Initialize Phase F multi-world integration
 	spawn(300) InitializePhase4System()  // Initialize Phase 4 character data & market trading
+	spawn(350) InitializeNPCRecipeSystem()  // Initialize NPC recipe teaching system
 
 DEBUG_TIMER
 	var

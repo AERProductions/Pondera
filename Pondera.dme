@@ -73,6 +73,7 @@
 #include "dm\MultiWorldIntegration.dm"
 #include "dm\Music.dm"
 #include "dm\npcs.dm"
+#include "dm\NPCRecipeIntegration.dm"
 #include "dm\obj.dm"
 #include "dm\Objects.dm"
 #include "dm\Particles-Weather.dm"
