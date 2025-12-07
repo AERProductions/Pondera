@@ -43,6 +43,7 @@
 #include "dm\TreasuryUISystem.dm"
 #include "dm\MarketBoardUI.dm"
 #include "dm\DayNight.dm"
+#include "dm\deed.dm"
 #include "dm\door.dm"
 #include "dm\dir.dm"
 #include "dm\door.dm"
