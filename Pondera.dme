@@ -78,6 +78,7 @@
 #include "dm\Objects.dm"
 #include "dm\Particles-Weather.dm"
 #include "dm\MarketStallUI.dm"
+#include "dm\MarketTransactionSystem.dm"
 #include "dm\Phase4Integration.dm"
 #include "dm\pickrandomname.dm"
 #include "dm\plant.dm"

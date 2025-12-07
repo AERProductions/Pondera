@@ -49,6 +49,7 @@
 
 		// === RECIPE & KNOWLEDGE STATE ===
 		datum/recipe_state/recipe_state = null  // Tracks discovered recipes and knowledge
+		purchased_items = list()             // Items purchased from market stalls
 		
 		// === MULTI-WORLD SYSTEM ===
 		// Continent & World variables

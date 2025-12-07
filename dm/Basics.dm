@@ -185,6 +185,7 @@ mob/players
 		stall_inventory = list()             // Items in player's stall
 		stall_prices = list()                // Prices for stall items
 		stall_profits = 0                    // Accumulated stall profits
+		basecamp_stone = 0                   // Currency for market transactions
 		
 		brank = 0 //buildingrank
 		drank = 0 //diggingrank

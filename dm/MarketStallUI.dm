@@ -260,58 +260,8 @@
 // MARKET STALL OWNER COMMANDS
 // ============================================================================
 
-/proc/AddItemToStall(mob/players/owner, obj/market_stall/stall, item_name, item_price)
-	// Add item to stall inventory
-	if(!owner || !stall) return 0
-	if(owner.key != stall.owner_key)
-		owner << "ERROR: You are not the owner of this stall."
-		return 0
-	
-	var/item_id = "[item_name]_[world.timeofday]"
-	stall.stall_items[item_id] = item_name
-	stall.prices[item_id] = item_price
-	
-	owner << "Item added to stall: [item_name] for [item_price] SP"
-	return 1
-
-/proc/RemoveItemFromStall(mob/players/owner, obj/market_stall/stall, item_index)
-	// Remove item from stall inventory
-	if(!owner || !stall) return 0
-	if(owner.key != stall.owner_key)
-		owner << "ERROR: You are not the owner of this stall."
-		return 0
-	
-	var/index = 1
-	for(var/item_id in stall.stall_items)
-		if(index == item_index)
-			var/item_name = stall.stall_items[item_id]
-			stall.stall_items -= item_id
-			stall.prices -= item_id
-			owner << "Item removed: [item_name]"
-			return 1
-		index++
-	
-	owner << "ERROR: Item not found."
-	return 0
-
-/proc/SetStallItemPrice(mob/players/owner, obj/market_stall/stall, item_index, new_price)
-	// Update price of stall item
-	if(!owner || !stall) return 0
-	if(owner.key != stall.owner_key)
-		owner << "ERROR: You are not the owner of this stall."
-		return 0
-	
-	var/index = 1
-	for(var/item_id in stall.stall_items)
-		if(index == item_index)
-			var/item_name = stall.stall_items[item_id]
-			stall.prices[item_id] = new_price
-			owner << "Price updated: [item_name] now costs [new_price] SP"
-			return 1
-		index++
-	
-	owner << "ERROR: Item not found."
-	return 0
+// Item management, price updates, and profit withdrawal moved to MarketTransactionSystem.dm
+// Stall locking and renaming procs remain here for UI management
 
 /proc/LockStall(mob/players/owner, obj/market_stall/stall)
 	// Lock/unlock stall
@@ -335,61 +285,10 @@
 	owner << "Stall renamed to: [new_name]"
 	return 1
 
-/proc/WithdrawStallProfits(mob/players/owner, obj/market_stall/stall)
-	// Withdraw profits from stall
-	if(!owner || !stall) return 0
-	if(owner.key != stall.owner_key)
-		owner << "ERROR: You are not the owner of this stall."
-		return 0
-	
-	if(stall.daily_profit <= 0)
-		owner << "No profits to withdraw."
-		return 0
-	
-	var/profit = stall.daily_profit
-	stall.daily_profit = 0
-	
-	// Add profit to owner's character data (Phase 4 deferred - actual currency system)
-	if(owner.character)
-		owner.character.stall_profits += profit
-		owner << "Withdrawn [profit] SP worth of stone ([profit] stone added to character)"
-	
-	return 1
-
-// ============================================================================
-// MARKET TRANSACTION PROCESSING
-// ============================================================================
-
-/proc/ProcessMarketPurchase(mob/players/buyer, obj/market_stall/stall, list/cart_items)
-	// Process purchase transaction
-	if(!buyer || !stall || !cart_items) return 0
-	
-	if(stall.is_locked)
-		buyer << "ERROR: This stall is closed."
-		return 0
-	
-	// Calculate total cost
-	var/total_cost = 0
-	for(var/item_id in cart_items)
-		var/quantity = cart_items[item_id]
-		var/item_price = stall.prices[item_id] || 0
-		total_cost += item_price * quantity
-	
-	// Check if buyer has enough stone (Phase 4 deferred - actual currency system)
-	buyer << "Purchase successful! [total_cost] SP charged."
-	buyer << "Items have been added to your inventory."
-	
-	// Add profit to stall owner
-	stall.daily_profit += total_cost
-	
-	// Log transaction
-	world << "MARKET: [buyer.name] purchased from [stall.stall_name] for [total_cost] SP"
-	
-	return 1
-
 // ============================================================================
 // MARKET STALL INITIALIZATION
 // ============================================================================
 
 /proc/InitializeMarketStallUI()
 	world << "MARKET Market Stall UI System Initialized"
+
