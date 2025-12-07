@@ -187,6 +187,10 @@ mob/players
 		stall_profits = 0                    // Accumulated stall profits
 		basecamp_stone = 0                   // Currency for market transactions
 		
+		// Dual Currency System
+		datum/dual_currency_system/currency_system  // Holds lucre, stone, metal, timber balances
+		current_world = "story"              // Which world player is in: story, pvp, sandbox
+		
 		brank = 0 //buildingrank
 		drank = 0 //diggingrank
 		frank = 0 //fighting rank?

@@ -15,32 +15,8 @@
 	
 	return player.basecamp_stone
 
-/proc/DeductPlayerCurrency(mob/players/player, amount_stone)
-	// Deduct currency from player
-	// Returns 1 if successful, 0 if insufficient funds
-	if(!player) return 0
-	if(amount_stone <= 0) return 1
-	
-	if(!player.basecamp_stone)
-		player.basecamp_stone = 0
-	
-	if(player.basecamp_stone < amount_stone)
-		return 0
-	
-	player.basecamp_stone -= amount_stone
-	return 1
-
-/proc/AddPlayerCurrency(mob/players/player, amount_stone)
-	// Add stone currency to player
-	if(!player) return 0
-	if(amount_stone <= 0) return 1
-	
-	if(!player.basecamp_stone)
-		player.basecamp_stone = 0
-	
-	player.basecamp_stone += amount_stone
-	player << "Received [amount_stone] stone (basecamp total: [player.basecamp_stone])"
-	return 1
+// Currency management moved to DualCurrencySystem.dm
+// Use DualCurrencySystem procs for all currency transactions
 
 /proc/ValidateMarketTransaction(mob/players/buyer, obj/market_stall/stall, list/cart_items)
 	// Validate that transaction can proceed

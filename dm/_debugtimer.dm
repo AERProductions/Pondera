@@ -27,8 +27,12 @@ world/New()
 	spawn(370) InitializeSkillLevelUpIntegration()  // Initialize skill level-up recipe hooks
 	spawn(375) InitializeMarketTransactionSystem()  // Initialize market transaction & currency system
 	spawn(378) InitializeCurrencyDisplayUI()  // Initialize currency display HUD
+	spawn(379) InitializeDualCurrencySystem()  // Initialize dual currency (lucre + materials)
+	spawn(381) InitializeKingdomMaterialExchange()  // Initialize kingdom material trading
+	spawn(382) InitializeItemInspectionSystem()  // Initialize item inspection & reverse-recipe lookup
+	spawn(383) InitializeDynamicMarketPricingSystem()  // Initialize dynamic market pricing
 	spawn(380) InitializeInventoryManagementExtensions()  // Initialize inventory management extensions
-	spawn(382) InitializeRecipeDiscoveryRateBalancing()  // Initialize recipe discovery rate balancing
+	spawn(384) InitializeRecipeDiscoveryRateBalancing()  // Initialize recipe discovery rate balancing
 	spawn(400) InitializeSkillRecipeSystem()  // Initialize skill-based recipe unlocks
 
 DEBUG_TIMER

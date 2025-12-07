@@ -50,8 +50,7 @@
 	
 	var/list/all_items = list()
 	for(var/obj/items/item in player.contents)
-		// Skip worn equipment flags
-		if(item.stt_worn) continue
+		// Include all items in player's inventory
 		all_items += item
 	
 	return all_items
