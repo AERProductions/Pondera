@@ -136,19 +136,17 @@ obj/items/tools/refinement
 	proc/PlayRefinementSound(tool_type, location)
 		/**
 		 * Play appropriate refinement sound based on tool type
+		 * Uses the _SoundEngine for positional audio (if sound files are available)
+		 * TODO: Add actual sound files as they become available
 		 */
-		if(!sound_mgr) return
-		
-		switch(tool_type)
-			if(REFINE_TOOL_FILE)
-				// File scraping sound
-				sound_mgr.PlayEffectSound("file_scrape", location)
-			if(REFINE_TOOL_WHETSTONE)
-				// Whetstone sharpening sound
-				sound_mgr.PlayEffectSound("whetstone_scrape", location)
-			if(REFINE_TOOL_POLISH_CLOTH)
-				// Polishing sound
-				sound_mgr.PlayEffectSound("polish_cloth", location)
+		// Placeholder - sounds can be added when audio assets are ready
+		// switch(tool_type)
+		// 	if(REFINE_TOOL_FILE)
+		// 		_SoundEngine('snd/refinement_file.ogg', location, range=3, volume=75)
+		// 	if(REFINE_TOOL_WHETSTONE)
+		// 		_SoundEngine('snd/refinement_whetstone.ogg', location, range=3, volume=75)
+		// 	if(REFINE_TOOL_POLISH_CLOTH)
+		// 		_SoundEngine('snd/refinement_polish.ogg', location, range=3, volume=60)
 
 // File tool
 obj/items/tools/refinement/File

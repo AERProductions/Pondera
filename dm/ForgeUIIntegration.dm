@@ -266,3 +266,96 @@ obj/Buildable/WaterTrough/proc
 		
 		M << "<font color='#00FF00'><b>Steam rises as the [item] is quenched! Ready for refinement!</b></font>"
 		return TRUE
+
+// ============================================================================
+// REFINEMENT SYSTEM INTEGRATION - Connect RefinementSystem to Forge UI
+// ============================================================================
+
+obj/Buildable/Smithing/verb
+	Refine_Item_Dialog()
+		set popup_menu = 1
+		set src in oview(1)
+		set category = "Smithing"
+		
+		var/mob/players/M = usr
+		
+		// Check if player has any items needing refinement
+		var/has_refinable = FALSE
+		for(var/obj/items/crafting/refined/item in M.contents)
+			if(item.CanRefine())
+				has_refinable = TRUE
+				break
+		
+		if(!has_refinable)
+			M << "<font color='#FF0000'>You have no items that need refinement.</font>"
+			return
+		
+		// Show refinement status
+		var/output = "<h2><center>Item Refinement</center></h2><br>"
+		output += "<b>Stages:</b><br>"
+		output += "1. File - Smooth the surface<br>"
+		output += "2. Sharpen - Create sharp edges<br>"
+		output += "3. Polish - Perfect the finish<br><br>"
+		
+		output += "<b>Your Items:</b><br>"
+		for(var/obj/items/crafting/refined/item in M.contents)
+			if(!item.CanRefine()) continue
+			var/stage_name = item.GetStageNameForDisplay(item.refine_stage)
+			var/next_tool = item.GetToolName(item.GetNextToolNeeded())
+			output += "• [item.name]: [stage_name] (Quality: [item.refine_quality]%)<br>"
+			output += "   Needs: [next_tool]<br><br>"
+		
+		M << output
+		
+		// Ask which tool to use
+		var/choice = input(M, "Select refinement tool:", "Refinement") in list(
+			"File (Stage 1)",
+			"Whetstone (Stage 2)",
+			"Polish Cloth (Stage 3)",
+			"Cancel"
+		)
+		
+		if(!choice || choice == "Cancel")
+			return
+		
+		// Find the tool and attempt refinement
+		var/tool_type = 0
+		switch(choice)
+			if("File (Stage 1)")
+				tool_type = REFINE_TOOL_FILE
+			if("Whetstone (Stage 2)")
+				tool_type = REFINE_TOOL_WHETSTONE
+			if("Polish Cloth (Stage 3)")
+				tool_type = REFINE_TOOL_POLISH_CLOTH
+		
+		// Find items matching this stage
+		var/list/matching_items = list()
+		for(var/obj/items/crafting/refined/item in M.contents)
+			if(!item.CanRefine()) continue
+			if(item.GetNextToolNeeded() == tool_type)
+				matching_items += item
+		
+		if(!matching_items.len)
+			M << "<font color='#FF0000'>You have no items ready for this refinement stage.</font>"
+			return
+		
+		// Auto-select first matching item
+		var/obj/items/crafting/refined/target = matching_items[1]
+		
+		// Perform refinement
+		M << "<b>You begin refining [target.name]...</b>"
+		sleep(15)  // Time for refinement
+		
+		var/success_chance = target.GetSuccessProbability()
+		if(prob(success_chance))
+			target.refine_stage += 1
+			target.refine_quality = min(100, target.refine_quality + rand(5, 15))
+			M << "<font color='#00FF00'><b>[target.name] has been successfully refined!</b></font>"
+			
+			// Stage advancement is the main result
+			// Items can have OnFiled/OnSharpened/OnPolished procs if desired
+		else
+			target.refine_quality = min(100, target.refine_quality + rand(2, 5))
+			target.refine_durability = max(20, target.refine_durability - rand(3, 8))
+			M << "<font color='#FFD700'>[target.name] could use more refinement.</font>"
+
