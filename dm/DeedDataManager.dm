@@ -173,8 +173,8 @@ var
 	var/list/deeds = g_deed_owner_map[player_ckey] || list()
 	
 	for(var/obj/DeedToken/token in deeds)
-		// Deed zone is zonex * zone (default 10x10 = 100 turfs)
-		var/zone_size = token:zonex * token:zone  // zonex and zone both = 10
+		// Deed zone is zonex * zoney (default 10x10 = 100 turfs)
+		var/zone_size = token:zonex * token:zoney  // Both dimensions of square zone
 		total_area += zone_size
 	
 	return total_area
@@ -383,7 +383,7 @@ var
 	// Update zone size
 	var/old_size = token:zonex
 	token:zonex = new_size
-	token:zone = new_size
+	token:zoney = new_size
 	
 	// Re-create deed region with new bounds
 	UpdateDeedRegionBounds(token, old_size, new_size)
@@ -437,13 +437,14 @@ var
 	var/token_x = token:x
 	var/token_y = token:y
 	var/token_z = token:z
-	var/zone_size = token:zonex
+	var/zone_x_size = token:zonex
+	var/zone_y_size = token:zoney
 	
 	// Bounds checking - prevent accessing invalid coordinates
-	var/start_x = max(1, token_x - zone_size/2)
-	var/start_y = max(1, token_y - zone_size/2)
-	var/end_x = min(world.maxx, token_x + zone_size/2)
-	var/end_y = min(world.maxy, token_y + zone_size/2)
+	var/start_x = max(1, token_x - zone_x_size/2)
+	var/start_y = max(1, token_y - zone_y_size/2)
+	var/end_x = min(world.maxx, token_x + zone_x_size/2)
+	var/end_y = min(world.maxy, token_y + zone_y_size/2)
 	
 	// Safety: bounds shouldn't be inverted
 	if(start_x > end_x || start_y > end_y)

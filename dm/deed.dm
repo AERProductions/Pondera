@@ -125,7 +125,7 @@ obj
 	DeedToken//Deed Token object that create the deed region and facilitates handling the permissions
 		var
 			zonex = 10
-			zone = 10
+			zoney = 10  // Standardized: use zoney instead of 'zone' for consistency with region/deed
 			owner = ""
 			permallow = 0
 			list/deedallow[0]
