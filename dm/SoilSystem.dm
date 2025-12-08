@@ -50,8 +50,9 @@ var/global/list/SOIL_TYPES = alist(
 
 /**
  * Determine soil type from fertility level
+ * LEGACY: Use SoilPropertySystem.dm for new code
  */
-/proc/GetSoilTypeFromFertility(fertility_level)
+/proc/GetSoilTypeFromFertility_Legacy(fertility_level)
 	if (fertility_level <= 0)
 		return SOIL_DEPLETED
 	else if (fertility_level >= 120)
@@ -190,8 +191,9 @@ var/global/list/SOIL_TYPES = alist(
 
 /**
  * Fertilizer application (framework)
+ * LEGACY: Use CompostSystem.dm for new code
  */
-/proc/ApplyCompost(soil_type, compost_amount)
+/proc/ApplyCompost_Legacy(soil_type, compost_amount)
 	/**
 	 * Apply compost/fertilizer to restore fertility
 	 * Example: Add compost → fertility +20
@@ -389,8 +391,9 @@ var/global/list/SOIL_TYPES = alist(
 
 /**
  * Get soil type from turf location (safely handles non-turf objects)
+ * LEGACY: Use SoilPropertySystem.dm for new code
  */
-/proc/GetTurfSoilType(atom/location)
+/proc/GetTurfSoilType_Legacy(atom/location)
 	if (!location)
 		return SOIL_BASIC
 	

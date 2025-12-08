@@ -28,3 +28,13 @@
 #define CONT_STORY    "story"        // Kingdom of Freedom (procedural with story)
 #define CONT_SANDBOX  "sandbox"      // Creative Sandbox (peaceful building)
 #define CONT_PVP      "pvp"          // Battlelands (competitive survival)
+
+// Soil System Constants
+#define SOIL_DEPLETED 0
+#define SOIL_BASIC 1
+#define SOIL_RICH 2
+
+// Compost Types
+#define COMPOST_BASIC 1
+#define COMPOST_BONE_MEAL 2
+#define COMPOST_KELP 3
