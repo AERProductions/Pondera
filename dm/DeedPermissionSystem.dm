@@ -24,6 +24,12 @@
 		var/obj/DeedToken/token = GetDeedAtLocation(T)
 		var/deed_info = token ? "[token:name] (owner: [token:owner])" : "Unknown deed"
 		world.log << "BUILD DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
+		
+		// Add to analytics log
+		if(!permission_denials) permission_denials = list()
+		permission_denials += "BUILD DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
+		if(permission_denials.len > 10000) PrunePermissionLogs()
+		
 		return FALSE
 	
 	return TRUE
@@ -46,6 +52,12 @@
 		var/obj/DeedToken/token = GetDeedAtLocation(T)
 		var/deed_info = token ? "[token:name] (owner: [token:owner])" : "Unknown deed"
 		world.log << "PICKUP DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
+		
+		// Add to analytics log
+		if(!permission_denials) permission_denials = list()
+		permission_denials += "PICKUP DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
+		if(permission_denials.len > 10000) PrunePermissionLogs()
+		
 		return FALSE
 	
 	return TRUE
@@ -68,6 +80,12 @@
 		var/obj/DeedToken/token = GetDeedAtLocation(T)
 		var/deed_info = token ? "[token:name] (owner: [token:owner])" : "Unknown deed"
 		world.log << "DROP DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
+		
+		// Add to analytics log
+		if(!permission_denials) permission_denials = list()
+		permission_denials += "DROP DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
+		if(permission_denials.len > 10000) PrunePermissionLogs()
+		
 		return FALSE
 	
 	return TRUE

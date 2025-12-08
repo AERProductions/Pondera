@@ -71,6 +71,12 @@
 	var/list/validation = ValidateMarketTransaction(buyer, stall, cart_items)
 	if(!validation[1])
 		world.log << "MARKET TRANSACTION FAILED: [buyer.name] at '[stall.stall_name]' - Error: [validation[2]] (Category: [validation[4]])"
+		
+		// Log to analytics
+		if(!transaction_log) transaction_log = list()
+		transaction_log += "MARKET TRANSACTION FAILED: [buyer.name] at '[stall.stall_name]' - Category: [validation[4]]"
+		if(transaction_log.len > 10000) PruneTransactionLogs()
+		
 		buyer << "<b><font color=red>Transaction failed: [validation[2]]</font></b>"
 		return 0
 	
@@ -101,6 +107,11 @@
 	
 	// Log successful transaction
 	world.log << "MARKET TRANSACTION SUCCESS: [buyer.name] -> '[stall.stall_name]' (Owner: [stall.owner_name]) - Cost: [total_cost] stone, Items: [items_purchased]"
+	
+	// Add to global transaction log for analytics
+	if(!transaction_log) transaction_log = list()
+	transaction_log += "MARKET TRANSACTION SUCCESS: [buyer.name] -> '[stall.stall_name]' (Owner: [stall.owner_name]) - Cost: [total_cost] stone, Items: [items_purchased]"
+	if(transaction_log.len > 10000) PruneTransactionLogs()  // Prevent unbounded growth
 	
 	// Notify buyer
 	buyer << "<b><font color=green>Purchase successful!</font></b>"
