@@ -173,8 +173,8 @@ var
 	var/list/deeds = g_deed_owner_map[player_ckey] || list()
 	
 	for(var/obj/DeedToken/token in deeds)
-		// Deed zone is zonex * zoney (default 10x10 = 100 turfs)
-		var/zone_size = token:zonex * token:zone  // Note: 'zone' should be 'zoney'
+		// Deed zone is zonex * zone (default 10x10 = 100 turfs)
+		var/zone_size = token:zonex * token:zone  // zonex and zone both = 10
 		total_area += zone_size
 	
 	return total_area
