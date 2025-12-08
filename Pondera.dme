@@ -46,6 +46,7 @@
 #include "dm\ItemInspectionSystem.dm"
 #include "dm\DynamicMarketPricingSystem.dm"
 #include "dm\MovementModernization.dm"
+#include "dm\NPCCharacterIntegration.dm"
 #include "dm\TreasuryUISystem.dm"
 #include "dm\MarketBoardUI.dm"
 #include "dm\DayNight.dm"

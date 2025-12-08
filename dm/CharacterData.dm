@@ -61,6 +61,13 @@
 		stall_inventory = list()             // Items for sale in stall
 		stall_prices = list()                // Prices for items
 		stall_profits = 0                    // Accumulated stall profits (shared globally)
+		
+		// === NPC-SPECIFIC DATA ===
+		is_npc = FALSE                       // TRUE if this datum belongs to an NPC
+		npc_type = ""                        // NPC type: "Traveler", "Elder", "Veteran", "Warrior", "Scribe", "Proctor", etc.
+		npc_teachable_recipes = list()       // Recipes this NPC can teach
+		npc_dialogue_topics = list()         // Knowledge topics this NPC can teach
+		npc_taught_to = list()               // List of player ckeys this NPC has taught (for tracking)
 
 /datum/character_data/proc/Initialize()
 	// Reset all ranks and exp to zero on creation
@@ -116,3 +123,221 @@
 	// Initialize recipe state with defaults
 	recipe_state = new /datum/recipe_state()
 	recipe_state.SetRecipeDefaults()
+
+// ============================================================================
+// NPC INITIALIZATION - Create unified NPC character data
+// ============================================================================
+
+/datum/character_data/proc/InitializeAsNPC(npc_type_name = "")
+	// Convert this datum to an NPC with specific type and teachable recipes
+	is_npc = TRUE
+	npc_type = npc_type_name
+	npc_taught_to = list()
+	
+	// Initialize NPC-specific skills based on type
+	switch(npc_type)
+		if("Traveler")
+			frank = 4           // Excellent fishing knowledge
+			crank = 3           // Good crafting
+			grank = 3           // Gardening
+			npc_teachable_recipes = list("fishing_pole", "plant_gathering", "trading_basics")
+			npc_dialogue_topics = list("trading_basics", "world_travel")
+			
+		if("Elder")
+			frank = 5           // Master fisherman
+			crank = 4           // Master crafter
+			smirank = 3         // Good smithing
+			npc_teachable_recipes = list("wooden_wall", "survival_basics", "resource_conservation")
+			npc_dialogue_topics = list("survival_101", "resource_conservation", "world_wisdom")
+			
+		if("Veteran")
+			mrank = 4           // Excellent mining
+			smirank = 4         // Excellent smithing
+			hrank = 3           // Good harvesting
+			npc_teachable_recipes = list("tool_sharpening", "combat_basics", "weapon_maintenance")
+			npc_dialogue_topics = list("combat_basics", "defense_101", "weapon_care")
+			
+		if("Warrior")
+			crank = 5           // Master crafting
+			mrank = 3           // Good mining
+			smerank = 3         // Good smelting
+			npc_teachable_recipes = list("carving_knife", "cook_food", "armor_maintenance")
+			npc_dialogue_topics = list("armor_maintenance", "resource_preparation")
+			
+		if("Scribe")
+			crank = 3           // Crafting knowledge
+			frank = 2           // Some fishing knowledge
+			grank = 2           // Some gardening knowledge
+			npc_teachable_recipes = list("cooking_basics", "gardening_101")
+			npc_dialogue_topics = list("world_history", "crafting_theory", "knowledge_preservation")
+			
+		if("Proctor")
+			brank = 5           // Master builder
+			crank = 4           // Master crafter
+			mrank = 3           // Good mining
+			npc_teachable_recipes = list("wooden_wall", "stone_foundation", "building_basics")
+			npc_dialogue_topics = list("building_theory", "construction_methods")
+
+// ============================================================================
+// NPC RECIPE TEACHING - Track which NPCs taught which recipes
+// ============================================================================
+
+/datum/character_data/proc/CanTeachRecipe(recipe_name)
+	// Check if this NPC can teach a specific recipe
+	if(!is_npc) return FALSE
+	return recipe_name in npc_teachable_recipes
+
+/datum/character_data/proc/CanTeachKnowledge(knowledge_topic)
+	// Check if this NPC can teach a specific knowledge topic
+	if(!is_npc) return FALSE
+	return knowledge_topic in npc_dialogue_topics
+
+/datum/character_data/proc/HasTaughtPlayer(player_ckey)
+	// Check if this NPC has already taught a specific player
+	if(!is_npc) return FALSE
+	return player_ckey in npc_taught_to
+
+/datum/character_data/proc/MarkPlayerTaught(player_ckey)
+	// Record that this NPC taught a player (prevents duplicate teaching)
+	if(!is_npc) return
+	if(!(player_ckey in npc_taught_to))
+		npc_taught_to += player_ckey
+
+// ============================================================================
+// UNIFIED RANK ACCESSOR METHODS - Get/Set/Update skill ranks
+// ============================================================================
+
+/datum/character_data/proc/GetRankLevel(rank_type)
+	// Get skill rank level (1-5 for most skills)
+	switch(rank_type)
+		if("frank")
+			return frank
+		if("crank")
+			return crank
+		if("grank")
+			return grank
+		if("hrank")
+			return hrank
+		if("mrank")
+			return mrank
+		if("smirank")
+			return smirank
+		if("smerank")
+			return smerank
+		if("brank")
+			return brank
+		if("drank")
+			return drank
+		if("Crank")
+			return Crank
+		if("CSRank")
+			return CSRank
+		if("PLRank")
+			return PLRank
+	return 0
+
+/datum/character_data/proc/SetRankLevel(rank_type, level)
+	// Set skill rank level to a specific value
+	switch(rank_type)
+		if("frank")
+			frank = level
+		if("crank")
+			crank = level
+		if("grank")
+			grank = level
+		if("hrank")
+			hrank = level
+		if("mrank")
+			mrank = level
+		if("smirank")
+			smirank = level
+		if("smerank")
+			smerank = level
+		if("brank")
+			brank = level
+		if("drank")
+			drank = level
+		if("Crank")
+			Crank = level
+		if("CSRank")
+			CSRank = level
+		if("PLRank")
+			PLRank = level
+
+/datum/character_data/proc/UpdateRankExp(rank_type, exp_gain)
+	// Add experience to a skill and check for level-up
+	if(exp_gain <= 0) return
+	
+	var/current_exp = 0
+	var/max_exp = 0
+	var/current_level = 0
+	
+	switch(rank_type)
+		if("frank")
+			frankEXP += exp_gain
+			current_exp = frankEXP
+			max_exp = frankMAXEXP
+			current_level = frank
+		if("crank")
+			crankEXP += exp_gain
+			current_exp = crankEXP
+			max_exp = crankMAXEXP
+			current_level = crank
+		if("grank")
+			grankEXP += exp_gain
+			current_exp = grankEXP
+			max_exp = grankMAXEXP
+			current_level = grank
+		if("hrank")
+			hrankEXP += exp_gain
+			current_exp = hrankEXP
+			max_exp = hrankMAXEXP
+			current_level = hrank
+		if("mrank")
+			mrankEXP += exp_gain
+			current_exp = mrankEXP
+			max_exp = mrankMAXEXP
+			current_level = mrank
+		if("smirank")
+			smirankEXP += exp_gain
+			current_exp = smirankEXP
+			max_exp = smirankMAXEXP
+			current_level = smirank
+		if("smerank")
+			smerankEXP += exp_gain
+			current_exp = smerankEXP
+			max_exp = smerankMAXEXP
+			current_level = smerank
+		if("brank")
+			brankEXP += exp_gain
+			current_exp = brankEXP
+			max_exp = brankMAXEXP
+			current_level = brank
+		if("drank")
+			drankEXP += exp_gain
+			current_exp = drankEXP
+			max_exp = drankMAXEXP
+			current_level = drank
+		if("Crank")
+			CrankEXP += exp_gain
+			current_exp = CrankEXP
+			max_exp = CrankMAXEXP
+			current_level = Crank
+		if("CSRank")
+			CSRankEXP += exp_gain
+			current_exp = CSRankEXP
+			max_exp = CSRankMAXEXP
+			current_level = CSRank
+		if("PLRank")
+			PLRankEXP += exp_gain
+			current_exp = PLRankEXP
+			max_exp = PLRankMAXEXP
+			current_level = PLRank
+	
+	// Check for level-up
+	while(current_exp >= max_exp && current_level < 5)
+		current_exp -= max_exp
+		current_level++
+		SetRankLevel(rank_type, current_level)
+		// Max exp increases per level
+		max_exp = max_exp * 1.5

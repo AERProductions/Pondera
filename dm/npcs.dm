@@ -926,7 +926,7 @@ mob
 					if("Why do I care?")
 						alert("You're the one talking to me.","Discuss","Ah, right.")
 					if("Teach Me")
-						TravelerRecipeDialog(M)
+						TravelerRecipeDialogUnified(M, src)
 		Scribe
 			name = "Scribe"
 			density = 1
@@ -1118,7 +1118,7 @@ mob
 					if("Young?")
 						alert("Yes, compared to me you are young as I am an Elder, but it is not an insult; rather just a compliment or even envy of your remaining days over mine.","Discuss","Wise words, Elder.")
 					if("Teach Me")
-						ElderRecipeDialog(M)
+						ElderRecipeDialogUnified(M, src)
 
 		Veteran
 			name = "Veteran"
