@@ -287,41 +287,33 @@ obj
 						if("Back") goto START
 
 						if("Grant Permission")//If you want to grant someone permissions
-							var/list/J[1]
-							var/C = 1
-							for(M as mob in view(10)) // only people you can SEE
-								if(istype(M,/mob/players)) // PEOPLE you can see
-									J[C] = M
-									C++
-									J.len++
-									if(J.len >=1)//checking if the list contents is greater than or equal to 1
-										//this still needs some work, I want to show the list even if there is only one player
-										M = input("Grant Permission","Who") as anything in J//If it is greater than or equal to 1, return a list of options
-
-										if(M)
-											M:permallow=1
-											if (istype(M,/mob/players)) // gotta check and be sure it is a player
-												if (M.permallow == 1)//add them to the deed list, notify them and run the grantpermissions proc then close out
-													deedallow.Add(ckey(M.key))
-													M:canbuild = 1
-													M:candrop = 1
-													M:canpickup = 1
-													M << "You have granted [M] permissions."
-													//grantpermissions(M)
-													M:deedopen=0
-													return
-												else
-													//revokepermissions(M)
-													M:canbuild = 0
-													M:candrop = 0
-													M:canpickup = 0
-													deedallow.Remove(ckey(M.key))
-													M:deedopen=0
-													return
-
-									else
-										M.deedopen=0
+							var/list/J = list()
+							for(var/mob/P as mob in view(10)) // only people you can SEE
+								if(istype(P,/mob/players)) // PEOPLE you can see
+									J += P
+							
+							if(J.len >= 1)
+								var/mob/selected = input("Grant Permission","Who") as anything in J
+								if(selected)
+									if (istype(selected,/mob/players))
+										selected:permallow = 1
+										if(selected:permallow == 1)
+											deedallow.Add(ckey(selected.key))
+											selected:canbuild = 1
+											selected:candrop = 1
+											selected:canpickup = 1
+											selected << "You have been granted deed permissions."
+										else
+											selected:canbuild = 0
+											selected:candrop = 0
+											selected:canpickup = 0
+											deedallow.Remove(ckey(selected.key))
+										selected:deedopen = 0
 										return
+							else
+								usr << "No players in view."
+								usr:deedopen = 0
+								return
 
 						if("Revoke Permission")
 							var/list/J[1]

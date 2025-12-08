@@ -300,29 +300,22 @@ proc/GetObjectSoundReport()
 	
 	var/object_count = 0
 	var/sound_count = 0
-	var/total_listeners = 0
 	
 	// Count fires with sounds
 	for(var/obj/Buildable/Fire/F in world)
 		if(F.fire_sound)
 			object_count++
 			sound_count++
-			if(F.fire_sound.listeners)
-				total_listeners += F.fire_sound.listeners.len
-			report += "[F.name] at ([F.x],[F.y]): 1 sound ([F.fire_sound.listeners.len] listening)\n"
+			report += "[F.name] at ([F.x],[F.y]): 1 active fire sound\n"
 	
-	// Forges - TODO: implement forge_sound variable
-	/*
+	// Forges - monitor active forge sounds
 	for(var/obj/Buildable/Smithing/Forge/FG in world)
 		if(FG.forge_sound)
 			object_count++
 			sound_count++
-			if(FG.forge_sound.listeners)
-				total_listeners += FG.forge_sound.listeners.len
-			report += "[FG.name] at ([FG.x],[FG.y]): 1 sound ([FG.forge_sound.listeners.len] listening)\n"
-	*/
+			report += "[FG.name] at ([FG.x],[FG.y]): 1 active forge sound\n"
 	
-	report += "\nSummary: [object_count] objects with sounds, [sound_count] total sounds, [total_listeners] total listeners"
+	report += "\nSummary: [object_count] objects with sounds, [sound_count] total sounds tracked"
 	report += "\n════════════════════════════════════════\n"
 	
 	return report

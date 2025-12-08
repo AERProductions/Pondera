@@ -52,6 +52,9 @@ obj
 				layer = 11
 				can_stack = TRUE
 				//var/stack = 1
+				// Legacy refinement flags (pre-Phase 6)
+				// NOTE: RefinementSystem.dm (Phase 6) provides modern replacement via refine_stage
+				// These are kept for backwards compatibility with existing code
 				var/needssharpening = 0
 				var/needsfiled = 0
 				var/needspolished = 0

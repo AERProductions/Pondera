@@ -158,6 +158,7 @@ obj/Buildable/Furnishings/ArmorRack
 obj/Buildable/Smithing/Forge
 	var
 		is_lit = FALSE
+		forge_sound = null  // Ambient sound object for active forge fires
 	
 	UseObject(mob/user)
 		if(user)
@@ -165,9 +166,11 @@ obj/Buildable/Smithing/Forge
 			if(is_lit)
 				user << "You light the forge."
 				PlayForgeAmbient(src, TRUE)
+				// Note: forge_sound can be set by PlayForgeAmbient() or _SoundEngine()
 			else
 				user << "You extinguish the forge flames."
 				PlayForgeAmbient(src, FALSE)
+				forge_sound = null
 			user.Click(src)
 		return 1
 
