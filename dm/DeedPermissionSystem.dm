@@ -12,11 +12,18 @@
 	 * @param M - Player mob
 	 * @param T - Target turf
 	 * @return TRUE if allowed, FALSE if denied
+	 * @note Logs denials with location info for debugging
 	 */
-	if(!M || !T) return FALSE
+	if(!M || !T)
+		if(!M) world.log << "WARNING: CanPlayerBuildAtLocation() called with null player"
+		if(!T) world.log << "WARNING: CanPlayerBuildAtLocation() called with null turf"
+		return FALSE
 	
 	// Check if player's canbuild is disabled (set by deed regions)
 	if(M.canbuild == 0)
+		var/obj/DeedToken/token = GetDeedAtLocation(T)
+		var/deed_info = token ? "[token:name] (owner: [token:owner])" : "Unknown deed"
+		world.log << "BUILD DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
 		return FALSE
 	
 	return TRUE
@@ -27,11 +34,18 @@
 	 * @param M - Player mob
 	 * @param T - Location of item
 	 * @return TRUE if allowed, FALSE if denied
+	 * @note Logs denials with location info for debugging
 	 */
-	if(!M || !T) return FALSE
+	if(!M || !T)
+		if(!M) world.log << "WARNING: CanPlayerPickupAtLocation() called with null player"
+		if(!T) world.log << "WARNING: CanPlayerPickupAtLocation() called with null turf"
+		return FALSE
 	
 	// Check if player's canpickup is disabled (set by deed regions)
 	if(M.canpickup == 0)
+		var/obj/DeedToken/token = GetDeedAtLocation(T)
+		var/deed_info = token ? "[token:name] (owner: [token:owner])" : "Unknown deed"
+		world.log << "PICKUP DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
 		return FALSE
 	
 	return TRUE
@@ -42,11 +56,18 @@
 	 * @param M - Player mob
 	 * @param T - Target location
 	 * @return TRUE if allowed, FALSE if denied
+	 * @note Logs denials with location info for debugging
 	 */
-	if(!M || !T) return FALSE
+	if(!M || !T)
+		if(!M) world.log << "WARNING: CanPlayerDropAtLocation() called with null player"
+		if(!T) world.log << "WARNING: CanPlayerDropAtLocation() called with null turf"
+		return FALSE
 	
 	// Check if player's candrop is disabled (set by deed regions)
 	if(M.candrop == 0)
+		var/obj/DeedToken/token = GetDeedAtLocation(T)
+		var/deed_info = token ? "[token:name] (owner: [token:owner])" : "Unknown deed"
+		world.log << "DROP DENIED: [M.name] at [T.x],[T.y],[T.z] - [deed_info]"
 		return FALSE
 	
 	return TRUE

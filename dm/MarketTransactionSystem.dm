@@ -20,21 +20,27 @@
 
 /proc/ValidateMarketTransaction(mob/players/buyer, obj/market_stall/stall, list/cart_items)
 	// Validate that transaction can proceed
-	// Returns: list(success, error_msg, total_cost)
+	// Returns: list(success, error_msg, total_cost, error_category)
+	// error_category: "invalid_data", "stall_closed", "stall_error", "item_unavailable", "insufficient_funds"
 	if(!buyer || !stall || !cart_items)
-		return list(0, "Invalid transaction data", 0)
+		var/error = !buyer ? "buyer" : (!stall ? "stall" : "cart_items")
+		world.log << "MARKET VALIDATION: Invalid transaction data (missing [error])"
+		return list(0, "Invalid transaction data", 0, "invalid_data")
 	
 	if(stall.is_locked)
-		return list(0, "This stall is currently closed", 0)
+		world.log << "MARKET VALIDATION: Stall '[stall.stall_name]' is locked (buyer: [buyer.name])"
+		return list(0, "This stall is currently closed", 0, "stall_closed")
 	
 	if(!stall.owner_key)
-		return list(0, "Stall has no owner", 0)
+		world.log << "MARKET VALIDATION: Stall '[stall.stall_name]' has no owner - orphaned stall"
+		return list(0, "Stall has no owner", 0, "stall_error")
 	
 	// Calculate total cost
 	var/total_cost = 0
 	for(var/item_id in cart_items)
 		if(!(item_id in stall.prices))
-			return list(0, "Item [item_id] is no longer available", 0)
+			world.log << "MARKET VALIDATION: Item '[item_id]' not found in stall '[stall.stall_name]'"
+			return list(0, "Item [item_id] is no longer available", 0, "item_unavailable")
 		
 		var/quantity = cart_items[item_id]
 		var/item_price = stall.prices[item_id]
@@ -43,9 +49,11 @@
 	// Check if buyer has sufficient funds
 	var/buyer_currency = GetPlayerCurrency(buyer)
 	if(buyer_currency < total_cost)
-		return list(0, "Insufficient funds. Need [total_cost], have [buyer_currency]", total_cost)
+		world.log << "MARKET VALIDATION: Insufficient funds - [buyer.name] needs [total_cost], has [buyer_currency]"
+		return list(0, "Insufficient funds. Need [total_cost], have [buyer_currency]", total_cost, "insufficient_funds")
 	
-	return list(1, "Transaction valid", total_cost)
+	world.log << "MARKET VALIDATION: OK - [buyer.name] purchasing from '[stall.stall_name]' for [total_cost] stone"
+	return list(1, "Transaction valid", total_cost, "success")
 
 // ============================================================================
 // TRANSACTION PROCESSING
@@ -54,11 +62,15 @@
 /proc/ProcessMarketTransaction(mob/players/buyer, obj/market_stall/stall, list/cart_items)
 	// Complete market transaction with currency exchange
 	// Returns: 1 for success, 0 for failure
-	if(!buyer || !stall || !cart_items) return 0
+	// Logs all transactions (success and failure) for audit trail
+	if(!buyer || !stall || !cart_items)
+		world.log << "MARKET TRANSACTION: Invalid parameters"
+		return 0
 	
 	// Validate transaction
 	var/list/validation = ValidateMarketTransaction(buyer, stall, cart_items)
 	if(!validation[1])
+		world.log << "MARKET TRANSACTION FAILED: [buyer.name] at '[stall.stall_name]' - Error: [validation[2]] (Category: [validation[4]])"
 		buyer << "<b><font color=red>Transaction failed: [validation[2]]</font></b>"
 		return 0
 	
@@ -66,12 +78,15 @@
 	
 	// Deduct currency from buyer
 	if(!DeductPlayerCurrency(buyer, total_cost))
+		world.log << "MARKET TRANSACTION FAILED: [buyer.name] - Unable to process payment (cost: [total_cost])"
 		buyer << "<b><font color=red>Transaction failed: Unable to process payment</font></b>"
 		return 0
 	
 	// Track purchased items in character_data if available
+	var/items_purchased = 0
 	for(var/item_id in cart_items)
 		var/quantity = cart_items[item_id]
+		items_purchased += quantity
 		
 		// Add to character_data.purchased_items for tracking if it exists
 		if(buyer.character)
@@ -84,10 +99,13 @@
 	if(stall.owner_key)
 		stall.daily_profit += total_cost
 	
+	// Log successful transaction
+	world.log << "MARKET TRANSACTION SUCCESS: [buyer.name] -> '[stall.stall_name]' (Owner: [stall.owner_name]) - Cost: [total_cost] stone, Items: [items_purchased]"
+	
 	// Notify buyer
 	buyer << "<b><font color=green>Purchase successful!</font></b>"
 	buyer << "Total cost: [total_cost] stone"
-	buyer << "Items purchased: [length(cart_items)]"
+	buyer << "Items purchased: [items_purchased]"
 	for(var/item_id in cart_items)
 		var/quantity = cart_items[item_id]
 		var/item_name = stall.stall_items[item_id]
