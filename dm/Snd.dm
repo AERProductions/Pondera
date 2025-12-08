@@ -1,25 +1,20 @@
 /*
 ================================================================================
-  Pondera Sound System - Modern BYOND Sound Engine (by Fushimi)
+  LEGACY: Pondera Sound System (by Fushimi)
 ================================================================================
 
-This file implements modern 3D positional audio for Pondera using BYOND's built-in
-sound system, replacing the legacy soundmob approach. It provides sophisticated
-sound positioning, music management, and spatial audio effects.
+DEPRECATED: This file is superseded by SoundEngine.dm (Phase 6+)
 
-Key Features:
-- Location-based positional sound (appears from atom source)
-- Automatic volume attenuation with distance and range
-- Music channel management (4 channels) with smooth fade transitions
+This file is retained for reference/historical purposes but is no longer
+included in the build. The SoundEngine.dm provides the active sound management
+implementation with:
+- Location-based positional sound
+- Automatic volume attenuation with distance
+- Music channel management with smooth fade transitions
 - Sound repetition with range-based lifecycle
-- Altitude-aware 3D positioning (layer/elevation-based)
-- 4 dedicated music channels with automatic crossfading
+- Altitude-aware 3D positioning
 
-Primary Usage Procs:
-- _SoundEngine(): Play positional sound effects
-- _MusicEngine(): Play background music with fade
-
-To interrupt a playing sound, play an empty sound file with wait=0 on same channel.
+USE SoundEngine.dm INSTEAD for new audio features.
 
 ================================================================================
 */
