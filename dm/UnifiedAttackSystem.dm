@@ -24,10 +24,12 @@
 // CORE ATTACK RESOLUTION
 // ============================================================================
 
-proc/ResolveAttack(mob/players/attacker, mob/defender, attack_type = "physical")
+proc/LowLevelResolveAttack(mob/players/attacker, mob/defender, attack_type = "physical")
 	/**
-	 * Universal attack resolution for players attacking targets
-	 * Handles both PvP and PvE combat
+	 * Low-level attack resolution for players attacking targets
+	 * Handles core combat mechanics (damage, hit chance, stamina cost)
+	 * 
+	 * This is called by CombatSystem::ResolveAttack after continent gating
 	 * 
 	 * @param attacker: Player attacking (must be /mob/players type)
 	 * @param defender: Target mob (player or enemy)
