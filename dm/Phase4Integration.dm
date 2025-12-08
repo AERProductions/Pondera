@@ -122,29 +122,38 @@
 	return 1
 
 // ============================================================================
-// STALL PROFIT SYSTEM
+// STALL PROFIT SYSTEM - DEPRECATED
+// See MultiWorldIntegration.dm for current implementation
 // ============================================================================
 
 /proc/AddStallProfit(mob/players/player, amount)
-	// Record profit from stall sales
-	if(!player) return 0
+	// DEPRECATED: Use AddGlobalProfits() instead
+	// Record profit from stall sales via character_data.stall_profits
+	if(!player || !player.character) return 0
 	
-	// TODO: Implement currency/profit tracking
-	// player.stall_profits += amount
-	
-	return 1
+	// Redirect to current implementation
+	return AddGlobalProfits(player, amount)
 
 /proc/GetStallProfit(mob/players/player)
-	// Get accumulated stall profits
-	if(!player) return 0
-	// TODO: return player.stall_profits || 0
-	return 0
+	// DEPRECATED: Use GetGlobalProfits() instead
+	// Get accumulated stall profits from character_data
+	if(!player || !player.character) return 0
+	
+	// Redirect to current implementation
+	return GetGlobalProfits(player)
 
 /proc/WithdrawStallProfit(mob/players/player, amount)
+	// DEPRECATED: Currency withdrawal handled by market/treasury systems
 	// Convert stall profits to player currency
-	if(!player) return 0
-	// TODO: Implement
-	return 1
+	if(!player || !player.character || amount <= 0) return 0
+	
+	// Reduce stall profits and distribute currency via game system
+	if(player.character.stall_profits >= amount)
+		player.character.stall_profits -= amount
+		// Currency distribution handled by caller
+		return 1
+	
+	return 0
 
 // ============================================================================
 // RECIPE DISCOVERY CALLBACK

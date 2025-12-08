@@ -210,12 +210,37 @@
 
 /proc/CanRaid(mob/attacker)
 	if(!attacker) return 0
-	// TODO: Phase 4 - Check equipment, stamina, faction standing
+	if(!istype(attacker, /mob/players)) return 0
+	
+	// Check minimum requirements for raiding
+	var/mob/players/P = attacker
+	
+	// Must have adequate stamina to attempt raid
+	if(P.stamina < 50) return 0
+	
+	// Future: Add faction standing and equipment checks
+	// if(P.character.faction_standing < 0) return 0  // Neutral or hostile to system
+	// if(!HasRaidWeapon(P)) return 0  // Must have combat weapon
+	
 	return 1
 
 /proc/GetAttackPower(mob/attacker)
+	if(!istype(attacker, /mob/players)) return 0
+	
+	var/mob/players/P = attacker
 	var/power = 10  // Base power
-	// TODO: Phase 4 - Add combat level, weapons, abilities
+	
+	// Add combat contribution from equipment (future)
+	// var/weapon = P.Wequipped  // Get equipped weapon
+	// if(weapon) power += weapon.damage
+	
+	// Add combat progression if system available
+	if(global.player_combat_level[P.ckey])
+		power += global.player_combat_level[P.ckey] * 5
+	
+	// Add stamina contribution (higher stamina = more aggressive)
+	power += (P.stamina / 300) * 10  // Up to 10 extra from stamina
+	
 	return power
 
 /proc/ExecuteRaid(mob/attacker, datum/territory_claim/target_claim, attack_power)
