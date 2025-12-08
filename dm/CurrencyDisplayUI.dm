@@ -41,8 +41,7 @@ obj
 				// Flash animation when balance changes
 				if(!usr) return
 				
-				var/change = new_val - old_val
-				var/color_flash = (change > 0) ? "#00FF00" : "#FF6347"
+				// var/change = new_val - old_val  // TODO: Use for future color-based animations
 				
 				animate(src, color = rgb(255, 215, 0), time = 3)
 				sleep(3)

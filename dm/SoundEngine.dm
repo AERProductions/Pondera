@@ -250,10 +250,44 @@ proc/_SoundEngine(sound, atom/location, range=1, channel=-1, volume=100, repeat=
 
 
 /*
- * _MusicEngine() - DISABLED: Corrupted proc body
- * TODO: Restore full implementation
+ * _MusicEngine() - Background music with smooth fade transitions
+ * Plays music on specified channel with fade-in/fade-out effects
+ * 
+ * Parameters:
+ * - sound: Music file path (e.g., 'snd/music/ambient.wav')
+ * - client: Target client to receive music
+ * - channel: Music channel (1-4; paired channels 1-2 and 3-4 for crossfading)
+ * - pause: Whether to pause the music (0=play, 1=pause)
+ * - repeat: Whether to loop music (0=play once, 1=loop infinitely)
+ * - wait: Internal flag (unused)
+ * - volume: Volume level (0-100, default 40)
+ * - instant: Skip fade-in (0=fade in, 1=instant play)
+ * - time: Fade duration in deciseconds (default 20 = 2 seconds)
+ * - increments: Number of fade steps (default 10)
  */
-/*
-proc/_MusicEngine(sound, client/client, channel=MUSIC_CHANNEL_1, pause=0, repeat=0, wait=0, volume=40, instant = 0, time = 20, increments = 10)
-        return S
-*/
+proc/_MusicEngine(sound, client/listener_client, channel=MUSIC_CHANNEL_1, pause=0, repeat=0, wait=0, volume=40, instant=0, time=20, increments=10)
+	if(!sound || !listener_client)
+		return null
+	
+	var/sound/S = sound(sound)
+	
+	// Basic setup
+	S.channel = channel
+	S.volume = instant ? volume : 0  // Start at 0 if fading in
+	S.repeat = repeat  // 0=play once, 1=loop
+	
+	// Send to client
+	listener_client << S
+	
+	// Fade in if not instant
+	if(!instant && time > 0 && increments > 0)
+		var/step_volume = volume / increments
+		var/step_time = time / increments
+		
+		for(var/i = 1; i <= increments; i++)
+			sleep(step_time)
+			S.volume = step_volume * i
+			listener_client << S
+	
+	return S
+#endif

@@ -123,6 +123,7 @@ mob/players
 		panacealevel = 0
 		music_off = 0
 		music
+		ambient_temp = 15             // Environmental temperature from zone/weather
 		medal1
 		medal2
 		mininglevel = 1
@@ -198,6 +199,14 @@ mob/players
 		grank = 0 //gardening rank
 		smirank = 0 //smithing rank
 		smerank = 0 //smelting rank
+		
+		// SECURITY: Per-player cheat detection offsets
+		player_securityoffset1 = 0  // Line of defense 1 (per-player randomized)
+		player_securityoffset2 = 0  // Line of defense 2 (per-player randomized)
+		player_securityoffset3 = 0  // Line of defense 3 (per-player dynamic)
+		
+		// CRASH RECOVERY: Session tracking for crash detection
+		online = FALSE  // Marked TRUE on login, FALSE on logout/crash detection
 		smiexp = 0
 		smeexp = 0
 		buildexp = 0
@@ -249,7 +258,17 @@ mob/players
 		hungry=0
 		fed = 0
 		hydrated = 0
+		// Hunger & Thirst System (new metabolic simulation)
+		hunger_state = null                 // Reference to datum/hunger_state
+		hunger_level = 0                    // 0-1000 scale (0=fed, 1000=starving)
+		thirst_level = 0                    // 0-1000 scale (0=hydrated, 1000=parched)
+		last_move_time = 0                  // World.timeofday of last movement
 		story_progress = null  // Phase C: Story progression tracking (/datum/story_progress)
+		
+		// Village Deed System - Phase 2c
+		village_deed_owner = 0      // 1 if player owns a village deed, 0 otherwise
+		village_zone_id = 0         // Zone ID of owned village (0 if none)
+		village_maintenance_due = 0 // World.timeofday when next maintenance is due
 	/*proc/hungercheck()
 		set waitfor=0
 		var/randomvalue = rand(1200,2000)
@@ -368,47 +387,13 @@ mob/players
 		//pvptest=1
 
 	Logout()
-	//for(var/mob/players/P)
-		//var/light/day_night/L
-		//var/list/effect/E
-			//winset(src,"default.Bludgeon","is-visible=false")
-		//src.umsl_ClearLock("right leg")
-		//src.umsl_ClearLock("left leg")
-		if(src.Doing==1 || src.Carving==1 || src.Cutting==1 || src.Picking==1 || src.Mining==1)
-			src.Doing=0
-			src.Carving=0
-			src.Cutting=0
-			src.Picking=0
-			src.Mining=0
-		browse_once=0
-		leaveparty(src)
-		//if(src.light in lighting.lights)
-		//	lighting.lights -= src.light//this is the fix I have been looking for! Enables light garbage collection at logout so there are no null runtime errors! Hooray.
-
-		//call(/soundmob/proc/unsetListeners)(_listening_soundmobs)
-		for(var/soundmob/soundmob in src._listening_soundmobs)
-			if(src in soundmob.listeners)
-				soundmob.listeners-=src
-
-		for(var/soundmob/soundmob in src._attached_soundmobs)
-			for(var/mob/players/X in soundmob.listeners)
-				X:_listening_soundmobs-=soundmob
-			soundmob.listeners=new
-
-		_attached_soundmobs = new
-		_listening_soundmobs = new
-		_autotune_soundmobs = new
-
-		//call(/atom/proc/unsetListener)()
-		//sl=0
-		//L.RemoveFromStack(src)
-		//src.light -= lighting.lights
-		//lighting.lights -= src
-		//light -= lighting.lights
+		// CENTRALIZED: Use LogoutHandler system for proper cleanup
+		// This consolidates all manual cleanup code that was scattered here
+		CleanupPlayerSession(src)
+		
+		// SHUTDOWN: Delete player object and complete logout
 		world << "<font color = blue><b>[src] dissipated out of this world."
 		del(src)
-		//return
-		//world << "<font color = yellow><b>[usr] dissipated out of this world."
 
 
 	//Del()
@@ -1167,7 +1152,6 @@ mob/players
 		else // you can't leave a party if you aren't in one
 			M << "\red<b>You are currently not in a party."
 
-
 	var/ratelimit=0 // quit spamming!!!!!!! this is used to keep you from typing too much too fast i think
 	verb
 		//heh. this variable used to be for everyone, now its just for me, the gamemaster
@@ -1757,6 +1741,12 @@ mob/players
 		var/mob/players/J
 		J = usr
 		var/obj/items/weapons/sumuramasa/S = locate() in M
+		
+		// CRITICAL: Check elevation range before allowing attack
+		if(!J.Chk_LevelRange(M))
+			J << "<font color='orange'><b>You are not on the same elevation level to attack [M.name]!</b>"
+			return
+		
 		J.waiter=0 // you can't attack again yet
 
 		var/damage = round(((rand(J.tempdamagemin,J.tempdamagemax))*((J.Strength/100)+1)),1) // calculate the damage

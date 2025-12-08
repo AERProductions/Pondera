@@ -30,9 +30,10 @@ client
 //	world.status("Date: [day] / [month] / [year] O�C�")
 	New()
 		..()
-
-		//sound_system = new(src)
-		//SetLock()
+		
+		// Log connection attempt and initialization status
+		if(!world_initialization_complete)
+			world.log << "\[LOGIN\] Client connected during initialization - [GetInitializationStatus()]"
 
 var
 	t = /area/screen_fx/day_night/proc/wtime
@@ -50,10 +51,8 @@ a random number later on in the lib.*/
 /*Third line of defense against the hacking program.  This var is a
 DYNAMCIC var, so later on, I will show it changing constantly to
 avoid being matched and changed.*/
-	offsetamount1 = 4132370
-/*Memorize the first line of defense's offset amount.  Make sure it
-matches securityoffset1!*/
-	offsetamount2 = 0
+	offsetamount1 = 0  // Per-player security offset (randomized)
+	offsetamount2 = 0  // Per-player security offset (randomized)
 //Memorize the second line of defense's offset amount.
 	offsetamount3 = 0
 	//DN = /area/outside/proc/DN
@@ -139,43 +138,12 @@ world
 
 		//call(/soundmob/proc/broadcast)(world)
 		//new/mob/snd/sfx/apof/forestbirds(locate(495,645,2))//soundmob(src, 100, 'snd/cycadas.ogg', TRUE, 0, 40, TRUE)
-		call(/proc/Debug_Edges)(world)
-
-		//lighting = new
-		// BEGIN Map Save System Startup
-		StartMapSave()
-		// END Map Save System Startup
-
-		// BEGIN Dynamic Zone System Startup
-		InitializeDynamicZones()
-		// END Dynamic Zone System Startup
-
-		// BEGIN Map Generation
-		if(map_loaded == FALSE)
-			GenerateMap(lakes = 15, hills = 15)
-		// END Map Generation
-
-		//lighting.startloop()
-
-		//TimeStuff
-		TimeLoad()
-		//SetMode()
-
-
-		//lighting.init(2)
 		//call(/proc/Debug_Lamps)(world)
 		call(t)(world)//time()
 		//call(/plant/ueiktree/proc/Grow)(world)
 //		call(/obj/Plants/Bush/Raspberrybush/proc/Grow)(world)
 //		call(/obj/Plants/Bush/Blueberrybush/proc/Grow)(world)
 		call(weather)(world)
-		spawn StartPeriodicTimeSave()  // Start background time saves every ~10 game hours
-		//call(/proc/GenerateTurfs)(world)
-		GrowBushes()
-		GrowTrees()
-		// SetSeason() disabled - was workaround for broken persistence (TimeLoad/TimeSave)
-		// With persistence fixed, overlays will persist naturally through savefiles
-		// SetSeason(world)
 
 		world.status = "[world.name] <br> [season] / [day] / [month] / AM [year]"
 		//L()
@@ -290,18 +258,38 @@ world
 		spawn(100) //After 10 seconds, run this.
 			if(cheats + offsetamount1 == securityoffset1) //Check it.
 				if(cheats + offsetamount2 == securityoffset2)
-					if(cheats + offsetamount2 == securityoffset2)
+					if(cheats + offsetamount3 == securityoffset3)
+						// All checks passed - continue
+						world.log << "\[SECURITY\] Cheat checks passed"
 					else
-						world << "[usr.ckey] has been found Hacking, Refrain from hacking or be Perma IP Banned and reported to Byond Administrators."
+						world << "\[SECURITY\] [usr.ckey] suspected cheating - offset3 mismatch"
 				else
-					world << "[usr.ckey] has been found Hacking, CEASE AND DESIST from hacking or be PERMA IP Banned and reported to Byond Administrators."
+					world << "\[SECURITY\] [usr.ckey] suspected cheating - offset2 mismatch"
 			else
-				world << "[usr.ckey] has been found Hacking, Incoming BanHammer!"
+				world << "\[SECURITY\] [usr.ckey] suspected cheating - offset1 mismatch"
 			securityoffset3 = rand(1,100000) + cheats
 	//Set the third line of defense as a random obscene number.
 			offsetamount3 = securityoffset3
 	//Memorize the third line of defense's offset amount.
 			changethirdlinevar() //Do it again.
+
+proc/InitializePlayerSecurity(mob/players/player)
+	/**
+	 * Per-Player Security Offset Initialization
+	 * Prevents global security offset hardcoding vulnerabilities
+	 * Each player gets unique random offsets
+	 */
+	if(!player) return FALSE
+	
+	// Initialize per-player security offsets (unique to each player)
+	player.player_securityoffset1 = rand(100000, 9999999)
+	player.player_securityoffset2 = rand(1, 1000000)
+	player.player_securityoffset3 = rand(1, 100000)
+	
+	world.log << "\[SECURITY\] Initialized security offsets for [player.name]"
+	return TRUE
+
+world
 	proc
 		WorldStatus()
 			var/data

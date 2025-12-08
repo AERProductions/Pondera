@@ -1073,6 +1073,12 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			//if(M.char_class<>"Builder"&&"GM")
 			//	M<<"You need to be a Builder to mine."
 				//return
+			
+			// Phase 3: Check zone permissions
+			if(!CanPlayerBuildAtLocation(M, src.loc))
+				M << "<b><font color=red>You don't have permission to mine here. Only village members can harvest resources.</font></b>"
+				return
+			
 			if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)
 			//if(!(src in range(2, usr)))
 			//if(get_step_away(src,usr,3))

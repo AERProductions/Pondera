@@ -352,8 +352,7 @@ turf/water
 			switch(action)
 				if("Fish")
 					if(istype(user, /mob/players))
-						var/mob/players/M = user
-						M.StartFishing(src)
+						user:StartFishing(src)
 					return 1
 				if("Drink")
 					// Attempt to drink or use existing water interaction

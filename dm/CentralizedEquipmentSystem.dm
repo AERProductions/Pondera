@@ -294,6 +294,9 @@ mob/players
 		if(item.on_equip_proc)
 			call(src, item.on_equip_proc)()
 		
+		// Sync legacy equipment flags for backward compatibility
+		SyncLegacyFlags(slot, item)
+		
 		usr << "You equip [item.name]."
 		return TRUE
 	
@@ -308,6 +311,17 @@ mob/players
 		tempdamagemin -= item.damage_min
 		tempdamagemax -= item.damage_max
 		tempdefense -= item.defense
+		
+		// Unequip the item
+		item.equip_state = EQUIP_STATE_UNEQUIPPED
+		item.suffix = null
+		equipment_slots[slot] = null
+		
+		// Sync legacy equipment flags for backward compatibility
+		SyncLegacyFlags(slot, null)
+		
+		usr << "You unequip [item.name]."
+		return TRUE
 		
 		// Call custom unequip handler if defined
 		if(item.on_unequip_proc)

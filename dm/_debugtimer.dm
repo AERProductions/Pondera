@@ -13,30 +13,7 @@ var
 world/New()
 	..()
 	timers = new
-	InitializeContinents()  // Initialize three-world continental system
-	InitWeatherController()
-	spawn() DynamicWeatherTick()
-	spawn(50) InitializeTownSystem()  // Initialize Phase B town generator (after continents)
-	spawn(100) InitializeStoryWorld()  // Initialize Phase C story world integration
-	spawn(150) InitializeSandboxSystem()  // Initialize Phase D sandbox continent
-	spawn(200) InitializePvPSystem()  // Initialize Phase E PvP continent mechanics
-	spawn(250) InitializeMultiWorldSystem()  // Initialize Phase F multi-world integration
-	spawn(300) InitializePhase4System()  // Initialize Phase 4 character data & market trading
-	spawn(350) InitializeNPCRecipeSystem()  // Initialize NPC recipe teaching system
-	spawn(360) InitializeNPCRecipeHandlers()  // Initialize NPC recipe handlers for existing NPCs
-	spawn(370) InitializeSkillLevelUpIntegration()  // Initialize skill level-up recipe hooks
-	spawn(375) InitializeMarketTransactionSystem()  // Initialize market transaction & currency system
-	spawn(378) InitializeCurrencyDisplayUI()  // Initialize currency display HUD
-	spawn(379) InitializeDualCurrencySystem()  // Initialize dual currency (lucre + materials)
-	spawn(381) InitializeKingdomMaterialExchange()  // Initialize kingdom material trading
-	spawn(382) InitializeItemInspectionSystem()  // Initialize item inspection & reverse-recipe lookup
-	spawn(383) InitializeDynamicMarketPricingSystem()  // Initialize dynamic market pricing
-	spawn(385) InitializeTreasuryUISystem()  // Initialize treasury UI visualization
-	spawn(386) InitializeMarketBoardUI()  // Initialize market board system
-	spawn(387) MarketBoardUpdateLoop()  // Start market board maintenance loop
-	spawn(380) InitializeInventoryManagementExtensions()  // Initialize inventory management extensions
-	spawn(384) InitializeRecipeDiscoveryRateBalancing()  // Initialize recipe discovery rate balancing
-	spawn(400) InitializeSkillRecipeSystem()  // Initialize skill-based recipe unlocks
+	InitializeWorld()  // Centralized world initialization (replaces 25+ scattered spawn() calls)
 
 DEBUG_TIMER
 	var

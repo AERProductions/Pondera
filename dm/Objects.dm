@@ -118,6 +118,12 @@ obj
 						set src in oview(1)
 						//set hidden = 1
 						var/mob/players/M = usr
+						
+						// DEED PERMISSION CHECK: Check if player can pick up items in this deed zone
+						if(!CanPlayerPickupAtLocation(M, src.loc))
+							M << "You do not have permission to pick up items here."
+							return
+						
 						if(src.type==/obj/items/questitem)
 							var/C=0
 							var/obj/items/o
@@ -146,6 +152,13 @@ obj
 						set category=null
 						set popup_menu=1
 						set src in usr
+						var/mob/players/M = usr
+						
+						// DEED PERMISSION CHECK: Check if player can drop items in this deed zone
+						if(!CanPlayerDropAtLocation(M, M.loc))
+							M << "You do not have permission to drop items here."
+							return
+						
 						if(src.suffix == "Equipped")
 							usr << "<font color = teal>Un-equip [src] first!"
 						else

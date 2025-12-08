@@ -14,39 +14,13 @@ mob/var
 		Cutting=0			//Defines cutting.
 
 mob/players/proc/CLvl()
-	if(Crank>=5)//Carving rank Seeing if usr is maxlvl
-		//CrankMAXEXP=1
-		MAXCrankLVL=1
-		Crank=5
-		CrankMAXEXP = CrankEXP//hrank Lvl Proc		for when you gain lvls.
-		return
-	if(MAXCrankLVL==1)	//If your woodcutting lvl is max... Return, cant gain anymore lvls greedy bastard!
-		return
-	else					//Else!!!
-		if(CrankEXP>=CrankMAXEXP)//Does the usr have the req exp for the next lvl?/?
-			CrankMAXEXP+=exp2lvl(Crank)//If he did then here it adds the next MaxExp to his maxexp for the next lvl gain
-			Crank++//hrank lvl +1
-			src<<"<font color=gold>You gain Harvesting Acuity!</font>"
-			CLvl()
-			return
+	// DEPRECATED - Use UpdateRankExp(RANK_CARVING, exp_amount) instead
+	return
 
 
 mob/players/proc/CSLvl()
-	if(CSRank>=5)//Cutting Sprout -- should probably be rewritten to just use harvesting rank
-		//CSRankMAXEXP=1
-		CSRankMAXEXP=1
-		CSRank=5
-		CSRankMAXEXP = CSRankEXP//crank Lvl Proc		for when you gain lvls.
-	if(CSRankMAXEXP==1)	//If your woodcutting lvl is max... Return, cant gain anymore lvls greedy bastard!
-		return
-	else					//Else!!!
-		if(CSRankEXP>=CSRankMAXEXP)		//Does the usr have the req exp for the next lvl?/?
-			CSRankMAXEXP+=exp2lvl(CSRank)	//If he did then here it adds the next MaxExp to his maxexp for the next lvl gain
-			CSRank++							//hrank lvl +1
-			src<<"<font color=gold>You gain Botany Acuity!</font>"
-
-			CSLvl()
-			return
+	// DEPRECATED - Use UpdateRankExp(RANK_SPROUT_CUTTING, exp_amount) instead
+	return
 obj
 	items
 		plant
@@ -308,20 +282,9 @@ mob
 
 mob/players/proc
 	WCLvl()
-		if(hrank>=5)				//Seeing if usr is maxlvl
-			MAXhrankLVL=1
-			hrank=5						//hrank Lvl Proc		for when you gain lvls.
-			hrankMAXEXP = hrankEXP
-		if(MAXhrankLVL==1)	//If your woodcutting lvl is max... Return, cant gain anymore lvls greedy bastard!
-			return
-		else					//Else!!!
-			if(hrankEXP>=hrankMAXEXP)		//Does the usr have the req exp for the next lvl?/?
-				hrankMAXEXP+=exp2lvl(hrank)	//If he did then here it adds the next MaxExp to his maxexp for the next lvl gain
-				hrank++							//hrank lvl +1
-				src<<"<font color=gold>You gain Harvesting Acuity!</font>"
-
-				WCLvl()			//Calls the WCLvl() proc again to see if the usr gained two lvls in on one tree or not...
-				return
+		// DEPRECATED - Use UpdateRankExp(RANK_WOODCUTTING, exp_amount) instead
+		// This is kept for backward compatibility only
+		return
 
 var/global/growstage
 //var/global/growstate
@@ -1040,7 +1003,7 @@ obj/plant/ueiktree
 			var/mob/players/M
 			//var/obj/items/Logs/UeikLog/UL = new(src)
 			M = usr		//Makes the usr become Cutter... Not really neccesary.
-			if(M.hrank<hreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+			if(!M.CheckRankRequirement(RANK_WOODCUTTING, hreq))			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 				M<<"<FONT COLOR=RED>You must have a Harvesting Acuity of at least [hreq] to cut [LogType] trees.</FONT>"//eventually at some point I need to actually setup the rank restrictions and add additional higher rank content -- after all the fundamentals are rock solid and bugs squashed
 				return
 			if(growstate==7||growstage==7||src.icon_state=="ustump")
@@ -1086,8 +1049,7 @@ obj/plant/ueiktree
 						M.overlays -= image('dmi/64/axeoy.dmi',icon_state="[get_dir(M,src)]")
 						new log(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 						//new UL
-						M.hrankEXP+=GiveXP				//  Add The exp from tree to you.
-						M.WCLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+						M.UpdateRankExp(RANK_WOODCUTTING, GiveXP)				//  Add The exp from tree to you.
 						Cutting=0							// Cutting is set to 0 so you are free to move and cut some more.
 						LogAmount--							//Depletes one log from the Amount.
 						if(LogAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
@@ -1202,8 +1164,7 @@ obj/plant/ueiktree
 						M<<"You get [SproutType] sprout!"		//You get "tree being cut" Logs!
 						new sprout(usr.loc)
 						//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-						M.CSRankEXP+=GivenXP				//  Add The exp from tree to you.
-						M.CSLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+						M.UpdateRankExp(RANK_SPROUT_CUTTING, GivenXP)//  Add The exp from tree to you.						//Calls the WCLvl() Proc to see if person got lvl...
 						Cutting=0							// Cutting is set to 0 so you are free to move and cut some more.
 						SproutAmount--							//Depletes one log from the Amount.
 						if(SproutAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
@@ -1545,8 +1506,7 @@ obj/items/Logs
 					//new Fire(usr.loc)
 					//Fire:buildingowner = "[M.key]"
 					//J.RemoveFromStack(1)//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
-					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+					M.UpdateRankExp(RANK_CARVING, GivenXP)				//  Add The exp from tree to you.
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					//KindAmount--							//Depletes one log from the Amount.
 					//if(KindAmount<=0)
@@ -1599,8 +1559,8 @@ obj/items/Logs
 					M<<"<font color=green>You create a [KindType] kindling infront of you!</font>"		//You get "tree being cut" Logs!
 					new kindling(usr.loc)
 					//J.RemoveFromStack(1)//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
-					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+					M.UpdateRankExp(RANK_CARVING, GivenXP)//  Add The exp from tree to you.`r`n
+					//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					KindAmount--							//Depletes one log from the Amount.
 					if(KindAmount<=0)
@@ -1654,8 +1614,8 @@ obj/items/Logs
 					//Handle += M.contents
 					new Handle(usr)
 					//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
-					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+					M.UpdateRankExp(RANK_CARVING, GivenXP)//  Add The exp from tree to you.`r`n
+					//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					HandleAmount--							//Depletes one log from the Amount.
 					if(HandleAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
@@ -1707,8 +1667,8 @@ obj/items/Logs
 					M<<"<font color=green>You create a [BoardType] board infront of you!</font>"		//You get "tree being cut" Logs!
 					new board(usr)
 					//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
-					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+					M.UpdateRankExp(RANK_CARVING, GivenXP)//  Add The exp from tree to you.`r`n
+					//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					BoardAmount--							//Depletes one log from the Amount.
 					if(BoardAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
@@ -1760,8 +1720,8 @@ obj/items/Logs
 					M<<"<font color=green>You create a [PoleType] pole infront of you!</font>"		//You get "tree being cut" Logs!
 					new pole(usr)
 					//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
-					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+					M.UpdateRankExp(RANK_CARVING, GivenXP)//  Add The exp from tree to you.`r`n
+					//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					PoleAmount--							//Depletes one log from the Amount.
 					if(PoleAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
@@ -1813,8 +1773,8 @@ obj/items/Logs
 					M<<"<font color=green>You create a [HeadType] Wooden Torch Head infront of you!</font>"		//You get "tree being cut" Logs!
 					new WTH(usr)
 					//update()			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
-					M.CrankEXP+=GivenXP				//  Add The exp from tree to you.
-					M.CLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+					M.UpdateRankExp(RANK_CARVING, GivenXP)//  Add The exp from tree to you.`r`n
+					//Calls the WCLvl() Proc to see if person got lvl...
 					Carving=0							// Cutting is set to 0 so you are free to move and cut some more.
 					HeadAmount--							//Depletes one log from the Amount.
 					if(HeadAmount<=0)			//After you cut the tree is the Log Amount 0??? If yes change icon to tree stump.
@@ -1826,3 +1786,4 @@ obj/items/Logs
 					M<<"You missed the log!"		//You wernt lucky enough to hit the treee.
 					Carving=0
 					return
+

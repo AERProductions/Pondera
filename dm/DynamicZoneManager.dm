@@ -114,6 +114,16 @@ zone_manager
 			var/chunk_x = round(t.x / chunk_size)
 			var/chunk_y = round(t.y / chunk_size)
 			
+			// Check if player is in a new zone
+			var/zone_key = "[chunk_x],[chunk_y]"
+			if(zone_key in zone_coords)
+				var/zone_id = zone_coords[zone_key]
+				// Find the zone object and apply effects
+				for(var/dynamic_zone/dz in active_zones)
+					if(dz.zone_id == zone_id)
+						ApplyZoneEffects(M, dz)
+						break
+			
 			// Pre-generate nearby zones
 			for(var/dx = -generate_distance; dx <= generate_distance; dx++)
 				for(var/dy = -generate_distance; dy <= generate_distance; dy++)
@@ -140,6 +150,21 @@ zone_manager
 
 	proc/GetChunkCoords(turf/t)
 		return list(round(t.x / chunk_size), round(t.y / chunk_size))
+	
+	proc/ApplyZoneEffects(mob/players/M, dynamic_zone/dz)
+		/// Apply zone effects when player enters a new zone
+		set hidden = 1
+		
+		if(!M || !dz) return
+		
+		// Apply temperature-based effects to player
+		var/zone_temp = dz.avg_temperature
+		
+		// Update ambient temperature (affects forge mechanics)
+		M.ambient_temp = zone_temp
+		
+		// Apply biome-specific effects
+		dz.ApplyZoneEffectsToPlayer(M)
 	
 	proc/GenerateElevation(chunk_x, chunk_y)
 		// Generate elevation using Perlin noise
@@ -249,18 +274,58 @@ dynamic_zone
 					weather_type = "cloudy"
 				else
 					weather_type = "clear"
-			if("arctic")
-				if(rand_weather < 15)
-					weather_type = "hail"
-				else if(rand_weather < 40)
-					weather_type = "cloudy"
-				else
-					weather_type = "clear"
-			if("desert")
-				if(rand_weather < 10)
-					weather_type = "dust_storm"
-				else
-					weather_type = "clear"
+		
+		// Update music theme based on biome and weather
+		UpdateZoneMusic()
+	
+	proc/UpdateZoneMusic()
+		/// Update music theme based on zone biome and weather
+		set hidden = 1
+		
+		if(!music_system) return
+		
+		// Priority: Weather > Biome
+		switch(weather_type)
+			if("thunderstorm")
+				music_system.current_theme = "boss"     // Intense
+			if("rain")
+				music_system.current_theme = "peaceful" // Moody
+			if("fog")
+				music_system.current_theme = "peaceful" // Mysterious
+			else
+				// Use biome-based theme
+				switch(terrain_type)
+					if("water")
+						music_system.current_theme = "exploration"  // Active
+					if("temperate")
+						music_system.current_theme = "peaceful"     // Calm
+					if("arctic")
+						music_system.current_theme = "exploration"  // Harsh
+					else
+						music_system.current_theme = "peaceful"     // Default
+	
+	proc/GetZoneTemperature()
+		/// Get current zone ambient temperature
+		return avg_temperature
+	
+	proc/GetZoneWeatherType()
+		/// Get current zone weather
+		return weather_type
+	
+	proc/ApplyZoneEffectsToPlayer(mob/players/M)
+		/// Apply zone-specific effects when player enters
+		set hidden = 1
+		
+		if(!M || !M.client) return
+		
+		// Update player's perception of environment
+		M << "<b>Zone [zone_id]:</b> [terrain_type] terrain, [avg_temperature]°C, [weather_type] weather"
+		
+		// Apply zone music theme
+		UpdateZoneMusic()
+		
+		// Update player's current weather
+		UpdateMusicForWeather(weather_type, M)
 
 	proc/GenerateZoneTerrain()
 		var/start_x = chunk_x * zone_mgr.chunk_size + 1

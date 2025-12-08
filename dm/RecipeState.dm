@@ -47,6 +47,18 @@ datum/recipe_state
 	var/discovered_tool_sharpening = FALSE        // Tool refinement stage 2 (Whetstone)
 	var/discovered_tool_polishing = FALSE         // Tool refinement stage 3 (Polish Cloth)
 
+	// === COOKING RECIPES ===
+	var/discovered_vegetable_soup = FALSE         // Boiled vegetables + water
+	var/discovered_grain_porridge = FALSE         // Boiled grain + water
+	var/discovered_roasted_vegetables = FALSE     // Roasted root vegetables
+	var/discovered_roasted_meat = FALSE           // Roasted raw meat
+	var/discovered_fish_fillet = FALSE            // Fried fish
+	var/discovered_berry_compote = FALSE          // Boiled berries + water
+	var/discovered_baked_bread = FALSE            // Baked wheat + water
+	var/discovered_meat_stew = FALSE              // Stewed meat + vegetables
+	var/discovered_vegetable_medley = FALSE       // Steamed mixed vegetables
+	var/discovered_shepherds_pie = FALSE          // Baked meat pie with potato topping
+
 	// === KNOWLEDGE/TUTORIAL FLAGS ===
 	var/tutorial_completed = FALSE           // Basic tutorial finished
 	var/learned_gathering = FALSE            // Gathering basics (rocks, flowers, etc.)
@@ -133,6 +145,27 @@ datum/recipe_state
 				discovered_tool_sharpening = TRUE
 			if("tool_polishing")
 				discovered_tool_polishing = TRUE
+			// Cooking Recipes
+			if("vegetable_soup")
+				discovered_vegetable_soup = TRUE
+			if("grain_porridge")
+				discovered_grain_porridge = TRUE
+			if("roasted_vegetables")
+				discovered_roasted_vegetables = TRUE
+			if("roasted_meat")
+				discovered_roasted_meat = TRUE
+			if("fish_fillet")
+				discovered_fish_fillet = TRUE
+			if("berry_compote")
+				discovered_berry_compote = TRUE
+			if("baked_bread")
+				discovered_baked_bread = TRUE
+			if("meat_stew")
+				discovered_meat_stew = TRUE
+			if("vegetable_medley")
+				discovered_vegetable_medley = TRUE
+			if("shepherds_pie")
+				discovered_shepherds_pie = TRUE
 
 	// Learn a knowledge topic (unlock tutorial/lore)
 	proc/LearnTopic(topic_name)
@@ -155,6 +188,8 @@ datum/recipe_state
 				learned_building = TRUE
 			if("fishing")
 				learned_fishing = TRUE
+			if("cooking")
+				skill_cooking_level = max(skill_cooking_level, 1)
 
 	// Discover a location
 	proc/DiscoverBiome(biome_name)
@@ -243,6 +278,27 @@ datum/recipe_state
 				return discovered_tool_sharpening
 			if("tool_polishing")
 				return discovered_tool_polishing
+			// Cooking Recipes
+			if("vegetable_soup")
+				return discovered_vegetable_soup
+			if("grain_porridge")
+				return discovered_grain_porridge
+			if("roasted_vegetables")
+				return discovered_roasted_vegetables
+			if("roasted_meat")
+				return discovered_roasted_meat
+			if("fish_fillet")
+				return discovered_fish_fillet
+			if("berry_compote")
+				return discovered_berry_compote
+			if("baked_bread")
+				return discovered_baked_bread
+			if("meat_stew")
+				return discovered_meat_stew
+			if("vegetable_medley")
+				return discovered_vegetable_medley
+			if("shepherds_pie")
+				return discovered_shepherds_pie
 		return FALSE
 
 	// Check if knowledge topic is learned

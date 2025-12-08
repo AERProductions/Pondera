@@ -219,28 +219,18 @@ lightning_controller
 		PlayThunderSound(location)
 		
 		// Create lightning visual effect
-		var/obj/lightning_strike/strike = new(location, radius, damage, stun)
+		new/obj/lightning_strike(location, radius, damage, stun)
 
 // ==================== LIGHTNING SOUND SYSTEM ====================
 
 proc/PlayThunderSound(location)
 	/**
-	 * Play thunder sound - add to SoundManager
+	 * Play thunder sound via SoundManager
+	 * Registered in SoundManager.InitializeAmbientSounds()
 	 */
 	if(!sound_mgr) return
 	
-	// Register thunder sound if not already done
-	if(!sound_mgr.sound_properties["thunder"])
-		sound_mgr.AddCustomSound(
-			"thunder",
-			'snd/wind.ogg',  // Placeholder - use wind for now
-			800,             // Wide radius
-			90,              // Loud
-			"weather",
-			FALSE            // One-shot
-		)
-	
-	// Play the sound
+	// Play the registered thunder sound
 	sound_mgr.PlayEffectSound("thunder", location)
 
 // ==================== BIOME-INTEGRATED THUNDERSTORM SYSTEM ====================

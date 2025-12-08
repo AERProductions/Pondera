@@ -51,6 +51,10 @@ mob
 		// Save the location if that has been specified and there is a map.
 		// First, call the default Write() behavior for mobs.
 		..()
+		
+		// CRITICAL: Write savefile version stamp
+		WriteSavefileVersion(F)
+		
 		if (base_save_location && world.maxx)
 			F["last_x"] << x
 			F["last_y"] << y
@@ -94,6 +98,18 @@ mob
 		return
 
 	Read(savefile/F)
+		// CRITICAL: Validate savefile version before loading
+		var/file_version = ValidateSavefileVersion(F)
+		if(file_version == 0)
+			// Incompatible savefile - cannot load
+			world.log << "\[LOAD\] Refusing to load incompatible savefile"
+			del(src)
+			return
+		else if(file_version < GetSavefileVersion() && file_version > 0)
+			// Compatible but needs migration
+			if(!MigrateSavefileVersion(F, file_version, GetSavefileVersion()))
+				world.log << "\[LOAD\] Migration failed, attempting load anyway"
+		
 		// Restore the mob's location if that has been specified and there is a map.
 		// Tries to use Move() to place the character, in case the game has special Move() handling.
 		// If that fails, forces the move by setting the loc.
@@ -111,6 +127,25 @@ mob
 				del(src)
 				return
 			loc=locate(last_x, last_y, last_z)
+			
+			// CRITICAL: Validate spawn location post-load to prevent stuck players
+			if(ismob(src, /mob/players))
+				var/mob/players/player = src
+				var/turf/spawn_location = player.loc
+				
+				// Check if current location is valid
+				if(!spawn_location || !ValidateSpawnLocation(spawn_location))
+					world.log << "\[INIT\] SpawnValidation: Invalid spawn location at ([last_x],[last_y],[last_z]) - relocating player"
+					
+					// Try to find safe alternative
+					var/turf/safe_spawn = FindSafeSpawnTurf(spawn_location)
+					if(safe_spawn)
+						player.loc = safe_spawn
+						world.log << "\[INIT\] SpawnValidation: Relocated player to safe location ([safe_spawn.x],[safe_spawn.y],[safe_spawn.z])"
+					else
+						// Fallback: world center
+						player.loc = locate(world.maxx / 2, world.maxy / 2, 2)
+						world.log << "\[INIT\] SpawnValidation: Fallback - placed player at world center"
 		
 		// Restore character progression data and equipment
 		if(ismob(src, /mob/players))
@@ -121,6 +156,9 @@ mob
 			if(!player.character)
 				player.character = new /datum/character_data()
 				player.character.Initialize()
+			
+			// SECURITY: Initialize per-player cheat detection offsets
+			InitializePlayerSecurity(player)
 			
 			// Restore inventory state (item stacks)
 			F["inventory_state"] >> player.inventory_state
@@ -614,14 +652,18 @@ client
 
 	proc/base_SaveMob()
 		// Saves the player's current mob based on the ckey of its name.
+		// Returns TRUE if save successful, FALSE otherwise
 		if (!mob || !mob.base_save_allowed)
-			return
+			return FALSE
 
 		// If we're saving verbs, move them over now.
 		if (base_save_verbs)
 			mob.base_saved_verbs = mob.verbs
 
 		var/savefile/F = base_PlayerSavefile()
+		if(!F)
+			world.log << "\[SAVE\] ERROR: Could not open savefile for [key]"
+			return FALSE
 
 		var/mob_ckey = ckey(mob.name)
 
@@ -629,9 +671,10 @@ client
 		F.cd = directory
 		F["name"] << mob.name
 		F["mob"] << mob
-		//if(/soundmob)
-		 //return 0
+		
+		world.log << "\[SAVE\] Saved character [mob.name] for [key]"
 		_base_player_savefile = null
+		return TRUE
 
 
 	proc/base_LoadMob(char_name)

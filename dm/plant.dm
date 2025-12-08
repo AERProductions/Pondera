@@ -806,7 +806,11 @@ obj
 							src.icon_state="picked"
 							src.vgrowstate = 7
 							src.name = "Harvested"
-							new vegetable(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
+							// Get soil quality from turf and apply yield modifier
+							var/soil_type = GetTurfSoilType(src.loc)  // Read soil from turf location
+							var/yield_modifier = GetSoilYieldModifier(soil_type)
+							var/yield_amount = round(yield_modifier)
+							for(var/i = 1; i <= yield_amount; i++) new vegetable(usr)
 							new seed(usr)
 							grankEXP+=GiveXP				//  Add The exp from tree to you.
 							M.GNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
@@ -1158,7 +1162,11 @@ obj
 							src.icon_state="picked"
 							src.ggrowstate=7
 							src.name = "Picked"
-							new grain(usr)			//Remember log=obj/items/Logs/Oak???  Heres where this creates a log into invetory
+							// Get soil quality from turf and apply yield modifier
+							var/soil_type = GetTurfSoilType(src.loc)  // Read soil from turf location
+							var/yield_modifier = GetSoilYieldModifier(soil_type)
+							var/yield_amount = round(yield_modifier)
+							for(var/i = 1; i <= yield_amount; i++) new grain(usr)
 							new seed(usr)
 							grankEXP+=GiveXP				//  Add The exp from tree to you.
 							M.GNLvl()						//Calls the WCLvl() Proc to see if person got lvl...

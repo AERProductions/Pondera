@@ -147,6 +147,12 @@ obj
 			//var/region/deed/deed = locate(oview(src,10))
 			//if(!deed)
 			deed()//run the deed region creation proc when this deed token is created
+			
+			// Ensure deed manager is initialized before registering
+			if(!g_deed_manager_initialized)
+				EnsureDeedManagerInitialized()
+			
+			RegisterDeedToken(src)  // Register with DeedDataManager for central access
 			//if(!src)
 			//for(src)
 			//if(src:name == null)
@@ -159,6 +165,7 @@ obj
 			//	src:owner = "[usr.key]"//the owner of these objects are the creator of them
 
 		Del()
+			UnregisterDeedToken(src)  // Unregister from DeedDataManager on deletion
 			..()
 
 		proc

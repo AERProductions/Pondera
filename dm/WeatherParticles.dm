@@ -163,9 +163,8 @@ obj/elevation_weather_controller
 	proc/UpdateWeatherForElevation(mob/players/M)
 		// Get current elevation from zone manager
 		var/current_elevel = M.elevel || 1.0
-		var/current_temp = 15  // Tracks temperature by elevation for future use
 		
-		// Adjust weather based on elevation
+		// Adjust weather based on elevation (temperature affects weather patterns)
 		if(current_elevel < 1.0)
 			// Water level - high humidity
 			if(prob(40)) weather_type = "mist"
@@ -174,28 +173,24 @@ obj/elevation_weather_controller
 			
 		else if(current_elevel < 1.5)
 			// Lowlands - temperate
-			current_temp = 15
 			if(prob(30)) weather_type = "drizzle"
 			else if(prob(20)) weather_type = "fog"
 			else weather_type = "clear"
 			
 		else if(current_elevel < 2.0)
 			// Highlands - variable
-			current_temp = 10
 			if(prob(40)) weather_type = "drizzle"
 			else if(prob(20)) weather_type = "mist"
 			else weather_type = "clear"
 			
 		else if(current_elevel < 2.5)
 			// Mountains - harsh
-			current_temp = 5
 			if(prob(50)) weather_type = "hail"
 			else if(prob(30)) weather_type = "mist"
 			else weather_type = "clear"
 			
 		else
 			// Peaks - extreme cold
-			current_temp = -5
 			if(prob(60)) weather_type = "hail"
 			else if(prob(25)) weather_type = "mist"
 			else weather_type = "clear"
@@ -231,6 +226,9 @@ mob/players
 proc/ApplyBiomeWeather(mob/players/M, weather_type)
 	if(!M || !M.client) return
 	
+	// Update music based on weather type
+	UpdateMusicForWeather(weather_type, M)
+	
 	switch(weather_type)
 		if("fog")
 			M.UpdateWeatherParticles("fog")
@@ -242,8 +240,7 @@ proc/ApplyBiomeWeather(mob/players/M, weather_type)
 			M.UpdateWeatherParticles("hail")
 		if("thunderstorm")
 			M.UpdateWeatherParticles("thunderstorm")
-			// Also trigger lightning strikes
-			ApplyThunderstormWeather("thunderstorm", M.loc)
+			// Lightning integration: Spawned in UpdateMusicForWeather()
 		if("rain", "drizzle")
 			M.UpdateWeatherParticles("drizzle")
 		else
@@ -302,3 +299,99 @@ proc/DynamicWeatherTick()
 	while(1)
 		UpdateAllPlayersWeather()
 		sleep(20)  // Update every 1 second game time
+
+// ============================================================================
+// ELEVATION-BASED TEMPERATURE CALCULATION
+// ============================================================================
+
+proc/GetAmbientTemperature(elevel)
+	/// Calculate ambient temperature based on elevation
+	/// Returns temperature in relative units (0-30)
+	
+	if(elevel < 1.0)
+		// Water level - moderate/cool
+		return 18
+	else if(elevel < 1.5)
+		// Lowlands - mild
+		return 16
+	else if(elevel < 2.0)
+		// Highlands - cool
+		return 14
+	else if(elevel < 2.5)
+		// Mountains - cold
+		return 10
+	else
+		// Peaks - freezing
+		return 5
+	
+	return 15  // Default/fallback
+
+// ============================================================================
+// WEATHER-MUSIC INTEGRATION
+// ============================================================================
+
+proc/UpdateMusicForWeather(weather_type, mob/players/M)
+	/// Update music based on weather type
+	/// Integrates with MusicSystem for adaptive soundtracks
+	
+	if(!M || !M.client || !music_system) return
+	
+	switch(weather_type)
+		if("fog", "mist")
+			// Calm, mysterious music
+			// Note: intensity 1 = subtle, layers
+			music_system.current_theme = "peaceful"
+		if("dust_storm")
+			// Exploration theme - varied and engaging
+			music_system.current_theme = "exploration"
+		if("hail")
+			// Cold, harsh environment
+			music_system.current_theme = "exploration"
+		if("thunderstorm")
+			// Boss/danger theme - intense
+			music_system.current_theme = "boss"
+			// Spawn random lightning strikes during thunderstorm
+			if(prob(25))  // 25% chance per weather update (about every 5 seconds)
+				SpawnThunderstormLightning(M)
+		if("drizzle", "rain")
+			// Peaceful but slightly active
+			music_system.current_theme = "peaceful"
+		else
+			// Clear weather - peaceful
+			music_system.current_theme = "peaceful"
+
+// ============================================================================
+// LIGHTNING SPAWNING (THUNDERSTORM INTEGRATION)
+// ============================================================================
+
+proc/SpawnThunderstormLightning(mob/players/M)
+	set waitfor = 0
+	
+	/// Spawn lightning strikes during thunderstorm near player
+	/// Creates dynamic hazards that increase immersion and danger
+	
+	if(!M) return
+	
+	// Select random turfs in view range
+	var/view_distance = 15
+	var/list/nearby_turfs = list()
+	
+	for(var/turf/T in view(view_distance, M))
+		if(T && !T.density)  // Avoid spawning inside walls
+			nearby_turfs += T
+	
+	if(nearby_turfs.len == 0) return
+	
+	// Spawn 1-3 lightning strikes
+	var/strike_count = rand(1, 3)
+	for(var/i = 1; i <= strike_count; i++)
+		var/turf/target = pick(nearby_turfs)
+		if(target)
+			// Create lightning strike with standard parameters
+			new /obj/lightning_strike(target, 250, 35, 4)
+			sleep(2)  // Slight delay between strikes for visual effect
+
+
+
+
+

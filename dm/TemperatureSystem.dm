@@ -42,24 +42,38 @@ obj/items/thermable
 				return "#696969"    // Dark gray
 		return "#FFFFFF"
 
-	// Get cooling rate multiplier based on metal type
+	// Get cooling rate multiplier based on metal type and elevation
 	proc/GetCoolingRate()
+		var/metal_rate = 1.0
+		
 		switch(thermal_class)
 			if("iron")
-				return 1.0
+				metal_rate = 1.0
 			if("steel")
-				return 0.9     // Steel cools slightly faster
+				metal_rate = 0.9     // Steel cools slightly faster
 			if("copper")
-				return 1.1     // Copper cools slightly slower
+				metal_rate = 1.1     // Copper cools slightly slower
 			if("brass")
-				return 1.05
+				metal_rate = 1.05
 			if("bronze")
-				return 1.05
+				metal_rate = 1.05
 			if("zinc")
-				return 1.2     // Zinc cools fast
+				metal_rate = 1.2     // Zinc cools fast
 			if("lead")
-				return 0.95
-		return 1.0
+				metal_rate = 0.95
+		
+		// Apply elevation modifier if item has a location with a mob
+		var/altitude_factor = 1.0
+		if(loc && ismob(loc))
+			var/mob/holder = loc
+			if(holder.elevel >= 2.5)
+				altitude_factor = 0.7  // Peaks - cools faster (thin air)
+			else if(holder.elevel >= 2.0)
+				altitude_factor = 0.8  // Mountains - cools faster
+			else if(holder.elevel < 1.0)
+				altitude_factor = 1.3  // Water level - cools slower (humidity)
+		
+		return metal_rate * altitude_factor
 
 	// Heat the item to Hot state
 	proc/Heat()

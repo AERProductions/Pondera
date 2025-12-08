@@ -65,6 +65,7 @@ mob/proc/MovementLoop()
 		else	if(src.ME || src.QueE)	step(src,EAST)
 		else	if(src.MW || src.QueW)	step(src,WEST)
 		src.QueN=0;src.QueS=0;src.QueE=0;src.QueW=0
+		InvalidateDeedPermissionCache(src)  // Player moved - invalidate deed permission cache
 		if(FirstStep)	{sleep(1);FirstStep=0}
 		sleep(src.GetMovementSpeed())
 	src.Moving=0

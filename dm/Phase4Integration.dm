@@ -150,8 +150,9 @@
 // RECIPE DISCOVERY CALLBACK
 // ============================================================================
 
-/proc/OnRecipeDiscovered(mob/players/player, recipe_id)
-	// Called whenever a recipe is discovered
+/proc/OnRecipeDiscovered_Legacy(mob/players/player, recipe_id)
+	// Legacy phase 4 integration - DEPRECATED
+	// Use RecipeDiscoverySystem.dm version instead
 	if(!player) return
 	
 	// Log discovery

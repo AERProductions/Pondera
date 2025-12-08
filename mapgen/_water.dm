@@ -1028,8 +1028,5 @@ turf
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water..."
 			sleep(2)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("fresh water", 0, 300, 0, amount)
 			sleep(2)
-			M << "Ahh, Refreshing. <b>[amount] stamina recovered."

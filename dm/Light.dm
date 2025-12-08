@@ -502,6 +502,7 @@ obj
 			name = "Empty Fire"
 			buildingowner = ""
 			var/sleeptime = 400//fire needs to be setup so that it can store variables -- Right now the overlays don't load so it needs to be changed to icon states and this sleep time var does store the sleeptime so fires are instant
+			var/soundmob/fire_sound = null  // Crackling fire ambient sound
 			//var/soundmob/s
 			//var/f3
 			//var/s = /obj/snd/sfx/fire3
@@ -520,6 +521,27 @@ obj
 					locate(J)
 					if(J:Tname=="Cool")
 						return J
+			
+			/**
+			 * Fire initialization - called when fire is created
+			 * Initializes fire sound using generalized object sound system
+			 * Sound will automatically broadcast to nearby players
+			 */
+			New(location)
+				..()
+				// Initialize fire sound (non-empty fires get ambient crackling)
+				if(src.name != "Empty Fire")
+					fire_sound = AttachObjectSound(src, "fire", 250, 40)
+			
+			/**
+			 * Fire cleanup - called when fire is deleted
+			 * Stops ambient sound and removes all listeners
+			 */
+			Del()
+				if(fire_sound)
+					StopObjectSound(fire_sound)
+				..()
+			
 			verb/Bake_Jar()
 				set waitfor = 0
 				set src in oview(1)
@@ -572,129 +594,64 @@ obj
 					set popup_menu = 1
 					set src in oview(1)
 					set category = null//"Commands"
-					var/mob/players/M
-					M = usr
-					var/list/CC1 = list()
-					var/obj/items/Ingots/I = FindI(M)
-
-					if(I in M)
-					//for(C in M)
-						if(I.Tname=="Hot")
-							M << "This ingot is already Hot!"
-							return
-						else if(I.Tname!="Hot")
-							CC1.Add("Ingots")
-					else
-						CC1.Remove("Ingots")
-					var/obj/items/Crafting/Created/C = locate() in M
-
-					if(C in M)
-						if(C.Tname=="Hot")
-							M << "This part is already Hot!"
-							return
-					//for(C in M)
-						else if(C.Tname!="Hot")
-							CC1.Add("Tool Parts")
-					else
-						CC1.Remove("Tool Parts")
-
-					var/obj/items/Ingots/Scraps/S = FindS(M)
-
-					if(S in M)
-						if(S.Tname=="Hot")
-							M << "This scrap is already Hot!"
-							return
-					//for(C in M)
-						else if(S.Tname!="Hot")
-							CC1.Add("Scraps")
-					else
-						CC1.Remove("Scraps")
-					if(!C&&!I&&!S)
-						M << "Need items to heat"
+					var/mob/players/M = usr
+					
+					// Check if fire is lit
+					if(src.name != "Lit Fire")
+						M << "This fire isn't lit."
 						return
-					if(CC1.len >= 1)
-						CC1.Add("Back")
-					else
-						CC1.Remove("Back")
-					Start
-					switch(input("What would you like to heat?","Heat") in CC1)//list("Tool Parts","Ingots","Scraps"))
-						if("Back")
-							goto Start
-						if("Tool Parts")
-							var/list/options = list()
-							var/obj/items/Crafting/Created/CC
-							for(CC in M)
-							      // show a pretty list of options with prices included
-								options["[CC]"] = CC
-							var/choice = input("Which item would you like to heat?","Ingots") as null|anything in options
-							CC = options[choice]
-							//switch(input("Which item would you like to heat?","Tool Parts") in CC)
-							if(CC)
-								if((CC in M.contents)&&(src.name=="Lit Fire"))
-									//var/obj/items/Kindling/J = locate() in M.contents
-									if(CC.Tname!="Hot")
-										M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC]."
-										sleep(30)
-										//J.RemoveFromStack(1)
-										//src.overlays -= overlays
-										//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
-										//light.off()
-										CC:Tname="Hot"
-										M<<"\  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC] is hot."
-									//else
-										//M<<"[J] is already Hot"
-										//call(proc/Temp)(J)
-										return
-
-						if("Ingots")
-							var/list/options = list()
-							var/obj/items/Ingots/CC
-							for(CC in M)
-							      // show a pretty list of options with prices included
-								options["[CC]"] = CC
-							var/choice = input("Which item would you like to heat?","Tool Parts") as null|anything in options
-							CC = options[choice]
-							//switch(input("Which item would you like to heat?","Tool Parts") in CC)
-							if(CC)
-								if((CC in M.contents)&&(src.name=="Lit Fire"))
-									//var/obj/items/Kindling/J = locate() in M.contents
-									if(CC.Tname!="Hot")
-										M<<"You begin to heat \  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type]."
-										sleep(30)
-										//J.RemoveFromStack(1)
-										//src.overlays -= overlays
-										//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeF")
-										//light.off()
-										CC:Tname="Hot"
-										CC:name="[CC.ingot_type] Ingot (Hot)"
-										//CC:name="[CC.ingot_type] Ingot (Hot)"
-										//call(/obj/items/Ingots/proc/Temp)(locate(CC))
-										//CC:suffix="Hot"
-										M<<"\  <IMG CLASS=icon SRC=\ref[CC.icon] ICONSTATE='[CC.icon_state]'> [CC.ingot_type] is hot."
-									//else
-										//M<<"[J] is already Hot"
-										//call(proc/Temp)(J)
-										return
-						if("Scraps")
-							var/list/options = list()
-							var/obj/items/Ingots/Scraps/CC
-							var/obj/items/thermable/selectedItem
-							for(CC in M)
-							      // show a pretty list of options with prices included
-								if(istype(CC, /obj/items/Ingots/Scraps))
-									options["[CC]"] = CC
-							var/choice = input("Which item would you like to heat?","Metal Scraps") as null|anything in options
-							if(choice)
-								selectedItem = options[choice]
-								if(selectedItem && (selectedItem in M.contents) && (src.name=="Lit Fire"))
-									if(selectedItem.Tname != "Hot")
-										M<<"You begin to heat [selectedItem] for further work."
-										sleep(30)
-										selectedItem.Tname = "Hot"
-										selectedItem.Heat()
-										selectedItem.UpdateDisplay()
-										M<<"[selectedItem] is now hot and ready for smithing!"
-										return
+					
+					// Get craftable items
+					var/list/tool_parts = list()
+					var/list/ingots = list()
+					
+					for(var/obj/items/Crafting/Created/item in M.contents)
+						var/type_str = "[item.type]"
+						if(findtext(type_str, "Handle") || findtext(type_str, "Blade") || findtext(type_str, "Head"))
+							if(item:Tname != "Hot")
+								tool_parts += item
+					
+					for(var/obj/items/Ingots/item in M.contents)
+						if(item:Tname != "Hot")
+							ingots += item
+					
+					var/list/choices = list()
+					if(tool_parts.len) choices += "Tool Parts"
+					if(ingots.len) choices += "Ingots"
+					
+					if(!choices.len)
+						M << "You have nothing to heat."
+						return
+					
+					choices += "Cancel"
+					var/choice = input("What would you like to heat?", "Heat") in choices
+					
+					if(choice == "Cancel")
+						return
+					
+					if(choice == "Tool Parts")
+						var/selected = input(M, "Which tool part?", "Heat") as null|anything in tool_parts
+						if(selected)
+							var/obj/to_heat = selected
+							if(to_heat in M.contents)
+								M << "You begin to heat [to_heat]."
+								sleep(30)
+								to_heat:Tname = "Hot"
+								M << "[to_heat] is now hot!"
+								return
+					
+					if(choice == "Ingots")
+						var/selected = input(M, "Which ingot?", "Heat") as null|anything in ingots
+						if(selected)
+							var/obj/to_heat = selected
+							if(to_heat in M.contents)
+								M << "You begin to heat [to_heat]."
+								sleep(30)
+								to_heat:Tname = "Hot"
+								if(to_heat:ingot_type)
+									to_heat:name = "[to_heat:ingot_type] Ingot (Hot)"
+								M << "[to_heat] is now hot!"
+								return
 				Cook()
 					set waitfor = 0
 					set popup_menu = 1

@@ -5546,15 +5546,12 @@ obj
 						Description()
 
 						//description = "<font color = #ffd700><center><b>Water Jar</b>"
-					proc/usingjar(var/obj/items/tools/Containers/Jar/J,amount)
-						var/mob/players/M = usr
-						if (amount > (M.MAXstamina-M.stamina))
-							amount = (M.MAXstamina-M.stamina)
-						M.stamina += amount
-						M << "You drink the water from the Filled Jar; Ahh, Refreshing... <b>[amount] stamina recovered."
-						return
-
-
+				proc/usingjar(var/obj/items/tools/Containers/Jar/J,amount)
+					var/mob/players/M = usr
+					if (amount > (M.MAXstamina-M.stamina))
+						amount = (M.MAXstamina-M.stamina)
+					M.ConsumeFoodItem("jar water", 0, 300, 0, amount)
+					return
 
 				Vessel //name of object
 					icon_state = "Vessel" //icon state of object
@@ -10628,7 +10625,6 @@ obj
 				Click()
 					var/mob/players/M
 					M = usr
-					locate(M in view(5,src))
 					for(M in view(5,src))
 						if(M.smerank >=1)
 							winset(M,"default.Smelt","is-visible=true")
@@ -10986,3 +10982,56 @@ obj
 						//M.listenSoundmob(s)
 						//if(M.Doing==0)
 							//M.unlistenSoundmob(s)
+
+// ============================================================================
+// INTEGRATED TOOL CRAFTING SYSTEM
+// ============================================================================
+
+mob/verb
+	modernized_combine_tools()
+		set category = "Crafting"
+		set hidden = 1
+		
+		// Use new selection system instead of broken input() calls
+		var/handle = src.SelectToolHandle()
+		if(!handle)
+			return
+		
+		var/head = src.SelectToolHead()
+		if(!head)
+			return
+		
+		// Combine them
+		src << "You combine [handle] and [head]..."
+		sleep(20)
+		
+		// Create combined tool
+		var/obj/new_tool = new /obj/items/tools()
+		if(new_tool)
+			new_tool.Move(src)
+			src << "You created a combined tool!"
+		else
+			src << "Failed to create tool."
+	
+	select_crafting_item()
+		set category = "Crafting"
+		set hidden = 1
+		
+		var/choice = input(src, "Select crafting item type:", "Crafting") in list("Tool Handle", "Tool Head", "Ingot", "Cancel")
+		
+		switch(choice)
+			if("Tool Handle")
+				var/selected = src.SelectToolHandle()
+				if(selected)
+					src << "Selected: [selected]"
+			if("Tool Head")
+				var/selected = src.SelectToolHead()
+				if(selected)
+					src << "Selected: [selected]"
+			if("Ingot")
+				var/selected = src.SelectIngot()
+				if(selected)
+					src << "Selected: [selected]"
+			if("Cancel")
+				return
+

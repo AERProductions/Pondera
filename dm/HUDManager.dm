@@ -25,8 +25,19 @@ mob/players/proc/update_hud()
 		sb.refresh()
 
 mob/players/Login()
+	// CRITICAL: Validate world initialization before allowing player login
+	if(!CanPlayersLogin())
+		world.log << "\[LOGIN\] Player [usr] rejected - initialization incomplete"
+		usr << "⚠️ Server is initializing systems. Please reconnect in a moment."
+		del(src)
+		return
+	
+	// CRASH RECOVERY: Mark player as online for session tracking
+	MarkPlayerOnline(src)
+	
 	..()
 	init_hud()
+	InitializeHungerThirstSystem()  // Initialize metabolic simulation
 	spawn(0)
 		while(src && client)
 			update_hud()

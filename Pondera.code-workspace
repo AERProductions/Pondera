@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"zenMode.fullScreen": false,
+		"dreammaker.objectTreePane": true,
+		"explorer.sortOrder": "type"
+	}
+}

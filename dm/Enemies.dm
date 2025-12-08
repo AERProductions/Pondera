@@ -581,6 +581,12 @@ mob
 				M = src
 				//var/mob/players/J
 				P = usr
+				
+				// CRITICAL: Check elevation range before allowing attack
+				if(!P.Chk_LevelRange(M))
+					P << "<font color='orange'><b>You are not on the same elevation level to attack [M.name]!</b>"
+					return
+				
 				P.waiter=0 // you can't attack again yet
 				var/damage = round(((rand(P.tempdamagemin,P.tempdamagemax))*((P.Strength/100)+1)),1) // calculate the damage
 				if(P.stamina>P.MAXstamina)
@@ -853,6 +859,10 @@ mob
 
 		proc
 			HitPlayer(var/mob/players/P) // hitting the player
+				// CRITICAL: Check elevation range before allowing attack
+				if(!src.Chk_LevelRange(P))
+					return  // Out of elevation range, can't hit
+				
 				var/dmgreduced // you reduce your damage based on defense
 				if(P.tempdefense<=1050)
 					dmgreduced = (((P.tempdefense)/10 * (1.05-(0.0005*(P.tempdefense))))/100) // calculation for dmg reduced

@@ -412,3 +412,65 @@ var
 		
 		// Update search cache
 		board.listing_search_cache = list()
+
+// ============================================================================
+// MARKET BOARD INTEGRATION WITH FILTERING LIBRARY
+// ============================================================================
+
+// Market-specific filtering helpers
+proc/GetMarketableItemsFiltered(mob/player)
+	/// Get items that can be listed on market board using filtering
+	if(!player) return list()
+	
+	var/list/marketable = list()
+	
+	for(var/item in player.contents)
+		var/obj/test = item
+		if(!test) continue
+		
+		var/type_str = "[test.type]"
+		
+		// Exclude unstable items
+		if(findtext(type_str, "Container") || findtext(type_str, "Jar") || findtext(type_str, "Bag"))
+			continue
+		if(findtext(type_str, "Deed") || findtext(type_str, "Quest"))
+			continue
+		
+		// Add marketable items
+		marketable += item
+	
+	return marketable
+
+mob/verb/quick_list_item()
+	set category = "Market"
+	set popup_menu = 1
+	set hidden = 1
+	
+	var/list/marketable = GetMarketableItemsFiltered(usr)
+	
+	if(!marketable.len)
+		usr << "You have nothing to list."
+		return
+	
+	var/selected = input(usr, "Which item to list?", "Market") as null|anything in marketable
+	if(!selected)
+		return
+	
+	var/obj/to_list = selected
+	var/price = input(usr, "Price per unit?", "Listing Price") as num
+	if(price < 0)
+		usr << "Invalid price."
+		return
+	
+	var/currency = input(usr, "Currency type?", "Currency") in list("lucre", "stone", "metal", "timber")
+	if(!currency)
+		return
+	
+	// Add listing to market
+	var/datum/market_board_manager/board = GetMarketBoard()
+	if(!board)
+		usr << "Market board not available."
+		return
+	
+	board.CreateListing(usr, to_list:name, "[to_list.type]", 1, price, currency)
+	usr << "Listed [to_list] for [price] [currency]."

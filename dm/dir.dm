@@ -1,4 +1,7 @@
-turf/var/borders = 0 // bit-flagged value determining directional
+turf/var
+	borders = 0 // bit-flagged value determining directional
+	soil_type = 1 // Soil quality for farming (SOIL_BASIC=1, SOIL_RICH=2, SOIL_DEPLETED=0)
+
 obj/var/borders = 0
 
 

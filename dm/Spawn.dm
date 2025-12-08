@@ -21,6 +21,8 @@ obj/spawns/
 			if(spawned < max_spawn)
 				var/mob/M = new spawntype(src.loc)
 				M.ownere1 = src
+				// CRITICAL: Initialize elevation based on spawner location terrain
+				InitializeElevationFromTerrain(M, isturf(src.loc) ? src.loc : null)
 				spawned ++
 
 	spawnpointe2
@@ -45,6 +47,8 @@ obj/spawns/
 			if(spawned < max_spawn)	// make sure we haven't reached limit
 				var/mob/M = new spawntype(src.loc) // generate mob
 				M.ownere2 = src
+				// CRITICAL: Initialize elevation based on spawner location terrain
+				InitializeElevationFromTerrain(M, isturf(src.loc) ? src.loc : null)
 				spawned ++ // increment the counter
 				//world << "[src] spits out \the [M.name]!"
 				//world << "[src] can produce [max_spawn-spawned] more [M.name]s!"
@@ -70,6 +74,8 @@ obj/spawns/
 			if(spawned < max_spawn)	// make sure we haven't reached limit
 				var/mob/M = new spawntype(src.loc) // generate mob
 				M.ownere3 = src
+				// CRITICAL: Initialize elevation based on spawner location terrain
+				InitializeElevationFromTerrain(M, isturf(src.loc) ? src.loc : null)
 				spawned ++ // increment the counter
 				//world << "[src] spits out \the [M.name]!"
 				//world << "[src] can produce [max_spawn-spawned] more [M.name]s!"
@@ -95,6 +101,8 @@ obj/spawns/
 			if(spawned < max_spawn)	// make sure we haven't reached limit
 				var/mob/M = new spawntype(src.loc) // generate mob
 				M.ownere4 = src
+				// CRITICAL: Initialize elevation based on spawner location terrain
+				InitializeElevationFromTerrain(M, isturf(src.loc) ? src.loc : null)
 				spawned ++ // increment the counter
 				//world << "[src] spits out \the [M.name]!"
 				//world << "[src] can produce [max_spawn-spawned] more [M.name]s!"

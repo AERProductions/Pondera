@@ -59,7 +59,7 @@ atom/movable
 			overlays -= spotlight
 			spotlight.loc = loc
 			animate(spotlight, pixel_x = ((!isnull(x_os)) ? x_os : spotlight.pixel_x), pixel_y = ((!isnull(y_os)) ? y_os : spotlight.pixel_y), color = (hex ? hex : spotlight.color), transform = (size_modi ? matrix()*size_modi : spotlight.transform), alpha = ((!isnull(alph)) ? alph : spotlight.alpha), time = 1)
-			sleep 1
+			sleep(1)
 			spotlight.loc = null
 			overlays += spotlight
 
@@ -85,7 +85,7 @@ atom/movable
 			overlays -= cone
 			cone.loc = loc
 			animate(cone, pixel_x = ((!isnull(x_os)) ? x_os : cone.pixel_x), pixel_y = ((!isnull(y_os)) ? y_os : cone.pixel_y), color = (hex ? hex : cone.color), transform = (size_modi ? matrix()*size_modi : cone.transform), alpha = ((!isnull(alph)) ? alph : cone.alpha), time = 1)
-			sleep 1
+			sleep(1)
 			cone.loc = null
 			overlays += cone
 

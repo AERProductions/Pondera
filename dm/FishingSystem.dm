@@ -385,13 +385,13 @@ obj/fishing_session
 		
 		switch(sound_event)
 			if("bite")
-				sound_mgr.PlayEffectSound("hammer", location)  // Placeholder
+				sound_mgr.PlayEffectSound("fishing_bite", location)
 			if("hook")
-				sound_mgr.PlayEffectSound("hammer", location)  // Placeholder
+				sound_mgr.PlayEffectSound("fishing_cast", location)
 			if("catch")
-				sound_mgr.PlayEffectSound("hammer", location)  // Placeholder
+				sound_mgr.PlayEffectSound("fishing_reel", location)
 			if("fail")
-				sound_mgr.PlayEffectSound("hammer", location)  // Placeholder
+				sound_mgr.PlayEffectSound("fishing_fail", location)
 
 // ==================== CAUGHT FISH OBJECT ====================
 
@@ -457,25 +457,36 @@ mob/players
 // Extension to existing turf/water (defined in GatheringExtensions.dm)
 // Add StartFishing proc to mob/players to enable fishing
 
-mob/players
-	proc/StartFishing(turf/location)
-		/**
-		 * Initiate a fishing session - requires fishing pole equipped
-		 */
-		if(FPequipped != 1)
-			src << "<font color='red'>You need to equip a Fishing Pole first!</font>"
-			return
-		
-		if(is_fishing)
-			src << "You're already fishing!"
-			return
-		
-		if(!location || !isturf(location))
-			src << "Invalid fishing location."
-			return
-		
-		is_fishing = TRUE
-		fishing_session = new /obj/fishing_session(src, location)
+	mob/players
+		proc/StartFishing(turf/location)
+			/**
+			 * Initiate a fishing session - requires fishing pole equipped
+			 */
+			
+			// CRITICAL: Check elevation range - must be within ±0.5 of water
+			if(!src.Chk_LevelRange(location))
+				src << "<font color='orange'><b>You must be on the same elevation level to fish here!</b>"
+				return
+			
+			// Phase 3: Check zone permissions
+			if(!CanPlayerBuildAtLocation(src, location))
+				src << "<b><font color=red>You cannot fish here. Only village members can fish in this area.</font></b>"
+				return
+			
+			if(FPequipped != 1)
+				src << "<font color='red'>You need to equip a Fishing Pole first!</font>"
+				return
+			
+			if(is_fishing)
+				src << "You're already fishing!"
+				return
+			
+			if(!location || !isturf(location))
+				src << "Invalid fishing location."
+				return
+			
+			is_fishing = TRUE
+			fishing_session = new /obj/fishing_session(src, location)
 
 // ==================== INITIALIZATION ====================
 

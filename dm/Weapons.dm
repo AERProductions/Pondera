@@ -2305,6 +2305,20 @@ obj
 				set src in usr
 				usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Door Key:</b>  <br>Unlocks locked doors for the building owner."//cool little line that links item images with text to provide a better understanding of what to use and what it looks like
 				return
+		torches
+			Handtorch
+				name = "Hand Torch"
+				icon_state = "ht"
+				icon = 'dmi/64/fire.dmi'
+				layer = 11
+				Worth = 5
+				can_stack = TRUE
+				verb/Description()
+					set category=null
+					set popup_menu=1
+					set src in usr
+					usr << "<center>\  <IMG CLASS=bigicon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> <br> <b>Hand Torch:</b>  <br>A portable torch for light and heating."
+					return
 		//Clay
 		//	name = "Clay"
 		//	icon_state = "Clay"

@@ -328,11 +328,8 @@ turf
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water..."
 			sleep(2)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("fresh water", 0, 300, 0, amount)
 			sleep(2)
-			M << "Ahh, Refreshing. <b>[amount] stamina recovered."
 			return
 		pbord1
 			name = "pbord1"
@@ -474,11 +471,8 @@ turf
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("oasis water", 0, 300, 0, amount)
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	OasisWaterc1
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "waterc1"
@@ -517,11 +511,8 @@ turf
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("oasis water", 0, 300, 0, 100)
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	OasisWaterc2
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "waterc2"
@@ -560,11 +551,8 @@ turf
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("oasis water", 0, 300, 0, 100)
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	OasisWaterc3
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "waterc3"
@@ -603,11 +591,8 @@ turf
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("oasis water", 0, 300, 0, 100)
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	OasisWaterc4
 		icon = 'dmi/64/gen.dmi'
 		icon_state = "waterc4"
@@ -646,11 +631,8 @@ turf
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking the Water from the Oasis..."
 			sleep(2)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("oasis water", 0, 300, 0, 100)
 			sleep(2)
-			M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 	JungleWat
 		icon = 'dmi/64/gen.dmi'
 		JungleWater
@@ -690,11 +672,8 @@ turf
 					amount = (M.MAXstamina-M.stamina)
 				usr << "You Begin drinking Water from the Jungle..."
 				sleep(2)
-				M.stamina += amount
-				M.updateST()
-				M.hydrated=1
+				M.ConsumeFoodItem("jungle water", 0, 250, 0, amount)
 				sleep(2)
-				M << "It is not that refreshing... <b>[amount] stamina recovered."
 		JungleWaterc1
 			icon_state = "waterjc1"
 			density = 1
@@ -730,13 +709,10 @@ turf
 				M = usr
 				if (amount > (M.MAXstamina-M.stamina))
 					amount = (M.MAXstamina-M.stamina)
-				usr << "You Begin drinking the Water from the Oasis..."
+				usr << "You Begin drinking Water from the Jungle..."
 				sleep(2)
-				M.stamina += amount
-				M.updateST()
-				M.hydrated=1
+				M.ConsumeFoodItem("jungle water", 0, 250, 0, amount)
 				sleep(2)
-				M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 		JungleWaterc2
 			icon_state = "waterjc2"
 			density = 1
@@ -772,13 +748,10 @@ turf
 				M = usr
 				if (amount > (M.MAXstamina-M.stamina))
 					amount = (M.MAXstamina-M.stamina)
-				usr << "You Begin drinking the Water from the Oasis..."
+				usr << "You Begin drinking Water from the Jungle..."
 				sleep(2)
-				M.stamina += amount
-				M.updateST()
-				M.hydrated=1
+				M.ConsumeFoodItem("jungle water", 0, 250, 0, amount)
 				sleep(2)
-				M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 		JungleWaterc3
 			icon_state = "waterjc3"
 			density = 1
@@ -814,13 +787,10 @@ turf
 				M = usr
 				if (amount > (M.MAXstamina-M.stamina))
 					amount = (M.MAXstamina-M.stamina)
-				usr << "You Begin drinking the Water from the Oasis..."
+				usr << "You Begin drinking Water from the Jungle..."
 				sleep(2)
-				M.stamina += amount
-				M.updateST()
-				M.hydrated=1
+				M.ConsumeFoodItem("jungle water", 0, 250, 0, amount)
 				sleep(2)
-				M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 		JungleWaterc4
 			icon_state = "waterjc4"
 			density = 1
@@ -856,13 +826,10 @@ turf
 				M = usr
 				if (amount > (M.MAXstamina-M.stamina))
 					amount = (M.MAXstamina-M.stamina)
-				usr << "You Begin drinking the Water from the Oasis..."
+				usr << "You Begin drinking Water from the Jungle..."
 				sleep(2)
-				M.stamina += amount
-				M.updateST()
-				M.hydrated=1
+				M.ConsumeFoodItem("jungle water", 0, 250, 0, amount)
 				sleep(2)
-				M << "Ahh, that is Really Refreshing. <b>[amount] stamina recovered."
 obj
 	//icon = 'dmi/64/gen.dmi'
 	liquid

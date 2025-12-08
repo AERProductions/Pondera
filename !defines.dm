@@ -4,6 +4,7 @@
 #define MAX_WAKE_DISTANCE 11
 #define REFLECTION_PLANE -1
 #define LIGHTING_PLANE 2
+#define EFFECTS_LAYER 15
 
 #define floor(x) round(x)
 #define ceil(x) (-round(-x))

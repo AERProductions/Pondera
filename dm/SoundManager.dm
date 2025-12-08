@@ -76,10 +76,59 @@ sound_manager
 			"loop" = FALSE
 		)
 		sound_properties["thunder"] = list(
-			"file" = 'snd/wind.ogg',
+			"file" = 'snd/wind.ogg',  // TODO: Replace with actual thunder sound when available
 			"radius" = 1000,
 			"volume" = 95,
 			"category" = "weather",
+			"loop" = FALSE
+		)
+		sound_properties["file_scrape"] = list(
+			"file" = 'snd/fire2a.ogg',  // TODO: Replace with actual file scraping sound
+			"radius" = 250,
+			"volume" = 60,
+			"category" = "craft",
+			"loop" = FALSE
+		)
+		sound_properties["whetstone_scrape"] = list(
+			"file" = 'snd/fire2a.ogg',  // TODO: Replace with actual whetstone sound
+			"radius" = 250,
+			"volume" = 60,
+			"category" = "craft",
+			"loop" = FALSE
+		)
+		sound_properties["polish_cloth"] = list(
+			"file" = 'snd/fire2a.ogg',  // TODO: Replace with actual polishing sound
+			"radius" = 250,
+			"volume" = 50,
+			"category" = "craft",
+			"loop" = FALSE
+		)
+		sound_properties["fishing_cast"] = list(
+			"file" = 'snd/fire2a.ogg',  // TODO: Replace with actual casting sound
+			"radius" = 300,
+			"volume" = 50,
+			"category" = "fishing",
+			"loop" = FALSE
+		)
+		sound_properties["fishing_bite"] = list(
+			"file" = 'snd/fire2a.ogg',  // TODO: Replace with actual bite alert sound
+			"radius" = 200,
+			"volume" = 70,
+			"category" = "fishing",
+			"loop" = FALSE
+		)
+		sound_properties["fishing_reel"] = list(
+			"file" = 'snd/fire2a.ogg',  // TODO: Replace with actual reeling sound
+			"radius" = 250,
+			"volume" = 60,
+			"category" = "fishing",
+			"loop" = FALSE
+		)
+		sound_properties["fishing_fail"] = list(
+			"file" = 'snd/fire2a.ogg',  // TODO: Replace with actual failure sound
+			"radius" = 200,
+			"volume" = 50,
+			"category" = "fishing",
 			"loop" = FALSE
 		)
 

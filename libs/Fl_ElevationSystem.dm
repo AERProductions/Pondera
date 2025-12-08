@@ -6,6 +6,28 @@ proc
 		if(istype(E)) return 1
 		else return 0
 
+	// Initialize elevation for an object based on its location's terrain
+	// Use this when spawning objects on hills/ditches to ensure proper elevation
+	InitializeElevationFromTerrain(atom/obj, var/turf/location = null)
+		if(!obj) return FALSE
+		
+		var/turf/terrain = location || (isturf(obj.loc) ? obj.loc : null)
+		if(!terrain)
+			return FALSE
+		
+		// Check if location has elevation-affecting terrain
+		for(var/elevation/E in terrain)
+			if(E.elevel)
+				obj.elevel = E.elevel
+				// Calculate layer from elevel: (elevel - 1) * 4
+				obj.layer = round(E.elevel - 1, 0.25) * 4
+				// Calculate invisibility from elevel: round(elevel)
+				if(!obj.invisibility)
+					obj.invisibility = round(E.elevel)
+				return TRUE
+		
+		return FALSE
+
 elevation
 	parent_type = /obj
 

@@ -1648,11 +1648,8 @@ obj
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking from a Cut Vine..."
 			sleep(2)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("water vine", 0, 300, 0, amount)
 			sleep(2)
-			M << "Ahh, Refreshing. <b>[amount] stamina recovered."
 	PoisonVines
 		icon = 'dmi/64/tree.dmi'
 		icon_state = "PVines"
@@ -1765,11 +1762,8 @@ obj
 					amount = (M.MAXstamina-M.stamina)
 				usr << "You Begin drinking from a Sliced Cactus..."
 				sleep(2)
-				M.stamina += amount
-				M.updateST()
-				M.hydrated=1
+				M.ConsumeFoodItem("cactus water", 0, 300, 0, amount)
 				sleep(2)
-				M << "Ahh, Refreshing. <b>[amount] stamina recovered."
 		PoisonCactus
 			icon = 'dmi/64/tree.dmi'
 			icon_state = "PCactus"
@@ -1871,11 +1865,8 @@ obj
 				amount = (M.MAXstamina-M.stamina)
 			usr << "You Begin drinking from a Water Fountain..."
 			sleep(12)
-			M.stamina += amount
-			M.updateST()
-			M.hydrated=1
+			M.ConsumeFoodItem("fountain water", 0, 350, 25, amount)
 			sleep(6)
-			M << "Ahh, Refreshing. <b>[amount] stamina recovered."
 	HealingFountain
 		icon = 'dmi/64/tree.dmi'
 		icon_state = "HFountain"

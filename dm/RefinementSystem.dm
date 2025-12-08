@@ -142,13 +142,13 @@ obj/items/tools/refinement
 		switch(tool_type)
 			if(REFINE_TOOL_FILE)
 				// File scraping sound
-				sound_mgr.PlayEffectSound("hammer", location)  // Use hammer as placeholder; add "file_scrape" sound later
+				sound_mgr.PlayEffectSound("file_scrape", location)
 			if(REFINE_TOOL_WHETSTONE)
 				// Whetstone sharpening sound
-				sound_mgr.PlayEffectSound("hammer", location)  // Use hammer as placeholder; add "whetstone_scrape" sound later
+				sound_mgr.PlayEffectSound("whetstone_scrape", location)
 			if(REFINE_TOOL_POLISH_CLOTH)
 				// Polishing sound
-				sound_mgr.PlayEffectSound("hammer", location)  // Use hammer as placeholder; add "polish_cloth" sound later
+				sound_mgr.PlayEffectSound("polish_cloth", location)
 
 // File tool
 obj/items/tools/refinement/File
