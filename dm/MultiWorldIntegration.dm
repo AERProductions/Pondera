@@ -148,16 +148,19 @@
 // ============================================================================
 // Player stalls exist per-continent but profits are shared
 
-/proc/GetGlobalProfits(mob/player)
+/proc/GetGlobalProfits(mob/players/player)
 	// Stall profits are shared globally across all continents
-	if(!player) return 0
-	// TODO: Phase 4 - Access player.stall_profits
-	return 0
+	if(!player || !player.character) return 0
+	
+	// Access stall_profits from character_data
+	return player.character.stall_profits || 0
 
-/proc/AddGlobalProfits(mob/player, amount)
+/proc/AddGlobalProfits(mob/players/player, amount)
 	// Add profits to global account (earned on any continent)
-	if(!player || amount <= 0) return 0
-	// TODO: Phase 4 - player.stall_profits += amount
+	if(!player || !player.character || amount <= 0) return 0
+	
+	// Add to stall_profits (shared across all continents)
+	player.character.stall_profits += amount
 	return 1
 
 // ============================================================================

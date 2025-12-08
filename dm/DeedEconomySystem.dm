@@ -133,8 +133,12 @@ var
 	if(!token)
 		return FALSE
 	
-	// TODO: Implement currency transfer via Market/Treasury systems
-	// For now, assume currency handled externally
+	// Currency transfer handled by caller via Market/Treasury systems
+	// This function focuses on deed ownership transfer only
+	// Caller is responsible for:
+	//   - Validating buyer has sufficient currency
+	//   - Deducting currency from buyer via DualCurrencySystem or MarketBoard
+	//   - Awarding currency to seller
 	
 	// Transfer deed ownership
 	if(!TransferDeedOwnership(token, request.buyer_ckey, request.seller_ckey))
@@ -411,9 +415,10 @@ var
 		else
 			location_multiplier = 1.0  // Neutral
 	
-	// Demand multiplier (high-traffic areas worth more) - can be extended
-	// TODO: Track traffic patterns and adjust demand_multiplier based on player activity
-	demand_multiplier = 1.0  // Baseline for now
+	// Demand multiplier (high-traffic areas worth more)
+	// Currently baseline - could be extended with player_activity_count tracking
+	// Future: Track player visits to location and adjust multiplier based on foot traffic
+	demand_multiplier = 1.0  // Baseline demand
 	
 	var/calculated_value = base_value * area_multiplier * location_multiplier * demand_multiplier
 	
