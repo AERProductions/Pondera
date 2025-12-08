@@ -304,35 +304,41 @@ var
 /proc/GetPlayerCraftingSkill(mob/players/player)
 	/**
 	 * GetPlayerCraftingSkill(player)
-	 * Gets player's crafting skill level
-	 * Returns: 0-100 skill level
-	 * This connects to actual skill system
+	 * Gets player's crafting skill level (rank-based)
+	 * Returns: 1-5 crafting rank
+	 * Integrated with UnifiedRankSystem
 	 */
-	if(!player) return 0
+	if(!player || !player.character) return 0
 	
-	// Placeholder - connect to actual crafting skill variable
-	// For now, return 0 (no crafting skill)
-	return 0
+	// Use crafting rank from unified rank system (crank = "crank")
+	return player.GetRankLevel("crank") || 0
 
 /proc/AwardPlayerExperience(mob/players/player, skill_type, amount)
 	/**
 	 * AwardPlayerExperience(player, skill_type, amount)
-	 * Awards experience to player in specified skill
-	 * This is a placeholder - connect to actual experience system
+	 * Awards experience to player via unified rank system
+	 * Integrated with UnifiedRankSystem
 	 */
-	if(!player || amount <= 0) return
+	if(!player || !player.character || amount <= 0) return
 	
-	// TODO: Connect to actual experience/skill progression system
-	world.log << "EXP_AWARD: [player.key] gained [amount] [skill_type] experience"
+	// Award experience through rank system
+	var/rank_type = skill_type  // skill_type should be RANK_* constant
+	player.UpdateRankExp(rank_type, amount)
+	world.log << "[player.key] gained [amount] [rank_type] experience"
 
 /proc/GetRecipeFromInspection(recipe_id)
 	/**
 	 * GetRecipeFromInspection(recipe_id)
 	 * Retrieves recipe information after successful inspection
 	 * Returns: recipe data or null
+	 * Integrated with RECIPES registry from CookingSystem
 	 */
-	// TODO: Connect to actual recipe database
-	// This would return the actual recipe data structure
+	if(!recipe_id) return null
+	
+	// Query RECIPES registry (from CookingSystem.dm)
+	if(RECIPES && RECIPES[recipe_id])
+		return RECIPES[recipe_id]
+	
 	return null
 
 /proc/DisplayInspectionResult(mob/players/player, datum/inspection_result/result)
@@ -379,15 +385,16 @@ var
 /proc/GetInspectionHistory(mob/players/player)
 	/**
 	 * GetInspectionHistory(player)
-	 * Returns list of recipes player has learned through inspection
-	 * TODO: Track per-player inspection history
+	 * Returns count of recipes player has learned through inspection
+	 * Integrated with recipe_state from character_data
 	 */
-	var/list/history = list()
+	if(!player || !player.character) return 0
 	
-	// TODO: Query per-player inspection history from database
-	// For now, return empty list
+	var/datum/recipe_state/rs = player.character.recipe_state
+	if(!rs) return 0
 	
-	return history
+	// Return count of discovered recipes
+	return rs.GetDiscoveredRecipeCount()
 
 /proc/GetMostCommonInspectedItems()
 	/**
