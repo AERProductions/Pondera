@@ -295,10 +295,10 @@ var
 	 * Returns: stat value or 50 (default) if not found
 	 * This is a placeholder - connect to actual stat system
 	 */
-	if(!player) return 50
+	if(!player || !player.character) return 50
 	
-	// Returns default value of 50 for all stats
-	// TODO: Connect to actual stat system when available
+	// Return default stat value (50 baseline for inspection success)
+	// Stats system can be expanded in future to store stat data in character_data
 	return 50
 
 /proc/GetPlayerCraftingSkill(mob/players/player)
