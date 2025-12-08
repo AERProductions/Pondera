@@ -81,12 +81,12 @@
  * Harvesting integration with hunger system
  */
 
-/proc/HarvestCropWithYield(crop_name, harvest_skill_level, soil_type = SOIL_BASIC)
+/proc/HarvestCropWithYield(crop_name, harvest_skill_level, soil_type = SOIL_BASIC, turf/harvest_turf = null)
 	/**
 	 * When a player harvests a crop, determine yield
 	 * Then add to inventory with appropriate stack
 	 * 
-	 * Formula: yield = base × season × skill × soil
+	 * Formula: yield = base × season × skill × soil × nutrients × moisture × rotation
 	 * 
 	 * soil_type: SOIL_BASIC (1.0), SOIL_RICH (1.2), SOIL_DEPLETED (0.5)
 	 */
@@ -96,6 +96,13 @@
 	var/crop_soil_bonus = GetCropSoilBonus(crop_name, soil_type)
 	
 	var/total_yield = base_yield * skill_bonus * soil_yield_mod * crop_soil_bonus
+	
+	// Apply new soil property modifiers if turf provided
+	if(harvest_turf)
+		InitializeSoilProperties(harvest_turf)
+		total_yield *= GetNutrientYieldModifier(harvest_turf, crop_name)      // 1.0-2.0x crop-specific
+		total_yield *= GetMoistureGrowthModifier(harvest_turf)                // 0.85-1.1x
+		total_yield *= GetCropRotationModifier(harvest_turf, crop_name)       // 1.05 or 0.90x
 	
 	return round(total_yield)
 

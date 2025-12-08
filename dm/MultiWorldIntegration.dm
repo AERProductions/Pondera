@@ -217,3 +217,23 @@
 				world << "MULTI    [cont]: ([pos[1]], [pos[2]], [pos[3]])"
 	
 	return 1
+
+/**
+ * Get player's current continent ID (CONTINENT_PEACEFUL/CREATIVE/COMBAT)
+ * Used by systems that need continent-specific behavior (e.g., soil degradation)
+ */
+proc/GetPlayerContinent(mob/player)
+	if(!player) return CONTINENT_PEACEFUL
+	
+	// Check if player has current_continent set
+	if(player:current_continent)
+		switch(lowertext(player:current_continent))
+			if("story", "peaceful")
+				return CONTINENT_PEACEFUL
+			if("sandbox", "creative")
+				return CONTINENT_CREATIVE
+			if("pvp", "combat")
+				return CONTINENT_COMBAT
+	
+	// Default to peaceful if unknown
+	return CONTINENT_PEACEFUL

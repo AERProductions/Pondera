@@ -814,6 +814,13 @@ obj
 							new seed(usr)
 							grankEXP+=GiveXP				//  Add The exp from tree to you.
 							M.GNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+							
+							// Apply soil degradation on harvest (new Phase 11b system)
+							var/turf/harvest_turf = src.loc
+							if(istype(harvest_turf, /turf))
+								var/continent_id = GetPlayerContinent(usr)
+								DepleteSoilWithContinentScaling(harvest_turf, lowertext(VegeType), continent_id, 1.0)
+							
 							Picking=0							// Picking is set to 0 so you are free to move and cut some more.
 							VegeAmount--
 							SeedAmount--
