@@ -152,7 +152,15 @@
 		return FALSE
 	
 	// Delegate to low-level attack mechanics
-	return LowLevelResolveAttack(attacker, defender, attack_type)
+	var/attack_hit = LowLevelResolveAttack(attacker, defender, attack_type)
+	
+	// Award combat XP for the attempt
+	if(attack_hit)
+		AwardCombatXP(attacker, COMBAT_XP_ATTACK_HIT, "attack_hit")
+	else
+		AwardCombatXP(attacker, COMBAT_XP_ATTACK_MISS, "attack_miss")
+	
+	return attack_hit
 
 // ============================================================================
 // DAMAGE CALCULATION WITH CONTINENT SCALING
@@ -180,21 +188,16 @@
 	
 	switch(current_continent)
 		if(CONT_STORY)
-			// Story: Normal damage, no scaling
-			damage_scalar = 1.0
+			// Story: Normal damage, with combat rank scaling
+			damage_scalar = GetCombatDamageScalar(attacker)
 		
 		if(CONT_SANDBOX)
 			// Sandbox: No damage (combat disabled)
 			return 0
 		
 		if(CONT_PVP)
-			// PvP: Combat rank provides damage bonus
-			damage_scalar = 1.0
-			
-			// Optional: Bonus per combat level
-			// var/combat_level = attacker.character.GetRankLevel(RANK_COMBAT)
-			// if(combat_level > 0)
-			//     damage_scalar += (combat_level * 0.05)  // +5% per rank level
+			// PvP: Combat rank provides significant damage bonus
+			damage_scalar = GetCombatDamageScalar(attacker)
 	
 	return round(base_damage * damage_scalar)
 

@@ -302,11 +302,6 @@ var/global/list/raid_history = list()
 /proc/GetCombatLevel(mob/player)
 	if(!player) return 1
 	return global.player_combat_level[player.key] || 1
-
-/proc/GetCombatXP(mob/player)
-	if(!player) return 0
-	return global.player_combat_xp[player.key] || 0
-
 // Dynamic Events
 /datum/pvp_event
 	var

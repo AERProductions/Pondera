@@ -18,6 +18,7 @@
 		Crank = 0           // Carving rank
 		CSRank = 0          // Sprout Cutting rank
 		PLRank = 0          // Pole rank
+		combat_rank = 1     // Combat rank (1-5)
 
 		// Experience Points (current)
 		frankEXP = 0
@@ -32,6 +33,7 @@
 		CrankEXP = 0
 		CSRankEXP = 0
 		PLRankEXP = 0
+		combat_xp = 0       // Combat XP (accumulates within rank)
 
 		// Experience Thresholds (exp needed for next level)
 		frankMAXEXP = 100

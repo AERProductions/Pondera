@@ -73,8 +73,9 @@ proc/LowLevelResolveAttack(mob/players/attacker, mob/defender, attack_type = "ph
 	var/final_damage = CalcDamage(attacker, defender, base_damage)
 	
 	// EXECUTION PHASE
-	// Apply stamina cost
-	var/stamina_cost = max(5, round(base_damage * 0.5))
+	// Apply stamina cost (reduced by combat rank)
+	var/base_stamina_cost = max(5, round(base_damage * 0.5))
+	var/stamina_cost = GetCombatStaminaCost(attacker, base_stamina_cost)
 	attacker.stamina = max(0, attacker.stamina - stamina_cost)
 	
 	// Apply damage to defender
