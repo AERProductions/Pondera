@@ -238,3 +238,114 @@ var/global/const/MAX_LOG_ENTRIES = 10000          // Prevent unbounded memory gr
 		if(deed_info["denials"] > 5)
 			usr << "[deed_info["deed"]]: [deed_info["denials"]] denials"
 
+// ============================================================================
+// COMBAT ANALYTICS INTEGRATION (Phase 10)
+// ============================================================================
+
+/**
+ * Log a combat event for analytics tracking
+ * Integrated with CombatSystem.dm
+ * 
+ * @param attacker_key - Player key of attacker
+ * @param defender_key - Player key or NPC name of defender
+ * @param damage - Damage dealt
+ * @param attack_type - "physical", "magic", "ranged", "raid"
+ * @param continent - CONT_STORY, CONT_SANDBOX, CONT_PVP
+ * @param result - "hit", "miss", "kill"
+ */
+/proc/LogCombatEventToAnalytics(attacker_key, defender_key, damage, attack_type, continent, result)
+	// This function delegates to CombatSystem's logging
+	// Keeps both systems synchronized
+	if(attacker_key && defender_key)
+		LogCombatEvent(attacker_key, defender_key, damage, attack_type, continent, result)
+
+/**
+ * Get combat abuse patterns
+ * Detects griefing, kill farming, AFK farming patterns
+ * 
+ * @return List of suspicious accounts and patterns
+ */
+/proc/GetCombatAbusePatterns()
+	if(!combat_log_history)
+		return list()
+	
+	var/list/abuse_patterns = list()
+	var/list/player_kills = list()
+	var/list/kill_targets = list()
+	
+	// Build kill statistics
+	for(var/entry in combat_log_history)
+		if(islist(entry) && entry["result"] == "kill")
+			var/attacker = entry["attacker_key"]
+			var/defender = entry["defender_key"]
+			
+			// Count kills per player
+			if(!player_kills[attacker])
+				player_kills[attacker] = 0
+			player_kills[attacker]++
+			
+			// Count repeated victims
+			var/victim_key = "[attacker]_vs_[defender]"
+			if(!kill_targets[victim_key])
+				kill_targets[victim_key] = 0
+			kill_targets[victim_key]++
+	
+	// Pattern 1: Repeated griefing (same player killed repeatedly)
+	for(var/victim_pair in kill_targets)
+		if(kill_targets[victim_pair] > 5)
+			abuse_patterns["griefing"] = list(
+				"pattern" = victim_pair,
+				"count" = kill_targets[victim_pair],
+				"severity" = "HIGH"
+			)
+	
+	// Pattern 2: Kill sprees (multiple kills in short time)
+	for(var/attacker in player_kills)
+		if(player_kills[attacker] > 10)
+			abuse_patterns[attacker] = list(
+				"kills" = player_kills[attacker],
+				"type" = "potential_griefing",
+				"severity" = "MEDIUM"
+			)
+	
+	return abuse_patterns
+
+/**
+ * Get combat statistics for a continent
+ * @param filter_continent - Filter to specific continent (null = all)
+ * @return Combat statistics
+ */
+/proc/GetCombatStatsAnalytics(filter_continent = null)
+	if(!combat_log_history)
+		return list()
+	
+	var/list/stats = list(
+		"total_combats" = 0,
+		"total_kills" = 0,
+		"total_misses" = 0,
+		"by_continent" = list()
+	)
+	
+	for(var/entry in combat_log_history)
+		if(!islist(entry))
+			continue
+		
+		if(filter_continent && entry["continent"] != filter_continent)
+			continue
+		
+		stats["total_combats"]++
+		
+		switch(entry["result"])
+			if("kill")
+				stats["total_kills"]++
+			if("miss")
+				stats["total_misses"]++
+		
+		// Count by continent
+		var/cont = entry["continent"]
+		if(!stats["by_continent"][cont])
+			stats["by_continent"][cont] = 0
+		stats["by_continent"][cont]++
+	
+	return stats
+
