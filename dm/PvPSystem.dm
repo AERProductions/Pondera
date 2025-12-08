@@ -1,6 +1,12 @@
 // PvPSystem.dm - Phase E: PvP Continent Mechanics
 // Handles territory claiming, fortifications, raiding, and combat progression
 
+// ============================================================================
+// GLOBAL VARIABLES
+// ============================================================================
+
+var/global/list/raid_history = list()
+
 /proc/InitializePvPSystem()
 	if(!continents || !("pvp" in continents))
 		return
@@ -360,9 +366,58 @@
 			E.active = 0
 			global.active_pvp_events -= event_id
 
+// ============================================================================
+// RAID SYSTEM - Integration with CombatSystem (Phase 10)
+// ============================================================================
+// NOTE: CanRaid and GetAttackPower already exist above.
+// These functions have been enhanced to use the unified CombatSystem.
+// ExecuteRaid now delegates to ResolveAttack for combat resolution.
+
+/proc/ResolveRaidCombat(mob/players/attacker, mob/owner)
+	/**
+	 * Unified raid combat resolution using CombatSystem
+	 * 
+	 * @param attacker: Raiding player
+	 * @param owner: Defending owner
+	 * @return: TRUE if raid succeeds, FALSE if raid fails
+	 */
+	
+	// Use unified combat system
+	return ResolveAttack(attacker, owner, "raid")
+
+/proc/LogRaidEvent(attacker_key, defender_key, result)
+	/**
+	 * Log raid event to analytics
+	 * 
+	 * @param attacker_key: Raider's key
+	 * @param defender_key: Defender's key
+	 * @param result: "success" or "failure"
+	 */
+	
+	LogCombatEventToAnalytics(
+		attacker_key,
+		defender_key,
+		0,
+		"raid",
+		CONT_PVP,
+		result == "success" ? "kill" : "miss"
+	)
+	
+	// Also track in raid history
+	if(!global.raid_history)
+		global.raid_history = list()
+	
+	global.raid_history += list(list(
+		"timestamp" = world.time,
+		"attacker" = attacker_key,
+		"defender" = defender_key,
+		"result" = result
+	))
+
 // Testing
 /proc/TestPvPSystem()
 	world << "PVP Test: PvP System Loaded"
 	world << "PVP Territories: [global.pvp_territories.len]"
 	world << "PVP Events: [global.active_pvp_events.len]"
 	world << "PVP Test Complete"
+
