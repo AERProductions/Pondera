@@ -169,6 +169,7 @@ proc
 		spawn(385)  MarketBoardUpdateLoop()              // Market maintenance
 		spawn(386)  InitializeInventoryManagementExtensions() // Bag system
 		spawn(387)  InitializeDeedEconomySystem()        // Deed transfers & rentals
+		spawn(388)  InitializeNPCMerchantSystem()        // Phase 12b: Merchant system
 		
 		spawn(390) RegisterInitComplete("economy")
 		

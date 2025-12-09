@@ -117,6 +117,7 @@
 #include "dm\Music.dm"
 #include "dm\MusicSystem.dm"
 #include "dm\NPCCharacterIntegration.dm"
+#include "dm\NPCMerchantSystem.dm"
 #include "dm\NPCRecipeHandlers.dm"
 #include "dm\NPCRecipeIntegration.dm"
 #include "dm\npcs.dm"
