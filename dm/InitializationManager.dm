@@ -189,8 +189,9 @@ proc
 		spawn(424)  InitializeGuildSystem()                // Phase 24: Guild formation & diplomacy
 		spawn(425)  InitializeSeasonalEvents()             // Phase 25: Seasonal territory events
 		spawn(426)  InitializeRegionalConflict()           // Phase 26: Regional conflict escalation
+		spawn(427)  InitializeSiegeEquipment()             // Phase 27: Siege equipment & weapons
 		
-		spawn(427) RegisterInitComplete("economy")
+		spawn(428) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
