@@ -172,8 +172,9 @@ proc
 		spawn(388)  InitializeNPCMerchantSystem()        // Phase 12b: Merchant system
 		spawn(389)  InitializeTerritoryResourceSystem()  // Phase 12c: Territory resource impact
 		spawn(390)  InitializeSupplyDemandSystem()       // Phase 12d: Supply/demand curves
+		spawn(391)  InitializeTradingPostUI()            // Phase 12e: Trading post interface
 		
-		spawn(391) RegisterInitComplete("economy")
+		spawn(392) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
