@@ -188,8 +188,9 @@ proc
 		spawn(423)  InitializeTerritoryWars()              // Phase 23: Territory wars & raiding
 		spawn(424)  InitializeGuildSystem()                // Phase 24: Guild formation & diplomacy
 		spawn(425)  InitializeSeasonalEvents()             // Phase 25: Seasonal territory events
+		spawn(426)  InitializeRegionalConflict()           // Phase 26: Regional conflict escalation
 		
-		spawn(426) RegisterInitComplete("economy")
+		spawn(427) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
