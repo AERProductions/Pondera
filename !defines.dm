@@ -38,3 +38,34 @@
 #define COMPOST_BASIC 1
 #define COMPOST_BONE_MEAL 2
 #define COMPOST_KELP 3
+
+// Rank System Constants
+#define RANK_BUILDING "brank"
+#define RANK_SMITHING "smirank"
+#define RANK_FISHING "frank"
+#define RANK_MINING "mrank"
+#define RANK_COOKING "crank"
+#define RANK_CRAFTING "crafting_rank"
+#define RANK_GARDENING "garden_rank"
+#define RANK_WOODCUTTING "wrank"
+#define RANK_DIGGING "drank"
+#define RANK_CARVING "carank"
+#define RANK_SPROUTING "sprank"
+#define RANK_SMELTING "melting_rank"
+#define RANK_POLE "prank"
+
+// Temperature Constants
+#define TEMP_HOT 3
+#define TEMP_WARM 2
+#define TEMP_COOL 1
+
+// Refinement Tool Constants
+#define REFINE_TOOL_FILE 1
+#define REFINE_TOOL_WHETSTONE 2
+#define REFINE_TOOL_POLISH_CLOTH 3
+
+// Refinement Stage Constants
+#define REFINE_STAGE_UNREFINED 0
+#define REFINE_STAGE_FILED 1
+#define REFINE_STAGE_SHARPENED 2
+#define REFINE_STAGE_POLISHED 3
