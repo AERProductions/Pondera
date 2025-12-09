@@ -88,6 +88,7 @@ proc
 		
 		spawn(35)  StartPeriodicTimeSave()            // Background time saves (10h intervals)
 		spawn(40)  StartDeedMaintenanceProcessor()    // Background maintenance (monthly)
+		spawn(42)  BuildElevationTerrainTurfs()       // Build terrain metadata system
 		
 		spawn(50) RegisterInitComplete("infrastructure")
 		

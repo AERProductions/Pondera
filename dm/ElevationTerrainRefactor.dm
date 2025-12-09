@@ -209,47 +209,103 @@
 		BuildElevationTerrain("hill", "hillSN", 1.0, NORTH)
 */
 
+// ============================================================================
+// GLOBAL TERRAIN REGISTRY
+// ============================================================================
+
+var/global/list/ELEVATION_TERRAIN_REGISTRY = list()
+
+/*
+	RegisterElevationTerrain(prefix, icon_state, elevel, dir, reverse_logic, check_direction, borders)
+	
+	Registers a single elevation terrain variant in the global registry.
+	Called during world initialization to populate all terrain types.
+*/
+proc/RegisterElevationTerrain(prefix, icon_state, elevel, dir, reverse_logic = FALSE, check_direction = TRUE, borders = 0)
+	if(!ELEVATION_TERRAIN_REGISTRY)
+		ELEVATION_TERRAIN_REGISTRY = list()
+	
+	var/key = "[prefix]_[icon_state]"
+	var/datum/elevation_terrain/data = new(prefix, icon_state, elevel, dir, reverse_logic, check_direction, borders)
+	ELEVATION_TERRAIN_REGISTRY[key] = data
+
+/*
+	BuildElevationTerrainTurfs()
+	
+	Factory function to initialize all elevation terrain variants from metadata.
+	Completely replaces the 200+ manual type definitions with data-driven approach.
+	Called once during world initialization.
+*/
 proc/BuildElevationTerrainTurfs()
-	// Ditch variants (elevel 0.5, downward entry/exit)
-	var/list/ditch_states = list(
-		list("uditchSN", NORTH, FALSE),
-		list("uditchSS", SOUTH, FALSE),
-		list("uditchSE", EAST, FALSE),
-		list("uditchSW", WEST, FALSE),
-		list("uditchCNE", NORTHEAST, FALSE),
-		list("uditchCNW", NORTHWEST, FALSE),
-		list("uditchCSE", SOUTHEAST, FALSE),
-		list("uditchCSW", SOUTHWEST, FALSE),
-		list("uditchEXN", NORTH, TRUE),      // Exit ramps (reverse logic)
-		list("uditchEXS", SOUTH, TRUE),
-		list("uditchEXE", EAST, TRUE),
-		list("uditchEXW", WEST, TRUE)
-	)
+	if(!ELEVATION_TERRAIN_REGISTRY)
+		ELEVATION_TERRAIN_REGISTRY = list()
 
-	// Build ditch variants
-	for(var/list/ditch_data in ditch_states)
-		// TODO: Use this data to populate turf prototypes
-		// var/terrain_datum = new/datum/elevation_terrain(
-		//	"ditch", ditch_data[1], ELEVATION_DOWN_RATIO, ditch_data[2], ditch_data[3], TRUE, 0)
+	// DITCH VARIANTS (Underground Ditch - elevel 0.5, entry from below)
+	// Cardinal directions: N, S, E, W
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchSN", ELEVATION_DOWN_RATIO, NORTH, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchSS", ELEVATION_DOWN_RATIO, SOUTH, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchSE", ELEVATION_DOWN_RATIO, EAST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchSW", ELEVATION_DOWN_RATIO, WEST, FALSE, TRUE)
 
-	// Hill variants (elevel 1.0, upward entry/exit)
-	// TODO: Build hill variants similarly
-	/*
-	var/list/hill_states = list(
-		list("hillSN", NORTH, FALSE),
-		list("hillSS", SOUTH, FALSE),
-		list("hillSE", EAST, FALSE),
-		list("hillSW", WEST, FALSE),
-		list("hillSCNE", NORTHEAST, FALSE),
-		list("hillSCNW", NORTHWEST, FALSE),
-		list("hillSCSE", SOUTHEAST, FALSE),
-		list("hillSCSW", SOUTHWEST, FALSE)
-	)
-	*/
+	// Diagonal directions: NE, NW, SE, SW
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchCNE", ELEVATION_DOWN_RATIO, NORTHEAST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchCNW", ELEVATION_DOWN_RATIO, NORTHWEST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchCSE", ELEVATION_DOWN_RATIO, SOUTHEAST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchCSW", ELEVATION_DOWN_RATIO, SOUTHWEST, FALSE, TRUE)
 
-	// TODO: Build hill variants similarly
+	// Exit ramps (reverse logic - exit FROM above)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchEXN", ELEVATION_DOWN_RATIO, NORTH, TRUE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchEXS", ELEVATION_DOWN_RATIO, SOUTH, TRUE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchEXE", ELEVATION_DOWN_RATIO, EAST, TRUE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchEXW", ELEVATION_DOWN_RATIO, WEST, TRUE, TRUE)
 
-	world << "Elevation terrain system initialized from metadata"
+	// Complex intersections (no direction checking - diagonal entry)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchPCWE", ELEVATION_DOWN_RATIO, NORTH, FALSE, FALSE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchPCNS", ELEVATION_DOWN_RATIO, NORTH, FALSE, FALSE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchSNWC", ELEVATION_DOWN_RATIO, NORTH, FALSE, FALSE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchSNEC", ELEVATION_DOWN_RATIO, NORTH, FALSE, FALSE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchSSWC", ELEVATION_DOWN_RATIO, SOUTH, FALSE, FALSE)
+	RegisterElevationTerrain(TERRAIN_TYPE_UNDERDITCH, "uditchSSEC", ELEVATION_DOWN_RATIO, SOUTH, FALSE, FALSE)
+
+	// HILL VARIANTS (Standard Hill - elevel 1.0, entry from below)
+	// Cardinal directions: N, S, E, W
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillSN", ELEVATION_UP_RATIO, NORTH, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillSS", ELEVATION_UP_RATIO, SOUTH, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillSE", ELEVATION_UP_RATIO, EAST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillSW", ELEVATION_UP_RATIO, WEST, FALSE, TRUE)
+
+	// Diagonal directions: NE, NW, SE, SW
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillCNE", ELEVATION_UP_RATIO, NORTHEAST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillCNW", ELEVATION_UP_RATIO, NORTHWEST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillCSE", ELEVATION_UP_RATIO, SOUTHEAST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillCSW", ELEVATION_UP_RATIO, SOUTHWEST, FALSE, TRUE)
+
+	// EXIT/PEAK VARIANTS (elevel 2.0 for peaks, reverse logic for exit ramps)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillEXN", ELEVATION_PEAK_RATIO, NORTH, TRUE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillEXS", ELEVATION_PEAK_RATIO, SOUTH, TRUE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillEXE", ELEVATION_PEAK_RATIO, EAST, TRUE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_HILL, "hillEXW", ELEVATION_PEAK_RATIO, WEST, TRUE, TRUE)
+
+	// SNOW DITCH VARIANTS (Snowy variant - elevel 0.5)
+	RegisterElevationTerrain(TERRAIN_TYPE_SNOWDITCH, "snowditch_N", ELEVATION_DOWN_RATIO, NORTH, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_SNOWDITCH, "snowditch_S", ELEVATION_DOWN_RATIO, SOUTH, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_SNOWDITCH, "snowditch_E", ELEVATION_DOWN_RATIO, EAST, FALSE, TRUE)
+	RegisterElevationTerrain(TERRAIN_TYPE_SNOWDITCH, "snowditch_W", ELEVATION_DOWN_RATIO, WEST, FALSE, TRUE)
+
+	world << "[ELEVATION_TERRAIN_REGISTRY.len] elevation terrain variants registered"
+
+/*
+	GetElevationTerrainData(icon_state)
+	
+	Lookup function to retrieve terrain metadata by icon_state.
+	Used by legacy jb.dm types to populate their properties.
+*/
+proc/datum/elevation_terrain/GetElevationTerrainData(icon_state)
+	for(var/key in ELEVATION_TERRAIN_REGISTRY)
+		var/datum/elevation_terrain/data = ELEVATION_TERRAIN_REGISTRY[key]
+		if(data.icon_state == icon_state)
+			return data
+	return null
 
 // ============================================================================
 // NOTES FOR FUTURE OPTIMIZATION
