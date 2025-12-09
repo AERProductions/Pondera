@@ -109,6 +109,7 @@
 #include "dm\MarketIntegrationLayer.dm"
 #include "dm\MarketStallUI.dm"
 #include "dm\MarketTransactionSystem.dm"
+#include "dm\MaterialRegistrySystem.dm"
 #include "dm\mining.dm"
 #include "dm\MiscExtensions.dm"
 #include "dm\Mov.dm"
@@ -204,6 +205,7 @@
 #include "dm\MarketIntegrationLayer.dm"
 #include "dm\PlayerEconomicEngagement.dm"
 #include "dm\EconomicGovernanceSystem.dm"
+#include "dm\MaterialRegistrySystem.dm"
 
 // Libraries
 #include "libs\Compas.dm"
