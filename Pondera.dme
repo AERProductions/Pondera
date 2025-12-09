@@ -105,6 +105,7 @@
 #include "dm\MarketAnalytics.dm"
 #include "dm\MarketBoardUI.dm"
 #include "dm\MarketIntegration.dm"
+#include "dm\MarketIntegrationLayer.dm"
 #include "dm\MarketStallUI.dm"
 #include "dm\MarketTransactionSystem.dm"
 #include "dm\mining.dm"
@@ -198,7 +199,7 @@
 #include "dm\WorldSelection.dm"
 #include "dm\WorldSystem.dm"
 #include "dm\Zoom.dm"
-#include "dm\CrisisEventsSystem.dm"
+#include "dm\MarketIntegrationLayer.dm"
 
 // Libraries
 #include "libs\Compas.dm"
