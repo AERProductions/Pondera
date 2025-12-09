@@ -54,6 +54,7 @@
 #include "dm\MarketAnalytics.dm"
 #include "dm\MovementModernization.dm"
 #include "dm\NPCCharacterIntegration.dm"
+#include "dm\Phase11c_TestRunner.dm"
 #include "dm\SeasonalEventsHook.dm"
 #include "dm\SeasonalSoilDegradationHook.dm"
 #include "dm\TreasuryUISystem.dm"
