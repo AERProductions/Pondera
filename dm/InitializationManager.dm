@@ -179,8 +179,9 @@ proc
 		spawn(396)  InitializeMaterialRegistry()         // Phase 16a: Material registry system
 		spawn(397)  InitializeLocationGatedCrafting()    // Phase 16b: Location-gated crafting
 		spawn(398)  InitializeWeaponArmorScaling()       // Phase 16c: Weapon/armor scaling
+		spawn(399)  InitializeSpecialAttacks()           // Phase 17: Special attacks & skills
 		
-		spawn(399) RegisterInitComplete("economy")
+		spawn(400) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
