@@ -191,8 +191,9 @@ proc
 		spawn(426)  InitializeRegionalConflict()           // Phase 26: Regional conflict escalation
 		spawn(427)  InitializeSiegeEquipment()             // Phase 27: Siege equipment & weapons
 		spawn(428)  InitializeNPCGarrison()                // Phase 28: NPC garrison & auto-defense
+		spawn(429)  InitializeSiegeEvents()                // Phase 29: Siege events & dynamic warfare
 		
-		spawn(429) RegisterInitComplete("economy")
+		spawn(430) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)

@@ -119,6 +119,7 @@
 #include "dm\RegionalConflictSystem.dm"
 #include "dm\SeasonalTerritoryEventsSystem.dm"
 #include "dm\SiegeEquipmentSystem.dm"
+#include "dm\SiegeEventsSystem.dm"
 #include "dm\SpecialAttacksSystem.dm"
 #include "dm\TerritoryWarsSystem.dm"
 #include "dm\GuildSystem.dm"
