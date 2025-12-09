@@ -118,6 +118,7 @@
 #include "dm\WeaponArmorScalingSystem.dm"
 #include "dm\CombatProgressionLoop.dm"
 #include "dm\EconomyCombatIntegrationSystem.dm"
+#include "dm\TerritoryClaimSystem.dm"
 #include "dm\mining.dm"
 #include "dm\MiscExtensions.dm"
 #include "dm\Mov.dm"

@@ -183,8 +183,9 @@ proc
 		spawn(400)  InitializePvPRanking()               // Phase 18: PvP ranking & rewards
 		spawn(401)  InitializeCombatProgression()        // Phase 19: Combat progression loop
 		spawn(403)  InitializeEconomyCombatIntegration()  // Phase 20: Economy-combat loop
+		spawn(421)  InitializeTerritorySystem()           // Phase 21: Territory claiming
 		
-		spawn(404) RegisterInitComplete("economy")
+		spawn(422) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
