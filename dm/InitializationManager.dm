@@ -171,8 +171,9 @@ proc
 		spawn(387)  InitializeDeedEconomySystem()        // Deed transfers & rentals
 		spawn(388)  InitializeNPCMerchantSystem()        // Phase 12b: Merchant system
 		spawn(389)  InitializeTerritoryResourceSystem()  // Phase 12c: Territory resource impact
+		spawn(390)  InitializeSupplyDemandSystem()       // Phase 12d: Supply/demand curves
 		
-		spawn(390) RegisterInitComplete("economy")
+		spawn(391) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)

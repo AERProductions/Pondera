@@ -170,6 +170,7 @@
 #include "dm\StorageIntegration.dm"
 #include "dm\store.dm"
 #include "dm\StoryWorldIntegration.dm"
+#include "dm\SupplyDemandSystem.dm"
 #include "dm\tchst.dm"
 #include "dm\TemperatureSystem.dm"
 #include "dm\TerritoryResourceAvailability.dm"
