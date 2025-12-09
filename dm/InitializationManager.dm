@@ -170,6 +170,7 @@ proc
 		spawn(386)  InitializeInventoryManagementExtensions() // Bag system
 		spawn(387)  InitializeDeedEconomySystem()        // Deed transfers & rentals
 		spawn(388)  InitializeNPCMerchantSystem()        // Phase 12b: Merchant system
+		spawn(389)  InitializeTerritoryResourceSystem()  // Phase 12c: Territory resource impact
 		
 		spawn(390) RegisterInitComplete("economy")
 		
