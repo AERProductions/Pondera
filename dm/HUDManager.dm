@@ -39,11 +39,19 @@ mob/players/Login()
 	init_hud()
 	InitializeHungerThirstSystem()  // Initialize metabolic simulation
 	
-	// MODERN LOGIN: Show class selection for new characters
+	// MODERN LOGIN: Show class selection for new characters (if not already selected)
 	spawn(10)  // Wait for client to fully render HUD (50ms)
-		if(src && client && !src.character.selected_class)
-			src.login_ui = new /datum/login_ui(src)
-			src.login_ui.ShowClassPrompt()
+		if(src && client)
+			if(!src.character)
+				world.log << "\[LOGIN_CLASS\] [src.name]: No character data"
+				return
+			
+			if(!src.character.selected_class)
+				world.log << "\[LOGIN_CLASS\] [src.name]: Showing class selection dialog"
+				src.login_ui = new /datum/login_ui(src)
+				src.login_ui.ShowClassPrompt()
+			else
+				world.log << "\[LOGIN_CLASS\] [src.name]: Already has class: [src.character.selected_class]"
 	
 	spawn(0)
 		while(src && client)
