@@ -132,6 +132,7 @@
 #include "dm\pickrandomname.dm"
 #include "dm\plant.dm"
 #include "dm\PlantSeasonalIntegration.dm"
+#include "dm\PlayerEconomicEngagement.dm"
 #include "dm\Portals.dm"
 #include "dm\Pub.dm"
 #include "dm\PvPData.dm"
@@ -200,6 +201,7 @@
 #include "dm\WorldSystem.dm"
 #include "dm\Zoom.dm"
 #include "dm\MarketIntegrationLayer.dm"
+#include "dm\PlayerEconomicEngagement.dm"
 
 // Libraries
 #include "libs\Compas.dm"
