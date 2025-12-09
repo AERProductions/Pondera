@@ -51,6 +51,7 @@
 #include "dm\CookingSystem.dm"
 #include "dm\CraftingIntegration.dm"
 #include "dm\CrashRecovery.dm"
+#include "dm\CrisisEventsSystem.dm"
 #include "dm\CurrencyDisplayUI.dm"
 #include "dm\DayNight.dm"
 #include "dm\deed.dm"
@@ -182,7 +183,6 @@
 #include "dm\TownData.dm"
 #include "dm\TownGenerator.dm"
 #include "dm\TownIntegration.dm"
-#include "dm\TradingPostUI.dm"
 #include "dm\TreasuryUISystem.dm"
 #include "dm\Turf.dm"
 #include "dm\UnifiedAttackSystem.dm"
@@ -198,7 +198,9 @@
 #include "dm\WorldSelection.dm"
 #include "dm\WorldSystem.dm"
 #include "dm\Zoom.dm"
-#include "libs\BaseCamp.dm"
+#include "dm\CrisisEventsSystem.dm"
+
+// Libraries
 #include "libs\Compas.dm"
 #include "libs\Fl_AtomSystem.dm"
 #include "libs\Fl_ElevationSystem.dm"

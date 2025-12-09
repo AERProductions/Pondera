@@ -169,12 +169,12 @@ proc
 		spawn(385)  MarketBoardUpdateLoop()              // Market maintenance
 		spawn(386)  InitializeInventoryManagementExtensions() // Bag system
 		spawn(387)  InitializeDeedEconomySystem()        // Deed transfers & rentals
-		spawn(388)  InitializeNPCMerchantSystem()        // Phase 12b: Merchant system
 		spawn(389)  InitializeTerritoryResourceSystem()  // Phase 12c: Territory resource impact
 		spawn(390)  InitializeSupplyDemandSystem()       // Phase 12d: Supply/demand curves
 		spawn(391)  InitializeTradingPostUI()            // Phase 12e: Trading post interface
+		spawn(392)  InitializeCrisisEventsSystem()       // Phase 12f: Crisis events
 		
-		spawn(392) RegisterInitComplete("economy")
+		spawn(393) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
