@@ -185,8 +185,9 @@ proc
 		spawn(403)  InitializeEconomyCombatIntegration()  // Phase 20: Economy-combat loop
 		spawn(421)  InitializeTerritorySystem()            // Phase 21: Territory claiming
 		spawn(422)  InitializeTerritoryDefense()           // Phase 22: Territory defense
+		spawn(423)  InitializeTerritoryWars()              // Phase 23: Territory wars & raiding
 		
-		spawn(423) RegisterInitComplete("economy")
+		spawn(424) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)

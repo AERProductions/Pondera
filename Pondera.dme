@@ -115,6 +115,7 @@
 #include "dm\MaterialRegistrySystem.dm"
 #include "dm\PvPRankingSystem.dm"
 #include "dm\SpecialAttacksSystem.dm"
+#include "dm\TerritoryWarsSystem.dm"
 #include "dm\WeaponArmorScalingSystem.dm"
 #include "dm\CombatProgressionLoop.dm"
 #include "dm\EconomyCombatIntegrationSystem.dm"

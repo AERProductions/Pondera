@@ -452,14 +452,61 @@
 	world.log << "RAID: Raid on [territory_name] defeated"
 	return TRUE
 
-/proc/ConquerTerritory(conquering_faction, territory_name)
-	/**
-	 * ConquerTerritory(conquering_faction, territory_name)
-	 * One faction conquers another's territory
-	 * Framework: Implement in territory registry system
-	 */
-	world.log << "CONQUEST: [territory_name] conquered by [conquering_faction]"
-	return TRUE
+/proc/ConquerTerritory(mob/players/attacker, datum/territory_claim/territory)
+	if(!attacker || !territory)
+		return 0
+	
+	// Check war is active
+	var/datum/war_declaration/war = GetActiveWar(territory.territory_id)
+	if(!war || war.attacker_player_key != attacker.key || !war.is_active)
+		return 0
+	
+	// Check victory condition (all structures destroyed)
+	var/list/structures = GetTerritoryStructures(territory)
+	var/destroyed_count = 0
+	for(var/datum/defense_structure/s in structures)
+		if(s.is_destroyed)
+			destroyed_count++
+	
+	// Must destroy all structures (if any exist)
+	if(structures.len > 0 && destroyed_count != structures.len)
+		return 0
+	
+	// Remove previous owner
+	var/old_owner = territory.owner_player_name
+	if(territory.owner_player_key != "")
+		if(territories_by_owner[territory.owner_player_key])
+			territories_by_owner[territory.owner_player_key] -= territory
+	
+	// Transfer to attacker
+	territory.owner_player_key = attacker.key
+	territory.owner_player_name = attacker.name
+	territory.claim_date = world.time
+	territory.maintenance_paid = 1
+	territory.durability = 100
+	
+	// Reset all structures
+	for(var/datum/defense_structure/s in structures)
+		s.current_hp = s.max_hp
+		s.is_destroyed = 0
+		s.is_damaged = 0
+	
+	// Add to attacker's territories
+	if(!territories_by_owner[attacker.key])
+		territories_by_owner[attacker.key] = list()
+	territories_by_owner[attacker.key] += territory
+	
+	// Award conquest bounty
+	var/conquest_bounty = 5000 + (territory.tier * 1000)
+	attacker.lucre += conquest_bounty
+	
+	// Mark war as won
+	war.was_victorious = 1
+	war.is_active = 0
+	war.conquest_reward = conquest_bounty
+	
+	world.log << "[attacker.name] CONQUERED [territory.territory_name]! Previous owner: [old_owner]"
+	return 1
 
 // ============================================================================
 // TERRITORY STATUS & ANALYTICS
