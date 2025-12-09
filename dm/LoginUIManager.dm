@@ -18,6 +18,7 @@
 		return
 	
 	ApplyClassStats(player, class_choice)
+	player.character.selected_class = class_choice
 	character_initialized = TRUE
 
 /datum/login_ui/proc/ApplyClassStats(mob/players/player, class_name)

@@ -20,6 +20,9 @@
 		PLRank = 0          // Pole rank
 		combat_rank = 1     // Combat rank (1-5)
 
+		// === CHARACTER CLASS SYSTEM ===
+		selected_class = "" // Selected starting class (Warrior, Scout, Mage, Crafter, Naturalist)
+
 		// Experience Points (current)
 		frankEXP = 0
 		crankEXP = 0

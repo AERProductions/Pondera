@@ -38,6 +38,13 @@ mob/players/Login()
 	..()
 	init_hud()
 	InitializeHungerThirstSystem()  // Initialize metabolic simulation
+	
+	// MODERN LOGIN: Show class selection for new characters
+	spawn(10)  // Wait for client to fully render HUD (50ms)
+		if(src && client && !src.character.selected_class)
+			src.login_ui = new /datum/login_ui(src)
+			src.login_ui.ShowClassPrompt()
+	
 	spawn(0)
 		while(src && client)
 			update_hud()
