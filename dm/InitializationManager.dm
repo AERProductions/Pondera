@@ -175,8 +175,9 @@ proc
 		spawn(392)  InitializeCrisisEventsSystem()       // Phase 12f: Crisis events
 		spawn(393)  InitializeMarketIntegration()       // Phase 13: Market integration layer
 		spawn(394)  InitializePlayerEconomicEngagement()// Phase 14: Player engagement systems
+		spawn(395)  InitializeEconomicGovernance()      // Phase 15: Economic governance
 		
-		spawn(395) RegisterInitComplete("economy")
+		spawn(396) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)

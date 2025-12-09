@@ -67,6 +67,7 @@
 #include "dm\DualCurrencySystem.dm"
 #include "dm\DynamicMarketPricingSystem.dm"
 #include "dm\DynamicZoneManager.dm"
+#include "dm\EconomicGovernanceSystem.dm"
 #include "dm\EdgeDetectionAndExpansion.dm"
 #include "dm\EditCode.dm"
 #include "dm\ElevationTerrainRefactor.dm"
@@ -202,6 +203,7 @@
 #include "dm\Zoom.dm"
 #include "dm\MarketIntegrationLayer.dm"
 #include "dm\PlayerEconomicEngagement.dm"
+#include "dm\EconomicGovernanceSystem.dm"
 
 // Libraries
 #include "libs\Compas.dm"
