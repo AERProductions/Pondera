@@ -172,6 +172,8 @@ mob/players
 		copperbar = 0
 		// Character Data Datum - centralized skill/progression storage
 		datum/character_data/character
+		// Login UI Datum - manages character creation and class selection
+		datum/login_ui/login_ui
 		// Inventory State Datum - tracks item stacks across save/load
 		datum/inventory_state/inventory_state
 		// Equipment State Datum - tracks which items are equipped
