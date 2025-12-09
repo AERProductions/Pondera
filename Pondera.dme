@@ -70,6 +70,7 @@
 #include "dm\EditCode.dm"
 #include "dm\ElevationTerrainRefactor.dm"
 #include "dm\Enemies.dm"
+#include "dm\EnhancedDynamicMarketPricingSystem.dm"
 #include "dm\EquipmentCompatibilityAdapter.dm"
 #include "dm\EquipmentOverlayIntegration.dm"
 #include "dm\EquipmentOverlaySystem.dm"

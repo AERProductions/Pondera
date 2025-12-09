@@ -162,11 +162,13 @@ proc
 		spawn(378)  InitializeKingdomMaterialExchange()  // Faction trading
 		spawn(379)  InitializeItemInspectionSystem()     // Item details
 		spawn(380)  InitializeDynamicMarketPricingSystem() // Price calculation
-		spawn(381)  InitializeTreasuryUISystem()         // Treasury display
-		spawn(382)  InitializeMarketBoardUI()            // Trading interface
-		spawn(383)  MarketBoardUpdateLoop()              // Market maintenance
-		spawn(384)  InitializeInventoryManagementExtensions() // Bag system
-		spawn(385)  InitializeDeedEconomySystem()        // Deed transfers & rentals
+		spawn(381)  InitializeEnhancedMarketPricingSystem() // Phase 12a: History & elasticity
+		spawn(382)  SetupEnhancedPricingTuning()         // Tune elasticity curves
+		spawn(383)  InitializeTreasuryUISystem()         // Treasury display
+		spawn(384)  InitializeMarketBoardUI()            // Trading interface
+		spawn(385)  MarketBoardUpdateLoop()              // Market maintenance
+		spawn(386)  InitializeInventoryManagementExtensions() // Bag system
+		spawn(387)  InitializeDeedEconomySystem()        // Deed transfers & rentals
 		
 		spawn(390) RegisterInitComplete("economy")
 		
