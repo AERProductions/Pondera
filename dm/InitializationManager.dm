@@ -182,8 +182,9 @@ proc
 		spawn(399)  InitializeSpecialAttacks()           // Phase 17: Special attacks & skills
 		spawn(400)  InitializePvPRanking()               // Phase 18: PvP ranking & rewards
 		spawn(401)  InitializeCombatProgression()        // Phase 19: Combat progression loop
+		spawn(403)  InitializeEconomyCombatIntegration()  // Phase 20: Economy-combat loop
 		
-		spawn(402) RegisterInitComplete("economy")
+		spawn(404) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
