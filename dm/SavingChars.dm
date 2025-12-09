@@ -262,11 +262,11 @@ world
 						// All checks passed - continue
 						world.log << "\[SECURITY\] Cheat checks passed"
 					else
-						world << "\[SECURITY\] [usr.ckey] suspected cheating - offset3 mismatch"
+						if(usr) world << "\[SECURITY\] [usr.ckey] suspected cheating - offset3 mismatch"
 				else
-					world << "\[SECURITY\] [usr.ckey] suspected cheating - offset2 mismatch"
+					if(usr) world << "\[SECURITY\] [usr.ckey] suspected cheating - offset2 mismatch"
 			else
-				world << "\[SECURITY\] [usr.ckey] suspected cheating - offset1 mismatch"
+				if(usr) world << "\[SECURITY\] [usr.ckey] suspected cheating - offset1 mismatch"
 			securityoffset3 = rand(1,100000) + cheats
 	//Set the third line of defense as a random obscene number.
 			offsetamount3 = securityoffset3

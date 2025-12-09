@@ -195,7 +195,7 @@ proc
 */
 proc/RegisterInitComplete(phase)
 	initialization_complete += phase
-	world.log << "\[INIT\] ✓ " + phase + " complete (elapsed: " + (world.time - initialization_start_time) + " ticks)"
+	world.log << "\[INIT\] ✓ [phase] complete (elapsed: [world.time - initialization_start_time] ticks)"
 
 /*
 	LogInit(message, tick_offset)
@@ -203,7 +203,7 @@ proc/RegisterInitComplete(phase)
 	Log initialization progress with timestamp.
 */
 proc/LogInit(message, offset)
-	world.log << "\[INIT\] " + message + " (T+" + offset + ")"
+	world.log << "\[INIT\] [message] (T+[offset])"
 
 /*
 	FinalizeInitialization()
