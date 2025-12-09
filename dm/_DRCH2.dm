@@ -552,7 +552,6 @@ client
 		// Let them choose/create a character.
 		if (base_autoload_character)
 			base_ChooseCharacter()
-			base_Initialize()
 			return
 		return ..()
 
