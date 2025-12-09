@@ -177,8 +177,9 @@ proc
 		spawn(394)  InitializePlayerEconomicEngagement()// Phase 14: Player engagement systems
 		spawn(395)  InitializeEconomicGovernance()      // Phase 15: Economic governance
 		spawn(396)  InitializeMaterialRegistry()         // Phase 16a: Material registry system
+		spawn(397)  InitializeLocationGatedCrafting()    // Phase 16b: Location-gated crafting
 		
-		spawn(397) RegisterInitComplete("economy")
+		spawn(398) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
