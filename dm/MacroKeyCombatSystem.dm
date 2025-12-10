@@ -87,8 +87,8 @@ mob/players
 			src << "<font color=#FF5555>Target is at different elevation!</font>"
 			return
 		
-		// Perform melee attack
-		PerformMeleeAttackWithEnvironment(src, target)
+		// Perform melee attack with animation (Phase 43)
+		PerformAnimatedMeleeAttack(src, target)
 
 	verb/defend()
 		set name = "Defend"
@@ -154,13 +154,8 @@ mob/players
 		if(!CanEnterCombat(src, target))
 			return
 		
-		// Fire ranged attack with environmental modifiers
-		if(PerformRangedAttackWithEnvironment(src, target, skill_type))
-			// Success - already shows messages
-			return
-		else
-			// Failure - already shows messages
-			return
+		// Fire ranged attack with animation (Phase 43)
+		PerformAnimatedRangedAttack(src, skill_type)
 
 // ============================================================================
 // COMBAT ACTION HELPERS
