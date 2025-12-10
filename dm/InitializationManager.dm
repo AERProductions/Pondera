@@ -149,6 +149,7 @@ proc
 		LogInit("PHASE 5: NPC & Recipe Systems (100 ticks)", 300)
 		
 		spawn(345)  InitializeKnowledgeBase()        // Knowledge base & tech tree (Phase C.3)
+		spawn(346)  InitializeSandboxRecipeChains()  // Sandbox progression chains (Phase C.3 Stage 4)
 		spawn(350)  InitializeNPCRecipeSystem()       // NPC recipe teaching
 		spawn(355)  InitializeNPCRoutineSystem()      // NPC routines & schedules (Phase 38)
 		spawn(360)  InitializeNPCRecipeHandlers()     // Recipe execution
