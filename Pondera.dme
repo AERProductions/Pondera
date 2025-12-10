@@ -125,6 +125,7 @@
 #include "dm\OfficerRecruitmentUI.dm"
 #include "dm\OfficerTournamentsSystem.dm"
 #include "dm\OfficerLoyaltySystem.dm"
+#include "dm\RangedCombatSystem.dm"
 #include "dm\TimeAdvancementSystem.dm"
 #include "dm\UIEventBusSystem.dm"
 #include "dm\PvPRankingSystem.dm"

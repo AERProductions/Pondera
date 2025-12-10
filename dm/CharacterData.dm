@@ -18,6 +18,9 @@
 		Crank = 0           // Carving rank
 		CSRank = 0          // Sprout Cutting rank
 		PLRank = 0          // Pole rank
+		archery_rank = 0    // Archery rank (bows)
+		crossbow_rank = 0   // Crossbow rank
+		throwing_rank = 0   // Throwing rank (knives, javelins)
 		combat_rank = 1     // Combat rank (1-5)
 
 		// === CHARACTER CLASS SYSTEM ===
@@ -36,6 +39,9 @@
 		CrankEXP = 0
 		CSRankEXP = 0
 		PLRankEXP = 0
+		archery_xp = 0      // Archery experience
+		crossbow_xp = 0     // Crossbow experience
+		throwing_xp = 0     // Throwing experience
 		combat_xp = 0       // Combat XP (accumulates within rank)
 
 		// Experience Thresholds (exp needed for next level)
@@ -51,6 +57,9 @@
 		CrankMAXEXP = 10
 		CSRankMAXEXP = 10
 		PLRankMAXEXP = 100
+		archery_maxexp = 100
+		crossbow_maxexp = 100
+		throwing_maxexp = 100
 
 		// === RECIPE & KNOWLEDGE STATE ===
 		datum/recipe_state/recipe_state = null  // Tracks discovered recipes and knowledge

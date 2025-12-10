@@ -38,6 +38,9 @@
 #define RANK_CARVING "Crank"
 #define RANK_SPROUT_CUTTING "CSRank"
 #define RANK_POLE "PLRank"
+#define RANK_ARCHERY "archery"
+#define RANK_CROSSBOW "crossbow"
+#define RANK_THROWING "throwing"
 
 #define MAX_RANK_LEVEL 5
 
@@ -63,6 +66,9 @@
 		if(RANK_CARVING) return character.Crank
 		if(RANK_SPROUT_CUTTING) return character.CSRank
 		if(RANK_POLE) return character.PLRank
+		if(RANK_ARCHERY) return character.archery_rank
+		if(RANK_CROSSBOW) return character.crossbow_rank
+		if(RANK_THROWING) return character.throwing_rank
 		else return 1
 
 /mob/players/proc/SetRankLevel(rank_type, new_level)
@@ -85,6 +91,9 @@
 		if(RANK_CARVING) character.Crank = new_level
 		if(RANK_SPROUT_CUTTING) character.CSRank = new_level
 		if(RANK_POLE) character.PLRank = new_level
+		if(RANK_ARCHERY) character.archery_rank = new_level
+		if(RANK_CROSSBOW) character.crossbow_rank = new_level
+		if(RANK_THROWING) character.throwing_rank = new_level
 
 /mob/players/proc/GetRankExp(rank_type)
 	/**
@@ -105,6 +114,9 @@
 		if(RANK_CARVING) return character.CrankEXP
 		if(RANK_SPROUT_CUTTING) return character.CSRankEXP
 		if(RANK_POLE) return character.PLRankEXP
+		if(RANK_ARCHERY) return character.archery_xp
+		if(RANK_CROSSBOW) return character.crossbow_xp
+		if(RANK_THROWING) return character.throwing_xp
 		else return 0
 
 /mob/players/proc/SetRankExp(rank_type, new_exp)
@@ -127,6 +139,9 @@
 		if(RANK_CARVING) character.CrankEXP = new_exp
 		if(RANK_SPROUT_CUTTING) character.CSRankEXP = new_exp
 		if(RANK_POLE) character.PLRankEXP = new_exp
+		if(RANK_ARCHERY) character.archery_xp = new_exp
+		if(RANK_CROSSBOW) character.crossbow_xp = new_exp
+		if(RANK_THROWING) character.throwing_xp = new_exp
 
 /mob/players/proc/GetRankMaxExp(rank_type)
 	/**
@@ -147,6 +162,9 @@
 		if(RANK_CARVING) return character.CrankMAXEXP
 		if(RANK_SPROUT_CUTTING) return character.CSRankMAXEXP
 		if(RANK_POLE) return character.PLRankMAXEXP
+		if(RANK_ARCHERY) return character.archery_maxexp
+		if(RANK_CROSSBOW) return character.crossbow_maxexp
+		if(RANK_THROWING) return character.throwing_maxexp
 		else return 100
 
 /mob/players/proc/SetRankMaxExp(rank_type, new_max_exp)
@@ -169,6 +187,9 @@
 		if(RANK_CARVING) character.CrankMAXEXP = new_max_exp
 		if(RANK_SPROUT_CUTTING) character.CSRankMAXEXP = new_max_exp
 		if(RANK_POLE) character.PLRankMAXEXP = new_max_exp
+		if(RANK_ARCHERY) character.archery_maxexp = new_max_exp
+		if(RANK_CROSSBOW) character.crossbow_maxexp = new_max_exp
+		if(RANK_THROWING) character.throwing_maxexp = new_max_exp
 
 /mob/players/proc/GetRankIsMaxed(rank_type)
 	/**
