@@ -195,8 +195,9 @@ proc
 		spawn(430)  InitializeEliteOfficers()              // Phase 30: Elite officers & command system
 		spawn(431)  InitializeOfficerAbilities()           // Phase 31: Officer abilities & specialization
 		spawn(432)  InitializeOfficerTournaments()         // Phase 33: Tournaments & ranking system
+		spawn(433)  InitializeOfficerLoyalty()             // Phase 34: Officer loyalty & defection
 		
-		spawn(433) RegisterInitComplete("economy")
+		spawn(434) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
