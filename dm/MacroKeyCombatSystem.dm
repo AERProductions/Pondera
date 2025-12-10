@@ -88,7 +88,7 @@ mob/players
 			return
 		
 		// Perform melee attack
-		PerformMeleeAttack(src, target)
+		PerformMeleeAttackWithEnvironment(src, target)
 
 	verb/defend()
 		set name = "Defend"
@@ -154,16 +154,21 @@ mob/players
 		if(!CanEnterCombat(src, target))
 			return
 		
-		// Fire ranged attack
-		if(FireRangedAttack(src, target, weapon_type, skill_type))
-			src << "You fire at [target.name]!"
-			target << "[src.name] fires at you!"
+		// Fire ranged attack with environmental modifiers
+		if(PerformRangedAttackWithEnvironment(src, target, skill_type))
+			// Success - already shows messages
+			return
 		else
-			src << "The attack missed!"
+			// Failure - already shows messages
+			return
 
 // ============================================================================
 // COMBAT ACTION HELPERS
 // ============================================================================
+
+// NOTE: Actual combat implementation moved to EnvironmentalCombatModifiers.dm
+// - PerformMeleeAttackWithEnvironment()
+// - PerformRangedAttackWithEnvironment()
 
 /proc/CanPlayerAct(mob/players/player)
 	/**
@@ -177,49 +182,6 @@ mob/players
 		return 0
 	
 	return 1
-
-/proc/PerformMeleeAttack(mob/players/attacker, mob/defender)
-	/**
-	 * PerformMeleeAttack(attacker, defender)
-	 * Executes melee attack with equipped weapon
-	 * Awards experience on hit
-	 */
-	if(!attacker || !defender) return
-	
-	// Get equipped weapon
-	var/obj/item/weapon/W = attacker.Wequipped
-	if(!W)
-		attacker << "<font color=#FF8800>You don't have a weapon equipped!</font>"
-		return
-	
-	// Calculate accuracy
-	var/accuracy = 65  // Base 65% for melee
-	if(prob(accuracy))
-		// HIT
-		var/base_damage = 8  // Default melee damage
-		// Check if weapon has custom damage
-		if(W:damage)
-			base_damage = W:damage
-		var/final_damage = base_damage
-		
-		// Apply to target
-		if(istype(defender, /mob/players))
-			var/mob/players/PD = defender
-			PD.HP = max(0, PD.HP - final_damage)
-			attacker << "<font color=#00FF00>HIT! Dealt [final_damage] damage.</font>"
-			defender << "<font color=#FF0000>You took [final_damage] damage!</font>"
-		else if(istype(defender, /mob/enemies))
-			var/mob/enemies/ED = defender
-			ED:HP = max(0, ED:HP - final_damage)
-			attacker << "<font color=#00FF00>HIT! Dealt [final_damage] damage.</font>"
-			defender << "<font color=#FF0000>You took [final_damage] damage!</font>"
-		
-		// Award experience
-		attacker.UpdateRankExp("combat", 3)
-	else
-		// MISS
-		attacker << "<font color=#FF8800>You missed!</font>"
-		defender << "<font color=#FF8800>[attacker.name] missed you!</font>"
 
 /proc/PerformShieldRaise(mob/players/player)
 	/**
@@ -496,7 +458,7 @@ mob/players
 		return
 	
 	src << "Testing melee attack on [target.name]..."
-	PerformMeleeAttack(src, target)
+	PerformMeleeAttackWithEnvironment(src, target)
 
 /mob/players/verb/TestShield()
 	set category = "Debug"
