@@ -110,6 +110,51 @@ var/global/list/BUILDING_RECIPES = list()
 			description = "A warm light source and gathering point",
 			skill_bonus = 2
 		),
+		
+		"cauldron" = new /datum/building_recipe(
+			recipe_name = "cauldron",
+			display_name = "Cauldron",
+			icon_file = 'dmi/64/fire.dmi',
+			icon_state = "cauldron",
+			building_type = /obj/Buildable/Cauldron,
+			required_skill = "crank",
+			required_skill_level = 1,
+			materials = list("metal" = 20, "stone" = 15),
+			rotation_allowed = FALSE,
+			placement_radius = 2,
+			description = "A cooking station for recipe experimentation (Phase C.2)",
+			skill_bonus = 5
+		),
+		
+		"forge" = new /datum/building_recipe(
+			recipe_name = "forge",
+			display_name = "Forge",
+			icon_file = 'dmi/64/fire.dmi',
+			icon_state = "forge",
+			building_type = /obj/Buildable/Forge,
+			required_skill = "smirank",
+			required_skill_level = 2,
+			materials = list("metal" = 30, "stone" = 25, "wood" = 10),
+			rotation_allowed = FALSE,
+			placement_radius = 2,
+			description = "A smithing station for metal experimentation (Phase C.2)",
+			skill_bonus = 8
+		),
+		
+		"workbench" = new /datum/building_recipe(
+			recipe_name = "workbench",
+			display_name = "Workbench",
+			icon_file = 'dmi/64/fire.dmi',
+			icon_state = "workbench",
+			building_type = /obj/Buildable/Workbench,
+			required_skill = "brank",
+			required_skill_level = 1,
+			materials = list("wood" = 20, "metal" = 10),
+			rotation_allowed = FALSE,
+			placement_radius = 1,
+			description = "A crafting station for tool experimentation (Phase C.2)",
+			skill_bonus = 4
+		),
 	)
 
 /datum/building_recipe

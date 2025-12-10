@@ -86,6 +86,7 @@
 #include "dm\EquipmentOverlayIntegration.dm"
 #include "dm\EquipmentOverlaySystem.dm"
 #include "dm\EquipmentState.dm"
+#include "dm\ExperimentationWorkstations.dm"
 #include "dm\F0laks Debug Messager.dm"
 #include "dm\FarmingIntegration.dm"
 #include "dm\FilteringLibrary.dm"
