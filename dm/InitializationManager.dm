@@ -103,6 +103,7 @@ proc
 		LogInit("PHASE 2B: Audio System & Deed Registry (10 ticks - conditional)", 45)
 		
 		spawn(45)  InitializeAudioSystem()             // Audio integration (Phase C.1)
+		spawn(47)  InitializeFireSystem()              // Fire system (Phase C.3 Stage 2)
 		spawn(50)  InitializeDeedDataManagerLazy()     // Deed system (lazy init)
 		
 		spawn(55) RegisterInitComplete("audio_deed")

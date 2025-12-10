@@ -91,6 +91,7 @@
 #include "dm\F0laks Debug Messager.dm"
 #include "dm\FarmingIntegration.dm"
 #include "dm\FilteringLibrary.dm"
+#include "dm\FireSystem.dm"
 #include "dm\FishingSystem.dm"
 #include "dm\ForgeUIIntegration.dm"
 #include "dm\fullscreen.dm"
