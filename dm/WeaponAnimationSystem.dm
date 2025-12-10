@@ -253,6 +253,9 @@
 	// Apply existing melee damage system
 	// This calls the environmental modifiers system from Phase 42
 	PerformMeleeAttackWithEnvironment(M, target)
+	
+	// Play combat audio feedback (Phase C.1 Audio Integration)
+	PlayCombatHitSound(M, 50, FALSE)  // Default hit sound
 
 /*
 	Apply Ranged Damage (internal)

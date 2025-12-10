@@ -49,6 +49,9 @@
 	
 	if(player)
 		player << "PHASE4 [npc_name] taught you recipe: [recipe_id]"
+		// Play recipe discovery sound (Phase C.1 Audio Integration)
+		if(player.client)
+			PlayRecipeDiscoverSound(player)
 	
 	return 1
 

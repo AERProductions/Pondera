@@ -96,15 +96,16 @@ proc
 		spawn(50) RegisterInitComplete("infrastructure")
 		
 		// ────────────────────────────────────────────────────────────────────
-		// PHASE 2B: DEED SYSTEM INITIALIZATION (Ticks 50-55)
-		// Only initializes if deeds exist (lazy initialization)
+		// PHASE 2B: AUDIO SYSTEM INITIALIZATION (Ticks 45-55)
+		// Initialize music, sound effects, and ambient audio
 		// ────────────────────────────────────────────────────────────────────
 		
-		LogInit("PHASE 2B: Deed System Registry (5 ticks - conditional)", 50)
+		LogInit("PHASE 2B: Audio System & Deed Registry (10 ticks - conditional)", 45)
 		
-		spawn(50)  InitializeDeedDataManagerLazy()  // Lazy init - only if deeds exist
+		spawn(45)  InitializeAudioSystem()             // Audio integration (Phase C.1)
+		spawn(50)  InitializeDeedDataManagerLazy()     // Deed system (lazy init)
 		
-		spawn(55) RegisterInitComplete("deed_system")
+		spawn(55) RegisterInitComplete("audio_deed")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 3: DAY/NIGHT & LIGHTING (Ticks 50-100)

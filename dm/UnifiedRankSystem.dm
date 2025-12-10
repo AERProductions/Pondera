@@ -263,6 +263,10 @@
 	
 	// Notify player
 	src << "<font color=gold>You gain [rank_type] Acuity!</font>"
+	
+	// Play level-up sound (Phase C.1 Audio Integration)
+	if(client)
+		PlayLevelUpSound(src, rank_type)
 
 /mob/players/proc/CheckRankRequirement(rank_type, required_level)
 	/**
