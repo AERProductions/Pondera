@@ -271,6 +271,21 @@ mob/players
 		village_deed_owner = 0      // 1 if player owns a village deed, 0 otherwise
 		village_zone_id = 0         // Zone ID of owned village (0 if none)
 		village_maintenance_due = 0 // World.timeofday when next maintenance is due
+		
+		// Combat Animation System (Phase 43)
+		anim_is_playing = 0         // 1 if animation currently playing
+		anim_type = 0               // ANIM_TYPE_* constant
+		anim_start_time = 0         // World.time when animation began
+		anim_duration = 0           // Duration in ticks
+		anim_saved_icon = ""        // Icon state before animation
+		anim_saved_layer = 0        // Layer before animation
+		
+		// Combat HUD System (Phase 44)
+		obj/hud/health_bar/hud_health_bar = null
+		obj/hud/cooldown_indicator/hud_cooldown_melee = null
+		obj/hud/cooldown_indicator/hud_cooldown_ranged = null
+		obj/hud/cooldown_indicator/hud_cooldown_defend = null
+		last_combat_event_time = 0
 	/*proc/hungercheck()
 		set waitfor=0
 		var/randomvalue = rand(1200,2000)
