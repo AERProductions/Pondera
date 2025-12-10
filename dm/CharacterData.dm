@@ -63,6 +63,7 @@
 
 		// === RECIPE & KNOWLEDGE STATE ===
 		datum/recipe_state/recipe_state = null  // Tracks discovered recipes and knowledge
+		datum/experimentation_state/experimentation_state = null  // Phase C.2: Recipe experimentation progress
 		purchased_items = list()             // Items purchased from market stalls
 		
 		// === MULTI-WORLD SYSTEM ===
@@ -137,6 +138,9 @@
 	// Initialize recipe state with defaults
 	recipe_state = new /datum/recipe_state()
 	recipe_state.SetRecipeDefaults()
+	
+	// Initialize experimentation state (Phase C.2)
+	experimentation_state = new /datum/experimentation_state()
 
 // ============================================================================
 // NPC INITIALIZATION - Create unified NPC character data

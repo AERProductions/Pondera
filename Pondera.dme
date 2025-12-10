@@ -116,6 +116,7 @@
 #include "dm\Macros.dm"
 #include "dm\MacroKeyCombatSystem.dm"
 #include "dm\EnvironmentalCombatModifiers.dm"
+#include "dm\RecipeExperimentationSystem.dm"
 #include "dm\UnifiedAttackSystemHUDIntegration.dm"
 #include "dm\WeaponAnimationSystem.dm"
 #include "dm\CombatUIPolish.dm"

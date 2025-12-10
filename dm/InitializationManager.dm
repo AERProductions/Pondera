@@ -153,6 +153,7 @@ proc
 		spawn(366)  InitializeNPCDialogueSystem()     // NPC dialogue & shop hours (Phase 38C)
 		spawn(370)  InitializeSkillLevelUpIntegration() // Skill progression hooks
 		spawn(375)  InitializeSkillRecipeSystem()     // Skill-based recipe unlocks
+		spawn(376)  InitializeRecipeSignatures()      // Phase C.2: Recipe experimentation signatures
 		
 		spawn(380) RegisterInitComplete("npc_recipes")
 		
