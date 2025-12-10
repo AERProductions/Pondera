@@ -163,7 +163,9 @@ var/list/MONTH_ORDER = list(
 	// Called every game hour
 	// Hook for: day/night transitions, NPC routines, hunger ticks, etc.
 	// Currently unused - add custom logic as needed
-	return
+	
+	// Update NPC routines on hour change
+	OnHourlyNPCCheck()
 
 /datum/time_advancement_system/proc/OnDayChange(old_day, new_day)
 	// Called at midnight (12:00 AM)
