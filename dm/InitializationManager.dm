@@ -192,8 +192,9 @@ proc
 		spawn(427)  InitializeSiegeEquipment()             // Phase 27: Siege equipment & weapons
 		spawn(428)  InitializeNPCGarrison()                // Phase 28: NPC garrison & auto-defense
 		spawn(429)  InitializeSiegeEvents()                // Phase 29: Siege events & dynamic warfare
+		spawn(430)  InitializeEliteOfficers()              // Phase 30: Elite officers & command system
 		
-		spawn(430) RegisterInitComplete("economy")
+		spawn(431) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
