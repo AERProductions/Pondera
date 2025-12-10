@@ -227,6 +227,7 @@
 #include "dm\UnifiedAttackSystem.dm"
 #include "dm\UnifiedHeatingSystem.dm"
 #include "dm\UnifiedRankSystem.dm"
+#include "dm\RangedCombatIntegration.dm"
 #include "dm\UseObjectExtensions.dm"
 #include "dm\VillageZoneAccessSystem.dm"
 #include "dm\VitalState.dm"
