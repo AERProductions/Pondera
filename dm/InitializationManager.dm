@@ -104,6 +104,7 @@ proc
 		
 		spawn(45)  InitializeAudioSystem()             // Audio integration (Phase C.1)
 		spawn(47)  InitializeFireSystem()              // Fire system (Phase C.3 Stage 2)
+		spawn(48)  InitializeEnvironmentalTemperature()  // Environmental temp (Phase C.3 Stage 3)
 		spawn(50)  InitializeDeedDataManagerLazy()     // Deed system (lazy init)
 		
 		spawn(55) RegisterInitComplete("audio_deed")
