@@ -79,6 +79,7 @@
 #include "dm\Enemies.dm"
 #include "dm\EnemyAICombatAnimationSystem.dm"
 #include "dm\EnhancedDynamicMarketPricingSystem.dm"
+#include "dm\EnvironmentalCombatIntegration.dm"
 #include "dm\EnvironmentalCombatModifiers.dm"
 #include "dm\EquipmentCompatibilityAdapter.dm"
 #include "dm\EquipmentOverlayIntegration.dm"
