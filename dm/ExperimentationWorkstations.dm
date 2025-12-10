@@ -129,6 +129,84 @@
 	ui.Initialize(player, src, "forge")
 
 // ============================================================================
+// ANVIL - SMITHING REFINEMENT & METAL EXPERIMENTATION
+// ============================================================================
+// The Anvil is the heart of smithing. It's where you hammer hot metal
+// into refined tools and weapons. As an experimentation station, it's where
+// players discover advanced smithing recipes through trial and error.
+
+/obj/Buildable/Smithing/Anvil
+	name = "Anvil"
+	desc = "A sturdy iron anvil for smithing and metal refinement. Perfect for experimentation with metal-working recipes."
+	icon = 'dmi/64/fire.dmi'
+	icon_state = "anvil"
+	density = 1
+	opacity = 0
+	pixel_x = 0
+	pixel_y = 0
+	layer = 5
+	
+	var/is_active = FALSE
+	var/current_experimenter = null
+	var/last_experiment_time = 0
+	var/EXPERIMENT_COOLDOWN = 100  // Anvil work is precise (5 seconds)
+	var/durability = 100  // Anvil can wear down (future enhancement)
+
+/obj/Buildable/Smithing/Anvil/New(location)
+	..()
+	if(location)
+		src.loc = location
+	
+	// Attach anvil sound effect (Phase C.1 integration)
+	AttachAnvilSound(src)
+
+/obj/Buildable/Smithing/Anvil/Click()
+	if(!usr)
+		return
+	
+	if(!istype(usr, /mob/players))
+		usr << "Only players can use the anvil."
+		return
+	
+	if(world.time < last_experiment_time + EXPERIMENT_COOLDOWN)
+		usr << "You need time to hammer out the last piece. Wait a moment."
+		return
+	
+	ShowExperimentationMenu(usr, "smithing")
+
+/obj/Buildable/Smithing/Anvil/verb/Experiment()
+	/**
+	 * Smithing experimentation verb
+	 * Opens the experimentation UI for anvil work
+	 */
+	set src in oview(1)
+	set category = null
+	set name = "Experiment with Metals"
+	
+	if(!usr || !istype(usr, /mob/players))
+		return
+	
+	var/mob/players/player = usr
+	var/datum/experimentation_ui/ui = new /datum/experimentation_ui()
+	ui.Initialize(player, src, "smithing")
+
+/obj/Buildable/Smithing/Anvil/proc/HammerMetal(mob/players/smith, obj/item/ingot)
+	/**
+	 * Actual hammer action on the anvil
+	 * Called during successful experimentation
+	 * 
+	 * Future enhancement: Create visual animation of hammering
+	 */
+	if(!smith || !ingot)
+		return
+	
+	// Sound effect of hammer striking anvil
+	PlayAnvilHammerSound(smith, src)
+	
+	// Visual feedback - temporary sparks/impact
+	// TODO: Implement spark effects around anvil
+
+// ============================================================================
 // WORKBENCH - GENERAL CRAFTING EXPERIMENTATION
 // ============================================================================
 
@@ -191,6 +269,7 @@
 	
 	return istype(building, /obj/Buildable/Cauldron) || \
 	       istype(building, /obj/Buildable/Forge) || \
+	       istype(building, /obj/Buildable/Smithing/Anvil) || \
 	       istype(building, /obj/Buildable/Workbench)
 
 /proc/GetWorkstationType(obj/building)
@@ -201,6 +280,8 @@
 		return "cauldron"
 	else if(istype(building, /obj/Buildable/Forge))
 		return "forge"
+	else if(istype(building, /obj/Buildable/Smithing/Anvil))
+		return "smithing"
 	else if(istype(building, /obj/Buildable/Workbench))
 		return "workbench"
 	

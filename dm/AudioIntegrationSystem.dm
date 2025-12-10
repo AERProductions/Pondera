@@ -512,6 +512,19 @@ proc/AttachWaterSound(atom/location)
 	return FALSE
 
 /**
+ * Anvil hammer sound effect when smithing
+ * Plays metallic hammer strike audio at anvil location
+ */
+proc/PlayAnvilHammerSound(obj/anvil)
+	if(!audio_manager || !anvil) return
+	
+	// Play metallic hammer strike sound (using hit_heavy as fallback)
+	var/list/data = audio_manager.combat_sounds["hit_heavy"]
+	if(data)
+		var/S = sound(data["file"], volume = 60)
+		anvil.loc << S
+
+/**
  * Preload frequently-used sounds into cache
  */
 proc/PreloadCommonSounds()
