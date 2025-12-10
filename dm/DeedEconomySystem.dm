@@ -609,6 +609,50 @@ var
 		if(ckey(M.key) == tenant_ckey)
 			M << "<font color='#FFB6C6'>\[RENTAL\] Your rental of '[deed_name]' has been terminated.</font>"
 
+/**
+ * Notify deed owner of maintenance payment due
+ * Called from DeedMaintenanceProcessor - maintenance check cycle
+ *
+ * @param owner_ckey - Owner's ckey
+ * @param deed_name - Name of deed
+ * @param maintenance_cost - Cost due
+ * @param days_until_freeze - Days until deed freezes (24-hour warning)
+ */
+/proc/NotifyMaintenanceDue(owner_ckey, deed_name, maintenance_cost, days_until_freeze = 1)
+	if(!owner_ckey || !deed_name || !maintenance_cost)
+		return
+	
+	for(var/mob/players/M in world)
+		if(ckey(M.key) == owner_ckey)
+			if(days_until_freeze <= 0)
+				M << "<font color='#FF4500'>\[DEED CRISIS!\] Your deed '[deed_name]' is FROZEN due to non-payment! [maintenance_cost] lucre required to restore.</font>"
+			else if(days_until_freeze == 1)
+				M << "<font color='#FF6347'>\[DEED WARNING!\] Your deed '[deed_name]' will freeze in 24 hours! [maintenance_cost] lucre due now.</font>"
+			else
+				M << "<font color='#FFD700'>\[DEED MAINTENANCE\] Your deed '[deed_name]' requires [maintenance_cost] lucre maintenance in [days_until_freeze] days.</font>"
+
+/**
+ * Notify deed owner of successful maintenance payment
+ */
+/proc/NotifyMaintenancePaid(owner_ckey, deed_name, amount_paid)
+	if(!owner_ckey || !deed_name || !amount_paid)
+		return
+	
+	for(var/mob/players/M in world)
+		if(ckey(M.key) == owner_ckey)
+			M << "<font color='#90EE90'>\[DEED PAYMENT\] Maintenance of [amount_paid] lucre paid successfully for '[deed_name]'.</font>"
+
+/**
+ * Notify deed owner of deed freeze event
+ */
+/proc/NotifyDeedFrozen(owner_ckey, deed_name, reason)
+	if(!owner_ckey || !deed_name)
+		return
+	
+	for(var/mob/players/M in world)
+		if(ckey(M.key) == owner_ckey)
+			M << "<font color='#FF0000'>\[DEED FROZEN!\] Your deed '[deed_name]' is frozen: [reason]. Pay maintenance to restore access.</font>"
+
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================

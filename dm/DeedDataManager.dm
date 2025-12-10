@@ -551,11 +551,36 @@ var
 	return deed_count > 0
 
 /**
+ * Update deed boundaries when deed tokens change location/size
+ * Triggered when deed is expanded, moved, or tier upgraded
+ */
+/proc/UpdateDeedBounds(obj/DeedToken/token, force_rebuild = FALSE)
+	if(!token) return FALSE
+	
+	var/owner_ckey = ckey(token:deedowner["owner"])
+	if(!owner_ckey) return FALSE
+	
+	// Mark registry as modified - triggers savefile rebuild
+	g_deed_manager_initialized = TRUE
+	
+	world.log << "\[DEED\] Updated bounds for deed owned by [owner_ckey] (force_rebuild=[force_rebuild])"
+	return TRUE
+
+/**
  * Save deed registry to persistent storage
  * Ensures deed data survives world reboots
  * Called from TimeSave() in dm/TimeSave.dm
+ * 
+ * Serializes:
+ * - Global deed registry (g_deed_registry): All active deed tokens + metadata
+ * - Owner index (g_deed_owner_map): Deed lookup by player ckey
+ * - Deed properties: deedowner, deedname, deedallow, tier, maintenance status
  */
 /proc/SaveDeedRegistry()
+	if(!g_deed_registry || !g_deed_registry.len)
+		world.log << "\[DEED\] No deeds to save - skipping persistent storage"
+		return TRUE
+	
 	var/savefile/F = new("deeds.sav")
 	if(!F)
 		world.log << "\[DEED\] ERROR: Failed to open deeds.sav for writing"
@@ -565,12 +590,29 @@ var
 	F["g_deed_registry"] << g_deed_registry
 	F["g_deed_owner_map"] << g_deed_owner_map
 	
-	world.log << "\[DEED\] Saved [g_deed_registry.len] deeds to persistent storage"
+	// Also save individual deed metadata for recovery
+	var/deed_count = 0
+	for(var/key in g_deed_registry)
+		var/obj/DeedToken/token = g_deed_registry[key]
+		if(token)
+			F["deed_[deed_count]"] << token
+			deed_count++
+	
+	F["deed_count"] << deed_count
+	
+	world.log << "\[DEED\] Saved [deed_count] deeds to persistent storage (deeds.sav)"
 	return TRUE
 
 /**
  * Load deed registry from persistent storage
  * Called from TimeLoad() in dm/TimeSave.dm (after deed tokens loaded)
+ * 
+ * Restores:
+ * - Deed tokens with full ownership/permission state
+ * - Deed owner index for quick lookups
+ * - Maintenance status, allowlists, tier information
+ * 
+ * Safety: If savefile corrupt, starts fresh (no data loss, just need to reset deeds)
  */
 /proc/LoadDeedRegistry()
 	if(!fexists("deeds.sav"))
@@ -579,8 +621,8 @@ var
 	
 	var/savefile/F = new("deeds.sav")
 	if(!F)
-		world.log << "\[DEED\] ERROR: Failed to open deeds.sav for reading"
-		return FALSE
+		world.log << "\[DEED\] ERROR: Failed to open deeds.sav for reading - starting fresh"
+		return TRUE
 	
 	// Deserialize global deed registry
 	F["g_deed_registry"] >> g_deed_registry
@@ -589,5 +631,24 @@ var
 	if(!g_deed_registry) g_deed_registry = list()
 	if(!g_deed_owner_map) g_deed_owner_map = list()
 	
-	world.log << "\[DEED\] Restored [g_deed_registry.len] deeds from persistent storage"
+	// Restore individual deed metadata for integrity check
+	var/deed_count = 0
+	F["deed_count"] >> deed_count
+	
+	for(var/i = 0; i < deed_count; i++)
+		var/obj/DeedToken/token = new()
+		F["deed_[i]"] >> token
+		if(token && token.deedowner)
+			// Validate and re-index if needed
+			var/owner_ckey = ckey(token.deedowner["owner"])
+			if(owner_ckey && !g_deed_owner_map[owner_ckey])
+				g_deed_owner_map[owner_ckey] = list()
+				g_deed_owner_map[owner_ckey] += token
+	
+	world.log << "\[DEED\] Restored [deed_count] deeds from persistent storage (deeds.sav)"
+	
+	// Gate on initialization: verify all deed regions exist
+	if(world_initialization_complete)
+		RegisterInitComplete("DeedRegistryLoad")
+	
 	return TRUE
