@@ -31,6 +31,7 @@
 #include "dm\_AdminCommands.dm"
 #include "dm\_debugtimer.dm"
 #include "dm\_DRCH2.dm"
+#include "dm\AdminCombatVerbs.dm"
 #include "dm\AdminSystemRefactor.dm"
 #include "dm\AdvancedCropsSystem.dm"
 #include "dm\armors.dm"
