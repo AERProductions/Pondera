@@ -13,6 +13,7 @@ Phase 38 adds 24-hour daily schedules to NPCs. NPCs wake, work, sleep, and socia
 | **Herbalist** | 9 AM - 5 PM | 9 PM - 7 AM | Early riser |
 | **Innkeeper** | 5 AM - 11 PM | 2 AM - 5 AM | Night owl |
 | **Fisher** | 6 AM - 3 PM | 8 PM - 5 AM | Morning person |
+| **Baker** | 5 AM - 7 PM | 9 PM - 4 AM | Very early riser |
 
 ## Core APIs
 
@@ -37,8 +38,8 @@ if(CanBuyFromNPC(npc))         // True if shop open (Phase 38B)
 
 ## File Changes
 
-1. **NPCRoutineSystem.dm** (467 lines) - NEW
-   - Created with all NPC type definitions, state machine, routines
+1. **NPCRoutineSystem.dm** (479 lines) - NEW
+   - Created with 6 NPC type definitions, state machine, routines
 
 2. **Pondera.dme** (line 157)
    - Added: `#include "dm\NPCRoutineSystem.dm"` after npcs.dm

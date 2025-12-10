@@ -31,7 +31,7 @@ Phase 38 implements time-based NPC routines, adding daily schedules, shop hours,
 
 ## NPC Types & Schedules
 
-### Five Default NPC Types
+### Six Default NPC Types
 
 Each NPC type has specific shop hours, sleep schedule, and routine actions:
 
@@ -64,6 +64,12 @@ Each NPC type has specific shop hours, sleep schedule, and routine actions:
 - **Sleep Schedule**: 8 PM - 5 AM (typical)
 - **Routine**: Sleep → Wake → Breakfast → Go Fishing → Fish → Lunch → Fish → Return Fishing → Close Shop → Socialize → Sleep
 - **Gameplay Effect**: Morning fishing availability; fresh catches available mid-morning
+
+#### 6. Baker
+- **Shop Hours**: 5 AM - 7 PM
+- **Sleep Schedule**: 9 PM - 4 AM (very early riser)
+- **Routine**: Sleep → Wake → Prepare Oven → Bake Bread → Open Shop → Work → Restock Bread → Lunch → Work → Bake Evening → Close Shop → Socialize → Sleep
+- **Gameplay Effect**: Fresh bread available at opening; bakes throughout day; stays open late to sell evening baked goods; provides cooked food to town population
 
 ### State Machine
 
@@ -457,8 +463,8 @@ Skip ahead in game time to test routine transitions
 Phase 38 transforms NPCs from static wanderers into dynamic characters with realistic daily schedules. By integrating with Phase 36's time system, NPCs now follow predictable patterns that players can learn and plan around. Shop hours create economic gameplay constraints, sleep cycles add immersion, and routine actions suggest NPC personalities and occupations.
 
 **Key Stats**:
-- Lines of Code: 467
-- NPC Types Implemented: 5 (with 3 sleep schedule variations)
+- Lines of Code: 479
+- NPC Types Implemented: 6 (Baker now included for food service)
 - States per NPC: 6
 - Integration Points: 3 (TimeAdvancementSystem, InitializationManager, Pondera.dme)
 - Build Status: ✅ Clean (0 errors, 0 warnings)

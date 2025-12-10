@@ -20,7 +20,8 @@ var/list/NPC_SHOP_HOURS = list(
 	"Merchant" = list("open_hour" = 8, "open_ampm" = "am", "close_hour" = 8, "close_ampm" = "pm"),
 	"Herbalist" = list("open_hour" = 9, "open_ampm" = "am", "close_hour" = 5, "close_ampm" = "pm"),
 	"Inn" = list("open_hour" = 5, "open_ampm" = "am", "close_hour" = 11, "close_ampm" = "pm"),
-	"Fisher" = list("open_hour" = 6, "open_ampm" = "am", "close_hour" = 3, "close_ampm" = "pm")
+	"Fisher" = list("open_hour" = 6, "open_ampm" = "am", "close_hour" = 3, "close_ampm" = "pm"),
+	"Baker" = list("open_hour" = 5, "open_ampm" = "am", "close_hour" = 7, "close_ampm" = "pm")
 )
 
 // Sleep windows (when NPCs are sleeping, in 24-hour format)
@@ -116,6 +117,15 @@ var/list/NPC_SLEEP_SCHEDULE = list(
 			sleep_end_hour = 5
 			routine_actions = list(
 				"sleep", "wake", "breakfast", "go_fishing", "fish", "lunch", "fish", "return_fishing", "close_shop", "socialize", "sleep"
+			)
+		
+		if("baker")
+			open_hour = 5      // Very early - starts baking at 5 AM
+			close_hour = 19    // 7 PM
+			sleep_start_hour = 21
+			sleep_end_hour = 4 // Up at 4 AM to start baking
+			routine_actions = list(
+				"sleep", "wake", "prepare_oven", "bake_bread", "open_shop", "work", "restock_bread", "lunch", "work", "bake_evening", "close_shop", "socialize", "sleep"
 			)
 		
 		else
