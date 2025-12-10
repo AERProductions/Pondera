@@ -411,6 +411,17 @@ var/global/list/BUILDING_RECIPES = list()
 		player << "<span style='color: #00FF00'>You build a [recipe.display_name]!</span>"
 		world << "[player] has built a [recipe.display_name] at ([build_turf])."
 		
+		// Attach environmental sounds (Phase C.1 Audio Integration)
+		switch(recipe.recipe_name)
+			if("fire")
+				AttachFireSound(building)
+			if("forge")
+				AttachFireSound(building)
+			if("anvil")
+				AttachAnvilSound(building)
+			if("water_trough")
+				AttachWaterSound(building)
+		
 		// Award XP
 		player.character.UpdateRankExp(recipe.required_skill, recipe.skill_bonus)
 	else
