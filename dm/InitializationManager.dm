@@ -149,6 +149,7 @@ proc
 		spawn(355)  InitializeNPCRoutineSystem()      // NPC routines & schedules (Phase 38)
 		spawn(360)  InitializeNPCRecipeHandlers()     // Recipe execution
 		spawn(365)  InitializeFoodSupplySystem()      // Food supply management (Phase 38B)
+		spawn(366)  InitializeNPCDialogueSystem()     // NPC dialogue & shop hours (Phase 38C)
 		spawn(370)  InitializeSkillLevelUpIntegration() // Skill progression hooks
 		spawn(375)  InitializeSkillRecipeSystem()     // Skill-based recipe unlocks
 		
