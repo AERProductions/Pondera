@@ -193,18 +193,72 @@
 /obj/Buildable/Smithing/Anvil/proc/HammerMetal(mob/players/smith, obj/item/ingot)
 	/**
 	 * Actual hammer action on the anvil
-	 * Called during successful experimentation
+	 * Called during successful experimentation at this anvil
 	 * 
-	 * Future enhancement: Create visual animation of hammering
+	 * LEGACY ANVIL RECIPES (from ANVIL_LEGACY_RECIPE_CATALOG.md):
+	 * ============================================================
+	 * The original anvil supported 26+ refinement recipes:
+	 * 
+	 * Tool Component Refinement (11 types):
+	 *  - Hammer Head → Filed/Sharpened/Polished/Cool
+	 *  - Carving Knife Blade
+	 *  - File Blade
+	 *  - Axe Blade
+	 *  - Pickaxe Head
+	 *  - Shovel Blade
+	 *  - Hoe Blade
+	 *  - Saw Blade
+	 *  - Sickle Blade
+	 *  - Chisel Blade
+	 *  - Trowel Blade
+	 * 
+	 * Weapon Component Refinement (10 types):
+	 *  - Broad Sword Blade
+	 *  - War Sword Blade
+	 *  - Battle Sword Blade
+	 *  - Long Sword Blade
+	 *  - War Maul Head
+	 *  - Battle Hammer Sledge
+	 *  - War Axe Blade
+	 *  - Battle Axe Blade
+	 *  - War Scythe Blade
+	 *  - Battle Scythe Blade
+	 * 
+	 * Lamp Component Refinement (5 types):
+	 *  - Iron Lamp Head
+	 *  - Copper Lamp Head
+	 *  - Bronze Lamp Head
+	 *  - Brass Lamp Head
+	 *  - Steel Lamp Head
+	 * 
+	 * REFINEMENT PROGRESSION:
+	 *  Unrefined → Filed → Sharpened → Polished → Cool (quenched)
+	 * 
+	 * These recipes should be added to RECIPES registry with:
+	 * - "workstation_type" = "smithing"
+	 * - "refinement_stage" = refinement level
+	 * - "skill_requirement" = RANK_SMITHING
+	 * - skill-based unlock at smithing ranks 1-5
+	 * 
+	 * FUTURE: Multi-stage experimentation discovery:
+	 * - Each refinement stage unlockable separately
+	 * - Quality modifiers based on hammer precision
+	 * - Anvil durability affects success rate
 	 */
 	if(!smith || !ingot)
 		return
 	
 	// Sound effect of hammer striking anvil
-	PlayAnvilHammerSound(smith, src)
+	PlayAnvilHammerSound(src)
+	
+	// Decrease anvil durability (tracked per-hammer strike)
+	if(durability > 0)
+		durability--
 	
 	// Visual feedback - temporary sparks/impact
-	// TODO: Implement spark effects around anvil
+	// TODO: Implement spark effects around anvil location
+	// TODO: Trigger animation of smith swinging hammer
+	// TODO: Particle effects for metal sparks during refinement
 
 // ============================================================================
 // WORKBENCH - GENERAL CRAFTING EXPERIMENTATION
