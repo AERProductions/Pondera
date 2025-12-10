@@ -70,20 +70,9 @@
 	if(!usr || !istype(usr, /mob/players))
 		return
 	
-	if(is_active && current_experimenter != usr)
-		usr << "[current_experimenter] is already using the cauldron."
-		return
-	
-	// Get available ingredients from inventory
-	var/list/ingredients = GetIngredientListFromInventory(usr, "cauldron")
-	
-	if(!ingredients || ingredients.len == 0)
-		usr << "You need ingredients to experiment with."
-		return
-	
-	// TODO: Show ingredient selection UI
-	usr << "Ingredient selection UI not yet implemented."
-	usr << "Available ingredients: [ingredients.len] items"
+	var/mob/players/player = usr
+	var/datum/experimentation_ui/ui = new /datum/experimentation_ui()
+	ui.Initialize(player, src, "cauldron")
 
 // ============================================================================
 // FORGE - SMITHING EXPERIMENTATION WORKSTATION
@@ -128,21 +117,16 @@
 	
 	ShowExperimentationMenu(usr, "forge")
 
-/obj/Buildable/Forge/verb/ExperimentWithMetals()
+/obj/Buildable/Forge/verb/Experiment()
 	set src in oview(1)
 	set category = null
 	
 	if(!usr || !istype(usr, /mob/players))
 		return
 	
-	var/list/ingredients = GetIngredientListFromInventory(usr, "forge")
-	
-	if(!ingredients || ingredients.len == 0)
-		usr << "You need ores or ingots to experiment with."
-		return
-	
-	usr << "Metal experimentation UI not yet implemented."
-	usr << "Available materials: [ingredients.len] items"
+	var/mob/players/player = usr
+	var/datum/experimentation_ui/ui = new /datum/experimentation_ui()
+	ui.Initialize(player, src, "forge")
 
 // ============================================================================
 // WORKBENCH - GENERAL CRAFTING EXPERIMENTATION
@@ -183,21 +167,16 @@
 	
 	ShowExperimentationMenu(usr, "workbench")
 
-/obj/Buildable/Workbench/verb/ExperimentWithTools()
+/obj/Buildable/Workbench/verb/Experiment()
 	set src in oview(1)
 	set category = null
 	
 	if(!usr || !istype(usr, /mob/players))
 		return
 	
-	var/list/ingredients = GetIngredientListFromInventory(usr, "workbench")
-	
-	if(!ingredients || ingredients.len == 0)
-		usr << "You need crafting materials to experiment with."
-		return
-	
-	usr << "Tool crafting experimentation UI not yet implemented."
-	usr << "Available materials: [ingredients.len] items"
+	var/mob/players/player = usr
+	var/datum/experimentation_ui/ui = new /datum/experimentation_ui()
+	ui.Initialize(player, src, "workbench")
 
 // ============================================================================
 // EXPERIMENTATION WORKSTATION BASE UTILITIES

@@ -242,41 +242,7 @@
 // EXPERIMENTATION HELPER PROCS
 // ============================================================================
 
-/proc/GetIngredientListFromInventory(mob/players/player, workstation_type)
-	/**
-	 * Extract valid ingredients from player inventory for experimentation
-	 * workstation_type determines which items are valid (cooking, smithing, etc.)
-	 * 
-	 * Returns: list of obj/item objects
-	 */
-	if(!player)
-		return list()
-	
-	var/list/valid_ingredients = list()
-	
-	for(var/obj/item in player.contents)
-		if(!item)
-			continue
-		
-		// Check if item is valid ingredient for this workstation
-		switch(workstation_type)
-			if("cauldron", "cooking")
-				// Cooking ingredients: consumables, vegetables, meats, etc.
-				// Accept any item that isn't a tool or weapon
-				if(!istype(item, /obj/items/tools) && !istype(item, /obj/items/weapons))
-					valid_ingredients += item
-			
-			if("forge", "smithing")
-				// Smithing: ores, ingots, metals
-				if(istype(item, /obj/items/Ore) || istype(item, /obj/items/Ingots) || istype(item, /obj/items/thermable))
-					valid_ingredients += item
-			
-			if("workbench", "crafting")
-				// General crafting: crafting items, created items
-				if(istype(item, /obj/items/Crafting) || istype(item, /obj/items/tools))
-					valid_ingredients += item
-	
-	return valid_ingredients
+// Note: GetIngredientListFromInventory is defined in ExperimentationUI.dm
 
 /proc/ConsumeExperimentationIngredients(mob/players/player, list/ingredients, success = TRUE)
 	/**
