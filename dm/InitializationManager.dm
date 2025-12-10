@@ -208,6 +208,8 @@ proc
 		LogInit("PHASE 7: Quality of Life Systems (11 ticks)", 384)
 		
 		spawn(384)  InitializeRecipeDiscoveryRateBalancing() // Recipe discovery
+		spawn(385)  InitializeUIEventBus()                   // Phase 35: UI Event Bus
+		spawn(386)  CleanupActivityLogs()                    // Activity log maintenance
 		
 		spawn(395) RegisterInitComplete("quality_of_life")
 		

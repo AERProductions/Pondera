@@ -238,6 +238,10 @@ var/datum/skill_recipe_unlock_table/skill_recipes = new()
 	// Triggers recipe and knowledge unlocks
 	if(!player) return
 	
+	// Log to activity system
+	var/old_level = new_level - 1
+	LogSkillUp(player, skill_name, old_level, new_level)
+	
 	CheckAndUnlockRecipeBySkill(player, skill_name, new_level)
 	UnlockSkillKnowledge(player, skill_name, new_level)
 
