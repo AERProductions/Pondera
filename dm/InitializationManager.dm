@@ -194,8 +194,9 @@ proc
 		spawn(429)  InitializeSiegeEvents()                // Phase 29: Siege events & dynamic warfare
 		spawn(430)  InitializeEliteOfficers()              // Phase 30: Elite officers & command system
 		spawn(431)  InitializeOfficerAbilities()           // Phase 31: Officer abilities & specialization
+		spawn(432)  InitializeOfficerTournaments()         // Phase 33: Tournaments & ranking system
 		
-		spawn(432) RegisterInitComplete("economy")
+		spawn(433) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
