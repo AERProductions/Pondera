@@ -229,6 +229,7 @@
 #include "dm\WC.dm"
 #include "dm\WeaponArmorScalingSystem.dm"
 #include "dm\Weapons.dm"
+#include "dm\WeatherCombatIntegration.dm"
 #include "dm\WeatherParticles.dm"
 #include "dm\WeatherSeasonalIntegration.dm"
 #include "dm\WorldSelection.dm"
