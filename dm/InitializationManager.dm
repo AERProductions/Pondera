@@ -78,6 +78,7 @@ proc
 		
 		spawn(0)   InitializeContinents()             // Three-world continental system
 		spawn(0)   InitWeatherController()            // Weather base system
+		spawn(1)   InitializeSeasonalWeather()        // Seasonal weather patterns (Phase 37)
 		spawn(5)   DynamicWeatherTick()               // Start weather ticking
 		
 		// Note: Map save/load handled by MPSBWorldSave.dm initialization

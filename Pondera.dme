@@ -228,6 +228,7 @@
 #include "dm\WeaponArmorScalingSystem.dm"
 #include "dm\Weapons.dm"
 #include "dm\WeatherParticles.dm"
+#include "dm\WeatherSeasonalIntegration.dm"
 #include "dm\WorldSelection.dm"
 #include "dm\WorldSystem.dm"
 #include "dm\Zoom.dm"

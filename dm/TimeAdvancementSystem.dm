@@ -220,7 +220,9 @@ var/list/MONTH_ORDER = list(
 	// - NPC movement
 	// - Daily quest resets
 	// - Basecampcirculation
-	return
+	// - Weather/temperature updates
+	
+	OnDailyWeatherTick()  // Update weather conditions
 
 /proc/OnMonthlyTick(month)
 	// Monthly events
@@ -242,6 +244,9 @@ var/list/MONTH_ORDER = list(
 	
 	// Update biome resource spawning
 	UpdateBiomeResourceSpawning(season)
+	
+	// Update seasonal weather patterns
+	OnSeasonalWeatherTick(season)
 
 /proc/OnYearlyTick(year)
 	// Yearly events
