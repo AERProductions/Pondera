@@ -1104,7 +1104,7 @@ mob/players
 			P.poisoned=0 // and make it so that this only fired once for you each time you get poisoned
 			while(poisonD>0) // yep, we gonna hurt you now
 				P.HP -= poisonDMG // take some damage
-				s_damage(P, poisonDMG, "#800080") //show the damage on the screen.  s_damage rules.  thank spuzzum.
+				ShowEnhancedDamageNumber(P.loc, poisonDMG, "normal", 0) // Modern HUD feedback (replaces s_damage)
 				poisonD-- // counting down to 0
 				if(P.HP <= 0) // you are dead now dude
 					P.poisonD=0 // lets not overkill you
@@ -1740,7 +1740,7 @@ mob/players
 			else
 				waiter=1
 				M.overlays += image('dmi/64/WHoy.dmi',icon_state="[get_dir(M,src)]")
-				s_damage(W, damage, "#32cd32") // show the damage on the enemy
+				ShowEnhancedDamageNumber(W.loc, damage, "normal", 0) // Modern HUD feedback (replaces s_damage)
 				W.HP -= damage // deal the actual damage to their variable
 				M.stamina -= 8
 				M.updateST()
@@ -1788,7 +1788,7 @@ mob/players
 				J.overlays += image('dmi/64/LSoy.dmi',icon_state="[get_dir(J,M)]")
 			if(J.char_class=="GM")
 				J.overlays += image('dmi/64/GMoy.dmi',icon_state="[get_dir(J,M)]")
-			s_damage(M, damage, "#32cd32") // show the damage on the enemy
+			ShowEnhancedDamageNumber(M.loc, damage, "normal", 0) // Modern HUD feedback (replaces s_damage)
 			if(J.HP<=0)
 				//J.overlays -= image('dmi/64/creation.dmi',icon_state="heat")
 				call(/mob/players/proc/checkdeadplayer2)(M)

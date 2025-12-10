@@ -212,9 +212,9 @@ proc/DisplayDamage(mob/players/attacker, mob/defender, damage)
 	if(!attacker || !defender)
 		return
 	
-	// Visual feedback at defender location
-	if(isobj(defender.loc) || isturf(defender.loc))
-		s_damage(defender, damage, "#32cd32")  // Green for damage dealt
+	// Modern HUD feedback (replaces old s_damage)
+	if(defender.loc)
+		ShowEnhancedDamageNumber(defender.loc, damage, "normal", 0)
 	
 	// Message to defender
 	if(defender.client)
