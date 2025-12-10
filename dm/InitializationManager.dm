@@ -196,8 +196,9 @@ proc
 		spawn(431)  InitializeOfficerAbilities()           // Phase 31: Officer abilities & specialization
 		spawn(432)  InitializeOfficerTournaments()         // Phase 33: Tournaments & ranking system
 		spawn(433)  InitializeOfficerLoyalty()             // Phase 34: Officer loyalty & defection
+		spawn(434)  InitializeOGVUI()                      // Phase 34B: OGV battle visualization
 		
-		spawn(434) RegisterInitComplete("economy")
+		spawn(435) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)

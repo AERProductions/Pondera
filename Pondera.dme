@@ -118,6 +118,7 @@
 #include "dm\NPCGarrisonSystem.dm"
 #include "dm\EliteOfficersSystem.dm"
 #include "dm\OfficerAbilitiesSystem.dm"
+#include "dm\OfficerGarrisonVisualizationUI.dm"
 #include "dm\OfficerRecruitmentUI.dm"
 #include "dm\OfficerTournamentsSystem.dm"
 #include "dm\OfficerLoyaltySystem.dm"
