@@ -10529,49 +10529,73 @@ obj
 				New()
 				proc/Fill()*/
 		proc/HitPlayer(mob/players/M) // hitting the player
-			var/dmgreduced // you reduce your damage based on defense
-			var/Strength
-			if(M.tempdefense<=1050)
-				dmgreduced = (((M.tempdefense)/10 * (1.05-(0.0005*(M.tempdefense))))/100) // calculation for dmg reduced
-			else if(M.tempdefense>1050)
-				var/resroll = M.tempdefense-1050
-				dmgreduced = 0.55 + 0.55*(((resroll)/10 * (1.05-(0.0005*(resroll))))/100) // another calculation for dmg reduced because the first one is negative parabolic, and we dont want the dmg reduced to be decreased with high defense ratings
-			var/damage = round(((rand(Strength/2,Strength))*(1-dmgreduced)),1) // calculate damage
-			M.HP -= damage // take damage
-			M.affinity -= 0.1
-			s_damage(M, damage, "red") // show the damage taken
-			checkdeadplayerPVP(M,src) // see if the enemy killed the player
-		proc/checkdeadplayerPVP(var/mob/players/M,var/mob/players/E=usr)
-			if(M.HP <= 0)//&&M.affinity<=-0.1) // if you have less than or equal to 0 HP, you are dead
-				world << "<font color = red><b>[M] died to [E]"
-				//var/G = round((M.lucre/4),1)
-				//M << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
-				//M.lucre-=G
+			// Refactored for Phase 45B: Modern damage system with HUD integration
+			if(!M || !src)
+				return
+			
+			// Get attacker strength (src = enemy mob)
+			var/attacker_strength = 10  // Default fallback
+			if(istype(src, /mob/enemies))
+				attacker_strength = src.vars["Strength"] || 10
+			
+			// Calculate defense reduction (modern formula)
+			var/dmgreduced = 0
+			if(M.tempdefense <= 1050)
+				dmgreduced = (((M.tempdefense)/10 * (1.05-(0.0005*(M.tempdefense))))/100)
+			else
+				var/resroll = M.tempdefense - 1050
+				dmgreduced = 0.55 + 0.55*(((resroll)/10 * (1.05-(0.0005*(resroll))))/100)
+			
+			// Ensure dmgreduced is capped at reasonable values
+			dmgreduced = max(0, min(0.95, dmgreduced))  // 0-95% max reduction
+			
+			// Calculate final damage: Random between 50-100% of strength, reduced by defense
+			var/base_damage = rand(attacker_strength * 0.5, attacker_strength)
+			var/damage = round(base_damage * (1 - dmgreduced), 1)
+			
+			// Ensure minimum 1 damage always gets through
+			damage = max(1, damage)
+			
+			// Apply damage
+			M.HP -= damage
+			
+			// Modern HUD feedback (replaces old s_damage)
+			ShowEnemyDamageNumber(M, damage)
+			
+			// Check if player died
+			checkdeadplayerPVP(M, src)
+		proc/checkdeadplayerPVP(mob/players/M, mob/E = null)
+			// Check if player is dead and handle cleanup
+			if(M.HP <= 0)
+				// Log death event
+				var/killer_name = E ? E.name : "Unknown"
+				world << "<font color = red><b>[M.name] died to [killer_name]"
+				
+				// Remove combat verbs
 				M -= verbs
-				M.poisonD=0
-				M.poisoned=0
-				M.poisonDMG=0
+				
+				// Clear negative status effects
+				M.poisonD = 0
+				M.poisoned = 0
+				M.poisonDMG = 0
+				
+				// Clear overlays and appearance
 				M.overlays = null
 				M.icon = 'dmi/64/blank.dmi'
-				M.loc = locate(5,6,1)//locate(rand(100,157),rand(113,46),12)
+				
+				// Send to respawn point (Sleep)
+				M.loc = locate(5, 6, 1)
 				M.location = "Sleep"
-				//usr << sound('mus.ogg',1, 0, 1024)
+				
+				// Prevent movement during respawn
 				M.nomotion = 1
+				
+				// Restore minimal HP (prevent death loop)
 				M.HP = 1
-				//del M.client.mob//don't know if this is the right thing to do
-			/*else if(M.HP <= 0&&M.affinity>=0)
-				world << "<font color = red><b>[M] died to [E] and went to the Holy Light"
-				var/G = round((M.lucre/4),1)
-				M << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
-				M.lucre-=G
-				M.poisonD=0
-				M.poisoned=0
-				M.poisonDMG=0
-				M.overlays = null
-				M.loc = locate(101,159,1)//locate(rand(100,157),rand(113,46),12)
-				M.location = "Holy Light"
-				//usr << sound('mus.ogg',1, 0, 1024)
-				M.HP = M.MAXHP*/
+				
+				// TODO: Implement respawn wait timer before allowing player movement
+				// TODO: Add death-related quest/achievement tracking
+				// TODO: Consider loot drops or inventory handling on death
 
 /*var/const
 	POLE_LAYER = FLOAT_LAYER+1
