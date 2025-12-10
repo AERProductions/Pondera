@@ -1108,9 +1108,9 @@ mob
 				if (istype(M,/mob/players))
 					GiuAttack(M)
 			proc/GiuAttack(mob/players/M)
-				flick("Giu_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 				//Unique(speed)
@@ -1159,10 +1159,10 @@ mob
 				if (istype(M,/mob/players))
 					GouAttack(M)
 			proc/GouAttack(mob/players/M)
-				flick("Gou_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(2)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 		Gow
@@ -1201,10 +1201,10 @@ mob
 				if (istype(M,/mob/players))
 					GowAttack(M)
 			proc/GowAttack(mob/players/M)
-				flick("Gow_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(2)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 		Guwi
@@ -1243,10 +1243,10 @@ mob
 				if (istype(M,/mob/players))
 					GuwiAttack(M)
 			proc/GuwiAttack(mob/players/M)
-				flick("Guwi_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(2)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 		Gowu
@@ -1294,10 +1294,10 @@ mob
 				if (istype(M,/mob/players))
 					GowuAttack(M)
 			proc/GowuAttack(mob/players/M)
-				flick("Gowu_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(2)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 		Gowl
@@ -1342,10 +1342,10 @@ mob
 				if (istype(M,/mob/players))
 					GowlAttack(M)
 			proc/GowlAttack(mob/players/M)
-				flick("Gowl_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(2)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 		Giuwo
@@ -1387,10 +1387,10 @@ mob
 				if (istype(M,/mob/players))
 					GiuwoAttack(M)
 			proc/GiuwoAttack(mob/players/M)
-				flick("Giuwo_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(4)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 		Gouwo
@@ -1436,10 +1436,10 @@ mob
 				if (istype(M,/mob/players))
 					GouwoAttack(M)
 			proc/GouwoAttack(mob/players/M)
-				flick("Gouwo_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(4)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 		Gowwi
@@ -1485,10 +1485,10 @@ mob
 				if (istype(P,/mob/players))
 					GowwiAttack(P)
 			proc/GowwiAttack(mob/players/P)
-				flick("Gowwi_attack",src)
+				ExecuteEnemyAttackAnimation(src, P)
 				//sleep(4)
 				if (prob(P.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, P)
 				else
 					HitPlayer(P)
 		Guwwi
@@ -1534,10 +1534,10 @@ mob
 				if (istype(M,/mob/players))
 					GuwwiAttack(M)
 			proc/GuwwiAttack(mob/players/M)
-				flick("Guwwi_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(4)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
 		Gowwu
@@ -1583,9 +1583,9 @@ mob
 				if (istype(M,/mob/players))
 					GowwuAttack(M)
 			proc/GowwuAttack(mob/players/M)
-				flick("Gowwu_attack",src)
+				ExecuteEnemyAttackAnimation(src, M)
 				//sleep(4)
 				if (prob(M.tempevade))
-					view(src) << "[src] \red misses <font color = gold>[M]"
+					ProcessEnemyMiss(src, M)
 				else
 					HitPlayer(M)
