@@ -122,6 +122,7 @@
 #include "dm\OfficerRecruitmentUI.dm"
 #include "dm\OfficerTournamentsSystem.dm"
 #include "dm\OfficerLoyaltySystem.dm"
+#include "dm\TimeAdvancementSystem.dm"
 #include "dm\UIEventBusSystem.dm"
 #include "dm\PvPRankingSystem.dm"
 #include "dm\RegionalConflictSystem.dm"

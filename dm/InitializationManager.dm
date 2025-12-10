@@ -59,6 +59,7 @@ proc
 		
 		LogInit("PHASE 1: Time System", 0)
 		TimeLoad()                          // Restore world time from save (or init defaults)
+		spawn(0) InitializeTimeAdvancement()  // Start automatic time advancement loop
 		RegisterInitComplete("time")
 		
 		// ────────────────────────────────────────────────────────────────────
