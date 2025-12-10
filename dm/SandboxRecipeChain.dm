@@ -42,9 +42,29 @@ proc/InitializeSandboxRecipeChains()
 	RECIPE_CHAINS["fire_tools"] = chain_fire_tools
 	
 	// ========================================================================
+	// CHAIN 1B: Alloy Mastery -> Bronze Tools
+	// ========================================================================
+	// Progression: copper ore -> tin ore -> bronze -> bronze tools
+	
+	var/datum/recipe_chain_progress/chain_alloys = new()
+	chain_alloys.chain_name = "Alloy Mastery"
+	chain_alloys.steps = list(
+		"mine_ore",
+		"smelt_ore",
+		"smelt_copper",
+		"smelt_tin",
+		"smelt_bronze",
+		"forge_bronze_hammer_head",
+		"file_hammer_head",
+		"sharpen_hammer_head",
+		"quench_hammer_head"
+	)
+	RECIPE_CHAINS["alloys"] = chain_alloys
+	
+	// ========================================================================
 	// CHAIN 2: Tool Refinement -> Perfect Quality
 	// ========================================================================
-	// Progression: unrefined hammer -> filed -> sharpened -> quenched -> polished
+	// Progression: unrefined hammer -> filed -> sharpened -> quenched
 	
 	var/datum/recipe_chain_progress/chain_refinement = new()
 	chain_refinement.chain_name = "Tool Refinement"
@@ -71,6 +91,7 @@ proc/InitializeSandboxRecipeChains()
 	
 	if(fire_gating_debug)
 		world.log << "\[SANDBOX RECIPE CHAIN\] Initialized [RECIPE_CHAINS.len] recipe chains"
+		world.log << "\[SANDBOX RECIPE CHAIN\] Fire gating enabled: [fire_gated_smelting_enabled]"
 
 /proc/CanCraftWithFireGating(mob/players/player, recipe_key)
 	/**
@@ -287,7 +308,61 @@ proc/InitializeSandboxRecipeChains()
 	if(player)
 		player << output
 
-// Integration with fire system
+// Player verb to view recipe chain progress
+/mob/players/verb/view_recipe_chain()
+	set name = "View Recipe Chains"
+	set category = "Crafting"
+	set desc = "View your progress through recipe chains"
+	
+	if(!RECIPE_CHAINS || !RECIPE_CHAINS.len)
+		src << "No recipe chains available."
+		return
+	
+	var/list/chain_names = list()
+	for(var/chain_key in RECIPE_CHAINS)
+		var/datum/recipe_chain_progress/chain = RECIPE_CHAINS[chain_key]
+		if(chain)
+			chain_names[chain.chain_name] = chain_key
+	
+	var/selected = input("Select a chain to view:", "Recipe Chains") in chain_names
+	if(selected)
+		var/chain_key = chain_names[selected]
+		DisplayChainProgress(src, chain_key)
+
+// Alternative: View all chains at once
+/mob/players/verb/view_all_recipe_chains()
+	set name = "View All Recipe Chains"
+	set category = "Crafting"
+	set desc = "View progress on all recipe chains"
+	
+	if(!RECIPE_CHAINS || !RECIPE_CHAINS.len)
+		src << "No recipe chains available."
+		return
+	
+	var/output = "<b>RECIPE CHAIN PROGRESSION</b><hr>"
+	
+	for(var/chain_key in RECIPE_CHAINS)
+		var/datum/recipe_chain_progress/chain = RECIPE_CHAINS[chain_key]
+		if(!chain)
+			continue
+		
+		var/total = chain.steps?.len || 0
+		output += "<b>[chain.chain_name]</b> ([chain.steps_completed]/[total])<br>"
+		
+		// Show next 2 steps only
+		if(chain.steps_completed < total)
+			for(var/i = chain.steps_completed + 1; i <= min(chain.steps_completed + 2, total); i++)
+				var/next_recipe = chain.steps[i]
+				var/datum/recipe_entry/recipe = KNOWLEDGE[next_recipe]
+				var/recipe_name = recipe ? recipe.name : next_recipe
+				output += "  → [recipe_name]<br>"
+		else
+			output += "  ✓ COMPLETE<br>"
+		
+		output += "<br>"
+	
+	src << output
+
 /datum/fire/proc/IsCompatibleWithRecipe(workstation_type)
 	/**
 	 * Check if this fire source is suitable for a recipe's workstation type

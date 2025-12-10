@@ -274,7 +274,46 @@ var/list/KNOWLEDGE = list()
 		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
 		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
 		experience_reward = 20,
-		discovery_method = "npc_teaching"
+		discovery_method = "npc_teaching",
+		unlocks_recipes = list("smelt_ore", "mine_copper", "mine_tin")
+	)
+	
+	KNOWLEDGE["mine_copper"] = new /datum/recipe_entry(
+		recipe_key = "mine_copper",
+		name = "Mine Copper Ore",
+		description = "Use bronze pickaxe to extract copper ore from ore-bearing rock. Found in mountainous regions.",
+		icon_state = "copper_ore",
+		tier = "intermediate",
+		category = "mining",
+		workstation_type = "none",
+		inputs = list("bronze_pickaxe_head_cool" = 1),
+		outputs = list("copper_ore" = 1),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 30,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_bronze"),
+		unlocks_recipes = list("smelt_copper")
+	)
+	
+	KNOWLEDGE["mine_tin"] = new /datum/recipe_entry(
+		recipe_key = "mine_tin",
+		name = "Mine Tin Ore",
+		description = "Use bronze pickaxe to extract tin ore from ore-bearing rock. Rare in most biomes.",
+		icon_state = "tin_ore",
+		tier = "intermediate",
+		category = "mining",
+		workstation_type = "none",
+		inputs = list("bronze_pickaxe_head_cool" = 1),
+		outputs = list("tin_ore" = 1),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "desert"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 35,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_bronze"),
+		unlocks_recipes = list("smelt_tin")
 	)
 	
 	// ========================================================================
@@ -414,6 +453,107 @@ var/list/KNOWLEDGE = list()
 		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
 		experience_reward = 40,
 		discovery_method = "experimentation"
+	)
+	
+	// ========================================================================
+	// INTERMEDIATE TIER - Alloys & Complex Materials
+	// ========================================================================
+	
+	KNOWLEDGE["smelt_tin"] = new /datum/recipe_entry(
+		recipe_key = "smelt_tin",
+		name = "Smelt Tin Ore",
+		description = "Heat tin ore in a campfire to extract raw tin. Softer than iron, used in bronze alloys.",
+		icon_state = "tin_ingot",
+		tier = "intermediate",
+		category = "smelting",
+		workstation_type = "fire",
+		inputs = list("tin_ore" = 2, "kindling" = 1),
+		outputs = list("tin_ingot" = 1),
+		requires_fire = TRUE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 35,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_ore"),
+		unlocks_recipes = list("smelt_bronze")
+	)
+	
+	KNOWLEDGE["smelt_bronze"] = new /datum/recipe_entry(
+		recipe_key = "smelt_bronze",
+		name = "Smelt Bronze Alloy",
+		description = "Heat copper + tin in a forge to create bronze. More durable than iron, excellent for tools and weapons.",
+		icon_state = "bronze_ingot",
+		tier = "intermediate",
+		category = "smelting",
+		workstation_type = "forge",
+		inputs = list("copper_ingot" = 1, "tin_ingot" = 1, "kindling" = 1),
+		outputs = list("bronze_ingot" = 1),
+		requires_fire = TRUE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 50,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_ore", "smelt_tin"),
+		unlocks_recipes = list("forge_bronze_hammer_head", "forge_bronze_pickaxe_head")
+	)
+	
+	KNOWLEDGE["forge_bronze_hammer_head"] = new /datum/recipe_entry(
+		recipe_key = "forge_bronze_hammer_head",
+		name = "Forge Bronze Hammer Head",
+		description = "Shape hot bronze into a hammer head. Bronze tools are superior to iron.",
+		icon_state = "hammer_head",
+		tier = "intermediate",
+		category = "smithing",
+		workstation_type = "forge",
+		inputs = list("bronze_ingot" = 1, "kindling" = 1),
+		outputs = list("bronze_hammer_head_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 2,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 55,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_bronze", "forge_hammer_head")
+	)
+	
+	KNOWLEDGE["forge_bronze_pickaxe_head"] = new /datum/recipe_entry(
+		recipe_key = "forge_bronze_pickaxe_head",
+		name = "Forge Bronze Pickaxe Head",
+		description = "Shape hot bronze into a pickaxe head. Enables mining higher-tier ores.",
+		icon_state = "pickaxe_head",
+		tier = "intermediate",
+		category = "smithing",
+		workstation_type = "forge",
+		inputs = list("bronze_ingot" = 1, "kindling" = 1),
+		outputs = list("bronze_pickaxe_head_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 2,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 55,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_bronze")
+	)
+	
+	KNOWLEDGE["smelt_copper"] = new /datum/recipe_entry(
+		recipe_key = "smelt_copper",
+		name = "Smelt Copper Ore",
+		description = "Heat copper ore in a campfire to extract raw copper. Excellent thermal conductor, used in bronzes and brasses.",
+		icon_state = "copper_ingot",
+		tier = "intermediate",
+		category = "smelting",
+		workstation_type = "fire",
+		inputs = list("copper_ore" = 2, "kindling" = 1),
+		outputs = list("copper_ingot" = 1),
+		requires_fire = TRUE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 40,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_ore"),
+		unlocks_recipes = list("smelt_bronze")
 	)
 	
 	// ========================================================================
