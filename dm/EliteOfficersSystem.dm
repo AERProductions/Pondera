@@ -68,6 +68,10 @@
 		command_radius = 10     // Tiles affected by officer presence
 		troops_commanded = 0    // Current troop count under command
 		
+		// Abilities
+		list/abilities          // Known abilities (ability IDs)
+		list/ability_cooldowns  // Ability ID -> last use time
+		
 		// Status
 		is_alive = 1            // 0 = dead, waiting for respawn
 		is_recruited = 0        // 0 = in recruitment, 1 = ready
@@ -77,6 +81,15 @@
 		battles_fought = 0      // Combat participation count
 		kills = 0               // Enemies defeated
 		loyalty = 100           // 0-100, affects defection risk
+		
+		// Combat stats (Phase 31+)
+		combat_tier = 1         // 1-5, affects ability damage
+		damage_vulnerability = 1.0  // Takes 1.0x damage by default
+		movement_speed = 1.0    // Movement multiplier
+		dodge_chance = 0        // Chance to dodge attacks
+		stunned = 0             // Stun duration
+		accuracy_penalty = 0    // Accuracy reduction
+		controlled_by = null    // Controlled by another officer
 
 /datum/elite_officer/New(class_type, quality=OFFICER_QUALITY_RECRUIT, name="")
 	src.officer_class = class_type

@@ -117,6 +117,7 @@
 #include "dm\MaterialRegistrySystem.dm"
 #include "dm\NPCGarrisonSystem.dm"
 #include "dm\EliteOfficersSystem.dm"
+#include "dm\OfficerAbilitiesSystem.dm"
 #include "dm\PvPRankingSystem.dm"
 #include "dm\RegionalConflictSystem.dm"
 #include "dm\SeasonalTerritoryEventsSystem.dm"

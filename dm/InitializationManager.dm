@@ -193,8 +193,9 @@ proc
 		spawn(428)  InitializeNPCGarrison()                // Phase 28: NPC garrison & auto-defense
 		spawn(429)  InitializeSiegeEvents()                // Phase 29: Siege events & dynamic warfare
 		spawn(430)  InitializeEliteOfficers()              // Phase 30: Elite officers & command system
+		spawn(431)  InitializeOfficerAbilities()           // Phase 31: Officer abilities & specialization
 		
-		spawn(431) RegisterInitComplete("economy")
+		spawn(432) RegisterInitComplete("economy")
 		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 7: QUALITY OF LIFE (Ticks 384-395)
