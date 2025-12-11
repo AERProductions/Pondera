@@ -31,38 +31,38 @@
 	var
 		// Identity
 		merchant_name = "Unknown Merchant"
-		merchant_type = "trader"                 // trader, blacksmith, herbalist, fisherman, scholar
-		merchant_id = null                       // Unique identifier
+		merchant_type = "trader"
+		merchant_id = null
 		
 		// Personality traits
-		personality = "fair"                     // fair, greedy, desperate
-		profit_margin = 1.0                      // 0.8=fair, 1.2=greedy, 1.5=very greedy
-		mood = 0                                 // -100 to +100 (affects trading willingness)
+		personality = "fair"
+		profit_margin = 1.0
+		mood = 0
 		
 		// Economic state
-		current_wealth = 0                       // Amount of Lucre merchant owns
-		starting_wealth = 0                      // Initial wealth (for reset)
-		inventory = list()                       // list of item_name = quantity
-		max_inventory_slots = 20                 // Maximum different items
-		max_inventory_per_item = 500             // Max quantity per item
+		current_wealth = 0
+		starting_wealth = 0
+		inventory = list()
+		max_inventory_slots = 20
+		max_inventory_per_item = 500
 		
 		// Trading preferences
-		list/prefers_buying = list()             // Items merchant wants to buy
-		list/prefers_selling = list()            // Items merchant wants to sell
-		list/specialty_items = list()            // High-profit items
+		list/prefers_buying = list()
+		list/prefers_selling = list()
+		list/specialty_items = list()
 		
 		// Trading state
-		last_trade_time = 0                      // When last trade happened
-		trading_cooldown = 30                    // Seconds between trades
-		total_trades = 0                         // Lifetime trades
-		total_wealth_traded = 0                  // Total wealth moved
+		last_trade_time = 0
+		trading_cooldown = 30
+		total_trades = 0
+		total_wealth_traded = 0
 		
 		// Relationships
-		list/player_relationships = list()       // player_name = relationship score (-100 to +100)
-		reputation = 0                           // Overall reputation (-100 to +100)
+		list/player_relationships = list()
+		reputation = 0
 		
 		// Reference to actual mob
-		mob/npcs/npc_ref = null                  // Reference to actual NPC object
+		mob/npcs/npc_ref = null
 
 /datum/npc_merchant/New(name, type, personality_type)
 	/**
@@ -72,20 +72,18 @@
 	merchant_type = type
 	personality = personality_type
 	merchant_id = "[name]_[world.time]"
-	
-	// Initialize personality-based traits
 	switch(personality)
 		if("fair")
-			profit_margin = 0.95                // Buys 95%, sells 105% of market
-			mood = 10                           // Starts in good mood
+			profit_margin = 0.95
+			mood = 10
 			
 		if("greedy")
-			profit_margin = 1.3                 // Buys 70%, sells 130% of market
-			mood = -20                          // Starts grumpy
+			profit_margin = 1.3
+			mood = -20
 			
 		if("desperate")
-			profit_margin = 0.8                 // Buys 120%, sells 80% of market
-			mood = 30                           // Starts eager to trade
+			profit_margin = 0.8
+			mood = 30
 	
 	// Initialize inventory lists
 	inventory = list()
@@ -93,19 +91,17 @@
 	prefers_selling = list()
 	specialty_items = list()
 	player_relationships = list()
-	
-	// Set baseline wealth based on personality
 	switch(personality)
 		if("fair")
-			current_wealth = 500                // Moderate wealth
+			current_wealth = 500
 			starting_wealth = 500
 			
 		if("greedy")
-			current_wealth = 1000               // Rich merchant
+			current_wealth = 1000
 			starting_wealth = 1000
 			
 		if("desperate")
-			current_wealth = 100                // Poor merchant
+			current_wealth = 100
 			starting_wealth = 100
 
 /proc/CreateMerchant(name, type, personality_type)
@@ -201,14 +197,14 @@
 	
 	switch(personality)
 		if("fair")
-			buy_price = market_price * 0.95    // Fair merchant pays 95% of market
+			buy_price = market_price * 0.95
 		if("greedy")
-			buy_price = market_price * 0.70    // Greedy merchant underpays
+			buy_price = market_price * 0.70
 		if("desperate")
-			buy_price = market_price * 1.20    // Desperate merchant overpays
+			buy_price = market_price * 1.20
 	
 	// Apply mood modifier
-	var/mood_mult = 1.0 + (mood / 200.0)  // ±50% based on mood
+	var/mood_mult = 1.0 + (mood / 200.0)
 	buy_price *= mood_mult
 	
 	return round(buy_price, 0.01)
@@ -226,11 +222,11 @@
 	
 	switch(personality)
 		if("fair")
-			sell_price = market_price * 1.05  // Fair merchant sells 105% of market
+			sell_price = market_price * 1.05
 		if("greedy")
-			sell_price = market_price * 1.30  // Greedy merchant overcharges
+			sell_price = market_price * 1.30
 		if("desperate")
-			sell_price = market_price * 0.80  // Desperate merchant undercharges
+			sell_price = market_price * 0.80
 	
 	// Apply mood modifier
 	var/mood_mult = 1.0 + (mood / 200.0)
@@ -268,7 +264,7 @@
 	 * Checks if merchant is available to trade (not on cooldown)
 	 * Returns: TRUE if ready, FALSE if cooldown active
 	 */
-	var/time_since_trade = (world.time - last_trade_time) / 10  // Convert to seconds
+	var/time_since_trade = (world.time - last_trade_time) / 10
 	return time_since_trade >= trading_cooldown
 
 /datum/npc_merchant/proc/SellToMerchant(mob/players/player, item_name, quantity)
@@ -301,8 +297,6 @@
 	// Update mood (just bought items = happy)
 	mood += 5
 	mood = clamp(mood, -100, 100)
-	
-	// Record relationship
 	if(player)
 		UpdatePlayerRelationship(player.key, 2)  // +2 relationship
 		world.log << "MERCHANT: [merchant_name] bought [quantity] [item_name] from [player.key] for [total_payment] lucre"
@@ -345,8 +339,6 @@
 	// Update mood (just sold items = happy)
 	mood += 3
 	mood = clamp(mood, -100, 100)
-	
-	// Record relationship
 	UpdatePlayerRelationship(player.key, 1)  // +1 relationship
 	world.log << "MERCHANT: [merchant_name] sold [quantity] [item_name] to [player.key] for [total_cost] lucre"
 	
@@ -385,8 +377,6 @@
 	 */
 	mood += change
 	mood = clamp(mood, -100, 100)
-	
-	// Seasonal mood shifts
 	switch(global.season)
 		if("Spring")
 			mood += 5                           // Spring: optimistic
@@ -468,7 +458,7 @@
 	 */
 	for(var/item_name in prefers_selling)
 		// Restock based on selling preferences
-		var/amount = rand(10, 50)  // Random amount
+		var/amount = rand(10, 50)
 		
 		// Don't exceed inventory limits
 		if(!CanCarryMore()) break
@@ -491,12 +481,12 @@
 	 * Reduces wealth over time (operational costs)
 	 * Called daily
 	 */
-	var/daily_cost = starting_wealth * 0.05  // 5% of starting wealth per day
+	var/daily_cost = starting_wealth * 0.05
 	current_wealth -= daily_cost
 	
 	// Prevent bankruptcy
 	if(current_wealth < 0)
-		current_wealth = starting_wealth * 0.5  // Reset to half wealth
+		current_wealth = starting_wealth * 0.5
 		mood -= 30  // Very grumpy
 		reputation -= 10
 
@@ -628,7 +618,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/maintenance_interval = 2400  // ~1 game day
+	var/maintenance_interval = 2400
 	
 	while(1)
 		sleep(maintenance_interval)

@@ -182,7 +182,7 @@ proc/UpdateObjectSoundVolume(soundmob/sound, new_volume = 50)
 	if(sound.listeners)
 		for(var/mob/players/mob in sound.listeners)
 			if(mob:_listening_soundmobs[sound])
-				var/tmp/s = mob:_listening_soundmobs[sound]
+				var/s = mob:_listening_soundmobs[sound]
 				s:volume = new_volume
 
 /**

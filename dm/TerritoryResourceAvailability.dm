@@ -30,32 +30,30 @@
 		// Territory identification
 		territory_name = "Unknown Territory"
 		territory_id = null
-		deed_owner = null                    // Player/faction who owns territory
+		deed_owner = null
 		
 		// Resource definition
-		primary_resource = "stone"           // Main resource this territory produces
-		list/secondary_resources = list()    // Other resources available here
-		list/restricted_resources = list()   // Owner-only resources
+		primary_resource = "stone"
+		list/secondary_resources = list()
+		list/restricted_resources = list()
 		
 		// Supply control
-		unclaimed_base_price = 1.0           // Price when nobody owns it
-		claimed_multiplier = 1.0             // 0.7-1.5x when owned (affects all prices)
-		supply_capacity = 100                // Max units available per day
-		current_supply = 0                   // Units available now
-		respawn_rate = 10                    // Units restored per hour
-		harvested_today = 0                  // Track daily harvesting
+		unclaimed_base_price = 1.0
+		claimed_multiplier = 1.0
+		supply_capacity = 100
+		current_supply = 0
+		respawn_rate = 10
+		harvested_today = 0
 		
 		// Taxation
-		controller_tax_rate = 0.1            // 10% of trades go to owner
-		owner_tax_revenue = 0                // Accumulated tax
-		tax_collection_interval = 100        // Ticks between collection
+		controller_tax_rate = 0.1
+		owner_tax_revenue = 0
+		tax_collection_interval = 100
 		last_tax_collection = 0
-		
-		// Territory state
-		is_contested = FALSE                 // TRUE if multiple claims or raid
-		contested_multiplier = 0.5           // Contested = half supply
-		last_contested_time = 0              // When contest started
-		contest_duration = 6000              // 5 minutes real time
+		is_contested = FALSE
+		contested_multiplier = 0.5
+		last_contested_time = 0
+		contest_duration = 6000
 
 /proc/CreateTerritoryResource(territory_name, primary_resource, capacity = 100)
 	/**
@@ -69,7 +67,7 @@
 	territory.territory_id = "[territory_name]_[world.time]"
 	territory.primary_resource = primary_resource
 	territory.supply_capacity = capacity
-	territory.current_supply = capacity / 2  // Start at half capacity
+	territory.current_supply = capacity / 2
 	territory.unclaimed_base_price = GetCommodityPrice(primary_resource)
 	
 	return territory
@@ -135,13 +133,9 @@
 	
 	var/market_price = GetCommodityPrice(commodity_name)
 	if(market_price <= 0) market_price = 1.0
-	
-	// Base multiplier from owner (0.7-1.5)
 	var/multiplier = 1.0
 	if(IsOwned())
 		multiplier = claimed_multiplier
-	
-	// Contest reduces supply (and raises prices)
 	if(is_contested)
 		multiplier *= contested_multiplier
 		multiplier *= 1.5  // Contested = 50% more expensive
@@ -157,14 +151,9 @@
 	if(!commodity_name) return 0
 	
 	var/available = current_supply
-	
-	// Contested territories have reduced supply
 	if(is_contested)
 		available = round(available * contested_multiplier)
-	
-	// Owner can limit supply (price control)
 	if(IsOwned() && commodity_name == primary_resource)
-		// Owner can artificially limit supply to drive prices up
 		// Or increase supply to drive competitors out
 		// For now, multiplier affects it
 		available = round(available * claimed_multiplier)
@@ -188,8 +177,6 @@
 	// Check available supply
 	var/available = GetMaxResourceAvailable(commodity_name)
 	amount = min(amount, available)
-	
-	// Execute harvest
 	current_supply -= amount
 	harvested_today += amount
 	
@@ -211,7 +198,7 @@
 	 */
 	// Respawn based on rate
 	current_supply = min(current_supply + respawn_rate, supply_capacity)
-	harvested_today = max(0, harvested_today - respawn_rate)  // Daily harvest decays
+	harvested_today = max(0, harvested_today - respawn_rate)
 	
 	// Respawn bonus for owned territories (owner invested)
 	if(IsOwned())
@@ -294,8 +281,6 @@
 	 * Owner sets tax rate (0.0-0.2, 0-20%)
 	 */
 	controller_tax_rate = clamp(rate, 0.0, 0.2)
-
-// ============================================================================
 // MERCHANT ACTIVITY TAXATION
 // ============================================================================
 
@@ -306,7 +291,7 @@
 	 * Called when merchant buys/sells items
 	 * Framework: Implement with territory registry system
 	 */
-	var/tax = trade_price * quantity * 0.1  // Default 10% tax
+	var/tax = trade_price * quantity * 0.1
 	world.log << "TAX: Territory [territory_name] gained [tax] lucre from [item_name] trade"
 	return tax
 
@@ -338,18 +323,12 @@
 	var/datum/territory_resource_impact/stone_quarry = CreateTerritoryResource("Stone Quarry", "Stone", 200)
 	if(stone_quarry)
 		stone_quarry.secondary_resources = list("Flint", "Clay")
-	
-	// Iron mines
 	var/datum/territory_resource_impact/iron_mine = CreateTerritoryResource("Iron Mine", "Iron Ore", 150)
 	if(iron_mine)
 		iron_mine.secondary_resources = list("Iron Ingot", "Coal")
-	
-	// Forests
 	var/datum/territory_resource_impact/forest = CreateTerritoryResource("Ancient Forest", "Wood", 180)
 	if(forest)
 		forest.secondary_resources = list("Branches", "Bark", "Herbs")
-	
-	// Fishing grounds
 	var/datum/territory_resource_impact/fishing = CreateTerritoryResource("Fishing Grounds", "Fish", 120)
 	if(fishing)
 		fishing.secondary_resources = list("Fish Oil", "Pearls")
@@ -365,9 +344,9 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/respawn_interval = 360   // ~1 hour game time
-	var/daily_interval = 2400    // ~1 game day
-	var/tax_interval = 100       // Frequent collection
+	var/respawn_interval = 360
+	var/daily_interval = 2400
+	var/tax_interval = 100
 	
 	var/last_respawn = world.time
 	var/last_daily = world.time
@@ -379,17 +358,14 @@
 		// Respawn supply hourly
 		if(world.time - last_respawn >= respawn_interval)
 			last_respawn = world.time
-			// Would iterate through all territories and respawn
 		
 		// Reset daily limits
 		if(world.time - last_daily >= daily_interval)
 			last_daily = world.time
-			// Would iterate through all territories and refresh
 		
 		// Collect taxes regularly
 		if(world.time - last_tax >= tax_interval)
 			last_tax = world.time
-			// Would collect taxes from all territories
 
 /proc/GetTerritoryByName(territory_name)
 	/**
@@ -408,7 +384,6 @@
 	 * Returns list of territories
 	 */
 	var/list/owned_territories = list()
-	// This would search all territories for matching deed_owner
 	// For now, returns empty list - framework for future
 	return owned_territories
 
@@ -484,14 +459,10 @@
 	territory.claim_date = world.time
 	territory.maintenance_paid = 1
 	territory.durability = 100
-	
-	// Reset all structures
 	for(var/datum/defense_structure/s in structures)
 		s.current_hp = s.max_hp
 		s.is_destroyed = 0
 		s.is_damaged = 0
-	
-	// Add to attacker's territories
 	if(!territories_by_owner[attacker.key])
 		territories_by_owner[attacker.key] = list()
 	territories_by_owner[attacker.key] += territory

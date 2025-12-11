@@ -13,35 +13,35 @@
 	 */
 	var
 		commodity_name = "Unknown"
-		commodity_type = "material"     // material, weapon, armor, tool, ingredient
-		base_price = 1.0                // Starting price in lucre
-		current_price = 1.0             // What it costs now
+		commodity_type = "material"
+		base_price = 1.0
+		current_price = 1.0
 		
 		// Supply/demand tracking
-		current_supply = 0              // Amount available on market
-		current_demand = 0              // How much players want
-		supply_history = list()         // Last 24 prices for trends
-		price_history = list()          // Track price changes
+		current_supply = 0
+		current_demand = 0
+		supply_history = list()
+		price_history = list()
 		
 		// Market dynamics
-		price_elasticity = 1.0          // How sensitive to supply changes (0.5-2.0)
-		price_volatility = 0.1          // How much price can swing (0.05-0.5)
-		min_price = 0.5                 // Floor price (can't go below)
-		max_price = 10.0                // Ceiling price (can't go above)
+		price_elasticity = 1.0
+		price_volatility = 0.1
+		min_price = 0.5
+		max_price = 10.0
 		
 		// Tech tree tier (affects base price)
-		tech_tier = 1                   // 1=foundational, 5=advanced
-		craft_difficulty = 1            // 1-10 scale
+		tech_tier = 1
+		craft_difficulty = 1
 		
 		// Trading restrictions
-		tradable = 1                    // Can be traded between players
-		kingdom_tradable = 1            // Can kingdoms trade this?
-		sellable = 1                    // Can sell to NPCs?
+		tradable = 1
+		kingdom_tradable = 1
+		sellable = 1
 		
 		// Economics
-		creation_cost = 0               // How much it costs to make
-		creation_time = 0               // How long to craft
-		consumption_rate = 0            // How fast players use it
+		creation_cost = 0
+		creation_time = 0
+		consumption_rate = 0
 
 /datum/market_price_engine
 	/**
@@ -49,24 +49,24 @@
 	 * Global price calculation and adjustment system
 	 */
 	var
-		list/commodities = list()       // All tracked commodities
+		list/commodities = list()
 		
 		// Global economic state
-		inflation_rate = 1.0            // Global price multiplier (1.0 = normal)
-		deflation_rate = 1.0            // Global price reduction
-		economic_event = null           // Current event affecting market (war, plague, etc.)
+		inflation_rate = 1.0
+		deflation_rate = 1.0
+		economic_event = null
 		
 		// Market trends
-		list/price_trends = list()      // Items rising/falling in price
-		list/supply_trends = list()     // Items with increasing/decreasing supply
+		list/price_trends = list()
+		list/supply_trends = list()
 		
 		// Thresholds for price changes
-		supply_surplus_threshold = 1.5  // Supply 1.5x demand = price drops
-		supply_shortage_threshold = 0.7 // Supply 0.7x demand = price rises
+		supply_surplus_threshold = 1.5
+		supply_shortage_threshold = 0.7
 		
 		// Market volatility settings
-		volatility_multiplier = 1.0     // Global volatility control
-		update_interval = 100           // Ticks between price updates
+		volatility_multiplier = 1.0
+		update_interval = 100
 		last_update = 0
 
 /datum/market_transaction_record
@@ -83,8 +83,8 @@
 		timestamp = 0
 		buyer = ""
 		seller = ""
-		transaction_type = "trade"      // trade, npc_sell, npc_buy, kingdom_trade
-		market_conditions = ""          // Description of market state at time
+		transaction_type = "trade"
+		market_conditions = ""
 
 // ============================================================================
 // GLOBAL MARKET ENGINE
@@ -102,8 +102,6 @@ var
 	 * Sets up dynamic pricing system on world boot
 	 */
 	market_engine = new /datum/market_price_engine()
-	
-	// Create base commodities (from tech tree foundational -> advanced)
 	InitializeBaseCommodities()
 	
 	// Start market update loop
@@ -187,12 +185,12 @@ var
 	commodity.current_price = base_price
 	commodity.tech_tier = tier
 	commodity.price_elasticity = elasticity
-	commodity.craft_difficulty = tier  // Difficulty scales with tier
+	commodity.craft_difficulty = tier
 	
 	// Initialize supply based on tier (foundational more abundant)
-	var/base_supply = 100 * (6 - tier)  // Tier 1 = 500, Tier 5 = 100
+	var/base_supply = 100 * (6 - tier)
 	commodity.current_supply = base_supply
-	commodity.current_demand = base_supply * 0.8  // Demand starts at 80% of supply
+	commodity.current_demand = base_supply * 0.8
 	
 	market_engine.commodities[name] = commodity
 	market_commodities[name] = commodity
@@ -224,7 +222,7 @@ var
 	if(!commodity) return
 	
 	commodity.current_supply += amount_change
-	commodity.current_supply = max(0, commodity.current_supply)  // Can't be negative
+	commodity.current_supply = max(0, commodity.current_supply)
 	
 	// Trigger price update
 	RecalculateCommodityPrice(commodity_name)
@@ -242,8 +240,6 @@ var
 	
 	commodity.current_demand += amount_change
 	commodity.current_demand = max(0, commodity.current_demand)
-	
-	// Trigger price update
 	RecalculateCommodityPrice(commodity_name)
 
 /proc/RecalculateCommodityPrice(commodity_name)
@@ -257,13 +253,9 @@ var
 	if(!commodity) return
 	
 	var/old_price = commodity.current_price
-	
-	// Calculate supply/demand ratio
 	var/supply_ratio = 1.0
 	if(commodity.current_demand > 0)
 		supply_ratio = commodity.current_supply / commodity.current_demand
-	
-	// Price adjustment based on ratio
 	var/price_multiplier = 1.0
 	
 	if(supply_ratio > market_engine.supply_surplus_threshold)
@@ -272,8 +264,6 @@ var
 	else if(supply_ratio < market_engine.supply_shortage_threshold)
 		// Shortage: price rises
 		price_multiplier = 1.05 + ((market_engine.supply_shortage_threshold - supply_ratio) * 0.08 * commodity.price_elasticity)
-	
-	// Apply global economic multipliers
 	price_multiplier *= market_engine.inflation_rate
 	price_multiplier *= market_engine.deflation_rate
 	
@@ -283,13 +273,9 @@ var
 	
 	// Calculate new price
 	var/new_price = commodity.base_price * price_multiplier
-	
-	// Clamp price to min/max
 	new_price = max(commodity.min_price, min(commodity.max_price, new_price))
 	
 	commodity.current_price = new_price
-	
-	// Record price history (keep last 50 prices)
 	commodity.price_history += new_price
 	var/hist_len = length(commodity.price_history)
 	if(hist_len > 50)
@@ -297,8 +283,6 @@ var
 		for(var/i = 2 to hist_len)
 			new_history += commodity.price_history[i]
 		commodity.price_history = new_history
-	
-	// Log significant price changes (>20%)
 	var/percent_change = abs((new_price - old_price) / old_price) * 100
 	if(percent_change > 20)
 		world.log << "MARKET_PRICE: [commodity_name] changed [percent_change]% (old: [old_price], new: [new_price])"
@@ -431,8 +415,6 @@ var
 	if(unit_price <= 0) return 0
 	
 	var/total = unit_price * quantity
-	
-	// Bulk discount (every 10 units = 1% discount, max 10% discount)
 	var/bulk_discount = min(0.10, (quantity / 10) * 0.01)
 	total *= (1.0 - bulk_discount)
 	
@@ -455,8 +437,6 @@ var
 	record.buyer = buyer
 	record.seller = seller
 	record.transaction_type = type
-	
-	// Capture market conditions at time of transaction
 	var/trend = GetCommodityTrend(commodity_name)
 	record.market_conditions = "[trend] prices"
 	
@@ -487,16 +467,12 @@ var
 	
 	for(var/commodity_name in market_engine.commodities)
 		var/datum/market_commodity/commodity = market_engine.commodities[commodity_name]
-		
-		// Market value = supply * price
 		analytics["total_market_value"] += commodity.current_supply * commodity.current_price
 		
 		// Track most expensive
 		if(commodity.current_price > max_price)
 			max_price = commodity.current_price
 			max_expensive = commodity_name
-		
-		// Track volatility
 		total_volatility += commodity.price_volatility
 	
 	analytics["most_expensive"] = max_expensive

@@ -209,6 +209,11 @@ mob/players
 		
 		// CRASH RECOVERY: Session tracking for crash detection
 		online = FALSE  // Marked TRUE on login, FALSE on logout/crash detection
+		
+		// NPC INTERACTION: Targeting system for macro key-based interaction
+		targeted_npc = null  // Current targeted NPC mob
+		targeted_npc_ckey = ""  // Cached NPC ckey for persistence
+		
 		smiexp = 0
 		smeexp = 0
 		buildexp = 0

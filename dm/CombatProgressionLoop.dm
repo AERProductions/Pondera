@@ -33,16 +33,16 @@
 	var
 		// Identity
 		player_ref = null
-		skill_name = ""              // Which skill gains experience
+		skill_name = ""
 		
 		// Experience tracking
 		current_exp = 0
-		exp_to_next_level = 100     // Experience needed for next rank
-		total_exp = 0               // Lifetime experience
+		exp_to_next_level = 100
+		total_exp = 0
 		
 		// Multipliers
-		exp_multiplier = 1.0        // Boost from items/buffs
-		difficulty_multiplier = 1.0 // Higher difficulty = more exp
+		exp_multiplier = 1.0
+		difficulty_multiplier = 1.0
 
 /datum/combat_experience/New(skill)
 	..()
@@ -92,16 +92,10 @@
 	
 	player.vars["combat_exp"] = combat_exp
 	var/datum/combat_experience/exp_data = combat_exp[skill_name]
-	
-	// Calculate experience gained
 	// Base: 1 exp per 2 damage dealt
 	var/exp_gained = ceil(damage_dealt / 2.0)
-	
-	// Apply multipliers
 	exp_gained *= exp_data.exp_multiplier
 	exp_gained = ceil(exp_gained * exp_data.difficulty_multiplier)
-	
-	// Add to tracker
 	exp_data.current_exp += exp_gained
 	exp_data.total_exp += exp_gained
 	
@@ -132,8 +126,6 @@
 	player << "<font color=#FFFF00>========================================</font>"
 	player << "<font color=#FFFF00>RANK UP: [skill_name] Level [new_rank]!</font>"
 	player << "<font color=#FFFF00>========================================</font>"
-	
-	// Unlock attacks based on skill
 	UnlockAttackBySkill(player, skill_name, new_rank)
 	
 	// Update equipment crafting gates
@@ -162,8 +154,6 @@
 	
 	var/list/unlocked_materials = player.vars["unlocked_materials"] || list()
 	var/continent = player.vars["current_continent"] || "story"
-	
-	// Get material registry
 	var/datum/continent_material_registry/registry = material_registries[continent]
 	if(!registry)
 		return FALSE
@@ -220,13 +210,9 @@
 		state.max_stamina += (10 * rank)
 		state.current_stamina = state.max_stamina
 		player << "<font color=#00FF00>Max Stamina +[10 * rank]</font>"
-	
-	// Lucre bonus (per rank: 50 * rank)
 	var/lucre_bonus = 50 * rank
 	player.lucre += lucre_bonus
 	player << "<font color=#00FF00>Lucre Bonus +[lucre_bonus]</font>"
-	
-	// Equipment quality bonus (higher rank = better crafted gear)
 	player.vars["equipment_quality_bonus"] = (rank - 1) * 5  // +5% per rank
 	
 	return TRUE
@@ -286,8 +272,6 @@
 	equipment.stats.damage_modifier = equipment.stats.quality_percent / 100.0
 	equipment.stats.armor_modifier = equipment.stats.quality_percent / 100.0
 	equipment.stats.durability_modifier = equipment.stats.quality_percent / 100.0
-	
-	// Recalculate stats
 	equipment.current_damage = equipment.stats.base_damage * equipment.stats.damage_modifier
 	equipment.current_armor = equipment.stats.armor_class * equipment.stats.armor_modifier
 	equipment.current_durability = equipment.stats.durability_max * equipment.stats.durability_modifier
@@ -344,12 +328,10 @@
 	var/mob/players/player = attacker
 	var/attacker_rank = GetRankLevel(player, "combat")
 	
-	var/defender_rank = 1  // Framework: NPC ranks
+	var/defender_rank = 1
 	if(istype(defender, /mob/players))
 		var/mob/players/pdef = defender
 		defender_rank = GetRankLevel(pdef, "combat")
-	
-	// Multiplier logic:
 	// - Fighting weaker enemies: 0.5x exp (capped at 50%)
 	// - Fighting equal enemies: 1.0x exp
 	// - Fighting stronger enemies: 1.5x exp (per rank difference)
@@ -411,7 +393,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/process_interval = 50  // Check every 50 ticks
+	var/process_interval = 50
 	var/last_process = world.time
 	
 	while(1)
@@ -419,8 +401,6 @@
 		
 		if(world.time - last_process >= process_interval)
 			last_process = world.time
-			
-			// Iterate all players
 			for(var/mob/players/player in world)
 				if(!player)
 					continue
@@ -501,8 +481,6 @@
 	
 	player.vars["combat_exp"] = combat_exp
 	var/datum/combat_experience/exp_data = combat_exp[skill_name]
-	
-	// Add experience
 	exp_data.current_exp += amount
 	
 	// Check for rank-up

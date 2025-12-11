@@ -3,16 +3,7 @@
 // Replaces scattered needsfiled/needssharpening/needspolishing flags with unified state machine
 // Supports File, Sharpen, and Polish stages with success probability and progression
 
-// Refinement stage constants
-#define REFINE_STAGE_UNREFINED 0       // Just smithed, needs filing
-#define REFINE_STAGE_FILED 1           // Filed, ready for sharpening
-#define REFINE_STAGE_SHARPENED 2       // Sharpened, ready for polishing
-#define REFINE_STAGE_POLISHED 3        // Fully refined, complete
-
-// Refinement tool types
-#define REFINE_TOOL_FILE 1
-#define REFINE_TOOL_WHETSTONE 2
-#define REFINE_TOOL_POLISH_CLOTH 3
+// REFINE_STAGE_* and REFINE_TOOL_* constants are now centralized in !defines.dm
 
 // Craftable item base class - all smithed items inherit from this
 obj/items/crafting/refined

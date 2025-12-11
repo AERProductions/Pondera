@@ -8,12 +8,6 @@
 #define NPC_STATE_SOCIALIZING "socializing"
 #define NPC_STATE_IDLE "idle"
 
-// Season constants (match TimeAdvancementSystem.dm)
-#define SEASON_SPRING "Spring"
-#define SEASON_SUMMER "Summer"
-#define SEASON_AUTUMN "Autumn"
-#define SEASON_WINTER "Winter"
-
 // NPC Shop Hours (in 12-hour format with AM/PM)
 var/list/NPC_SHOP_HOURS = list(
 	"Blacksmith" = list("open_hour" = 7, "open_ampm" = "am", "close_hour" = 6, "close_ampm" = "pm"),

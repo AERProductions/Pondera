@@ -291,9 +291,6 @@ proc/InitializeSandboxRecipeChains()
 	if(!player || !recipe)
 		return
 	
-	// Apply quality modifier (future: skill-based quality)
-	var/quality = 1.0
-	
 	// Grant outputs
 	for(var/item_name in recipe.outputs)
 		var/quantity = recipe.outputs[item_name]

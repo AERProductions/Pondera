@@ -31,33 +31,33 @@
 	 */
 	var
 		// Item identification
-		item_name = ""               // "Iron Sword", "Steel Armor", etc.
-		item_type = ""               // "weapon", "armor", "shield", "accessory"
-		material_name = ""           // Material this uses
-		continent_name = ""          // Crafted in which continent
+		item_name = ""
+		item_type = ""
+		material_name = ""
+		continent_name = ""
 		
 		// Crafting info
-		required_level = 1           // Minimum crafting level
-		crafting_skill = "smithing"  // Which skill unlocks this
+		required_level = 1
+		crafting_skill = "smithing"
 		
 		// Base stats (from material)
-		base_damage = 0              // Weapon damage
-		armor_class = 0              // Armor AC value
-		durability_max = 100         // Max durability points
-		durability_current = 100     // Current durability
+		base_damage = 0
+		armor_class = 0
+		durability_max = 100
+		durability_current = 100
 		
 		// Quality modifiers
-		quality_percent = 100        // 80-120% from crafting skill
-		damage_modifier = 1.0        // Adjusted by quality
-		armor_modifier = 1.0         // Adjusted by quality
-		durability_modifier = 1.0    // Adjusted by quality
+		quality_percent = 100
+		damage_modifier = 1.0
+		armor_modifier = 1.0
+		durability_modifier = 1.0
 		
 		// Weight & encumbrance
-		weight = 0                   // Affects movement speed
+		weight = 0
 		
 		// Cosmetics
-		icon_state = ""              // Visual representation
-		description = ""             // Item description
+		icon_state = ""
+		description = ""
 
 // ============================================================================
 // EQUIPMENT ITEM BASE CLASS
@@ -75,26 +75,24 @@
 	var
 		// Equipment stats
 		datum/equipment_stats/stats = null
-		
-		// Combat variables
-		current_damage = 0           // Actual damage (base * quality)
-		current_armor = 0            // Actual AC (base * quality)
-		current_durability = 100     // Current condition (0-100)
-		durability_threshold = 25    // Below this = degraded performance
+		current_damage = 0
+		current_armor = 0
+		current_durability = 100
+		durability_threshold = 25
 		
 		// Equipment binding
 		is_equipped = FALSE
-		equipped_by = null           // /mob/player reference
+		equipped_by = null
 		
 		// Durability tracking
-		hits_dealt = 0               // Combat actions taken
-		hits_taken = 0               // Times damaged
-		repairs_count = 0            // Times repaired
-		last_repair_time = 0         // When last repaired
+		hits_dealt = 0
+		hits_taken = 0
+		repairs_count = 0
+		last_repair_time = 0
 		
 		// Lifecycle
-		crafted_time = 0             // When created
-		crafted_by = ""              // Who crafted it
+		crafted_time = 0
+		crafted_by = ""
 
 /obj/items/equipment/New()
 	..()
@@ -163,8 +161,8 @@
 	desc = "A weapon forged from materials"
 	
 	var
-		weapon_type = "sword"        // sword, axe, hammer, bow, dagger
-		crit_chance = 0              // 0-100% critical hit rate
+		weapon_type = "sword"
+		crit_chance = 0
 
 /proc/CraftWeapon(material_name, continent_name, crafter_level)
 	/**
@@ -187,19 +185,13 @@
 	weapon.stats.item_name = weapon.name
 	weapon.stats.material_name = material_name
 	weapon.stats.continent_name = continent_name
-	
-	// Set combat stats from material
 	weapon.stats.base_damage = material.base_damage
 	weapon.stats.durability_max = material.durability
 	weapon.stats.weight = material.weight || 5
-	
-	// Apply quality modifier from crafter skill
 	var/quality = CalculateEquipmentQuality(crafter_level)
 	weapon.stats.quality_percent = quality
 	weapon.stats.damage_modifier = quality / 100.0
 	weapon.stats.durability_modifier = quality / 100.0
-	
-	// Set actual stats
 	weapon.current_damage = weapon.stats.base_damage * weapon.stats.damage_modifier
 	weapon.current_durability = weapon.stats.durability_max * weapon.stats.durability_modifier
 	
@@ -217,8 +209,6 @@
 	// Base 100% at level 1
 	// +4% per level (so level 5 = 116%)
 	var/quality = 100 + ((crafter_level - 1) * 4)
-	
-	// Cap at 120%
 	if(quality > 120)
 		quality = 120
 	
@@ -237,9 +227,9 @@
 	desc = "Protective armor forged from materials"
 	
 	var
-		armor_type = "plate"         // plate, leather, cloth, scale
-		coverage = 0                 // % body coverage (20-100)
-		encumbrance = 0              // Movement speed penalty (1-20)
+		armor_type = "plate"
+		coverage = 0
+		encumbrance = 0
 
 /proc/CraftArmor(material_name, continent_name, crafter_level)
 	/**
@@ -262,19 +252,15 @@
 	armor.stats.item_name = armor.name
 	armor.stats.material_name = material_name
 	armor.stats.continent_name = continent_name
-	
-	// Set defense stats from material
 	armor.stats.armor_class = material.armor_ac
-	armor.stats.durability_max = material.durability * 1.5  // Armor more durable
-	armor.stats.weight = (material.weight || 5) * 2  // Armor heavier
+	armor.stats.durability_max = material.durability * 1.5
+	armor.stats.weight = (material.weight || 5) * 2
 	
 	// Apply quality modifier from crafter skill
 	var/quality = CalculateEquipmentQuality(crafter_level)
 	armor.stats.quality_percent = quality
 	armor.stats.armor_modifier = quality / 100.0
 	armor.stats.durability_modifier = quality / 100.0
-	
-	// Set actual stats
 	armor.current_armor = armor.stats.armor_class * armor.stats.armor_modifier
 	armor.current_durability = armor.stats.durability_max * armor.stats.durability_modifier
 	
@@ -297,8 +283,6 @@
 		return FALSE
 	
 	var/durability_percent = (item.current_durability / item.stats.durability_max) * 100
-	
-	// Apply performance penalties
 	switch(durability_percent)
 		if(75 to 100)
 			// Perfect condition
@@ -338,8 +322,6 @@
 	
 	if(item.current_durability < 0)
 		item.current_durability = 0
-	
-	// Rescan for degradation
 	DurabilityScan(item)
 	
 	item.hits_taken++
@@ -361,8 +343,6 @@
 	item.current_durability = item.stats.durability_max
 	item.repairs_count++
 	item.last_repair_time = world.time
-	
-	// Rescan stats
 	DurabilityScan(item)
 	
 	world.log << "REPAIR: [item.name] repaired to [item.stats.durability_max] durability"
@@ -405,8 +385,6 @@
 		return 0
 	
 	var/total_damage = 0
-	
-	// Check for equipped weapons (would integrate with CentralizedEquipmentSystem)
 	// For now: framework ready
 	// TODO: Query equipped weapons from character equipment system
 	
@@ -423,8 +401,6 @@
 		return 0
 	
 	var/total_armor = 0
-	
-	// Check for equipped armor (would integrate with CentralizedEquipmentSystem)
 	// For now: framework ready
 	// TODO: Query equipped armor from character equipment system
 	
@@ -530,13 +506,9 @@
 	
 	// Get attacker's equipped weapon damage
 	var/weapon_damage = GetEquipmentDamage(attacker)
-	
-	// Get defender's equipped armor AC
 	var/armor_defense = GetEquipmentArmor(defender)
-	
-	// Calculate modified damage
 	var/total_damage = base_damage + weapon_damage
-	total_damage = total_damage * (100 - armor_defense) / 100.0  // Armor reduces damage %
+	total_damage = total_damage * (100 - armor_defense) / 100.0
 	
 	// Apply to defender (framework - actual integration deferred)
 	// Would modify defender HP based on type
@@ -555,7 +527,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/process_interval = 100  // Check every 100 ticks
+	var/process_interval = 100
 	var/last_process = world.time
 	
 	while(1)
@@ -563,8 +535,6 @@
 		
 		if(world.time - last_process >= process_interval)
 			last_process = world.time
-			
-			// Framework: Would iterate all equipped items
 			// Check durability thresholds
 			// Send warnings to players whose gear is degraded
 			// Would calculate repair costs

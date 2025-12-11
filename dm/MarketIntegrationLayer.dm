@@ -34,26 +34,22 @@
 	 */
 	var
 		timestamp = 0
-		
-		// Commodity tracking
-		list/commodity_prices = list()     // commodity_name -> current_price
-		list/commodity_supplies = list()   // commodity_name -> available_units
-		list/commodity_demands = list()    // commodity_name -> demanded_units
-		list/commodity_trends = list()     // commodity_name -> price_trend (-1.0 to +1.0)
+		list/commodity_prices = list()
+		list/commodity_supplies = list()
+		list/commodity_demands = list()
+		list/commodity_trends = list()
 		
 		// Market health
-		market_sentiment = 0               // -100 to +100 (bearish to bullish)
-		volatility_index = 0.1             // 0.0-1.0 price swing intensity
-		active_crises = 0                  // Number of active economic crises
+		market_sentiment = 0
+		volatility_index = 0.1
+		active_crises = 0
 		
 		// Activity metrics
 		total_trades = 0
 		total_volume = 0
 		player_trades = 0
 		merchant_trades = 0
-		
-		// Territory impact
-		controlled_supply = 0              // % of supply under territory control
+		controlled_supply = 0
 		taxation_collected = 0
 
 /proc/GetMarketState()
@@ -65,8 +61,6 @@
 	var/datum/market_state/state = new /datum/market_state()
 	
 	state.timestamp = world.time
-	
-	// Would aggregate from all systems:
 	// - Enhanced pricing system (prices)
 	// - Supply/demand system (curves, sentiment, volatility)
 	// - Territory system (controlled supply)
@@ -300,8 +294,6 @@
 	// Find cheapest source (NPC, trading post, territory)
 	// Find most expensive buyer
 	// Profit = (expensive - cheap) * expected_volume
-	
-	// If profit > threshold:
 	// - Notify players of opportunity (optional)
 	// - Allow speculators to exploit
 	// - NPCs eventually notice and adjust prices
@@ -428,7 +420,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/sync_interval = 100  // Every 100 ticks (~2.5 seconds)
+	var/sync_interval = 100
 	var/last_sync = world.time
 	
 	while(1)
@@ -436,8 +428,6 @@
 		
 		if(world.time - last_sync >= sync_interval)
 			last_sync = world.time
-			
-			// Would perform:
 			// UpdateMarketPrices()
 			// SyncNPCMerchantWithMarket() for each NPC
 			// CheckForArbitrage() for each commodity
@@ -453,7 +443,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/check_interval = 200  // Every 200 ticks (~5 seconds)
+	var/check_interval = 200
 	var/last_check = world.time
 	
 	while(1)
@@ -461,8 +451,6 @@
 		
 		if(world.time - last_check >= check_interval)
 			last_check = world.time
-			
-			// Would check:
 			// GetActiveCrises() list
 			// For each crisis:
 			//   PropagateEconomicCrisis(crisis)
@@ -478,7 +466,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/check_interval = 500  // Every 500 ticks (~12 seconds)
+	var/check_interval = 500
 	var/last_check = world.time
 	
 	while(1)
@@ -486,8 +474,6 @@
 		
 		if(world.time - last_check >= check_interval)
 			last_check = world.time
-			
-			// Would check:
 			// CheckForArbitrage() for each commodity
 			// CheckForMonopoly() for each commodity
 			// Detect unusual trading patterns
@@ -518,7 +504,6 @@
 	 */
 	
 	var/list/history = list()
-	// Would return last N snapshots
 	return history
 
 /proc/AnalyzeMarketTrend(commodity_name, time_window = 1000)

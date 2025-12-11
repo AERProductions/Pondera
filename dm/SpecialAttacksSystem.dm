@@ -31,30 +31,30 @@
 	 */
 	var
 		// Identification
-		action_name = ""             // "Slash", "Thrust", "Power Attack", etc.
-		action_type = ""             // "melee", "ranged", "magic"
-		weapon_requirement = ""      // Type of weapon needed ("sword", "axe", "", etc.)
+		action_name = ""
+		action_type = ""
+		weapon_requirement = ""
 		
 		// Resource costs
-		stamina_cost = 0             // Stamina consumed
-		mana_cost = 0                // Mana consumed (for magic)
-		lucre_cost = 0               // Lucre cost to unlock
+		stamina_cost = 0
+		mana_cost = 0
+		lucre_cost = 0
 		
 		// Cooldown
-		cooldown_ticks = 0           // Ticks before can use again
+		cooldown_ticks = 0
 		
 		// Damage & effects
-		base_damage_multiplier = 1.0 // % of weapon damage (1.0 = 100%)
-		critical_chance = 0          // 0-100% crit rate
-		critical_multiplier = 1.5    // Damage multiplier on crit
+		base_damage_multiplier = 1.0
+		critical_chance = 0
+		critical_multiplier = 1.5
 		
 		// Requirements
-		minimum_rank = 1             // Minimum skill level to unlock
-		required_skill = ""          // Which skill (fishing, smithing, etc.)
+		minimum_rank = 1
+		required_skill = ""
 		
 		// Description
-		desc = ""                    // Flavor text
-		animation = ""               // Animation name
+		desc = ""
+		animation = ""
 
 /datum/attack_action/New()
 	..()
@@ -74,7 +74,7 @@
 	slash.action_type = "melee"
 	slash.weapon_requirement = "sword"
 	slash.stamina_cost = 10
-	slash.cooldown_ticks = 6  // 150ms
+	slash.cooldown_ticks = 6
 	slash.base_damage_multiplier = 1.0
 	slash.critical_chance = 5
 	slash.minimum_rank = 1
@@ -94,9 +94,9 @@
 	thrust.action_type = "melee"
 	thrust.weapon_requirement = "sword"
 	thrust.stamina_cost = 12
-	thrust.cooldown_ticks = 8  // 200ms
+	thrust.cooldown_ticks = 8
 	thrust.base_damage_multiplier = 1.2
-	thrust.critical_chance = 15  // Higher crit on precision
+	thrust.critical_chance = 15
 	thrust.minimum_rank = 2
 	thrust.desc = "A precise stab targeting weak points. Requires Rank 2."
 	thrust.animation = "thrust"
@@ -114,8 +114,8 @@
 	power.action_type = "melee"
 	power.weapon_requirement = "sword"
 	power.stamina_cost = 25
-	power.cooldown_ticks = 20  // 500ms (slow)
-	power.base_damage_multiplier = 2.0  // Double damage
+	power.cooldown_ticks = 20
+	power.base_damage_multiplier = 2.0
 	power.critical_chance = 10
 	power.minimum_rank = 3
 	power.desc = "Unleash maximum force. High risk, high reward. Requires Rank 3."
@@ -134,8 +134,8 @@
 	block.action_type = "defense"
 	block.weapon_requirement = "shield"
 	block.stamina_cost = 5
-	block.cooldown_ticks = 0  // No cooldown
-	block.base_damage_multiplier = 0  // No damage
+	block.cooldown_ticks = 0
+	block.base_damage_multiplier = 0
 	block.critical_chance = 0
 	block.minimum_rank = 1
 	block.desc = "Raise shield to reduce incoming damage by 30%."
@@ -156,8 +156,8 @@
 	riposte.stamina_cost = 15
 	riposte.cooldown_ticks = 12
 	riposte.base_damage_multiplier = 1.5
-	riposte.critical_chance = 25  // Very high crit
-	riposte.critical_multiplier = 2.0  // 200% on crit
+	riposte.critical_chance = 25
+	riposte.critical_multiplier = 2.0
 	riposte.minimum_rank = 4
 	riposte.desc = "Counter-strike following enemy attack. Requires Rank 4."
 	riposte.animation = "riposte"
@@ -180,7 +180,7 @@
 	bow.weapon_requirement = "bow"
 	bow.stamina_cost = 8
 	bow.cooldown_ticks = 12
-	bow.base_damage_multiplier = 0.9  // Slightly lower than melee
+	bow.base_damage_multiplier = 0.9
 	bow.critical_chance = 20
 	bow.minimum_rank = 1
 	bow.desc = "Fire an arrow. Works from range."
@@ -199,8 +199,8 @@
 	charged.action_type = "ranged"
 	charged.weapon_requirement = "bow"
 	charged.stamina_cost = 20
-	charged.cooldown_ticks = 30  // Long cooldown
-	charged.base_damage_multiplier = 2.5  // Very high damage
+	charged.cooldown_ticks = 30
+	charged.base_damage_multiplier = 2.5
 	charged.critical_chance = 30
 	charged.critical_multiplier = 2.5
 	charged.minimum_rank = 3
@@ -220,34 +220,30 @@
 	 */
 	var
 		// Current state
-		player_ref = null            // /mob/players reference
-		in_combat = FALSE            // Currently fighting?
-		current_opponent = null      // Who they're fighting
+		player_ref = null
+		in_combat = FALSE
+		current_opponent = null
 		
 		// Resource tracking
-		current_stamina = 100        // Current stamina
-		max_stamina = 100            // Maximum stamina
-		current_mana = 50            // Current mana (for future magic system)
+		current_stamina = 100
+		max_stamina = 100
+		current_mana = 50
 		max_mana = 50
-		
-		// Action cooldowns
-		list/action_cooldowns = list()  // Indexed by action_name
+		list/action_cooldowns = list()
 		
 		// Combat stats
-		attacks_made = 0             // Total attacks this combat
-		damage_dealt = 0             // Total damage given
-		damage_taken = 0             // Total damage received
+		attacks_made = 0
+		damage_dealt = 0
+		damage_taken = 0
 		
 		// Buffs/debuffs
-		list/active_effects = list() // Temporary status effects
+		list/active_effects = list()
 
 /datum/combat_state/New(mob/players/player)
 	..()
 	player_ref = player
 	current_stamina = 100
 	max_stamina = 100
-
-// ============================================================================
 // ATTACK EXECUTION
 // ============================================================================
 
@@ -289,26 +285,20 @@
 	// ─────────────────────────────────────────────────────────────────────
 	
 	// Get base weapon damage
-	var/base_weapon_damage = 15  // Framework: Get from equipped weapon
+	var/base_weapon_damage = 15
 	
 	// Apply attack multiplier
 	var/attack_damage = base_weapon_damage * action.base_damage_multiplier
-	
-	// Check for critical hit
 	var/is_critical = FALSE
 	if(rand(1, 100) <= action.critical_chance)
 		is_critical = TRUE
 		attack_damage *= action.critical_multiplier
 	
 	// Apply armor reduction
-	var/armor_defense = 5  // Framework: Get from defender's armor
+	var/armor_defense = 5
 	attack_damage = attack_damage * (100 - armor_defense) / 100.0
-	
-	// Add RNG variance (±10%)
 	var/damage_variance = attack_damage * (rand(90, 110) / 100.0)
 	attack_damage = damage_variance
-	
-	// ─────────────────────────────────────────────────────────────────────
 	// APPLY DAMAGE & EFFECTS
 	// ─────────────────────────────────────────────────────────────────────
 	
@@ -318,12 +308,12 @@
 		pdef.HP -= attack_damage
 	
 	// Reduce weapon durability
-	var/obj/items/equipment/weapon = attacker.vars["equipped_weapon"]  // Framework
+	var/obj/items/equipment/weapon = attacker.vars["equipped_weapon"]
 	if(weapon)
 		DecrementDurability(weapon, attack_damage)
 	
 	// Reduce armor durability
-	var/obj/items/equipment/armor = defender.vars["equipped_armor"]  // Framework
+	var/obj/items/equipment/armor = defender.vars["equipped_armor"]
 	if(armor)
 		DecrementDurability(armor, attack_damage)
 	
@@ -335,16 +325,12 @@
 	state.current_stamina -= action.stamina_cost
 	if(state.current_stamina < 0)
 		state.current_stamina = 0
-	
-	// Set cooldown
 	state.action_cooldowns[action.action_name] = world.time + action.cooldown_ticks
 	
 	// Track stats
 	state.attacks_made++
 	state.damage_dealt += attack_damage
 	state.in_combat = TRUE
-	
-	// ─────────────────────────────────────────────────────────────────────
 	// FEEDBACK
 	// ─────────────────────────────────────────────────────────────────────
 	
@@ -412,7 +398,7 @@
 // ATTACK REGISTRY & LEARNING
 // ============================================================================
 
-var/global/list/attack_registry = list()  // All available attacks
+var/global/list/attack_registry = list()
 
 /proc/InitializeSpecialAttacks()
 	/**
@@ -503,7 +489,7 @@ var/global/list/attack_registry = list()  // All available attacks
 	set background = 1
 	set waitfor = 0
 	
-	var/process_interval = 10  // Process every 10 ticks (250ms)
+	var/process_interval = 10
 	var/last_process = world.time
 	
 	while(1)
@@ -511,8 +497,6 @@ var/global/list/attack_registry = list()  // All available attacks
 		
 		if(world.time - last_process >= process_interval)
 			last_process = world.time
-			
-			// Iterate all players
 			for(var/mob/players/player in world)
 				if(!player)
 					continue

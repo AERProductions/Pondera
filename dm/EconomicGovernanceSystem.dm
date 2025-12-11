@@ -33,29 +33,27 @@
 	 */
 	var
 		kingdom_name = ""
-		
-		// Treasury funds
-		total_reserves = 100000    // Base lucre in treasury
-		tax_pool = 0               // Collected but not yet allocated
-		emergency_fund = 0         // For crisis relief
-		development_fund = 0       // For infrastructure
-		defense_fund = 0           // For military/security
+		total_reserves = 100000
+		tax_pool = 0
+		emergency_fund = 0
+		development_fund = 0
+		defense_fund = 0
 		
 		// Revenue sources
-		total_tax_collected = 0    // Lifetime tax revenue
-		trade_tax_rate = 0.05      // 5% on all trades
-		property_tax_rate = 0.02   // 2% on deeds/territory
-		income_tax_rate = 0.08     // 8% on wages/salaries
+		total_tax_collected = 0
+		trade_tax_rate = 0.05
+		property_tax_rate = 0.02
+		income_tax_rate = 0.08
 		
 		// Spending
-		total_spent = 0            // Lifetime expenditure
-		monthly_budget = 50000     // Monthly allocations
+		total_spent = 0
+		monthly_budget = 50000
 		
 		// Economic indicators
-		inflation_rate = 0.0       // % per month
-		unemployment_rate = 0.0    // % of population
-		gdp_estimate = 0           // Gross economic output
-		economic_health = "stable" // stable, growing, declining, crisis
+		inflation_rate = 0.0
+		unemployment_rate = 0.0
+		gdp_estimate = 0
+		economic_health = "stable"
 
 /proc/GetGovernmentTreasury(kingdom_name)
 	/**
@@ -135,7 +133,7 @@
 	// - Economic tier (higher tier pays more)
 	// - Trade volume (bulk trades get discount)
 	
-	var/tax_rate = 0.05  // Base 5%
+	var/tax_rate = 0.05
 	
 	// Framework: would apply modifiers
 	
@@ -153,11 +151,10 @@
 	
 	// Property tax depends on:
 	// - Territory tier (large = higher tax)
-	// - Market value of resources (higher value = higher tax)
 	// - Improvements (buildings, roads)
 	// - Economic tier of owner
 	
-	var/base_tax = 100  // Base per month
+	var/base_tax = 100
 	
 	// Framework: would apply modifiers
 	
@@ -171,8 +168,6 @@
 	 */
 	set background = 1
 	set waitfor = 0
-	
-	// Would iterate:
 	// - Each player: CalculatePropertyTax on deeds
 	// - Each territory: CalculateResourceTax
 	// - Pending trades: CalculateTradeTax
@@ -282,8 +277,6 @@
 	
 	var/suspicion = 0
 	
-	// Framework: would calculate based on patterns
-	
 	if(suspicion > 70)
 		world.log << "CRIME: Potential price manipulation on [commodity_name] (suspicion: [suspicion])"
 	
@@ -340,9 +333,7 @@
 	
 	// Inflation factors:
 	// - Money supply (more lucre in system = inflation)
-	// - Production (more goods = deflation)
 	// - Trade volume (high activity = inflation)
-	// - Crisis events (disruption = inflation)
 	
 	// Framework: would calculate complex
 	
@@ -356,8 +347,6 @@
 	 */
 	
 	if(inflation_rate == 0) return TRUE
-	
-	// Would update all commodity base prices
 	// Would proportionally adjust player wealth
 	// Would affect contract/loan interest
 	
@@ -562,7 +551,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/collection_interval = 2400  // Every ~1 minute
+	var/collection_interval = 2400
 	var/last_collection = world.time
 	
 	while(1)
@@ -570,7 +559,6 @@
 		
 		if(world.time - last_collection >= collection_interval)
 			last_collection = world.time
-			// CollectTaxes() - framework ready
 
 /proc/MarketRegulationEngine()
 	/**
@@ -614,7 +602,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/process_interval = 24000  // Every ~10 minutes (monthly game time)
+	var/process_interval = 24000
 	var/last_process = world.time
 	
 	while(1)
@@ -622,5 +610,4 @@
 		
 		if(world.time - last_process >= process_interval)
 			last_process = world.time
-			// Would apply inflation to all systems
 			// Framework ready

@@ -4,10 +4,7 @@
 #define TIME_TICK_RATE 10        // Advance time every 10 world ticks
 #define MINUTES_PER_TICK 15      // 15 game minutes per world tick = 1 game hour per 4 real minutes
 
-#define SEASON_SPRING "Spring"
-#define SEASON_SUMMER "Summer"
-#define SEASON_AUTUMN "Autumn"
-#define SEASON_WINTER "Winter"
+// SEASON_* macros are now centralized in !defines.dm
 
 // Hebrew Calendar months (Autumn start: Tishrei)
 #define MONTH_TISHREI "Tishrei"      // Fall equinox / Civil New Year

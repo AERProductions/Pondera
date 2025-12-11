@@ -35,28 +35,28 @@
 	 * Stored in datum/character_data
 	 */
 	var
-		total_lucre = 0            // Total currency accumulated
-		total_materials = 0        // Total material value
-		net_worth = 0              // lucre + (materials * price)
+		total_lucre = 0
+		total_materials = 0
+		net_worth = 0
 		
 		// Trading history
-		total_trades = 0           // Lifetime trades
-		successful_trades = 0      // Trades at or above market price
-		profitable_trades = 0      // Trades above market
+		total_trades = 0
+		successful_trades = 0
+		profitable_trades = 0
 		
 		// Profit tracking
-		lifetime_profit = 0        // Total gains from trading
-		lifetime_loss = 0          // Total losses
-		net_profit = 0             // profit - loss
-		profit_ratio = 0           // % of trades profitable
+		lifetime_profit = 0
+		lifetime_loss = 0
+		net_profit = 0
+		profit_ratio = 0
 		
 		// Investment
-		invested_lucre = 0         // In active investments
-		investment_returns = 0     // Gains from investments
+		invested_lucre = 0
+		investment_returns = 0
 		
 		// Rank in economy
-		economic_tier = 1          // 1-10 (peasant to magnate)
-		wealth_percentile = 0      // % of players richer than this player
+		economic_tier = 1
+		wealth_percentile = 0
 		
 		// Time tracking
 		last_profit_update = 0
@@ -122,12 +122,8 @@
 	
 	var/net_worth = CalculatePlayerNetWorth(player)
 	var/new_tier = 1
-	
-	// Tier boundaries (example):
 	// 1 = 0-1000 lucre (Peasant)
-	// 2 = 1001-5000 (Laborer)
 	// 3 = 5001-20000 (Merchant)
-	// 4 = 20001-100000 (Trader)
 	// 5 = 100001+ (Magnate)
 	
 	switch(net_worth)
@@ -188,23 +184,23 @@
 	var
 		player_ref           // Who holds the contract
 		commodity_name       // What commodity
-		position = "long"    // "long" (betting price up) or "short" (betting price down)
+		position = "long"
 		
-		entry_price = 0      // Price when bought
-		quantity = 0         // Number of contracts
+		entry_price = 0
+		quantity = 0
 		
-		current_price = 0    // Current market price (for display)
-		current_value = 0    // (current_price - entry_price) * quantity
+		current_price = 0
+		current_value = 0
 		
-		profit_loss = 0      // Current P/L
-		stop_loss = 0        // Auto-close if price hits this
-		take_profit = 0      // Auto-close if price hits this
+		profit_loss = 0
+		stop_loss = 0
+		take_profit = 0
 		
-		opened_time = 0      // When created
-		expires_time = 0     // When contract expires (e.g., 1 week)
-		closed_time = 0      // 0 if open, world.time if closed
+		opened_time = 0
+		expires_time = 0
+		closed_time = 0
 		
-		status = "open"      // "open", "closed", "expired"
+		status = "open"
 
 /proc/BuyInvestmentContract(mob/player, commodity_name, position, quantity, entry_price)
 	/**
@@ -215,7 +211,7 @@
 	
 	if(!player) return FALSE
 	
-	// Would calculate: cost = entry_price * quantity * 0.1  // 10% margin
+	// Would calculate: cost = entry_price * quantity * 0.1
 	// Would check: if(player.lucre < cost) return FALSE
 	
 	var/datum/investment_contract/contract = new()
@@ -225,10 +221,8 @@
 	contract.entry_price = entry_price
 	contract.quantity = quantity
 	contract.opened_time = world.time
-	contract.expires_time = world.time + 7 * 24 * 60 * 10  // 7 days
+	contract.expires_time = world.time + 7 * 24 * 60 * 10
 	contract.status = "open"
-	
-	// Would charge: player.lucre -= cost
 	
 	// Would track: player.invested_lucre += cost
 	
@@ -259,8 +253,6 @@
 	 */
 	set background = 1
 	set waitfor = 0
-	
-	// Would iterate through all active contracts:
 	// For each contract:
 	//   - Check if expiry time reached → force close
 	//   - Check if stop-loss triggered → auto close
@@ -286,12 +278,12 @@
 		contract_type         // "deliver", "harvest", "craft", "trade", "hunt"
 		description           // Human-readable task
 		
-		requirements = list() // What must be done
-		reward_lucre = 0      // Payment in lucre
-		reward_items = list() // Items as reward
+		requirements = list()
+		reward_lucre = 0
+		reward_items = list()
 		
-		deadline = 0          // Completion deadline (0 = no deadline)
-		status = "pending"    // "pending", "active", "completed", "failed"
+		deadline = 0
+		status = "pending"
 		
 		created_time = 0
 		started_time = 0
@@ -375,9 +367,9 @@
 	 * Global ranking of wealthiest players
 	 */
 	var
-		list/rankings = list()    // list of (player, net_worth) tuples
+		list/rankings = list()
 		last_update = 0
-		update_interval = 3000    // Every 5 minutes
+		update_interval = 3000
 
 /proc/UpdateWealthLeaderboard()
 	/**
@@ -449,8 +441,6 @@
 	if(!player || profit_amount <= 0) return 0
 	
 	var/bonus = 0
-	
-	// Bonus tiers:
 	// 0-99 lucre profit: 0% bonus
 	// 100-499: 5% bonus
 	// 500-1999: 10% bonus
@@ -465,8 +455,6 @@
 			bonus = profit_amount * 0.10
 		else
 			bonus = profit_amount * 0.15
-	
-	// Would award: player.lucre += bonus
 	
 	if(bonus > 0)
 		world.log << "BONUS: [player] earned profit bonus"
@@ -536,7 +524,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/update_interval = 500  // Every 500 ticks (~12 seconds)
+	var/update_interval = 500
 	var/last_update = world.time
 	
 	while(1)
@@ -544,7 +532,5 @@
 		
 		if(world.time - last_update >= update_interval)
 			last_update = world.time
-			
-			// Would update wealth displays for all players
 			// Update leaderboard positions
 			// Framework ready

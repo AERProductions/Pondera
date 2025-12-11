@@ -14,26 +14,22 @@
 	icon_state = "panel"
 	screen_loc = "1,1 to 10,12"
 	layer = 20
-	plane = 2  // UI plane
+	plane = 2
 	
 	var
 		kingdom_name = "Kingdom"
 		last_update = 0
-		update_interval = 50  // Update every 50 ticks
+		update_interval = 50
 		
 		// Resource display
 		display_stone = 0
 		display_metal = 0
 		display_timber = 0
 		display_lucre = 0
-		
-		// Trend indicators
 		stone_trend = "stable"
 		metal_trend = "stable"
 		timber_trend = "stable"
-		
-		// Display mode
-		display_mode = "overview"  // overview, history, trades, analytics
+		display_mode = "overview"
 
 /obj/screen/treasury_button
 	/**
@@ -78,7 +74,7 @@
 	
 	var
 		list/displayed_commodities = list()
-		sort_mode = "price"  // price, trend, volume
+		sort_mode = "price"
 
 // ============================================================================
 // TREASURY UI MANAGEMENT SYSTEM
@@ -91,18 +87,16 @@
 	 */
 	var
 		kingdom_name = ""
-		mob/players/owner = null  // mob reference
+		mob/players/owner = null
 		
 		// UI screens
 		obj/screen/treasury_display/main_display = null
 		obj/screen/trade_history_display/history_display = null
 		obj/screen/market_price_display/market_display = null
-		
-		// Display preferences
-		view_mode = "overview"  // overview, detailed, analytics, trading
-		sort_order = "amount"   // amount, trend, price, name
-		auto_refresh = 1        // Auto-update display
-		refresh_rate = 50       // Ticks between updates
+		view_mode = "overview"
+		sort_order = "amount"
+		auto_refresh = 1
+		refresh_rate = 50
 		
 		// Data caching
 		cached_treasury = null
@@ -128,24 +122,16 @@
 	var/datum/treasury_ui_manager/manager = new()
 	manager.kingdom_name = kingdom_name
 	manager.owner = player
-	
-	// Create main treasury display
 	var/obj/screen/treasury_display/display = new()
 	display.kingdom_name = kingdom_name
 	if(player.client) player.client.screen += display
 	manager.main_display = display
-	
-	// Create trade history display
 	var/obj/screen/trade_history_display/history = new()
 	if(player.client) player.client.screen += history
 	manager.history_display = history
-	
-	// Create market price display
 	var/obj/screen/market_price_display/market = new()
 	if(player.client) player.client.screen += market
 	manager.market_display = market
-	
-	// Start update loop
 	spawn() TreasuryUIUpdateLoop(manager)
 	
 	world.log << "TREASURY_UI: Attached treasury UI to [player.key] for [kingdom_name]"
@@ -184,8 +170,6 @@
 	manager.main_display.display_metal = treasury.metal_treasury
 	manager.main_display.display_timber = treasury.timber_treasury
 	manager.main_display.display_lucre = treasury.lucre_treasury
-	
-	// Get price trends
 	manager.main_display.stone_trend = GetCommodityTrend("Stone")
 	manager.main_display.metal_trend = GetCommodityTrend("Metal Ore")
 	manager.main_display.timber_trend = GetCommodityTrend("Timber")
@@ -204,8 +188,6 @@
 	var/list/completed = GetKingdomTradeHistory(manager.kingdom_name, 20)
 	
 	manager.cached_trades = list()
-	
-	// Add pending trades first (marked as pending)
 	for(var/datum/kingdom_trade_offer/offer in pending)
 		manager.cached_trades += list(list(
 			"status" = "pending",
@@ -429,8 +411,6 @@
 		var/timber_str = "[treasury.timber_treasury]"
 		var/lucre_str = "[treasury.lucre_treasury]"
 		var/worth_str = "[round(net_worth, 1)]"
-		
-		// Pad strings to align
 		while(length(stone_str) < 8) stone_str = " " + stone_str
 		while(length(metal_str) < 8) metal_str = " " + metal_str
 		while(length(timber_str) < 8) timber_str = " " + timber_str
@@ -479,16 +459,12 @@
 	if(!treasury) return list()
 	
 	var/list/suggestions = list()
-	
-	// Suggest trades to balance resources
 	var/total = treasury.stone_treasury + treasury.metal_treasury + treasury.timber_treasury
 	if(total <= 0) return suggestions
 	
 	var/stone_pct = treasury.stone_treasury / total
 	var/metal_pct = treasury.metal_treasury / total
 	var/timber_pct = treasury.timber_treasury / total
-	
-	// Ideal distribution: 33% each
 	if(stone_pct > 0.5)
 		suggestions += "Consider trading excess stone for metal or timber"
 	if(metal_pct > 0.5)

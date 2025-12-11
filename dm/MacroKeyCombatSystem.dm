@@ -134,7 +134,6 @@ mob/players
 			src << "<font color=#FF8800>You don't have a ranged weapon equipped!</font>"
 			return
 		
-		var/weapon_type = weapon_info["type"]
 		var/skill_type = weapon_info["skill"]
 		var/max_range = weapon_info["range"]
 		

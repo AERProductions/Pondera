@@ -71,3 +71,14 @@
 #define REFINE_STAGE_FILED 1
 #define REFINE_STAGE_SHARPENED 2
 #define REFINE_STAGE_POLISHED 3
+
+// Season Constants
+#define SEASON_SPRING "Spring"
+#define SEASON_SUMMER "Summer"
+#define SEASON_AUTUMN "Autumn"
+#define SEASON_WINTER "Winter"
+
+// Soil & Compost Status
+#define SOIL_DEPLETED 0
+#define SOIL_BASIC 1
+#define SOIL_RICH 2

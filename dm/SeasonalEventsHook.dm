@@ -24,15 +24,14 @@
 // SEASONAL EVENT STATE
 // ============================================================================
 
-var/global/
-	last_season_event = "none"        // Track last event fired
-	spring_event_active = FALSE
-	summer_event_active = FALSE
-	autumn_event_active = FALSE
-	winter_event_active = FALSE
-	
-	list/seasonal_stats = list(
-		"spring_crops_planted" = 0,
+var/global/last_season_event = "none"        // Track last event fired
+var/global/spring_event_active = FALSE
+var/global/summer_event_active = FALSE
+var/global/autumn_event_active = FALSE
+var/global/winter_event_active = FALSE
+
+var/global/list/seasonal_stats = list(
+	"spring_crops_planted" = 0,
 		"summer_harvests" = 0,
 		"autumn_crops_planted" = 0,
 		"winter_survivaldays" = 0,

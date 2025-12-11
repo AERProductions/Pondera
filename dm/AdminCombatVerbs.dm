@@ -262,7 +262,7 @@
 	var/mob_count = 0
 	for(var/mob/M in view(5))
 		if(M != src)
-			var/threat = GetThreatColor(src, M)
+			GetThreatColor(src, M)  // Test threat calculation
 			mob_count++
 	src << "<font color='green'>  ✓ Threat calculation working ([mob_count] targets)"
 	

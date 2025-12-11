@@ -342,44 +342,44 @@ obj/Oven
 		cooking_item = null
 		food_safety = 100
 
-	proc/list/FinishCooking(list/recipe, mob/players/chef, list/ingredients)
-		// Get chef's cooking skill rank (0-10, default 1 if not yet trained)
-		var/skill_rank = max(1, GetCookingSkillRank(chef))
-		var/skill_bonus = (skill_rank - 1) * recipe["skill_mod"]  // Each rank adds bonus
-		
-		// Base nutrition from cooking
-		var/nutrition_mult = recipe["nutrition"] + skill_bonus
-		
-		// Temperature quality bonus
-		var/temp_bonus = max(0, (current_temp - recipe["temp_min"]) / 50) * QUALITY_TEMP_BONUS
-		
-		// Time penalty if overcooked
-		var/time_penalty = max(0, -food_safety / 200) * QUALITY_TIME_PENALTY
-		
-		// Final quality calculation
-		var/final_quality = nutrition_mult + temp_bonus + time_penalty
-		final_quality = clamp(final_quality, QUALITY_SKILL_MIN, QUALITY_SKILL_MAX)
-		
-		// Apply skill-based quality multiplier (from CookingSkillProgression.dm)
-		final_quality = ApplyCookingSkillBonus(chef, final_quality)
-		
-		var/quality_text = ""
-		if(final_quality >= 1.3)
-			quality_text = "masterfully prepared"
-		else if(final_quality >= 1.1)
-			quality_text = "well-cooked"
-		else if(final_quality >= 0.9)
-			quality_text = "adequately prepared"
-		else
-			quality_text = "poorly prepared"
-		
-		return list(
-			"item_type" = /obj/CookedFood,
-			"recipe" = recipe["name"],
-			"quality" = final_quality,
-			"quality_text" = quality_text,
-			"message" = "You finish cooking the [recipe["name"]] - it looks [quality_text]!"
-		)
+/obj/Oven/proc/FinishCooking(list/recipe, mob/players/chef, list/ingredients)
+	// Get chef's cooking skill rank (0-10, default 1 if not yet trained)
+	var/skill_rank = max(1, GetCookingSkillRank(chef))
+	var/skill_bonus = (skill_rank - 1) * recipe["skill_mod"]  // Each rank adds bonus
+	
+	// Base nutrition from cooking
+	var/nutrition_mult = recipe["nutrition"] + skill_bonus
+	
+	// Temperature quality bonus
+	var/temp_bonus = max(0, (current_temp - recipe["temp_min"]) / 50) * QUALITY_TEMP_BONUS
+	
+	// Time penalty if overcooked
+	var/time_penalty = max(0, -food_safety / 200) * QUALITY_TIME_PENALTY
+	
+	// Final quality calculation
+	var/final_quality = nutrition_mult + temp_bonus + time_penalty
+	final_quality = clamp(final_quality, QUALITY_SKILL_MIN, QUALITY_SKILL_MAX)
+	
+	// Apply skill-based quality multiplier (from CookingSkillProgression.dm)
+	final_quality = ApplyCookingSkillBonus(chef, final_quality)
+	
+	var/quality_text = ""
+	if(final_quality >= 1.3)
+		quality_text = "masterfully prepared"
+	else if(final_quality >= 1.1)
+		quality_text = "well-cooked"
+	else if(final_quality >= 0.9)
+		quality_text = "adequately prepared"
+	else
+		quality_text = "poorly prepared"
+	
+	return list(
+		"item_type" = /obj/CookedFood,
+		"recipe" = recipe["name"],
+		"quality" = final_quality,
+		"quality_text" = quality_text,
+		"message" = "You finish cooking the [recipe["name"]] - it looks [quality_text]!"
+	)
 
 
 /**
@@ -478,7 +478,7 @@ proc/ShowCookingMenu(mob/players/M, obj/Oven/fire)
 		RemoveIngredients(M, recipe["ingredients"])
 
 
-proc/list/CheckForIngredients(mob/players/M, list/required)
+/proc/CheckForIngredients(mob/players/M, list/required)
 	var/list/found = list()
 	for(var/ingredient in required)
 		var/amount_needed = required[ingredient]

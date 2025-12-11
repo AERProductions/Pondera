@@ -39,10 +39,9 @@
 // GLOBAL DEED DATABASE
 // ============================================================================
 
-var
-	list/g_deed_registry = list()      // All active deed tokens
-	list/g_deed_owner_map = list()     // Indexed by owner ckey
-	g_deed_manager_initialized = FALSE // Track if manager has been initialized
+var/list/g_deed_registry = list()      // All active deed tokens
+var/list/g_deed_owner_map = list()     // Indexed by owner ckey
+var/g_deed_manager_initialized = FALSE // Track if manager has been initialized
 
 // ============================================================================
 // DEED REGISTRY MANAGEMENT

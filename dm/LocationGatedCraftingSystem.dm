@@ -31,38 +31,38 @@
 	 */
 	name = "Crafting Location"
 	desc = "A location for crafting"
-	icon = null  // Placeholder - will be set by subclasses
+	icon = null
 	icon_state = "furnace"
 	density = TRUE
 	
 	var
-		location_type = ""       // "basic_furnace", "advanced_foundry", etc.
-		continent_name = ""      // Where this is located
+		location_type = ""
+		continent_name = ""
 		
 		// Ownership (deed-linked)
-		owner_deed = null        // /datum/deed if claimed
-		owner_kingdom = ""       // Kingdom if PvP
-		owner_player = null      // Individual player owner
-		is_claimed = FALSE       // TRUE if owned, FALSE if neutral
+		owner_deed = null
+		owner_kingdom = ""
+		owner_player = null
+		is_claimed = FALSE
 		
 		// Production
-		list/recipes = list()    // What can be crafted here
-		list/crafting_queue = list()  // Queued crafting jobs
+		list/recipes = list()
+		list/crafting_queue = list()
 		
 		// Durability (destruction mechanics)
 		health = 100
 		max_health = 100
-		condition = "perfect"    // perfect, worn, damaged, destroyed
+		condition = "perfect"
 		
 		// Access control
-		list/allowed_players = list()   // Can use this furnace
-		list/allowed_guilds = list()    // Guilds with access
-		list/alliance_list = list()     // Allied kingdoms (PvP)
+		list/allowed_players = list()
+		list/allowed_guilds = list()
+		list/alliance_list = list()
 		
 		// Stats
-		smelting_speed_modifier = 1.0   // Higher = faster production
-		quality_modifier = 1.0          // Higher = better quality output
-		last_owner_change = 0           // Timestamp of ownership change
+		smelting_speed_modifier = 1.0
+		quality_modifier = 1.0
+		last_owner_change = 0
 
 /obj/crafting_location/New()
 	..()
@@ -72,7 +72,6 @@
 	if(!allowed_players) allowed_players = list()
 	if(!allowed_guilds) allowed_guilds = list()
 	if(!alliance_list) alliance_list = list()
-	// Register this crafting location globally
 	// Would add to continent's crafting location registry
 
 /obj/crafting_location/Click()
@@ -143,17 +142,14 @@
 	 */
 	name = "Basic Furnace"
 	desc = "A simple furnace for smelting common metals. Produces: Copper, Tin, Lead, Zinc, Bronze, Brass ingots."
-	icon = null  // Placeholder
+	icon = null
 	icon_state = "furnace_basic"
-	// All vars inherited from base - location_type handled in New()
 
 /obj/crafting_location/basic_furnace/New()
 	..()
 	
 	// Set location type
 	location_type = "basic_furnace"
-	
-	// Configure recipes for basic furnace
 	recipes += "Copper Ingot"    // 2 Copper Ore
 	recipes += "Tin Ingot"       // 2 Tin Ore
 	recipes += "Lead Ingot"      // 3 Lead Ore
@@ -194,21 +190,19 @@
 	 */
 	name = "Advanced Foundry"
 	desc = "A sophisticated foundry capable of high-temperature smelting. Produces: Steel ingots from iron. Requires: Advanced Foundry access."
-	icon = null  // Placeholder
+	icon = null
 	icon_state = "foundry_advanced"
 	density = TRUE
 	
 	var
-		is_strategic_location = TRUE   // Marks as raid target
-		siege_defense_level = 5        // How hard to capture (1-10 scale)
+		is_strategic_location = TRUE
+		siege_defense_level = 5
 
 /obj/crafting_location/advanced_foundry/New()
 	..()
 	
 	// Set location type
 	location_type = "advanced_foundry"
-	
-	// Configure recipes: Only Steel
 	recipes += "Steel Ingot"  // 5 Iron Ingot
 	
 	// Advanced foundry is high-maintenance
@@ -277,8 +271,6 @@
 	 */
 	
 	var/list/locations = list()
-	
-	// Framework: Would query registry
 	// Return locations matching continent and type
 	
 	return locations
@@ -309,21 +301,21 @@
 	 */
 	var
 		player_ref            // Who submitted the job
-		recipe_name = ""       // What to craft
-		quantity = 1           // How many to produce
+		recipe_name = ""
+		quantity = 1
 		
-		ingredients = list()   // list("material"=quantity)
-		output = ""            // What's produced
+		ingredients = list()
+		output = ""
 		output_quantity = 0
 		
-		cost_lucre = 0         // Crafting cost
-		status = "pending"     // pending, in_progress, complete, failed
+		cost_lucre = 0
+		status = "pending"
 		
 		started_time = 0
 		estimated_completion = 0
 		actual_completion = 0
 		
-		quality_output = 100   // % quality (80-120%)
+		quality_output = 100
 
 /proc/QueueCraftingJob(mob/player, obj/crafting_location/location, recipe_name, quantity)
 	/**
@@ -348,8 +340,6 @@
 	job.quantity = quantity
 	job.status = "pending"
 	job.started_time = world.time
-	
-	// Add to location queue
 	location.crafting_queue += job
 	
 	world.log << "CRAFTING: [player] queued [recipe_name] at furnace"
@@ -383,8 +373,6 @@
 		return FALSE
 	
 	var/mob/player = job.player_ref
-	
-	// Framework: Would add items to player inventory
 	// Mark job as complete
 	// Log completion
 	
@@ -416,13 +404,13 @@
 			location.condition = "perfect"
 		if(50 to 75)
 			location.condition = "worn"
-			location.smelting_speed_modifier = 0.8  // 20% slower
+			location.smelting_speed_modifier = 0.8
 		if(25 to 50)
 			location.condition = "damaged"
-			location.smelting_speed_modifier = 0.5  // 50% slower
+			location.smelting_speed_modifier = 0.5
 		if(0 to 25)
 			location.condition = "destroyed"
-			location.smelting_speed_modifier = 0    // Non-functional
+			location.smelting_speed_modifier = 0
 	
 	if(location.health <= 0)
 		DestroyCraftingLocation(location)
@@ -451,7 +439,7 @@
 	for(var/datum/crafting_job/job in location.crafting_queue)
 		job.status = "failed"
 	
-	location.crafting_queue = list()  // Clear queue
+	location.crafting_queue = list()
 		
 	return TRUE
 
@@ -514,8 +502,6 @@
 	// Update owner
 	location.owner_kingdom = to_kingdom
 	location.last_owner_change = world.time
-	
-	// Raid bonus: half health damage on capture
 	DamageCraftingLocation(location, location.max_health * 0.25)
 	
 	// If advanced foundry: major strategic event
@@ -553,7 +539,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/process_interval = 100  // Process every 100 ticks
+	var/process_interval = 100
 	var/last_process = world.time
 	
 	while(1)
@@ -561,7 +547,5 @@
 		
 		if(world.time - last_process >= process_interval)
 			last_process = world.time
-			
-			// Would iterate all crafting locations
 			// Process queues, apply passive repairs, check conditions
 			// Framework ready

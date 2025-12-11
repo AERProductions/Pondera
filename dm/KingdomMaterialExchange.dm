@@ -12,36 +12,26 @@
 	 * Represents a pending or completed trade between two kingdoms
 	 */
 	var
-		offering_kingdom = null         // Kingdom making the offer
-		requesting_kingdom = null       // Kingdom receiving offer
-		
-		// Offered materials
+		offering_kingdom = null
+		requesting_kingdom = null
 		offering_stone = 0
 		offering_metal = 0
 		offering_timber = 0
 		offering_lucre = 0
-		
-		// Requested materials
 		requesting_stone = 0
 		requesting_metal = 0
 		requesting_timber = 0
 		requesting_lucre = 0
-		
-		// Trade metadata
-		created_time = 0                // When offer was made
-		expires_time = 0                // When offer expires (600 ticks = 10 minutes)
-		accepted_by = null              // Which kingdom accepted (if any)
-		completed = 0                   // 1 if trade executed
-		completion_time = 0             // When completed
-		status = "pending"              // pending, accepted, rejected, completed, expired
-		
-		// Trade notes
-		offer_notes = ""                // Why the offer was made
-		negotiation_counter = 0         // How many counter-offers made
-		
-		// Validation
-		offer_id = 0                    // Unique ID for tracking
-		observer_list = list()          // Kingdoms watching this trade
+		created_time = 0
+		expires_time = 0
+		accepted_by = null
+		completed = 0
+		completion_time = 0
+		status = "pending"
+		offer_notes = ""
+		negotiation_counter = 0
+		offer_id = 0
+		observer_list = list()
 
 /datum/kingdom_treasury_manager
 	/**
@@ -50,29 +40,19 @@
 	 */
 	var
 		kingdom_name = "Unaffiliated"
-		
-		// Current treasury
 		stone_treasury = 0
 		metal_treasury = 0
 		timber_treasury = 0
 		lucre_treasury = 0
-		
-		// Trading history
-		list/completed_trades = list()  // Historical trades with timestamps
-		list/pending_offers = list()    // Active trade offers
-		
-		// Trade restrictions & cooldowns
-		last_trade_time = 0             // Cooldown between trades
-		trades_per_day = 0              // Counter for daily trade limit
-		last_day_reset = 0              // When counter was last reset
-		trade_reputation = 100          // Starts at 100 (affects trade success)
-		
-		// Supply tracking
+		list/completed_trades = list()
+		list/pending_offers = list()
+		last_trade_time = 0
+		trades_per_day = 0
+		last_day_reset = 0
+		trade_reputation = 100
 		daily_stone_produced = 0
 		daily_metal_produced = 0
 		daily_timber_produced = 0
-		
-		// Demand tracking
 		daily_stone_consumed = 0
 		daily_metal_consumed = 0
 		daily_timber_consumed = 0
@@ -83,22 +63,15 @@
 	 * Tracks market prices dynamically based on supply/demand
 	 */
 	var
-		// Base prices (in lucre equivalents)
 		stone_price = 1.0
 		metal_price = 3.0
 		timber_price = 2.5
-		
-		// Price history (for trend analysis)
 		list/stone_price_history = list()
 		list/metal_price_history = list()
 		list/timber_price_history = list()
-		
-		// Market trends
-		stone_volatility = 0.1          // How much price varies
+		stone_volatility = 0.1
 		metal_volatility = 0.15
 		timber_volatility = 0.12
-		
-		// Global supply/demand
 		total_stone_on_market = 0
 		total_metal_on_market = 0
 		total_timber_on_market = 0

@@ -30,42 +30,40 @@
 		// Commodity identification
 		commodity_name = "Stone"
 		commodity_id = null
-		
-		// Supply tracking (units available per tick)
-		base_supply = 100           // Baseline production
-		current_supply = 100        // Actual available
-		supply_shock = 0            // -1.0 (glut) to +1.0 (shortage)
-		supply_trend = 0            // -0.5 to +0.5 (increasing/decreasing)
+		base_supply = 100
+		current_supply = 100
+		supply_shock = 0
+		supply_trend = 0
 		
 		// Demand tracking (units wanted per tick)
-		base_demand = 100           // Normal consumption
-		current_demand = 100        // Actual needed
-		demand_shock = 0            // -1.0 (low) to +1.0 (high)
-		demand_trend = 0            // -0.5 to +0.5 (waning/growing)
+		base_demand = 100
+		current_demand = 100
+		demand_shock = 0
+		demand_trend = 0
 		
 		// Elasticity (price sensitivity)
-		price_elasticity = 1.0      // 0.5 (inelastic) to 2.0 (elastic)
-		elasticity_momentum = 0     // How quickly elasticity changes
+		price_elasticity = 1.0
+		elasticity_momentum = 0
 		
 		// Market sentiment
-		market_sentiment = 0        // -100 (bearish) to +100 (bullish)
-		sentiment_history = 0       // 7-tick rolling average
-		volatility_index = 0.1      // 0.0-1.0 price swing intensity
+		market_sentiment = 0
+		sentiment_history = 0
+		volatility_index = 0.1
 		
 		// Ratio tracking
-		supply_demand_ratio = 1.0   // current_supply / current_demand
-		ratio_threshold_high = 2.0  // Supply glut threshold
-		ratio_threshold_low = 0.5   // Shortage threshold
+		supply_demand_ratio = 1.0
+		ratio_threshold_high = 2.0
+		ratio_threshold_low = 0.5
 		
 		// Speculation tracking
-		spec_buy_orders = 0         // Players buying for resale
-		spec_sell_orders = 0        // Players selling at peak
-		speculation_intensity = 0   // 0.0-1.0
+		spec_buy_orders = 0
+		spec_sell_orders = 0
+		speculation_intensity = 0
 		
 		// Time tracking
 		last_update = 0
-		update_interval = 10        // Ticks between updates
-		cycle_phase = 0             // 0-1.0 for cyclical demand
+		update_interval = 10
+		cycle_phase = 0
 
 /proc/CreateSupplyDemandCurve(commodity_name, base_supply = 100, base_demand = 100)
 	/**
@@ -96,12 +94,8 @@
 	 * Affects supply_shock calculation
 	 */
 	current_supply = new_supply
-	
-	// Calculate supply shock (deviation from baseline)
 	var/deviation = (current_supply - base_supply) / max(1, base_supply)
 	supply_shock = clamp(deviation, -1.0, 1.0)
-	
-	// Update ratio
 	supply_demand_ratio = current_supply / max(1, current_demand)
 
 /datum/supply_demand_curve/proc/UpdateDemand(new_demand)
@@ -111,12 +105,8 @@
 	 * Affects demand_shock calculation
 	 */
 	current_demand = new_demand
-	
-	// Calculate demand shock (deviation from baseline)
 	var/deviation = (current_demand - base_demand) / max(1, base_demand)
 	demand_shock = clamp(deviation, -1.0, 1.0)
-	
-	// Update ratio
 	supply_demand_ratio = current_supply / max(1, current_demand)
 
 /datum/supply_demand_curve/proc/RecalculateElasticity()
@@ -128,8 +118,6 @@
 	 * Glut (high ratio) = elastic (2.0)
 	 */
 	var/ratio = supply_demand_ratio
-	
-	// Invert ratio for elasticity (scarce items = inelastic)
 	if(ratio > ratio_threshold_high)
 		// Glut: elastic (buyers choosy)
 		price_elasticity = 1.5 + (ratio - ratio_threshold_high) * 0.25
@@ -149,20 +137,12 @@
 	 * Bullish when shortage, bearish when glut
 	 */
 	var/sentiment_shift = 0
-	
-	// Shortage increases bullish sentiment
 	if(supply_demand_ratio < ratio_threshold_low)
 		sentiment_shift = -50 * (ratio_threshold_low - supply_demand_ratio)
-	
-	// Glut increases bearish sentiment
 	else if(supply_demand_ratio > ratio_threshold_high)
 		sentiment_shift = 50 * (supply_demand_ratio - ratio_threshold_high)
-	
-	// Trend adjustment (growing/shrinking demand)
 	sentiment_shift += demand_trend * 30
 	sentiment_shift += supply_trend * -20  // Supply increase = bearish
-	
-	// Smooth sentiment changes
 	market_sentiment = round(market_sentiment * 0.7 + sentiment_shift * 0.3)
 	market_sentiment = clamp(market_sentiment, -100, 100)
 
@@ -174,8 +154,6 @@
 	 * Low when balanced
 	 */
 	var/extremity = 0
-	
-	// Distance from baseline
 	extremity += abs(supply_shock)
 	extremity += abs(demand_shock)
 	extremity += abs(market_sentiment) / 100.0
@@ -186,8 +164,6 @@
 	// Smooth volatility
 	volatility_index = round((volatility_index * 0.8 + (extremity / 3.0) * 0.2) * 100) / 100.0
 	volatility_index = clamp(volatility_index, 0.05, 1.0)
-
-// ============================================================================
 // PRICE IMPACT CALCULATIONS
 // ============================================================================
 
@@ -243,8 +219,6 @@
 	var/sentiment_mult = GetSentimentMultiplier()
 	
 	var/composite = elasticity_mult * supply_mult * demand_mult * sentiment_mult
-	
-	// Add volatility as random fluctuation (±volatility_index%)
 	var/volatility_swing = (rand(-100, 100) / 100.0) * volatility_index
 	
 	return composite + volatility_swing
@@ -283,8 +257,6 @@
 		current_supply = min(current_supply + (base_supply * 0.1), base_supply)
 	else
 		current_supply = max(current_supply - (base_supply * 0.1), base_supply)
-
-// ============================================================================
 // DEMAND CYCLE MECHANICS
 // ============================================================================
 
@@ -300,8 +272,6 @@
 	 * - Harvest: Post-harvest high supply, low demand spike
 	 */
 	cycle_phase = clamp(phase_0_to_1, 0.0, 1.0)
-	
-	// Sinusoidal demand curve: peak at 0.5
 	var/cycle_demand = base_demand * (0.5 + sin(cycle_phase * 180) / 2.0)
 	UpdateDemand(cycle_demand)
 
@@ -315,13 +285,13 @@
 	
 	switch(season)
 		if("Spring")
-			seasonal_modifier = 0.9   // Planting resources in demand
+			seasonal_modifier = 0.9
 		if("Summer")
-			seasonal_modifier = 0.7   // Less survival pressure
+			seasonal_modifier = 0.7
 		if("Autumn")
-			seasonal_modifier = 1.2   // Harvest prep, storage
+			seasonal_modifier = 1.2
 		if("Winter")
-			seasonal_modifier = 1.5   // Survival essentials peak
+			seasonal_modifier = 1.5
 	
 	UpdateDemand(base_demand * seasonal_modifier)
 
@@ -365,8 +335,6 @@
 	spec_buy_orders = max(0, spec_buy_orders - (base_demand * 0.05))
 	spec_sell_orders = max(0, spec_sell_orders - (base_supply * 0.05))
 	speculation_intensity = max(0.0, speculation_intensity - 0.05)
-
-// ============================================================================
 // TREND TRACKING
 // ============================================================================
 
@@ -380,13 +348,9 @@
 	var/supply_delta = (current_supply - base_supply) / max(1, base_supply)
 	supply_trend = supply_trend * 0.7 + supply_delta * 0.3
 	supply_trend = clamp(supply_trend, -0.5, 0.5)
-	
-	// Demand trend: compare to baseline
 	var/demand_delta = (current_demand - base_demand) / max(1, base_demand)
 	demand_trend = demand_trend * 0.7 + demand_delta * 0.3
 	demand_trend = clamp(demand_trend, -0.5, 0.5)
-
-// ============================================================================
 // SYSTEM INITIALIZATION
 // ============================================================================
 
@@ -441,8 +405,8 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/update_interval = 50     // Update every 50 ticks
-	var/decay_interval = 600     // Decay speculation hourly
+	var/update_interval = 50
+	var/decay_interval = 600
 	
 	var/last_update = world.time
 	var/last_decay = world.time
@@ -453,13 +417,11 @@
 		// Regular updates
 		if(world.time - last_update >= update_interval)
 			last_update = world.time
-			// Would iterate through all curves and update
 			// For now, framework ready
 		
 		// Decay speculation
 		if(world.time - last_decay >= decay_interval)
 			last_decay = world.time
-			// Would decay speculation for all curves
 
 /proc/GetSupplyDemandCurve(commodity_name)
 	/**

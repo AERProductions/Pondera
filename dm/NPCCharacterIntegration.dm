@@ -328,29 +328,25 @@
 				M << "<font color=#FF5555>You already know advanced building.</font>"
 
 // ============================================================================
-// NPC INTERACTION SYSTEM - Click to interact with NPCs
+// NPC INTERACTION SYSTEM - Integrated with Macros.dm
 // ============================================================================
 
 /mob/npcs/Click()
 	/**
-	 * Click() - NPC interaction handler
-	 * Players right-click NPCs to open interaction menu
+	 * Click() - NPC click handler (left-click for targeting, right-click open menu)
+	 * Left-click: Target NPC for E-key interaction
+	 * Right-click: Deselect target (click-to-deselect)
 	 */
 	set popup_menu = 1
 	
 	var/mob/players/player = usr
-	if(!istype(player)) return  // Only players can interact
+	if(!istype(player)) return
 	
-	// Show interaction menu
-	var/choice = input(player, "What would you like to do?", "Interact with [src.name]") as null|anything in list("Greet", "Learn Recipes", "Cancel")
+	// Left-click = target
+	if(player.SetTargetNPC(src))
+		// Target set successfully - no additional message, SetTargetNPC handles it
+		return
 	
-	if(!choice || choice == "Cancel") return
-	
-	switch(choice)
-		if("Greet")
-			GreetPlayer(player)
-		if("Learn Recipes")
-			ShowRecipeTeaching(player)
 
 /mob/npcs/proc/GreetPlayer(mob/players/M)
 	/**
@@ -377,10 +373,11 @@
 		else
 			M << "<span class='good'>Hello there, friend.</span>"
 
-/mob/npcs/proc/ShowRecipeTeaching(mob/players/M)
+/mob/npcs/proc/ShowRecipeTeachingHUD(mob/players/M)
 	/**
-	 * ShowRecipeTeaching - Display available recipes to teach
-	 * Offers basic recipes based on NPC type
+	 * ShowRecipeTeachingHUD - Display available recipes to teach (HUD version)
+	 * Shows recipes the NPC can teach without using input() dialog
+	 * Instead displays in chat for macro key selection
 	 */
 	if(!character)
 		M << "<span class='warning'>[src.name] has nothing to teach you right now.</span>"
@@ -407,6 +404,13 @@
 		M << "<span class='info'>[src.name] has nothing more to teach you.</span>"
 		return
 	
+	// Display available recipes in chat
+	M << "<span class='info'>[src.name] can teach you:</span>"
+	for(var/i = 1; i <= available_recipes.len; i++)
+		M << "<span class='info'>[i]. [available_recipes[i]]</span>"
+	
+	// TODO: Implement HUD-based recipe selection (Phase 0.5c)
+	// For now, fall back to input dialog as temporary measure
 	var/choice = input(M, "Which recipe would you like to learn?", "Learn from [src.name]") as null|anything in available_recipes
 	
 	if(!choice) return
@@ -416,3 +420,6 @@
 		MarkPlayerTaught(M.ckey)
 	else
 		M << "<span class='warning'>You already know how to do that.</span>"
+
+// Keep existing teaching helper procs below
+// (TeachRecipeToPlayer, MarkPlayerTaught, etc remain unchanged)

@@ -31,32 +31,30 @@
 	 */
 	var
 		// Identity
-		player_ref = null            // /mob/players reference
-		player_name = ""             // Name snapshot
+		player_ref = null
+		player_name = ""
 		
 		// Combat record
-		wins = 0                      // Total wins
-		losses = 0                    // Total losses
-		kills = 0                     // Total kills
-		deaths = 0                    // Total deaths
-		win_streak = 0               // Current win streak
-		longest_win_streak = 0       // Best win streak
+		wins = 0
+		losses = 0
+		kills = 0
+		deaths = 0
+		win_streak = 0
+		longest_win_streak = 0
 		
 		// Rewards earned
-		lucre_earned = 0             // Lucre from PvP bounties
-		kills_since_reward = 0       // Kills before next reward
+		lucre_earned = 0
+		kills_since_reward = 0
 		
 		// Timestamp
-		first_combat = 0             // When started PvP
-		last_combat = 0              // Last PvP action
+		first_combat = 0
+		last_combat = 0
 
 /datum/pvp_stats/New(mob/players/player)
 	..()
 	player_ref = player
 	player_name = player.name
 	first_combat = world.time
-
-// ============================================================================
 // PVP SEASON TRACKER
 // ============================================================================
 
@@ -70,9 +68,9 @@
 		season_name = ""
 		start_time = 0
 		end_time = 0
-		duration_ms = 0              // Length in world time
+		duration_ms = 0
 		
-		list/rankings = list()       // /datum/pvp_stats ordered by wins
+		list/rankings = list()
 		total_matches = 0
 		total_kills = 0
 
@@ -105,7 +103,7 @@
 		kills = 0
 		started_time = 0
 		last_kill_time = 0
-		timeout_duration = 300  // 7.5 seconds - streak expires if not maintained
+		timeout_duration = 300
 
 /datum/kill_streak/New(mob/players/player)
 	..()
@@ -160,8 +158,6 @@
 	
 	if(attacker_stats.win_streak > attacker_stats.longest_win_streak)
 		attacker_stats.longest_win_streak = attacker_stats.win_streak
-	
-	// Update kill streak
 	var/datum/kill_streak/streak = attacker.vars["kill_streak"]
 	if(!streak || !IsStreakActive(streak))
 		streak = new /datum/kill_streak(attacker)
@@ -169,17 +165,13 @@
 	
 	streak.kills++
 	streak.last_kill_time = world.time
-	
-	// ─────────────────────────────────────────────────────────────────────
 	// UPDATE DEFENDER STATS
 	// ─────────────────────────────────────────────────────────────────────
 	
 	defender_stats.deaths++
 	defender_stats.losses++
-	defender_stats.win_streak = 0  // Streak reset
+	defender_stats.win_streak = 0
 	defender_stats.last_combat = world.time
-	
-	// Clear defender's streak
 	defender.vars["kill_streak"] = null
 	
 	// ─────────────────────────────────────────────────────────────────────
@@ -188,8 +180,6 @@
 	
 	// Base reward: 50 lucre per kill
 	var/lucre_reward = 50
-	
-	// Kill streak bonus: +10 lucre per kill in current streak
 	if(streak.kills > 1)
 		lucre_reward += (streak.kills - 1) * 10
 	
@@ -211,8 +201,6 @@
 		attacker << "<font color=#FFFF00>KILL STREAK: [streak.kills]!</font>"
 	
 	defender << "<font color=#FF5555>KILLED BY [attacker.name]</font>"
-	
-	// Log PvP event
 	world.log << "PVP: [attacker.name] killed [defender.name] ([lucre_reward] lucre, streak: [streak.kills])"
 	
 	return TRUE
@@ -255,8 +243,6 @@
 	 */
 	
 	var/list/all_stats = list()
-	
-	// Collect all player stats
 	for(var/mob/players/player in world)
 		if(!player || !player.vars["pvp_stats"])
 			continue
@@ -330,7 +316,7 @@ var/global/list/season_history = list()
 	 */
 	
 	// Create initial season (30 days)
-	var/season_duration = 30 * 24 * 60 * 60 * 10  // 30 days in ticks
+	var/season_duration = 30 * 24 * 60 * 60 * 10
 	current_season = new /datum/pvp_season(1, season_duration)
 	
 	world.log << "RANKING: PvP ranking system initialized (Season [current_season.season_number])"
@@ -352,10 +338,8 @@ var/global/list/season_history = list()
 	
 	// Create new season
 	var/new_season_num = current_season.season_number + 1
-	var/season_duration = 30 * 24 * 60 * 60 * 10  // 30 days
+	var/season_duration = 30 * 24 * 60 * 60 * 10
 	current_season = new /datum/pvp_season(new_season_num, season_duration)
-	
-	// Announce to all players
 	for(var/mob/players/player in world)
 		if(!player.client)
 			continue
@@ -380,8 +364,6 @@ var/global/list/season_history = list()
 	
 	// Get final rankings
 	var/list/final_rankings = GetPvPLeaderboard(null)
-	
-	// Award seasonal rewards to top 10
 	var/list/reward_tiers = alist(
 		1, 1000,  // 1st place: 1000 lucre
 		2, 500,   // 2nd: 500
@@ -476,7 +458,7 @@ var/global/list/season_history = list()
 	set background = 1
 	set waitfor = 0
 	
-	var/process_interval = 3000  // Check every 75 seconds
+	var/process_interval = 3000
 	var/last_process = world.time
 	
 	while(1)
@@ -484,8 +466,6 @@ var/global/list/season_history = list()
 		
 		if(world.time - last_process >= process_interval)
 			last_process = world.time
-			
-			// Check if season ended
 			if(current_season && !IsSeasonActive(current_season))
 				EndSeason()
 				StartNewSeason()

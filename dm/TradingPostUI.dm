@@ -28,29 +28,23 @@
 	 */
 	var
 		// Owner info
-		stall_owner = null       // Player mob
+		stall_owner = null
 		owner_name = "Unknown"
-		
-		// Trading info
-		list/buy_offers = list()    // What we want to buy
-		list/sell_stock = list()    // What we're selling
-		list/active_trades = list() // In-progress trades
+		list/buy_offers = list()
+		list/sell_stock = list()
+		list/active_trades = list()
 		
 		// Stall stats
 		total_trades = 0
 		total_volume = 0
 		average_rating = 5.0
-		
-		// Pricing
-		markup_percentage = 1.2  // 1.2 = 20% markup
-		markdown_percentage = 0.8 // 0.8 = 20% markdown
+		markup_percentage = 1.2
+		markdown_percentage = 0.8
 		
 		// Location
 		location_x = 0
 		location_y = 0
 		location_z = 0
-		
-		// Business hours
 		is_open = TRUE
 		open_time = 0
 		close_time = 0
@@ -63,24 +57,18 @@
 	var
 		// Offer details
 		offer_id = null
-		offer_type = "buy"  // "buy" or "sell"
+		offer_type = "buy"
 		
 		// Items
 		item_name = ""
 		item_type = null
 		quantity = 0
 		unit_price = 0
-		
-		// Trader info
 		trader = null
 		trader_name = "Unknown"
-		
-		// Status
-		status = "active"  // "active", "accepted", "completed", "cancelled"
+		status = "active"
 		created_time = 0
 		expiry_time = 0
-		
-		// Conditions
 		min_reputation = 0
 		max_distance = 0
 
@@ -99,8 +87,6 @@
 		total_value = 0
 		buyer_rating = 5
 		seller_rating = 5
-
-// ============================================================================
 // TRADING POST MANAGEMENT
 // ============================================================================
 
@@ -113,7 +99,7 @@
 	var/datum/trading_post/post = new /datum/trading_post()
 	
 	post.stall_owner = player
-	post.owner_name = "Merchant"  // Framework: would get player.name
+	post.owner_name = "Merchant"
 	post.location_x = location_x
 	post.location_y = location_y
 	post.location_z = location_z
@@ -351,7 +337,6 @@
 	 * Framework: Would query global stall registry
 	 */
 	var/list/top_posts = list()
-	// Implementation would sort all stalls by rating
 	return top_posts
 
 /proc/GetMostActiveTradingPosts(limit = 10)
@@ -361,7 +346,6 @@
 	 * Framework: Would query global stall registry
 	 */
 	var/list/active_posts = list()
-	// Implementation would sort all stalls by total_volume
 	return active_posts
 
 // ============================================================================
@@ -462,7 +446,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/update_interval = 150  // Every 2.5 minutes
+	var/update_interval = 150
 	var/last_update = world.time
 	
 	while(1)
@@ -470,7 +454,6 @@
 		
 		if(world.time - last_update >= update_interval)
 			last_update = world.time
-			// Would iterate through all stalls:
 			// - Remove expired offers
 			// - Update suggested prices
 			// - Calculate daily fees

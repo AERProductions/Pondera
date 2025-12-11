@@ -1,5 +1,17 @@
 {
     "zenMode.fullScreen": false,
     "dreammaker.objectTreePane": true,
-    "explorer.sortOrder": "type"
+    "explorer.sortOrder": "type",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell",
+            "args": ["-NoExit", "-Command", "& {$PSVersionTable.PSVersion}"]
+        }
+    },
+    "terminal.integrated.shellIntegration.enabled": true,
+    "terminal.integrated.shellIntegration.decorationsEnabled": "both",
+    "terminal.integrated.persistentSessionReviveProcess": "never",
+    "python.defaultInterpreterPath": "C:\\Users\\ABL\\AppData\\Local\\Programs\\Python\\Python314\\python.exe"
 }

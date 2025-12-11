@@ -97,13 +97,12 @@
 		if(!terrain_data)
 			return 1
 
-		var
-			mover_elevel = mover.elevel || 1.0
-			terrain_elevel = terrain_data.elevel
-			terrain_dir = terrain_data.dir
-			mover_dir = mover.dir
-			reverse = terrain_data.reverse_logic
-			check_dir = terrain_data.check_direction
+		var/mover_elevel = mover.elevel || 1.0
+		var/terrain_elevel = terrain_data.elevel
+		var/terrain_dir = terrain_data.dir
+		var/mover_dir = mover.dir
+		var/reverse = terrain_data.reverse_logic
+		var/check_dir = terrain_data.check_direction
 
 		// No direction checking (for diagonal/complex terrain)
 		if(!check_dir)
@@ -300,7 +299,7 @@ proc/BuildElevationTerrainTurfs()
 	Lookup function to retrieve terrain metadata by icon_state.
 	Used by legacy jb.dm types to populate their properties.
 */
-proc/datum/elevation_terrain/GetElevationTerrainData(icon_state)
+/proc/GetElevationTerrainData(icon_state)
 	for(var/key in ELEVATION_TERRAIN_REGISTRY)
 		var/datum/elevation_terrain/data = ELEVATION_TERRAIN_REGISTRY[key]
 		if(data.icon_state == icon_state)

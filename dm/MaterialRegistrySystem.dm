@@ -23,8 +23,6 @@
 var
 	// Global material registry container (indexed by continent name)
 	list/material_registries = list()
-
-// ============================================================================
 // MATERIAL DEFINITIONS
 // ============================================================================
 
@@ -34,31 +32,31 @@ var
 	 * Definition of a single material type
 	 */
 	var
-		name = ""                // "Iron", "Copper", "Stone", etc.
-		tier = 1                 // 1 (Stone) to 5+ (Steel)
-		mineable = FALSE         // Can be mined from terrain
-		smeltable = FALSE        // Can be smelted from ore
-		craftable = FALSE        // Can be used in crafting
+		name = ""
+		tier = 1
+		mineable = FALSE
+		smeltable = FALSE
+		craftable = FALSE
 		
 		// Mining info
-		ore_name = ""            // "Iron Ore" (what player mines)
-		ore_to_ingot_ratio = 1   // 3 ore → 1 ingot (3:1 ratio)
-		minimum_mining_level = 1 // Required rank to mine
+		ore_name = ""
+		ore_to_ingot_ratio = 1
+		minimum_mining_level = 1
 		
 		// Smelting info
-		requires_furnace = FALSE // True for steel, advanced alloys
-		furnace_type = ""        // "basic_furnace", "advanced_foundry", etc.
-		smelting_time_ticks = 100 // How long to smelt
+		requires_furnace = FALSE
+		furnace_type = ""
+		smelting_time_ticks = 100
 		
 		// Crafting info
-		base_damage = 0          // For weapons
-		armor_ac = 0             // For armor
-		durability = 100         // Base durability points
-		weight = 1               // Relative weight (affects carrying)
+		base_damage = 0
+		armor_ac = 0
+		durability = 100
+		weight = 1
 		
 		// Economy info
-		base_price = 100         // Base market price
-		rarity = "common"        // common, uncommon, rare, epic
+		base_price = 100
+		rarity = "common"
 		
 		// Descriptions
 		description = ""
@@ -87,27 +85,27 @@ var
 	 * Each continent has its own registry with different material availability
 	 */
 	var
-		continent_name = ""      // "story", "sandbox", "pvp"
+		continent_name = ""
 		
 		// Materials available in this continent
-		list/materials = list()  // list of /datum/material_config
-		list/mineable_materials = list()   // Subset: can be mined here
-		list/craftable_materials = list()  // Subset: can be crafted with here
-		list/smeltable_materials = list()  // Subset: can be smelted here
+		list/materials = list()
+		list/mineable_materials = list()
+		list/craftable_materials = list()
+		list/smeltable_materials = list()
 		
 		// Smelting recipes (continent-specific)
-		list/smelting_recipes = list()     // "Bronze" -> list(copper_ingot=1, tin_ingot=1)
+		list/smelting_recipes = list()
 		
 		// Crafting restrictions (by player level/story progress)
-		list/level_gates = list()   // material -> minimum_level
-		list/location_gates = list() // material -> required_location
+		list/level_gates = list()
+		list/location_gates = list()
 		
 		// Territory material distribution
-		list/territory_materials = list()  // territory -> list of available materials
+		list/territory_materials = list()
 		
 		// Availability modifiers
-		material_abundance = 1.0   // Multiplier for spawn frequency
-		crafting_cost_modifier = 1.0 // Price multiplier
+		material_abundance = 1.0
+		crafting_cost_modifier = 1.0
 
 /proc/InitializeMaterialRegistries()
 	/**
@@ -120,8 +118,6 @@ var
 	
 	// Create global registry container
 	material_registries = list()
-	
-	// Initialize each continent's materials
 	InitializeSandboxMaterials()
 	InitializeStoryMaterials()
 	InitializePvPMaterials()
@@ -137,8 +133,8 @@ var
 	
 	var/datum/continent_material_registry/registry = new()
 	registry.continent_name = "sandbox"
-	registry.material_abundance = 2.0  // Double spawn frequency (creative abundance)
-	registry.crafting_cost_modifier = 0.5  // Half price (creative discount)
+	registry.material_abundance = 2.0
+	registry.crafting_cost_modifier = 0.5
 	
 	// Create all 9 materials
 	var/datum/material_config/stone = CreateMaterial("Stone", 1, TRUE, FALSE, TRUE)
@@ -230,7 +226,7 @@ var
 	
 	var/datum/material_config/bronze = CreateMaterial("Bronze", 3, FALSE, TRUE, TRUE)
 	bronze.description = "Copper + Tin alloy, durable and decorative"
-	bronze.base_price = 180  // More than sum of parts (alloy premium)
+	bronze.base_price = 180
 	bronze.armor_ac = 3
 	bronze.base_damage = 3
 	bronze.rarity = "uncommon"
@@ -286,8 +282,8 @@ var
 	
 	var/datum/continent_material_registry/registry = new()
 	registry.continent_name = "story"
-	registry.material_abundance = 1.0  // Normal spawn
-	registry.crafting_cost_modifier = 1.0  // Normal prices
+	registry.material_abundance = 1.0
+	registry.crafting_cost_modifier = 1.0
 	
 	// Stone: Always available (tier 1)
 	var/datum/material_config/stone = CreateMaterial("Stone", 1, TRUE, FALSE, TRUE)
@@ -396,14 +392,14 @@ var
 	
 	var/datum/continent_material_registry/registry = new()
 	registry.continent_name = "pvp"
-	registry.material_abundance = 1.0  // Normal spawn
-	registry.crafting_cost_modifier = 1.5  // 50% more expensive (PvP economy)
+	registry.material_abundance = 1.0
+	registry.crafting_cost_modifier = 1.5
 	
 	// Stone: Ubiquitous (tier 1, starter)
 	var/datum/material_config/stone = CreateMaterial("Stone", 1, TRUE, FALSE, TRUE)
 	stone.ore_name = "Stone"
 	stone.description = "Starter material, abundant everywhere"
-	stone.base_price = 15  // Slightly more expensive in PvP
+	stone.base_price = 15
 	stone.armor_ac = 1
 	stone.minimum_mining_level = 1
 	registry.materials += stone
@@ -415,9 +411,9 @@ var
 	copper.ore_name = "Copper Ore"
 	copper.ore_to_ingot_ratio = 2
 	copper.description = "Mid-tier armor material, territory-dependent"
-	copper.base_price = 75  // More expensive (PvP scarcity)
+	copper.base_price = 75
 	copper.armor_ac = 2
-	copper.minimum_mining_level = 1  // No level gate in PvP
+	copper.minimum_mining_level = 1
 	copper.requires_furnace = TRUE
 	copper.furnace_type = "basic_furnace"
 	registry.materials += copper
@@ -430,7 +426,7 @@ var
 	iron.ore_name = "Iron Ore"
 	iron.ore_to_ingot_ratio = 3
 	iron.description = "Primary warfare material, valuable trade commodity"
-	iron.base_price = 150  // Double normal price (PvP value)
+	iron.base_price = 150
 	iron.armor_ac = 3
 	iron.base_damage = 3
 	iron.minimum_mining_level = 1
@@ -444,13 +440,13 @@ var
 	// Steel: Endgame (tier 4, ultra-rare, high-value raid target)
 	var/datum/material_config/steel = CreateMaterial("Steel", 4, FALSE, TRUE, TRUE)
 	steel.description = "Endgame warfare material, strategic resource"
-	steel.base_price = 450  // 50% more expensive (PvP rarity)
+	steel.base_price = 450
 	steel.armor_ac = 5
 	steel.base_damage = 5
 	steel.durability = 150
-	steel.rarity = "epic"  // Ultra rare in PvP
+	steel.rarity = "epic"
 	steel.requires_furnace = TRUE
-	steel.furnace_type = "advanced_foundry"  // Must be smelted at specific location
+	steel.furnace_type = "advanced_foundry"
 	steel.smelting_time_ticks = 200
 	registry.materials += steel
 	registry.smeltable_materials += steel

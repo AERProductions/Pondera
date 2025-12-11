@@ -31,32 +31,30 @@
 		// Event details
 		event_id = null
 		event_name = "Unknown Crisis"
-		event_type = "inflation"  // inflation, deflation, shortage, glut, crash, boom
-		severity = 0.5           // 0.0-1.0
+		event_type = "inflation"
+		severity = 0.5
 		
 		// Affected areas
-		affected_commodities = list()  // List of affected items
-		affected_regions = list()      // List of affected territories
+		affected_commodities = list()
+		affected_regions = list()
 		
 		// Impact
 		price_multiplier = 1.0
 		supply_modifier = 1.0
 		demand_modifier = 1.0
-		
-		// Timeline
 		start_time = 0
-		duration = 0            // Ticks until resolution
-		escalation_rate = 0.01  // How fast crisis gets worse
-		recovery_rate = 0.005   // How fast market recovers
+		duration = 0
+		escalation_rate = 0.01
+		recovery_rate = 0.005
 		
 		// State
-		current_intensity = 0   // 0.0-1.0
-		status = "active"       // active, escalating, resolving, ended
+		current_intensity = 0
+		status = "active"
 		
 		// Economic impact
-		wealth_destroyed = 0    // Total lucre lost
-		trades_blocked = 0      // Transactions prevented
-		bankruptcies = 0        // NPCs/players ruined
+		wealth_destroyed = 0
+		trades_blocked = 0
+		bankruptcies = 0
 
 /datum/crisis_type
 	/**
@@ -67,12 +65,12 @@
 		name = "Generic Crisis"
 		base_severity = 0.5
 		duration = 1000
-		affected_count = 3      // How many commodities affected
+		affected_count = 3
 		price_impact_min = 0.5
 		price_impact_max = 2.0
 		supply_impact = -0.3
 		demand_impact = 0.2
-		player_exploitable = FALSE  // Can players profit?
+		player_exploitable = FALSE
 
 // ============================================================================
 // CRISIS EVENT TYPES (Template Library)
@@ -91,7 +89,7 @@
 	switch(type_name)
 		if("inflation")
 			template.base_severity = 0.4
-			template.duration = 2000      // Slow burn
+			template.duration = 2000
 			template.price_impact_min = 1.2
 			template.price_impact_max = 1.8
 			template.demand_impact = 0.3
@@ -111,7 +109,7 @@
 			template.supply_impact = -0.5
 			template.price_impact_min = 1.5
 			template.price_impact_max = 3.0
-			template.player_exploitable = TRUE  // Can hoard & resell
+			template.player_exploitable = TRUE
 			
 		if("glut")
 			template.base_severity = 0.4
@@ -126,7 +124,7 @@
 			template.duration = 600
 			template.price_impact_min = 0.1
 			template.price_impact_max = 0.4
-			template.affected_count = 10  // Affects everything
+			template.affected_count = 10
 			template.player_exploitable = FALSE
 			
 		if("boom")
@@ -135,7 +133,7 @@
 			template.price_impact_min = 1.5
 			template.price_impact_max = 2.5
 			template.demand_impact = 0.5
-			template.player_exploitable = TRUE  // Can profit
+			template.player_exploitable = TRUE
 	
 	return template
 
@@ -180,8 +178,6 @@
 	if(status != "active") return
 	
 	current_intensity = min(current_intensity + escalation_rate, 1.0)
-	
-	// Price multiplier increases with intensity
 	price_multiplier += escalation_rate * 0.05
 	
 	// Supply decreases more
@@ -199,12 +195,8 @@
 	if(status == "ended") return
 	
 	current_intensity = max(current_intensity - recovery_rate, 0)
-	
-	// Price multiplier returns to normal
 	price_multiplier += recovery_rate * 0.1
 	price_multiplier = max(price_multiplier, 1.0)
-	
-	// Supply recovers
 	supply_modifier += recovery_rate * 0.05
 	
 	if(current_intensity <= 0)
@@ -266,8 +258,6 @@
 	var/datum/crisis_type/crash_template = CreateCrisisTemplate("Stock Market Crash", "crash")
 	var/datum/crisis_event/crash_event = CreateCrisisEvent(crash_template)
 	
-	// Framework: Would set properties on crash_event
-	
 	world.log << "CRISIS: MARKET CRASH triggered (severity [round(severity*100)]%)"
 	
 	return crash_event
@@ -280,8 +270,6 @@
 	 */
 	var/datum/crisis_type/shortage_template = CreateCrisisTemplate("[commodity] Shortage", "shortage")
 	var/datum/crisis_event/shortage_event = CreateCrisisEvent(shortage_template)
-	
-	// Framework: Would set shortage properties
 	
 	world.log << "CRISIS: [commodity] shortage triggered (severity [round(severity*100)]%)"
 	
@@ -297,8 +285,6 @@
 	 */
 	var/datum/crisis_type/inflation_template = CreateCrisisTemplate("Inflation Spiral", "inflation")
 	var/datum/crisis_event/inflation_event = CreateCrisisEvent(inflation_template)
-	
-	// Framework: Would set inflation properties
 	
 	world.log << "CRISIS: INFLATION SPIRAL triggered"
 	
@@ -364,7 +350,7 @@
 	set background = 1
 	set waitfor = 0
 	
-	var/crisis_check_interval = 500  // Check every ~8 seconds
+	var/crisis_check_interval = 500
 	var/last_check = world.time
 	
 	while(1)
@@ -372,8 +358,6 @@
 		
 		if(world.time - last_check >= crisis_check_interval)
 			last_check = world.time
-			
-			// Would check for crisis conditions:
 			// - Random crisis spawn (5-10% chance)
 			// - Escalate/recover existing crises
 			// - Check for bankruptcy events
@@ -388,7 +372,6 @@
 	 * Framework: Would query global registry
 	 */
 	var/list/crises = list()
-	// Implementation would return all active crises
 	return crises
 
 /proc/ResolveCrisis(crisis_event)
@@ -484,7 +467,6 @@
 	 * Framework: Would query historical database
 	 */
 	var/list/history = list()
-	// Implementation would return past crises
 	return history
 
 /proc/CalculateCrisisImpact(commodity, start_time, end_time)
@@ -494,5 +476,4 @@
 	 * Framework: Would aggregate crisis price impacts
 	 */
 	var/impact = 1.0
-	// Would apply all crises affecting commodity during period
 	return impact

@@ -4,8 +4,6 @@
 
 var
 	global/datum/market_board_manager/market_board = null
-
-// ============================================================================
 // MARKET BOARD LISTING DATUM
 // ============================================================================
 
@@ -22,7 +20,7 @@ var
 		item_type = ""
 		quantity = 1
 		price_per_unit = 0
-		currency_type = "lucre"  // lucre, stone, metal, timber
+		currency_type = "lucre"
 		creation_time = 0
 		expiration_time = 0
 		is_active = TRUE
@@ -38,12 +36,12 @@ var
 	var
 		list/active_listings = list()
 		list/completed_sales = list()
-		list/seller_inventory = list()  // seller_ckey -> list of listings
+		list/seller_inventory = list()
 		list/listing_search_cache = list()
 		next_listing_id = 1
 		max_listings_per_player = 25
-		listing_duration = 14400  // 4 hours in ticks
-		cleanup_interval = 3600   // 1 hour cleanup cycle
+		listing_duration = 14400
+		cleanup_interval = 3600
 
 	proc/CreateListing(mob/player, item_name, item_type, quantity, price_per_unit, currency_type = "lucre")
 		/**
@@ -68,8 +66,6 @@ var
 		// Validate currency
 		if(currency_type != "lucre" && currency_type != "stone" && currency_type != "metal" && currency_type != "timber")
 			currency_type = "lucre"
-		
-		// Create listing
 		var/datum/market_listing/listing = new()
 		listing.listing_id = next_listing_id++
 		listing.seller_name = player.ckey
@@ -82,8 +78,6 @@ var
 		listing.creation_time = world.time
 		listing.expiration_time = world.time + listing_duration
 		listing.is_active = TRUE
-		
-		// Add to listings
 		active_listings += listing
 		if(!seller_inventory[player.ckey]) seller_inventory[player.ckey] = list()
 		seller_inventory[player.ckey] += listing
@@ -117,8 +111,6 @@ var
 		
 		// Calculate total cost
 		var/total_cost = listing.quantity * listing.price_per_unit
-		
-		// Check buyer has sufficient funds
 		var/buyer_balance = GetPlayerCurrency(buyer, listing.currency_type)
 		if(buyer_balance < total_cost)
 			buyer << "ERROR: Insufficient funds. Need [total_cost] [listing.currency_type], have [buyer_balance]"
@@ -141,8 +133,6 @@ var
 		listing.buyer_name = buyer.ckey
 		listing.buyer_ckey = buyer.ckey
 		listing.purchase_time = world.time
-		
-		// Move to completed sales
 		completed_sales += listing
 		active_listings.Remove(listing)
 		if(seller_inventory[listing.seller_ckey])
@@ -412,8 +402,6 @@ var
 		
 		// Update search cache
 		board.listing_search_cache = list()
-
-// ============================================================================
 // MARKET BOARD INTEGRATION WITH FILTERING LIBRARY
 // ============================================================================
 
@@ -429,8 +417,6 @@ proc/GetMarketableItemsFiltered(mob/player)
 		if(!test) continue
 		
 		var/type_str = "[test.type]"
-		
-		// Exclude unstable items
 		if(findtext(type_str, "Container") || findtext(type_str, "Jar") || findtext(type_str, "Bag"))
 			continue
 		if(findtext(type_str, "Deed") || findtext(type_str, "Quest"))

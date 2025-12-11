@@ -3,10 +3,7 @@
 // Replaces scattered Tname variables and separate Temp/STemp procs with unified state machine
 // Realistic temperature progression: Hot → Warm → Cool with customizable cooling rates
 
-// Temperature stage constants
-#define TEMP_COOL 0            // Ready to quench or combine
-#define TEMP_WARM 1            // Cooling down, workable
-#define TEMP_HOT 2             // Fresh from forge, optimal working window
+// TEMP_* constants are now centralized in !defines.dm
 
 // Temperature tracking (in game ticks)
 #define TEMP_HOT_DURATION 240     // Time spent at Hot stage (12 seconds at 20 ticks/sec)

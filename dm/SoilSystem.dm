@@ -11,11 +11,9 @@
  */
 
 /**
- * Soil type constants
+ * Soil type constants - now centralized in !defines.dm
+ * SOIL_DEPLETED, SOIL_BASIC, SOIL_RICH
  */
-#define SOIL_BASIC 1
-#define SOIL_RICH 2
-#define SOIL_DEPLETED 0
 
 /**
  * Soil quality data structure

@@ -182,7 +182,6 @@
 	var/start_z = start_loc.z
 	var/end_x = end_loc.x
 	var/end_y = end_loc.y
-	var/end_z = end_loc.z
 	
 	// Flight animation loop
 	while(world.time < start_time + flight_duration)

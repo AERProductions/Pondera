@@ -9,10 +9,9 @@
  */
 
 // Crash recovery state tracking
-var
-	crash_recovery_complete = FALSE
-	crash_recovery_players_found = 0
-	crash_recovery_players_recovered = 0
+var/crash_recovery_complete = FALSE
+var/crash_recovery_players_found = 0
+var/crash_recovery_players_recovered = 0
 
 /**
  * InitializeCrashRecovery()

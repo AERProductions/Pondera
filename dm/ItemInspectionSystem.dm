@@ -16,24 +16,22 @@
 		item_name = "Unknown Item"
 		item_icon = null
 		item_description = ""
-		
-		// Recipe connection
-		recipe_id = 0                   // Which recipe created this item
-		recipe_name = ""                // Name of the recipe
-		recipe_category = ""            // Craft category
+		recipe_id = 0
+		recipe_name = ""
+		recipe_category = ""
 		
 		// Crafting details
-		materials_used = list()         // What was used to craft this (list of items)
-		tools_required = list()         // What tools were needed
-		skill_level_created = 0         // What skill level created this
-		created_by = ""                 // Who crafted it
-		created_time = 0                // When it was crafted
+		materials_used = list()
+		tools_required = list()
+		skill_level_created = 0
+		created_by = ""
+		created_time = 0
 		
 		// Inspection metadata
-		inspections = 0                 // How many times inspected
-		first_inspection_time = 0       // When first examined
-		inspection_difficulty = 0       // How hard to learn from this item (1-10)
-		discoverable = 1                // Can this item teach recipes?
+		inspections = 0
+		first_inspection_time = 0
+		inspection_difficulty = 0
+		discoverable = 1
 
 /datum/inspection_result
 	/**
@@ -41,31 +39,29 @@
 	 * Result of inspecting an item - what can be learned?
 	 */
 	var
-		success = 0                     // Did inspection succeed?
-		recipe_discovered = 0           // Did we learn a recipe?
-		recipe_id = 0                   // Which recipe was discovered
+		success = 0
+		recipe_discovered = 0
+		recipe_id = 0
 		recipe_name = ""
 		recipe_category = ""
-		
-		// Skill checks
-		perception_check = 0            // Difficulty rating (1-100)
-		crafting_check = 0              // Required crafting skill (1-100)
-		intelligence_check = 0          // Required intelligence (1-100)
+		perception_check = 0
+		crafting_check = 0
+		intelligence_check = 0
 		
 		// Rewards
 		experience_gained = 0
 		insight_points = 0
-		message = ""                    // Description of what was learned
+		message = ""
 
 // ============================================================================
 // GLOBAL INSPECTION SYSTEM
 // ============================================================================
 
 var
-	global/list/item_recipe_map = list()    // Maps item ID to recipe ID
-	global/list/inspected_items = list()    // Track which items have been inspected
-	global/list/item_inspection_data = list()  // Maps item ref to inspection metadata
-	global/inspection_skill_threshold = 30  // Min crafting skill to attempt inspection
+	global/list/item_recipe_map = list()
+	global/list/inspected_items = list()
+	global/list/item_inspection_data = list()
+	global/inspection_skill_threshold = 30
 
 /proc/InitializeItemInspectionSystem()
 	/**
@@ -106,11 +102,7 @@ var
 	inspection_metadata.materials_used = materials_used || list()
 	inspection_metadata.tools_required = tools_required || list()
 	inspection_metadata.created_time = world.time
-	
-	// Calculate inspection difficulty based on recipe complexity
 	inspection_metadata.inspection_difficulty = CalculateInspectionDifficulty(materials_used.len, tools_required.len)
-	
-	// Store in global map using item ref as key
 	var/item_ref = "\ref[item]"
 	item_inspection_data[item_ref] = inspection_metadata
 	item_recipe_map[item.name] = recipe_id
@@ -124,8 +116,6 @@ var
 	 * More complex items are harder to reverse-engineer
 	 */
 	var/difficulty = 1
-	
-	// Each material adds difficulty
 	difficulty += num_materials
 	
 	// Each tool adds difficulty
@@ -171,8 +161,6 @@ var
 	var/perception = 50
 	var/crafting_skill = GetPlayerCraftingSkill(inspector) || 0
 	var/intelligence = 50
-	
-	// Check minimum crafting skill threshold
 	if(crafting_skill < inspection_skill_threshold)
 		result.success = 0
 		result.message = "You lack the crafting skill to understand this item ([crafting_skill]/[inspection_skill_threshold])"
@@ -194,10 +182,8 @@ var
 		result.recipe_name = inspection_metadata.recipe_name
 		result.recipe_category = inspection_metadata.recipe_category
 		result.experience_gained = CalculateInspectionExperience(inspection_metadata.inspection_difficulty, crafting_skill)
-		result.insight_points = 5 + inspection_metadata.inspection_difficulty  // 6-15 insight points
+		result.insight_points = 5 + inspection_metadata.inspection_difficulty
 		result.message = "You carefully examined [item.name] and learned how to craft: [inspection_metadata.recipe_name]!"
-		
-		// Mark item as inspected
 		inspected_items[item_key] = world.time
 		
 		// Award experience
@@ -209,8 +195,6 @@ var
 	else
 		result.success = 0
 		result.message = "You examine [item.name] carefully, but can't quite figure out how it was made..."
-		
-		// Small experience for failed attempt
 		AwardPlayerExperience(inspector, "crafting", max(1, result.experience_gained / 3))
 	
 	inspection_metadata.inspections++
@@ -227,17 +211,15 @@ var
 	 */
 	// Base chance from crafting skill vs difficulty
 	var/skill_vs_difficulty = (crafting_skill - (difficulty * 8))
-	var/base_chance = 50 + (skill_vs_difficulty * 1.5)  // Each skill point above needed = +1.5%
+	var/base_chance = 50 + (skill_vs_difficulty * 1.5)
 	
 	// Perception helps with observation
-	var/perception_bonus = (perception - 50) * 0.2  // +/- 0.2% per perception point
+	var/perception_bonus = (perception - 50) * 0.2
 	
 	// Intelligence helps with analysis
-	var/intelligence_bonus = (intelligence - 50) * 0.15  // +/- 0.15% per intelligence point
+	var/intelligence_bonus = (intelligence - 50) * 0.15
 	
 	var/final_chance = base_chance + perception_bonus + intelligence_bonus
-	
-	// Clamp to 5-95 range (never guaranteed, never impossible)
 	final_chance = max(5, min(95, final_chance))
 	
 	return final_chance
@@ -248,8 +230,8 @@ var
 	 * Calculates experience gained from successful inspection
 	 * Harder items and lower skill levels = more experience
 	 */
-	var/base_exp = difficulty * 20  // Difficulty 1-10 = 20-200 base exp
-	var/skill_penalty = max(0, (crafting_skill - (difficulty * 8)) / 10)  // Reduce for high skill
+	var/base_exp = difficulty * 20
+	var/skill_penalty = max(0, (crafting_skill - (difficulty * 8)) / 10)
 	
 	var/total_exp = base_exp - skill_penalty
 	return max(10, total_exp)  // Minimum 10 experience
@@ -267,8 +249,6 @@ var
 	
 	var/num_materials = 0
 	var/num_tools = 0
-	
-	// Safely get list lengths using length() function instead of .len
 	if(inspection_metadata.materials_used)
 		num_materials = length(inspection_metadata.materials_used)
 	if(inspection_metadata.tools_required)
@@ -322,7 +302,7 @@ var
 	if(!player || !player.character || amount <= 0) return
 	
 	// Award experience through rank system
-	var/rank_type = skill_type  // skill_type should be RANK_* constant
+	var/rank_type = skill_type
 	player.UpdateRankExp(rank_type, amount)
 	world.log << "[player.key] gained [amount] [rank_type] experience"
 

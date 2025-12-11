@@ -14,37 +14,35 @@
 	 */
 	var
 		// Skill level-up discovery rates (recipes per level)
-		skill_discovery_base_rate = 1.0  // Base multiplier (1.0 = 1 recipe per level)
-		skill_discovery_scaling = 1.1   // Scaling per skill level (multiplier increase)
+		skill_discovery_base_rate = 1.0
+		skill_discovery_scaling = 1.1
 		
 		// NPC teaching discovery rates (recipes per interaction)
-		npc_discovery_rate = 0.8         // Multiplier for NPC teaching effectiveness
-		npc_discovery_cooldown = 300     // Ticks between learning same NPC recipe
+		npc_discovery_rate = 0.8
+		npc_discovery_cooldown = 300
 		
 		// Market discovery rates (recipes from trading)
-		market_discovery_rate = 0.5      // Recipes from market purchases
-		market_discovery_threshold = 5   // Minimum item count before unlock chance
+		market_discovery_rate = 0.5
+		market_discovery_threshold = 5
 		
 		// Exploration discovery rates (recipes from terrain/events)
-		exploration_discovery_rate = 0.3 // Base rate for exploration discoveries
-		exploration_rare_multiplier = 2.0 // Multiplier for rare item discovery
+		exploration_discovery_rate = 0.3
+		exploration_rare_multiplier = 2.0
 		
 		// Difficulty modifiers
-		easy_mode_multiplier = 1.5       // Easy mode discovery multiplier
-		normal_mode_multiplier = 1.0     // Normal mode (baseline)
-		hard_mode_multiplier = 0.7       // Hard mode discovery multiplier
+		easy_mode_multiplier = 1.5
+		normal_mode_multiplier = 1.0
+		hard_mode_multiplier = 0.7
 		
 		// Discovery limits (anti-spam)
-		discovery_cooldown_min = 100     // Minimum ticks between discoveries
-		discovery_daily_max = 10         // Max recipes per 24-hour period
+		discovery_cooldown_min = 100
+		discovery_daily_max = 10
 		
 		// Seasonal bonuses
-		seasonal_bonus_active = 0        // 1 = season active, 0 = disabled
-		seasonal_bonus_rate = 1.5        // Multiplier during seasonal events
+		seasonal_bonus_active = 0
+		seasonal_bonus_rate = 1.5
 
 var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
-
-// ============================================================================
 // RECIPE DISCOVERY RATE CALCULATOR
 // ============================================================================
 
@@ -61,8 +59,6 @@ var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
 	if(!player) return 0
 	
 	var/rate = 1.0
-	
-	// Start with discovery type base rate
 	switch(discovery_type)
 		if("skill_levelup")
 			rate = RECIPE_RATES.skill_discovery_base_rate
@@ -180,18 +176,16 @@ var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
 	if(!recipe_name) return 0
 	
 	// Base weights by discovery type
-	var/base_weight = 50  // Neutral weight
+	var/base_weight = 50
 	switch(discovery_type)
 		if("skill_levelup")
-			base_weight = 80 + (skill_level * 2)  // Better at higher levels
+			base_weight = 80 + (skill_level * 2)
 		if("npc_teaching")
 			base_weight = 70
 		if("market")
 			base_weight = 30
 		if("exploration")
 			base_weight = 40
-	
-	// Cap at 100
 	base_weight = min(base_weight, 100)
 	
 	return base_weight
@@ -206,7 +200,7 @@ var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
 	
 	var/rate = CalculateRecipeDiscoveryRate(player, discovery_type, extra_data)
 	var/roll = rand(1, 100)
-	var/threshold = 100 / rate  // Invert rate to threshold
+	var/threshold = 100 / rate
 	
 	// Debug output
 	if(0)  // Set to 1 to enable debug logging
@@ -227,8 +221,6 @@ var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
 	if(!player) return list()
 	
 	var/list/available = list()
-	
-	// Placeholder - discovered recipes would come from character data
 	// When implemented, check player.character_data for discovered recipes
 	
 	return available
@@ -242,8 +234,6 @@ var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
 	if(!player) return list()
 	
 	var/list/locked = list()
-	
-	// This would depend on a global recipe database
 	// For now, return empty list placeholder
 	
 	return locked
@@ -266,7 +256,6 @@ var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
 	// This would be populated from recipe database
 	// Example structure for future implementation:
 	// var/recipe_thresholds = alist(
-	//   "/obj/recipes/wooden_axe" = list("skill_level", 3, "Build level 3 to unlock"),
 	//   "/obj/recipes/iron_sword" = list("item_count", 10, "Craft 10 items to unlock"),
 	// )
 	
@@ -317,8 +306,6 @@ var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
 	 */
 	var/total = 0
 	var/count = 0
-	
-	// Placeholder for global statistics collection
 	// When recipe tracking implemented, iterate through players
 	
 	var/avg = (count > 0) ? total / count : 0
@@ -333,7 +320,7 @@ var/global/datum/recipe_discovery_rates/RECIPE_RATES = new()
 	 */
 	if(!player) return list(0, list(), 0, 0)
 	
-	var/total = 0  // Placeholder - update when discovered_recipes implemented
+	var/total = 0
 	
 	return list(
 		total,

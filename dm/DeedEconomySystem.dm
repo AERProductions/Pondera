@@ -46,8 +46,8 @@
 // ============================================================================
 
 var
-	list/g_pending_transfers = list()     // Pending transfer requests
-	list/g_transfer_history = list()      // Completed transfers log
+	list/g_pending_transfers = list()
+	list/g_transfer_history = list()
 
 /**
  * Initiate a deed transfer (sale)
@@ -79,8 +79,6 @@ var
 	request.price = price
 	request.created_time = world.time
 	request.status = "pending_acceptance"
-	
-	// Add to pending list
 	g_pending_transfers += request
 	
 	// Notify both parties
@@ -187,8 +185,6 @@ var
 	// Remove from pending
 	g_pending_transfers -= request
 	request.status = "cancelled"
-	
-	// Notify both parties
 	NotifyDeedTransferCancelled(request)
 	
 	return TRUE
@@ -231,8 +227,8 @@ var
 // ============================================================================
 
 var
-	list/g_active_rentals = list()       // Active rental agreements
-	list/g_rental_history = list()       // Completed rentals
+	list/g_active_rentals = list()
+	list/g_rental_history = list()
 
 /**
  * Create a rental agreement for a deed
@@ -267,8 +263,6 @@ var
 	rental.start_time = world.time
 	rental.end_time = world.time + rental_period
 	rental.status = "active"
-	
-	// Add tenant to deed's allow list
 	GrantDeedPermission(tenant_ckey, token, owner_ckey)
 	
 	// Add to active rentals
@@ -389,36 +383,32 @@ var
 	if(!token)
 		return 0
 	
-	var/base_value = 1000  // Base value per deed
+	var/base_value = 1000
 	var/area_multiplier = 1.0
 	var/location_multiplier = 1.0
 	var/demand_multiplier = 1.0
-	
-	// Calculate area multiplier (deed size affects value)
 	if(token && token:zonex)
-		area_multiplier = 0.5 + (token:zonex / 100)  // Larger zones more valuable
+		area_multiplier = 0.5 + (token:zonex / 100)
 	
 	// Calculate location multiplier based on turf type at deed location
 	var/turf/deed_loc = locate(token:x, token:y, token:z)
 	if(deed_loc)
 		var/turf_type_name = deed_loc.type
-		
-		// Check biome type via type name
 		if(findtext(turf_type_name, "temperate"))
-			location_multiplier = 1.5  // Temperate is desirable
+			location_multiplier = 1.5
 		else if(findtext(turf_type_name, "desert"))
-			location_multiplier = 0.8  // Desert less desirable
+			location_multiplier = 0.8
 		else if(findtext(turf_type_name, "arctic"))
-			location_multiplier = 0.7  // Arctic least desirable
+			location_multiplier = 0.7
 		else if(findtext(turf_type_name, "rainforest"))
-			location_multiplier = 1.3  // Rainforest desirable
+			location_multiplier = 1.3
 		else
-			location_multiplier = 1.0  // Neutral
+			location_multiplier = 1.0
 	
 	// Demand multiplier (high-traffic areas worth more)
 	// Currently baseline - could be extended with player_activity_count tracking
 	// Future: Track player visits to location and adjust multiplier based on foot traffic
-	demand_multiplier = 1.0  // Baseline demand
+	demand_multiplier = 1.0
 	
 	var/calculated_value = base_value * area_multiplier * location_multiplier * demand_multiplier
 	
@@ -437,8 +427,8 @@ var
 		return 0
 	
 	var/deed_value = CalculateDeedValue(token)
-	var/annual_yield = 0.05  // 5% annual yield on deed value
-	var/period_fraction = rental_period / 31536000  // Ticks per year
+	var/annual_yield = 0.05
+	var/period_fraction = rental_period / 31536000
 	
 	return ceil(deed_value * annual_yield * period_fraction)
 
@@ -459,8 +449,6 @@ var
 	
 	var/list/history = list()
 	var/count = 0
-	
-	// Get most recent transactions first
 	for(var/i = g_transfer_history.len to 1 step -1)
 		var/datum/DeedTransaction/txn = g_transfer_history[i]
 		if(txn.deed_name == token:name)
@@ -507,13 +495,9 @@ var
 	var/deed_token = request.deed_token
 	var/price = request.price || 0
 	var/deed_name = deed_token ? deed_token:deedname : "Deed"
-	
-	// Notify seller
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == seller_ckey)
 			M << "<font color='#90EE90'>\[DEED SALE\] You have offered to sell '[deed_name]' for [price] lucre. Awaiting buyer acceptance.</font>"
-	
-	// Notify buyer
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == buyer_ckey)
 			M << "<font color='#87CEEB'>\[DEED SALE\] A seller is offering '[deed_name]' for [price] lucre. Use /accept_deed to accept.</font>"
@@ -530,13 +514,9 @@ var
 	var/deed_token = request.deed_token
 	var/price = request.price || 0
 	var/deed_name = deed_token ? deed_token:deedname : "Deed"
-	
-	// Notify seller
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == seller_ckey)
 			M << "<font color='#FFD700'>\[DEED SALE\] Transfer complete! You sold '[deed_name]' for [price] lucre.</font>"
-	
-	// Notify buyer
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == buyer_ckey)
 			M << "<font color='#FFD700'>\[DEED SALE\] Transfer complete! You purchased '[deed_name]' for [price] lucre.</font>"
@@ -552,13 +532,9 @@ var
 	var/buyer_ckey = request.buyer_ckey
 	var/deed_token = request.deed_token
 	var/deed_name = deed_token ? deed_token:deedname : "Deed"
-	
-	// Notify seller
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == seller_ckey)
 			M << "<font color='#FFB6C6'>\[DEED SALE\] Transfer cancelled. Sale of '[deed_name]' was not completed.</font>"
-	
-	// Notify buyer
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == buyer_ckey)
 			M << "<font color='#FFB6C6'>\[DEED SALE\] Transfer cancelled. Purchase of '[deed_name]' was not completed.</font>"
@@ -576,13 +552,9 @@ var
 	var/rental_price = rental.rental_price || 0
 	var/rental_period = rental.rental_period || 0
 	var/deed_name = deed_token ? deed_token:deedname : "Deed"
-	
-	// Notify owner
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == owner_ckey)
 			M << "<font color='#90EE90'>\[RENTAL\] Rental agreement created for '[deed_name]'. Rent: [rental_price] lucre, Period: [rental_period] ticks.</font>"
-	
-	// Notify tenant
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == tenant_ckey)
 			M << "<font color='#87CEEB'>\[RENTAL\] You have rented '[deed_name]' for [rental_price] lucre for [rental_period] ticks.</font>"
@@ -598,13 +570,9 @@ var
 	var/tenant_ckey = rental.tenant_ckey
 	var/deed_token = rental.deed_token
 	var/deed_name = deed_token ? deed_token:deedname : "Deed"
-	
-	// Notify owner
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == owner_ckey)
 			M << "<font color='#FFB6C6'>\[RENTAL\] Rental agreement terminated for '[deed_name]'.</font>"
-	
-	// Notify tenant
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == tenant_ckey)
 			M << "<font color='#FFB6C6'>\[RENTAL\] Your rental of '[deed_name]' has been terminated.</font>"
@@ -652,8 +620,6 @@ var
 	for(var/mob/players/M in world)
 		if(ckey(M.key) == owner_ckey)
 			M << "<font color='#FF0000'>\[DEED FROZEN!\] Your deed '[deed_name]' is frozen: [reason]. Pay maintenance to restore access.</font>"
-
-// ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
 
