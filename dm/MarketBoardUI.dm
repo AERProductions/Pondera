@@ -111,18 +111,18 @@ var
 		
 		// Calculate total cost
 		var/total_cost = listing.quantity * listing.price_per_unit
-		var/buyer_balance = GetPlayerCurrency(buyer, listing.currency_type)
+		var/buyer_balance = GetPlayerCurrencyBalance(buyer, listing.currency_type)
 		if(buyer_balance < total_cost)
 			buyer << "ERROR: Insufficient funds. Need [total_cost] [listing.currency_type], have [buyer_balance]"
 			return FALSE
 		
 		// Deduct from buyer
-		DeductPlayerCurrency(buyer, total_cost, listing.currency_type)
+		DeductPlayerCurrency(buyer, listing.currency_type, total_cost)
 		
 		// Add to seller
 		var/seller_mob = GetMobByCKey(listing.seller_ckey)
 		if(seller_mob)
-			AddPlayerCurrency(seller_mob, total_cost, listing.currency_type)
+			AddPlayerCurrency(seller_mob, listing.currency_type, total_cost)
 			seller_mob << "[buyer.ckey] purchased your market listing: [listing.item_name] x[listing.quantity] for [total_cost] [listing.currency_type]"
 		else
 			// Seller offline - store in account
@@ -328,38 +328,154 @@ var
 		datum/market_listing/listing = null
 		is_highlighted = FALSE
 
-/proc/DisplayMarketBoard(mob/player)
+/proc/DisplayMarketBoard(mob/player, search_term = "", currency_filter = "", sort_by = "recent", page = 1)
 	/**
 	 * DisplayMarketBoard
-	 * Show market board UI to player
+	 * Show comprehensive market board UI to player with search, filters, pagination
 	 * @param player - Target player
+	 * @param search_term - Item name filter
+	 * @param currency_filter - Filter by currency (lucre/stone/metal/timber)
+	 * @param sort_by - Sort method (recent, price_low, price_high, popularity)
+	 * @param page - Pagination page number
 	 */
 	if(!player || !player.client) return
 	
 	var/datum/market_board_manager/board = GetMarketBoard()
-	var/list/all_listings = board.SearchListings()
+	var/list/all_listings = board.SearchListings(search_term, currency_filter)
 	
-	var/output = ""
-	output += "<div style='background-color: #1a1a1a; color: #fff; padding: 10px; border: 2px solid #FFD700;'>\n"
-	output += "<h2>═══ MARKET BOARD ═══</h2>\n"
-	output += "<p>Active Listings: [length(all_listings)]</p>\n"
-	output += "<hr>\n"
+	// Sort listings
+	switch(sort_by)
+		if("recent")
+			all_listings = sort_listings_by_time(all_listings)
+		if("price_low")
+			all_listings = sort_listings_by_price(all_listings, 1)  // Ascending
+		if("price_high")
+			all_listings = sort_listings_by_price(all_listings, 0)  // Descending
+		if("popularity")
+			all_listings = sort_listings_by_quantity(all_listings)
 	
-	// List top 20 items
-	var/count = 0
-	for(var/datum/market_listing/listing in all_listings)
-		if(count++ >= 20) break
-		
-		var/total_price = listing.quantity * listing.price_per_unit
-		output += "<div style='border-bottom: 1px solid #666; padding: 5px;'>\n"
-		output += "<b>[listing.item_name]</b> x[listing.quantity]<br>\n"
-		output += "Price: [listing.price_per_unit] per unit ([total_price] [listing.currency_type] total)<br>\n"
-		output += "Seller: [listing.seller_name] | Listed: [round((world.time - listing.creation_time)/600)] minutes ago<br>\n"
+	// Pagination
+	var/items_per_page = 15
+	var/max_pages = max(1, ceil(length(all_listings) / items_per_page))
+	page = max(1, min(page, max_pages))
+	
+	var/start_idx = (page - 1) * items_per_page + 1
+	var/end_idx = min(page * items_per_page, length(all_listings))
+	
+	var/output = "<html><head><style>"
+	output += "body { background-color: #0a0a0a; color: #fff; font-family: Arial, sans-serif; }"
+	output += ".header { background: linear-gradient(to right, #FFD700, #FFA500); color: #000; padding: 15px; font-size: 18px; font-weight: bold; text-align: center; }"
+	output += ".filter-section { background: #1a1a1a; border: 1px solid #FFD700; padding: 10px; margin: 10px 0; }"
+	output += ".listing { background: #1a1a1a; border-left: 3px solid #FFD700; padding: 10px; margin: 5px 0; }"
+	output += ".listing-title { color: #FFD700; font-weight: bold; font-size: 14px; }"
+	output += ".listing-price { color: #00FF00; font-size: 12px; }"
+	output += ".listing-seller { color: #888; font-size: 11px; }"
+	output += ".pagination { text-align: center; padding: 10px; color: #FFD700; }"
+	output += ".button { background: #FFD700; color: #000; padding: 5px 10px; margin: 2px; font-weight: bold; cursor: pointer; border: none; border-radius: 3px; }"
+	output += ".stats { background: #1a1a1a; border: 1px solid #888; padding: 10px; margin: 10px 0; font-size: 12px; }"
+	output += "</style></head><body>\n"
+	
+	// Header
+	output += "<div class='header'>═══ MARKET BOARD ═══</div>\n"
+	
+	// Stats
+	output += "<div class='stats'>"
+	output += "<b>Market Statistics:</b><br>"
+	output += "Total Listings: [length(board.active_listings)] | "
+	output += "Total Sellers: [length(board.seller_inventory)] | "
+	output += "Sales Completed: [length(board.completed_sales)]"
+	output += "</div>\n"
+	
+	// Filter section
+	output += "<div class='filter-section'>"
+	output += "<b>Filters & Sort:</b><br>"
+	output += "Search: <input type='text' value='[search_term]' style='width: 150px;'> | "
+	output += "Currency: <select style='width: 100px;'><option>All</option><option>Lucre</option><option>Stone</option><option>Metal</option><option>Timber</option></select> | "
+	output += "Sort: <select style='width: 120px;'><option>Recent</option><option>Price (Low-High)</option><option>Price (High-Low)</option><option>Popular</option></select>"
+	output += "</div>\n"
+	
+	// No results message
+	if(!all_listings.len)
+		output += "<div style='text-align: center; padding: 20px; color: #888;'>No listings found matching your criteria.</div>\n"
+	else
+		// Display listings for current page
+		for(var/i = start_idx to end_idx)
+			var/datum/market_listing/listing = all_listings[i]
+			var/total_price = listing.quantity * listing.price_per_unit
+			var/age = round((world.time - listing.creation_time) / 600)
+			
+			output += "<div class='listing'>"
+			output += "<span class='listing-title'>[listing.item_name]</span> <span style='color: #888;'>(x[listing.quantity])</span><br>"
+			output += "<span class='listing-price'>[listing.price_per_unit] [listing.currency_type] per unit | Total: [total_price] [listing.currency_type]</span><br>"
+			output += "<span class='listing-seller'>Seller: [listing.seller_name] | Posted: [age] minute(s) ago | ID: [listing.listing_id]</span>"
+			output += "</div>\n"
+	
+	// Pagination
+	if(max_pages > 1)
+		output += "<div class='pagination'>"
+		if(page > 1)
+			output += "<span class='button'>&lt; PREVIOUS PAGE</span> "
+		output += " <b>Page [page] of [max_pages]</b> "
+		if(page < max_pages)
+			output += "<span class='button'>NEXT PAGE &gt;</span>"
 		output += "</div>\n"
 	
-	output += "</div>"
+	output += "</body></html>"
 	
 	player << output
+
+/proc/sort_listings_by_time(list/listings)
+	/**
+	 * Sort listings by creation time (newest first)
+	 */
+	var/list/result = listings.Copy()
+	result = sortByKey(result, "creation_time", reverse=1)
+	return result
+
+/proc/sort_listings_by_price(list/listings, ascending = 1)
+	/**
+	 * Sort listings by price per unit
+	 */
+	var/list/result = listings.Copy()
+	result = sortByKey(result, "price_per_unit", reverse=!ascending)
+	return result
+
+/proc/sort_listings_by_quantity(list/listings)
+	/**
+	 * Sort listings by quantity (highest first)
+	 */
+	var/list/result = listings.Copy()
+	result = sortByKey(result, "quantity", reverse=1)
+	return result
+
+/proc/sortByKey(list/input, key, reverse = 0)
+	/**
+	 * Generic list sorting by datum key
+	 * Returns sorted copy of list
+	 */
+	var/list/result = input.Copy()
+	var/sorted = 0
+	
+	while(!sorted)
+		sorted = 1
+		for(var/i = 1 to length(result) - 1)
+			var/datum/a = result[i]
+			var/datum/b = result[i + 1]
+			
+			var/a_val = a.vars[key]
+			var/b_val = b.vars[key]
+			
+			var/should_swap = 0
+			if(reverse)
+				should_swap = (a_val < b_val)
+			else
+				should_swap = (a_val > b_val)
+			
+			if(should_swap)
+				result.Swap(i, i + 1)
+				sorted = 0
+	
+	return result
 
 /proc/SaveOfflinePayment(ckey, amount, currency_type)
 	/**
@@ -427,36 +543,106 @@ proc/GetMarketableItemsFiltered(mob/player)
 	
 	return marketable
 
-mob/verb/quick_list_item()
+mob/verb/BrowseMarketBoard()
+	/**
+	 * BrowseMarketBoard
+	 * Main verb to open market board UI
+	 */
+	set name = "Browse Market Board"
 	set category = "Market"
-	set popup_menu = 1
-	set hidden = 1
+	
+	if(!usr)
+		return
+	
+	DisplayMarketBoard(usr)
+
+mob/verb/MyMarketListings()
+	/**
+	 * MyMarketListings
+	 * Show player's own listings
+	 */
+	set name = "My Market Listings"
+	set category = "Market"
+	
+	if(!usr)
+		return
+	
+	var/datum/market_board_manager/board = GetMarketBoard()
+	var/list/my_listings = board.GetPlayerListings(usr.ckey)
+	
+	var/output = "<html><head><style>"
+	output += "body { background-color: #0a0a0a; color: #fff; font-family: Arial, sans-serif; }"
+	output += ".header { background: #FFD700; color: #000; padding: 15px; font-size: 16px; font-weight: bold; }"
+	output += ".listing { background: #1a1a1a; border-left: 3px solid #FFD700; padding: 10px; margin: 5px 0; }"
+	output += ".listing-title { color: #FFD700; font-weight: bold; }"
+	output += ".listing-stats { color: #888; font-size: 11px; }"
+	output += ".listing-price { color: #00FF00; font-weight: bold; }"
+	output += ".button { background: #FF6666; color: #000; padding: 5px 10px; font-weight: bold; cursor: pointer; border: none; border-radius: 3px; margin: 5px; }"
+	output += ".stats { background: #1a1a1a; border: 1px solid #888; padding: 10px; margin: 10px 0; }"
+	output += "</style></head><body>\n"
+	
+	output += "<div class='header'>MY MARKET LISTINGS</div>\n"
+	
+	if(!my_listings.len)
+		output += "<div style='text-align: center; padding: 20px; color: #888;'>You have no active listings.</div>\n"
+	else
+		var/total_value = 0
+		for(var/datum/market_listing/listing in my_listings)
+			var/listing_value = listing.quantity * listing.price_per_unit
+			total_value += listing_value
+			
+			output += "<div class='listing'>"
+			output += "<span class='listing-title'>[listing.item_name]</span> (x[listing.quantity])<br>"
+			output += "<span class='listing-price'>[listing.price_per_unit] [listing.currency_type] ea. | Total: [listing_value]</span><br>"
+			output += "<span class='listing-stats'>Listed: [round((world.time - listing.creation_time)/600)] min ago | Expires: [round((listing.expiration_time - world.time)/600)] min | ID: [listing.listing_id]</span><br>"
+			output += "<span class='button' onclick='CancelListing([listing.listing_id])'>CANCEL</span>"
+			output += "</div>\n"
+		
+		output += "<div class='stats'><b>Total Inventory Value: [total_value] (across all listings)</b></div>\n"
+	
+	output += "</body></html>"
+	
+	usr << output
+
+mob/verb/ListItemOnMarketBoard()
+	/**
+	 * ListItemOnMarketBoard
+	 * Interactive listing creation with better UX
+	 */
+	set name = "List Item on Market"
+	set category = "Market"
+	
+	if(!usr)
+		return
 	
 	var/list/marketable = GetMarketableItemsFiltered(usr)
 	
 	if(!marketable.len)
-		usr << "You have nothing to list."
+		usr << "<span style='color: #FF6666;'>ERROR: You have no items to list.</span>"
 		return
 	
-	var/selected = input(usr, "Which item to list?", "Market") as null|anything in marketable
-	if(!selected)
+	var/obj/to_list = input(usr, "Select item to list:", "Market Listing") as null|anything in marketable
+	if(!to_list)
 		return
 	
-	var/obj/to_list = selected
-	var/price = input(usr, "Price per unit?", "Listing Price") as num
-	if(price < 0)
-		usr << "Invalid price."
+	var/item_name = to_list.name || "[to_list.type]"
+	var/suggested_price = 100  // Default starting price
+	var/price = input(usr, "Set price per unit (suggested: [suggested_price]):", "Listing Price") as num
+	if(!price || price <= 0)
+		usr << "<span style='color: #FF6666;'>Invalid price.</span>"
 		return
 	
-	var/currency = input(usr, "Currency type?", "Currency") in list("lucre", "stone", "metal", "timber")
+	var/currency = input(usr, "Select currency:", "Currency Type") in list("lucre", "stone", "metal", "timber")
 	if(!currency)
+		usr << "<span style='color: #FF6666;'>Listing cancelled.</span>"
 		return
 	
-	// Add listing to market
+	// Attempt to create listing
 	var/datum/market_board_manager/board = GetMarketBoard()
-	if(!board)
-		usr << "Market board not available."
-		return
+	var/listing_id = board.CreateListing(usr, item_name, "[to_list.type]", 1, price, currency)
 	
-	board.CreateListing(usr, to_list:name, "[to_list.type]", 1, price, currency)
-	usr << "Listed [to_list] for [price] [currency]."
+	if(listing_id > 0)
+		usr << "<span style='color: #00FF00;'>SUCCESS: Listed [item_name] for [price] [currency]</span>"
+		usr << "Listing ID: [listing_id]"
+	else
+		usr << "<span style='color: #FF6666;'>ERROR: Could not create listing. Check limits.</span>"
