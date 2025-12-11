@@ -89,9 +89,108 @@ proc/InitializeSandboxRecipeChains()
 	)
 	RECIPE_CHAINS["shelter"] = chain_shelter
 	
+	// ========================================================================
+	// CHAIN 4: Masonry & Construction
+	// ========================================================================
+	// Progression: limestone -> lime -> mortar -> bricks -> stone structures -> castles
+	
+	var/datum/recipe_chain_progress/chain_masonry = new()
+	chain_masonry.chain_name = "Masonry Mastery"
+	chain_masonry.steps = list(
+		"mine_limestone",
+		"process_lime",
+		"gather_clay",
+		"gather_sand",
+		"make_lime_mortar",
+		"create_bricks",
+		"stonework_build",
+		"build_castle"
+	)
+	RECIPE_CHAINS["masonry"] = chain_masonry
+	
+	// ========================================================================
+	// CHAIN 5: Infrastructure & Settlement
+	// ========================================================================
+	// Progression: wood house -> furnishings -> forge -> kiln -> anvil -> smithy
+	
+	var/datum/recipe_chain_progress/chain_infrastructure = new()
+	chain_infrastructure.chain_name = "Infrastructure Building"
+	chain_infrastructure.steps = list(
+		"build_wood_house",
+		"make_furnishings",
+		"build_furnace",
+		"build_kiln",
+		"build_forge",
+		"build_anvil"
+	)
+	RECIPE_CHAINS["infrastructure"] = chain_infrastructure
+	
+	// ========================================================================
+	// CHAIN 6: Advanced Metallurgy & Damascus Steel
+	// ========================================================================
+	// Progression: charcoal -> activated carbon -> steel -> damascus -> legendary weapons
+	
+	var/datum/recipe_chain_progress/chain_damascus = new()
+	chain_damascus.chain_name = "Damascus Steel Mastery"
+	chain_damascus.steps = list(
+		"burn_wood",
+		"make_activated_carbon",
+		"smelt_steel",
+		"make_damascus_steel",
+		"forge_damascus_weapons"
+	)
+	RECIPE_CHAINS["damascus"] = chain_damascus
+	
+	// ========================================================================
+	// CHAIN 7: Alloy Diversity -> Brass & Advanced Materials
+	// ========================================================================
+	// Progression: copper -> zinc -> brass -> decorative/durable tools
+	
+	var/datum/recipe_chain_progress/chain_brass = new()
+	chain_brass.chain_name = "Brass Alloy Crafting"
+	chain_brass.steps = list(
+		"mine_copper",
+		"smelt_copper",
+		"mine_zinc",
+		"smelt_zinc",
+		"smelt_brass",
+		"forge_brass_hammer_head",
+		"forge_brass_pickaxe_head"
+	)
+	RECIPE_CHAINS["brass"] = chain_brass
+	
+	// ========================================================================
+	// CHAIN 8: Lead & Alternative Metallurgy
+	// ========================================================================
+	// Progression: lead ore -> lead ingot -> specialized materials
+	
+	var/datum/recipe_chain_progress/chain_lead = new()
+	chain_lead.chain_name = "Lead Working"
+	chain_lead.steps = list(
+		"mine_lead",
+		"smelt_lead"
+	)
+	RECIPE_CHAINS["lead"] = chain_lead
+	
+	// ========================================================================
+	// CHAIN 9: Logistics & Trade
+	// ========================================================================
+	// Progression: barrels -> hand cart -> metal-reinforced cart -> trade routes
+	
+	var/datum/recipe_chain_progress/chain_logistics = new()
+	chain_logistics.chain_name = "Trade & Transport"
+	chain_logistics.steps = list(
+		"craft_barrels",
+		"craft_hand_cart",
+		"craft_metal_cart",
+		"load_barrel_to_cart"
+	)
+	RECIPE_CHAINS["logistics"] = chain_logistics
+	
 	if(fire_gating_debug)
 		world.log << "\[SANDBOX RECIPE CHAIN\] Initialized [RECIPE_CHAINS.len] recipe chains"
 		world.log << "\[SANDBOX RECIPE CHAIN\] Fire gating enabled: [fire_gated_smelting_enabled]"
+		world.log << "\[SANDBOX RECIPE CHAIN\] Chains: fire_tools, alloys, refinement, shelter, masonry, infrastructure, damascus, brass, lead, logistics"
 
 /proc/CanCraftWithFireGating(mob/players/player, recipe_key)
 	/**
