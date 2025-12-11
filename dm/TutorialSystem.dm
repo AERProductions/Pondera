@@ -85,16 +85,16 @@ proc/InitializeTutorialSystem()
 	step1.estimated_time = "10-15 min"
 	TUTORIAL_STEPS[1] = step1
 	
-	// STEP 2: Basic Mining
+	// STEP 2: Stone Tools - Starting Mining with Hammer
 	var/datum/tutorial_step/step2 = new()
 	step2.step_index = 2
-	step2.step_title = "Mine Your First Ore"
-	step2.step_description = "Now that you have fire, you can process ore. But first, you need to mine it."
-	step2.step_objective = "Craft a stone hammer from a rock and wooden handle. Use it to mine stone ore."
-	step2.related_recipe = "stone_hammer"
+	step2.step_title = "Mine Ore with Stone Hammer"
+	step2.step_description = "A stone hammer can break ore, but it's crude and inefficient. Still, it's your first mining tool."
+	step2.step_objective = "Craft a stone hammer from rock and wood. Use it to mine your first iron ore."
+	step2.related_recipe = "mine_ore"
 	step2.related_chain = "fire_tools"
 	step2.location_hint = "Mountains and rocky areas contain ore deposits"
-	step2.hint_text = "Find a rock on the ground and carve a wooden handle using your obsidian knife. Combine them to create a hammer."
+	step2.hint_text = "Use your obsidian knife to carve a wooden handle, then combine with a rock to make a hammer. Then head to the mountains!"
 	step2.completion_condition = "mine_ore"
 	step2.next_step = 3
 	step2.experience_reward = 60
@@ -102,152 +102,204 @@ proc/InitializeTutorialSystem()
 	step2.estimated_time = "15-20 min"
 	TUTORIAL_STEPS[2] = step2
 	
-	// STEP 3: First Smelting
+	// STEP 3: Stone Pickaxe - First Proper Mining Tool
 	var/datum/tutorial_step/step3 = new()
 	step3.step_index = 3
-	step3.step_title = "Smelt Iron Ore"
-	step3.step_description = "Raw ore must be processed in fire to become usable metal."
-	step3.step_objective = "Place iron ore in your campfire to smelt it into iron ingots."
-	step3.related_recipe = "smelt_ore"
+	step3.step_title = "Craft Stone Pickaxe Head"
+	step3.step_description = "Upgrade from hammer! A proper pickaxe is much more efficient at ore extraction."
+	step3.step_objective = "Use sharp stone to craft a pickaxe head. This is a proper mining tool."
+	step3.related_recipe = "forge_pickaxe_head"
 	step3.related_chain = "fire_tools"
-	step3.required_skill = RANK_SMITHING
-	step3.location_hint = "Return to your campfire from Step 1"
-	step3.hint_text = "Smelting requires intense heat. Make sure your fire is active and close enough to the ore."
-	step3.completion_condition = "smelt_ore"
+	step3.location_hint = "Use your hammer to break sharp stone pieces from rocky outcrops"
+	step3.hint_text = "A pickaxe requires precision. You need a sharp stone head and a proper handle. The shape matters!"
+	step3.completion_condition = "forge_pickaxe_head"
 	step3.next_step = 4
-	step3.experience_reward = 70
+	step3.experience_reward = 65
 	step3.discovery_method = "linear"
-	step3.estimated_time = "10-15 min"
+	step3.estimated_time = "15-20 min"
 	TUTORIAL_STEPS[3] = step3
 	
-	// STEP 4: Forge Your First Tool
+	// STEP 4: Mine More Efficiently with Stone Pickaxe
 	var/datum/tutorial_step/step4 = new()
 	step4.step_index = 4
-	step4.step_title = "Forge an Iron Hammer"
-	step4.step_description = "Melted iron can be shaped into useful tools. Your first metal hammer!"
-	step4.step_objective = "Forge iron ore into an iron hammer head at the campfire."
-	step4.related_recipe = "forge_hammer_head"
+	step4.step_title = "Mine Ore Efficiently"
+	step4.step_description = "Your stone pickaxe is now twice as effective. Let's get enough ore for smelting."
+	step4.step_objective = "Use your stone pickaxe to mine iron ore. Collect enough for smelting."
+	step4.related_recipe = "mine_ore_efficient"
 	step4.related_chain = "fire_tools"
-	step4.required_skill = RANK_SMITHING
-	step4.location_hint = "Use your campfire with hot iron ingot"
-	step4.hint_text = "A proper hammer needs precision. The fire must be hot enough and you must have a wooden handle ready."
-	step4.completion_condition = "forge_hammer_head"
+	step4.location_hint = "Return to the ore deposits with your new pickaxe"
+	step4.hint_text = "With a proper pickaxe, you'll get more ore per swing. Time to gather for smelting!"
+	step4.completion_condition = "mine_ore_efficient"
 	step4.next_step = 5
-	step4.experience_reward = 80
+	step4.experience_reward = 70
 	step4.discovery_method = "linear"
 	step4.estimated_time = "10-15 min"
 	TUTORIAL_STEPS[4] = step4
 	
-	// STEP 5: Build Your First Shelter
+	// STEP 5: Smelting - Iron Ore to Iron Ingots
 	var/datum/tutorial_step/step5 = new()
 	step5.step_index = 5
-	step5.step_title = "Build Shelter"
-	step5.step_description = "With tools in hand, you can now build protection from the elements."
-	step5.step_objective = "Gather materials and craft a tent for protection."
-	step5.related_recipe = "craft_tent"
-	step5.related_chain = "shelter"
-	step5.location_hint = "Choose a flat, open area for your shelter"
-	step5.hint_text = "A tent requires sticks and cloth or plant fibers. Secure it firmly against wind and rain."
-	step5.completion_condition = "craft_tent"
+	step5.step_title = "Smelt Iron Ore"
+	step5.step_description = "Raw ore must be processed in intense fire to become usable metal. This is where metallurgy begins."
+	step5.step_objective = "Place iron ore in your campfire to smelt it into iron ingots."
+	step5.related_recipe = "smelt_ore"
+	step5.related_chain = "fire_tools"
+	step5.required_skill = RANK_SMITHING
+	step5.location_hint = "Return to your campfire from Step 1"
+	step5.hint_text = "Smelting requires intense heat. Your fire must be very hot and close to the ore."
+	step5.completion_condition = "smelt_ore"
 	step5.next_step = 6
 	step5.experience_reward = 75
 	step5.discovery_method = "linear"
-	step5.estimated_time = "15-20 min"
+	step5.estimated_time = "10-15 min"
 	TUTORIAL_STEPS[5] = step5
 	
-	// STEP 6: Infrastructure - Building a House
+	// STEP 6: Forge Iron Hammer - First Metal Tool
 	var/datum/tutorial_step/step6 = new()
 	step6.step_index = 6
-	step6.step_title = "Build a Wooden House"
-	step6.step_description = "Move from temporary shelter to permanent settlement. A wooden house marks the start of civilization."
-	step6.step_objective = "Gather wooden boards and nails. Construct a wooden house."
-	step6.related_recipe = "build_wood_house"
-	step6.related_chain = "infrastructure"
-	step6.required_skill = RANK_BUILDING
-	step6.location_hint = "Find a suitable location for your settlement"
-	step6.hint_text = "Cut wood into boards using a saw, then hammer them together with nails. A good foundation is essential."
-	step6.completion_condition = "build_wood_house"
+	step6.step_title = "Forge an Iron Hammer Head"
+	step6.step_description = "Now you have metal! Shape it into your first iron hammer. This is a major milestone."
+	step6.step_objective = "Forge your iron ingot into an iron hammer head at the campfire."
+	step6.related_recipe = "forge_hammer_head"
+	step6.related_chain = "fire_tools"
+	step6.required_skill = RANK_SMITHING
+	step6.location_hint = "Use your campfire with hot iron ingot"
+	step6.hint_text = "Forging metal requires precision and heat control. Your first metal hammer will feel powerful!"
+	step6.completion_condition = "forge_hammer_head"
 	step6.next_step = 7
-	step6.experience_reward = 100
+	step6.experience_reward = 85
 	step6.discovery_method = "linear"
-	step6.estimated_time = "20-30 min"
+	step6.estimated_time = "10-15 min"
 	TUTORIAL_STEPS[6] = step6
 	
-	// STEP 7: Advanced Metallurgy - Bronze
+	// STEP 7: Iron Pickaxe - Superior Mining Tool
 	var/datum/tutorial_step/step7 = new()
 	step7.step_index = 7
-	step7.step_title = "Discover Bronze Alloys"
-	step7.step_description = "Iron is good, but bronze is better. Combine copper and tin for superior metal."
-	step7.step_objective = "Mine copper and tin ore. Smelt them into ingots. Combine into bronze."
-	step7.related_recipe = "smelt_bronze"
-	step7.related_chain = "alloys"
+	step7.step_title = "Forge Iron Pickaxe Head"
+	step7.step_description = "With iron, you can craft a true mining pickaxe. This unlocks access to copper and tin!"
+	step7.step_objective = "Forge an iron pickaxe head at the campfire. This is the gateway to advanced ores."
+	step7.related_recipe = "forge_iron_pickaxe_head"
+	step7.related_chain = "fire_tools"
 	step7.required_skill = RANK_SMITHING
-	step7.location_hint = "Temperate and desert biomes contain copper and tin deposits"
-	step7.hint_text = "Bronze requires precise alloy ratios. Too much copper makes it brittle; too much tin makes it weak. Balance is key."
-	step7.completion_condition = "smelt_bronze"
+	step7.location_hint = "Return to your campfire with iron ingots"
+	step7.hint_text = "An iron pickaxe is significantly better than stone. You'll unlock new ore deposits with this tool!"
+	step7.completion_condition = "forge_iron_pickaxe_head"
 	step7.next_step = 8
-	step7.experience_reward = 120
+	step7.experience_reward = 90
 	step7.discovery_method = "linear"
-	step7.estimated_time = "30-45 min"
+	step7.estimated_time = "10-15 min"
 	TUTORIAL_STEPS[7] = step7
 	
-	// STEP 8: Lime Masonry - Foundation for Castles
+	// STEP 8: Build Shelter - Transition to Settlement
 	var/datum/tutorial_step/step8 = new()
 	step8.step_index = 8
-	step8.step_title = "Master Stone Construction"
-	step8.step_description = "Stone structures are the backbone of kingdoms. Learn lime mortar and masonry."
-	step8.step_objective = "Mine limestone, process it to lime, gather clay and sand. Make lime mortar and stone bricks."
-	step8.related_recipe = "make_lime_mortar"
-	step8.related_chain = "masonry"
-	step8.required_skill = RANK_BUILDING
-	step8.location_hint = "Rocky areas have limestone deposits"
-	step8.hint_text = "Lime mortar is the binding agent of civilization. Without it, stone structures crumble. Learn to craft it well."
-	step8.completion_condition = "make_lime_mortar"
+	step8.step_title = "Build Shelter"
+	step8.step_description = "With reliable tools, you can now build permanent shelter from the elements."
+	step8.step_objective = "Gather materials and craft a tent for protection."
+	step8.related_recipe = "craft_tent"
+	step8.related_chain = "shelter"
+	step8.location_hint = "Choose a flat, open area for your shelter"
+	step8.hint_text = "A tent requires sticks and cloth or plant fibers. Find a good location for your settlement base."
+	step8.completion_condition = "craft_tent"
 	step8.next_step = 9
-	step8.experience_reward = 130
+	step8.experience_reward = 75
 	step8.discovery_method = "linear"
-	step8.estimated_time = "40-60 min"
+	step8.estimated_time = "15-20 min"
 	TUTORIAL_STEPS[8] = step8
 	
-	// STEP 9: Build a Stone Fort
+	// STEP 9: Wooden House - Permanent Settlement
 	var/datum/tutorial_step/step9 = new()
 	step9.step_index = 9
-	step9.step_title = "Construct Stone Fortifications"
-	step9.step_description = "Stone forts are the symbol of territorial control and protection."
-	step9.step_objective = "Create stone bricks and use lime mortar to build a stone fort."
-	step9.related_recipe = "stonework_build"
-	step9.related_chain = "masonry"
+	step9.step_title = "Build a Wooden House"
+	step9.step_description = "Move from temporary shelter to permanent settlement. A wooden house marks the start of civilization."
+	step9.step_objective = "Gather wooden boards and nails. Construct a wooden house."
+	step9.related_recipe = "build_wood_house"
+	step9.related_chain = "infrastructure"
 	step9.required_skill = RANK_BUILDING
-	step9.location_hint = "Choose a defensible location for your fort"
-	step9.hint_text = "Stone construction requires patience and precision. Each brick must be placed with care for structural integrity."
-	step9.completion_condition = "stonework_build"
+	step9.location_hint = "Find a suitable location for your settlement"
+	step9.hint_text = "Cut wood into boards using a saw, then hammer them together with nails. A good foundation is essential."
+	step9.completion_condition = "build_wood_house"
 	step9.next_step = 10
-	step9.experience_reward = 150
+	step9.experience_reward = 100
 	step9.discovery_method = "linear"
-	step9.estimated_time = "60-90 min"
+	step9.estimated_time = "20-30 min"
 	TUTORIAL_STEPS[9] = step9
 	
-	// STEP 10: Ultimate Achievement - Build a Castle Kingdom
+	// STEP 10: Advanced Metallurgy - Bronze
 	var/datum/tutorial_step/step10 = new()
 	step10.step_index = 10
-	step10.step_title = "Build a Castle Kingdom"
-	step10.step_description = "The ultimate expression of power and civilization. Construct a castle kingdom."
-	step10.step_objective = "Gather massive resources. Build multiple stone forts. Consolidate them into a castle kingdom."
-	step10.related_recipe = "build_castle"
-	step10.related_chain = "masonry"
-	step10.required_skill = RANK_BUILDING
-	step10.location_hint = "A defensible location with good settlement space"
-	step10.hint_text = "This is the culmination of all your learning. A castle kingdom will define your legacy in Pondera."
-	step10.completion_condition = "build_castle"
-	step10.next_step = 0        // End of linear path
-	step10.experience_reward = 300
+	step10.step_title = "Discover Bronze Alloys"
+	step10.step_description = "Iron is good, but bronze is better. Combine copper and tin for superior metal."
+	step10.step_objective = "Mine copper and tin ore with your iron pickaxe. Smelt them into ingots. Combine into bronze."
+	step10.related_recipe = "smelt_bronze"
+	step10.related_chain = "alloys"
+	step10.required_skill = RANK_SMITHING
+	step10.location_hint = "Temperate and desert biomes contain copper and tin deposits"
+	step10.hint_text = "Bronze requires precise alloy ratios. Too much copper makes it brittle; too much tin makes it weak. Balance is key!"
+	step10.completion_condition = "smelt_bronze"
+	step10.next_step = 11
+	step10.experience_reward = 120
 	step10.discovery_method = "linear"
-	step10.estimated_time = "120+ min"
+	step10.estimated_time = "30-45 min"
 	TUTORIAL_STEPS[10] = step10
+	
+	// STEP 11: Lime Masonry - Foundation for Castles
+	var/datum/tutorial_step/step11 = new()
+	step11.step_index = 11
+	step11.step_title = "Master Stone Construction"
+	step11.step_description = "Stone structures are the backbone of kingdoms. Learn lime mortar and masonry."
+	step11.step_objective = "Mine limestone, process it to lime, gather clay and sand. Make lime mortar and stone bricks."
+	step11.related_recipe = "make_lime_mortar"
+	step11.related_chain = "masonry"
+	step11.required_skill = RANK_BUILDING
+	step11.location_hint = "Rocky areas have limestone deposits"
+	step11.hint_text = "Lime mortar is the binding agent of civilization. Without it, stone structures crumble. Learn to craft it well."
+	step11.completion_condition = "make_lime_mortar"
+	step11.next_step = 12
+	step11.experience_reward = 130
+	step11.discovery_method = "linear"
+	step11.estimated_time = "40-60 min"
+	TUTORIAL_STEPS[11] = step11
+	
+	// STEP 12: Build a Stone Fort
+	var/datum/tutorial_step/step12 = new()
+	step12.step_index = 12
+	step12.step_title = "Construct Stone Fortifications"
+	step12.step_description = "Stone forts are the symbol of territorial control and protection."
+	step12.step_objective = "Create stone bricks and use lime mortar to build a stone fort."
+	step12.related_recipe = "stonework_build"
+	step12.related_chain = "masonry"
+	step12.required_skill = RANK_BUILDING
+	step12.location_hint = "Choose a defensible location for your fort"
+	step12.hint_text = "Stone construction requires patience and precision. Each brick must be placed with care for structural integrity."
+	step12.completion_condition = "stonework_build"
+	step12.next_step = 13
+	step12.experience_reward = 150
+	step12.discovery_method = "linear"
+	step12.estimated_time = "60-90 min"
+	TUTORIAL_STEPS[12] = step12
+	
+	// STEP 13: Ultimate Achievement - Build a Castle Kingdom
+	var/datum/tutorial_step/step13 = new()
+	step13.step_index = 13
+	step13.step_title = "Build a Castle Kingdom"
+	step13.step_description = "The ultimate expression of power and civilization. Construct a castle kingdom."
+	step13.step_objective = "Gather massive resources. Build multiple stone forts. Consolidate them into a castle kingdom."
+	step13.related_recipe = "build_castle"
+	step13.related_chain = "masonry"
+	step13.required_skill = RANK_BUILDING
+	step13.location_hint = "A defensible location with good settlement space"
+	step13.hint_text = "This is the culmination of all your learning. A castle kingdom will define your legacy in Pondera."
+	step13.completion_condition = "build_castle"
+	step13.next_step = 0        // End of linear path
+	step13.experience_reward = 300
+	step13.discovery_method = "linear"
+	step13.estimated_time = "120+ min"
+	TUTORIAL_STEPS[13] = step13
 	
 	if(tutorial_debug)
 		world.log << "\[TUTORIAL\] Loaded [TUTORIAL_STEPS.len] tutorial steps"
-		world.log << "\[TUTORIAL\] Linear progression: Fire → Mining → Smelting → Building → Bronze → Masonry → Castle"
+		world.log << "\[TUTORIAL\] Linear progression: Fire → Hammer Mining → Stone Pickaxe → Efficient Mining → Smelting → Iron Hammer → Iron Pickaxe → Shelter → House → Bronze → Masonry → Fort → Castle"
 
 /proc/CreateTutorialForPlayer(mob/players/player)
 	/**

@@ -262,20 +262,121 @@ var/list/KNOWLEDGE = list()
 	
 	KNOWLEDGE["mine_ore"] = new /datum/recipe_entry(
 		recipe_key = "mine_ore",
-		name = "Mine Ore from Stone",
-		description = "Use pickaxe to mine ore-bearing rock. First step toward metal tools.",
+		name = "Mine Ore with Stone Hammer",
+		description = "Use stone hammer to break ore-bearing rock. Slower but works. Better to upgrade to stone pickaxe.",
 		icon_state = "iron_ore",
 		tier = "rudimentary",
 		category = "mining",
 		workstation_type = "none",
-		inputs = list("ueik_pickaxe" = 1),
+		inputs = list("stone_hammer" = 1),
 		outputs = list("iron_ore" = 1),
 		requires_fire = FALSE,
 		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
 		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
 		experience_reward = 20,
 		discovery_method = "npc_teaching",
-		unlocks_recipes = list("smelt_ore", "mine_copper", "mine_tin")
+		unlocks_recipes = list("smelt_ore", "forge_pickaxe_head")
+	)
+	
+	KNOWLEDGE["forge_pickaxe_head"] = new /datum/recipe_entry(
+		recipe_key = "forge_pickaxe_head",
+		name = "Forge Stone Pickaxe Head",
+		description = "Craft a proper stone pickaxe head from flint or stone. Much better ore extraction than hammer. Foundation of mining tools.",
+		icon_state = "stone_pickaxe_head",
+		tier = "rudimentary",
+		category = "smithing",
+		workstation_type = "none",
+		inputs = list("stone_hammer" = 1, "sharp_stone" = 2),
+		outputs = list("stone_pickaxe_head" = 1),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 25,
+		discovery_method = "npc_teaching",
+		prerequisites = list("mine_ore"),
+		unlocks_recipes = list("mine_ore_efficient")
+	)
+	
+	KNOWLEDGE["mine_ore_efficient"] = new /datum/recipe_entry(
+		recipe_key = "mine_ore_efficient",
+		name = "Mine Ore with Stone Pickaxe",
+		description = "Use a proper stone pickaxe to extract ore. Much more efficient than hammer. Still beginner-level.",
+		icon_state = "iron_ore",
+		tier = "rudimentary",
+		category = "mining",
+		workstation_type = "none",
+		inputs = list("stone_pickaxe_head" = 1),
+		outputs = list("iron_ore" = 2),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 25,
+		discovery_method = "npc_teaching",
+		prerequisites = list("forge_pickaxe_head"),
+		unlocks_recipes = list("smelt_ore", "forge_hammer_head")
+	)
+	
+	KNOWLEDGE["forge_hammer_head"] = new /datum/recipe_entry(
+		recipe_key = "forge_hammer_head",
+		name = "Forge Iron Hammer Head",
+		description = "Shape hot iron into a hammer head at the fire. Your first real metal tool! Much superior to stone.",
+		icon_state = "hammer_head",
+		tier = "basic",
+		category = "smithing",
+		workstation_type = "fire",
+		inputs = list("iron_ingot" = 1, "kindling" = 1),
+		outputs = list("hammer_head_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 1,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 40,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_ore"),
+		unlocks_recipes = list("forge_iron_pickaxe_head")
+	)
+	
+	KNOWLEDGE["forge_iron_pickaxe_head"] = new /datum/recipe_entry(
+		recipe_key = "forge_iron_pickaxe_head",
+		name = "Forge Iron Pickaxe Head",
+		description = "Shape hot iron into a pickaxe head at the fire. Significant upgrade from stone. Enables mining better ores.",
+		icon_state = "iron_pickaxe_head",
+		tier = "basic",
+		category = "smithing",
+		workstation_type = "fire",
+		inputs = list("iron_ingot" = 1, "kindling" = 1),
+		outputs = list("iron_pickaxe_head_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 1,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 45,
+		discovery_method = "npc_teaching",
+		prerequisites = list("forge_hammer_head"),
+		unlocks_recipes = list("mine_ore_iron", "smelt_bronze")
+	)
+	
+	KNOWLEDGE["mine_ore_iron"] = new /datum/recipe_entry(
+		recipe_key = "mine_ore_iron",
+		name = "Mine Ore with Iron Pickaxe",
+		description = "Use iron pickaxe to extract ore. Excellent yield and durability. Enables access to copper and tin.",
+		icon_state = "iron_ore",
+		tier = "basic",
+		category = "mining",
+		workstation_type = "none",
+		inputs = list("iron_pickaxe_head_cool" = 1),
+		outputs = list("iron_ore" = 3),
+		requires_fire = FALSE,
+		skill_requirement = RANK_MINING,
+		skill_level_min = 1,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 30,
+		discovery_method = "npc_teaching",
+		prerequisites = list("forge_iron_pickaxe_head"),
+		unlocks_recipes = list("mine_copper", "mine_tin", "mine_lead", "mine_zinc")
 	)
 	
 	KNOWLEDGE["mine_copper"] = new /datum/recipe_entry(
@@ -316,6 +417,65 @@ var/list/KNOWLEDGE = list()
 		unlocks_recipes = list("smelt_tin")
 	)
 	
+	KNOWLEDGE["mine_lead"] = new /datum/recipe_entry(
+		recipe_key = "mine_lead",
+		name = "Mine Lead Ore",
+		description = "Use bronze pickaxe to extract lead ore from mountainous deposits. Dense, malleable metal for specialized alloys.",
+		icon_state = "lead_ore",
+		tier = "intermediate",
+		category = "mining",
+		workstation_type = "none",
+		inputs = list("bronze_pickaxe_head_cool" = 1),
+		outputs = list("lead_ore" = 1),
+		requires_fire = FALSE,
+		biomes_allowed = list("arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 30,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_bronze"),
+		unlocks_recipes = list("smelt_lead")
+	)
+	
+	KNOWLEDGE["mine_zinc"] = new /datum/recipe_entry(
+		recipe_key = "mine_zinc",
+		name = "Mine Zinc Ore",
+		description = "Use bronze pickaxe to extract zinc ore. Brittle but essential for brass production and corrosion resistance.",
+		icon_state = "zinc_ore",
+		tier = "intermediate",
+		category = "mining",
+		workstation_type = "none",
+		inputs = list("bronze_pickaxe_head_cool" = 1),
+		outputs = list("zinc_ore" = 1),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "desert"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 30,
+		discovery_method = "npc_teaching",
+		prerequisites = list("smelt_bronze"),
+		unlocks_recipes = list("smelt_zinc")
+	)
+	
+	KNOWLEDGE["mine_iron_ore"] = new /datum/recipe_entry(
+		recipe_key = "mine_iron_ore",
+		name = "Mine Iron Ore with Steel Pickaxe",
+		description = "Use steel pickaxe to extract iron ore with maximum efficiency. Excellent for high-volume mining operations.",
+		icon_state = "iron_ore",
+		tier = "advanced",
+		category = "mining",
+		workstation_type = "none",
+		inputs = list("steel_pickaxe_head_cool" = 1),
+		outputs = list("iron_ore" = 5),
+		requires_fire = FALSE,
+		skill_requirement = RANK_MINING,
+		skill_level_min = 3,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 50,
+		discovery_method = "npc_teaching",
+		prerequisites = list("forge_steel_pickaxe"),
+		unlocks_recipes = list()
+	)
+	
 	// ========================================================================
 	// BASIC TIER - Fire mastery and first metal tools
 	// ========================================================================
@@ -336,27 +496,7 @@ var/list/KNOWLEDGE = list()
 		experience_reward = 30,
 		discovery_method = "npc_teaching",
 		prerequisites = list("campfire_light"),
-		unlocks_recipes = list("forge_hammer_head", "forge_pickaxe_head")
-	)
-	
-	KNOWLEDGE["forge_hammer_head"] = new /datum/recipe_entry(
-		recipe_key = "forge_hammer_head",
-		name = "Forge Hammer Head",
-		description = "Shape hot iron into a hammer head. Requires forge with active fire.",
-		icon_state = "hammer_head",
-		tier = "basic",
-		category = "smithing",
-		workstation_type = "forge",
-		inputs = list("iron_ingot" = 1, "kindling" = 1),
-		outputs = list("hammer_head_unrefined" = 1),
-		requires_fire = TRUE,
-		skill_requirement = RANK_SMITHING,
-		skill_level_min = 1,
-		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
-		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
-		experience_reward = 40,
-		discovery_method = "npc_teaching",
-		prerequisites = list("smelt_ore")
+		unlocks_recipes = list("forge_hammer_head", "forge_iron_pickaxe_head")
 	)
 	
 	KNOWLEDGE["make_jar"] = new /datum/recipe_entry(
@@ -1125,22 +1265,127 @@ var/list/KNOWLEDGE = list()
 		unlocks_recipes = list()
 	)
 	
+	KNOWLEDGE["forge_steel_pickaxe"] = new /datum/recipe_entry(
+		recipe_key = "forge_steel_pickaxe",
+		name = "Forge Steel Pickaxe Head",
+		description = "Shape steel into a superior pickaxe head. Enables mining of the highest-tier ores with maximum efficiency.",
+		icon_state = "steel_pickaxe_head",
+		tier = "advanced",
+		category = "smithing",
+		workstation_type = "anvil",
+		inputs = list("steel_ingot" = 1, "kindling" = 1),
+		outputs = list("steel_pickaxe_head_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 4,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 80,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_anvil", "smelt_steel"),
+		unlocks_recipes = list("mine_iron_ore")
+	)
+	
+	KNOWLEDGE["forge_steel_hammer"] = new /datum/recipe_entry(
+		recipe_key = "forge_steel_hammer",
+		name = "Forge Steel Hammer Head",
+		description = "Shape steel into a powerful hammer head. Superior striking force for smithing, demolition, and general construction.",
+		icon_state = "steel_hammer_head",
+		tier = "advanced",
+		category = "smithing",
+		workstation_type = "anvil",
+		inputs = list("steel_ingot" = 1, "kindling" = 1),
+		outputs = list("steel_hammer_head_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 4,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 80,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_anvil", "smelt_steel"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["forge_steel_axe"] = new /datum/recipe_entry(
+		recipe_key = "forge_steel_axe",
+		name = "Forge Steel Axe Head",
+		description = "Shape steel into a keen axe head. Superior wood chopping and splitting with less material waste.",
+		icon_state = "steel_axe_head",
+		tier = "advanced",
+		category = "smithing",
+		workstation_type = "anvil",
+		inputs = list("steel_ingot" = 1, "kindling" = 1),
+		outputs = list("steel_axe_head_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 4,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 80,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_anvil", "smelt_steel"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["forge_steel_shovel"] = new /datum/recipe_entry(
+		recipe_key = "forge_steel_shovel",
+		name = "Forge Steel Shovel Head",
+		description = "Shape steel into a shovel head. Superior digging speed and material handling efficiency.",
+		icon_state = "steel_shovel_head",
+		tier = "advanced",
+		category = "smithing",
+		workstation_type = "anvil",
+		inputs = list("steel_ingot" = 1, "kindling" = 1),
+		outputs = list("steel_shovel_head_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 4,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 80,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_anvil", "smelt_steel"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["forge_steel_saw"] = new /datum/recipe_entry(
+		recipe_key = "forge_steel_saw",
+		name = "Forge Steel Saw Blade",
+		description = "Shape steel into a precision saw blade. Superior cutting accuracy for fine woodworking and stone refinement.",
+		icon_state = "steel_saw_blade",
+		tier = "advanced",
+		category = "smithing",
+		workstation_type = "anvil",
+		inputs = list("steel_ingot" = 1, "kindling" = 1),
+		outputs = list("steel_saw_blade_unrefined" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_SMITHING,
+		skill_level_min = 4,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 80,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_anvil", "smelt_steel"),
+		unlocks_recipes = list()
+	)
+	
 	KNOWLEDGE["forge_steel_tools"] = new /datum/recipe_entry(
 		recipe_key = "forge_steel_tools",
-		name = "Forge Steel Tool Heads",
-		description = "Shape steel into specialized tool heads (chisel, trowel, saw blade). Enables advanced construction and crafting.",
+		name = "Forge Steel Tool Heads (Chisels & Trowels)",
+		description = "Shape steel into specialized tool heads (chisel, trowel). Enables advanced construction and fine detail work.",
 		icon_state = "steel_chisel",
-		tier = "intermediate",
+		tier = "advanced",
 		category = "smithing",
 		workstation_type = "anvil",
 		inputs = list("steel_ingot" = 1, "kindling" = 1),
 		outputs = list("steel_tool_head" = 1),
 		requires_fire = TRUE,
 		skill_requirement = RANK_SMITHING,
-		skill_level_min = 3,
+		skill_level_min = 4,
 		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
 		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
-		experience_reward = 50,
+		experience_reward = 75,
 		discovery_method = "npc_teaching",
 		prerequisites = list("build_anvil", "smelt_steel"),
 		unlocks_recipes = list()
