@@ -97,8 +97,18 @@
 	// For now, block all PvP in story mode to prevent griefing
 	// Once faction system is in place, allow faction wars
 	
+	// Check if player is in a faction
+	var/attacker_faction = GetPlayerFaction(attacker)
+	var/defender_faction = GetPlayerFaction(PD)
+	
+	// Allow PvP if both players are in opposing factions
+	if(attacker_faction != 0 && defender_faction != 0)
+		if(CanFactionAttack(attacker_faction, defender_faction))
+			return TRUE
+	
+	// Block PvP in Story mode if not in factions
 	if(attacker.client)
-		attacker << "<font color=#FF5555>[PD.name] is in Story mode. PvP disabled (faction system not yet implemented).</font>"
+		attacker << "<font color=#FF5555>[PD.name]: PvP in Story mode requires faction membership.</font>"
 	return FALSE
 
 /proc/CanEnterCombat_Sandbox(mob/players/attacker, mob/defender)
