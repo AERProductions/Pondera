@@ -57,6 +57,9 @@ var/global/
 	if(!global.season)
 		return
 	
+	// Update seasonal modifiers (apply to actual game systems)
+	UpdateSeasonalModifiersForCurrentSeason()
+	
 	switch(global.season)
 		if("Spring")
 			if(!spring_event_active)

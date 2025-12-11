@@ -224,7 +224,8 @@ proc
 		
 		spawn(384)  InitializeRecipeDiscoveryRateBalancing() // Recipe discovery
 		spawn(385)  InitializeUIEventBus()                   // Phase 35: UI Event Bus
-		spawn(386)  CleanupActivityLogs()                    // Activity log maintenance
+		spawn(386)  InitializeSeasonalModifierProcessor()    // Seasonal game mechanics
+		spawn(387)  CleanupActivityLogs()                    // Activity log maintenance
 		
 		spawn(395) RegisterInitComplete("quality_of_life")
 		
