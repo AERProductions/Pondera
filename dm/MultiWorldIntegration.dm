@@ -72,6 +72,14 @@
 		if(player) player << "MULTI ERROR: Destination continent not found"
 		return 0
 	
+	// ANTI-CHEESE: One-way Ascension Mode enforcement
+	// If player is locked into Ascension Mode, block travel to other continents
+	if(player.character.ascension_locked_in && destination_continent != CONT_ASCENSION)
+		player << "<font color=#FF6B6B>ERROR: You have entered Ascension Mode permanently.</font>"
+		player << "<font color=#FF6B6B>Your character's ascension progress cannot be exported to other game modes.</font>"
+		player << "<font color=#FF6B6B>To play Story/Sandbox/PvP, you must create a new character.</font>"
+		return 0
+	
 	// Save current position before leaving
 	SaveContinentPosition(player, player.current_continent, player.x, player.y, player.z)
 	
@@ -97,6 +105,8 @@
 			if(player) player << "MULTI Arrived in Sandbox World (Creative Canvas) - Building, peaceful exploration"
 		if(CONT_PVP)
 			if(player) player << "MULTI Arrived in PvP World (Battlelands) - Territory warfare, raiding, faction conflict"
+		if(CONT_ASCENSION)
+			if(player) player << "MULTI Arrived in Ascension Realm (Creative Mastery) - All recipes, peaceful exploration"
 	
 	return 1
 

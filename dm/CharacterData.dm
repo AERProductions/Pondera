@@ -74,6 +74,7 @@
 		// Ascension Mode flags (Stage 6)
 		game_mode = "story"                  // Current game mode: "story", "sandbox", "pvp", "ascension"
 		ascension_mode_active = FALSE        // TRUE if player is in Ascension Mode
+		ascension_locked_in = FALSE          // TRUE if player entered Ascension (one-way, prevents cheesing)
 		instant_crafting = FALSE             // Ascension feature: instant recipes
 		free_respawn = FALSE                 // Ascension feature: no death penalty
 		enhanced_lighting = FALSE            // Ascension feature: better visibility

@@ -29,6 +29,9 @@
  *            - Full multi-world travel enabled
  *            - Economy enabled but no scarcity mechanics
  *            - Perfect for "mastering all crafts" runs
+ *            - ONE-WAY progression: Can enter Ascension from any mode,
+ *              but cannot export ascension character back to other modes
+ *              (anti-cheese: prevents farming mastery then seeding Story)
  */
 
 // ============================================================================
@@ -302,10 +305,16 @@ var/datum/ascension_mode_config/ascension_config = null
 		src << "You are already in Ascension Mode"
 		return
 	
+	// ANTI-CHEESE: One-way progression enforcement
+	// Once you enter Ascension Mode, you're locked into that character permanently
+	// Cannot travel back to Story/Sandbox/PvP with ascension progress
+	src.character.ascension_locked_in = TRUE
+	
 	// Travel to Ascension Realm
 	var/result = TravelToContinentAsPlayer(src, CONT_ASCENSION)
 	if(result)
 		src << "<font color=#FFD700>Welcome to the Ascension Realm! All recipes unlocked, no pressure, infinite possibilities.</font>"
+		src << "<font color=#FFA500>⚠ Note: Ascension Mode is one-way. Your progress here cannot be exported to other game modes.</font>"
 		SetupPlayerForAscensionMode(src)
 	else
 		src << "Failed to enter Ascension Realm"
