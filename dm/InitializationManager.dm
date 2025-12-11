@@ -53,6 +53,15 @@ proc
 		world.log << "═══════════════════════════════════════════════════════════════"
 		
 		// ────────────────────────────────────────────────────────────────────
+		// SYSTEM INITIALIZATION: Rank System Registry (0 ticks)
+		// Lightweight setup required before character creation
+		// ────────────────────────────────────────────────────────────────────
+		
+		LogInit("SYSTEM: Rank System Registry", 0)
+		InitializeRankDefinitions()  // Register all rank types for fast O(1) lookup
+		RegisterInitComplete("ranks")
+		
+		// ────────────────────────────────────────────────────────────────────
 		// PHASE 1: TIME SYSTEM (0 ticks)
 		// Critical: Must be first, required by day/night and maintenance
 		// ────────────────────────────────────────────────────────────────────
