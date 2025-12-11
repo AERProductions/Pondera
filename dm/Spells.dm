@@ -591,7 +591,14 @@ mob/players/
 		
 		// Check if home point is set
 		if(!caster.character.home_point)
-			caster << "You have no home point set. Visit a sundial to set your waypoint with the compass."
+			caster << "You have no home point set."
+			caster << "Visit a sundial during daytime to set your home point using the 'Set Home Point' option."
+			return
+		
+		// Verify home point still exists and is valid
+		if(!isturf(caster.character.home_point))
+			caster << "Your home point location no longer exists!"
+			caster.character.home_point = null
 			return
 		
 		// Cost: Full stamina
@@ -603,9 +610,10 @@ mob/players/
 		spawn(3) caster.overlays -= image('dmi/64/magi.dmi', icon_state="abjure")
 		
 		// Teleport to home point
-		caster.loc = caster.character.home_point
-		caster << "You return home..."
-		world << "[caster.name] vanishes in a flash of light."
+		var/turf/destination = caster.character.home_point
+		caster.loc = destination
+		caster << "<span class='good'>You return home...</span>"
+		world << "<span class='info'>[caster.name] vanishes in a flash of light.</span>"
 
 	proc/PanaceA(var/mob/players/M in oview(3)) //working?
 		set waitfor = 0

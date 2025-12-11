@@ -1386,38 +1386,25 @@ obj/Buildable/sundial//Yes, it tells the time.
 	Click()				//Give yourself a verb to examine the clock.
 		set popup_menu = 1
 		set src in view(3)
-		//usr.Target = src
-		//var/obj/Navi/Compas/CL = locate();var/obj/Navi/Arrow/AL = locate()
-		//var/obj/Navi/Compas/C = new;var/obj/Navi/Arrow/A = new
-		/*if(CL&&AL in usr.client.screen)
-			goto clab
-			return
-		else
-			usr.client.screen -= C;usr.client.screen -= A
-			usr.client.screen += C;usr.client.screen += A
-			return*/
-		//clab
+		
 		if(get_dist(src,usr)<=3)		//Makes sure you're close enough to read it (3 spaces)
 			if(time_of_day == NIGHT)
 				usr << "Can't read the Sundial at night!"
 				return
-			/*else
-				if(time_of_day == DAY)
-					usr << "Can't read the Sundial at night!"
-					return*/
+			
+			if (time_of_day == DAY)
+				usr << "<font color = green> The Sundial reads: [hour]:[minute1][minute2] [ampm] of Day: [day] / Month: [month] / Season: [season] / Year: AM [year] "	//It tells you the time.
+				
+				// Offer home point setting option
+				var/choice = input(usr, "What would you like to do at this sundial?", "Sundial Menu") as null|anything in list("Read Time", "Set Home Point", "Cancel")
+				
+				if(choice == "Set Home Point")
+					SetHomePointAtSundial(usr, src)
+				
+				return
 			else
-				if (time_of_day == DAY)
-					usr << "<font color = green> The Sundial reads: [hour]:[minute1][minute2] [ampm] of Day: [day] / Month: [month] / Season: [season] / Year: AM [year] "	//It tells you the time.
-					oview() << "<font color = green><b>[usr]</b> looks at the Sundial."			//And tells everyone in your view that you're looking at the clock.
-					return
-					//sleep(3)
-					/*if(CL&&AL in usr.client.screen)
-						return
-					else
-						usr.client.screen -= C;usr.client.screen -= A
-						usr.client.screen += C;usr.client.screen += A
-						return*/
-
+				usr << "You cannot read the Sundial in the dark."
+				return
 
 obj/weather
 	plane = EFFECTS_LAYER
@@ -1445,3 +1432,48 @@ obj/weather
 						//J.overlays -= image('dmi/64/fire.dmi',icon_state="2")
 						//J.overlays -= image('dmi/64/fire.dmi',icon_state="4")
 						//J.overlays -= image('dmi/64/fire.dmi',icon_state="8")
+
+// ============================================================================
+// HOME POINT SYSTEM (Sundial Integration)
+// ============================================================================
+
+/**
+ * SetHomePointAtSundial
+ * Allow player to set their respawn location at a sundial
+ * Called from Sundial.Click() menu
+ */
+/proc/SetHomePointAtSundial(mob/players/player, obj/Buildable/sundial/sundial)
+	if(!player || !player.character || !sundial) return
+	
+	// Confirm action
+	var/confirm = input(player, "Set your home point to this location?\n\nYou can use Abjure II to teleport back here.", "Confirm Home Point", "Yes") as null|anything in list("Yes", "No", "Cancel")
+	
+	if(confirm != "Yes")
+		player << "Home point not set."
+		return
+	
+	// Set home point to sundial location
+	player.character.home_point = sundial.loc
+	player << "<span class='good'>✦ Home point set at [sundial.name]!</span>"
+	player << "<span class='info'>Use Abjure II spell to return home.</span>"
+	
+	// Show compass to point back to home
+	ShowCompass(player)
+
+/**
+ * GetPlayerHomePoint
+ * Query player's set home point
+ * Returns: turf location or null if not set
+ */
+/proc/GetPlayerHomePoint(mob/players/player)
+	if(!player || !player.character) return null
+	return player.character.home_point
+
+/**
+ * ResetPlayerHomePoint
+ * Clear player's home point (used for deed exile, death penalties, etc)
+ */
+/proc/ResetPlayerHomePoint(mob/players/player)
+	if(!player || !player.character) return
+	player.character.home_point = null
+	player << "<span class='warning'>Your home point has been reset.</span>"
