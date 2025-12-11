@@ -366,10 +366,19 @@ mob/players
 	 * Returns damage multiplier based on defense state
 	 * Shield raise: 0.5x damage (50% reduction)
 	 * Dodge roll: 0.0x damage (invulnerable)
+	 * Death debuff: 0.8x damage (20% damage penalty)
 	 * Normal: 1.0x damage
 	 */
 	if(src.dodge_rolling) return 0.0  // Invulnerable
 	if(src.defending) return 0.5      // 50% damage reduction
+	
+	// Apply death debuff if active
+	if(src.character && src.character.death_debuff_active)
+		if(src.character.death_debuff_end_time > world.time)
+			return 0.8  // 20% damage reduction while debuffed
+		else
+			src.character.death_debuff_active = 0  // Debuff expired
+	
 	return 1.0                         // Normal damage
 
 // ============================================================================
@@ -386,6 +395,12 @@ mob/players
 	var/actual_damage = amount * multiplier
 	
 	src.HP = max(0, src.HP - actual_damage)
+	
+	// Check if player died from damage
+	if(src.HP <= 0 && death_penalty_manager)
+		// Trigger death penalty system
+		// TODO: Track attacker from combat context
+		death_penalty_manager.HandlePlayerDeath(src, null)
 	
 	return actual_damage
 

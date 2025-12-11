@@ -59,6 +59,7 @@
 #include "dm\CrisisEventsSystem.dm"
 #include "dm\CurrencyDisplayUI.dm"
 #include "dm\DayNight.dm"
+#include "dm\DeathPenaltySystem.dm"
 #include "dm\deed.dm"
 #include "dm\DeedDataManager.dm"
 #include "dm\DeedEconomySystem.dm"

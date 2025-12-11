@@ -1812,6 +1812,11 @@ mob/players
 	proc/checkdeadplayer2(var/mob/players/M)
 		if(M.HP <= 0)//&&src.affinity<=-0.1) // if you have less than or equal to 0 HP, you are dead
 			world << "<font color = #660000><b>[M] died to [src]"
+			
+			// Call death penalty system if available
+			if(death_penalty_manager)
+				death_penalty_manager.HandlePlayerDeath(M, src)
+			
 			//var/G = round((M.lucre/4),1)
 			//M << "<font color = lucre>Your pouch slipped and spilled [G] Lucre!"
 			//M.lucre-=G

@@ -82,6 +82,11 @@
 		// === FACTION SYSTEM ===
 		faction_id = 0                       // Current faction (FACTION_CRIMSON, FACTION_AZURE, etc.)
 		faction_standing = 0                 // Standing within faction (-1000 to +1000)
+		
+		// === DEATH PENALTY SYSTEM ===
+		death_debuff_active = 0              // Flag if death debuff is active (1 = active, 0 = inactive)
+		death_debuff_end_time = 0            // world.time when debuff expires
+		
 		show_recipe_hints = FALSE            // Ascension feature: recipe tooltips
 		can_travel_all_continents = FALSE    // Ascension feature: multi-world access
 		multi_world_unlocked = FALSE         // Ascension feature: continental travel enabled
