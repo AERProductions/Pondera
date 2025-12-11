@@ -16,11 +16,10 @@ var
 	 * death_penalty_manager
 	 * Global manager for death penalties, fainted state, and two-death system
 	 */
-	var
-		list/death_records = list()  // death_ckey -> list of death records
-		list/fainted_players = list()  // players currently in fainted state (ckey -> faint_location)
-		list/permadead_players = list()  // second-death victims (ckey -> death_time)
-		max_death_records = 20  // Keep max 20 death records per player
+	var/list/death_records = list()  // death_ckey -> list of death records
+	var/list/fainted_players = list()  // players currently in fainted state (ckey -> faint_location)
+	var/list/permadead_players = list()  // second-death victims (ckey -> death_time)
+	var/max_death_records = 20  // Keep max 20 death records per player
 
 	proc/InitializeDeathPenaltyManager()
 		/**
