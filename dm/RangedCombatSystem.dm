@@ -116,7 +116,6 @@
 	return base_accuracy * distance_penalty
 
 /obj/projectile/proc/CalculateDamage(source, skill_level)
-	var/mob/src_mob = source
 	// Base damage from weapon
 	var/base_dmg = 8 + (skill_level * 2)  // 10 at level 1, 18 at level 5
 	
