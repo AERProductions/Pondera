@@ -71,6 +71,19 @@
 		current_continent = CONT_STORY       // Which continent player is on
 		continent_positions = list()         // Saved positions per continent: CONT_STORY = list(x,y,z,dir)
 		
+		// Ascension Mode flags (Stage 6)
+		game_mode = "story"                  // Current game mode: "story", "sandbox", "pvp", "ascension"
+		ascension_mode_active = FALSE        // TRUE if player is in Ascension Mode
+		instant_crafting = FALSE             // Ascension feature: instant recipes
+		free_respawn = FALSE                 // Ascension feature: no death penalty
+		enhanced_lighting = FALSE            // Ascension feature: better visibility
+		show_recipe_hints = FALSE            // Ascension feature: recipe tooltips
+		can_travel_all_continents = FALSE    // Ascension feature: multi-world access
+		multi_world_unlocked = FALSE         // Ascension feature: continental travel enabled
+		inventory_expanded = FALSE           // Ascension feature: more carrying capacity
+		disable_deed_system = FALSE          // Ascension feature: disable deeds entirely
+		disable_deed_costs = FALSE           // Ascension feature: no maintenance fees
+		
 		// Stall system (per-continent trading)
 		stall_owner = ""                     // NPC stall owner name (story continent)
 		stall_inventory = list()             // Items for sale in stall

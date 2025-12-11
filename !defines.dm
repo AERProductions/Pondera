@@ -25,9 +25,10 @@
 #define CONTINENT_CREATIVE  (1<<1)  // Building-focused, no pressure
 #define CONTINENT_COMBAT    (1<<2)  // PvP, survival, competition
 
-#define CONT_STORY    "story"        // Kingdom of Freedom (procedural with story)
-#define CONT_SANDBOX  "sandbox"      // Creative Sandbox (peaceful building)
-#define CONT_PVP      "pvp"          // Battlelands (competitive survival)
+#define CONT_STORY     "story"        // Kingdom of Freedom (procedural with story)
+#define CONT_SANDBOX   "sandbox"     // Creative Sandbox (peaceful building)
+#define CONT_PVP       "pvp"         // Battlelands (competitive survival)
+#define CONT_ASCENSION "ascension"   // Ascension Realm (peaceful creative mastery)
 
 // Soil System Constants
 #define SOIL_DEPLETED 0

@@ -137,6 +137,8 @@ proc
 		spawn(150)  InitializeSandboxSystem()         // Phase D sandbox world
 		spawn(200)  InitializePvPSystem()             // Phase E PvP world
 		spawn(250)  InitializeMultiWorldSystem()      // Phase F multi-world
+		spawn(265)  InitializeAscensionMode()         // Stage 6 peaceful creative realm
+		spawn(270)  InitializeAscensionModeKnowledge()// Ascension mode knowledge base
 		spawn(300)  InitializePhase4System()          // Character data & trading
 		
 		spawn(300) RegisterInitComplete("special_worlds")
