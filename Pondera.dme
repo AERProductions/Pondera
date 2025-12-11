@@ -27,6 +27,7 @@
 #include "!defines.dm"
 #include "Interfacemini.dmf"
 #include "sleep.dmm"
+#include "dm\AdminCommandsExpanded.dm"
 #include "test.dmm"
 #include "dm\_AdminCommands.dm"
 #include "dm\_debugtimer.dm"
