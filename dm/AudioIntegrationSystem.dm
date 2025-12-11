@@ -65,19 +65,19 @@ AudioManager
 		 */
 		continent_themes["story_peaceful"] = list(
 			name = "Tavern Rest",
-			file = null,  // Placeholder: 'snd/music/story_peaceful.ogg'
+			file = "snd/mus.ogg",
 			volume = 60,
 			loop = TRUE
 		)
 		continent_themes["story_exploration"] = list(
 			name = "Adventure Awaits",
-			file = null,  // Placeholder: 'snd/music/story_exploration.ogg'
+			file = "snd/mus1.ogg",
 			volume = 70,
 			loop = TRUE
 		)
 		continent_themes["story_combat"] = list(
 			name = "Battle Drums",
-			file = null,  // Placeholder: 'snd/music/story_combat.ogg'
+			file = "snd/mus2.ogg",
 			volume = 80,
 			loop = TRUE
 		)
@@ -85,13 +85,13 @@ AudioManager
 		// Sandbox: Peaceful creative mode
 		continent_themes["sandbox_peaceful"] = list(
 			name = "Creative Calm",
-			file = null,  // Placeholder: 'snd/music/sandbox_peaceful.ogg'
+			file = "snd/cycadas.ogg",
 			volume = 50,
 			loop = TRUE
 		)
 		continent_themes["sandbox_building"] = list(
 			name = "Builder's Groove",
-			file = null,  // Placeholder: 'snd/music/sandbox_building.ogg'
+			file = "snd/mus.ogg",
 			volume = 60,
 			loop = TRUE
 		)
@@ -99,19 +99,19 @@ AudioManager
 		// PvP: Tense competitive atmosphere
 		continent_themes["pvp_exploration"] = list(
 			name = "Danger Lurks",
-			file = null,  // Placeholder: 'snd/music/pvp_exploration.ogg'
+			file = "snd/wastewind.ogg",
 			volume = 70,
 			loop = TRUE
 		)
 		continent_themes["pvp_combat"] = list(
 			name = "Adrenaline Rush",
-			file = null,  // Placeholder: 'snd/music/pvp_combat.ogg'
+			file = "snd/mus2.ogg",
 			volume = 85,
 			loop = TRUE
 		)
 		continent_themes["pvp_boss"] = list(
 			name = "The Final Confrontation",
-			file = null,  // Placeholder: 'snd/music/pvp_boss.ogg'
+			file = "snd/mus2.ogg",
 			volume = 90,
 			loop = TRUE
 		)
@@ -129,43 +129,43 @@ AudioManager
 		 */
 		combat_sounds["hit_light"] = list(
 			name = "Light Hit",
-			file = null,  // Placeholder: 'snd/combat/hit_light.ogg'
+			file = "snd/fire.ogg",  // Sharp contact sound
 			volume = 70,
 			loop = FALSE
 		)
 		combat_sounds["hit_medium"] = list(
 			name = "Medium Hit",
-			file = null,  // Placeholder: 'snd/combat/hit_medium.ogg'
+			file = "snd/fire2a.ogg",  // Stronger impact
 			volume = 75,
 			loop = FALSE
 		)
 		combat_sounds["hit_heavy"] = list(
 			name = "Heavy Hit",
-			file = null,  // Placeholder: 'snd/combat/hit_heavy.ogg'
+			file = "snd/wind.ogg",  // Powerful blow
 			volume = 80,
 			loop = FALSE
 		)
 		combat_sounds["critical_hit"] = list(
 			name = "Critical Hit",
-			file = null,  // Placeholder: 'snd/combat/critical_hit.ogg'
+			file = "snd/mus2.ogg",  // High-impact sound
 			volume = 85,
 			loop = FALSE
 		)
 		combat_sounds["death"] = list(
 			name = "Death",
-			file = null,  // Placeholder: 'snd/combat/death.ogg'
+			file = "snd/caves.ogg",  // Deep, final sound
 			volume = 80,
 			loop = FALSE
 		)
 		combat_sounds["dodge"] = list(
 			name = "Dodge",
-			file = null,  // Placeholder: 'snd/combat/dodge.ogg'
+			file = "snd/blowwind.ogg",  // Rushing sound
 			volume = 60,
 			loop = FALSE
 		)
 		combat_sounds["block"] = list(
 			name = "Block",
-			file = null,  // Placeholder: 'snd/combat/block.ogg'
+			file = "snd/fire.ogg",  // Sharp contact
 			volume = 70,
 			loop = FALSE
 		)
@@ -184,43 +184,43 @@ AudioManager
 		 */
 		ui_sounds["click"] = list(
 			name = "Click",
-			file = null,  // Placeholder: 'snd/ui/click.ogg'
+			file = "snd/cycadas.ogg",  // Short, clear UI feedback
 			volume = 50,
 			loop = FALSE
 		)
 		ui_sounds["inventory_open"] = list(
 			name = "Inventory Open",
-			file = null,  // Placeholder: 'snd/ui/inventory_open.ogg'
+			file = "snd/blowwind.ogg",  // Whoosh sound
 			volume = 60,
 			loop = FALSE
 		)
 		ui_sounds["item_pickup"] = list(
 			name = "Item Pickup",
-			file = null,  // Placeholder: 'snd/ui/pickup.ogg'
+			file = "snd/wind.ogg",  // Light pickup sound
 			volume = 65,
 			loop = FALSE
 		)
 		ui_sounds["item_drop"] = list(
 			name = "Item Drop",
-			file = null,  // Placeholder: 'snd/ui/drop.ogg'
+			file = "snd/fire.ogg",  // Soft drop impact
 			volume = 60,
 			loop = FALSE
 		)
 		ui_sounds["levelup"] = list(
 			name = "Level Up!",
-			file = null,  // Placeholder: 'snd/ui/levelup.ogg'
+			file = "snd/mus1.ogg",  // Celebratory fanfare-like
 			volume = 80,
 			loop = FALSE
 		)
 		ui_sounds["recipe_discover"] = list(
 			name = "Recipe Discovery",
-			file = null,  // Placeholder: 'snd/ui/recipe_discover.ogg'
+			file = "snd/mus.ogg",  // Discovery chime
 			volume = 75,
 			loop = FALSE
 		)
 		ui_sounds["quest_complete"] = list(
 			name = "Quest Complete",
-			file = null,  // Placeholder: 'snd/ui/quest_complete.ogg'
+			file = "snd/mus2.ogg",  // Achievement sound
 			volume = 80,
 			loop = FALSE
 		)
@@ -238,35 +238,35 @@ AudioManager
 		 */
 		environmental_sounds["fire_crackle"] = list(
 			name = "Fire Crackle",
-			file = null,  // Placeholder: 'snd/ambient/fire_crackle.ogg'
+			file = "snd/fire.ogg",  // Crackling fire
 			volume = 60,
 			radius = 250,
 			loop = TRUE
 		)
 		environmental_sounds["anvil_ambient"] = list(
 			name = "Anvil Ambient",
-			file = null,  // Placeholder: 'snd/ambient/anvil_ambient.ogg'
+			file = "snd/fire2a.ogg",  // Metal hammering
 			volume = 50,
 			radius = 200,
 			loop = TRUE
 		)
 		environmental_sounds["water_flow"] = list(
 			name = "Water Flow",
-			file = null,  // Placeholder: 'snd/ambient/water_flow.ogg'
+			file = "snd/waterfall.ogg",  // Waterfall ambient
 			volume = 55,
 			radius = 300,
 			loop = TRUE
 		)
 		environmental_sounds["wind"] = list(
 			name = "Wind",
-			file = null,  // Placeholder: 'snd/ambient/wind.ogg'
+			file = "snd/wind.ogg",  // Wind ambient
 			volume = 40,
 			radius = 500,
 			loop = TRUE
 		)
 		environmental_sounds["forest_birds"] = list(
 			name = "Forest Birds",
-			file = null,  // Placeholder: 'snd/ambient/forest_birds.ogg'
+			file = "snd/nightcrickets.ogg",  // Nature ambience
 			volume = 45,
 			radius = 400,
 			loop = TRUE
