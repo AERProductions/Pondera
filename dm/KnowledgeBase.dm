@@ -1,12 +1,57 @@
 /**
  * PONDERA KNOWLEDGE BASE SYSTEM
  * =============================
- * Central registry for all game recipes, crafting knowledge, and progression data
+ * Central registry for all game recipes, crafting knowledge, progression data, mechanics
  * Serves as the foundation for:
- * - Interactive tech tree UI
+ * - Interactive tech tree UI / Wikipedia
  * - Tutorial system integration
  * - Recipe discovery tracking
  * - Biome/elevation/season gating
+ * - Game mechanics education
+ * - Animal/mount systems
+ * 
+ * FUTURE ROADMAP (Planned Phases)
+ * ================================
+ * 
+ * PHASE 7: LOGISTICS & TRADE ROUTES (Vehicles Branch)
+ * - Cart progression: Hand cart → Metal cart → Heavy cart
+ * - Wagon variants: Farm wagon → Trade wagon → Armored wagon
+ * - Animal traction: Requires tamed animals (horse, ox, etc.)
+ * - Trade routes: Establish merchant roads between kingdoms
+ * - Material trading: Cross-kingdom commerce with price dynamics
+ * - Logistics networks: Supply chains and distribution hubs
+ * 
+ * PHASE 8: SIEGE EQUIPMENT (Kingdom Mode PvP)
+ * - War chariots: Scout, light, heavy variants
+ * - Siege weapons: Ballista (armor penetration), Catapult (area), Trebuchet (long-range)
+ * - Defensive structures: Archer towers, ramparts, gates
+ * - Battering ram: Door breaching equipment
+ * - Siege warfare: Territory assault mechanics
+ * - Fortification upgrade: Escalating castle defenses
+ * 
+ * PHASE 9: ANIMAL HUSBANDRY EXPANSION
+ * - Breeding mechanics: Tamed animals produce offspring
+ * - Animal specialization: Selective breeding for better traits
+ * - New creatures: Dragons (rare), phoenixes, griffins (lore creatures)
+ * - Animal armor: Decorative and functional gear for mounts
+ * - Veterinary care: Healing wounds, curing diseases
+ * - Feed systems: Different animals require different nutrition
+ * 
+ * PHASE 10: DAMASCUS STEEL PATTERN ENGINE
+ * - Pattern application: Transform + dissolve filter integration
+ * - 8 historical patterns: Wild, Twist, Ladder, Raindrop, Herringbone, Pyramids, Mosaic, Feather
+ * - Pattern persistence: On weapons and armor
+ * - Quality-based patterns: Higher quality = more intricate patterns
+ * - Legendary Damascus weapons: Ultimate smithing achievement
+ * 
+ * INTEGRATION NOTES
+ * =================
+ * - Knowledge base = Wikipedia for all Pondera mechanics + recipes
+ * - Includes game controls, biome info, elevation system, seasons, hunger, PvP modes
+ * - Animals add to ecosystem depth (mount speed, hauling power, trading ability)
+ * - Vehicles enable logistics and trade (fundamental for Kingdom mode)
+ * - Siege equipment creates PvP asymmetry (attackers vs defenders)
+ * - Damascus patterns add visual prestige to endgame items
  * 
  * Data Structure:
  * KNOWLEDGE["recipe_key"] = /datum/recipe_entry
@@ -1392,8 +1437,368 @@ var/list/KNOWLEDGE = list()
 	)
 	
 	// ========================================================================
-	// TRANSPORTATION & LOGISTICS Chain
+	// ANIMALS & MOUNTS (Beasts of Burden & Companions)
 	// ========================================================================
+	// Future: Integrated with farming and animal husbandry systems
+	// Animals provide: transportation, labor, food, materials
+	
+	KNOWLEDGE["tame_horse"] = new /datum/recipe_entry(
+		recipe_key = "tame_horse",
+		name = "Tame a Wild Horse",
+		description = "Horses are swift mounts for travel and commerce. Wild horses can be tamed with proper care and training. Enables mounted travel (2x speed).",
+		icon_state = "horse",
+		tier = "intermediate",
+		category = "animals",
+		workstation_type = "none",
+		inputs = list("wild_horse" = 1, "hay_bundle" = 5, "time_investment" = 1),
+		outputs = list("horse_tamed" = 1),
+		requires_fire = FALSE,
+		skill_requirement = RANK_FARMING,
+		skill_level_min = 2,
+		biomes_allowed = list("temperate", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 100,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_stable"),
+		unlocks_recipes = list("craft_saddle", "craft_wagon")
+	)
+	
+	KNOWLEDGE["tame_ox"] = new /datum/recipe_entry(
+		recipe_key = "tame_ox",
+		name = "Tame an Ox for Labor",
+		description = "Oxen are powerful draft animals for heavy hauling. Slower than horses but incredibly strong. Perfect for pulling loaded carts.",
+		icon_state = "ox",
+		tier = "intermediate",
+		category = "animals",
+		workstation_type = "none",
+		inputs = list("wild_ox" = 1, "hay_bundle" = 8, "time_investment" = 1),
+		outputs = list("ox_tamed" = 1),
+		requires_fire = FALSE,
+		skill_requirement = RANK_FARMING,
+		skill_level_min = 2,
+		biomes_allowed = list("temperate", "arctic", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 120,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_stable"),
+		unlocks_recipes = list("hitch_plow", "craft_heavy_cart")
+	)
+	
+	KNOWLEDGE["tame_yak"] = new /datum/recipe_entry(
+		recipe_key = "tame_yak",
+		name = "Tame a Yak for Mountain Work",
+		description = "Yaks thrive in cold, high-elevation terrain. Excellent pack animals with thick wool. Perfect for alpine environments.",
+		icon_state = "yak",
+		tier = "intermediate",
+		category = "animals",
+		workstation_type = "none",
+		inputs = list("wild_yak" = 1, "hay_bundle" = 6, "time_investment" = 1),
+		outputs = list("yak_tamed" = 1),
+		requires_fire = FALSE,
+		skill_requirement = RANK_FARMING,
+		skill_level_min = 2,
+		biomes_allowed = list("arctic", "temperate"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 100,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_stable"),
+		unlocks_recipes = list("shear_yak_wool")
+	)
+	
+	KNOWLEDGE["tame_camel"] = new /datum/recipe_entry(
+		recipe_key = "tame_camel",
+		name = "Tame a Camel for Desert Trade",
+		description = "Camels are perfectly adapted to desert life. Excellent long-distance traders, requiring minimal water. Natural heat resistance.",
+		icon_state = "camel",
+		tier = "intermediate",
+		category = "animals",
+		workstation_type = "none",
+		inputs = list("wild_camel" = 1, "hay_bundle" = 4, "time_investment" = 1),
+		outputs = list("camel_tamed" = 1),
+		requires_fire = FALSE,
+		skill_requirement = RANK_FARMING,
+		skill_level_min = 2,
+		biomes_allowed = list("desert"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 110,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_stable"),
+		unlocks_recipes = list("craft_trade_caravan")
+	)
+	
+	KNOWLEDGE["tame_llama"] = new /datum/recipe_entry(
+		recipe_key = "tame_llama",
+		name = "Tame a Llama for Pack Carrying",
+		description = "Llamas are sociable pack animals, smaller than horses but reliable. Excellent for medium-distance transport across varied terrain.",
+		icon_state = "llama",
+		tier = "intermediate",
+		category = "animals",
+		workstation_type = "none",
+		inputs = list("wild_llama" = 1, "hay_bundle" = 5, "time_investment" = 1),
+		outputs = list("llama_tamed" = 1),
+		requires_fire = FALSE,
+		skill_requirement = RANK_FARMING,
+		skill_level_min = 1,
+		biomes_allowed = list("temperate", "forest", "arctic"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 90,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_stable"),
+		unlocks_recipes = list("craft_pack_saddle")
+	)
+	
+	KNOWLEDGE["build_stable"] = new /datum/recipe_entry(
+		recipe_key = "build_stable",
+		name = "Build Animal Stable",
+		description = "A shelter for taming and housing animals. Enables animal husbandry and beast management. Foundation for all animal-related activities.",
+		icon_state = "stable",
+		tier = "intermediate",
+		category = "shelter",
+		workstation_type = "none",
+		inputs = list("wooden_board" = 15, "stone_brick" = 10, "hay_bundle" = 5),
+		outputs = list("stable" = 1),
+		requires_fire = FALSE,
+		skill_requirement = RANK_BUILDING,
+		skill_level_min = 2,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 80,
+		discovery_method = "npc_teaching",
+		prerequisites = list("build_wood_house"),
+		unlocks_recipes = list("tame_horse", "tame_ox", "tame_yak", "tame_camel", "tame_llama")
+	)
+	
+	// ========================================================================
+	// VEHICLES & LOGISTICS (Future Branch - Placeholder)
+	// ========================================================================
+	// Future implementation: Phase 7 (Logistics & Trade)
+	// Will include:
+	// - Carts: Hand cart → Metal cart → Heavy cart
+	// - Wagons: Farm wagon → Trade wagon → Armored wagon
+	// - Chariots: War chariot, scout chariot (Kingdom mode)
+	// - Siege Equipment: Ballista, catapult, trebuchet (Kingdom mode PvP)
+	// - Animal-drawn vehicles: Requires tamed animals
+	// - Trade routes and logistics networks
+	
+	KNOWLEDGE["craft_saddle"] = new /datum/recipe_entry(
+		recipe_key = "craft_saddle",
+		name = "Craft Horse Saddle",
+		description = "A leather saddle for mounted riding. Enables stable mounted travel and equipment carrying on horseback.",
+		icon_state = "saddle",
+		tier = "intermediate",
+		category = "crafting",
+		workstation_type = "workbench",
+		inputs = list("leather" = 3, "wooden_board" = 2, "rope" = 2),
+		outputs = list("saddle" = 1),
+		requires_fire = FALSE,
+		skill_requirement = RANK_CRAFTING,
+		skill_level_min = 2,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 60,
+		discovery_method = "npc_teaching",
+		prerequisites = list("tame_horse"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["craft_wagon"] = new /datum/recipe_entry(
+		recipe_key = "craft_wagon",
+		name = "Craft Farm Wagon",
+		description = "A horse-drawn wagon for bulk transport. Significantly larger carrying capacity than hand carts. Foundation for trade networks.",
+		icon_state = "wagon",
+		tier = "intermediate",
+		category = "crafting",
+		workstation_type = "none",
+		inputs = list("wooden_board" = 20, "wooden_wheel" = 4, "iron_nail" = 30, "rope" = 5),
+		outputs = list("farm_wagon" = 1),
+		requires_fire = FALSE,
+		skill_requirement = RANK_CRAFTING,
+		skill_level_min = 3,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 100,
+		discovery_method = "npc_teaching",
+		prerequisites = list("craft_saddle", "craft_hand_cart"),
+		unlocks_recipes = list("craft_trade_wagon")
+	)
+	
+	KNOWLEDGE["craft_heavy_cart"] = new /datum/recipe_entry(
+		recipe_key = "craft_heavy_cart",
+		name = "Craft Heavy Ox Cart",
+		description = "A reinforced ox-drawn cart for maximum load capacity. Built for carrying ore, stone, and bulk materials. Ox-only vehicle.",
+		icon_state = "heavy_cart",
+		tier = "intermediate",
+		category = "crafting",
+		workstation_type = "forge",
+		inputs = list("wooden_board" = 25, "wooden_wheel" = 4, "iron_band" = 8, "iron_nail" = 40),
+		outputs = list("heavy_cart" = 1),
+		requires_fire = TRUE,
+		skill_requirement = RANK_CRAFTING,
+		skill_level_min = 4,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 140,
+		discovery_method = "npc_teaching",
+		prerequisites = list("tame_ox", "craft_wagon"),
+		unlocks_recipes = list()
+	)
+	
+	// ========================================================================
+	// GAME MECHANICS & KNOWLEDGE (Educational/Reference)
+	// ========================================================================
+	// Information entries for player knowledge base
+	// These don't produce items but provide crucial gameplay information
+	
+	KNOWLEDGE["game_controls"] = new /datum/recipe_entry(
+		recipe_key = "game_controls",
+		name = "Game Controls Guide",
+		description = "Basic movement and interaction controls. WASD or arrow keys to move. Shift for sprinting. E to interact with objects. Right-click for context menus. Check verb menu for more commands.",
+		icon_state = "help",
+		tier = "rudimentary",
+		category = "mechanics",
+		workstation_type = "none",
+		inputs = list(),
+		outputs = list(),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 0,
+		discovery_method = "environmental",
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["game_elevation"] = new /datum/recipe_entry(
+		recipe_key = "game_elevation",
+		name = "Understanding Elevation Levels",
+		description = "Pondera features vertical gameplay with multiple elevation levels. Ground level (1.0), stairs/ramps (1.5), upper levels (2.0+). Use stairs to change elevation. Objects at different elevations have limited interaction range.",
+		icon_state = "stairs",
+		tier = "rudimentary",
+		category = "mechanics",
+		workstation_type = "none",
+		inputs = list(),
+		outputs = list(),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 0,
+		discovery_method = "npc_teaching",
+		prerequisites = list("game_controls"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["game_biomes"] = new /datum/recipe_entry(
+		recipe_key = "game_biomes",
+		name = "Biome Guide & Resources",
+		description = "Pondera spans three continents with distinct biomes: Temperate (diverse), Arctic (cold, minerals), Desert (heat, camels), Forest (wood). Each biome has unique resources, weather, and survival needs.",
+		icon_state = "biome_map",
+		tier = "basic",
+		category = "mechanics",
+		workstation_type = "none",
+		inputs = list(),
+		outputs = list(),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 0,
+		discovery_method = "npc_teaching",
+		prerequisites = list("game_elevation"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["game_seasons"] = new /datum/recipe_entry(
+		recipe_key = "game_seasons",
+		name = "Seasons & Seasonal Gating",
+		description = "The world cycles through four seasons: Spring (growth), Summer (abundance), Autumn (harvest), Winter (scarcity). Many plants and recipes are season-specific. Plan your farming accordingly!",
+		icon_state = "calendar",
+		tier = "basic",
+		category = "mechanics",
+		workstation_type = "none",
+		inputs = list(),
+		outputs = list(),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 0,
+		discovery_method = "npc_teaching",
+		prerequisites = list("game_biomes"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["game_deeds"] = new /datum/recipe_entry(
+		recipe_key = "game_deeds",
+		name = "Territory Deeds & Claims",
+		description = "In Kingdom and PvP modes, players can claim territory via deeds. Deeds grant building rights, prevent griefing. Requires monthly maintenance. Multiple tiers: Small, Medium, Large. Freeze mechanics protect against payment failure.",
+		icon_state = "deed",
+		tier = "intermediate",
+		category = "mechanics",
+		workstation_type = "none",
+		inputs = list(),
+		outputs = list(),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 0,
+		discovery_method = "npc_teaching",
+		prerequisites = list("game_controls", "build_wood_house"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["game_pvp_modes"] = new /datum/recipe_entry(
+		recipe_key = "game_pvp_modes",
+		name = "PvP & Kingdom Modes",
+		description = "Pondera offers three gameplay modes: Story (PvE exploration), Sandbox (creative), Kingdom/PvP (competitive). Each mode has different rules for PvP, stealing, building, NPC spawns. Choose your playstyle!",
+		icon_state = "pvp",
+		tier = "intermediate",
+		category = "mechanics",
+		workstation_type = "none",
+		inputs = list(),
+		outputs = list(),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 0,
+		discovery_method = "npc_teaching",
+		prerequisites = list("game_deeds"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["game_hunger_system"] = new /datum/recipe_entry(
+		recipe_key = "game_hunger_system",
+		name = "Hunger & Thirst Mechanics",
+		description = "Survival requires sustenance. Hunger and thirst decrease over time, faster in extreme temperatures. Low hunger reduces stamina and movement speed. Eating/drinking restores both. Quality food provides better restoration.",
+		icon_state = "hunger",
+		tier = "basic",
+		category = "mechanics",
+		workstation_type = "none",
+		inputs = list(),
+		outputs = list(),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 0,
+		discovery_method = "npc_teaching",
+		prerequisites = list("game_controls"),
+		unlocks_recipes = list()
+	)
+	
+	KNOWLEDGE["game_crafting_system"] = new /datum/recipe_entry(
+		recipe_key = "game_crafting_system",
+		name = "Crafting & Recipe Discovery",
+		description = "Learn recipes through skill progression, NPC teaching, or experimentation. Each recipe has prerequisites and skill requirements. Higher skill levels unlock superior recipes and increase quality. Recipes provide XP on completion.",
+		icon_state = "crafting",
+		tier = "basic",
+		category = "mechanics",
+		workstation_type = "none",
+		inputs = list(),
+		outputs = list(),
+		requires_fire = FALSE,
+		biomes_allowed = list("temperate", "arctic", "desert", "forest"),
+		seasons_allowed = list("Spring", "Summer", "Autumn", "Winter"),
+		experience_reward = 0,
+		discovery_method = "npc_teaching",
+		prerequisites = list("game_controls"),
+		unlocks_recipes = list()
+	)
 	
 	KNOWLEDGE["craft_barrels"] = new /datum/recipe_entry(
 		recipe_key = "craft_barrels",

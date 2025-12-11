@@ -47,6 +47,7 @@
 #define RANK_COOKING "crank"
 #define RANK_CRAFTING "crafting_rank"
 #define RANK_GARDENING "garden_rank"
+#define RANK_FARMING "farming_rank"
 #define RANK_WOODCUTTING "wrank"
 #define RANK_DIGGING "drank"
 #define RANK_CARVING "carank"
