@@ -52,6 +52,15 @@ mob/Move(var/turf/NewLoc,NewDir)
 mob/proc/MovementLoop()
 	walk(src,0)
 	if(src.Moving)	return;src.Moving=1
+	
+	// Block movement if player is fainted
+	if(istype(src, /mob/players))
+		var/mob/players/player = src
+		if(player.character && player.character.is_fainted)
+			player << "You cannot move while fainted."
+			player.Moving = 0
+			return
+	
 	var/FirstStep=1
 	while(src.MN || src.ME || src.MW || src.MS || src.QueN || src.QueS || src.QueE || src.QueW)
 		if(src.MN || src.QueN)

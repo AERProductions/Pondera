@@ -84,6 +84,10 @@
 		faction_standing = 0                 // Standing within faction (-1000 to +1000)
 		
 		// === DEATH PENALTY SYSTEM ===
+		// Two-death system: First death = fainted, Second death = permanent
+		death_count = 0                      // Counter: 0 = alive, 1 = first death (fainted), 2+ = permanent
+		is_fainted = 0                       // Flag: 0 = alive, 1 = fainted, 2 = permanently dead
+		home_point = null                    // Turf reference for respawn location (set via compass or NPC)
 		death_debuff_active = 0              // Flag if death debuff is active (1 = active, 0 = inactive)
 		death_debuff_end_time = 0            // world.time when debuff expires
 		

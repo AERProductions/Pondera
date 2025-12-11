@@ -516,102 +516,97 @@ mob/players/
 				var/mob/players/A = usr
 				A.location = ""*/
 			 // get rid of the cool sparkles
-	proc/AbjurE() //working?
+	proc/AbjurE() //working? - Dual spell for revival (Abjure I) and home teleport (Abjure II)
 		set waitfor = 0
-		var/list/J[1]
-		var/C = 1
-		var/mob/players/M
-		var/mob/players/LC
-		LC = usr
-		if (LC.stamina < LC.MAXstamina)//+(abjurelevel*2))
-			usr << "Low stamina. Need Full stamina to revive."
+		
+		var/mob/players/caster = usr
+		if(!caster || !caster.character) return
+		
+		// Check stamina cost (requires full stamina for revival magic)
+		if(caster.stamina < caster.MAXstamina)
+			caster << "Low stamina. You need full stamina to cast revival magic."
 			return
-		else if (LC.stamina <= 0)
-			usr << "Low stamina."
+		
+		if(caster.abjurelevel <= 0)
+			caster << "You simply cannot fathom how to cast such a magi...(Magi Acuity: [abjurelevel])"
 			return
+		
+		// Choose spell variant
+		var/spell_choice = input(caster, "Choose spell variant:", "Abjure Spell") as null|anything in list("Abjure I - Revival", "Abjure II - Teleport Home", "Cancel")
+		
+		if(!spell_choice || spell_choice == "Cancel")
+			return
+		
+		if(spell_choice == "Abjure I - Revival")
+			AbjureRevival(caster)
+		else if(spell_choice == "Abjure II - Teleport Home")
+			AbjureTeleport(caster)
 
-		else if(LC.stamina==LC.MAXstamina) // if you have enough stamina
-			//find the closest enemy
+	proc/AbjureRevival(mob/players/caster)
+		/**
+		 * Abjure I - Revival Spell
+		 * Revives a fainted player, preventing them from reaching permanent death
+		 * Requires full stamina and abjurelevel > 0
+		 */
+		if(!caster || !death_penalty_manager) return
+		
+		// Cost: Full stamina
+		caster.stamina = 0
+		caster.updateST()
+		
+		// Visual effect
+		caster.overlays += image('dmi/64/magi.dmi', icon_state="abjure")
+		spawn(3) caster.overlays -= image('dmi/64/magi.dmi', icon_state="abjure")
+		
+		// Find fainted players to revive
+		var/list/fainted = list()
+		for(var/mob/players/M in oview(13, caster))
+			if(M.character && M.character.is_fainted == 1)  // Only first-death faints
+				fainted += M
+		
+		if(fainted.len == 0)
+			caster << "There is nobody nearby who is fainted."
+			return
+		
+		var/mob/players/target = null
+		if(fainted.len == 1)
+			target = fainted[1]
+		else
+			target = input(caster, "Whom do you want to revive?", "Select Target") as null|mob in fainted
+		
+		if(!target)
+			return
+		
+		// Revive target
+		death_penalty_manager.RevivePlayer(target, caster)
 
-			var/warpcost = LC.MAXstamina//50-(abjurelevel*2)
-			if (warpcost < 0)
-				warpcost = 0
-			if (stamina < warpcost)
-				usr << "Low stamina."
-				return
-			if(LC.location=="Aldoryn"&&J[1]==null)
-				usr << "Nobody needs revived."
-				return
-			if(LC.location!="Aldoryn")
-				//usr << "A soft peaceful voice echoes in your mind: <i>It appears you are the one who needs reviving</i>..."
-				stamina -= warpcost
-				updateST()
-				usr.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
-				if(stamina <=0)
-					stamina = 0
-					//loc = locate(pick(421,413),pick(692,686),pick(2,2))
-					M.loc = LC.loc
-					usr << "You've been granted another life!"
-					return
-					//usr.overlays += /obj/spells/abjure // add the cool little color sparkles
-				spawn(3)
-					usr.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
-				sleep(3) // wait a while
-				//loc = locate(pick(421,413),pick(692,686),pick(2,2))
-				M.loc = LC.loc
-				return
-			else
-				if(abjurelevel>0)
-					for(M as mob in world)
-						if (istype(M,/mob/players))
-							J[C] = M
-							C++
-							J.len++
-					(input("Whom do you want to revive?") in J)
-					if(J[1]!=null) // if you found one
-						stamina -= 1+(abjurelevel*2) // decrement stamina by cost
-						updateST()
-						M = J[1] // reference to the enemy
-						spawn(3) //overlays -= /obj/spells/abjure // visuals
-							M.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
-						if(M)
-							if(M.location=="Sheol")
-								stamina -= warpcost
-								updateST()
-								//usr.overlays += /obj/spells/abjure // add the cool little color sparkles
-								spawn(3)
-									usr.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
-								sleep(3) // wait a while
-								M.loc = locate(141,132,2)
-										//var/mob/players/A = usr
-								M.location = "Aldoryn"
-								M << "You get another chance..."
-								spawn(3) //overlays -= /obj/spells/abjure
-									M.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
-								return
-							if(M.location=="Holy Light")
-								stamina -= warpcost
-								updateST()
-								//usr.overlays += /obj/spells/abjure // add the cool little color sparkles
-								spawn(3)
-									usr.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
-								sleep(3) // wait a while
-								M.loc = usr.loc//locate(pick(421,413),pick(692,686),pick(2,2))
-										//var/mob/players/A = usr
-								M.location = "Aldoryn"
-								M << "You have been revived, be more cautious!"
-								spawn(3) //overlays -= /obj/spells/abjure
-									M.overlays += image('dmi/64/magi.dmi',icon_state="abjure")
-								return
+	proc/AbjureTeleport(mob/players/caster)
+		/**
+		 * Abjure II - Teleport to Home Point
+		 * Teleports player to their set home_point location
+		 * If no home_point is set, prompts to set one via compass
+		 * Requires full stamina
+		 */
+		if(!caster || !caster.character) return
+		
+		// Check if home point is set
+		if(!caster.character.home_point)
+			caster << "You have no home point set. Visit a sundial to set your waypoint with the compass."
+			return
+		
+		// Cost: Full stamina
+		caster.stamina = 0
+		caster.updateST()
+		
+		// Visual effect
+		caster.overlays += image('dmi/64/magi.dmi', icon_state="abjure")
+		spawn(3) caster.overlays -= image('dmi/64/magi.dmi', icon_state="abjure")
+		
+		// Teleport to home point
+		caster.loc = caster.character.home_point
+		caster << "You return home..."
+		world << "[caster.name] vanishes in a flash of light."
 
-							if(M.location=="Aldoryn")
-								usr<<"That spirit is still in this world..."
-								return
-					else
-						usr << "None to revive."
-				else
-					usr <<"You simply cannot fathom how to cast such a magi."
-					return
 	proc/PanaceA(var/mob/players/M in oview(3)) //working?
 		set waitfor = 0
 		if(panacealevel>0)

@@ -1,6 +1,7 @@
-// DeathPenaltySystem.dm - Respawn mechanics, loot drops, and death consequences
-// Implements permadeath risk (PvP), respawn timers, and loot drops for different game modes
-// Integrates with CombatSystem, CharacterData, and DualCurrencySystem
+// DeathPenaltySystem.dm - Two-Death System with Fainted State
+// Implements original design: First death = fainted state (waitable for revival)
+// Second death = permanent (requires new character)
+// Revival via Abjure spell prevents second death counter increment
 
 var
 	global/list/dead_players = list()  // Track players in "dead" state for respawn management
@@ -13,16 +14,12 @@ var
 /datum/death_penalty_manager
 	/**
 	 * death_penalty_manager
-	 * Global manager for death penalties, respawn timers, and permadeath tracking
+	 * Global manager for death penalties, fainted state, and two-death system
 	 */
 	var
 		list/death_records = list()  // death_ckey -> list of death records
-		list/permadead_players = list()  // permadeath victims (ckey -> death_time)
-		list/active_respawns = list()  // players waiting to respawn
-		permadeath_enabled = FALSE  // Enable permadeath in PvP mode
-		respawn_base_delay = 300  // 300 ticks = 15 seconds base respawn delay
-		respawn_delay_per_level = 10  // Additional 10 ticks per level above 1
-		loot_drop_rate = 1.0  // 100% chance to drop loot on death (adjustable per mode)
+		list/fainted_players = list()  // players currently in fainted state (ckey -> faint_location)
+		list/permadead_players = list()  // second-death victims (ckey -> death_time)
 		max_death_records = 20  // Keep max 20 death records per player
 
 	proc/InitializeDeathPenaltyManager()
@@ -36,7 +33,7 @@ var
 	proc/HandlePlayerDeath(mob/players/player, mob/attacker)
 		/**
 		 * HandlePlayerDeath
-		 * Primary death handler - applies penalties, triggers loot drop, schedules respawn
+		 * Primary death handler - applies fainted state OR permanent death
 		 * 
 		 * @param player: The player who died
 		 * @param attacker: The mob/player who caused death (can be null for environmental)
@@ -46,22 +43,15 @@ var
 		// Record death
 		RecordDeath(player, attacker)
 		
-		// Apply continent-specific death consequences
-		var/datum/continent/cont = GetPlayerContinent(player)
-		if(cont && cont.allow_pvp)
-			// PvP continent - harsh penalties
-			ApplyPvPDeathPenalty(player, attacker)
-			if(permadeath_enabled)
-				ApplyPermadeathRisk(player, attacker)
-		else if(cont && !cont.allow_pvp)
-			// Story/Sandbox - no permadeath, light penalties
-			ApplyPvEDeathPenalty(player)
+		// Increment player death count
+		player.character.death_count++
 		
-		// Drop loot on ground
-		DropPlayerLoot(player, attacker)
-		
-		// Schedule respawn
-		ScheduleRespawn(player)
+		if(player.character.death_count >= 2)
+			// SECOND DEATH: Permanent death
+			ApplyPermanentDeath(player, attacker)
+		else
+			// FIRST DEATH: Fainted state (awaitable for revival)
+			ApplyFaintedState(player, attacker)
 
 	proc/RecordDeath(mob/players/player, mob/attacker)
 		/**
@@ -77,7 +67,8 @@ var
 			"attacker_type" = attacker ? attacker.type : "environment",
 			"location" = player.loc,
 			"level" = player.level,
-			"xp_at_death" = player.exp
+			"xp_at_death" = player.exp,
+			"death_count" = player.character.death_count + 1
 		)
 		
 		death_records[player.ckey] += list(record)
@@ -87,91 +78,151 @@ var
 			var/start_idx = death_records[player.ckey].len - max_death_records + 1
 			death_records[player.ckey] = death_records[player.ckey][start_idx..-1]
 
-	proc/ApplyPvPDeathPenalty(mob/players/player, mob/attacker)
+	proc/ApplyFaintedState(mob/players/player, mob/attacker)
 		/**
-		 * ApplyPvPDeathPenalty
-		 * PvP mode: Heavy penalties (XP loss, temporary stat debuff)
+		 * ApplyFaintedState
+		 * First death: Player enters fainted state on current map location
+		 * Awaitable by other players for revival via Abjure spell
+		 * Player cannot move, act, or interact while fainted
 		 */
-		// Combat XP loss (10% default, see CombatProgression.dm)
-		if(player.character && player.character.combat_xp)
-			var/xp_loss = round(player.character.combat_xp * 0.10)
-			player.character.combat_xp -= max(0, xp_loss)
-			player << "<span class='danger'>DEATH PENALTY: Lost [xp_loss] combat XP (10% loss)</span>"
+		if(!player) return
 		
-		// Temporary stat debuff: -20% damage for 600 ticks (30 seconds)
-		ApplyDeathDebuff(player, 600)
+		// Mark as fainted
+		player.character.is_fainted = 1
+		fainted_players[player.ckey] = player.loc
+		
+		// Visual change: Fainted icon state (overlay on ground)
+		player.icon_state = "fainted"
+		player.layer = TURF_LAYER  // On ground level, visible to other players
+		player.opacity = 0
+		player.density = 0  // Other players can move through fainted body
+		
+		// Disable player controls
+		player.nomotion = 1  // Prevent movement
+		player.client.perspective = EYE_PERSPECTIVE  // Allow looking around while fainted
+		
+		// Apply continent-specific penalties
+		var/datum/continent/cont = GetPlayerContinent(player)
+		if(cont && cont.allow_pvp)
+			// PvP continent - XP loss on faint
+			ApplyPvPDeathPenalty(player, attacker)
+		else if(cont && !cont.allow_pvp)
+			// Story/Sandbox - light XP loss
+			ApplyPvEDeathPenalty(player)
+		
+		// Drop loot on ground (30% in PvP, 10% in Story, 0% Sandbox)
+		DropPlayerLoot(player, attacker)
+		
+		// Notify player and world
+		player << "<span class='danger'>FAINTED: You have fallen in combat. Another player can revive you with Abjure I spell.</span>"
+		world << "<span class='warning'>[player.name] has fainted!</span>"
+		
+		// Notify attacker of successful kill (not permadeath, but faint)
+		if(attacker && istype(attacker, /mob/players))
+			attacker << "<span class='good'>You defeated [player.name] (1st death)</span>"
+
+	proc/ApplyPermanentDeath(mob/players/player, mob/attacker)
+		/**
+		 * ApplyPermanentDeath
+		 * Second death: Permanent, character cannot be revived
+		 * Character must be deleted or moved to afterlife
+		 */
+		if(!player) return
+		
+		// Mark as permanently dead
+		permadead_players[player.ckey] = world.time
+		
+		// Apply harsh penalties (final death)
+		player.character.is_fainted = 2  // Flag as permanently dead
+		player.icon_state = "dead"
+		player.layer = TURF_LAYER - 1  // Below ground level
+		player.density = 0
+		player.opacity = 0
+		
+		// Drop all remaining loot
+		DropAllPlayerLoot(player)
+		
+		// Notify player and world
+		player << "<span class='danger'>PERMANENTLY DEAD: Your character has been slain. Create a new character to continue.</span>"
+		world << "<span class='danger'><b>[player.name] has been permanently slain by [attacker ? attacker.name : "environmental hazard"]!</b></span>"
 		
 		// Notify attacker of kill
 		if(attacker && istype(attacker, /mob/players))
-			attacker << "<span class='good'>KILL: You defeated [player.name]</span>"
+			attacker << "<span class='good'>KILL: You permanently defeated [player.name]!</span>"
+
+	proc/RevivePlayer(mob/players/player, mob/players/reviver)
+		/**
+		 * RevivePlayer
+		 * Revive fainted player via Abjure spell
+		 * Resets death_count to prevent second death counter increment
+		 * Player wakes at faint location
+		 * 
+		 * @param player: The fainted player
+		 * @param reviver: The player casting Abjure (nil if admin revive)
+		 */
+		if(!player || !player.character) return
+		if(!player.character.is_fainted) 
+			if(reviver) reviver << "That player is not fainted."
+			return
+		
+		if(player.character.is_fainted >= 2)
+			if(reviver) reviver << "That player is permanently dead and cannot be revived."
+			return
+		
+		// Reset fainted state
+		player.character.is_fainted = 0
+		fainted_players -= player.ckey
+		
+		// Reset death count (this faint doesn't count toward second death)
+		player.character.death_count = 0
+		
+		// Restore player visuals and controls
+		player.icon = 'dmi/64/char.dmi'
+		player.icon_state = ""
+		player.overlays = null
+		player.nomotion = 0  // Re-enable movement
+		player.density = 1
+		player.opacity = 0
+		player.layer = MOB_LAYER
+		
+		// Restore vital stats (partial)
+		player.HP = round(player.MAXHP * 0.25)  // Revived at 25% HP
+		player.stamina = round(player.MAXstamina * 0.25)  // Revived at 25% stamina
+		
+		// Notification
+		player << "<span class='good'>You have been revived!</span>"
+		if(reviver)
+			world << "<span class='good'>[reviver.name] has revived [player.name]!</span>"
+		else
+			world << "<span class='good'>[player.name] has been revived!</span>"
+
+	proc/ApplyPvPDeathPenalty(mob/players/player, mob/attacker)
+		/**
+		 * ApplyPvPDeathPenalty
+		 * PvP mode: XP loss on faint
+		 */
+		if(!player.character || !player.character.combat_xp) return
+		
+		var/xp_loss = round(player.character.combat_xp * 0.10)  // 10% loss
+		player.character.combat_xp -= max(0, xp_loss)
+		player << "<span class='danger'>FAINT PENALTY: Lost [xp_loss] combat XP (10% loss)</span>"
 
 	proc/ApplyPvEDeathPenalty(mob/players/player)
 		/**
 		 * ApplyPvEDeathPenalty
-		 * Story/Sandbox mode: Minor penalties (small XP loss, no permanent consequences)
+		 * Story/Sandbox mode: Light XP loss on faint
 		 */
-		// Minimal XP loss (5% for story mode)
-		if(player.character && player.character.combat_xp)
-			var/xp_loss = round(player.character.combat_xp * 0.05)
-			player.character.combat_xp -= max(0, xp_loss)
-			player << "<span class='warning'>You lost [xp_loss] combat XP (5% loss)</span>"
+		if(!player.character || !player.character.combat_xp) return
 		
-		// Very short debuff: -10% damage for 180 ticks (9 seconds)
-		ApplyDeathDebuff(player, 180)
-
-	proc/ApplyDeathDebuff(mob/players/player, ticks)
-		/**
-		 * ApplyDeathDebuff
-		 * Apply temporary damage penalty after death
-		 * 
-		 * @param player: Target player
-		 * @param ticks: Duration of debuff (in world ticks, 25ms each)
-		 */
-		if(!player.character) return
-		
-		player.character.death_debuff_active = 1
-		player.character.death_debuff_end_time = world.time + ticks
-		player << "<span class='warning'>Death Debuff: -20% damage for [round(ticks / 40)] seconds</span>"
-		
-		spawn(ticks)
-			if(player && player.character)
-				player.character.death_debuff_active = 0
-
-	proc/ApplyPermadeathRisk(mob/players/player, mob/attacker)
-		/**
-		 * ApplyPermadeathRisk
-		 * PvP-only: Roll permadeath check based on level and attacker level
-		 * Higher-level players have higher permadeath risk vs similar-level attackers
-		 * 
-		 * Formula: Base 5% + (player_level - attacker_level) * 2%
-		 * Capped at 50% max
-		 */
-		if(!permadeath_enabled) return
-		
-		// Get attacker level (if attacker exists and has level)
-		var/attacker_level = player.level  // Default: assume same level
-		if(attacker && istype(attacker, /mob/players))
-			var/mob/players/P = attacker
-			attacker_level = P.level
-		
-		var/base_permadeath_chance = 5  // 5% base
-		var/level_diff = player.level - attacker_level
-		var/permadeath_chance = min(50, base_permadeath_chance + (level_diff * 2))
-		
-		if(prob(permadeath_chance))
-			// Permanent death - player flagged as permadead
-			permadead_players[player.ckey] = world.time
-			player << "<span class='danger'>PERMADEATH: Your character has permanently died!</span>"
-			world << "<span class='danger'><b>[player.name] has been permanently slain by [attacker ? attacker.name : "environmental hazard"]!</b></span>"
-		else
-			// Survived permadeath roll
-			player << "<span class='good'>You survived permadeath! ([permadeath_chance]% chance was rolled)</span>"
+		var/xp_loss = round(player.character.combat_xp * 0.05)  // 5% loss
+		player.character.combat_xp -= max(0, xp_loss)
+		player << "<span class='warning'>You lost [xp_loss] combat XP (5% loss)</span>"
 
 	proc/DropPlayerLoot(mob/players/player, mob/attacker)
 		/**
 		 * DropPlayerLoot
-		 * Drop percentage of player's inventory and currency on death
-		 * Loot drops to ground at player's death location
+		 * Drop percentage of player's inventory and currency on faint
+		 * Loot drops to ground at player's faint location
 		 * 
 		 * Loot drop rates by mode:
 		 * - PvP: 50% of inventory items + 25% of carried currency (harsh)
@@ -201,7 +252,7 @@ var
 		if(player.lucre > 0 && prob(currency_drop_rate * 100))
 			var/lucre_drop = round(player.lucre * currency_drop_rate)
 			player.lucre -= lucre_drop
-			world << "<span class='warning'>[player.name] dropped [lucre_drop] lucre on death!</span>"
+			world << "<span class='warning'>[player.name] dropped [lucre_drop] lucre on faint!</span>"
 		
 		// Drop inventory items
 		if(item_drop_rate > 0)
@@ -210,278 +261,188 @@ var
 					I.loc = player.loc
 					world << "<span class='warning'>[player.name] dropped [I.name]!</span>"
 
-	proc/ScheduleRespawn(mob/players/player)
+	proc/DropAllPlayerLoot(mob/players/player)
 		/**
-		 * ScheduleRespawn
-		 * Schedule player respawn after configurable delay
-		 * Respawn time increases with level
+		 * DropAllPlayerLoot
+		 * Drop ALL player inventory and currency on permanent death
 		 */
-		if(permadead_players[player.ckey])
-			// Permadead - no respawn
-			player << "<span class='danger'>This character is permanently dead. Create a new character to continue.</span>"
-			return
+		if(!player) return
 		
-		var/respawn_delay = respawn_base_delay + (player.level * respawn_delay_per_level)
-		active_respawns[player.ckey] = world.time + respawn_delay
+		// Drop ALL currency
+		if(player.lucre > 0)
+			world << "<span class='danger'>[player.name] dropped ALL [player.lucre] lucre on death!</span>"
+			player.lucre = 0
 		
-		player << "<span class='info'>Respawning in [round(respawn_delay / 40)] seconds...</span>"
-		
-		spawn(respawn_delay)
-			if(player && player.character)
-				RespawnPlayer(player)
+		// Drop ALL inventory items
+		for(var/obj/item/I in player.contents)
+			I.loc = player.loc
+			world << "<span class='danger'>[player.name] dropped [I.name]!</span>"
 
-	proc/RespawnPlayer(mob/players/player)
-		/**
-		 * RespawnPlayer
-		 * Restore player to full health and teleport to respawn location
-		 */
-		if(!player || !player.client) return
-		
-		// Reset vital stats
-		player.HP = player.MAXHP
-		player.stamina = player.MAXstamina
-		player.icon = 'dmi/64/char.dmi'
-		player.overlays = null
-		player.needrev = 0
-		player.nomotion = 0
-		player.poisonD = 0
-		player.poisoned = 0
-		player.poisonDMG = 0
-		
-		// Teleport to respawn point (use default until continent respawn_location is defined)
-		// TODO: Integrate with continent respawn locations when MultiWorldSystem is updated
-		player.loc = locate(5, 6, 1)  // Default respawn location
-		
-		player.location = "Respawned"
-		player << "<span class='good'>You have respawned!</span>"
-		world << "<span class='info'>[player.name] has respawned.</span>"
-		
-		// Clear respawn record
-		active_respawns -= player.ckey
-
-	proc/GetPlayerDeathCount(player_ckey)
+	proc/GetPlayerDeathCount(ckey)
 		/**
 		 * GetPlayerDeathCount
-		 * Query total death count for statistics
+		 * Query player's death count for UI display
 		 */
-		if(!death_records[player_ckey])
-			return 0
-		return death_records[player_ckey].len
+		// Query character data from save
+		return 0  // TODO: Load from character data
 
-	proc/GetPlayerDeathRecord(player_ckey)
+	proc/GetPlayerDeathRecord(ckey)
 		/**
 		 * GetPlayerDeathRecord
-		 * Return list of death records for a player
+		 * Get most recent death record for player
 		 */
-		return death_records[player_ckey] || list()
+		if(!death_records[ckey]) return null
+		if(death_records[ckey].len == 0) return null
+		return death_records[ckey][-1]
 
-	proc/IsPlayerPermadead(player_ckey)
+	proc/IsPlayerPermadead(ckey)
 		/**
 		 * IsPlayerPermadead
-		 * Check if player is permanently dead
+		 * Check if player is permanently dead (second death)
 		 */
-		return permadead_players[player_ckey] != null
+		return permadead_players[ckey] ? 1 : 0
 
-	proc/GetPermadeathTime(player_ckey)
+	proc/IsFainted(ckey)
 		/**
-		 * GetPermadeathTime
-		 * Get time of permadeath (for graveyard/memorial features)
+		 * IsFainted
+		 * Check if player is currently in fainted state
 		 */
-		return permadead_players[player_ckey]
+		return fainted_players[ckey] ? 1 : 0
 
-	proc/AdminShowDeathStats(player_ckey)
+	proc/GetFaintLocation(ckey)
+		/**
+		 * GetFaintLocation
+		 * Get location where player fainted
+		 */
+		return fainted_players[ckey]
+
+	proc/AdminShowDeathStats(ckey)
 		/**
 		 * AdminShowDeathStats
-		 * Admin command to view death statistics for a player
+		 * Display death statistics for admin review
 		 */
-		var/list/records = GetPlayerDeathRecord(player_ckey)
+		var/record = GetPlayerDeathRecord(ckey)
+		if(!record)
+			return "No death records for [ckey]"
 		
-		if(records.len == 0)
-			return "<b>[player_ckey]</b>: No deaths recorded"
-		
-		var/output = "<b>Death Records for [player_ckey]</b> ([records.len] total deaths)\n"
-		output += "────────────────────────────────────────────────\n"
-		
-		for(var/i = max(1, records.len - 4); i <= records.len; i++)  // Last 5 deaths
-			var/list/record = records[i]
-			output += "• [record["attacker_name"]] (Lv [record["level"]])\n"
-		
-		if(IsPlayerPermadead(player_ckey))
-			output += "\n⚠️ <b>PERMANENTLY DEAD</b> as of [GetPermadeathTime(player_ckey)]"
-		
-		return output
+		return "<b>Death Record for [ckey]</b><br>\
+			Time: [record["time"]]<br>\
+			Attacker: [record["attacker_name"]]<br>\
+			Location: [record["location"]]<br>\
+			Level at Death: [record["level"]]<br>\
+			XP at Death: [record["xp_at_death"]]<br>\
+			Death Count: [record["death_count"]]"
 
-	proc/AdminRespawnPlayer(player_ckey)
+	proc/AdminRespawnPlayer(ckey)
 		/**
 		 * AdminRespawnPlayer
-		 * Admin command to force respawn a player
+		 * Admin command to force respawn fainted player
 		 */
+		var/mob/players/player = null
 		for(var/mob/players/P in world)
-			if(P.ckey == player_ckey)
-				RespawnPlayer(P)
-				return TRUE
+			if(P.ckey == ckey)
+				player = P
+				break
 		
-		return FALSE
+		if(!player)
+			return "Player [ckey] not found"
+		
+		if(!player.character.is_fainted)
+			return "[player.name] is not fainted"
+		
+		RevivePlayer(player, null)
+		return "[player.name] has been revived"
 
-	proc/AdminResurrectPermadead(player_ckey)
+	proc/AdminResurrectPermadead(ckey)
 		/**
 		 * AdminResurrectPermadead
-		 * Admin command to resurrect a permadead player
+		 * Admin command to resurrect permanently dead player
 		 */
-		permadead_players -= player_ckey
-		return TRUE
+		permadead_players -= ckey
+		
+		// Find player in world
+		var/mob/players/player = null
+		for(var/mob/players/P in world)
+			if(P.ckey == ckey)
+				player = P
+				break
+		
+		if(player)
+			player.character.is_fainted = 0
+			RevivePlayer(player, null)
+			return "[player.name] has been resurrected"
+		
+		return "[ckey] has been resurrected (not currently online)"
 
 // ============================================================================
-// PLAYER PROCS
+// MOB/PLAYERS PROCS
 // ============================================================================
 
 /mob/players/proc/ViewDeathStats()
 	/**
 	 * ViewDeathStats
-	 * Player command to view their own death statistics
+	 * Player verb to check their own death statistics
 	 */
-	set name = "Death Statistics"
-	set category = "Info"
+	set hidden = 1
+	if(!death_penalty_manager) return
 	
-	var/list/records = death_penalty_manager.GetPlayerDeathRecord(ckey)
-	
-	if(records.len == 0)
-		src << "<span class='info'>You haven't died yet. Keep it that way!</span>"
+	var/list/all_records = death_penalty_manager.death_records[ckey]
+	if(!all_records || all_records.len == 0)
+		usr << "You have not died yet."
 		return
 	
-	var/msg = "<b>Your Death Records</b> ([records.len] total)\n"
-	msg += "────────────────────────────────────────\n"
+	var/output = "<b>Your Death Statistics</b><br>"
+	output += "Total Deaths: [all_records.len]<br>"
+	output += "Current Death Count: [character.death_count]<br><br>"
 	
-	for(var/i = max(1, records.len - 9); i <= records.len; i++)  // Last 10 deaths
-		var/list/record = records[i]
-		msg += "• Killed by: [record["attacker_name"]]\n"
+	for(var/i = 1 to all_records.len)
+		var/record = all_records[i]
+		output += "<b>Death #[i]:</b> [record["time"]]<br>"
+		output += "Attacker: [record["attacker_name"]]<br>"
+		output += "---<br>"
 	
-	src << msg
+	usr << output
 
-/mob/players/proc/RespawnWait()
-	/**
-	 * RespawnWait
-	 * Display remaining respawn time
-	 */
-	set name = "Respawn Status"
-	set category = "Info"
-	
-	if(!death_penalty_manager.active_respawns[ckey])
-		src << "<span class='info'>You are not waiting to respawn.</span>"
-		return
-	
-	var/respawn_time = death_penalty_manager.active_respawns[ckey]
-	var/time_remaining = max(0, respawn_time - world.time)
-	var/seconds = round(time_remaining / 40)
-	
-	src << "<span class='info'>Respawning in [seconds] seconds...</span>"
+/mob/players/verb/ViewMyDeaths()
+	set category = null
+	ViewDeathStats()
 
 // ============================================================================
 // ADMIN VERBS
 // ============================================================================
 
-/mob/verb/AdminShowDeathStats(player_ckey as text)
-	/**
-	 * AdminShowDeathStats
-	 * Admin command: View death statistics for a player
-	 */
-	set name = "Show Death Stats"
+/mob/verb/AdminShowDeathStats(ckey as text)
 	set category = "Admin"
+	if(!check_admin(usr)) 
+		return
 	
-	if(!check_admin(usr)) return
-	
-	var/output = death_penalty_manager.AdminShowDeathStats(player_ckey)
-	src << output
+	if(!death_penalty_manager) return
+	usr << death_penalty_manager.AdminShowDeathStats(ckey)
 
-/mob/verb/AdminRespawnPlayer(player_ckey as text)
-	/**
-	 * AdminRespawnPlayer
-	 * Admin command: Force respawn a specific player
-	 */
-	set name = "Respawn Player"
+/mob/verb/AdminRespawnFainted(ckey as text)
 	set category = "Admin"
+	if(!check_admin(usr))
+		return
 	
-	if(!check_admin(usr)) return
-	
-	if(death_penalty_manager.AdminRespawnPlayer(player_ckey))
-		src << "[player_ckey] has been respawned."
-		world << "<b>[src.name] respawned [player_ckey].</b>"
-	else
-		src << "[player_ckey] not found or not a player."
+	if(!death_penalty_manager) return
+	usr << death_penalty_manager.AdminRespawnPlayer(ckey)
 
-/mob/verb/AdminResurrectPermadead(player_ckey as text)
-	/**
-	 * AdminResurrectPermadead
-	 * Admin command: Resurrect a permanently dead player
-	 */
-	set name = "Resurrect Permadead"
+/mob/verb/AdminResurrectPermadead(ckey as text)
 	set category = "Admin"
+	if(!check_admin(usr))
+		return
 	
-	if(!check_admin(usr)) return
-	
-	if(death_penalty_manager.AdminResurrectPermadead(player_ckey))
-		src << "[player_ckey] has been resurrected."
-		world << "<b>[src.name] resurrected [player_ckey].</b>"
-	else
-		src << "[player_ckey] not found in permadead list."
-
-/mob/verb/AdminTogglePermadeath()
-	/**
-	 * AdminTogglePermadeath
-	 * Admin command: Enable/disable permadeath mechanics globally
-	 */
-	set name = "Toggle Permadeath"
-	set category = "Admin"
-	
-	if(!check_admin(usr)) return
-	
-	death_penalty_manager.permadeath_enabled = !death_penalty_manager.permadeath_enabled
-	world << "<b>[src.name] [death_penalty_manager.permadeath_enabled ? "enabled" : "disabled"] permadeath.</b>"
-
-/mob/verb/AdminSetRespawnDelay(delay as num)
-	/**
-	 * AdminSetRespawnDelay
-	 * Admin command: Adjust base respawn delay (in seconds)
-	 */
-	set name = "Set Respawn Delay"
-	set category = "Admin"
-	
-	if(!check_admin(usr)) return
-	
-	death_penalty_manager.respawn_base_delay = round(delay * 40)  // Convert seconds to ticks
-	src << "Respawn delay set to [delay] seconds."
-	world << "<b>[src.name] set respawn delay to [delay]s.</b>"
+	if(!death_penalty_manager) return
+	usr << death_penalty_manager.AdminResurrectPermadead(ckey)
 
 // ============================================================================
-// INITIALIZATION
+// WORLD PROC
 // ============================================================================
 
 /proc/InitializeDeathPenaltySystem()
 	/**
 	 * InitializeDeathPenaltySystem
-	 * Boot death penalty system (called from InitializationManager.dm)
+	 * Boot sequence call for death penalty system
 	 */
-	if(!death_penalty_manager)
-		death_penalty_manager = new /datum/death_penalty_manager()
-		death_penalty_manager.InitializeDeathPenaltyManager()
-
-// ============================================================================
-// HELPER PROCS
-// ============================================================================
-
-// Note: GetPlayerContinent is defined in MultiWorldIntegration.dm
-
-/proc/GetPlayerKillCount(mob/players/player)
-	/**
-	 * GetPlayerKillCount
-	 * Helper: Count kills attributed to this player from death records
-	 */
-	var/kill_count = 0
-	
-	for(var/ckey in death_penalty_manager.death_records)
-		var/list/records = death_penalty_manager.death_records[ckey]
-		for(var/list/record in records)
-			if(record["attacker_name"] == player.name)
-				kill_count++
-	
-	return kill_count
+	var/datum/death_penalty_manager/manager = new()
+	manager.InitializeDeathPenaltyManager()
