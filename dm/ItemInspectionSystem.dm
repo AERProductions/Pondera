@@ -297,7 +297,6 @@ var
 	if(!player || !player.character) 
 		return 50  // Default baseline stat
 	
-	var/datum/character_data/char = player.character
 	var/base_stat = 50  // Baseline
 	
 	switch(stat_name)

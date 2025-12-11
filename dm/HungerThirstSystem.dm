@@ -110,6 +110,12 @@ Maintains backward compatibility with existing food/drink items.
 		// Calculate consumption modifier
 		consumption_modifier = 1.0
 		
+		// SEASONAL INTEGRATION (Phase C WIN #8)
+		// Apply seasonal consumption modifier (winter increases hunger, summer decreases)
+		var/seasonal_modifier = GetConsumptionRateModifier()
+		if(seasonal_modifier)
+			consumption_modifier *= seasonal_modifier
+		
 		// Temperature-based consumption
 		if(last_ambient_temp < 5)
 			consumption_modifier += 0.5  // Extreme cold

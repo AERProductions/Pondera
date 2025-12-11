@@ -245,7 +245,9 @@ var
 /proc/RecalculateCommodityPrice(commodity_name)
 	/**
 	 * RecalculateCommodityPrice(commodity_name)
-	 * Recalculates price based on current supply/demand
+	 * Recalculates price based on current supply/demand and seasonal factors
+	 * 
+	 * Phase C WIN #8: Enhanced with seasonal price modifiers
 	 */
 	if(!market_engine) return
 	
@@ -266,6 +268,13 @@ var
 		price_multiplier = 1.05 + ((market_engine.supply_shortage_threshold - supply_ratio) * 0.08 * commodity.price_elasticity)
 	price_multiplier *= market_engine.inflation_rate
 	price_multiplier *= market_engine.deflation_rate
+	
+	// SEASONAL INTEGRATION (Phase C WIN #8)
+	// Apply seasonal food price modifiers for food commodities
+	if(commodity.commodity_type == "food" || commodity.commodity_type == "crop")
+		var/seasonal_modifier = GetFoodPriceModifier()
+		if(seasonal_modifier)
+			price_multiplier *= seasonal_modifier
 	
 	// Add volatility (random fluctuation)
 	var/volatility = (rand(-10, 10) / 100.0) * commodity.price_volatility * market_engine.volatility_multiplier

@@ -29,7 +29,9 @@
 /proc/GetCropYield(crop_name)
 	/**
 	 * Calculate how much a harvested crop yields
-	 * Modified by: season quality, farmer skill, soil quality
+	 * Modified by: season quality, farmer skill, soil quality, seasonal yield modifiers
+	 * 
+	 * Phase C WIN #8: Enhanced with seasonal integration
 	 */
 	var/base_yield = 1.0
 	var/quality = GetConsumableQuality(crop_name, usr)
@@ -41,6 +43,12 @@
 		base_yield = 1.0  // Normal yield
 	else
 		base_yield = 0.7  // 30% penalty yield
+	
+	// SEASONAL INTEGRATION (Phase C WIN #8)
+	// Apply seasonal harvest yield modifier from SeasonalModifierProcessor
+	var/seasonal_modifier = GetHarvestYieldModifier()
+	if(seasonal_modifier)
+		base_yield *= seasonal_modifier
 	
 	return base_yield
 
@@ -86,9 +94,11 @@
 	 * When a player harvests a crop, determine yield
 	 * Then add to inventory with appropriate stack
 	 * 
-	 * Formula: yield = base × season × skill × soil × nutrients × moisture × rotation
+	 * Formula: yield = base × season × skill × soil × nutrients × moisture × rotation × seasonal
 	 * 
 	 * soil_type: SOIL_BASIC (1.0), SOIL_RICH (1.2), SOIL_DEPLETED (0.5)
+	 * 
+	 * Phase C WIN #8: Enhanced with seasonal growth modifier integration
 	 */
 	var/base_yield = GetCropYield(crop_name)
 	var/skill_bonus = max(0.5, harvest_skill_level / 10.0)  // Level 10 = 1.0x
@@ -96,6 +106,13 @@
 	var/crop_soil_bonus = GetCropSoilBonus(crop_name, soil_type)
 	
 	var/total_yield = base_yield * skill_bonus * soil_yield_mod * crop_soil_bonus
+	
+	// SEASONAL INTEGRATION (Phase C WIN #8)
+	// Apply seasonal crop growth modifier for overall crop maturity
+	var/seasonal_growth = GetCropGrowthModifier()
+	if(seasonal_growth)
+		// Growth modifier affects how much crop actually grew to harvest
+		total_yield *= seasonal_growth
 	
 	// Apply new soil property modifiers if turf provided
 	if(harvest_turf)
