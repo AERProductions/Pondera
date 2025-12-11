@@ -125,6 +125,7 @@
 #include "dm\ExperimentationUI.dm"
 #include "dm\SandboxRecipeChain.dm"
 #include "dm\TechTreeUI.dm"
+#include "dm\TutorialSystem.dm"
 #include "dm\UnifiedAttackSystemHUDIntegration.dm"
 #include "dm\WeaponAnimationSystem.dm"
 #include "dm\CombatUIPolish.dm"
