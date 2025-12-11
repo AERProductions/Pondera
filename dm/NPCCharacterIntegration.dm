@@ -326,3 +326,93 @@
 				npc.MarkPlayerTaught(M.ckey)
 			else
 				M << "<font color=#FF5555>You already know advanced building.</font>"
+
+// ============================================================================
+// NPC INTERACTION SYSTEM - Click to interact with NPCs
+// ============================================================================
+
+/mob/npcs/Click()
+	/**
+	 * Click() - NPC interaction handler
+	 * Players right-click NPCs to open interaction menu
+	 */
+	set popup_menu = 1
+	
+	var/mob/players/player = usr
+	if(!istype(player)) return  // Only players can interact
+	
+	// Show interaction menu
+	var/choice = input(player, "What would you like to do?", "Interact with [src.name]") as null|anything in list("Greet", "Learn Recipes", "Cancel")
+	
+	if(!choice || choice == "Cancel") return
+	
+	switch(choice)
+		if("Greet")
+			GreetPlayer(player)
+		if("Learn Recipes")
+			ShowRecipeTeaching(player)
+
+/mob/npcs/proc/GreetPlayer(mob/players/M)
+	/**
+	 * GreetPlayer - NPC greets the player
+	 * Responds based on NPC type
+	 */
+	if(!character) return
+	
+	switch(character.npc_type)
+		if("Traveler")
+			M << "<span class='good'>Welcome, friend! I've traveled far and wide. Ask me about recipes if you'd like to learn.</span>"
+		if("Elder")
+			M << "<span class='good'>Greetings, young one. I have much knowledge to share about survival.</span>"
+		if("Veteran")
+			M << "<span class='good'>Well met, traveler. I've seen much in my years here.</span>"
+		if("Warrior")
+			M << "<span class='good'>Hail! Ready for battle training?</span>"
+		if("Scribe")
+			M << "<span class='good'>Welcome to my archives. I keep records of many techniques.</span>"
+		if("Proctor")
+			M << "<span class='good'>Welcome, student. I can teach you the art of construction.</span>"
+		if("Blacksmith")
+			M << "<span class='good'>Greetings! I craft the finest tools and weapons.</span>"
+		else
+			M << "<span class='good'>Hello there, friend.</span>"
+
+/mob/npcs/proc/ShowRecipeTeaching(mob/players/M)
+	/**
+	 * ShowRecipeTeaching - Display available recipes to teach
+	 * Offers basic recipes based on NPC type
+	 */
+	if(!character)
+		M << "<span class='warning'>[src.name] has nothing to teach you right now.</span>"
+		return
+	
+	var/list/available_recipes = list()
+	
+	// Determine recipes based on NPC type
+	switch(character.npc_type)
+		if("Traveler", "Elder", "Scribe")
+			available_recipes += "stone_hammer"
+			available_recipes += "carving_knife"
+		if("Blacksmith", "Veteran")
+			available_recipes += "iron_hammer"
+			available_recipes += "iron_pickaxe"
+			available_recipes += "steel_sword"
+		if("Proctor")
+			available_recipes += "stone_foundation"
+			available_recipes += "wooden_wall"
+		else
+			available_recipes += "stone_hammer"
+	
+	if(!available_recipes.len)
+		M << "<span class='info'>[src.name] has nothing more to teach you.</span>"
+		return
+	
+	var/choice = input(M, "Which recipe would you like to learn?", "Learn from [src.name]") as null|anything in available_recipes
+	
+	if(!choice) return
+	
+	if(TeachRecipeToPlayer(M, choice))
+		M << "<span class='good'>[src.name] teaches you about [choice]!</span>"
+		MarkPlayerTaught(M.ckey)
+	else
+		M << "<span class='warning'>You already know how to do that.</span>"
