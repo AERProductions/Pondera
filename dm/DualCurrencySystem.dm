@@ -77,11 +77,10 @@
 		metal_balance = 0
 		timber_balance = 0
 		supply_packs = 0
-		stone_to_lucre_rate = 2.0          // 1 stone = 2 lucre (can convert down)
-		
-		// Trading history
-		list/transaction_log = list()      // Audit trail of all trades
-		last_trade_time = 0                // Cooldown for same-player trades
+		lucre_to_stone_rate = 0.5
+		stone_to_lucre_rate = 2.0
+		list/transaction_log = list()
+		last_trade_time = 0
 
 /proc/InitializeCurrencyForPlayer(mob/players/player)
 	/**

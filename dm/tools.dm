@@ -10995,17 +10995,7 @@ obj
 						set src in oview(1) //...
 						M = usr
 						call(/proc/smithingunlock)()
-						call(/proc/smithinglevel)()
-						//if(M.SMIopen==1)
-							//M << "Smithing menu is currently open"
-							//return
-						//else
-							//M << "Select what to smith"
-						//var/soundmob/s = new/soundmob(src, 15, 'snd/cleaned/fire2.ogg', TRUE, 0, 60, FALSE)
-						Smithing(M) //calls the mining proc				M.PickAxe=0 ---- uncomment lines after getting anvil hammer sfx
-						//M.listenSoundmob(s)
-						//if(M.Doing==0)
-							//M.unlistenSoundmob(s)
+						Smithing(M)
 
 // ============================================================================
 // INTEGRATED TOOL CRAFTING SYSTEM

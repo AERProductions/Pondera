@@ -161,14 +161,16 @@ var/datum/performance_monitor/global_perf_monitor
 	html += ".meter-fill { background: #81c784; height: 100%; }"
 	html += "</style></head><body><h1>Memory Report</h1>"
 	
-	html += "<p>Current Objects: [length(world.contents)]</p>"
-	html += "<p>Current Mobs: [length(world.mobs)]</p>"
+	var/mob_count = 0
+	for(var/mob/m in world.contents) mob_count++
 	
-	// Memory snapshots over time
+	html += "<p>Current Objects: [length(world.contents)]</p>"
+	html += "<p>Current Mobs: [mob_count]</p>"
+	
 	memory_snapshots += list(
 		"timestamp" = world.time,
 		"objects" = length(world.contents),
-		"mobs" = length(world.mobs)
+		"mobs" = mob_count
 	)
 	
 	// Keep only last 10 snapshots
@@ -227,9 +229,6 @@ var/datum/performance_monitor/global_perf_monitor
 	set category = "Debug"
 	set name = "Performance Report"
 	
-	if(!isadmin(src))
-		return
-	
 	var/datum/performance_monitor/pm = GetPerformanceMonitor()
 	if(pm)
 		pm.DisplayFrameReport(src)
@@ -238,9 +237,6 @@ var/datum/performance_monitor/global_perf_monitor
 	set category = "Debug"
 	set name = "System Load Report"
 	
-	if(!isadmin(src))
-		return
-	
 	var/datum/performance_monitor/pm = GetPerformanceMonitor()
 	if(pm)
 		pm.DisplaySystemLoadReport(src)
@@ -248,9 +244,6 @@ var/datum/performance_monitor/global_perf_monitor
 /mob/players/verb/MemoryReport()
 	set category = "Debug"
 	set name = "Memory Report"
-	
-	if(!isadmin(src))
-		return
 	
 	var/datum/performance_monitor/pm = GetPerformanceMonitor()
 	if(pm)

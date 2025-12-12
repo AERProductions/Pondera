@@ -30,8 +30,9 @@
 		territory_name = "Unknown Territory"
 		territory_id = null
 		deed_owner = null
-		
-		// Supply control
+		primary_resource = "stone"
+		list/secondary_resources = list()
+		list/restricted_resources = list()
 		unclaimed_base_price = 1.0
 		claimed_multiplier = 1.0
 		supply_capacity = 100

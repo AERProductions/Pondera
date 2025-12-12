@@ -15,13 +15,12 @@
 	var
 		skill_discovery_base_rate = 1.0
 		skill_discovery_scaling = 1.1
+		npc_discovery_rate = 0.8
+		npc_discovery_cooldown = 300
+		market_discovery_rate = 0.5
 		market_discovery_threshold = 5
-		
-		// Exploration discovery rates (recipes from terrain/events)
 		exploration_discovery_rate = 0.3
 		exploration_rare_multiplier = 2.0
-		
-		// Difficulty modifiers
 		easy_mode_multiplier = 1.5
 		normal_mode_multiplier = 1.0
 		hard_mode_multiplier = 0.7

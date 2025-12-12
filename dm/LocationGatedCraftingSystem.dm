@@ -295,8 +295,6 @@
 // ============================================================================
 
 /datum/crafting_job
-	/**
-	 * crafting_job
 	var
 		player_ref
 		recipe_name = ""
