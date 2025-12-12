@@ -284,7 +284,7 @@ proc/ApplyCookingSkillBonus(mob/players/M, base_quality)
  * Calculate quality range for a recipe given player skill
  * Returns: list with min_quality and max_quality based on skill
  */
-proc/list/GetCookingQualityRange(mob/players/M, recipe_name)
+/proc/GetCookingQualityRange(mob/players/M, recipe_name)
 	var/list/recipe = RECIPES[recipe_name]
 	if(!recipe) return list()
 	

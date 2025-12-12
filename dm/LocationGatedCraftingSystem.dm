@@ -297,16 +297,10 @@
 /datum/crafting_job
 	/**
 	 * crafting_job
-	 * A single crafting job queued at a furnace
-	 */
 	var
-		player_ref            // Who submitted the job
+		player_ref
 		recipe_name = ""
 		quantity = 1
-		
-		ingredients = list()
-		output = ""
-		output_quantity = 0
 		
 		cost_lucre = 0
 		status = "pending"

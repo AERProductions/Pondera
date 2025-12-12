@@ -27,15 +27,9 @@
 	 * Tracks how territory ownership affects resource availability and pricing
 	 */
 	var
-		// Territory identification
 		territory_name = "Unknown Territory"
 		territory_id = null
 		deed_owner = null
-		
-		// Resource definition
-		primary_resource = "stone"
-		list/secondary_resources = list()
-		list/restricted_resources = list()
 		
 		// Supply control
 		unclaimed_base_price = 1.0

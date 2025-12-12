@@ -55,6 +55,8 @@
 #define RANK_SPROUTING "sprank"
 #define RANK_SMELTING "melting_rank"
 #define RANK_POLE "prank"
+#define RANK_SPROUT_CUTTING "sprout_cutting_rank"
+#define MAX_RANK_LEVEL 5
 
 // Temperature Constants
 #define TEMP_HOT 3

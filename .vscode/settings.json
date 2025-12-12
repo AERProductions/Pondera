@@ -13,5 +13,11 @@
     "terminal.integrated.shellIntegration.enabled": true,
     "terminal.integrated.shellIntegration.decorationsEnabled": "both",
     "terminal.integrated.persistentSessionReviveProcess": "never",
-    "python.defaultInterpreterPath": "C:\\Users\\ABL\\AppData\\Local\\Programs\\Python\\Python314\\python.exe"
+    "python.defaultInterpreterPath": "C:\\Users\\ABL\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+    "chat.mcp.serverSampling": {
+
+    },
+    "chat.promptFilesRecommendations": {
+        
+    }
 }

@@ -12,14 +12,14 @@
 	 * Allows flexible currency systems per game mode
 	 */
 	var
-		name = "Unknown"              // Currency display name
-		abbreviation = "???"          // Short code (Gold, ST, BR, etc.)
-		color = "#FFFFFF"             // Display color in UI
-		icon_state = null             // Visual icon in inventory
-		game_mode = null              // "story", "pvp", "sandbox", "exploration"
-		tradable = 0                  // 1 if can be traded between players
-		stackable = 1                 // 1 if stacks in inventory
-		uses = list()                 // What can you spend it on
+		name = "Unknown"
+		abbreviation = "???"
+		color = "#FFFFFF"
+		icon_state = null
+		game_mode = null
+		tradable = 0
+		stackable = 1
+		uses = list()
 
 /datum/currency_type/lucre
 	name = "Lucre"
@@ -72,17 +72,11 @@
 	 * Handles conversion, trading, and mode-specific balances
 	 */
 	var
-		// Story mode currencies
-		lucre_balance = 0                  // Gold coins for quests/merchants
-		
-		// PvP/Kingdom mode currencies (material resources)
-		stone_balance = 0                  // Building material
-		metal_balance = 0                  // Ore for smithing
-		timber_balance = 0                 // Wood for structures
-		supply_packs = 0                   // Trading bundles
-		
-		// Conversion rates (subject to market demand)
-		lucre_to_stone_rate = 0.5          // 1 lucre = 0.5 stone (lucre more valuable)
+		lucre_balance = 0
+		stone_balance = 0
+		metal_balance = 0
+		timber_balance = 0
+		supply_packs = 0
 		stone_to_lucre_rate = 2.0          // 1 stone = 2 lucre (can convert down)
 		
 		// Trading history

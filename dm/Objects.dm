@@ -5549,7 +5549,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
 												var/SCI = /obj/items/Ingots/Scraps/scrapiron
@@ -5568,16 +5568,16 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Iron Ribbon")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
@@ -5601,7 +5601,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
 												var/SCI = /obj/items/Ingots/Scraps/scrapiron
@@ -5620,16 +5620,16 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 						if("Tools")
 							switch(input("What Weapon would you like to make?","Tool Smithing") in L0)
 								if("Cancel")
@@ -5661,7 +5661,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -5678,16 +5678,16 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Shovel head")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
@@ -5709,7 +5709,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -5726,19 +5726,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 3 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 3 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Axe head")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot")&&(M.stamina>=5))
@@ -5761,7 +5761,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -5778,13 +5778,13 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										return 0
@@ -5810,7 +5810,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -5827,19 +5827,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 3 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 3 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Hammer head")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
@@ -5862,7 +5862,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -5879,19 +5879,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Hoe blade")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
@@ -5914,7 +5914,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -5931,19 +5931,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Sickle blade")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
@@ -5966,7 +5966,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -5983,19 +5983,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Chisel blade")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
@@ -6018,7 +6018,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -6035,19 +6035,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("File blade")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									//var/obj/items/Crafting/Created/FileBlade/FB// = locate() in M.contents
@@ -6086,7 +6086,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -6103,19 +6103,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Saw blade")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
@@ -6138,7 +6138,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -6155,19 +6155,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 2 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 //Steel Parts
 								if("Trowel blade")
 									var/obj/items/Ingots/steelbar/SB = locate() in M.contents
@@ -6191,7 +6191,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((SB in M.contents)&&(SB.stack_amount>=1)&&(SB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -6208,19 +6208,19 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 3 Hot Steel Ingot for smithing this item..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 3 Hot Steel Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 								if("Iron Reel")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
@@ -6243,7 +6243,7 @@ obj
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 										else
 											if((IB in M.contents)&&(IB.stack_amount>=1)&&(IB.Tname=="Hot"))
 												usr << "You begin to smith."
@@ -6260,16 +6260,16 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												usr<<"You need 1 Hot Iron Ingot for smithing this item..."
-												return call(/proc/smithinglevel)()
+												return 1
 									else
 										usr<<"You need 1 Hot Iron Ingot for smithing this item..."
 										M.Doing = 0
 										M.UEB = 0
 										M.SMIopen=0
-										return call(/proc/smithinglevel)()
+										return 1
 							if("Weapons")//Need to add ORPG weapons
 								switch(input("What Weapon would you like to make?","Weapon Smithing") in L)// in list("Broad Sword"))
 									if("Cancel")
@@ -6301,7 +6301,7 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 													usr << "You begin to smith."
@@ -6318,19 +6318,19 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 										else
 											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 
 									if("War Sword")
 										//var/obj/items/tools/BroadSword/BS
@@ -6357,7 +6357,7 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 													usr << "You begin to smith."
@@ -6374,19 +6374,19 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 										else
 											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 
 									if("Battle Sword")
 										//var/obj/items/tools/BroadSword/BS
@@ -6413,7 +6413,7 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 													usr << "You begin to smith."
@@ -6430,19 +6430,19 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 										else
 											usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 
 									if("Long Sword")
 										//var/obj/items/tools/BroadSword/BS
@@ -6469,7 +6469,7 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 													usr << "You begin to smith."
@@ -6486,19 +6486,19 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 										else
 											usr<<"You need 3 Hot Iron Ingots to utilize for smithing this item..."
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 
 									if("Battle Hammer")
 										//var/obj/items/tools/BroadSword/BS
@@ -6525,7 +6525,7 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 													usr << "You begin to smith."
@@ -6542,19 +6542,19 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 										else
 											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 
 									if("War Scythe")
 										//var/obj/items/tools/BroadSword/BS
@@ -6581,7 +6581,7 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 													usr << "You begin to smith."
@@ -6598,19 +6598,19 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 										else
 											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 
 									if("Battle Scythe")
 										//var/obj/items/tools/BroadSword/BS
@@ -6637,7 +6637,7 @@ obj
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 											else
 												if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 													usr << "You begin to smith."
@@ -6654,19 +6654,19 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 										else
 											usr<<"You need 3 Iron Hot Ingots for smithing this item..."
 											M.Doing = 0
 											M.UEB = 0
 											M.SMIopen=0
-											return call(/proc/smithinglevel)()
+											return 1
 
 
 							//call(/proc/smithinglevel)(M)
@@ -6715,7 +6715,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
 															usr << "You begin to smith."
@@ -6733,19 +6733,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Giu Shell Vestments")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -6773,7 +6773,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
 															usr << "You begin to smith."
@@ -6791,19 +6791,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need a Giu Shell and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need a Giu Shell and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Gou ShellHide Vestments")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -6833,7 +6833,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GH2 in M.contents)&&(GS2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2.stack_amount>=1))
 															usr << "You begin to smith."
@@ -6852,19 +6852,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gou Shell, Gou Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gou Shell, Gou Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Coppermail Vestments")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -6892,7 +6892,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
 															usr << "You begin to smith."
@@ -6910,19 +6910,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need a Gow Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need a Gow Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Zinc ShellPlate Vestments")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -6950,7 +6950,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
 															usr << "You begin to smith."
@@ -6968,19 +6968,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Guwi Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Guwi Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Steel ShellPlate Vestments")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7008,7 +7008,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((STLB in M.contents)&&(STLB.stack_amount>=3)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7026,19 +7026,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gowu Shell and 3 Hot Steel Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gowu Shell and 3 Hot Steel Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 
 											if("Monk Tunic")
 												//var/obj/items/tools/BroadSword/BS
@@ -7069,7 +7069,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")/*&&(GS0 in M.contents)&&(GS0.stack_amount>=1)*/&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7088,19 +7088,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Giu Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Iron Studded Tunic")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7130,7 +7130,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((IB in M.contents)&&(IB.stack_amount>=2)&&(IB.Tname=="Hot")&&(GH1 in M.contents)&&(GH1.stack_amount>=1))//&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7149,19 +7149,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gou Hide and 2 Hot Iron Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gou Hide and 2 Hot Iron Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Copper ShellPlate Tunic")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7191,7 +7191,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH2 in M.contents)&&(GH2.stack_amount>=1)&&(GS2 in M.contents)&&(GS2.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7210,19 +7210,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gou Shell, Gou Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gou Shell, Gou Hide and 2 Hot Copper Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Bronzemail Tunic")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7250,7 +7250,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((BRB in M.contents)&&(BRB.stack_amount>=2)&&(BRB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7268,19 +7268,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gow Hide and 2 Hot Bronze Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gow Hide and 2 Hot Bronze Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Zincmail Tunic")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7308,7 +7308,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((ZB in M.contents)&&(ZB.stack_amount>=2)&&(ZB.Tname=="Hot")&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7326,19 +7326,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Guwi Hide and 2 Hot Zinc Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Guwi Hide and 2 Hot Zinc Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Landscaper Tunic")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7368,7 +7368,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((STLB in M.contents)&&(STLB.stack_amount>=2)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7387,19 +7387,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gowu Shell, Gowu Hide and 2 Hot Steel Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gowu Shell, Gowu Hide and 2 Hot Steel Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 
 											if("Giu ShellHide Corslet")
 												//var/obj/items/tools/BroadSword/BS
@@ -7430,7 +7430,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7449,19 +7449,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Giu Shell, Giu Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Giu Shell, Giu Hide and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Gou ShellPlate Corslet")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7491,7 +7491,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1 in M.contents)&&(GH1.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7510,19 +7510,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gou Hide, Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gou Hide, Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Iron Platemail Corslet")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7552,7 +7552,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2 in M.contents)&&(GH2.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7571,19 +7571,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gou Shell and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Copper Platemail Corslet")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7613,7 +7613,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((CB in M.contents)&&(CB.stack_amount>=3)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7632,19 +7632,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gow Hide, Gow Shell and 3 Hot Copper Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gow Hide, Gow Shell and 3 Hot Copper Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Bronzemail Corslet")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7674,7 +7674,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((BRB in M.contents)&&(BRB.stack_amount>=3)&&(BRB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7693,19 +7693,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Guwi Hide, Guwi Shell and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Guwi Hide, Guwi Shell and 3 Hot Bronze Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Zinc Platemail Corslet")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7735,7 +7735,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5 in M.contents)&&(GH5.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7754,16 +7754,16 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gowu Hide, Gowu Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gowu Hide, Gowu Shell and 3 Hot Zinc Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 									//call(/proc/smithinglevel)(M)
 									if("Defensive")
 										switch(input("What Armor would you like to make?","Defensive Armor Smithing") in L4)//in list())
@@ -7806,7 +7806,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((CB in M.contents)&&(CB.stack_amount>=4)&&(CB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7825,19 +7825,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Giu Shell, Giu Hide and 4 Hot Copper Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Giu Shell, Giu Hide and 4 Hot Copper Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("IronPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7867,7 +7867,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((LB in M.contents)&&(LB.stack_amount>=4)&&(LB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7886,19 +7886,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gou Shell, Gou Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gou Shell, Gou Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Iron HalfPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7928,7 +7928,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
 															usr << "You begin to smith."
@@ -7947,19 +7947,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gow Shell, Gow Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gow Shell, Gow Hide and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Bronze SolidPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -7989,7 +7989,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((BRB in M.contents)&&(BRB.stack_amount>=5)&&(BRB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8008,19 +8008,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gow Shell, Gow Hide and 5 Hot Bronze Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gow Shell, Gow Hide and 5 Hot Bronze Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Boreal ZincPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8050,7 +8050,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((ZB in M.contents)&&(ZB.stack_amount>=5)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8069,19 +8069,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Guwi Shell, Guwi Hide and 5 Hot Zinc Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Guwi Shell, Guwi Hide and 5 Hot Zinc Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Aurelian SteelPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8111,7 +8111,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((STLB in M.contents)&&(STLB.stack_amount>=7)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8130,19 +8130,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gowu Shell, Gowu Hide and 7 Hot Steel Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gowu Shell, Gowu Hide and 7 Hot Steel Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 									//call(/proc/smithinglevel)(M)
 									if("Offensive")
 										switch(input("What Armor would you like to make?","Offensive Armor Smithing") in L5)//in list())
@@ -8182,7 +8182,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((IB in M.contents)&&(IB.stack_amount>=5)&&(IB.Tname=="Hot")&&(GS0 in M.contents)&&(GH0 in M.contents)&&(GS0.stack_amount>=1)&&(GH0.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8201,19 +8201,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Giu Shell, Giu Hide and 5 Hot Iron Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Giu Shell, Giu Hide and 5 Hot Iron Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("CopperPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8243,7 +8243,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((CB in M.contents)&&(CB.stack_amount>=5)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GH1 in M.contents)&&(GS1.stack_amount>=1)&&(GH1.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8262,19 +8262,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gou Shell, Gou Hide and 5 Hot Copper Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gou Shell, Gou Hide and 5 Hot Copper Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("BronzePlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8304,7 +8304,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((BRB in M.contents)&&(BRB.stack_amount>=5)&&(BRB.Tname=="Hot")&&(GS2 in M.contents)&&(GH2 in M.contents)&&(GS2.stack_amount>=1)&&(GH2.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8323,19 +8323,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gow Shell, Gow Hide and 5 Hot Bronze Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gow Shell, Gow Hide and 5 Hot Bronze Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("Omphalos AlloyPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8367,7 +8367,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((LB in M.contents)&&(LB.stack_amount>=3)&&(LB.Tname=="Hot")&&(CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS3 in M.contents)&&(GH3 in M.contents)&&(GS3.stack_amount>=1)&&(GH3.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8387,19 +8387,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gow Shell, Gow Hide, 2 Hot Copper Ingot and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gow Shell, Gow Hide, 2 Hot Copper Ingot and 3 Hot Iron Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("ZincPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8429,7 +8429,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((ZB in M.contents)&&(ZB.stack_amount>=5)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GH4 in M.contents)&&(GS4.stack_amount>=1)&&(GH4.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8448,19 +8448,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Guwi Shell, Guwi Hide and 5 Hot Zinc Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Guwi Shell, Guwi Hide and 5 Hot Zinc Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 											if("SteelPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
 												//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8490,7 +8490,7 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														if((STLB in M.contents)&&(STLB.stack_amount>=5)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GH5 in M.contents)&&(GS5.stack_amount>=1)&&(GH5.stack_amount>=1))
 															usr << "You begin to smith."
@@ -8509,19 +8509,19 @@ obj
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 														else
 															usr<<"You need Gowu Shell, Gowu Hide and 5 Hot Steel Ingots to utilize for smithing this Armor..."
 															M.Doing = 0
 															M.UEB = 0
 															M.SMIopen=0
-															return call(/proc/smithinglevel)()
+															return 1
 												else
 													usr<<"You need Gowu Shell, Gowu Hide and 5 Hot Steel Ingots to utilize for smithing this Armor..."
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 								//call(/proc/smithinglevel)(M)
 								if("Lamps")
 									switch(input("What would you like to make?","Smithing") in L3)//in list())
@@ -8558,7 +8558,7 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													if((IB in M.contents)&&(IB.stack_amount>=4)&&(IB.Tname=="Hot"))
 														usr << "You begin to smith."
@@ -8575,19 +8575,19 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														usr<<"You need 4 Hot Iron Ingots for smithing this Lamp Head..."
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 											else
 												usr<<"You need 4 Hot Iron Ingots for smithing this Lamp Head..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 										if("Copper Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
 											//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8613,7 +8613,7 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													if((CB in M.contents)&&(CB.stack_amount>=4)&&(CB.Tname=="Hot"))
 														usr << "You begin to smith."
@@ -8630,19 +8630,19 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														usr<<"You need 4 Hot Copper Ingots for smithing this Lamp Head..."
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 											else
 												usr<<"You need 4 Hot Copper Ingots for smithing this Lamp Head..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 										if("Bronze Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
 											//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8668,7 +8668,7 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													if((BRB in M.contents)&&(BRB.stack_amount>=4)&&(BRB.Tname=="Hot"))
 														usr << "You begin to smith."
@@ -8685,19 +8685,19 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														usr<<"You need 4 Hot Bronze Ingots for smithing this Lamp Head..."
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 											else
 												usr<<"You need 4 Hot Bronze Ingots for smithing this Lamp Head..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 										if("Brass Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
 											//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8723,7 +8723,7 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													if((BB in M.contents)&&(BB.stack_amount>=4)&&(BB.Tname=="Hot"))
 														usr << "You begin to smith."
@@ -8740,19 +8740,19 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														usr<<"You need 4 Hot Brass Ingots for smithing this Lamp Head..."
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 											else
 												usr<<"You need 4 Hot Brass Ingots for smithing this Lamp Head..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 										if("Steel Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
 											//var/random/R = rand(1,5) //1 in 5 chance to smith
@@ -8778,7 +8778,7 @@ obj
 													M.Doing = 0
 													M.UEB = 0
 													M.SMIopen=0
-													return call(/proc/smithinglevel)()
+													return 1
 												else
 													if((STB in M.contents)&&(STB.stack_amount>=4)&&(STB.Tname=="Hot"))
 														usr << "You begin to smith."
@@ -8795,26 +8795,26 @@ obj
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 													else
 														usr<<"You need 4 Hot Steel Ingots for smithing this Lamp Head..."
 														M.Doing = 0
 														M.UEB = 0
 														M.SMIopen=0
-														return call(/proc/smithinglevel)()
+														return 1
 											else
 												usr<<"You need 4 Hot Steel Ingots for smithing this Lamp Head..."
 												M.Doing = 0
 												M.UEB = 0
 												M.SMIopen=0
-												return call(/proc/smithinglevel)()
+												return 1
 							//call(/proc/smithinglevel)(M)
 				else //else contrasting the if at the top
 					usr << "You need to use an Iron Hammer to smith!" //message to user saying that they need a pick axe to mine
 					M.Doing = 0
 					M.UEB = 0
 					M.SMIopen=0
-					return call(/proc/smithinglevel)()
+					return 1
 			//else
 			//	usr << "You are already smithing!"
 //smelting
@@ -11420,99 +11420,8 @@ proc
 		if((GS5 in M.contents)&&(GH5 in M.contents)&&(M.smirank == 5)&&(M.smiexp >= 1000))
 			M.smithao.Add("SteelPlate Battlegear")*/
 	///..()
-proc
-	smithinglevel()
-		set background = 1
-		var/mob/players/M
-		M = usr
-		//var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
-	//tools
-		if((M.smirank == 1)&&(M.smiexp >= 5))
-			M.msmeexp = 15	//M.brank += 1
-			//M << "<b><font color=silver>Your Build Rank went up!"
-			//M.smitht.Add("Carving Knife blade")
-		//if((M.smirank == 0)&&(M.smiexp >= 0))
-			//usr << "<b><font color=silver>Your Build Rank went up!"
-		//	M.smithw.Add("Broad Sword")
-		if((M.smirank == 2)&&(M.smiexp >= 20))
-			M.smirank += 1
-			M.msmeexp = 30
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smitht.Add("Axe blade")
-			//M.smith.Add("Armors","Platemail")
-		if((M.smirank == 3)&&(M.smiexp >= 50))
-			M.smirank += 1
-			M.msmeexp = 60
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smitht.Add("Pickaxe head")
 
-		if((M.smirank == 4)&&(M.smiexp >= 110))
-			M.smirank += 1
-			M.msmeexp = 120
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smitht.Add("Shovel blade")
-
-		if((M.smirank == 5)&&(M.smiexp >= 230))
-			M.smirank += 1
-			M.msmeexp = 150
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smitht.Add("Hoe blade")
-
-		if((M.smirank == 6)&&(M.smiexp >= 380))
-			M.smirank += 1
-			M.msmeexp = 300
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smitht.Add("Sickle blade")
-//weapons
-		if((M.smirank == 7)&&(M.smiexp >= 680))
-			M.smirank += 1
-			M.msmeexp = 600
-			M << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smithw.Add("Broad Sword")
-		//if((M.smirank == 0)&&(M.smiexp >= 0))
-			//usr << "<b><font color=silver>Your Build Rank went up!"
-		//	M.smithw.Add("Broad Sword")
-		if((M.smirank == 8)&&(M.smiexp >= 1280))
-			M.smirank += 1
-			M.msmeexp = 1200
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smithw.Add("War Sword")
-			//M.smith.Add("Armors","Platemail")
-		if((M.smirank == 9)&&(M.smiexp >= 2480))
-			M.smirank += 1
-			M.msmeexp = 2400
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smithw.Add("Battle Sword")
-		if((M.smirank == 10)&&(M.smiexp >= 4880))
-			M.smirank += 1
-			M.msmeexp = 4800
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smithw.Add("Battle Hammer")
-		if((M.smirank == 11)&&(M.smiexp >= 9880))
-			M.smirank += 1
-			M.msmeexp = 9880
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smithw.Add("Battle Scythe")
-		if((M.smirank == 12)&&(M.smiexp >= 19760))
-			M.smirank += 1
-			M.msmeexp = 19760
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smithw.Add("Battle Scythe")
-		if((M.smirank == 13)&&(M.smiexp >= 39520))
-			M.smirank += 1
-			M.msmeexp = 39520
-			usr << "<b><font color=silver>Your Smithing Rank went up!"
-			//M.smithw.Add("Battle Scythe")
-		if((M.smirank == 14)&&(M.smiexp >= 79040))
-			//M.smirank += 1
-			//M.msmeexp = 300
-			M.msmiexp = M.smiexp
-			usr << "<b><font color=silver>You know all there is to know about Smithing!"
 			//M.smithw.Add("War Scythe")
-		else
-			if(M.smirank >= 14)
-				//M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
-				M.smirank = 14
 	//lamps
 		//if((M.smirank >= 0)&&(M.smiexp >= 0))
 			//usr << "<b><font color=silver>Your Build Rank went up!"

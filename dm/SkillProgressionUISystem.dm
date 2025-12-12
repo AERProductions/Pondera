@@ -10,7 +10,7 @@
 #define RANK_VISUAL_EMPTY    "░"
 #define RANK_VISUAL_FILLED   "▓"
 #define RANK_VISUAL_PARTIAL  "▒"
-#define MAX_RANK_LEVEL       5
+// MAX_RANK_LEVEL defined in !defines.dm
 #define XP_LEVEL_SCALING     1.2  // XP requirement scales by 1.2x per level
 
 /// ============================================================================

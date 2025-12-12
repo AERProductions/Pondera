@@ -13,16 +13,8 @@
 	 * Controls how often recipes are unlocked per skill system
 	 */
 	var
-		// Skill level-up discovery rates (recipes per level)
 		skill_discovery_base_rate = 1.0
 		skill_discovery_scaling = 1.1
-		
-		// NPC teaching discovery rates (recipes per interaction)
-		npc_discovery_rate = 0.8
-		npc_discovery_cooldown = 300
-		
-		// Market discovery rates (recipes from trading)
-		market_discovery_rate = 0.5
 		market_discovery_threshold = 5
 		
 		// Exploration discovery rates (recipes from terrain/events)

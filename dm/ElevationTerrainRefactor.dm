@@ -155,21 +155,17 @@
 	proc/CheckElevationEntry(atom/movable/mover)
 		if(!terrain_data)
 			return 1
-
-		var
-			mover_elevel = mover.elevel || 1.0
-			terrain_elevel = terrain_data.elevel
-			terrain_dir = terrain_data.dir
-			mover_dir = mover.dir
-			reverse = terrain_data.reverse_logic
-			check_dir = terrain_data.check_direction
-
+		var/mover_elevel = mover.elevel || 1.0
+		var/terrain_elevel = terrain_data.elevel
+		var/terrain_dir = terrain_data.dir
+		var/mover_dir = mover.dir
+		var/reverse = terrain_data.reverse_logic
+		var/check_dir = terrain_data.check_direction
 		if(!check_dir)
 			if(reverse)
 				return (mover_elevel <= terrain_elevel)
 			else
 				return (mover_elevel >= terrain_elevel)
-
 		if(reverse)
 			if(mover_elevel <= terrain_elevel && mover_dir == terrain_dir)
 				return 1
@@ -180,7 +176,6 @@
 				return 1
 			else if(mover_elevel <= terrain_elevel && mover_dir == Odir(terrain_dir))
 				return 1
-
 		return 0
 
 	Enter(atom/movable/e)

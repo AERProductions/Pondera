@@ -15,25 +15,12 @@
  * Rank Registry: RANK_DEFINITIONS global associative array
  *   key = rank_type (RANK_FISHING, RANK_CRAFTING, etc.)
  *   value = list(level_var_name, exp_var_name, maxexp_var_name, ui_element_name, display_name)
+ * 
+ * NOTE: RANK_* macros and MAX_RANK_LEVEL defined in !defines.dm - no duplication
  */
 
-#define RANK_FISHING "frank"
-#define RANK_CRAFTING "crank"
-#define RANK_GARDENING "grank"
-#define RANK_WOODCUTTING "hrank"
-#define RANK_MINING "mrank"
-#define RANK_SMITHING "smirank"
-#define RANK_SMELTING "smerank"
-#define RANK_BUILDING "brank"
-#define RANK_DIGGING "drank"
-#define RANK_CARVING "Crank"
-#define RANK_SPROUT_CUTTING "CSRank"
-#define RANK_POLE "PLRank"
-#define RANK_ARCHERY "archery"
-#define RANK_CROSSBOW "crossbow"
-#define RANK_THROWING "throwing"
+// Macros already defined in !defines.dm
 
-#define MAX_RANK_LEVEL 5
 #define BASE_EXP_FOR_LEVEL 100
 
 // Global rank registry - maps rank_type to [level_var, exp_var, maxexp_var, ui_element, display_name]

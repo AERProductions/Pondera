@@ -38,11 +38,6 @@
 		emergency_fund = 0
 		development_fund = 0
 		defense_fund = 0
-		
-		// Revenue sources
-		total_tax_collected = 0
-		trade_tax_rate = 0.05
-		property_tax_rate = 0.02
 		income_tax_rate = 0.08
 		
 		// Spending

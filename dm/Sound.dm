@@ -294,19 +294,13 @@ atom
 		set waitfor=0
 
 		if(mob in listeners && src in mob:_listening_soundmobs)
-			var/tmp/sound/sound = mob:_listening_soundmobs[src]
-			//world << "unsetListener"
-			for(var/i = sound.volume, i >= 0, i --)
-				sound.status = SOUND_UPDATE
-				sound.volume = i
-				sound.repeat = FALSE
+			var/sound/snd = mob:_listening_soundmobs[src]
+			if(!snd) return
 
-				mob << sound
+			sleep(1)
 
-				sleep(1)
-
-			mob << sound(null, 0, 0, sound.channel)
-			mob:_unlockChannel(sound.channel)
+			mob << sound(null, 0, 0, snd.channel)
+			mob:_unlockChannel(snd.channel)
 
 			listeners -= mob
 			if(!length(listeners)) listeners = null

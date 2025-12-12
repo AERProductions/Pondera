@@ -75,7 +75,8 @@ var
 		// Trim old records if over limit
 		if(death_records[player.ckey].len > max_death_records)
 			var/start_idx = death_records[player.ckey].len - max_death_records + 1
-			death_records[player.ckey] = death_records[player.ckey][start_idx..-1]
+			var/list/trimmed = death_records[player.ckey].Copy(start_idx)
+			death_records[player.ckey] = trimmed
 
 	proc/ApplyFaintedState(mob/players/player, mob/attacker)
 		/**
