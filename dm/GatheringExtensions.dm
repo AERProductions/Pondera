@@ -240,14 +240,16 @@ obj/WaterFountain
 obj/Flowers
 	UseObject(mob/user)
 		if(user in range(1, src))
-			user.DblClick(src)
+			var/mob/players/M = user
+			PerformSearch(M, src)  // Trigger modern searching minigame
 			return 1
 		return 0
 
 obj/Flowers/Tallgrass
 	UseObject(mob/user)
 		if(user in range(1, src))
-			user.DblClick(src)
+			var/mob/players/M = user
+			PerformSearch(M, src)  // Trigger modern searching minigame
 			return 1
 		return 0
 
