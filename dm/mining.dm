@@ -1,8 +1,4 @@
 mob/players/var
-	mrank=1			//mrank lvl mining rank
-	mrankEXP=0		//mrank Exp
-	mrankMAXEXP=10		//Exp till level
-	MAXmrankLVL=0	//Maxmranklvl when set to one it stops more lvls...
 	tmp
 		Mining
 var
@@ -961,22 +957,6 @@ obj
 						goto Start
 
 
-mob/players/proc
-	MNLvl()
-		if(mrank>=5)				//Seeing if usr is maxlvl
-			MAXmrankLVL=1
-			mrank=5
-			mrankMAXEXP = mrankEXP					//mrank Lvl Proc		for when you gain lvls.
-		if(MAXmrankLVL==1)	//If your woodcutting lvl is max... Return, cant gain anymore lvls greedy bastard!
-			return
-		else					//Else!!!
-			if(mrankEXP>=mrankMAXEXP)		//Does the usr have the req exp for the next lvl?/?
-				mrankMAXEXP+=exp2lvl(mrank)	//If he did then here it adds the next MaxExp to his maxexp for the next lvl gain
-				mrank++							//mrank lvl +1
-				src<<"You gain \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'>Mining Acuity!"
-
-				MNLvl()			//Calls the WCLvl() proc again to see if the usr gained two lvls in on one tree or not...
-				return
 
 var/global/orestage
 obj/Rocks							//Simple right??? Just defining objects, Trees!
