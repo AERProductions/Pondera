@@ -5018,10 +5018,10 @@ obj
 		FishingCheck() //name of proc dexp (destroy fexp (fishing seexp (Searching
 			// REMOVED: Old fishing XP level-up check - now handled automatically by character.UpdateRankExp(RANK_FISHING, amount)
 			// Fishing level-ups are managed by the unified rank system
-		SearchingCheck() //name of proc
+ //name of proc
 			var/mob/players/M = usr
 			if(M.seexp >= M.seexpneeded) //if users mining experience is or gos past users max ming experience
-				M.searchinglevel+=1 //users mining gos up by 1
+				M.character.searching_rank+=1 //users mining gos up by 1
 				M.seexp=0 //resets user mining experience to 0
 				M.seexpneeded+=30 //add 30 to users max mining experience
 				M << "\green<b> You gain Searching Acuity..."
@@ -5116,13 +5116,13 @@ obj
 				O.searched()
 				return
 			else
-				if(M.searchinglevel <= 1) //If user mining skill is less than or equal to 19
+				if(M.character.searching_rank <= 1) //If user mining skill is less than or equal to 19
 					if(prob(80)) //30% probabilty of something happening
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(30) //Delay 3 seconds
-						M.seexp += 15 //user gets 25 mining experience
-						SearchingCheck() //go to proc miningcheck
+						M.character.UpdateRankExp(RANK_SEARCHING, 15) //user gets 25 mining experience
+ //go to proc miningcheck
 						new /obj/items/Rock(M,1)
 						M << "You found a Rock!"
 						O.searched=1
@@ -5137,19 +5137,19 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					return
-				if(M.searchinglevel <= 2)
+				if(M.character.searching_rank <= 2)
 					if(prob(25)) //30% probabilty of something happening
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(30) //Delay 3 seconds
-						M.seexp += 20 //user gets 25 mining experience
-						//M.searchinglevel = 11
-						SearchingCheck() //go to proc miningcheck
+						M.character.UpdateRankExp(RANK_SEARCHING, 20) //user gets 25 mining experience
+						//M.character.searching_rank = 11
+ //go to proc miningcheck
 						new /obj/items/tools/Flint(M,1)
 						M << "You found some Flint!"
 						O.searched=1
@@ -5164,8 +5164,8 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(10))
@@ -5176,8 +5176,8 @@ obj
 						new /obj/items/Rock(M,1)
 						M << "You found a Rock!"
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					else
@@ -5187,24 +5187,24 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 
 					return//else
-				if(M.searchinglevel <= 3) //if user mining is greater than or equal to 20
+				if(M.character.searching_rank <= 3) //if user mining is greater than or equal to 20
 					if(prob(25)) //30% probabilty
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(15) //Delay 3 seconds
-						M.seexp += 25 //same as before
+						M.character.UpdateRankExp(RANK_SEARCHING, 25) //same as before
 						new /obj/items/AUS(M,1)
 						M << "You found an Ancient Ueik Splinter!"
 						O.searched=1
 						//var/obj/items/AUS/C = new(M)
 						//usr << "You found [C]!" //same as before
-						SearchingCheck() //same as before
+ //same as before
 						M.Doing = 0
 						return
 					else
@@ -5214,19 +5214,19 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					return//else
-				if(M.searchinglevel <= 4)
+				if(M.character.searching_rank <= 4)
 					if(prob(30)) //probabilty of 20%
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(15) //Delay 3 seconds
-						M.seexp += 20 //user mining experiance increases by 30
-						//M.searchinglevel = 15
-						SearchingCheck() //same as before
+						M.character.UpdateRankExp(RANK_SEARCHING, 20) //user mining experiance increases by 30
+						//M.character.searching_rank = 15
+ //same as before
 						new /obj/items/tools/Pyrite(M,1)
 						M << "You found some Pyrite!"
 						O.searched=1
@@ -5241,8 +5241,8 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(15))
@@ -5253,8 +5253,8 @@ obj
 						new /obj/items/WDHNCH(M,1)
 						M << "You found a Wooden Haunch!"
 						O.searched=1
-						M.seexp += 15 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 15) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					else
@@ -5264,18 +5264,18 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					return//else
-				if(M.searchinglevel >= 5)
+				if(M.character.searching_rank >= 5)
 					if(prob(35)) //30% probabilty of something happening
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(10) //Delay 3 seconds
-						M.seexp += 25 //user gets 25 mining experience
-						SearchingCheck() //go to proc miningcheck
+						M.character.UpdateRankExp(RANK_SEARCHING, 25) //user gets 25 mining experience
+ //go to proc miningcheck
 						new /obj/items/tools/Whetstone(M,1)
 						M << "You found a Whetstone!"
 						O.searched=1
@@ -5290,8 +5290,8 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(25))
@@ -5299,8 +5299,8 @@ obj
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(10) //Delay 3 seconds
-						M.seexp += 5 //user gets 25 mining experience
-						SearchingCheck() //go to proc miningcheck
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user gets 25 mining experience
+ //go to proc miningcheck
 						new /obj/items/tools/Flint(M,1)
 						M << "You found some Flint!"
 						O.searched=1
@@ -5315,21 +5315,21 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(25)) //30% probabilty
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(10) //Delay 3 seconds
-						M.seexp += 25 //same as before
+						M.character.UpdateRankExp(RANK_SEARCHING, 25) //same as before
 						new /obj/items/AUS(M,1)
 						M << "You found an Ancient Ueik Splinter!"
 						O.searched=1
 						//var/obj/items/AUS/C = new(M)
 						//usr << "You found [C]!" //same as before
-						SearchingCheck() //same as before
+ //same as before
 						M.Doing = 0
 						return
 					else
@@ -5339,8 +5339,8 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(25))
@@ -5348,8 +5348,8 @@ obj
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(10) //Delay 3 seconds
-						M.seexp += 10 //user mining experiance increases by 30
-						SearchingCheck() //same as before
+						M.character.UpdateRankExp(RANK_SEARCHING, 10) //user mining experiance increases by 30
+ //same as before
 						new /obj/items/tools/Pyrite(M,1)
 						M << "You found some Pyrite!"
 						O.searched=1
@@ -5364,21 +5364,21 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(20)) //30% probabilty
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(10) //Delay 3 seconds
-						M.seexp += 25 //same as before
+						M.character.UpdateRankExp(RANK_SEARCHING, 25) //same as before
 						new /obj/items/Carbon(M,1)
 						M << "You found Carbon!"
 						O.searched=1
 						//var/obj/items/AUS/C = new(M)
 						//usr << "You found [C]!" //same as before
-						SearchingCheck() //same as before
+ //same as before
 						M.Doing = 0
 						return
 					else
@@ -5388,8 +5388,8 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(15))
@@ -5397,8 +5397,8 @@ obj
 						usr << "You begin to search."
 						M.Doing = 1
 						sleep(10) //Delay 3 seconds
-						M.seexp += 10 //user mining experiance increases by 30
-						SearchingCheck() //same as before
+						M.character.UpdateRankExp(RANK_SEARCHING, 10) //user mining experiance increases by 30
+ //same as before
 						new /obj/items/Rock(M,1)
 						M << "You found a Rock!"
 						O.searched=1
@@ -5413,8 +5413,8 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(15))
@@ -5425,8 +5425,8 @@ obj
 						new /obj/items/WDHNCH(M,1)
 						M << "You found a Wooden Haunch!"
 						O.searched=1
-						M.seexp += 15 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 15) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					else
@@ -5436,21 +5436,21 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					if(prob(10)) //30% probabilty
 						usr << "You begin to search..."
 						M.Doing = 1
 						sleep(10) //Delay 3 seconds
-						M.seexp += 35 //same as before
+						M.character.UpdateRankExp(RANK_SEARCHING, 35) //same as before
 						new /obj/items/Activated_Carbon(M,1)
 						M << "You found Activated Carbon!"
 						O.searched=1
 						//var/obj/items/AUS/C = new(M)
 						//usr << "You found [C]!" //same as before
-						SearchingCheck() //same as before
+ //same as before
 						M.Doing = 0
 						return
 					else
@@ -5460,8 +5460,8 @@ obj
 						sleep(15) //Delay 3 seconds
 						usr << "You didn't find anything!" //same as before
 						O.searched=1
-						M.seexp += 5 //user mining experiance increases by 15
-						SearchingCheck() //same as before....
+						M.character.UpdateRankExp(RANK_SEARCHING, 5) //user mining experiance increases by 15
+ //same as before....
 						M.Doing = 0
 						return
 					return

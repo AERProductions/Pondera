@@ -21,6 +21,8 @@
 		crossbow_rank = 0   // Crossbow rank
 		throwing_rank = 0   // Throwing rank (knives, javelins)
 		combat_rank = 1     // Combat rank (1-5)
+		searching_rank = 1  // Searching/Item discovery rank
+		destroying_rank = 1 // Destroying/Wall destruction rank
 
 		// === CHARACTER CLASS SYSTEM ===
 		selected_class = "" // Selected starting class (Warrior, Scout, Mage, Crafter, Naturalist)
@@ -41,6 +43,8 @@
 		crossbow_xp = 0     // Crossbow experience
 		throwing_xp = 0     // Throwing experience
 		combat_xp = 0       // Combat XP (accumulates within rank)
+		searching_xp = 0    // Searching/Item discovery XP
+		destroying_xp = 0   // Destroying/Wall destruction XP
 
 		// Experience Thresholds (exp needed for next level)
 		frankMAXEXP = 100
@@ -58,6 +62,8 @@
 		crossbow_maxexp = 100
 		throwing_maxexp = 100
 		combat_maxexp = 100     // Combat max experience per level
+		searching_maxexp = 100  // Searching max experience per level
+		destroying_maxexp = 100 // Destroying max experience per level
 
 		// === NPC SYSTEM ===
 		is_npc = FALSE                       // TRUE if this is NPC character data

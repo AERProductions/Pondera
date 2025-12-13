@@ -50,6 +50,8 @@ proc/InitializeRankDefinitions()
 	RANK_DEFINITIONS[RANK_CROSSBOW] = list("crossbow_rank", "crossbow_xp", "crossbow_maxexp", "bar_crossbow", "Crossbow")
 	RANK_DEFINITIONS[RANK_THROWING] = list("throwing_rank", "throwing_xp", "throwing_maxexp", "bar_throwing", "Throwing")
 	RANK_DEFINITIONS[RANK_COMBAT] = list("combat_rank", "combat_xp", "combat_maxexp", "bar_combat", "Combat")
+	RANK_DEFINITIONS[RANK_SEARCHING] = list("searching_rank", "searching_xp", "searching_maxexp", "bar_searching", "Searching")
+	RANK_DEFINITIONS[RANK_DESTROYING] = list("destroying_rank", "destroying_xp", "destroying_maxexp", "bar_destroying", "Destroying")
 
 // ==================== INTERNAL HELPER - SAFE VARIABLE ACCESS ====================
 

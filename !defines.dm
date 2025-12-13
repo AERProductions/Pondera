@@ -60,6 +60,8 @@
 #define RANK_WHITTLING "whittling_rank"
 #define RANK_POLE "whittling_rank"           // Legacy alias for RANK_WHITTLING (pole carving)
 #define RANK_COMBAT "combat_rank"            // Combat/Melee combat rank
+#define RANK_SEARCHING "searching_rank"      // Searching/Item discovery rank
+#define RANK_DESTROYING "destroying_rank"    // Destroying/Wall destruction rank
 #define MAX_RANK_LEVEL 5
 
 // Temperature Constants
