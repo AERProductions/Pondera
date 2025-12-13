@@ -1289,7 +1289,7 @@ mob/players
 									M.UED = 0
 									return call(/proc/diglevel)(M)
 								/*if("Water")
-									M.buildexp += 5
+									M.character.UpdateRankExp(RANK_BUILDING, 5)
 									a = new/turf/Ground/water2(usr.loc)
 									a:buildingowner = ckeyEx("[usr.key]")
 									M.stamina -= 5
@@ -1340,7 +1340,7 @@ mob/players
 			L8 = buildunlock(arglist(L8))
 			L9 = buildunlock(arglist(L9))
 			L10 = buildunlock(arglist(L10))
-			//call(/proc/buildlevel)()
+			//// REMOVED: buildlevel() proc call - building XP now handled automatically
 			//var/X = /obj/permit
 	//L0//fort mat type
 	//L1[1]	/wood fort section
@@ -1390,7 +1390,7 @@ mob/players
 							//var/UEB = 0 //unequipblock if building activated later bitflag 1 (not if hammer equipped)
 							var/a
 							//var/obj/items/Logs/UeikLog/J = locate() in M.contents
-							//call(/proc/buildlevel)()
+							//// REMOVED: buildlevel() proc call - building XP now handled automatically
 							//locate(J) in M.contents
 	//build selection													//Build list holds main building menu selections
 							//var/b =
@@ -1417,14 +1417,14 @@ mob/players
 											if(M.stamina >= 5)//content
 												M.stamina -= 5
 												M.updateST()
-												M.buildexp += 5
+												M.character.UpdateRankExp(RANK_BUILDING, 5)
 												a = new/obj/Buildable/Fire(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
 												//a:layer = MOB_LAYER+1
 												//a:dir = NORTH
-												//call(/proc/buildlevel)()
+												//// REMOVED: buildlevel() proc call - building XP now handled automatically
 												M.UEB = 0
-												return call(/proc/buildlevel)()
+												// REMOVED: buildlevel() proc call - building XP now handled automatically
 											else
 												M.UEB = 0
 												M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1454,11 +1454,11 @@ mob/players
 												if(M.stamina >= 35)//content
 													M.stamina -= 35
 													M.updateST()
-													M.buildexp += 25
+													M.character.UpdateRankExp(RANK_BUILDING, 25)
 													a = new/obj/Buildable/Furnishings/Table(usr.loc)
 													a:buildingowner = ckeyEx("[usr.key]")
 													M.UEB = 0
-													return call(/proc/buildlevel)()
+													// REMOVED: buildlevel() proc call - building XP now handled automatically
 												else
 													M.UEB = 0
 													M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1483,13 +1483,13 @@ mob/players
 													if(M.stamina >= 45)//content
 														M.stamina -= 45
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Furnishings/bed(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1513,13 +1513,13 @@ mob/players
 													if(M.stamina >= 45)//content
 														M.stamina -= 45
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Furnishings/beds(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1542,13 +1542,13 @@ mob/players
 													if(M.stamina >= 45)//content
 														M.stamina -= 45
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Furnishings/bede(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1571,13 +1571,13 @@ mob/players
 													if(M.stamina >= 45)//content
 														M.stamina -= 45
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Furnishings/bedw(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1601,13 +1601,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Furnishings/Chairn(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														//a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1631,14 +1631,14 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Furnishings/Chairs(usr.loc)
 														a = new/obj/Buildable/Furnishings/Chairst(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														//a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1662,13 +1662,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Furnishings/Chairr(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														//a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1691,13 +1691,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Furnishings/Chairl(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														//a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1717,15 +1717,15 @@ mob/players
 												if(M.stamina >= 25)//content
 													M.stamina -= 25
 													M.updateST()
-													M.buildexp += 15
+													M.character.UpdateRankExp(RANK_BUILDING, 15)
 													a = new/obj/Buildable/Containers/ContainerL(usr.loc)
 													a:color = rgb(rand(0,255),rand(0,255),rand(0,255))
 													a:buildingowner = ckeyEx("[usr.key]")
 													//a:layer = MOB_LAYER+1
 													//a:dir = NORTH
-													//call(/proc/buildlevel)()
+													//// REMOVED: buildlevel() proc call - building XP now handled automatically
 													M.UEB = 0
-													return call(/proc/buildlevel)()
+													// REMOVED: buildlevel() proc call - building XP now handled automatically
 												else
 													M.UEB = 0
 													M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1745,15 +1745,15 @@ mob/players
 												if(M.stamina >= 25)//content
 													M.stamina -= 25
 													M.updateST()
-													M.buildexp += 15
+													M.character.UpdateRankExp(RANK_BUILDING, 15)
 													a = new/obj/Buildable/Containers/ContainerF(usr.loc)
 													a:color = rgb(rand(0,255),rand(0,255),rand(0,255))
 													a:buildingowner = ckeyEx("[usr.key]")
 													//a:layer = MOB_LAYER+1
 													//a:dir = NORTH
-													//call(/proc/buildlevel)()
+													//// REMOVED: buildlevel() proc call - building XP now handled automatically
 													M.UEB = 0
-													return call(/proc/buildlevel)()
+													// REMOVED: buildlevel() proc call - building XP now handled automatically
 												else
 													M.UEB = 0
 													M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1773,14 +1773,14 @@ mob/players
 												if(M.stamina >= 25)//content
 													M.stamina -= 25
 													M.updateST()
-													M.buildexp += 15
+													M.character.UpdateRankExp(RANK_BUILDING, 15)
 													a = new/obj/Buildable/Containers/ContainerO(usr.loc)
 													a:buildingowner = ckeyEx("[usr.key]")
 													//a:layer = MOB_LAYER+1
 													//a:dir = NORTH
-													//call(/proc/buildlevel)()
+													//// REMOVED: buildlevel() proc call - building XP now handled automatically
 													M.UEB = 0
-													return call(/proc/buildlevel)()
+													// REMOVED: buildlevel() proc call - building XP now handled automatically
 												else
 													M.UEB = 0
 													M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1801,13 +1801,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/items/Buildable/lamps/woodentorch(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1827,13 +1827,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/items/Buildable/lamps/ironlamp(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1853,13 +1853,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/items/Buildable/lamps/copperlamp(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1879,13 +1879,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/items/Buildable/lamps/bronzelamp(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1905,13 +1905,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/items/Buildable/lamps/brasslamp(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1931,13 +1931,13 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/items/Buildable/lamps/steellamp(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1962,13 +1962,13 @@ mob/players
 													if(M.stamina >= 45)//content
 														M.stamina -= 45
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Smithing/Anvil(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1//TestStamp -- Need to test if this works or doesn't work as intended
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -1991,13 +1991,13 @@ mob/players
 													if(M.stamina >= 45)//content
 														M.stamina -= 45
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Smithing/Anvil(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														a:dir = SOUTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2020,13 +2020,13 @@ mob/players
 													if(M.stamina >= 45)//content
 														M.stamina -= 45
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Smithing/Anvil(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														a:dir = EAST
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2049,13 +2049,13 @@ mob/players
 													if(M.stamina >= 45)//content
 														M.stamina -= 45
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Smithing/Anvil(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														a:dir = WEST
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2079,13 +2079,13 @@ mob/players
 													if(M.stamina >= 55)//content
 														M.stamina -= 55
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Smithing/Forge(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														a:layer = MOB_LAYER+1
 														a:dir = NORTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2108,13 +2108,13 @@ mob/players
 													if(M.stamina >= 55)//content
 														M.stamina -= 55
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Smithing/Forge(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														a:dir = SOUTH
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2137,13 +2137,13 @@ mob/players
 													if(M.stamina >= 55)//content
 														M.stamina -= 55
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Smithing/Forge(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														a:dir = EAST
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2166,13 +2166,13 @@ mob/players
 													if(M.stamina >= 55)//content
 														M.stamina -= 55
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Smithing/Forge(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														//a:layer = MOB_LAYER+1
 														a:dir = WEST
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2200,11 +2200,11 @@ mob/players
 													if(M.stamina >= 15)//content
 														M.stamina -= 15
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Furnishings/scrate(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2225,11 +2225,11 @@ mob/players
 													if(M.stamina >= 25)//content
 														M.stamina -= 25
 														M.updateST()
-														M.buildexp += 30
+														M.character.UpdateRankExp(RANK_BUILDING, 30)
 														a = new/obj/Buildable/Furnishings/crate(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2253,11 +2253,11 @@ mob/players
 													if(M.stamina >= 15)//content
 														M.stamina -= 15
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Barricades/barricaden(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2280,11 +2280,11 @@ mob/players
 													if(M.stamina >= 15)//content
 														M.stamina -= 15
 														M.updateST()
-														M.buildexp += 25
+														M.character.UpdateRankExp(RANK_BUILDING, 25)
 														a = new/obj/Buildable/Barricades/barricades(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2307,14 +2307,14 @@ mob/players
 												if(M.stamina >= 35)//content
 													M.stamina -= 35
 													M.updateST()
-													M.buildexp += 25
+													M.character.UpdateRankExp(RANK_BUILDING, 25)
 													a = new/obj/Buildable/sundial(usr.loc)
 													a:buildingowner = ckeyEx("[usr.key]")
 													M.UEB = 0
 													var/obj/Navi/Compas/C = new;var/obj/Navi/Arrow/A = new
 													src.client.screen += C;src.client.screen += A
 													M.Target = a
-													return call(/proc/buildlevel)()
+													// REMOVED: buildlevel() proc call - building XP now handled automatically
 												else
 													M.UEB = 0
 													M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2336,11 +2336,11 @@ mob/players
 												if(M.stamina >= 65)//content
 													M.stamina -= 65
 													M.updateST()
-													M.buildexp += 35
+													M.character.UpdateRankExp(RANK_BUILDING, 35)
 													a = new/obj/WaterFountain(usr.loc)
 													a:buildingowner = ckeyEx("[usr.key]")
 													M.UEB = 0
-													return call(/proc/buildlevel)()
+													// REMOVED: buildlevel() proc call - building XP now handled automatically
 												else
 													M.UEB = 0
 													M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2374,11 +2374,11 @@ mob/players
 													if(M.stamina >= 15)
 														M.stamina -= 15
 														M.updateST()
-														M.buildexp += 5
+														M.character.UpdateRankExp(RANK_BUILDING, 5)
 														a = new/turf/Building/Foundations/Hfoundation(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2398,11 +2398,11 @@ mob/players
 													if(M.stamina >= 15)//content
 														M.stamina -= 15
 														M.updateST()
-														M.buildexp += 5
+														M.character.UpdateRankExp(RANK_BUILDING, 5)
 														a = new/obj/Buildable/Ground/woodfloor(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														M.UEB = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2423,11 +2423,11 @@ mob/players
 														if(M.stamina >= 15)//content
 															M.stamina -= 15
 															M.updateST()
-															M.buildexp += 5
+															M.character.UpdateRankExp(RANK_BUILDING, 5)
 															a = new/obj/Buildable/HouseWalls/wh8(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2447,11 +2447,11 @@ mob/players
 														if(M.stamina >= 15)//content
 															M.stamina -= 15
 															M.updateST()
-															M.buildexp += 5
+															M.character.UpdateRankExp(RANK_BUILDING, 5)
 															a = new/obj/Buildable/HouseWalls/wh1(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2471,11 +2471,11 @@ mob/players
 														if(M.stamina >= 15)//content
 															M.stamina -= 15
 															M.updateST()
-															M.buildexp += 5
+															M.character.UpdateRankExp(RANK_BUILDING, 5)
 															a = new/obj/Buildable/HouseWalls/wh7(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2495,11 +2495,11 @@ mob/players
 														if(M.stamina >= 15)//content
 															M.stamina -= 15
 															M.updateST()
-															M.buildexp += 5
+															M.character.UpdateRankExp(RANK_BUILDING, 5)
 															a = new/obj/Buildable/HouseWalls/wh6(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2523,11 +2523,11 @@ mob/players
 														if(M.stamina >= 15)//content
 															M.stamina -= 15
 															M.updateST()
-															M.buildexp += 5
+															M.character.UpdateRankExp(RANK_BUILDING, 5)
 															a = new/obj/Buildable/HouseWalls/whwt(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2550,11 +2550,11 @@ mob/players
 														if(M.stamina >= 15)//content
 															M.stamina -= 15
 															M.updateST()
-															M.buildexp += 5
+															M.character.UpdateRankExp(RANK_BUILDING, 5)
 															a = new/obj/Buildable/HouseWalls/whwf(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2577,11 +2577,11 @@ mob/players
 														if(M.stamina >= 15)//content
 															M.stamina -= 15
 															M.updateST()
-															M.buildexp += 5
+															M.character.UpdateRankExp(RANK_BUILDING, 5)
 															a = new/obj/Buildable/HouseWalls/whwr(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2604,11 +2604,11 @@ mob/players
 														if(M.stamina >= 15)//content
 															M.stamina -= 15
 															M.updateST()
-															M.buildexp += 5
+															M.character.UpdateRankExp(RANK_BUILDING, 5)
 															a = new/obj/Buildable/HouseWalls/whwl(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2632,7 +2632,7 @@ mob/players
 														if(M.stamina >= 25)//content
 															M.stamina -= 25
 															M.updateST()
-															M.buildexp += 15
+															M.character.UpdateRankExp(RANK_BUILDING, 15)
 															a = new/obj/Buildable/Doors/WHTopDoor(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
@@ -2654,7 +2654,7 @@ mob/players
 																	a:unlocked = 1
 																	M.UEB = 0
 																	return
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2677,7 +2677,7 @@ mob/players
 														if(M.stamina >= 25)//content
 															M.stamina -= 25
 															M.updateST()
-															M.buildexp += 15
+															M.character.UpdateRankExp(RANK_BUILDING, 15)
 															a = new/obj/Buildable/Doors/WHDoor(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
@@ -2699,7 +2699,7 @@ mob/players
 																	a:unlocked = 1
 																	M.UEB = 0
 																	return
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2722,7 +2722,7 @@ mob/players
 														if(M.stamina >= 25)//content
 															M.stamina -= 25
 															M.updateST()
-															M.buildexp += 15
+															M.character.UpdateRankExp(RANK_BUILDING, 15)
 															a = new/obj/Buildable/Doors/WHRightDoor(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
@@ -2744,7 +2744,7 @@ mob/players
 																	a:unlocked = 1
 																	M.UEB = 0
 																	return
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2767,11 +2767,11 @@ mob/players
 														if(M.stamina >= 25)//content
 															M.stamina -= 25
 															M.updateST()
-															M.buildexp += 115
+															M.character.UpdateRankExp(RANK_BUILDING, 115)
 															a = new/obj/Buildable/Doors/WHLeftDoor(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
-															//call(/proc/buildlevel)()
+															//// REMOVED: buildlevel() proc call - building XP now handled automatically
 															/*switch(alert(usr,"Would you like to set a password?","[src.name] Pass Entry","Yes","No"))
 																if("Yes")
 																	a:pword = input("What should the [src.name] password be?","Enter the password")as text
@@ -2804,7 +2804,7 @@ mob/players
 																	a:unlocked = 1
 																	M.UEB = 0
 																	return
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2827,12 +2827,12 @@ mob/players
 														if(M.stamina >= 35)//content
 															M.stamina -= 35
 															M.updateST()
-															M.buildexp += 25
+															M.character.UpdateRankExp(RANK_BUILDING, 25)
 															a = new/obj/Buildable/Roofing/Roof(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															a:dir = NORTH
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2852,12 +2852,12 @@ mob/players
 														if(M.stamina >= 35)//content
 															M.stamina -= 35
 															M.updateST()
-															M.buildexp += 25
+															M.character.UpdateRankExp(RANK_BUILDING, 25)
 															a = new/obj/Buildable/Roofing/Roof(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															a:dir = EAST
 															M.UEB = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -2888,12 +2888,12 @@ mob/players
 													if(M.stamina >= 15)//content
 														M.stamina -= 15
 														M.updateST()
-														M.buildexp += 5
+														M.character.UpdateRankExp(RANK_BUILDING, 5)
 														a = new/turf/Building/Foundations/Pfoundation(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														M.UEB = 0
 														M.UETW = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M.UETW = 0
@@ -2916,12 +2916,12 @@ mob/players
 													if(M.stamina >= 20)//content
 														M.stamina -= 20
 														M.updateST()
-														M.buildexp += 15
+														M.character.UpdateRankExp(RANK_BUILDING, 15)
 														a = new/obj/Buildable/Ground/pcfloor(usr.loc)
 														a:buildingowner = ckeyEx("[usr.key]")
 														M.UEB = 0
 														M.UETW = 0
-														return call(/proc/buildlevel)()
+														// REMOVED: buildlevel() proc call - building XP now handled automatically
 													else
 														M.UEB = 0
 														M.UETW = 0
@@ -2945,12 +2945,12 @@ mob/players
 														if(M.stamina >= 35)//content
 															M.stamina -= 35
 															M.updateST()
-															M.buildexp += 25
+															M.character.UpdateRankExp(RANK_BUILDING, 25)
 															a = new/obj/Buildable/HouseWalls/sh8(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -2973,12 +2973,12 @@ mob/players
 														if(M.stamina >= 35)//content
 															M.stamina -= 35
 															M.updateST()
-															M.buildexp += 25
+															M.character.UpdateRankExp(RANK_BUILDING, 25)
 															a = new/obj/Buildable/HouseWalls/sh1(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3001,12 +3001,12 @@ mob/players
 														if(M.stamina >= 35)//content
 															M.stamina -= 35
 															M.updateST()
-															M.buildexp += 25
+															M.character.UpdateRankExp(RANK_BUILDING, 25)
 															a = new/obj/Buildable/HouseWalls/sh7(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3029,12 +3029,12 @@ mob/players
 														if(M.stamina >= 35)//content
 															M.stamina -= 35
 															M.updateST()
-															M.buildexp += 25
+															M.character.UpdateRankExp(RANK_BUILDING, 25)
 															a = new/obj/Buildable/HouseWalls/sh6(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3062,12 +3062,12 @@ mob/players
 														if(M.stamina >= 45)//content
 															M.stamina -= 45
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/HouseWalls/shwt(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3093,12 +3093,12 @@ mob/players
 														if(M.stamina >= 45)//content
 															M.stamina -= 45
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/HouseWalls/shwf(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3124,12 +3124,12 @@ mob/players
 														if(M.stamina >= 45)//content
 															M.stamina -= 45
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/HouseWalls/shwr(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3155,12 +3155,12 @@ mob/players
 														if(M.stamina >= 45)//content
 															M.stamina -= 45
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/HouseWalls/shwl(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3187,7 +3187,7 @@ mob/players
 														if(M.stamina >= 45)//content
 															M.stamina -= 45
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/Doors/SHTopDoor(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
@@ -3213,7 +3213,7 @@ mob/players
 																	M.UEB = 0
 																	M.UETW = 0
 																	return
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3238,7 +3238,7 @@ mob/players
 														if(M.stamina >= 45)//content
 															M.stamina -= 45
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/Doors/SHDoor(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
@@ -3264,7 +3264,7 @@ mob/players
 																	M.UEB = 0
 																	M.UETW = 0
 																	return
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3290,7 +3290,7 @@ mob/players
 														if(M.stamina >= 45)//content
 															M.stamina -= 45
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/Doors/SHRightDoor(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
@@ -3316,7 +3316,7 @@ mob/players
 																	M.UEB = 0
 																	M.UETW = 0
 																	return
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3341,7 +3341,7 @@ mob/players
 														if(M.stamina >= 45)//content
 															M.stamina -= 45
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/Doors/SHLeftDoor(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															M.UEB = 0
@@ -3367,7 +3367,7 @@ mob/players
 																	M.UEB = 0
 																	M.UETW = 0
 																	return
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3394,14 +3394,14 @@ mob/players
 														if(M.stamina >= 55)//content
 															M.stamina -= 55
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/Roofing/HINTRoof(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															a:dir = NORTH
 															//a:layer = MOB_LAYER+1
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3427,14 +3427,14 @@ mob/players
 														if(M.stamina >= 55)//content
 															M.stamina -= 55
 															M.updateST()
-															M.buildexp += 35
+															M.character.UpdateRankExp(RANK_BUILDING, 35)
 															a = new/obj/Buildable/Roofing/HINTRoof(usr.loc)
 															a:buildingowner = ckeyEx("[usr.key]")
 															a:dir = EAST
 															//a:layer = MOB_LAYER+1
 															M.UEB = 0
 															M.UETW = 0
-															return call(/proc/buildlevel)()
+															// REMOVED: buildlevel() proc call - building XP now handled automatically
 														else
 															M.UEB = 0
 															M.UETW = 0
@@ -3482,11 +3482,11 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 20
+																	M.character.UpdateRankExp(RANK_BUILDING, 20)
 																	a = new/obj/Buildable/Walls/MIDnswall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3503,11 +3503,11 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 20
+																	M.character.UpdateRankExp(RANK_BUILDING, 20)
 																	a = new/obj/Buildable/Walls/MIDwewall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3525,11 +3525,11 @@ mob/players
 																if(M.stamina >= 35)//content
 																	M.stamina -= 35
 																	M.updateST()
-																	M.buildexp += 30
+																	M.character.UpdateRankExp(RANK_BUILDING, 30)
 																	a = new/obj/Buildable/Walls/N3Wwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3546,11 +3546,11 @@ mob/players
 																if(M.stamina >= 35)//content
 																	M.stamina -= 35
 																	M.updateST()
-																	M.buildexp += 30
+																	M.character.UpdateRankExp(RANK_BUILDING, 30)
 																	a = new/obj/Buildable/Walls/S3Wwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3567,11 +3567,11 @@ mob/players
 															if(M.stamina >= 45)//content
 																M.stamina -= 45
 																M.updateST()
-																M.buildexp += 35
+																M.character.UpdateRankExp(RANK_BUILDING, 35)
 																a = new/obj/Buildable/Walls/C4Wwall(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3592,7 +3592,7 @@ mob/players
 															if(M.stamina >= 55)//content
 																M.stamina -= 55
 																M.updateST()
-																M.buildexp += 40
+																M.character.UpdateRankExp(RANK_BUILDING, 40)
 																a = new/obj/Buildable/Doors/TopDoor(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
@@ -3614,7 +3614,7 @@ mob/players
 																		a:unlocked = 1
 																		M.UEB = 0
 																		return
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3634,7 +3634,7 @@ mob/players
 															if(M.stamina >= 55)//content
 																M.stamina -= 55
 																M.updateST()
-																M.buildexp += 40
+																M.character.UpdateRankExp(RANK_BUILDING, 40)
 																a = new/obj/Buildable/Doors/Door(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
@@ -3656,7 +3656,7 @@ mob/players
 																		a:unlocked = 1
 																		M.UEB = 0
 																		return
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3676,7 +3676,7 @@ mob/players
 															if(M.stamina >= 55)//content
 																M.stamina -= 55
 																M.updateST()
-																M.buildexp += 40
+																M.character.UpdateRankExp(RANK_BUILDING, 40)
 																a = new/obj/Buildable/Doors/LeftDoor(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
@@ -3698,7 +3698,7 @@ mob/players
 																		a:unlocked = 1
 																		M.UEB = 0
 																		return
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3718,7 +3718,7 @@ mob/players
 															if(M.stamina >= 55)//content
 																M.stamina -= 55
 																M.updateST()
-																M.buildexp += 40
+																M.character.UpdateRankExp(RANK_BUILDING, 40)
 																a = new/obj/Buildable/Doors/RightDoor(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
@@ -3740,7 +3740,7 @@ mob/players
 																		a:unlocked = 1
 																		M.UEB = 0
 																		return
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3769,11 +3769,11 @@ mob/players
 																if(M.stamina >= 15)//content
 																	M.stamina -= 15
 																	M.updateST()
-																	M.buildexp += 5
+																	M.character.UpdateRankExp(RANK_BUILDING, 5)
 																	a = new/obj/Buildable/Walls/nwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3790,11 +3790,11 @@ mob/players
 																if(M.stamina >= 15)//content
 																	M.stamina -= 15
 																	M.updateST()
-																	M.buildexp += 5
+																	M.character.UpdateRankExp(RANK_BUILDING, 5)
 																	a = new/obj/Buildable/Walls/swall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3811,11 +3811,11 @@ mob/players
 																if(M.stamina >= 15)//content
 																	M.stamina -= 15
 																	M.updateST()
-																	M.buildexp += 5
+																	M.character.UpdateRankExp(RANK_BUILDING, 5)
 																	a = new/obj/Buildable/Walls/ewall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3832,11 +3832,11 @@ mob/players
 																if(M.stamina >= 15)//content
 																	M.stamina -= 15
 																	M.updateST()
-																	M.buildexp += 5
+																	M.character.UpdateRankExp(RANK_BUILDING, 5)
 																	a = new/obj/Buildable/Walls/wall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3854,11 +3854,11 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 20
+																	M.character.UpdateRankExp(RANK_BUILDING, 20)
 																	a = new/obj/Buildable/Walls/nwwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3875,11 +3875,11 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 20
+																	M.character.UpdateRankExp(RANK_BUILDING, 20)
 																	a = new/obj/Buildable/Walls/newall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3896,11 +3896,11 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 20
+																	M.character.UpdateRankExp(RANK_BUILDING, 20)
 																	a = new/obj/Buildable/Walls/swwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3917,11 +3917,11 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 20
+																	M.character.UpdateRankExp(RANK_BUILDING, 20)
 																	a = new/obj/Buildable/Walls/sewall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M << "You lack the effort, replenish your stamina by hydrating. (stamina: [M.stamina])"
@@ -3959,12 +3959,12 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 15
+																	M.character.UpdateRankExp(RANK_BUILDING, 15)
 																	a = new/obj/Buildable/Walls/Snwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -3984,12 +3984,12 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 15
+																	M.character.UpdateRankExp(RANK_BUILDING, 15)
 																	a = new/obj/Buildable/Walls/Sswall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4009,12 +4009,12 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 15
+																	M.character.UpdateRankExp(RANK_BUILDING, 15)
 																	a = new/obj/Buildable/Walls/Sewall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4034,12 +4034,12 @@ mob/players
 																if(M.stamina >= 25)//content
 																	M.stamina -= 25
 																	M.updateST()
-																	M.buildexp += 15
+																	M.character.UpdateRankExp(RANK_BUILDING, 15)
 																	a = new/obj/Buildable/Walls/Swall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4063,12 +4063,12 @@ mob/players
 																if(M.stamina >= 50)//content
 																	M.stamina -= 50
 																	M.updateST()
-																	M.buildexp += 50
+																	M.character.UpdateRankExp(RANK_BUILDING, 50)
 																	a = new/obj/Buildable/Walls/Snwwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4091,12 +4091,12 @@ mob/players
 																if(M.stamina >= 50)//content
 																	M.stamina -= 50
 																	M.updateST()
-																	M.buildexp += 50
+																	M.character.UpdateRankExp(RANK_BUILDING, 50)
 																	a = new/obj/Buildable/Walls/Snewall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4119,12 +4119,12 @@ mob/players
 																if(M.stamina >= 50)//content
 																	M.stamina -= 50
 																	M.updateST()
-																	M.buildexp += 50
+																	M.character.UpdateRankExp(RANK_BUILDING, 50)
 																	a = new/obj/Buildable/Walls/Sswwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4147,12 +4147,12 @@ mob/players
 																if(M.stamina >= 50)//content
 																	M.stamina -= 50
 																	M.updateST()
-																	M.buildexp += 50
+																	M.character.UpdateRankExp(RANK_BUILDING, 50)
 																	a = new/obj/Buildable/Walls/Ssewall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4185,12 +4185,12 @@ mob/players
 																if(M.stamina >= 50)//content
 																	M.stamina -= 50
 																	M.updateST()
-																	M.buildexp += 50
+																	M.character.UpdateRankExp(RANK_BUILDING, 50)
 																	a = new/obj/Buildable/Walls/SMIDnswall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4213,12 +4213,12 @@ mob/players
 																if(M.stamina >= 50)//content
 																	M.stamina -= 50
 																	M.updateST()
-																	M.buildexp += 50
+																	M.character.UpdateRankExp(RANK_BUILDING, 50)
 																	a = new/obj/Buildable/Walls/SMIDwewall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4242,12 +4242,12 @@ mob/players
 																if(M.stamina >= 35)//content
 																	M.stamina -= 35
 																	M.updateST()
-																	M.buildexp += 30
+																	M.character.UpdateRankExp(RANK_BUILDING, 30)
 																	a = new/obj/Buildable/Walls/SN3Wwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4270,12 +4270,12 @@ mob/players
 																if(M.stamina >= 35)//content
 																	M.stamina -= 35
 																	M.updateST()
-																	M.buildexp += 30
+																	M.character.UpdateRankExp(RANK_BUILDING, 30)
 																	a = new/obj/Buildable/Walls/SS3Wwall(usr.loc)
 																	a:buildingowner = ckeyEx("[usr.key]")
 																	M.UEB = 0
 																	M.UETW = 0
-																	return call(/proc/buildlevel)()
+																	// REMOVED: buildlevel() proc call - building XP now handled automatically
 																else
 																	M.UEB = 0
 																	M.UETW = 0
@@ -4298,12 +4298,12 @@ mob/players
 															if(M.stamina >= 65)//content
 																M.stamina -= 65
 																M.updateST()
-																M.buildexp += 50
+																M.character.UpdateRankExp(RANK_BUILDING, 50)
 																a = new/obj/Buildable/Walls/SC4Wwall(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
 																M.UETW = 0
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M.UETW = 0
@@ -4330,7 +4330,7 @@ mob/players
 															if(M.stamina >= 55)//content
 																M.stamina -= 55
 																M.updateST()
-																M.buildexp += 40
+																M.character.UpdateRankExp(RANK_BUILDING, 40)
 																a = new/obj/Buildable/Doors/STopDoor(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
@@ -4356,7 +4356,7 @@ mob/players
 																		M.UEB = 0
 																		M.UETW = 0
 																		return
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M.UETW = 0
@@ -4382,7 +4382,7 @@ mob/players
 															if(M.stamina >= 55)//content
 																M.stamina -= 55
 																M.updateST()
-																M.buildexp += 40
+																M.character.UpdateRankExp(RANK_BUILDING, 40)
 																a = new/obj/Buildable/Doors/SDoor(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
@@ -4408,7 +4408,7 @@ mob/players
 																		M.UEB = 0
 																		M.UETW = 0
 																		return
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M.UETW = 0
@@ -4434,7 +4434,7 @@ mob/players
 															if(M.stamina >= 55)//content
 																M.stamina -= 55
 																M.updateST()
-																M.buildexp += 40
+																M.character.UpdateRankExp(RANK_BUILDING, 40)
 																a = new/obj/Buildable/Doors/SRightDoor(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
@@ -4460,7 +4460,7 @@ mob/players
 																		M.UEB = 0
 																		M.UETW = 0
 																		return
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M.UETW = 0
@@ -4486,7 +4486,7 @@ mob/players
 															if(M.stamina >= 55)//content
 																M.stamina -= 55
 																M.updateST()
-																M.buildexp += 40
+																M.character.UpdateRankExp(RANK_BUILDING, 40)
 																a = new/obj/Buildable/Doors/SLeftDoor(usr.loc)
 																a:buildingowner = ckeyEx("[usr.key]")
 																M.UEB = 0
@@ -4512,7 +4512,7 @@ mob/players
 																		M.UEB = 0
 																		M.UETW = 0
 																		return
-																return call(/proc/buildlevel)()
+																// REMOVED: buildlevel() proc call - building XP now handled automatically
 															else
 																M.UEB = 0
 																M.UETW = 0
@@ -4939,237 +4939,8 @@ proc
 
 		//..()
 
-
-	buildlevel() //This gets called infrequently as the user levels up and to check their level during usage. It may have some announcements to let the user know they are making progress.
-		set background = 1
-		var/mob/players/M
-		M = usr
-		//
-
-	// Leveling
-
-//lvl2
-		if((M.brank == 1)&&(M.buildexp >= 100))
-			M.brank += 1
-			M.mbuildexp = 150
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv1 to 2."
-			/*build = list("Miscellaneous","Fire")
-			L0 = list("Wood")
-			L1 = list("Exterior","Door")
-			L2 = list("Exterior","Door")
-			L3 = list("Wood")
-			M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			L4 = list("Barricade")
-			L5 = list("")
-			L6 = list("")
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")
-			L8 = list("")	//wood fort interior L8
-			L9 = list("")	//stone fort interior L9
-			L10 = list("Wood")	*/ //lampost type L10
-			//L11 = list("")	//stone fort door L11
-			//return
-//lvl3
-
-		if((M.brank == 2)&&(M.buildexp >= 150))
-			M.brank += 1
-			M.mbuildexp = 250
-			/*build = list("House","Miscellaneous","Fire")
-			L0 = list("Wood")
-			L1 = list("Exterior","Door")
-			L2 = list("Exterior","Door")
-			L3 = list("Wood")
-			L4 = list("Barricade")
-			L5 = list("Anvil")
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")
-			M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			L8 = list("")	//wood fort interior L8
-			L9 = list("")	//stone fort interior L9
-			L10 = list("Wood")	*///lampost type L10
-			//L11 = list("")	//stone fort door L11
-			//return
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv2 to 3"
-//lvl4
-
-		if((M.brank == 3)&&(M.buildexp >= 250))
-			M.brank += 1
-			M.mbuildexp = 550
-			/*build = list("House","Furnishings","Miscellaneous","Fire")
-			L0 = list("Wood")
-			L1 = list("Exterior","Door")
-			L2 = list("Exterior","Door")
-			L3 = list("Wood")
-			L4 = list("Barricade")
-			L5 = list("Forge","Anvil")
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")
-			L8 = list("")	//wood fort interior L8
-			L9 = list("")	//stone fort interior L9
-			L10 = list("Wood")	*///lampost type L10
-			//L11 = list("")	//stone fort door L11
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv3 to 4"
-			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			//return
-		if((M.brank == 4)&&(M.buildexp >= 550))
-			M.brank += 1
-			M.mbuildexp = 1150
-			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
-			L0 = list("Wood","Stone")	//fort material type selection  L0
-			L1 = list("Exterior","Door","Interior")	//wood fort section type selection  L1
-			L2 = list("Exterior","Door")	//stone fort section type selection  L2
-			L3 = list("Wood","Stone")	//house material type  L3
-			L4 = list("Barricade")	//miscellaneous  L4
-			L5 = list("Forge","Anvil")	//furnishings  L5
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")	//woodhouse  L6
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")	//stonehouse  L7
-			L8 = list("Wood Fort Mid-Section Wall")	//wood fort interior L8
-			L9 = list("")	//stone fort interior L9
-			L10 = list("Wood","Iron")*/	//lampost type L10
-			//L11 = list("Stone Fort Mid-Section Wall")	//stone fort door L11
-			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv4 to 5"
-			//return
-		if((M.brank == 5)&&(M.buildexp >= 1150))
-			M.brank += 1
-			M.mbuildexp = 1950
-			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
-			L0 = list("Wood","Stone")	//fort material type selection  L0
-			L1 = list("Exterior","Door","Interior")	//wood fort section type selection  L1
-			L2 = list("Exterior","Door")	//stone fort section type selection  L2
-			L3 = list("Wood","Stone")	//house material type  L3
-			L4 = list("Barricade")	//miscellaneous  L4
-			L5 = list("Forge","Anvil","Lampost")	//furnishings  L5
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")	//woodhouse  L6
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")	//stonehouse  L7
-			L8 = list("Wood Fort 3-Way Wall","Wood Fort Mid-Section Wall")	//wood fort interior L8
-			L9 = list("")	//stone fort interior L9
-			L10 = list("Wood","Iron","Bronze")*/	//lampost type L10
-			//L11 = list("Stone Fort 3-Way Wall","Stone Fort Mid-Section Wall")	//stone fort door L11
-			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv6 to 7"
-			//return
-		if((M.brank == 6)&&(M.buildexp >= 1950))
-			M.brank += 1
-			M.mbuildexp = 3350
-			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
-			L0 = list("Wood","Stone")	//fort material type selection  L0
-			L1 = list("Exterior","Door","Interior")	//wood fort section type selection  L1
-			L2 = list("Exterior","Door","Interior")	//stone fort section type selection  L2
-			L3 = list("Wood","Stone")	//house material type  L3
-			L4 = list("Barricade")	//miscellaneous  L4
-			L5 = list("Forge","Anvil","Lampost")	//furnishings  L5
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")	//woodhouse  L6
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")	//stonehouse  L7
-			L8 = list("Wood Fort 3-Way Wall","Wood Fort Mid-Section Wall")	//wood fort interior L8
-			L9 = list("Stone Fort Mid-Section Wall")	//stone fort interior L9
-			L10 = list("Wood","Iron","Bronze")*/	//lampost type L10
-			//L11 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort door L11
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv7 to 8"
-			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			//return
-		if((M.brank == 7)&&(M.buildexp >= 3350))
-			M.brank += 1
-			M.mbuildexp = 6150
-			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
-			L0 = list("Wood","Stone")	//fort material type selection  L0
-			L1 = list("Exterior","Door","Interior")	//wood fort section type selection  L1
-			L2 = list("Exterior","Door","Interior")	//stone fort section type selection  L2
-			L3 = list("Wood","Stone")	//house material type  L3
-			L4 = list("Barricade")	//miscellaneous  L4
-			L5 = list("Forge","Anvil","Lampost")	//furnishings  L5
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")	//woodhouse  L6
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")	//stonehouse  L7
-			L8 = list("Wood Fort 3-Way Wall","Wood Fort Central 4-Way Wall","Wood Fort Mid-Section Wall")	//wood fort interior L8
-			L9 = list("Stone Fort 3-Way Wall","Stone Fort Mid-Section Wall")	//stone fort interior L9
-			L10 = list("Wood","Iron","Bronze")*/	//lampost type L10
-			//L11 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort door L11
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv8 to 9"
-			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			//return
-		if((M.brank == 8)&&(M.buildexp >= 6150))
-			M.brank += 1
-			M.mbuildexp = 10750
-			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
-			L0 = list("Wood","Stone")	//fort material type selection  L0
-			L1 = list("Exterior","Door","Interior")	//wood fort section type selection  L1
-			L2 = list("Exterior","Door","Interior")	//stone fort section type selection  L2
-			L3 = list("Wood","Stone")	//house material type  L3
-			L4 = list("Barricade")	//miscellaneous  L4
-			L5 = list("Forge","Anvil","Lampost")	//furnishings  L5
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")	//woodhouse  L6
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")	//stonehouse  L7
-			L8 = list("Wood Fort 3-Way Wall","Wood Fort Central 4-Way Wall","Wood Fort Mid-Section Wall")	//wood fort interior L8
-			L9 = list("Stone Fort 3-Way Wall","Stone Fort Mid-Section Wall")	//stone fort interior L9
-			L10 = list("Wood","Iron","Bronze","Copper")*/	//lampost type L10
-			//L11 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort door L11
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv9 to 10"
-			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			//return
-		if((M.brank == 9)&&(M.buildexp >= 10750))
-			M.brank += 1
-			M.mbuildexp = 17550
-			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
-			L0 = list("Wood","Stone")	//fort material type selection  L0
-			L1 = list("Exterior","Door","Interior")	//wood fort section type selection  L1
-			L2 = list("Exterior","Door","Interior")	//stone fort section type selection  L2
-			L3 = list("Wood","Stone")	//house material type  L3
-			L4 = list("Barricade")	//miscellaneous  L4
-			L5 = list("Forge","Anvil","Lampost")	//furnishings  L5
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")	//woodhouse  L6
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")	//stonehouse  L7
-			L8 = list("Wood Fort 3-Way Wall","Wood Fort Central 4-Way Wall","Wood Fort Mid-Section Wall")	//wood fort interior L8
-			L9 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort interior L9
-			L10 = list("Wood","Iron","Bronze","Copper")*/	//lampost type L10
-			//L11 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort door L11
-			M << "<b><font color=yellow>You've grown to understand more (Building Acuity: Plus+[M.brank]) Lv10 Max"
-			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"  //need to fill these out
-			//return
-		if((M.brank == 10)&&(M.buildexp >= 17550))
-			//M.brank += 1
-			M.mbuildexp = M.buildexp
-			//M.mbuildexp = 265500
-			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
-			L0 = list("Wood","Stone")	//fort material type selection  L0
-			L1 = list("Exterior","Door","Interior")	//wood fort section type selection  L1
-			L2 = list("Exterior","Door","Interior")	//stone fort section type selection  L2
-			L3 = list("Wood","Stone")	//house material type  L3
-			L4 = list("Barricade")	//miscellaneous  L4
-			L5 = list("Forge","Anvil","Lampost")	//furnishings  L5
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")	//woodhouse  L6
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")	//stonehouse  L7
-			L8 = list("Wood Fort 3-Way Wall","Wood Fort Central 4-Way Wall","Wood Fort Mid-Section Wall")	//wood fort interior L8
-			L9 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort interior L9
-			L10 = list("Wood","Iron","Bronze","Copper","Brass")*///lampost type L10
-			//L11 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort door L11
-			//M << "Lv11 to 11"
-			//M << "<b><font color=silver>You've grown to understand more (Building Acuity: [M.brank]+)...!"
-			//return
-		//if((M.brank == 11)&&(M.buildexp >= 26550))
-			//M << "<b><font color=silver>You've reached Max Build Rank!"
-			/*build = list("House","Fort","Furnishings","Miscellaneous","Fire")	//build menu selection  build
-			L0 = list("Wood","Stone")	//fort material type selection  L0
-			L1 = list("Exterior","Door","Interior")	//wood fort section type selection  L1
-			L2 = list("Exterior","Door","Interior")	//stone fort section type selection  L2
-			L3 = list("Wood","Stone")	//house material type  L3
-			L4 = list("Barricade")	//miscellaneous  L4
-			L5 = list("Forge","Anvil","Lampost")	//furnishings  L5
-			L6 = list("Foundation","Floor","Wall","Window","Door","Roof")	//woodhouse  L6
-			L7 = list("Foundation","Floor","Wall","Window","Door","Roof")	//stonehouse  L7
-			L8 = list("Wood Fort 3-Way Wall","Wood Fort Central 4-Way Wall","Wood Fort Mid-Section Wall")	//wood fort interior L8
-			L9 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort interior L9
-			L10 = list("Wood","Iron","Bronze","Copper","Brass")*///lampost type L10
-			//L11 = list("Stone Fort 3-Way Wall","Stone Fort Central 4-Way Wall","Stone Fort Mid-Section Wall")	//stone fort door L11
-		else
-			if(M.brank >= 10)
-				//M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
-				M.brank = 10
-
-			//M << "<b><font color=silver>You've reached Max Build Rank!"
-			//return
-		//..()
-			//else
-		//	return
-//endleveling
+	// buildlevel() - REMOVED: Function was only used for old building XP level-up checks
+	// Building levels are now handled automatically by character.UpdateRankExp(RANK_BUILDING, amount)
 
 mob/players/Special1/verb
 	Delete_Turf(turf/T)

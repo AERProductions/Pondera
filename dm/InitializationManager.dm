@@ -203,8 +203,11 @@ proc
 		spawn(381)  InitializeEnhancedMarketPricingSystem() // Phase 12a: History & elasticity
 		spawn(382)  SetupEnhancedPricingTuning()         // Tune elasticity curves
 		spawn(383)  InitializeTreasuryUISystem()         // Treasury display
+		spawn(383)  InitializeEquipmentVisualization()   // Equipment overlays (workaround)
 		spawn(384)  InitializeMarketBoardUI()            // Trading interface
+		spawn(384)  InitializeMarketBoardPersistence()   // Load saved listings/stalls
 		spawn(385)  MarketBoardUpdateLoop()              // Market maintenance
+		spawn(385)  StartMarketBoardMaintenanceLoop()    // Periodic saves & cleanup
 		spawn(386)  InitializeInventoryManagementExtensions() // Bag system
 		spawn(387)  InitializeDeedEconomySystem()        // Deed transfers & rentals
 		spawn(389)  InitializeTerritoryResourceSystem()  // Phase 12c: Territory resource impact

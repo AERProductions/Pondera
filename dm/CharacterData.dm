@@ -15,9 +15,6 @@
 		smerank = 0         // Smelting rank
 		brank = 0           // Building rank
 		drank = 0           // Digging rank
-		Crank = 0           // Carving rank
-		CSRank = 0          // Sprout Cutting rank
-		PLRank = 0          // Pole rank
 		botany_rank = 0     // Botany rank (harvesting plants/botanicals)
 		whittling_rank = 0  // Whittling rank (specialized wooden items)
 		archery_rank = 0    // Archery rank (bows)
@@ -38,9 +35,6 @@
 		smerankEXP = 0
 		brankEXP = 0
 		drankEXP = 0
-		CrankEXP = 0
-		CSRankEXP = 0
-		PLRankEXP = 0
 		botany_xp = 0       // Botany experience
 		whittling_xp = 0    // Whittling experience
 		archery_xp = 0      // Archery experience
@@ -58,14 +52,12 @@
 		smerankMAXEXP = 100
 		brankMAXEXP = 100
 		drankMAXEXP = 100
-		CrankMAXEXP = 10
-		CSRankMAXEXP = 10
-		PLRankMAXEXP = 100
 		botany_maxexp = 100     // Botany max experience per level
 		whittling_maxexp = 100  // Whittling max experience per level
 		archery_maxexp = 100
 		crossbow_maxexp = 100
 		throwing_maxexp = 100
+		combat_maxexp = 100     // Combat max experience per level
 
 		// === NPC SYSTEM ===
 		is_npc = FALSE                       // TRUE if this is NPC character data
@@ -115,6 +107,7 @@
 		current_appearance = "blank_base"    // Current appearance preset name
 		current_appearance_config = null     // Full appearance config dict
 		is_customized = 0                    // 1 = has been customized beyond defaults
+		datum/appearance_data/appearance_data = null  // Persistent appearance customization (hair, skin, eyes, marks)
 		
 		// === SKILL & RECIPE STATE (SIMPLIFIED) ===
 		// Note: Detailed ranks stored in frank, crank, etc. above
@@ -188,18 +181,6 @@
 	drank = 0
 	drankEXP = 0
 	drankMAXEXP = 100
-
-	Crank = 0
-	CrankEXP = 0
-	CrankMAXEXP = 10
-
-	CSRank = 0
-	CSRankEXP = 0
-	CSRankMAXEXP = 10
-
-	PLRank = 0
-	PLRankEXP = 0
-	PLRankMAXEXP = 100
 
 	botany_rank = 0
 	botany_xp = 0
@@ -333,12 +314,6 @@
 			return brank
 		if("drank")
 			return drank
-		if("Crank")
-			return Crank
-		if("CSRank")
-			return CSRank
-		if("PLRank")
-			return PLRank
 	return 0
 
 /datum/character_data/proc/SetRankLevel(rank_type, level)
@@ -362,12 +337,6 @@
 			brank = level
 		if("drank")
 			drank = level
-		if("Crank")
-			Crank = level
-		if("CSRank")
-			CSRank = level
-		if("PLRank")
-			PLRank = level
 
 /datum/character_data/proc/UpdateRankExp(rank_type, exp_gain)
 	// Add experience to a skill and check for level-up
@@ -423,21 +392,6 @@
 			current_exp = drankEXP
 			max_exp = drankMAXEXP
 			current_level = drank
-		if("Crank")
-			CrankEXP += exp_gain
-			current_exp = CrankEXP
-			max_exp = CrankMAXEXP
-			current_level = Crank
-		if("CSRank")
-			CSRankEXP += exp_gain
-			current_exp = CSRankEXP
-			max_exp = CSRankMAXEXP
-			current_level = CSRank
-		if("PLRank")
-			PLRankEXP += exp_gain
-			current_exp = PLRankEXP
-			max_exp = PLRankMAXEXP
-			current_level = PLRank
 	
 	// Check for level-up
 	while(current_exp >= max_exp && current_level < 5)

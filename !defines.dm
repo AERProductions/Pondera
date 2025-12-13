@@ -52,13 +52,14 @@
 #define RANK_FARMING "farming_rank"
 #define RANK_WOODWORKING "woodworking_rank"
 #define RANK_WOODCUTTING "woodworking_rank"  // Legacy alias for RANK_WOODWORKING
+#define RANK_CARVING "whittling_rank"        // Carving renamed to Whittling
 #define RANK_DIGGING "drank"
-#define RANK_CARVING "carank"
 #define RANK_BOTANY "botany_rank"
 #define RANK_SPROUTING "botany_rank"        // Legacy alias for RANK_BOTANY (sprout harvesting)
-#define RANK_SPROUT_CUTTING "botany_rank"   // Legacy alias for RANK_BOTANY
+#define RANK_SPROUT_CUTTING "botany_rank"   // Sprout Cutting renamed to Botany
 #define RANK_WHITTLING "whittling_rank"
 #define RANK_POLE "whittling_rank"           // Legacy alias for RANK_WHITTLING (pole carving)
+#define RANK_COMBAT "combat_rank"            // Combat/Melee combat rank
 #define MAX_RANK_LEVEL 5
 
 // Temperature Constants

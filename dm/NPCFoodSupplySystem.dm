@@ -154,18 +154,98 @@ var/datum/town_food_supply/global_town_food_supply = null
 	LogSystemEvent(null, "system", "Food Supply System initialized (Phase 38B)")
 
 /proc/IsNPCShopOpen(npc_name)
-	// Check if NPC's shop is currently open
+	// Check if NPC's shop is currently open based on game time
 	// Returns: 1 if open, 0 if closed
-	// TODO: Integrate with global_time_system.hour when available
+	// Integrates with global hour/minute variables from time.dm
 	
-	// For now, all shops are open (integration with time system in Phase 38C)
-	return 1
+	// Define shop hours per NPC type (24-hour format)
+	// Most shops: 9am-6pm (9-18)
+	// Tavern/Inn: 6am-10pm (6-22)
+	// Baker: 5am-8pm (5-20)
+	// Merchant: 8am-7pm (8-19)
+	// Smith: 8am-6pm (8-18)
+	
+	var/open_hour = 9
+	var/close_hour = 18
+	
+	switch(npc_name)
+		if("Baker")
+			open_hour = 5
+			close_hour = 20
+		if("Innkeeper", "Bartender")
+			open_hour = 6
+			close_hour = 22
+		if("Merchant")
+			open_hour = 8
+			close_hour = 19
+		if("Smith", "Blacksmith")
+			open_hour = 8
+			close_hour = 18
+		if("Fisher")
+			// Open during morning/evening (dawn/dusk + afternoon)
+			// Available: 5am-9am and 3pm-8pm
+			if((hour >= 5 && hour < 9) || (hour >= 15 && hour < 20))
+				return 1
+			return 0
+		if("Herbalist")
+			open_hour = 9
+			close_hour = 17
+		else
+			// Default shop hours: 9am-6pm
+			open_hour = 9
+			close_hour = 18
+	
+	// Check if current hour is within shop hours
+	if(hour >= open_hour && hour < close_hour)
+		return 1
+	
+	return 0
 
 /proc/GetNPCShopStatus(npc_name)
 	// Return string description of NPC shop status
-	// TODO: Integrate with time system for actual shop hours
+	// Integrates with global hour/minute variables
 	
-	return "[npc_name]'s shop is open. (Shop hours integration in Phase 38C)"
+	// Calculate shop hours for this NPC
+	var/open_hour = 9
+	var/close_hour = 18
+	var/shop_name = npc_name
+	
+	switch(npc_name)
+		if("Baker")
+			open_hour = 5
+			close_hour = 20
+			shop_name = "Bakery"
+		if("Innkeeper", "Bartender")
+			open_hour = 6
+			close_hour = 22
+			shop_name = "Inn/Tavern"
+		if("Merchant")
+			open_hour = 8
+			close_hour = 19
+			shop_name = "Trading Post"
+		if("Smith", "Blacksmith")
+			open_hour = 8
+			close_hour = 18
+			shop_name = "Smithy"
+		if("Fisher")
+			shop_name = "Fishing Spot"
+		if("Herbalist")
+			open_hour = 9
+			close_hour = 17
+			shop_name = "Herbalist's Shop"
+		else
+			shop_name = "[npc_name]'s Shop"
+	
+	var/is_open = IsNPCShopOpen(npc_name)
+	var/status_text = is_open ? "OPEN" : "CLOSED"
+	var/status_color = is_open ? "#00ff00" : "#ff6666"
+	
+	var/time_str = "[hour]:[minute1][minute2]"
+	
+	if(npc_name == "Fisher")
+		return "<font color='[status_color]'>[shop_name] - [status_text]</font> (Available: 5am-9am, 3pm-8pm) Current time: [time_str]"
+	else
+		return "<font color='[status_color]'>[shop_name] - [status_text]</font> (Hours: [open_hour]:00 - [close_hour]:00) Current time: [time_str]"
 
 /proc/CanPlayerBuyFromNPC(mob/player, npc_name)
 	// Check if player can buy from this NPC

@@ -44,12 +44,12 @@ proc/InitializeRankDefinitions()
 	RANK_DEFINITIONS[RANK_SMELTING] = list("smerank", "smerankEXP", "smerankMAXEXP", "bar_smelting", "Smelting")
 	RANK_DEFINITIONS[RANK_BUILDING] = list("brank", "brankEXP", "brankMAXEXP", "bar_building", "Building")
 	RANK_DEFINITIONS[RANK_DIGGING] = list("drank", "drankEXP", "drankMAXEXP", "bar_digging", "Digging")
-	RANK_DEFINITIONS[RANK_CARVING] = list("Crank", "CrankEXP", "CrankMAXEXP", "bar_carving", "Carving")
 	RANK_DEFINITIONS[RANK_BOTANY] = list("botany_rank", "botany_xp", "botany_maxexp", "bar_botany", "Botany")
 	RANK_DEFINITIONS[RANK_WHITTLING] = list("whittling_rank", "whittling_xp", "whittling_maxexp", "bar_whittling", "Whittling")
 	RANK_DEFINITIONS[RANK_ARCHERY] = list("archery_rank", "archery_xp", "archery_maxexp", "bar_archery", "Archery")
 	RANK_DEFINITIONS[RANK_CROSSBOW] = list("crossbow_rank", "crossbow_xp", "crossbow_maxexp", "bar_crossbow", "Crossbow")
 	RANK_DEFINITIONS[RANK_THROWING] = list("throwing_rank", "throwing_xp", "throwing_maxexp", "bar_throwing", "Throwing")
+	RANK_DEFINITIONS[RANK_COMBAT] = list("combat_rank", "combat_xp", "combat_maxexp", "bar_combat", "Combat")
 
 // ==================== INTERNAL HELPER - SAFE VARIABLE ACCESS ====================
 

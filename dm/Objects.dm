@@ -5016,12 +5016,8 @@ obj
 				usr << "You can't sell that."
 	//proc //.....
 		FishingCheck() //name of proc dexp (destroy fexp (fishing seexp (Searching
-			var/mob/players/M = usr
-			if(M.fexp >= M.fexpneeded) //if users mining experience is or gos past users max ming experience
-				M.fishinglevel+=1 //users mining gos up by 1
-				M.fexp=0 //resets user mining experience to 0
-				M.fexpneeded+=30 //add 30 to users max mining experience
-				M << "\green<b> You gain Fishing Acuity..."
+			// REMOVED: Old fishing XP level-up check - now handled automatically by character.UpdateRankExp(RANK_FISHING, amount)
+			// Fishing level-ups are managed by the unified rank system
 		SearchingCheck() //name of proc
 			var/mob/players/M = usr
 			if(M.seexp >= M.seexpneeded) //if users mining experience is or gos past users max ming experience
@@ -11646,7 +11642,7 @@ turf
 				if(M.FPequipped==1&&get_dist(src,M)<2&&get_dir(M,src)==M.dir) //If user PickAxe is more that or equal to 1
 					//M << "You begin to fish."
 					M << "You cast your line..."
-					if(M.fishinglevel <= 5) //If user mining skill is less than or equal to 19
+					if(M.character.frank <= 5) //If user mining skill is less than or equal to 19
 						//M << "You begin to fish."
 						if((prob(25)&&pick(1)))//if(R<=5)
 							M << "You begin to fish."
@@ -11656,7 +11652,7 @@ turf
 								//	M.overlays += /obj/overlay/FPN
 								M.Doing = 1
 								sleep(40) //Delay 3 seconds
-								M.fexp += 25 //user gets 25 mining experience
+								M.character.UpdateRankExp(RANK_FISHING, 25) //user gets 25 mining experience
 								Fishing() //go to proc miningcheck
 								new/obj/items/Food/sunfish(M)
 								usr << "You caught a Sunfish!" //message to user saying he/she mined something
@@ -11668,7 +11664,7 @@ turf
 								M.overlays += image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
 								M.Doing = 1
 								sleep(30) //Delay 3 seconds
-								M.fexp += 15 //user mining skill gos up by 15
+								M.character.UpdateRankExp(RANK_FISHING, 15) //user mining skill gos up by 15
 								Fishing() //....
 								usr << "You didn't catch anything!" //message to user saying he/she didn't mine anything
 								M.overlays -= image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
@@ -11682,7 +11678,7 @@ turf
 								//	M.overlays += /obj/overlay/FPN
 								M.Doing = 1
 								sleep(30) //Delay 3 seconds
-								M.fexp += 25 //user gets 25 mining experience
+								M.character.UpdateRankExp(RANK_FISHING, 25) //user gets 25 mining experience
 								Fishing() //go to proc miningcheck
 								new/obj/items/Food/perch(M)
 								usr << "You caught a Perch!" //message to user saying he/she mined something
@@ -11696,7 +11692,7 @@ turf
 								sleep(30) //Delay 3 seconds
 								usr << "You didn't catch anything!" //same as before
 								M.overlays -= image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
-								M.fexp += 15 //user mining experiance increases by 15
+								M.character.UpdateRankExp(RANK_FISHING, 15) //user mining experiance increases by 15
 								Fishing() //same as before....
 								M.Doing = 0
 								return
@@ -11708,7 +11704,7 @@ turf
 								//	M.overlays += /obj/overlay/FPN
 								M.Doing = 1
 								sleep(30) //Delay 3 seconds
-								M.fexp += 25 //user gets 25 mining experience
+								M.character.UpdateRankExp(RANK_FISHING, 25) //user gets 25 mining experience
 								Fishing() //go to proc miningcheck
 								new/obj/items/Food/carp(M)
 								usr << "You caught a Carp!" //message to user saying he/she mined something
@@ -11722,18 +11718,18 @@ turf
 								sleep(30) //Delay 3 seconds
 								usr << "You didn't catch anything!" //same as before
 								M.overlays -= image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
-								M.fexp += 15 //user mining experiance increases by 15
+								M.character.UpdateRankExp(RANK_FISHING, 15) //user mining experiance increases by 15
 								Fishing() //same as before....
 								M.Doing = 0
 								return
 
-					/*if(M.fishinglevel >= 6) //if user mining is greater than or equal to 20
+					/*if(M.character.frank >= 6) //if user mining is greater than or equal to 20
 						if(prob(20)) //30% probabilty
 							usr << "You begin to fish."
 							M.overlays += image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
 							M.Doing = 1
 							sleep(30) //Delay 3 seconds
-							M.fexp += 25 //same as before
+							M.character.UpdateRankExp(RANK_FISHING, 25) //same as before
 							new/obj/items/Food/catfish(M)
 							usr << "You caught a Catfish!" //same as before
 							M.overlays -= image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
@@ -11747,7 +11743,7 @@ turf
 							sleep(30) //Delay 3 seconds
 							usr << "You didn't catch anything!" //same as before
 							M.overlays -= image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
-							M.fexp += 15 //user mining experiance increases by 15
+							M.character.UpdateRankExp(RANK_FISHING, 15) //user mining experiance increases by 15
 							Fishing() //same as before....
 							M.Doing = 0
 							return
@@ -11756,7 +11752,7 @@ turf
 							M.overlays += image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
 							M.Doing = 1
 							sleep(30) //Delay 3 seconds
-							M.fexp += 40 //user mining experiance increases by 30
+							M.character.UpdateRankExp(RANK_FISHING, 40) //user mining experiance increases by 30
 							Fishing() //same as before
 							new/obj/items/Food/bass(M)
 							usr << "You caught a Bass!" //message to user saying he/she mined steel ore
@@ -11770,7 +11766,7 @@ turf
 							sleep(30) //Delay 3 seconds
 							usr << "You didn't catch anything!" //same as before
 							M.overlays -= image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
-							M.fexp += 15 //user mining experiance increases by 15
+							M.character.UpdateRankExp(RANK_FISHING, 15) //user mining experiance increases by 15
 							Fishing() //same as before....
 							M.Doing = 0
 							return
@@ -11779,7 +11775,7 @@ turf
 							M.overlays += image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
 							M.Doing = 1
 							sleep(30) //Delay 3 seconds
-							M.fexp += 40 //user mining experiance increases by 30
+							M.character.UpdateRankExp(RANK_FISHING, 40) //user mining experiance increases by 30
 							Fishing() //same as before
 							new/obj/items/Food/trout(M)
 							usr << "You caught a Trout!" //message to user saying he/she mined steel ore
@@ -11793,7 +11789,7 @@ turf
 							sleep(30) //Delay 3 seconds
 							usr << "You didn't catch anything!" //same as before
 							M.overlays -= image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
-							M.fexp += 15 //user mining experiance increases by 15
+							M.character.UpdateRankExp(RANK_FISHING, 15) //user mining experiance increases by 15
 							Fishing() //same as before....
 							M.Doing = 0
 							return
@@ -11802,7 +11798,7 @@ turf
 							M.overlays += image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
 							M.Doing = 1
 							sleep(30) //Delay 3 seconds
-							M.fexp += 40 //user mining experiance increases by 30
+							M.character.UpdateRankExp(RANK_FISHING, 40) //user mining experiance increases by 30
 							Fishing() //same as before
 							new/obj/items/Food/salmon(M)
 							usr << "You caught a Salmon!" //message to user saying he/she mined steel ore
@@ -11816,7 +11812,7 @@ turf
 							sleep(30) //Delay 3 seconds
 							usr << "You didn't catch anything!" //same as before
 							M.overlays -= image('dmi/64/creation.dmi',icon_state="[get_dir(M,src)]")
-							M.fexp += 15 //user mining experiance increases by 15
+							M.character.UpdateRankExp(RANK_FISHING, 15) //user mining experiance increases by 15
 							Fishing() //same as before....
 							M.Doing = 0
 							return*/

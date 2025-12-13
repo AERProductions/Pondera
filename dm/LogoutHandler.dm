@@ -43,7 +43,10 @@ proc/CleanupPlayerSession(mob/players/M)
 	if(!CleanupSoundSystems(M))
 		cleanup_status = FALSE
 	
-	// PHASE 5: Crash recovery marking
+	// PHASE 5: Market board persistence
+	IntegrateMarketBoardOnLogout(M.ckey)
+	
+	// PHASE 6: Crash recovery marking
 	if(!MarkPlayerOffline(M))
 		cleanup_status = FALSE
 	

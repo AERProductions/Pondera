@@ -838,7 +838,7 @@ obj
 									//fish
 									if("Salmon")
 										var/R = rand(1,9)
-										if(M.fishinglevel >= 5)
+										if(M.character.frank >= 5)
 											if(R!=5)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="salmon")
@@ -880,7 +880,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 									if("Trout")
-										if(M.fishinglevel >= 5)
+										if(M.character.frank >= 5)
 											var/R = rand(1,11)
 											if(R!=6)
 												J.RemoveFromStack(1)
@@ -923,7 +923,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 									if("Bass")
-										if(M.fishinglevel >= 5)
+										if(M.character.frank >= 5)
 											var/R = rand(1,12)
 											if(R!=6)
 												J.RemoveFromStack(1)
@@ -966,7 +966,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 									if("Catfish")
-										if(M.fishinglevel >= 5)
+										if(M.character.frank >= 5)
 											var/R = rand(1,13)
 											if(R!=7)
 												J.RemoveFromStack(1)
@@ -1009,7 +1009,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 									if("Carp")
-										if(M.fishinglevel >= 5)
+										if(M.character.frank >= 5)
 											var/R = rand(1,14)
 											M << "You start to cook the Carp on the fire..."
 											if(R!=4)
@@ -1055,7 +1055,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'> Meat..."
 												return
 									if("Perch")
-										if(M.fishinglevel >= 5)
+										if(M.character.frank >= 5)
 											var/R = rand(1,15)
 											M << "You start to cook the Perch on the fire..."
 											if(R!=8)
@@ -1100,7 +1100,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 									if("Sunfish")
-										if(M.fishinglevel >= 5)
+										if(M.character.frank >= 5)
 											var/R = rand(1,16)
 											M << "You start to cook the Sunfish on the fire..."
 											if(R!=9)

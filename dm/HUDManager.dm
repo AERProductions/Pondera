@@ -38,6 +38,7 @@ mob/players/Login()
 	..()
 	init_hud()
 	InitializeHungerThirstSystem()  // Initialize metabolic simulation
+	IntegrateMarketBoardOnLogin(src)  // Process offline payments and load market history
 	
 	// MODERN LOGIN: Show class selection for new characters (if not already selected)
 	spawn(10)  // Wait for client to fully render HUD (50ms)

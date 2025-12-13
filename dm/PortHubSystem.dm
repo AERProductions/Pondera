@@ -209,31 +209,28 @@ proc/LoadInventoryFromPortLocker(mob/players/P, continent)
 /**
  * GetPortLocker(ckey, continent)
  * Retrieve player's port locker for a specific continent
+ * Loads from persistent storage if not in memory
  * 
  * @param ckey: Player's ckey
  * @param continent: Continent name
  * @return: port_locker datum or null
  */
 proc/GetPortLocker(ckey, continent)
-	// This would be stored in a global or database
-	// For now, simplified implementation
-	// var/locker_key = "[ckey]_[continent]"
-	// return global_port_lockers[locker_key]
-	return null  // TODO: Implement persistent storage
+	// Implemented in PortHubPersistenceSystem.dm
+	return getPortLocker(ckey, continent)
 
 /**
  * SetPortLocker(ckey, continent, datum/port_locker/locker)
  * Save player's port locker for a specific continent
+ * Saves to both memory and persistent storage
  * 
  * @param ckey: Player's ckey
  * @param continent: Continent name
  * @param locker: port_locker datum
  */
 proc/SetPortLocker(ckey, continent, datum/port_locker/locker)
-	// Store in global or database
-	// var/locker_key = "[ckey]_[continent]"
-	// global_port_lockers[locker_key] = locker
-	// TODO: Implement persistent storage
+	// Implemented in PortHubPersistenceSystem.dm
+	setPortLocker(ckey, continent, locker)
 
 // ============================================================================
 // PORT CHARACTER CUSTOMIZATION (Prestige-Gated)

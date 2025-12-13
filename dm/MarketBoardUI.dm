@@ -76,6 +76,9 @@ var
 		
 		world.log << "MARKET_BOARD: [player.ckey] created listing #[listing.listing_id] - [item_name] x[quantity] @ [price_per_unit] [currency_type]"
 		
+		// Trigger persistence save (async to avoid lag)
+		spawn(0) SaveAllMarketListings()
+		
 		return listing.listing_id
 
 	proc/PurchaseListing(mob/buyer, listing_id)
@@ -120,6 +123,9 @@ var
 			// Seller offline - store in account
 			SaveOfflinePayment(listing.seller_ckey, total_cost, listing.currency_type)
 		
+		// Save transaction to history files
+		SaveMarketTransaction(listing.seller_ckey, buyer.ckey, listing.item_name, listing.quantity, listing.price_per_unit, listing.currency_type)
+		
 		// Mark as sold
 		listing.is_active = FALSE
 		listing.buyer_name = buyer.ckey
@@ -134,6 +140,9 @@ var
 		buyer << "SUCCESS: Purchased [listing.item_name] x[listing.quantity] from [listing.seller_name] for [total_cost] [listing.currency_type]"
 		
 		world.log << "MARKET_BOARD: [buyer.ckey] purchased listing #[listing_id] from [listing.seller_ckey]"
+		
+		// Trigger persistence save (async to avoid lag)
+		spawn(0) SaveAllMarketListings()
 		
 		return TRUE
 
@@ -163,6 +172,9 @@ var
 		
 		seller << "Listing #[listing_id] cancelled"
 		world.log << "MARKET_BOARD: [seller.ckey] cancelled listing #[listing_id]"
+		
+		// Trigger persistence save (async to avoid lag)
+		spawn(0) SaveAllMarketListings()
 		
 		return TRUE
 

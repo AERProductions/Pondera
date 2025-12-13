@@ -263,7 +263,7 @@ obj/fishing_session
 		/**
 		 * Randomly select fish based on skill, location, and water type
 		 */
-		var/skill_level = angler.fishinglevel || 1
+		var/skill_level = angler.character.frank || 1
 		var/rarity_roll = rand(1, 100)
 		var/selected_fish = null
 		
@@ -364,9 +364,8 @@ obj/fishing_session
 		fish.value = value
 		fish.color = fish_data["color"]
 		
-		// Award XP
-		angler.fexp += xp_gained
-		angler.fishinglevel = max(angler.fishinglevel + 1, round((angler.fexp / 100) + 1))
+		// Award XP using unified rank system
+		angler.character.UpdateRankExp(RANK_FISHING, xp_gained)
 		
 		angler << "<font color='gold'>Gained [xp_gained] Fishing XP!"
 		angler << "<font color='blue'>Fish is worth approximately [value] gold!"

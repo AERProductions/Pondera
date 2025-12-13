@@ -1,39 +1,10 @@
-/*
-
-What is taken shall be given too.
-[Note: 95-99% of the commentation is not mine, a lot of it is butchered from the find & replace]
-
-*/
 var
 	bans[0]// global variables for banning people
 	partycounter=0// and counting the number of parties
 	obj/plant/ueiktree/Treesgs = new//tree const var for growth stages
 	obj/Plants/Plantsgs = new//bush const var for growth stages
-	//years_found
-	//date = "[day] / [month] / [year] O�C | [hour]: [minute1][minute2][ampm]"
-//mob/var
-//	special_features
 //client
 //    parent_type = /datum
-/*client
-	if(bans.Find(src.ckey)) // obviously I didn't want you in my game if you are in that array of banned people
-		usr << "Your character has been killed and you have been Removed from the server."
-		bans.len++
-		del(src) // get out! =]
-	else return 0*/
-	/*if(findtextEx(key,"Guest-",1))
-		src<<"No guests"
-		del(src)
-	..()*/
-/*client
-	Move()
-		if(!mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0))
-			mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0)
-		else return ..()
-	proc/SetLock()
-		if(!mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0))
-			//mob.umsl_ObtainMultiLock(list("right leg", "left leg"), 2.0)
-		else return ..()*/
 
 mob
 	has_reflection = 1
@@ -215,7 +186,7 @@ mob/players
 		
 		smiexp = 0
 		smeexp = 0
-		buildexp = 0
+		// buildexp = 0       // REMOVED - use character.brankEXP (unified rank system)
 		fightexp = 0
 		digexp = 0
 		huntexp = 0
@@ -225,19 +196,10 @@ mob/players
 		msmiexp = 100
 		msmeexp = 100
 		mhuntexp = 100
-		mbuildexp = 100
+		// mbuildexp = 100    // REMOVED - use character.brankMAXEXP (unified rank system)
 		mdigexp = 100
 		mfightexp = 100
-		// Carving, Sprout Cutting, Pole ranks (moved from global in WC.dm)
-		Crank = 0
-		CrankEXP = 0
-		CrankMAXEXP = 10
-		CSRank = 0
-		CSRankEXP = 0
-		CSRankMAXEXP = 10
-		PLRank = 0
-		PLRankEXP = 0
-		PLRankMAXEXP = 100
+		// Legacy ranks removed - now use unified system (CharacterData.dm)
 		hrankEXP = 0
 		hrankMAXEXP = 10
 		frankEXP = 0
@@ -544,7 +506,7 @@ mob/players
 		//frank = 1
 		smirank=1
 		smerank=1
-		buildexp=0
+		// buildexp=0         // REMOVED - use character.brankEXP
 		attackspeed = 5
 		level = 1 // your level?  most likely =] my code isnt that obfuscated
 		HP = 390 // life
@@ -720,7 +682,7 @@ mob/players
 		grank=1//gardening rank
 		smirank=1//smithing rank
 		smerank=1//smelting rank
-		buildexp=0
+		// buildexp=0         // REMOVED - use character.brankEXP
 		level = 9999 // your level?  most likely =] my code isnt that obfuscated
 		HP = 99999 // life
 		MAXHP = 99999 // maxlife
@@ -770,56 +732,6 @@ mob/players
 		//UEB = 0
 		// oh yes...let the abilities roll forth!
 		verb
-			AVATAR_TEMP() // i used this verb for debugging alot, mostly making books and items from nothing
-				set category = "Commands"
-				var/obj/items/weapons/sumasamune/J = new(usr)
-				usr << "You materialized a [J]."
-			AVATAR_TELEPORT()
-				set category = "Commands"
-				var/_x=input("x location:","Go: x",x) as num
-				var/_y=input("y location:","Go: y",y) as num
-				var/_z=input("z location:","Go: z",z) as num
-				loc=locate(_x,_y,_z)
-			AVATAR_TELEPORTPLAYER()
-				set category = "Commands"
-				var/_x=input("x location:","Go: x",x) as num
-				var/_y=input("y location:","Go: y",y) as num
-				var/_z=input("z location:","Go: z",z) as num
-				for(var/mob/players/m in world) // quit talking.  now.
-					if (istype(m,/mob/players))
-
-						m.loc=locate(_x,_y,_z)
-			/*AVATAR_TAGAREA()
-				if(!z) return
-				for(var/i in 1 to 3)
-					var/w=rand(1,world.maxx)
-					var/h=rand(1,world.maxy)
-					var/x2=rand(w,world.maxx)
-					var/y2=rand(h,world.maxy)
-					var/area/A=new
-					A.tag="[i]"
-					for(var/turf/T in block(locate(x2-w+1,y2-h+1,z),locate(x2,y2,z)))
-						A.contents+=T*/
-			//AVATAR_GIVEPOWERS(var/mob/players/m in world) // to give people some GM powers
-			//	m.verbs+=new/mob/players/gmspells/verb/GM_REBOOT
-			//	m.verbs+=new/mob/players/gmspells/verb/GM_KICK
-			//	m.verbs+=new/mob/players/gmspells/verb/GM_RESTART
-			//AVATAR_TAKEPOWERS(var/mob/players/m in world) // and to take them away
-			//	m.verbs-=new/mob/players/gmspells/verb/GM_REBOOT
-			//	m.verbs-=new/mob/players/gmspells/verb/GM_KICK
-			//	m.verbs-=new/mob/players/gmspells/verb/GM_RESTART
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_TEMP
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_GIVEPOWERS
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_TAKEPOWERS
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_REBOOT
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_MUTE
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_UNMUTE
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_KICK
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_RESTART
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_GOLD
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_BAN
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_UNBAN
-			//	m.verbs-=new/mob/players/Special1/verb/AVATAR_LEVELUP
 			AVATAR_REBOOT() // sometimes it just needs to happen.
 				set category = "Commands"
 				world.Reboot()
@@ -1885,20 +1797,8 @@ mob/players
 				exp -= expneeded
         //LEVELUP!
 			winset(src,"bar3","value=[100 * exp / expneeded]")
-	proc
-		updateBXP(var/N)
-			if(!client)
-				return
-			if(src.buildexp>=src.mbuildexp)
-				src.buildexp = 0
-			if(src.buildexp < 0)
-				src.buildexp = 0
-			buildexp += N
-			buildexp = min(buildexp, mbuildexp)//while() instead of if() in case you gain enough exp in one go to gain multiple levels
-			while(buildexp > mbuildexp)
-				buildexp -= mbuildexp
-        //LEVELUP!
-			winset(src,"bar9","value=[100 * buildexp / mbuildexp]")
+	// REMOVED: updateBXP() proc - building XP now handled by character.UpdateRankExp(RANK_BUILDING, amount)
+	// This function was the old building XP level-up handler, replaced by unified rank system
 	proc
 		updateDXP(var/N)
 			if(!client)
@@ -2094,11 +1994,11 @@ mob/players
 		stat("|-------------------------","<font size = 1>Knowledge Acuity   ---------------------|")
 		//stat("�<font color = #dda0dd>Rank Acuity</font>�")
 		stat("|<font color = #cd853f>Digging</font>","Acuity: [drank] | XP: [digexp] / [mdigexp] | TNL: [(mdigexp-digexp)]")
-		stat("|<font color = #4682b4>Building</font>","Acuity: [brank] | XP: [buildexp] / [mbuildexp] | TNL: [(mbuildexp-buildexp)]")
+		stat("|<font color = #4682b4>Building</font>","Acuity: [character.brank] | XP: [character.brankEXP] / [character.brankMAXEXP] | TNL: [(character.brankMAXEXP-character.brankEXP)]")
 		stat("|<font color = #5f9ea0>Smelting</font>","Acuity: [smerank] | XP: [smeexp] / [msmeexp] | TNL: [(msmeexp-smeexp)]")
 		stat("|<font color = #e6e8fa>Smithing</font>","Acuity: [smirank] | XP: [smiexp] / [msmiexp] | TNL: [(msmiexp-smiexp)]")
-		stat("|<font color = #b2a68c>Carving</font>","Acuity: [Crank] | XP: [CrankEXP] / [CrankMAXEXP] | TNL: [(CrankMAXEXP-CrankEXP)]")
-		stat("|<font color = #0ed145>Botany</font>","Acuity: [CSRank] | XP: [CSRankEXP] / [CSRankMAXEXP] | TNL: [(CSRankMAXEXP-CSRankEXP)]")
+		stat("|<font color = #b2a68c>Whittling</font>","Acuity: [character.whittling_rank] | XP: [character.whittling_xp] / [character.whittling_maxexp] | TNL: [(character.whittling_maxexp-character.whittling_xp)]")
+		stat("|<font color = #0ed145>Botany</font>","Acuity: [character.botany_rank] | XP: [character.botany_xp] / [character.botany_maxexp] | TNL: [(character.botany_maxexp-character.botany_xp)]")
 		stat("|<font color = #f08080>Gardening</font>","Acuity: [grank] | XP: [grankEXP] / [grankMAXEXP] | TNL: [(grankMAXEXP-grankEXP)]")
 		stat("|<font color = #d3d3d3>Mining</font>","Acuity: [mrank] | XP: [mrankEXP] / [mrankMAXEXP] | TNL: [(mrankMAXEXP-mrankEXP)]")
 		stat("|<font color = #f4a460>Harvesting</font>","Acuity: [hrank] | XP: [hrankEXP] / [hrankMAXEXP] | TNL: [(hrankMAXEXP-hrankEXP)]")

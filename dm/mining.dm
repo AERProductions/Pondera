@@ -427,17 +427,17 @@ obj
 									if(R!=7)
 										M<<"You start to combine..."
 										J.RemoveFromStack(4)
-										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"You finish combining the [J] and create a Iron Ingot."
 										new /obj/items/Ingots/ironbar(src)
 										return
 									else
 										J.RemoveFromStack(4)
-											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
@@ -448,17 +448,17 @@ obj
 									var/R = roll(dice)
 									if(R!=5)
 										J.RemoveFromStack(4)
-										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"You finish combining the [J] and create a Zinc Ingot."
 										new /obj/items/Ingots/zincbar(src)
 										return
 									else
 										J.RemoveFromStack(4)
-											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
@@ -469,17 +469,17 @@ obj
 									var/R = roll(dice)
 									if(R!=6)
 										J.RemoveFromStack(4)
-										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"You finish combining the [J] and create a Lead Ingot."
 										new /obj/items/Ingots/leadbar(src)
 										return
 									else
 										J.RemoveFromStack(4)
-											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
@@ -490,17 +490,15 @@ obj
 									var/R = roll(dice)
 									if(R!=4)
 										J.RemoveFromStack(4)
-										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
-										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										M<<"You finish combining the [J] and create a Copper Ingot."
 										new /obj/items/Ingots/copperbar(src)
 										return
 									else
 										J.RemoveFromStack(4)
-											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
@@ -511,17 +509,15 @@ obj
 									var/R = roll(dice)
 									if(R!=2)
 										J.RemoveFromStack(4)
-										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										sleep(15)
-										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
 										M<<"You finish combining the [J] and create a Brass Ingot."
 										new /obj/items/Ingots/brassbar(src)
 										return
 									else
 										J.RemoveFromStack(4)
-											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
@@ -532,17 +528,17 @@ obj
 									var/R = roll(dice)
 									if(R!=3)
 										J.RemoveFromStack(4)
-										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"You finish combining the [J] and create a Bronze Ingot."
 										new /obj/items/Ingots/bronzebar(src)
 										return
 									else
 										J.RemoveFromStack(4)
-											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
@@ -553,17 +549,17 @@ obj
 									var/R = roll(dice)
 									if(R!=3)
 										J.RemoveFromStack(4)
-										//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-										//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"You finish combining the [J] and create a Steel Ingot."
 										new /obj/items/Ingots/steelbar(src)
 										return
 									else
 										J.RemoveFromStack(4)
-											//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										sleep(15)
-											//src.overlays -= icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
+
 										M<<"The materials fail at combining and are lost in the process."
 										return
 								else
