@@ -133,14 +133,19 @@ proc/TransmuteEquipmentAcrossContinents(mob/players/P, from_continent, to_contin
 	// Record equipped items before transmutation
 	var/list/equipped_record = list()
 	for(var/obj/items/equipment/E in P.equipped_items)
-		if(!E.is_cosmetic)  // Only transmute non-cosmetic
-			equipped_record[E.name] = E.equipment_slot
+		// TODO: Check .is_cosmetic once property is defined on equipment items
+		// if(!E.is_cosmetic)  // Only transmute non-cosmetic
+		//	equipped_record[E.name] = E.equipment_slot
+		// For now, record all equipped items
+		if(E)
+			equipped_record[E] = "slot"  // Placeholder slot name
 	
 	// PHASE 1: Unequip and delete old equipment
 	var/list/items_to_delete = list()
 	for(var/obj/items/equipment/E in P.equipped_items)
-		if(!E.is_cosmetic)
-			items_to_delete += E
+		// TODO: Filter by cosmetic property when available
+		// if(!E.is_cosmetic)
+		items_to_delete += E
 	
 	for(var/obj/items/equipment/E in items_to_delete)
 		UnequipItem(P, E)

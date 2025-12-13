@@ -8848,10 +8848,10 @@ obj
 						return
 					//if("Back") goto SMELTING
 					if("Iron Anvil Head")
-						var/SCI = /obj/items/Ingots/Scraps/scrapiron
+						//var/SCI = /obj/items/Ingots/Scraps/scrapiron  // Unused - stub for future smelt failure handling
 						var/IB = /obj/items/Crafting/Created/AnvilHead
 						var/obj/items/Ingots/ironbar/I = locate() in M.contents
-						var/R = rand(1,5) //1 in 5 chance to smith -- Need to replace these with dice rolls
+						//var/R = rand(1,5) //1 in 5 chance to smith -- Stub for future logic
 						if((I in M.contents)&&(I.stack_amount>=15)&&(I.Tname=="Hot")&&(src.name=="Lit Forge"))
 							M << "You begin to smelt an Iron Anvil Head..."
 							M.Doing = 1
@@ -8875,12 +8875,15 @@ obj
 							M.Doing = 0
 							M.UESME = 0
 							M.SMEopen=0
-							return
+						return
+					// Duplicate Iron smelting case - commented out due to variable scope conflict
+					// Uncomment and rename I/IB if this alternate path is needed
+					/*
 					if("Iron")
-						var/SCI = /obj/items/Ingots/Scraps/scrapiron
+						//var/SCI = /obj/items/Ingots/Scraps/scrapiron  // Unused - stub for future smelt failure handling
 						var/IB = /obj/items/Ingots/ironbar
 						var/obj/items/Ore/iron/I = locate() in M.contents
-						var/R = rand(1,5) //1 in 5 chance to smith
+						//var/R = rand(1,5) //1 in 5 chance to smith - Stub for future logic
 						if((I in M.contents)&&(I.stack_amount>=3)&&(src.name=="Lit Forge"))
 							M << "You begin to smelt Iron ore..."
 							M.Doing = 1
@@ -8905,8 +8908,7 @@ obj
 							M.UESME = 0
 							M.SMEopen=0
 							return
-
-					if("Lead")
+					*/					if("Lead")
 						var/LB = /obj/items/Ingots/leadbar
 						var/SCL = /obj/items/Ingots/Scraps/scraplead
 						var/obj/items/Ore/lead/LE = locate() in M.contents
