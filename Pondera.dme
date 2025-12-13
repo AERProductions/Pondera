@@ -32,6 +32,7 @@
 #include "dm\AdvancedQuestChainIntegrationTests.dm"
 #include "dm\AdvancedQuestChainSystem.dm"
 #include "dm\AdvancedQuestChainTests.dm"
+#include "dm\AdvancedTerrainFeatures.dm"
 #include "dm\AnimalHusbandrySystem.dm"
 #include "dm\AdminCommandsExpanded.dm"
 #include "dm\AnimalOwnershipIntegration.dm"
