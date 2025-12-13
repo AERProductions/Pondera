@@ -63,6 +63,7 @@
 #include "dm\RoleBasedAdminSystem.dm"
 #include "dm\SearchingSystemModern.dm"
 #include "dm\ServerDifficultyUI.dm"
+//#include "dm\SmithingMacroIntegration.dm"  // TODO: Implement smithing E-key macros
 #include "dm\SpellRefactorSystem.dm"
 #include "dm\NPCReputationSystem.dm"
 #include "dm\NPCReputationIntegration.dm"

@@ -85,6 +85,20 @@ turf
 				usingmana(M,200)
 				sleep(1)
 				return
+		UseObject(mob/user)
+			// E-key fishing handler
+			if(user in range(1, src))
+				if(!istype(user, /mob/players))
+					return 0
+				var/mob/players/M = user
+				// Check if player has fishing pole equipped
+				if(!M.FPequipped)
+					M << "<red>You need a Fishing Pole equipped to fish."
+					return 1
+				// Trigger fishing minigame
+				Fishing(M)
+				return 1
+			return 0
 		verb //...
 			Fish() //...
 				set popup_menu = 1
