@@ -80,6 +80,19 @@ proc
 		spawn(5)  InitializeCrashRecovery()  // Detect and recover crashed players
 		
 		spawn(10) RegisterInitComplete("crash_recovery")
+		
+		// ────────────────────────────────────────────────────────────────────
+		// SYSTEM: SERVER DIFFICULTY & LIVES SYSTEM (10 ticks)
+		// Load server configuration (permadeath, lives per continent)
+		// Must be ready before death system and player login
+		// ────────────────────────────────────────────────────────────────────
+		
+		LogInit("SYSTEM: Server Difficulty Configuration (10 ticks)", 10)
+		spawn(10)
+			BootServerDifficultySystem()  // Load difficulty config from savefile
+			InitializeServerDifficultyConfig()  // Initialize lives tracking
+		spawn(11) RegisterInitComplete("server_difficulty")
+		
 		// Map generation, zones, weather must be ready before map spawning
 		// ────────────────────────────────────────────────────────────────────
 		

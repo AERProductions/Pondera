@@ -22,10 +22,6 @@
 // ============================================================================
 
 /datum/territory_resource_impact
-	/**
-	 * territory_resource_impact
-	 * Tracks how territory ownership affects resource availability and pricing
-	 */
 	var
 		territory_name = "Unknown Territory"
 		territory_id = null

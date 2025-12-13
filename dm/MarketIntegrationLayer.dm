@@ -28,10 +28,6 @@
 // ============================================================================
 
 /datum/market_state
-	/**
-	 * market_state
-	 * Aggregated snapshot of entire market at a point in time
-	 */
 	var
 		timestamp = 0
 		list/commodity_prices = list()

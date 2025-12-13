@@ -381,7 +381,7 @@ proc/InitializeTierProgression()
 			InitializeTierProgression()
 		return
 	
-	var/datum/tier_progression_system/sys = GetTierProgressionSystem()
+	// var/datum/tier_progression_system/sys = GetTierProgressionSystem()  // Unused for now
 	var/datum/celestial_power_registry/registry = GetCelestialPowerRegistry()
 	registry.RegisterPowers()
 	

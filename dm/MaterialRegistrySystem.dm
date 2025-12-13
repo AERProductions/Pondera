@@ -20,17 +20,13 @@
  * - T+398: Territory material distribution
  */
 
-var
-	// Global material registry container (indexed by continent name)
-	list/material_registries = list()
+// Global material registry container (indexed by continent name)
+var/list/material_registries = list()
+
 // MATERIAL DEFINITIONS
 // ============================================================================
 
 /datum/material_config
-	/**
-	 * material_config
-	 * Definition of a single material type
-	 */
 	var
 		name = ""
 		tier = 1
@@ -62,10 +58,6 @@ var
 		description = ""
 
 /proc/CreateMaterial(name, tier, mineable, smeltable, craftable)
-	/**
-	 * CreateMaterial(name, tier, mineable, smeltable, craftable)
-	 * Factory function to create material config
-	 */
 	var/datum/material_config/mat = new()
 	mat.name = name
 	mat.tier = tier
@@ -79,11 +71,6 @@ var
 // ============================================================================
 
 /datum/continent_material_registry
-	/**
-	 * continent_material_registry
-	 * Per-continent material configuration
-	 * Each continent has its own registry with different material availability
-	 */
 	var
 		continent_name = ""
 		

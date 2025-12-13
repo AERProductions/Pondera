@@ -7,10 +7,6 @@
 // ============================================================================
 
 /datum/kingdom_trade_offer
-	/**
-	 * kingdom_trade_offer
-	 * Represents a pending or completed trade between two kingdoms
-	 */
 	var
 		offering_kingdom = null
 		requesting_kingdom = null
@@ -34,10 +30,6 @@
 		observer_list = list()
 
 /datum/kingdom_treasury_manager
-	/**
-	 * kingdom_treasury_manager
-	 * Manages per-kingdom material resources and trading restrictions
-	 */
 	var
 		kingdom_name = "Unaffiliated"
 		stone_treasury = 0
@@ -58,10 +50,6 @@
 		daily_timber_consumed = 0
 
 /datum/market_price_tracker
-	/**
-	 * market_price_tracker
-	 * Tracks market prices dynamically based on supply/demand
-	 */
 	var
 		stone_price = 1.0
 		metal_price = 3.0

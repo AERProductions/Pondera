@@ -356,6 +356,9 @@
 		src << "Only GMs can use this command"
 		return
 	
+	// NOTE: Admin logging system migrated to RoleBasedAdminSystem.dm (Phase 3)
+	// Legacy admin_system references disabled
+	/*
 	if(!admin_system) 
 		src << "Admin system not initialized"
 		return
@@ -367,6 +370,8 @@
 		output += "[entry]\n"
 	
 	src << output
+	*/
+	src << "Activity logging moved to Phase 3 system. Functionality available via admin panel."
 
 // ============================================================================
 // ADMIN CONFIGURATION COMMANDS

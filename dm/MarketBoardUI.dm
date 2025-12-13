@@ -8,10 +8,6 @@ var
 // ============================================================================
 
 /datum/market_listing
-	/**
-	 * market_listing
-	 * Represents a single item listing on the market board
-	 */
 	var
 		listing_id = 0
 		seller_name = ""
@@ -29,10 +25,6 @@ var
 		purchase_time = 0
 
 /datum/market_board_manager
-	/**
-	 * market_board_manager
-	 * Global manager for all market board listings
-	 */
 	var
 		list/active_listings = list()
 		list/completed_sales = list()

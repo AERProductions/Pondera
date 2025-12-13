@@ -174,7 +174,7 @@ obj
 					M = usr
 					var/obj/items/Ore/stone/ST = locate() in M.contents
 					//var/obj/items/Crafting/Created/Handle/H = new(usr, 1)
-					var/random/R = new()
+					var/R = rand(1, 100)  // Random chance roller (1-100)
 					//if(stamina<=0)
 					//	M<<"You are too tired."
 					//	return
@@ -185,7 +185,7 @@ obj
 						else
 							for(ST in M.contents)
 								//M << "You Begin carving the materials..."
-								if(R.chance(81))
+								if(R >= 81)  // 19% chance (roll 81-100)
 									M << "You begin shaping the material..."
 									Mining=1
 									sleep(2)

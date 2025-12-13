@@ -24,11 +24,6 @@
 // ============================================================================
 
 /datum/attack_action
-	/**
-	 * attack_action
-	 * Definition of a single attack ability
-	 * Can be weapon-based or unarmed
-	 */
 	var
 		// Identification
 		action_name = ""
@@ -214,10 +209,6 @@
 // ============================================================================
 
 /datum/combat_state
-	/**
-	 * combat_state
-	 * Tracks a player's current combat status
-	 */
 	var
 		// Current state
 		player_ref = null

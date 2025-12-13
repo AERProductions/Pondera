@@ -29,11 +29,6 @@
 // ============================================================================
 
 /datum/player_wealth_record
-	/**
-	 * player_wealth_record
-	 * Tracks player's financial information
-	 * Stored in datum/character_data
-	 */
 	var
 		total_lucre = 0
 		total_materials = 0
@@ -177,10 +172,6 @@
 // ============================================================================
 
 /datum/investment_contract
-	/**
-	 * investment_contract
-	 * Player-held contract on future commodity prices
-	 */
 	var
 		player_ref           // Who holds the contract
 		commodity_name       // What commodity
@@ -266,10 +257,6 @@
 // ============================================================================
 
 /datum/player_contract
-	/**
-	 * player_contract
-	 * Work contract offered by NPCs or players
-	 */
 	var
 		contract_id
 		issuer                // Who issued (NPC or player)
@@ -362,10 +349,6 @@
 // ============================================================================
 
 /datum/wealth_leaderboard
-	/**
-	 * wealth_leaderboard
-	 * Global ranking of wealthiest players
-	 */
 	var
 		list/rankings = list()
 		last_update = 0

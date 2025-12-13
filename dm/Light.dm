@@ -550,7 +550,7 @@ obj
 				var/mob/players/M
 				M = usr
 				var/obj/items/tools/Containers/UnbakedJar/J = locate() in M.contents
-				//var/random/R = rand(1,5) //1 in 5 chance to smith
+				//var/R = rand(1,5) //1 in 5 chance to smith
 
 				if(usr.GVequipped==1)
 					if(J)
@@ -724,7 +724,7 @@ obj
 									return 0*/
 								switch(input("Cook?","Cook") in F)//list("Giu Meat")//,"Salmon","Trout","Bass","Catfish","Carp","Perch","Sunfish")
 									if("Giu Meat")
-										var/random/R = rand(1,13)
+										var/R = rand(1,13)
 										M << "You start to cook the Giu Meat on the fire..."
 										if(R!=7)
 											M<<"You start to cook the \  <IMG CLASS=icon SRC=\ref[J.icon] ICONSTATE='[J.icon_state]'> Giu Meat on the fire..."
@@ -752,7 +752,7 @@ obj
 											M.cooking = 0
 											return
 									if("Gou Meat")
-										var/random/R = rand(1,12)
+										var/R = rand(1,12)
 										if(R!=4)
 											J.RemoveFromStack(1)
 											src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GouMeat")
@@ -773,7 +773,7 @@ obj
 											M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 											return
 									if("Gow Meat")
-										var/random/R = rand(1,10)
+										var/R = rand(1,10)
 										if(R!=6)
 											J.RemoveFromStack(1)
 											src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GowMeat")
@@ -794,7 +794,7 @@ obj
 											M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 											return
 									if("Guwi Meat")
-										var/random/R = rand(1,9)
+										var/R = rand(1,9)
 										if(R!=2)
 											J.RemoveFromStack(1)
 											src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GuwiMeat")
@@ -815,7 +815,7 @@ obj
 											M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 											return
 									if("Gowu Meat")
-										var/random/R = rand(1,7)
+										var/R = rand(1,7)
 										if(R!=3)
 											J.RemoveFromStack(1)
 											src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GowuMeat")
@@ -837,7 +837,7 @@ obj
 											return
 									//fish
 									if("Salmon")
-										var/random/R = rand(1,9)
+										var/R = rand(1,9)
 										if(M.fishinglevel >= 5)
 											if(R!=5)
 												J.RemoveFromStack(1)
@@ -859,7 +859,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 										else
-											var/random/R2 = rand(1,6)
+											var/R2 = rand(1,6)
 											if(R2!=2)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="salmon")
@@ -881,7 +881,7 @@ obj
 												return
 									if("Trout")
 										if(M.fishinglevel >= 5)
-											var/random/R = rand(1,11)
+											var/R = rand(1,11)
 											if(R!=6)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="trout")
@@ -902,7 +902,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 										else
-											var/random/R2 = rand(1,7)
+											var/R2 = rand(1,7)
 											if(R2!=4)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="trout")
@@ -924,7 +924,7 @@ obj
 												return
 									if("Bass")
 										if(M.fishinglevel >= 5)
-											var/random/R = rand(1,12)
+											var/R = rand(1,12)
 											if(R!=6)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="bass")
@@ -945,7 +945,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 										else
-											var/random/R = rand(1,8)
+											var/R = rand(1,8)
 											if(R!=6)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="bass")
@@ -967,7 +967,7 @@ obj
 												return
 									if("Catfish")
 										if(M.fishinglevel >= 5)
-											var/random/R = rand(1,13)
+											var/R = rand(1,13)
 											if(R!=7)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="catfish")
@@ -988,7 +988,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=icon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 										else
-											var/random/R = rand(1,9)
+											var/R = rand(1,9)
 											if(R!=7)
 												J.RemoveFromStack(1)
 												src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="catfish")
@@ -1010,7 +1010,7 @@ obj
 												return
 									if("Carp")
 										if(M.fishinglevel >= 5)
-											var/random/R = rand(1,14)
+											var/R = rand(1,14)
 											M << "You start to cook the Carp on the fire..."
 											if(R!=4)
 												J.RemoveFromStack(1)
@@ -1032,7 +1032,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'> Meat..."
 												return
 										else
-											var/random/R = rand(1,10)
+											var/R = rand(1,10)
 											M << "You start to cook the Carp on the fire..."
 											if(R!=4)
 												J.RemoveFromStack(1)
@@ -1056,7 +1056,7 @@ obj
 												return
 									if("Perch")
 										if(M.fishinglevel >= 5)
-											var/random/R = rand(1,15)
+											var/R = rand(1,15)
 											M << "You start to cook the Perch on the fire..."
 											if(R!=8)
 												J.RemoveFromStack(1)
@@ -1078,7 +1078,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 										else
-											var/random/R = rand(1,12)
+											var/R = rand(1,12)
 											M << "You start to cook the Perch on the fire..."
 											if(R!=8)
 												J.RemoveFromStack(1)
@@ -1101,7 +1101,7 @@ obj
 												return
 									if("Sunfish")
 										if(M.fishinglevel >= 5)
-											var/random/R = rand(1,16)
+											var/R = rand(1,16)
 											M << "You start to cook the Sunfish on the fire..."
 											if(R!=9)
 												J.RemoveFromStack(1)
@@ -1123,7 +1123,7 @@ obj
 												M<<"The fire overcooks the \  <IMG CLASS=bigicon SRC=\ref'dmi/64/inven.dmi' ICONSTATE='OCM'>Meat..."
 												return
 										else
-											var/random/R = rand(1,13)
+											var/R = rand(1,13)
 											M << "You start to cook the Sunfish on the fire..."
 											if(R!=9)
 												J.RemoveFromStack(1)
@@ -1349,7 +1349,7 @@ obj
 					//set hidden = 1
 					var/mob/players/M
 					var/Carbon = /obj/items/Carbon
-					//var/random/R = dice(roll)
+					//var/R = dice(roll)
 					var/dice = "1d4"
 					var/R = roll(dice)
 

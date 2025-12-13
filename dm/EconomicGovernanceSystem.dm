@@ -26,11 +26,6 @@
 // ============================================================================
 
 /datum/kingdom_treasury
-	/**
-	 * kingdom_treasury
-	 * Kingdom's financial state
-	 * One per continent/kingdom
-	 */
 	var
 		kingdom_name = ""
 		total_reserves = 100000

@@ -1,4 +1,3 @@
-//#include "SwapMaps.dm"
 /*
 
 What is taken shall be given too.
@@ -134,7 +133,7 @@ mob/players
 		hexpneeded = 5
 		hexpgive = 0
 		huntinglevel = 1
-		smithinglevel = 1
+		// smithinglevel = 1  // DEPRECATED: Use smirank from character_data instead (unified rank system)
 		sexp = 0
 		sexpneeded = 5
 		sexpgive = 0
@@ -279,6 +278,7 @@ mob/players
 		
 		// Combat Animation System (Phase 43)
 		anim_is_playing = 0         // 1 if animation currently playing
+		equipped_items = list()     // Currently equipped items (synced with character_data.equipped_items)
 		anim_type = 0               // ANIM_TYPE_* constant
 		anim_start_time = 0         // World.time when animation began
 		anim_duration = 0           // Duration in ticks
@@ -789,67 +789,6 @@ mob/players
 					if (istype(m,/mob/players))
 
 						m.loc=locate(_x,_y,_z)
-			/*AVATAR_JUMPTOMAP(map as text)
-				if(!map) map=input("Map name","Map name") as text
-				var/swapmap/M=SwapMaps_Find(map)
-				if(!M)
-					usr << "Map [map] not found."
-					return
-				loc=locate(round((M.x1+M.x2)/2),round((M.y1+M.y2)/2),M.z1)
-			AVATAR_SAVEMAP(map as text)
-				//SaveMap(map as text)
-				if(!map) map=input("Map name","Map name") as text
-				if(!SwapMaps_Save(map))
-					usr << "Map [map] not found."
-				else
-					usr << "Map [map] saved."
-			AVATAR_SAVECHUNK()
-				if(!loc)
-					usr << "You must be on the map to save a chunk with this demo."
-					return
-				var/_x=round(input("x size:","New map: x size",world.maxx) as num,1)
-				var/_y=round(input("y size:","New map: y size",world.maxy) as num,1)
-				_x=max(1,min(_x,world.maxx-x+1))
-				_y=max(1,min(_y,world.maxy-y+1))
-				SwapMaps_SaveChunk("chunk",loc,locate(x+_x-1,y+_y-1,z))
-			AVATAR_LOADCHUNK()
-				if(!loc)
-					usr << "You must be on the map to save a chunk with this demo."
-					return
-				var/list/L=SwapMaps_GetSize("chunk")
-				if(!L)
-					usr << "Chunk not found."
-					return
-				var/_x=max(1,min(x,world.maxx-L[1]+1))
-				var/_y=max(1,min(y,world.maxy-L[2]+1))
-				var/oldloc=loc
-				usr << "Loading chunk at [_x],[_y],[z]"
-				SwapMaps_LoadChunk("chunk",locate(_x,_y,z))
-				loc=oldloc
-			AVATAR_LOADMAP(map as text)
-				if(!map) map=input("Map name","Map name") as text
-				if(!SwapMaps_Load(map))
-					usr << "Map [map] not found."
-				else
-					usr << "Map [map] loaded."
-			AVATAR_MAPTOTXT(map as text)
-				if(!map) map=input("Map name","Map name") as text
-				if(!fexists("map_[map].sav"))
-					usr << "Map [map] has no file."
-					return
-				var/savefile/S=new("map_[map].sav")
-				fdel("map_[map].txt")
-				S.ExportText("/",file("map_[map].txt"))
-				usr << "Coverted to text: map_[map].txt"
-			AVATAR_CREATETEMPLATE(map as text)
-				//Template(map as text)
-				if(!map) map=input("Template name","Template name") as text
-				var/swapmap/M=SwapMaps_CreateFromTemplate(map)
-				if(!M)
-					usr << "Map template [map] not found."
-				else
-					usr << "Map [html_encode("\ref[M]")] created."
-					usr << "Map is located at [M.x1],[M.y1],[M.z1] - [M.x2],[M.y2],[M.z2]"*/
 			/*AVATAR_TAGAREA()
 				if(!z) return
 				for(var/i in 1 to 3)
@@ -2334,6 +2273,11 @@ mob/players
 		// Create vital state datum if not already set
 		if(!vital_state)
 			vital_state = new /datum/vital_state()
+
+	Login()
+		// INTEGRATION: Check if player is admin and set up role/permissions (Phase 3)
+		spawn(0) ToggleAdminMode(src)  // Check roles and show/hide admin verbs
+		..()
 
 mob/players/proc
 	browsersc()

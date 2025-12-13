@@ -74,7 +74,18 @@
 	if(!player || !player.character) return 0
 	if(!player.character.recipe_state) return 0
 	
-	return player.character.recipe_state.IsRecipeDiscovered(recipe_id)
+	// Check standard recipe discovery first
+	if(player.character.recipe_state.IsRecipeDiscovered(recipe_id))
+		return 1
+	
+	// Check prestige recipe unlock if prestige system exists
+	var/datum/PrestigeSystem/ps = GetPrestigeSystem()
+	if(ps)
+		var/datum/prestige_state/state = ps.GetPrestigeState(player)
+		if(state && recipe_id in state.prestige_unlocked_recipes)
+			return 1
+	
+	return 0
 
 // ============================================================================
 // MARKET STALL TRADING SYSTEM

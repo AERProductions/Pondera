@@ -700,7 +700,10 @@ mob
 				//var/mob/players/M
 				set src in oview(1)
 				//M = usr
-				if (!(src in range(1, usr))) return
+				// Validate distance BEFORE input dialog
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
 				var/K = (input("You've arrived...","Discuss") in list("Where?"))
 				switch(K)
 					if("Where?")
@@ -722,7 +725,10 @@ mob
 				//var/mob/players/M
 				set src in oview(1)
 				//M = usr
-				if (!(src in range(1, usr))) return
+				// Validate distance BEFORE input dialog
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
 				var/K = (input("I've Never seen you around here before... What is your business in these parts?","Discuss") in list("Huh?","What's it to you?","Keep to yourself, Beggar!"))
 				switch(K)
 					if("Huh?")
@@ -768,66 +774,64 @@ mob
 			density = 1
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "inst"
-			//var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("How did I do", "howdid"),
+					new /datum/npc_interaction_option("What do I do now", "whatnext"),
+					new /datum/npc_interaction_option("What do I get", "whatget"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_howdid(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("That isn't important, all that matters is today is the day that you can pursue a greater goal and utilize the basic set of abilities that we have taught you. Seek the truth and the answers that this kingdom, or even yourself, strive to uncover. Use all at hand to survive and know when to be hasty and when not to be and you should come through any situation you may come across. Do not be too careless, it could be your downfall in the end.")
+			
+			proc/Interact_whatnext(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("You will probably want to train up the abilities that you have received and prepare a very large travel-pack before you head out beyond these lands. Yes, beyond these lands lies danger that can end anyone in a matter of moments if they are careless. The world has grown tired of 'People'. For the way the civilizations of the modern era treated it: They built figurative mountains on stilts and toxified the land, air, and sea around them and eventually it was realized to be unsustainable and crumbled beneath its own weight. Thus the lands see 'People' as the enemy and Rightly so.")
+			
+			proc/Interact_whatget(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("The ability to Survive and the Knowledge to seek the Answers. The abilities you chose to learn are what you received, it is up to you to train them and utilize them the best.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("Hello and welcome to your Final Day at the Academy.","Graduation") in list("How'd I do?","What do I do now?","Alright! What do I get?"))
-				switch(K)
-					if("How'd I do?")
-						alert("That isn't important, all that matters is today is the day that you can pursue a greater goal and utilize the basic set of abilities that we have taught you.","Graduation","Okay, So what does that mean?","Sounds good to me, let me go!")
-						if("Okay, So what does that mean?")
-							alert("Seek the truth and the answers that this kingdom, or even yourself, strive to uncover; Use all at hand to survive and know when to be hasty and when not to be and you should come through any situation you may come across.")
-						if("Sounds good to me, let me go!")
-							alert("Do not be too careless, it could be your downfall in the end.")
-					if("What do I do now?")
-						alert("You will probably want to train up the abilities that you have received and prepare a very large travel-pack before you head out beyond these lands.","Graduation","Beyond these lands?")
-						if("Beyond these lands?")
-							alert("Yes, beyond these lands lies danger that can end anyone in a matter of moments if they are careless. The world has grown tired of 'People'.","Graduation","Why?","Indeed.")
-							if("Why?")
-								alert("For the way the civilizations of the modern era treated it; They built figurative mountains on stilts and toxified the land, air, and sea around them and eventually it was realized to be unsustainable and crumbled beneath its own weight...Thus the lands see 'People' as the enemy and Rightly so I might add.")
-					if("Alright! What do I get?")
-						alert("The ability to Survive and the Knowledge to seek the Answers.","Graduation","I see...","Anything else?...")
-						if("Anything else?...")
-							alert("The abilities you chose to learn are what you received, it is up to you to train them and utilize them the best.","Graduation","Right!")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
 
 		POBOldMan
 			name = "POBOldMan"
 			density = 1
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "poboman"
-			//var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Say I don't know", "idk"),
+					new /datum/npc_interaction_option("Say looking around", "lookaround"),
+					new /datum/npc_interaction_option("Say give stuff", "robbery"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_idk(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Then what are you doing in here, Scram! I am just an old occupant of this Principality. I adventured my way here as a young boy and decided to stay, what with the distant ocean air in the breeze, the Oasis and the constant hot weather keep me chipper for an old man. Who'd want to leave? That is what I Believe anyway...")
+			
+			proc/Interact_lookaround(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("So you're new to these parts? Moving here or are you an Adventurer? Either way I'd suggest to stay out of trouble, nobody likes to be messed with and this is a close knit community. We don't even have torches in the alley ways! Not much to do 'round here, this is basically a Trading Post for the shipping lanes that pass through this area.\n\nWell isn't that great, just keep out of my things! Darn adventurer's seem to always take whatever they want. You also lower the local monster population as well so that is one good thing about the lot of ya.\n\nTry the Inn, of course, you could always build your own home but it takes a highly skilled Builder to do such a thing. Exit the Building and go down the street and to the left all the way to the end, you should find the Inn with comfortable affordable rooms at the lower left corner of the city!\n\nAh well that is interesting, roaming free can indeed be a wonderful journey to no certain destination but it is also somewhat dangerous. Make sure to keep stocked up on supplies or be a really good survivalist and you should have no issues.")
+			
+			proc/Interact_robbery(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Really, You're going to try and rob me in my own home? Petty Thief! You couldn't take it from me if you tried, Begone! There is nothing for you here. Yeah that's right, back down and get out of here before you get hurt! I don't have anything here anyway, just some of my old rusty equipment that is too brittle to serve any purpose that you seek.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("Why are you in my house?","Discussion") in list("Oh I don't know...","Just lookin around...","Drop any weapons and give me all your stuff!"))
-				switch(K)
-					if("Oh I don't know...")
-						alert("Then what are you doing in here, Scram!","Discussion","Sheesh, sorry!","Wait a minute, who are you?")
-						if("Wait a minute, who are you?")
-							alert("I am just an old occupant of this Principality; I adventured my way here as a young boy and decided to stay, what with the distant ocean air in the breeze, the Oasis and the constant hot weather keep me chipper for an old man, Who'd want to leave? That is what I Believe anyway...")
-					if("Just lookin around...")
-						alert("So you're new to these parts? Moving here or are you an Adventurer? Either way I'd suggest to stay out of trouble, nobody likes to be messed with and this is a close knit community, we don't even have torches in the alley ways! Not much to do 'round here, this is basically a Trading Post for the shipping lanes that pass through this area.","Discussion","I'm an Adventurer seeking answers.","I'm trying to find a place to stay...","I Don't really know what I am doing, roaming free I guess...")
-						if("I'm an Adventurer seeking answers.")
-							alert("Well isn't that great, just keep out of my things! Darn adventurer's seem to always take whatever they want, oh well...you also lower the local monster population as well so that is one good thing about the lot of ya.","Discussion","Indeed.")
-						if("I'm trying to find a place to stay...")
-							alert("Try the Inn, of course, you could always build your own home but it takes a highly skilled Builder to do such a thing.","Discussion","Ahh, I see ~ Where is the Inn?")
-							if("Ahh, I see ~ Where is the Inn?")
-								alert("Exit the Building and go down the street and to the left all the way to the end, you should find the Inn with comfortable affordable rooms at the lower left corner of the city!","Discussion","Alright, Thanks.")
-						if("I Don't really know what I am doing, roaming free I guess...")
-							alert("Ah well that is interesting, roaming free can indeed be a wonderful journey to no certain destination but it is also somewhat dangerous, make sure to keep stocked up on supplies or be a really good survivalist and you should have no issues.","Discussion","Oh, Okay; Thanks.")
-					if("Drop any weapons and give me all your stuff!.")
-						alert("Really, You're going to try and rob me in my own home? Petty Thief!","Discussion","Yeah that's right, hand it over!","Ahh, nah I was just joking!")
-						if("Yeah that's right, hand it over!")
-							alert("You couldn't take it from me if you tried, Begone! There is nothing for you here.","Discussion","Hmfp!")
-						if("Ahh, nah I was just joking!")
-							alert("Yeah that's right, back down and get out of here before you get hurt! I don't have anything here anyway, just some of my old rusty equipment that is too brittle to serve any purpose that you seek..","Discussion","Ah well, Guess i'm wasting my time.")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
 	BeliefNPCS
 		layer = 3
 		//plane = 3
@@ -837,30 +841,33 @@ mob
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "adv"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask meaning", "meaning"),
+					new /datum/npc_interaction_option("Ask why", "why"),
+					new /datum/npc_interaction_option("Shift focus", "focus"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_meaning(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Well, at a certain point, to the west, there are holes that you can fall into and you cannot climb out of them. I'm a foreigner here so I don't really know, I haven't ventured that far yet; but I have heard rumors that certain folk have been cast away via those holes; Nobody will say what is on the other side.")
+			
+			proc/Interact_why(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Just a guess but you probably aren't prepared well enough to venture past this point, but that isn't anything that cannot be remedied. All the youth think they're Ten Feet Tall and Bullet Proof; But reality soon sets in, plans do not go as planned and provisions are never enough.")
+			
+			proc/Interact_focus(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Better shift your interest into training and acquiring what you need to survive. If you want to do other things, you better turn back and stick around the Forests where you can somewhat live, although you cannot build anything.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("So you've made it this far, be wary about going further unless prepared...You won't be able to return!","Discuss") in list("Huh, What do you mean?","Why?","Interesting..."))
-				switch(K)
-					if("Huh, What do you mean?")
-						alert("Well, at a certain point, to the west, there are holes that you can fall into and you cannot climb out of them.","Discuss","Good to know.","So I can't climb out, what's on the other side?")
-						//if("Alright, Thanks.")
-							//return
-						if("So I can't climb out, what's on the other side?")
-							alert("I'm a foreigner here so I don't really know, I haven't ventured that far yet; but I have heard rumors that certain folk have been cast away via those holes; Nobody will say what is on the other side.")
-					if("Why?")
-						alert("Just a guess but you probably aren't prepared well enough to venture past this point, but that isn't anything that cannot be remedied.","Discuss","Well you're wrong! I can handle anything!")
-						if("Well you're wrong! I can handle anything!")
-							alert("All the youth think that at first, Ten Feet Tall and Bullet Proof; But reality soon sets in, plans do not go as planned and provisions are never enough.","Discuss","I see.","Indeed...")
-							if("I see.")
-								alert("You will soon enough.")
-					if("Interesting...")
-						alert("Better shift your interest into training and aquiring what you need to survive.","Discuss","I guess so.","I want to do other things.")
-						if("I want to do other things.")
-							alert("Then you better turn back and stick around the Forests where you can somewhat live, although you cannot build anything.","Discuss","Right!")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
 			New()
 				.=..()
 				spawn(60)
@@ -868,18 +875,12 @@ mob
 
 			proc/NPCWander(Speed)
 				var/mob/players/P
-				while(src)     //while its still there, and not deleted..
-					//if (P in oview(5))    //If a PC is in 5 spaces of it...
-						//step_towards(src,P)   //Step towards the PC
-					//else
+				while(src)
 					for(P in oview(src))
 						break
 					sleep(Speed)
-					step_rand(src)   //step random
-						//for(P in view(src))  //but if a PC comes nearby...
-						//	break     //stop walking random
-					//sleep(speed)
-				spawn(260)   //Keep the infinit loop in action, and tell it to wait for 4 seconds
+					step_rand(src)
+				spawn(260)
 					NPCWander(Speed)
 		Explorer
 			name = "Explorer"
@@ -887,90 +888,161 @@ mob
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "adv"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask what", "whatmean"),
+					new /datum/npc_interaction_option("Say things change", "disagree"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_whatmean(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("If you try to hurry through what you do you will forget something along the way and end up too weak or unprepared to survive. If you get too far ahead of yourself you will be weak. Is what I am saying.")
+			
+			proc/Interact_disagree(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("That is fine, it is just your Rebel spirit fighting to survive. Just realize this: Life is Harsh and forts offer protection that enables Weakness. The basic fundamentals of life do not change so much, they may vary, but they generally remain the same.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("I've been far and wide...I suggest you take your time, if you rush through your efforts with haste you end up cast asunder.","Discuss") in list("What?","Things change!"))
-				switch(K)
-					if("What?")
-						alert("If you try to hurry through what you do you will forget something along the way and end up too weak or unprepared to survive.","Discuss","Makes sense.","So you think I'm weak?")
-						//if("Alright, Thanks.")
-							//return
-						if("So you think I'm weak?")
-							alert("No, but at a certain point if you get too far ahead of yourself you will be, is what I am saying.")
-					if("Things change!")
-						alert("Or do you mean that you want things to change? The basic fundamentals of life do not change so much, they may vary, but they generally remain the same.","Discuss","Ahh, hmm...","Sorry...I have to disagree")
-						if("Sorry...I have to disagree")
-							alert("That is fine, it is just your Rebel spirit fighting to survive; Just realize this, Life is Harsh and forts offer protection that enables Weakness.","Discuss","Right!")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
+			New()
+				.=..()
+				spawn(60)
+					NPCWander(Speed)
+
+			proc/NPCWander(Speed)
+				var/mob/players/P
+				while(src)
+					for(P in oview(src))
+						break
+					sleep(Speed)
+					step_rand(src)
+				spawn(260)
+					NPCWander(Speed)
 		Traveler
 			name = "Traveler"
 			density = 1
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "adv"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask what do", "whatdo"),
+					new /datum/npc_interaction_option("Ask why care", "whycare"),
+					new /datum/npc_interaction_option("Learn recipes", "teach", TRUE),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_whatdo(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("I fill various needs, finding wild goods and bringing them to merchants. I've carved planks for house building, cut stone for walls, gathered food and spice; I've also distributed random goods like Hand Made Blankets to the masses, there are only so many colors though.")
+			
+			proc/Interact_whycare(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("You're the one talking to me.")
+			
+			proc/Interact_teach(mob/players/M, datum/NPC_Interaction/session)
+				session.Close()  // Close HUD before teaching
+				TravelerRecipeDialogUnified(M, src)
+			
 			Click()
 				set hidden = 1
 				set src in oview(1)
-				if (!(src in range(1, usr))) return
-				var/mob/players/M = usr
-				
-				var/K = (input("I go back and forth between these two principalities, trading and offering my services","Discuss") in list("What do you do?","Why do I care?","Teach Me"))
-				switch(K)
-					if("What do you do?")
-						alert("I fill various needs, finding wild goods and bringing them to merchants.","Discuss","Okay?","Give me an example?")
-						if("Give me an example?")
-							alert("An example? I've carved planks for house building, cut stone for walls, gathered food and spice; I've also distributed random goods like Hand Made Blankets to the masses, there are only so many colors though.")
-					if("Why do I care?")
-						alert("You're the one talking to me.","Discuss","Ah, right.")
-					if("Teach Me")
-						TravelerRecipeDialogUnified(M, src)
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
+			New()
+				.=..()
+				spawn(60)
+					NPCWander(Speed)
+
+			proc/NPCWander(Speed)
+				var/mob/players/P
+				while(src)
+					for(P in oview(src))
+						break
+					sleep(Speed)
+					step_rand(src)
+				spawn(260)
+					NPCWander(Speed)
 		Scribe
 			name = "Scribe"
 			density = 1
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "adv"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask what up to", "whatup"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_whatup(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("I'm a Scribe, I write down records of Higher Court affairs or anywhere I am hired to do so. Not when you have access to special information.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("I'm very busy, what do you want?","Discuss") in list("Oh, what are you up to?","Ah sorry, I'll leave you alone."))
-				switch(K)
-					if("Oh, what are you up to?")
-						alert("I'm a Scribe, I write down records of Higher Court affairs or anywhere I am hired to do so.","Discuss","Oh, I see.","Sounds Boring.")
-						//if("Alright, Thanks.")
-							//return
-						if("Sounds Boring.")
-							alert("Not when you have access to special information.")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
+			New()
+				.=..()
+				spawn(60)
+					NPCWander(Speed)
+
+			proc/NPCWander(Speed)
+				var/mob/players/P
+				while(src)
+					for(P in oview(src))
+						break
+					sleep(Speed)
+					step_rand(src)
+				spawn(260)
+					NPCWander(Speed)
 		Proctor
 			name = "Proctor"
 			density = 1
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "proct"
-			//var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask what do", "whatdo"),
+					new /datum/npc_interaction_option("Ask help", "helpme"),
+					new /datum/npc_interaction_option("Say okay place", "okayplace"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_whatdo(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("I teach newcomers basic abilities to help them on their journey.")
+			
+			proc/Interact_helpme(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("You'll want to train your abilities and practice your movements if you want to make it any further. I am unable to tell you what is beyond this point but you must be prepared for it none the less. Yes, at a certain point you will be unable to return and there are things that lie beyond that point that we cannot discuss. That is for me to know and you to find out, because once you do, you may never return.")
+			
+			proc/Interact_okayplace(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("As long as you keep your foreign nose out of our business we do not mind you being here, but we Believe Everyone to be Suspicious.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("Hello and welcome to The Principality of Belief.","Welcome") in list("What do you do?","Can you help me?","Seems like an okay place..."))
-				switch(K)
-					if("What do you do?")
-						alert("I teach new comers basic abilities to help them on their journey.","Discuss","Okay?","Sounds good to me!")
-					if("Can you help me?")
-						alert("You'll want to train your abilities and practice your movements if you want to make it any further, I am unable to tell you what is beyond this point but you must be prepared for it none the less.","Discuss","Beyond this point?")
-						if("Beyond this point?")
-							alert("Yes, at a certain point you will be unable to return and there are things that lie beyond that point that we cannot discuss.","Discuss","Why?")
-							if("Why?")
-								alert("That is for me to know and you to find out, because once you do, you may never return.")
-					if("Seems like an okay place...")
-						alert("As long as you keep your foreign nose out of our business we do not mind you being here, but we Believe Everyone to be Suspicious.","Discuss","I suppose I will find out soon enough...")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
 	PrideNPCS
 		layer = 3
 		//plane = 3
@@ -985,7 +1057,10 @@ mob
 				//var/mob/players/M
 				set src in oview(1)
 				//M = usr
-				if (!(src in range(1, usr))) return
+				// Validate distance BEFORE input dialog
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
 				var/K = (input("You've Survived? Good, but there are much harder roads ahead; I tried, earlier, to venture further but it was just too tough.","Discuss") in list("Yeah I'm still here.","Piece of cake!"))
 				switch(K)
 					if("Yeah I'm still here.")
@@ -1022,80 +1097,172 @@ mob
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "advF"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask what do", "whatdo"),
+					new /datum/npc_interaction_option("Ask who are", "whoare"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_whatdo(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("I'm an artisan, I create various things for distribution.")
+			
+			proc/Interact_whoare(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Why does that matter? All you need to know is that I'm an artisan and I create various goods for people.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("Oh, Huh...What?","Discuss") in list("What do you do?","Who are you?"))
-				switch(K)
-					if("What do you do?")
-						alert("I'm an artisan, I create various things for distribution.","Discuss","Oh, Okay.")
-						//if("Alright, Thanks.")
-							//return
-					if("Who are you?")
-						alert("Why does that matter? All you need to know is that I'm an artisan and I create various goods for people.","Discuss","Okay..fine.")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
+			New()
+				.=..()
+				spawn(60)
+					NPCWander(Speed)
+
+			proc/NPCWander(Speed)
+				var/mob/players/P
+				while(src)
+					for(P in oview(src))
+						break
+					sleep(Speed)
+					step_rand(src)
+				spawn(260)
+					NPCWander(Speed)
 		Craftsman
 			name = "Craftsman"
 			density = 1
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "vw1"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Say no need", "noneed"),
+					new /datum/npc_interaction_option("Ask whats up", "whatsup"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_noneed(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Well if you need anything, you might as well realize that it is best to do it yourself.")
+			
+			proc/Interact_whatsup(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Nothing, busy working, as always.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("Huh. I'm busy ~ do you need something?","Discuss") in list("Uhh, no?","What's up?"))
-				switch(K)
-					if("Uhh, no?")
-						alert("Well if you need anything, you might as well realize that it is best to do it yourself.","Discuss","Indeed, I can agree with that.")
-						//if("Alright, Thanks.")
-							//return
-					if("What's up?")
-						alert("Nothing, busy working, as always.","Discuss","Ah, I see.")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
+			New()
+				.=..()
+				spawn(60)
+					NPCWander(Speed)
+
+			proc/NPCWander(Speed)
+				var/mob/players/P
+				while(src)
+					for(P in oview(src))
+						break
+					sleep(Speed)
+					step_rand(src)
+				spawn(260)
+					NPCWander(Speed)
 		Builder
 			name = "Builder"
 			density = 1
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "va1"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Say really", "really"),
+					new /datum/npc_interaction_option("Ask why", "why"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_really(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("I'm a builder, I designed these houses to be warm and efficient. That is why they are all the same size.")
+			
+			proc/Interact_why(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("I built them all, they are designed so that they can remain warm. Their size is what makes this possible and they must be maintained.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("I'm responsible for all these buildings you see.","Discuss") in list("Really?","Oh yeah, why?"))
-				switch(K)
-					if("really?")
-						alert("I'm a builder, I designed these houses to be warm and efficient; that is why they are all the same size.","Discuss","Oh, makes sense.")
-						//if("Alright, Thanks.")
-							//return
-					if("Oh yeah, why?")
-						alert("I built them all, they are designed so that they can remain warm; Their size is what makes this possible and they must be maintained.","Discuss","Ahhh, I see.")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
+			New()
+				.=..()
+				spawn(60)
+					NPCWander(Speed)
+
+			proc/NPCWander(Speed)
+				var/mob/players/P
+				while(src)
+					for(P in oview(src))
+						break
+					sleep(Speed)
+					step_rand(src)
+				spawn(260)
+					NPCWander(Speed)
 		Lumberjack
 			name = "Lumberjack"
 			density = 1
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "vi1"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask how going", "howgoing"),
+					new /datum/npc_interaction_option("Ask what up to", "whatup"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_howgoing(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Good, I suppose ~ just taking an extended break before I get back to gathering dead wood for the towns fires. Gotta keep warm!")
+			
+			proc/Interact_whatup(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Relaxing before I have to go out and gather more wood. I'm a Lumberjack, gotta keep these houses warm in this climate!")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("Hmmm?","Discuss") in list("How's it going?","What are you up to?"))
-				switch(K)
-					if("How's it going?")
-						alert("Good, I suppose ~ just taking an extended break before I get back to gathering dead wood for the towns fires, gotta keep warm!","Discuss","Oh, I see.")
-						//if("Alright, Thanks.")
-							//return
-					if("What are you up to?")
-						alert("Relaxing before I have to go out and gather more wood, I'm a Lumberjack, gotta keep these houses warm in this climate!","Discuss","Yes, indeed.")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
+			New()
+				.=..()
+				spawn(60)
+					NPCWander(Speed)
+
+			proc/NPCWander(Speed)
+				var/mob/players/P
+				while(src)
+					for(P in oview(src))
+						break
+					sleep(Speed)
+					step_rand(src)
+				spawn(260)
+					NPCWander(Speed)
 	HonorNPCS
 		layer = 3
 		//plane = 3
@@ -1105,20 +1272,33 @@ mob
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "adv"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask survivor", "survivor"),
+					new /datum/npc_interaction_option("Ask young", "young"),
+					new /datum/npc_interaction_option("Learn recipes", "teach", TRUE),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_survivor(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Yes, you are a survivor are you not? You've made it this far and I've seen many days pass where not a single soul has arrived to these steps.")
+			
+			proc/Interact_young(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("Yes, compared to me you are young as I am an Elder, but it is not an insult; rather just a compliment or even envy of your remaining days over mine.")
+			
+			proc/Interact_teach(mob/players/M, datum/NPC_Interaction/session)
+				session.Close()  // Close HUD before teaching
+				ElderRecipeDialogUnified(M, src)
+			
 			Click()
 				set hidden = 1
 				set src in oview(1)
-				if (!(src in range(1, usr))) return
-				var/mob/players/M = usr
-				
-				var/K = (input("Ahh, a young survivor...","Discuss") in list("Survivor?","Young?","Teach Me"))
-				switch(K)
-					if("Survivor?")
-						alert("Yes, you are a survivor are you not? You've made it this far and I've seen many days pass where not a single soul has arrived to these steps.","Discuss","Well, I suppose I am then.")
-					if("Young?")
-						alert("Yes, compared to me you are young as I am an Elder, but it is not an insult; rather just a compliment or even envy of your remaining days over mine.","Discuss","Wise words, Elder.")
-					if("Teach Me")
-						ElderRecipeDialogUnified(M, src)
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
 
 		Veteran
 			name = "Veteran"
@@ -1126,16 +1306,43 @@ mob
 			icon = 'dmi/64/npcs.dmi'
 			icon_state = "adv"
 			var/Speed = 13
+			
+			proc/GetInteractionOptions()
+				return list(
+					new /datum/npc_interaction_option("Ask rough", "rough"),
+					new /datum/npc_interaction_option("Ask mean", "mean"),
+					new /datum/npc_interaction_option("Leave", "leave", TRUE)
+				)
+			
+			proc/Interact_rough(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("I'm an old Veteran, what do you expect from me? The things I've seen would drive any ordinary person into madness.")
+			
+			proc/Interact_mean(mob/players/M, datum/NPC_Interaction/session)
+				session.SetResponse("It doesn't matter anymore. I've endured things that would crush the spirit of average folk. A rough demeanor is just what's left of me.")
+			
 			Click()
 				set hidden = 1
-				//var/mob/players/M
 				set src in oview(1)
-				//M = usr
-				if (!(src in range(1, usr))) return
-				var/K = (input("What do you want?","Discuss") in list("Why so rough?","What do you mean?"))
-				switch(K)
-					if("Why so rough?")
-						alert("I'm an old Veteran, what do you expect from me; The things I've seen would drive any ordinary person into madness.","Discuss","Oh, sorry; Guess i'll leave you be.")
+				if (!(src in range(1, usr)))
+					usr << "You're too far away!"
+					return
+				var/datum/NPC_Interaction/menu = new(src, usr)
+				menu.Show()
+			
+			New()
+				.=..()
+				spawn(60)
+					NPCWander(Speed)
+
+			proc/NPCWander(Speed)
+				var/mob/players/P
+				while(src)
+					for(P in oview(src))
+						break
+					sleep(Speed)
+					step_rand(src)
+				spawn(260)
+					NPCWander(Speed)
 						//if("Alright, Thanks.")
 							//return
 					if("What do you mean?")

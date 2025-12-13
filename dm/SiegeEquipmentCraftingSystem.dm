@@ -345,7 +345,7 @@ var/datum/siege_crafting_system/global_siege_crafter
 	html += "</style></head><body><h1>Siege Weapon Blueprints</h1>"
 	
 	var/datum/siege_blueprint_registry/registry = GetSiegeRegistry()
-	var/list/all_blueprints = registry.GetBlueprints()
+	// var/list/all_blueprints = registry.GetBlueprints()  // Unused for now - display logic uses GetTierBlueprints
 	
 	for(var/tier = 1; tier <= 5; tier++)
 		html += "<h2>Tier [tier] Weapons</h2>"

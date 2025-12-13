@@ -7,10 +7,6 @@
 // ============================================================================
 
 /datum/market_commodity
-	/**
-	 * market_commodity
-	 * Represents a tradeable commodity with dynamic pricing
-	 */
 	var
 		commodity_name = "Unknown"
 		commodity_type = "material"
@@ -44,10 +40,6 @@
 		consumption_rate = 0
 
 /datum/market_price_engine
-	/**
-	 * market_price_engine
-	 * Global price calculation and adjustment system
-	 */
 	var
 		list/commodities = list()
 		
@@ -70,10 +62,6 @@
 		last_update = 0
 
 /datum/market_transaction_record
-	/**
-	 * market_transaction_record
-	 * Records historical market transactions for analysis
-	 */
 	var
 		transaction_id = 0
 		commodity_name = ""

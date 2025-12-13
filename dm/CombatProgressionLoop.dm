@@ -26,10 +26,6 @@
 // ============================================================================
 
 /datum/combat_experience
-	/**
-	 * combat_experience
-	 * Track experience gain from combat activities
-	 */
 	var
 		// Identity
 		player_ref = null

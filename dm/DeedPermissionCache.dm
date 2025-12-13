@@ -148,6 +148,23 @@ mob/var
 		InvalidateDeedPermissionCache(M)
 
 
+/proc/NotifyDeedChange(mob/players/owner_player)
+	/**
+	 * Called whenever a deed changes status (freeze, expiration, etc)
+	 * Invalidates cache for all affected players
+	 * 
+	 * owner_player: The player who owns the deed (if online)
+	 */
+	if(!owner_player) return
+	
+	// Invalidate owner's cache
+	InvalidateDeedPermissionCache(owner_player)
+	
+	// Also invalidate global cache to ensure consistency
+	// (optional - can be expensive with many players)
+	// InvalidateDeedPermissionCacheGlobal()
+
+
 // ============================================================================
 // UNDERLYING QUERY FUNCTIONS (called during cache misses)
 // ============================================================================

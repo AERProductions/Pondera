@@ -24,11 +24,6 @@
 // ============================================================================
 
 /datum/equipment_stats
-	/**
-	 * equipment_stats
-	 * Material-based equipment configuration
-	 * Defines how materials affect combat performance
-	 */
 	var
 		// Item identification
 		item_name = ""

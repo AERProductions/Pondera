@@ -38,15 +38,15 @@ proc/InitializeRankDefinitions()
 	RANK_DEFINITIONS[RANK_FISHING] = list("frank", "frankEXP", "frankMAXEXP", "bar_fishing", "Fishing")
 	RANK_DEFINITIONS[RANK_CRAFTING] = list("crank", "crankEXP", "crankMAXEXP", "bar_crafting", "Crafting")
 	RANK_DEFINITIONS[RANK_GARDENING] = list("grank", "grankEXP", "grankMAXEXP", "bar12", "Gardening")
-	RANK_DEFINITIONS[RANK_WOODCUTTING] = list("hrank", "hrankEXP", "hrankMAXEXP", "bar3", "Woodcutting")
+	RANK_DEFINITIONS[RANK_WOODWORKING] = list("hrank", "hrankEXP", "hrankMAXEXP", "bar3", "Woodworking")
 	RANK_DEFINITIONS[RANK_MINING] = list("mrank", "mrankEXP", "mrankMAXEXP", "bar_mining", "Mining")
 	RANK_DEFINITIONS[RANK_SMITHING] = list("smirank", "smirankEXP", "smirankMAXEXP", "bar_smithing", "Smithing")
 	RANK_DEFINITIONS[RANK_SMELTING] = list("smerank", "smerankEXP", "smerankMAXEXP", "bar_smelting", "Smelting")
 	RANK_DEFINITIONS[RANK_BUILDING] = list("brank", "brankEXP", "brankMAXEXP", "bar_building", "Building")
 	RANK_DEFINITIONS[RANK_DIGGING] = list("drank", "drankEXP", "drankMAXEXP", "bar_digging", "Digging")
 	RANK_DEFINITIONS[RANK_CARVING] = list("Crank", "CrankEXP", "CrankMAXEXP", "bar_carving", "Carving")
-	RANK_DEFINITIONS[RANK_SPROUT_CUTTING] = list("CSRank", "CSRankEXP", "CSRankMAXEXP", "bar_sprout", "Sprout Cutting")
-	RANK_DEFINITIONS[RANK_POLE] = list("PLRank", "PLRankEXP", "PLRankMAXEXP", "bar_pole", "Pole")
+	RANK_DEFINITIONS[RANK_BOTANY] = list("botany_rank", "botany_xp", "botany_maxexp", "bar_botany", "Botany")
+	RANK_DEFINITIONS[RANK_WHITTLING] = list("whittling_rank", "whittling_xp", "whittling_maxexp", "bar_whittling", "Whittling")
 	RANK_DEFINITIONS[RANK_ARCHERY] = list("archery_rank", "archery_xp", "archery_maxexp", "bar_archery", "Archery")
 	RANK_DEFINITIONS[RANK_CROSSBOW] = list("crossbow_rank", "crossbow_xp", "crossbow_maxexp", "bar_crossbow", "Crossbow")
 	RANK_DEFINITIONS[RANK_THROWING] = list("throwing_rank", "throwing_xp", "throwing_maxexp", "bar_throwing", "Throwing")
@@ -153,14 +153,23 @@ proc/InitializeRankDefinitions()
 	 * UpdateRankExp(rank_type, exp_gain)
 	 * Primary function to add experience to a rank
 	 * Handles clamping, leveling, and UI updates
+	 * PRESTIGE MULTIPLIER: Automatically applies prestige skill exp bonus
 	 * 
 	 * Usage:
 	 *   var/mob/players/M = user
-	 *   M.UpdateRankExp(RANK_WOODCUTTING, 15)  // Gain 15 XP in woodcutting
+	 *   M.UpdateRankExp(RANK_WOODCUTTING, 15)  // Gain 15 XP in woodcutting (auto-multiplied)
 	 */
 	if(!src.client || !character) return
 	
 	if(GetRankIsMaxed(rank_type)) return  // Already at max
+	
+	// Apply prestige skill exp multiplier if prestige system exists
+	var/datum/PrestigeSystem/ps = GetPrestigeSystem()
+	if(ps)
+		var/datum/prestige_state/state = ps.GetPrestigeState(src)
+		if(state)
+			var/multiplier = state.GetPrestigeBonus()
+			exp_gain = round(exp_gain * multiplier, 0.01)
 	
 	var/current_exp = GetRankExp(rank_type)
 	var/max_exp = GetRankMaxExp(rank_type)

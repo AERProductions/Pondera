@@ -22,10 +22,6 @@
 // ============================================================================
 
 /datum/trading_post
-	/**
-	 * trading_post
-	 * Represents a player-managed trading post/stall
-	 */
 	var
 		// Owner info
 		stall_owner = null
@@ -50,10 +46,6 @@
 		close_time = 0
 
 /datum/stall_trade_offer
-	/**
-	 * stall_trade_offer
-	 * Single trade proposal (buy or sell) at trading post
-	 */
 	var
 		// Offer details
 		offer_id = null
@@ -73,10 +65,6 @@
 		max_distance = 0
 
 /datum/trade_history_entry
-	/**
-	 * trade_history_entry
-	 * Record of completed trade
-	 */
 	var
 		timestamp = 0
 		buyer_name = ""

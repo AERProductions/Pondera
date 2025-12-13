@@ -22,10 +22,6 @@
 // ============================================================================
 
 /datum/supply_demand_curve
-	/**
-	 * supply_demand_curve
-	 * Tracks supply/demand dynamics for a commodity
-	 */
 	var
 		// Commodity identification
 		commodity_name = "Stone"

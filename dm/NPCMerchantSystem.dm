@@ -24,10 +24,6 @@
 // ============================================================================
 
 /datum/npc_merchant
-	/**
-	 * npc_merchant
-	 * Represents a tradeable NPC with personality and inventory
-	 */
 	var
 		// Identity
 		merchant_name = "Unknown Merchant"

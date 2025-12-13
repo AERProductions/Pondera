@@ -33,6 +33,7 @@ var
 		/**
 		 * HandlePlayerDeath
 		 * Primary death handler - applies fainted state OR permanent death
+		 * Integrated with Lives system for per-continent lives tracking
 		 * 
 		 * @param player: The player who died
 		 * @param attacker: The mob/player who caused death (can be null for environmental)
@@ -42,15 +43,29 @@ var
 		// Record death
 		RecordDeath(player, attacker)
 		
-		// Increment player death count
-		player.character.death_count++
+		// Get server difficulty config and determine consequence
+		var/datum/server_difficulty_config/config = GetServerDifficultyConfig()
+		if(!config)
+			// Fallback: Initialize if not ready
+			InitializeServerDifficultyConfig()
+			config = GetServerDifficultyConfig()
 		
-		if(player.character.death_count >= 2)
-			// SECOND DEATH: Permanent death
-			ApplyPermanentDeath(player, attacker)
-		else
-			// FIRST DEATH: Fainted state (awaitable for revival)
+		// Apply Lives system logic (per-continent tracking)
+		var/consequence = ApplyLivesSystemLogic(player, attacker)
+		
+		if(consequence == "reset")
+			// PERMANENT DEATH: Character hard reset with skill preservation
+			ResetCharacterOnDeath(player)
+		else if(consequence == "fainted")
+			// FAINTED STATE: Awaitable for revival (standard two-death system)
 			ApplyFaintedState(player, attacker)
+		else
+			// Fallback to original two-death system if lives system unavailable
+			player.character.death_count++
+			if(player.character.death_count >= 2)
+				ApplyPermanentDeath(player, attacker)
+			else
+				ApplyFaintedState(player, attacker)
 
 	proc/RecordDeath(mob/players/player, mob/attacker)
 		/**
@@ -153,9 +168,9 @@ var
 	proc/RevivePlayer(mob/players/player, mob/players/reviver)
 		/**
 		 * RevivePlayer
-		 * Revive fainted player via Abjure spell
+		 * Revive fainted player via Abjure spell or admin command
+		 * Integrated with Lives system: respawns at continent rally point
 		 * Resets death_count to prevent second death counter increment
-		 * Player wakes at faint location
 		 * 
 		 * @param player: The fainted player
 		 * @param reviver: The player casting Abjure (nil if admin revive)
@@ -172,6 +187,13 @@ var
 		// Reset fainted state
 		player.character.is_fainted = 0
 		fainted_players -= player.ckey
+		
+		// Determine current continent for rally point respawn
+		var/datum/continent/cont = GetPlayerContinent(player)
+		var/continent_name = cont ? cont.name : "story"  // Default to story
+		
+		// Respawn at continent rally point via Lives system
+		RespawnAfterRevival(player, continent_name)
 		
 		// Reset death count (this faint doesn't count toward second death)
 		player.character.death_count = 0
@@ -190,7 +212,7 @@ var
 		player.stamina = round(player.MAXstamina * 0.25)  // Revived at 25% stamina
 		
 		// Notification
-		player << "<span class='good'>You have been revived!</span>"
+		player << "<span class='good'>You have been revived at a rally point!</span>"
 		if(reviver)
 			world << "<span class='good'>[reviver.name] has revived [player.name]!</span>"
 		else

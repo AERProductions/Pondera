@@ -30,16 +30,19 @@ var
 
 // Spawn initial terrain: create generators for lakes and hills, apply borders and resource spawning.
 proc
-	GenerateMap(lakes = 15, hills = 15)
+	GenerateMap(lakes = 15, hills = 15, continent = "story")
+		// Initialize biome registry before first generation
+		InitializeBiomeRegistry()
+		
 		new /map_generator/water(lakes)
-		new /map_generator/temperate(hills)
+		new /map_generator/temperate(hills, continent)
 
 		for(var/map_generator/mg in map_generators)
 			mg.EdgeBorder()
 		for(var/map_generator/mg in map_generators)
 			mg.InsideBorder()
 		for(var/turf/t)
-			t.SpawnResource()
+			BiomeSpawnResource(t, continent)  // Use BiomeRegistry instead of per-turf SpawnResource()
 
 // Map generator type: creates random terrain blocks at specified size/location.
 map_generator
@@ -50,11 +53,13 @@ map_generator
 		turfs[0]
 		turf/tile
 		turf/center_turf
+		continent = "story"  // Which continent/continent mode this generator is for
 
 		min_size = 1
 		max_size = 5
 
-	New(n)
+	New(n, cont = "story")
+		continent = cont
 		map_generators += src
 		TIMER_END("generation")
 		for(var/i, i<n, i++)

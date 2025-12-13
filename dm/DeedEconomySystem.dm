@@ -45,21 +45,20 @@
 // DEED TRANSFER SYSTEM
 // ============================================================================
 
-var
-	list/g_pending_transfers = list()
-	list/g_transfer_history = list()
+var/list/g_pending_transfers = list()
+var/list/g_transfer_history = list()
 
-/**
- * Initiate a deed transfer (sale)
- * Creates pending transfer request requiring both parties' confirmation
- *
- * @param token - DeedToken to transfer
- * @param seller_ckey - Current owner's ckey
- * @param buyer_ckey - New owner's ckey
- * @param price - Sale price in lucre
- * @return transfer_id if created, null if failed
- */
 /proc/InitiateDeedTransfer(obj/DeedToken/token, seller_ckey, buyer_ckey, price)
+	/**
+	 * InitiateDeedTransfer(token, seller_ckey, buyer_ckey, price)
+	 * Creates pending transfer request requiring both parties' confirmation
+	 *
+	 * @param token - DeedToken to transfer
+	 * @param seller_ckey - Current owner's ckey
+	 * @param buyer_ckey - New owner's ckey
+	 * @param price - Sale price in lucre
+	 * @return transfer_id if created, null if failed
+	 */
 	if(!token || !seller_ckey || !buyer_ckey || !price)
 		return null
 	

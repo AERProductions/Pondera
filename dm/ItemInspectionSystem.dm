@@ -16,11 +16,6 @@
 // ============================================================================
 
 /datum/item_inspection
-	/**
-	 * item_inspection
-	 * Stores metadata about items for inspection system
-	 * Links items to their original recipes
-	 */
 	var
 		item_name = "Unknown Item"
 		item_icon = null
@@ -43,10 +38,6 @@
 		discoverable = 1
 
 /datum/inspection_result
-	/**
-	 * inspection_result
-	 * Result of inspecting an item - what can be learned?
-	 */
 	var
 		success = 0
 		recipe_discovered = 0

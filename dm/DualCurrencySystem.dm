@@ -1,16 +1,13 @@
-// DualCurrencySystem.dm - Unified Currency Framework (Lucre + Material Trading)
-// Manages story-mode lucre currency and PvP-mode material trading
+// DualCurrencySystem.dm - Unified Currency Framework (Lucre + Material Trading + Quanta)
+// Manages story-mode lucre currency, PvP-mode material trading, and future quantum payment system
 // Enables kingdom-to-kingdom material exchanges for fort building, resource management
+// Quanta: Placeholder for future QRL Zond network integration (post-quantum smart contracts, QRC-20)
 
 // ============================================================================
 // CURRENCY TYPE DEFINITIONS
 // ============================================================================
 
 /datum/currency_type
-	/**
-	 * Base datum for currency definitions
-	 * Allows flexible currency systems per game mode
-	 */
 	var
 		name = "Unknown"
 		abbreviation = "???"
@@ -66,19 +63,16 @@
 // ============================================================================
 
 /datum/dual_currency_system
-	/**
-	 * dual_currency_system
-	 * Manages multiple currency types per player
-	 * Handles conversion, trading, and mode-specific balances
-	 */
 	var
 		lucre_balance = 0
 		stone_balance = 0
 		metal_balance = 0
 		timber_balance = 0
 		supply_packs = 0
+		quanta_balance = 0              // Quanta: Universal progression currency (placeholder)
 		lucre_to_stone_rate = 0.5
 		stone_to_lucre_rate = 2.0
+		quanta_to_lucre_rate = 5.0     // Quanta worth 5x lucre (placeholder, TBD)
 		list/transaction_log = list()
 		last_trade_time = 0
 
@@ -100,22 +94,21 @@
 			player.currency_system.stone_balance = 0
 			player.currency_system.metal_balance = 0
 			player.currency_system.timber_balance = 0
+			player.currency_system.quanta_balance = 0   // No starting Quanta (placeholder)
 		
 		if("pvp")
 			player.currency_system.lucre_balance = 0
 			player.currency_system.stone_balance = 50   // Starting materials
 			player.currency_system.metal_balance = 20
 			player.currency_system.timber_balance = 30
+			player.currency_system.quanta_balance = 0   // No starting Quanta (placeholder)
 		
 		if("sandbox")
 			player.currency_system.lucre_balance = 500  // Abundant for building
 			player.currency_system.stone_balance = 100
 			player.currency_system.metal_balance = 50
 			player.currency_system.timber_balance = 75
-
-// ============================================================================
-// CURRENCY RETRIEVAL & BALANCE CHECKING
-// ============================================================================
+			player.currency_system.quanta_balance = 0   // No starting Quanta (placeholder)
 
 /proc/GetPlayerCurrencyBalance(mob/players/player, currency_type)
 	/**
@@ -134,6 +127,8 @@
 			return player.currency_system.metal_balance
 		if("timber")
 			return player.currency_system.timber_balance
+		if("quanta")
+			return player.currency_system.quanta_balance
 	
 	return 0
 
@@ -220,6 +215,9 @@
 		if("timber")
 			if(player.currency_system.timber_balance < amount) return 0
 			player.currency_system.timber_balance -= amount
+		if("quanta")
+			if(player.currency_system.quanta_balance < amount) return 0
+			player.currency_system.quanta_balance -= amount
 	
 	return 1
 
@@ -240,6 +238,8 @@
 			player.currency_system.metal_balance += amount
 		if("timber")
 			player.currency_system.timber_balance += amount
+		if("quanta")
+			player.currency_system.quanta_balance += amount
 	
 	return 1
 
@@ -361,6 +361,7 @@
 		F["stone_balance"] = player.currency_system.stone_balance
 		F["metal_balance"] = player.currency_system.metal_balance
 		F["timber_balance"] = player.currency_system.timber_balance
+		F["quanta_balance"] = player.currency_system.quanta_balance
 
 /proc/LoadPlayerCurrencyData(mob/players/player, savefile/F)
 	/**
@@ -376,6 +377,7 @@
 	player.currency_system.stone_balance = F["stone_balance"] || 0
 	player.currency_system.metal_balance = F["metal_balance"] || 0
 	player.currency_system.timber_balance = F["timber_balance"] || 0
+	player.currency_system.quanta_balance = F["quanta_balance"] || 0
 
 // ============================================================================
 // NOTE: LogCurrencyTransaction already defined in CurrencyDisplayUI.dm

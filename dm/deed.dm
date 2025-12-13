@@ -425,10 +425,34 @@ obj
 									M << "These lands are already claimed."//If they're already claim, you can't claim them again
 									return
 								else if(src.deedused==0)
-									M << {"<font color=#FFFB98><left>You place a Land Claim in this area."}//If the deed hasn't been used and the land is not claimed, they can claim it
+									// ===== ANTI-GRIEFING CHECKS =====
+									// Check 1: Proximity to other deeds
+									var/list/proximity_result = CheckDeedProximity(usr.loc, "Small", M)
+									if(!proximity_result[1])
+										M << "<font color=#FF6B6B><b>Claim Blocked:</b> [proximity_result[2]]"
+										return
+									
+									// Check 2: Griefing detection
+									var/list/grief_result = DetectDeedGriefing(usr.loc, "Small", M)
+									if(!grief_result[1])
+										M << {"<font color=#FF6B6B><b>Claim Blocked:</b> [grief_result[2]]"}
+										return
+									
+									// Check 3: Vulnerability check - is existing deed being griefed?
+									for(var/obj/DeedToken/existing_dt in world)
+										if(!existing_dt) continue
+										if(CheckDeedVulnerability(existing_dt, usr.loc, M))
+											M << "<font color=#FF6B6B><b>Claim Blocked:</b> This would restrict an existing deed's access. Anti-griefing protection enabled."
+											return
+									
+									// All checks passed - proceed with claim
+									M << {"<font color=#FFFB98><left>You place a Land Claim in this area."}
 									for(t)
 										t:landclaimed=1
 									new dt(usr.loc)//Creates a new deed token which handles creating the region and the zone permissions
+									
+									// Log claim for griefing tracking
+									LogDeedClaim(M, usr.loc, "Small")
 									
 									dt = locate() in oview(10)//locate a Deed Token in oview of this region
 									for(dt)

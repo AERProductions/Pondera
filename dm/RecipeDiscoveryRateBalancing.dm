@@ -7,11 +7,6 @@
 // ============================================================================
 
 /datum/recipe_discovery_rates
-	/**
-	 * recipe_discovery_rates
-	 * Global configuration for recipe discovery rates
-	 * Controls how often recipes are unlocked per skill system
-	 */
 	var
 		skill_discovery_base_rate = 1.0
 		skill_discovery_scaling = 1.1

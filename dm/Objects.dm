@@ -2753,7 +2753,7 @@ obj
 							var/mob/players/M
 							M = usr
 							var/obj/items/tools/Containers/Jar/J = locate(M.contents)// = FindJar(M.contents)
-							//var/random/R = rand(1,5) //1 in 5 chance to smith
+							//var/R = rand(1,5) //1 in 5 chance to smith
 
 							//J = locate(M.contents)
 							//for(J in M.contents)
@@ -2829,7 +2829,7 @@ obj
 						var/mob/players/M
 						M = usr
 						var/obj/items/Crafting/Created/Clay/J = locate() in M.contents
-						//var/random/R = rand(1,5) //1 in 5 chance to smith
+						//var/R = rand(1,5) //1 in 5 chance to smith
 
 						//locate(src) in M.contents
 						//if(J)
@@ -2982,7 +2982,7 @@ obj
 						//var/obj/items/UeikThorn/J2
 						//var/list/L
 						//L = list("Obsidian","Rock","Ueik",3)
-						//var/random/R = rand(1,5) //1 in 5 chance to smith
+						//var/R = rand(1,5) //1 in 5 chance to smith
 						//if(J in M.contents)
 
 						//if(!J||!J1||!J2||!J3||!J4||!J5||!J6)
@@ -3299,7 +3299,7 @@ obj
 												if(J.name=="Hammer head")
 													for(J in M.contents)
 														//M<<"You need Obsidian to continue..."
-													//	return	//var/random/R = rand(1,5)
+													//	return	//var/R = rand(1,5)
 
 														if(R>=2)
 															M<<"You start to Combine the Hammer Head and the Handle..."
@@ -3335,7 +3335,7 @@ obj
 												if(J1.name == "Carving Knife blade")
 													for(J1 in M.contents)
 													//	M<<"You need Rock to continue..."
-													//	return		//var/random/R = rand(1,5)
+													//	return		//var/R = rand(1,5)
 
 														if(R>=2)
 															var/CK = /obj/items/tools/CarvingKnife
@@ -3374,7 +3374,7 @@ obj
 												if(J2.name == "Sickle blade")
 													for(J2 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Sickle Blade to the Handle..."
 															J2.RemoveFromStack(1)
@@ -3409,7 +3409,7 @@ obj
 												if(J4.name == "Chisel blade")
 													for(J4 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Chisel Blade to the Handle..."
 															J4.RemoveFromStack(1)
@@ -3444,7 +3444,7 @@ obj
 												if(J7.name == "Stone Axe head")
 													for(J7 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Stone Axe head to the Handle..."
 															J7.RemoveFromStack(1)
@@ -3475,7 +3475,7 @@ obj
 												if(J5.name == "Axe head")
 													for(J5 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Axe Head to the Handle..."
 															J5.RemoveFromStack(1)
@@ -3510,7 +3510,7 @@ obj
 																	if(J6.name == "Pickaxe head")
 																		for(J6 in M.contents)
 																			//M<<"You need Ueik Thorn to continue..."
-																			//return			//var/random/R = rand(1,5)
+																			//return			//var/R = rand(1,5)
 																			if(R>=2)
 																				M<<"You start to combine the Pickaxe Head to the Handle..."
 																				J6.RemoveFromStack(1)
@@ -3545,7 +3545,7 @@ obj
 												if(J3.name == "Trowel blade")
 													for(J3 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Trowel Blade to the Handle..."
 															J3.RemoveFromStack(1)
@@ -3577,7 +3577,7 @@ obj
 												if(J6.name == "File blade")
 													for(J6 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the File Blade to the Handle..."
 															J6.RemoveFromStack(1)
@@ -3608,7 +3608,7 @@ obj
 												if(J8.name == "Saw blade")
 													for(J8 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Saw Blade to the Handle..."
 															J8.RemoveFromStack(1)
@@ -3642,7 +3642,7 @@ obj
 												if(J8.name == "Broadsword blade")
 													for(J8 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Broadsword blade to the Handle..."
 															J8.RemoveFromStack(1)
@@ -3673,7 +3673,7 @@ obj
 												if(J8.name == "Warsword blade")
 													for(J8 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Warsword blade to the Handle..."
 															J8.RemoveFromStack(1)
@@ -3704,7 +3704,7 @@ obj
 												if(J8.name == "Battlesword blade")
 													for(J8 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Battlesword blade to the Handle..."
 															J8.RemoveFromStack(1)
@@ -3735,7 +3735,7 @@ obj
 												if(J8.name == "Longsword blade")
 													for(J8 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the Longsword blade to the Handle..."
 															J8.RemoveFromStack(1)
@@ -3766,7 +3766,7 @@ obj
 												if(J8.name == "War Maul head")
 													for(J8 in M.contents)
 														//M<<"You need Ueik Thorn to continue..."
-														//return			//var/random/R = rand(1,5)
+														//return			//var/R = rand(1,5)
 														if(R>=2)
 															M<<"You start to combine the War Maul head to the Handle..."
 															J8.RemoveFromStack(1)
@@ -3801,7 +3801,7 @@ obj
 							//set category = "Commands"
 							var/mob/players/M
 							//var/obj/items/Crafting/Created/J
-							//var/random/R = rand(1,5) //1 in 5 chance to smith
+							//var/R = rand(1,5) //1 in 5 chance to smith
 							M = usr
 							if(M.Doing==1)
 								return
@@ -3822,7 +3822,7 @@ obj
 										var/dice = "1d4"
 										var/R = roll(dice)
 										if(i == "Hammer head")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											var/obj/items/Crafting/Created/HammerHead/HH = locate() in M.contents
 											var/obj/items/Crafting/Created/Handle/Hnd = locate() in M.contents
 											var/obj/items/tools/Hammer/H = new(M, 1)
@@ -3850,7 +3850,7 @@ obj
 													M<<"The materials fail at combining and are lost in the process."
 													return
 										if("Carving Knife blade")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -3869,7 +3869,7 @@ obj
 													M<<"The materials fail at combining and are lost in the process."
 													return
 										if("Sickle blade")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -3888,7 +3888,7 @@ obj
 													M<<"The materials fail at combining and are lost in the process."
 													return
 										if("Broad Sword blade")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -3906,7 +3906,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return
 										if("War Sword blade")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -3924,7 +3924,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return
 										if("Battle Sword blade")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -3942,7 +3942,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return
 										/*if("Battle Axe blade")
-											var/random/R = rand(1,5)
+											var/R = rand(1,5)
 											if(R!=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -3960,7 +3960,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return*/
 										if("Battle Scythe blade")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -3978,7 +3978,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return
 										/*if("Battle Maul head")
-											var/random/R = rand(1,5)
+											var/R = rand(1,5)
 											if(R!=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -3996,7 +3996,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return*/
 										if("Battle Hammer sledge")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -4014,7 +4014,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return
 										/*if("War Maul head")
-											var/random/R = rand(1,5)
+											var/R = rand(1,5)
 											if(R!=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -4032,7 +4032,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return
 										if("War Axe blade")
-											var/random/R = rand(1,5)
+											var/R = rand(1,5)
 											if(R!=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -4050,7 +4050,7 @@ obj
 												M<<"The materials fail at combining and are lost in the process."
 												return*/
 										if("War Scythe blade")
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 											if(R>=2)
 												J.RemoveFromStack(1)
 												//src.overlays += icon(icon='dmi/64/inven.dmi', icon_state="GiuMeat")
@@ -4187,7 +4187,7 @@ obj
 							var/obj/items/Crafting/Created/Battlescytheblade/J20 = call(/obj/items/Crafting/Created/Pole/proc/FindBSYf)(M)//locate() in M.contents
 							//var/dice = "1d4"
 							//var/R = roll(dice)
-							//var/random/R = rand(1,5) //1 in 5 chance to smith
+							//var/R = rand(1,5) //1 in 5 chance to smith
 							//M = usr
 							//if(src.Tname!="Hot")
 							/*if(J0.Tname!="Hot")
@@ -4484,7 +4484,7 @@ obj
 											var/R = roll(dice)
 											if(J0 in M.contents)
 												for(J0 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J0.name=="Pickaxe head")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4509,7 +4509,7 @@ obj
 											var/R = roll(dice)
 											if(J in M.contents)
 												for(J in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J.name=="Hoe blade")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4534,7 +4534,7 @@ obj
 											var/R = roll(dice)
 											if(J1 in M.contents)
 												for(J1 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J1.name == "Shovel head")
 														if(R>=2)
 															J1.RemoveFromStack(1)
@@ -4558,7 +4558,7 @@ obj
 											var/R = roll(dice)
 											if(J00 in M.contents)
 												for(J00 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J00.name=="Iron Reel")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4616,7 +4616,7 @@ obj
 											var/R = roll(dice)
 											if(J3 in M.contents)
 												for(J3 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J3.name == "Iron Lamp Head")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4641,7 +4641,7 @@ obj
 											var/R = roll(dice)
 											if(J4 in M.contents)
 												for(J4 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J4.name == "Copper Lamp Head")
 
 														if(R>=2)
@@ -4667,7 +4667,7 @@ obj
 											var/R = roll(dice)
 											if(J6 in M.contents)
 												for(J6 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J.name=="Bronze Lamp Head")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4692,7 +4692,7 @@ obj
 											var/R = roll(dice)
 											if(J5 in M.contents)
 												for(J5 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J5.name == "Brass Lamp Head")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4718,7 +4718,7 @@ obj
 											var/R = roll(dice)
 											if(J7 in M.contents)
 												for(J7 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J7.name=="Steel Lamp Head")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4744,7 +4744,7 @@ obj
 											var/R = roll(dice)
 											if(J16 in M.contents)
 												for(J16 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J16.name == "Battle Hammer sledge")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4769,7 +4769,7 @@ obj
 											var/R = roll(dice)
 											if(J17 in M.contents)
 												for(J17 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J17.name == "War Axe blade")
 
 														if(R>=2)
@@ -4795,7 +4795,7 @@ obj
 											var/R = roll(dice)
 											if(J18 in M.contents)
 												for(J18 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J18.name == "Battle Axe blade")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4820,7 +4820,7 @@ obj
 											var/R = roll(dice)
 											if(J19 in M.contents)
 												for(J19 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J19.name=="War Scythe blade")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4845,7 +4845,7 @@ obj
 											var/R = roll(dice)
 											if(J20 in M.contents)
 												for(J20 in M.contents)
-											//var/random/R = rand(1,5)
+											//var/R = rand(1,5)
 													if(J20.name=="Battle Scythe blade")
 														if(R>=2)
 															M<<"You start to combine the item with the Wooden Pole..."
@@ -4954,7 +4954,7 @@ obj
 					set category = null
 					var/mob/players/M
 					var/obj/items/Crafting/Created/Clay/J
-					//var/random/R = rand(1,5) //1 in 5 chance to smith
+					//var/R = rand(1,5) //1 in 5 chance to smith
 					M = usr
 					//J = locate(M.contents)
 					locate(J) in M.contents//fixed don't add any dumb inputs :) J
@@ -5691,7 +5691,7 @@ obj
 								if("Shovel head")
 									var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 									if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
-										var/random/R = rand(1,3)
+										var/R = rand(1,3)
 										if(R == 2)
 											var/SHD = /obj/items/Crafting/Created/ShovelHead
 											usr << "You begin to smith a Shovel Head."
@@ -6334,7 +6334,7 @@ obj
 
 									if("War Sword")
 										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										//var/R = rand(1,5) //1 in 5 chance to smith
 										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 											//var/obj/items/tools/BroadSword/BS
@@ -6390,7 +6390,7 @@ obj
 
 									if("Battle Sword")
 										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										//var/R = rand(1,5) //1 in 5 chance to smith
 										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 											//var/obj/items/tools/BroadSword/BS
@@ -6446,7 +6446,7 @@ obj
 
 									if("Long Sword")
 										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										//var/R = rand(1,5) //1 in 5 chance to smith
 										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 											//var/obj/items/tools/BroadSword/BS
@@ -6502,7 +6502,7 @@ obj
 
 									if("Battle Hammer")
 										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										//var/R = rand(1,5) //1 in 5 chance to smith
 										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 											//var/obj/items/tools/BroadSword/BS
@@ -6558,7 +6558,7 @@ obj
 
 									if("War Scythe")
 										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										//var/R = rand(1,5) //1 in 5 chance to smith
 										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 											//var/obj/items/tools/BroadSword/BS
@@ -6614,7 +6614,7 @@ obj
 
 									if("Battle Scythe")
 										//var/obj/items/tools/BroadSword/BS
-										//var/random/R = rand(1,5) //1 in 5 chance to smith
+										//var/R = rand(1,5) //1 in 5 chance to smith
 										var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 										if((IB in M.contents)&&(IB.stack_amount>=3)&&(IB.Tname=="Hot"))
 											//var/obj/items/tools/BroadSword/BS
@@ -6690,7 +6690,7 @@ obj
 											if("Back") goto ARMOR
 											if("Giu Hide Vestments")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH0 in M.contents)&&(GH0.stack_amount>=1))
@@ -6748,7 +6748,7 @@ obj
 													return 1
 											if("Giu Shell Vestments")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												var/obj/items/CParts/GiuShell/GS1 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GS1 in M.contents)&&(GS1.stack_amount>=1))
@@ -6806,7 +6806,7 @@ obj
 													return 1
 											if("Gou ShellHide Vestments")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
 												var/obj/items/CParts/GouHide/GH2 = locate() in M.contents
 												var/obj/items/CParts/GouShell/GS2 = locate() in M.contents
@@ -6867,7 +6867,7 @@ obj
 													return 1
 											if("Coppermail Vestments")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
 												if((CB in M.contents)&&(CB.stack_amount>=2)&&(CB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
@@ -6925,7 +6925,7 @@ obj
 													return 1
 											if("Zinc ShellPlate Vestments")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
 												var/obj/items/CParts/GuwiShell/GS4 = locate() in M.contents
 												if((ZB in M.contents)&&(ZB.stack_amount>=3)&&(ZB.Tname=="Hot")&&(GS4 in M.contents)&&(GS4.stack_amount>=1))
@@ -6983,7 +6983,7 @@ obj
 													return 1
 											if("Steel ShellPlate Vestments")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
 												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
 												if((STLB in M.contents)&&(STLB.stack_amount>=3)&&(STLB.Tname=="Hot")&&(GS5 in M.contents)&&(GS5.stack_amount>=1))
@@ -7042,7 +7042,7 @@ obj
 
 											if("Monk Tunic")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												//var/obj/items/GiuShell/GS0 = locate() in M.contents
 												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
@@ -7103,7 +7103,7 @@ obj
 													return 1
 											if("Iron Studded Tunic")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 												var/obj/items/CParts/GouHide/GH1 = locate() in M.contents
 												//var/obj/items/GouShell/GS1 = locate() in M.contents
@@ -7164,7 +7164,7 @@ obj
 													return 1
 											if("Copper ShellPlate Tunic")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												var/obj/items/CParts/GouHide/GH2 = locate() in M.contents
 												var/obj/items/CParts/GouShell/GS2 = locate() in M.contents
@@ -7225,7 +7225,7 @@ obj
 													return 1
 											if("Bronzemail Tunic")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
 												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
 												if((BRB in M.contents)&&(BRB.stack_amount>=2)&&(BRB.Tname=="Hot")&&(GH3 in M.contents)&&(GH3.stack_amount>=1))
@@ -7283,7 +7283,7 @@ obj
 													return 1
 											if("Zincmail Tunic")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
 												var/obj/items/CParts/GuwiHide/GH4 = locate() in M.contents
 												if((ZB in M.contents)&&(ZB.stack_amount>=2)&&(ZB.Tname=="Hot")&&(GH4 in M.contents)&&(GH4.stack_amount>=1))
@@ -7341,7 +7341,7 @@ obj
 													return 1
 											if("Landscaper Tunic")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
 												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
 												var/obj/items/CParts/GowuHide/GH5 = locate() in M.contents
@@ -7403,7 +7403,7 @@ obj
 
 											if("Giu ShellHide Corslet")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
 												var/obj/items/CParts/GiuShell/GS0 = locate() in M.contents
 												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
@@ -7464,7 +7464,7 @@ obj
 													return 1
 											if("Gou ShellPlate Corslet")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 												var/obj/items/CParts/GouShell/GS1 = locate() in M.contents
 												var/obj/items/CParts/GouHide/GH1 = locate() in M.contents
@@ -7525,7 +7525,7 @@ obj
 													return 1
 											if("Iron Platemail Corslet")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 												var/obj/items/CParts/GouShell/GS2 = locate() in M.contents
 												var/obj/items/CParts/GouHide/GH2 = locate() in M.contents
@@ -7586,7 +7586,7 @@ obj
 													return 1
 											if("Copper Platemail Corslet")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												var/obj/items/CParts/GowShell/GS3 = locate() in M.contents
 												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
@@ -7647,7 +7647,7 @@ obj
 													return 1
 											if("Bronzemail Corslet")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
 												var/obj/items/CParts/GuwiShell/GS4 = locate() in M.contents
 												var/obj/items/CParts/GuwiHide/GH4 = locate() in M.contents
@@ -7708,7 +7708,7 @@ obj
 													return 1
 											if("Zinc Platemail Corslet")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
 												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
 												var/obj/items/CParts/GowuHide/GH5 = locate() in M.contents
@@ -7779,7 +7779,7 @@ obj
 											//return
 											if("CopperPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												var/obj/items/CParts/GiuShell/GS0 = locate() in M.contents
 												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
@@ -7840,7 +7840,7 @@ obj
 													return 1
 											if("IronPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/LB = locate() in M.contents
 												var/obj/items/CParts/GouShell/GS1 = locate() in M.contents
 												var/obj/items/CParts/GouHide/GH1 = locate() in M.contents
@@ -7901,7 +7901,7 @@ obj
 													return 1
 											if("Iron HalfPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 												var/obj/items/CParts/GowShell/GS2 = locate() in M.contents
 												var/obj/items/CParts/GowHide/GH2 = locate() in M.contents
@@ -7962,7 +7962,7 @@ obj
 													return 1
 											if("Bronze SolidPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
 												var/obj/items/CParts/GowShell/GS3 = locate() in M.contents
 												var/obj/items/CParts/GowHide/GH3 = locate() in M.contents
@@ -8023,7 +8023,7 @@ obj
 													return 1
 											if("Boreal ZincPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
 												var/obj/items/CParts/GuwiShell/GS4 = locate() in M.contents
 												var/obj/items/CParts/GuwiHide/GH4 = locate() in M.contents
@@ -8084,7 +8084,7 @@ obj
 													return 1
 											if("Aurelian SteelPlate Cuirass")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
 												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
 												var/obj/items/CParts/GowuHide/GH5 = locate() in M.contents
@@ -8155,7 +8155,7 @@ obj
 											if("Back") goto ARMOR
 											if("IronPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 												var/obj/items/CParts/GiuShell/GS0 = locate() in M.contents
 												var/obj/items/CParts/GiuHide/GH0 = locate() in M.contents
@@ -8216,7 +8216,7 @@ obj
 													return 1
 											if("CopperPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												var/obj/items/CParts/GouShell/GS1 = locate() in M.contents
 												var/obj/items/CParts/GouHide/GH1 = locate() in M.contents
@@ -8277,7 +8277,7 @@ obj
 													return 1
 											if("BronzePlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
 												var/obj/items/CParts/GowShell/GS2 = locate() in M.contents
 												var/obj/items/CParts/GowHide/GH2 = locate() in M.contents
@@ -8338,7 +8338,7 @@ obj
 													return 1
 											if("Omphalos AlloyPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/ironbar/LB = locate() in M.contents
 												var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 												var/obj/items/CParts/GowShell/GS3 = locate() in M.contents
@@ -8402,7 +8402,7 @@ obj
 													return 1
 											if("ZincPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
 												var/obj/items/CParts/GuwiShell/GS4 = locate() in M.contents
 												var/obj/items/CParts/GuwiHide/GH4 = locate() in M.contents
@@ -8463,7 +8463,7 @@ obj
 													return 1
 											if("SteelPlate Battlegear")
 												//var/obj/items/tools/BroadSword/BS
-												//var/random/R = rand(1,5) //1 in 5 chance to smith
+												//var/R = rand(1,5) //1 in 5 chance to smith
 												var/obj/items/Ingots/steelbar/STLB = locate() in M.contents
 												var/obj/items/CParts/GowuShell/GS5 = locate() in M.contents
 												var/obj/items/CParts/GowuHide/GH5 = locate() in M.contents
@@ -8535,7 +8535,7 @@ obj
 										if("Back") goto SMITHING
 										if("Iron Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
-											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											//var/R = rand(1,5) //1 in 5 chance to smith
 											var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 											if((IB in M.contents)&&(IB.stack_amount>=4)&&(IB.Tname=="Hot"))
 												//var/obj/items/tools/BroadSword/BS
@@ -8590,7 +8590,7 @@ obj
 												return 1
 										if("Copper Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
-											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											//var/R = rand(1,5) //1 in 5 chance to smith
 											var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 											if((CB in M.contents)&&(CB.stack_amount>=4)&&(CB.Tname=="Hot"))
 												//var/obj/items/tools/BroadSword/BS
@@ -8645,7 +8645,7 @@ obj
 												return 1
 										if("Bronze Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
-											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											//var/R = rand(1,5) //1 in 5 chance to smith
 											var/obj/items/Ingots/bronzebar/BRB = locate() in M.contents
 											if((BRB in M.contents)&&(BRB.stack_amount>=4)&&(BRB.Tname=="Hot"))
 												//var/obj/items/tools/BroadSword/BS
@@ -8700,7 +8700,7 @@ obj
 												return 1
 										if("Brass Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
-											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											//var/R = rand(1,5) //1 in 5 chance to smith
 											var/obj/items/Ingots/brassbar/BB = locate() in M.contents
 											if((BB in M.contents)&&(BB.stack_amount>=4)&&(BB.Tname=="Hot"))
 												//var/obj/items/tools/BroadSword/BS
@@ -8755,7 +8755,7 @@ obj
 												return 1
 										if("Steel Lamp Head")
 											//var/obj/items/tools/BroadSword/BS
-											//var/random/R = rand(1,5) //1 in 5 chance to smith
+											//var/R = rand(1,5) //1 in 5 chance to smith
 											var/obj/items/Ingots/steelbar/STB = locate() in M.contents
 											if((STB in M.contents)&&(STB.stack_amount>=4)&&(STB.Tname=="Hot"))
 												//var/obj/items/tools/BroadSword/BS
@@ -8851,7 +8851,7 @@ obj
 						var/SCI = /obj/items/Ingots/Scraps/scrapiron
 						var/IB = /obj/items/Crafting/Created/AnvilHead
 						var/obj/items/Ingots/ironbar/I = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith -- Need to replace these with dice rolls
+						var/R = rand(1,5) //1 in 5 chance to smith -- Need to replace these with dice rolls
 						if((I in M.contents)&&(I.stack_amount>=15)&&(I.Tname=="Hot")&&(src.name=="Lit Forge"))
 							M << "You begin to smelt an Iron Anvil Head..."
 							M.Doing = 1
@@ -8876,31 +8876,11 @@ obj
 							M.UESME = 0
 							M.SMEopen=0
 							return
-							if(R==2)
-									//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
-										//light.on()
-								usr << "You begin to smelt an Iron Anvil Head..."
-								M.Doing = 1
-								I.RemoveFromStack(1)
-								sleep(30) //Delay 3 seconds
-								//user mining skill gos up by 15
-								M.smeexp += 5 //....
-								M.stamina -= 5
-								M.updateST()
-								M << "The material used was too pitted to smelt properly and produced scrap iron!" //message to user saying he/she didn't mine anything
-									//SCI:Tname="Hot"
-								new SCI(locate(x,y,z))
-									//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeL")
-									//light.off()
-								M.Doing = 0
-								M.UESME = 0
-								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
 					if("Iron")
 						var/SCI = /obj/items/Ingots/Scraps/scrapiron
 						var/IB = /obj/items/Ingots/ironbar
 						var/obj/items/Ore/iron/I = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
+						var/R = rand(1,5) //1 in 5 chance to smith
 						if((I in M.contents)&&(I.stack_amount>=3)&&(src.name=="Lit Forge"))
 							M << "You begin to smelt Iron ore..."
 							M.Doing = 1
@@ -8925,32 +8905,12 @@ obj
 							M.UESME = 0
 							M.SMEopen=0
 							return
-							if(R==2)
-									//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
-										//light.on()
-								usr << "You begin to smelt Iron ore..."
-								M.Doing = 1
-								I.RemoveFromStack(1)
-								sleep(30) //Delay 3 seconds
-								//user mining skill gos up by 15
-								M.smeexp += 5 //....
-								M.stamina -= 5
-								M.updateST()
-								M << "The material used was too pitted to smelt properly and produced scrap iron!" //message to user saying he/she didn't mine anything
-									//SCI:Tname="Hot"
-								new SCI(locate(x,y,z))
-									//src.overlays -= image('dmi/64/creation.dmi',icon_state="forgeL")
-									//light.off()
-								M.Doing = 0
-								M.UESME = 0
-								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
 
 					if("Lead")
 						var/LB = /obj/items/Ingots/leadbar
 						var/SCL = /obj/items/Ingots/Scraps/scraplead
 						var/obj/items/Ore/lead/LE = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
+						var/R = rand(1,5) //1 in 5 chance to smith
 						if(R>=2)
 							if((LE in M.contents)&&(LE.stack_amount>=3))
 								//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
@@ -9005,7 +8965,7 @@ obj
 						var/SCZ = /obj/items/Ingots/Scraps/scrapzinc
 						var/ZB = /obj/items/Ingots/zincbar
 						var/obj/items/Ore/zinc/Z = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
+						var/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
 							if((Z in M.contents)&&(Z.stack_amount>=2))
 								usr << "You begin to smelt Zinc ore..."
@@ -9056,7 +9016,7 @@ obj
 						var/SCC = /obj/items/Ingots/Scraps/scrapcopper
 						var/CB = /obj/items/Ingots/copperbar
 						var/obj/items/Ore/copper/C = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
+						var/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
 							if((C in M.contents)&&(C.stack_amount>=2))
 								usr << "You begin to smelt Copper ore..."
@@ -9109,7 +9069,7 @@ obj
 						var/BRB = /obj/items/Ingots/bronzebar
 						var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 						var/obj/items/Ingots/leadbar/LB = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
+						var/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
 							if((CB in M.contents)&&(CB.stack_amount>=1)&&(LB in M.contents)&&(LB.stack_amount>=1))
 								usr << "You begin to smelt Bronze..."
@@ -9164,7 +9124,7 @@ obj
 						var/BB = /obj/items/Ingots/brassbar
 						var/obj/items/Ingots/copperbar/CB = locate() in M.contents
 						var/obj/items/Ingots/zincbar/ZB = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
+						var/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
 							if((CB in M.contents)&&(CB.stack_amount>=1)&&(ZB in M.contents)&&(ZB.stack_amount>=1))
 								usr << "You begin to smelt Brass..."
@@ -9220,7 +9180,7 @@ obj
 						var/STB = /obj/items/Ingots/steelbar
 						var/obj/items/Ingots/ironbar/IB = locate() in M.contents
 						var/obj/items/Activated_Carbon/AC = locate() in M.contents
-						var/random/R = rand(1,5) //1 in 5 chance to smith
+						var/R = rand(1,5) //1 in 5 chance to smith
 						if(R==3)
 							if((IB in M.contents)&&(IB.stack_amount>=3)&&(AC in M.contents)&&(AC.stack_amount>=2))
 								usr << "You begin to smelt Steel..."

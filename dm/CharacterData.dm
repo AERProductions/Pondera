@@ -18,6 +18,8 @@
 		Crank = 0           // Carving rank
 		CSRank = 0          // Sprout Cutting rank
 		PLRank = 0          // Pole rank
+		botany_rank = 0     // Botany rank (harvesting plants/botanicals)
+		whittling_rank = 0  // Whittling rank (specialized wooden items)
 		archery_rank = 0    // Archery rank (bows)
 		crossbow_rank = 0   // Crossbow rank
 		throwing_rank = 0   // Throwing rank (knives, javelins)
@@ -39,6 +41,8 @@
 		CrankEXP = 0
 		CSRankEXP = 0
 		PLRankEXP = 0
+		botany_xp = 0       // Botany experience
+		whittling_xp = 0    // Whittling experience
 		archery_xp = 0      // Archery experience
 		crossbow_xp = 0     // Crossbow experience
 		throwing_xp = 0     // Throwing experience
@@ -57,9 +61,15 @@
 		CrankMAXEXP = 10
 		CSRankMAXEXP = 10
 		PLRankMAXEXP = 100
+		botany_maxexp = 100     // Botany max experience per level
+		whittling_maxexp = 100  // Whittling max experience per level
 		archery_maxexp = 100
 		crossbow_maxexp = 100
 		throwing_maxexp = 100
+
+		// === NPC SYSTEM ===
+		is_npc = FALSE                       // TRUE if this is NPC character data
+		npc_type = ""                        // Type of NPC (e.g., "blacksmith", "scholar")
 
 		// === RECIPE & KNOWLEDGE STATE ===
 		datum/recipe_state/recipe_state = null  // Tracks discovered recipes and knowledge
@@ -69,6 +79,7 @@
 		// === MULTI-WORLD SYSTEM ===
 		// Continent & World variables
 		current_continent = CONT_STORY       // Which continent player is on
+		last_continent = CONT_STORY          // Previously visited continent (for transmutation on travel)
 		continent_positions = list()         // Saved positions per continent: CONT_STORY = list(x,y,z,dir)
 		
 		// Ascension Mode flags (Stage 6)
@@ -87,9 +98,31 @@
 		// Two-death system: First death = fainted, Second death = permanent
 		death_count = 0                      // Counter: 0 = alive, 1 = first death (fainted), 2+ = permanent
 		is_fainted = 0                       // Flag: 0 = alive, 1 = fainted, 2 = permanently dead
+		death_marks = list()                 // Per-continent death marks: death_marks["story"] = 1, etc
 		home_point = null                    // Turf reference for respawn location (set via compass or NPC)
 		death_debuff_active = 0              // Flag if death debuff is active (1 = active, 0 = inactive)
 		death_debuff_end_time = 0            // world.time when debuff expires
+		
+		// === PRESTIGE SYSTEM ===
+		has_prestige = FALSE                 // TRUE if player has prestige unlocked
+		prestige_unlock_source = ""          // How prestige was unlocked ("ascension", "manual", etc.)
+		prestige_title = ""                  // Prestige title/rank
+		
+		// === AVATAR APPEARANCE SYSTEM ===
+		// Blank avatar customization - player can choose gender, skin, hair, eyes, marks
+		gender = GENDER_MALE                 // MALE or FEMALE (default: MALE)
+		appearance_locked = 0                // 0 = can customize, 1 = locked
+		current_appearance = "blank_base"    // Current appearance preset name
+		current_appearance_config = null     // Full appearance config dict
+		is_customized = 0                    // 1 = has been customized beyond defaults
+		
+		// === SKILL & RECIPE STATE (SIMPLIFIED) ===
+		// Note: Detailed ranks stored in frank, crank, etc. above
+		// These lists provide convenient access for bulk operations
+		skills = list()                      // Skill list (maps to ranks above)
+		recipes = list()                     // Discovered recipes (populated from recipe_state)
+		knowledge = list()                   // Knowledge topics learned
+		crafter_titles = list()              // Crafter titles earned
 		
 		show_recipe_hints = FALSE            // Ascension feature: recipe tooltips
 		can_travel_all_continents = FALSE    // Ascension feature: multi-world access
@@ -104,12 +137,18 @@
 		stall_prices = list()                // Prices for items
 		stall_profits = 0                    // Accumulated stall profits (shared globally)
 		
-		// === NPC-SPECIFIC DATA ===
-		is_npc = FALSE                       // TRUE if this datum belongs to an NPC
-		npc_type = ""                        // NPC type: "Traveler", "Elder", "Veteran", "Warrior", "Scribe", "Proctor", etc.
+		// === DEED ANTI-GRIEFING SYSTEM ===
+		datum/deed_anti_grief/deed_anti_grief = null  // Tracks griefing behavior and patterns
+		
+		// === PERSISTENT PLAYER IDENTITY ===
+		ckey = ""                            // Player ckey (unique identifier)
+		equipped_items = list()              // Currently equipped items
 		npc_teachable_recipes = list()       // Recipes this NPC can teach
 		npc_dialogue_topics = list()         // Knowledge topics this NPC can teach
 		npc_taught_to = list()               // List of player ckeys this NPC has taught (for tracking)
+		
+		// === REPUTATION SYSTEM (12-12-25) ===
+		reputation_data = list()             // Dictionary: "npc_name" -> list of rep data (standing, tier, etc)
 
 /datum/character_data/proc/Initialize()
 	// Reset all ranks and exp to zero on creation
@@ -162,12 +201,33 @@
 	PLRankEXP = 0
 	PLRankMAXEXP = 100
 
+	botany_rank = 0
+	botany_xp = 0
+	botany_maxexp = 100
+
+	whittling_rank = 0
+	whittling_xp = 0
+	whittling_maxexp = 100
+
 	// Initialize recipe state with defaults
 	recipe_state = new /datum/recipe_state()
 	recipe_state.SetRecipeDefaults()
 	
 	// Initialize experimentation state (Phase C.2)
 	experimentation_state = new /datum/experimentation_state()
+	
+	// INTEGRATION: Avatar appearance system (blank avatar customization)
+	gender = GENDER_MALE  // MALE or FEMALE
+	appearance_locked = 0  // Can customize appearance at creation
+	current_appearance = "blank_base"
+	current_appearance_config = null  // Stores full appearance configuration
+	is_customized = 0  // Whether appearance has been customized beyond defaults
+	
+	// INTEGRATION: Display server difficulty settings to player (Phase 4)
+	// Called on character creation/login to show permadeath and lives limits
+	if(ismob(src) && istype(src, /mob/players))
+		var/mob/players/M = src
+		spawn(1) DisplayServerDifficultyStatus(M)
 
 // ============================================================================
 // NPC INITIALIZATION - Create unified NPC character data

@@ -8,7 +8,9 @@
 #define ADMIN_ADMIN       2
 #define ADMIN_HOST        3
 
-var/AdminSystem/admin_system = new()
+// NOTE: admin_system is now managed by RoleBasedAdminSystem.dm (Phase 3 integration)
+// This old declaration is deprecated and kept for reference only
+// var/AdminSystem/admin_system = new()
 
 AdminSystem
 	var

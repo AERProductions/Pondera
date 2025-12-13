@@ -492,13 +492,14 @@ obj/spawns/
 				spawned ++ // increment the counter
 				return
 			else if(season=="Winter")
+				// Winter: despawn butterflies
 				var/mob/insects/PLRButterfly/btf
-				spawned=0
+				spawned = 0
 				for(btf in world)
-					Del()
-					return
-				//world << "[src] spits out \the [M.name]!"
-				//world << "[src] can produce [max_spawn-spawned] more [M.name]s!"
+					if(istype(btf, /mob/insects/PLRButterfly))
+						del(btf)  // Delete individual butterfly
+				// Continue without returning - allow logic flow
+				//world << "[src] despawned butterflies for winter"
 			/*if(hour == 4 && minute1 == 5 && minute2 == 9 && ampm == "pm")
 				for(spawntype2 in world)
 					Del()

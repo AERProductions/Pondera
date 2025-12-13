@@ -23,10 +23,6 @@
 // ============================================================================
 
 /datum/crisis_event
-	/**
-	 * crisis_event
-	 * Represents an economic disruption
-	 */
 	var
 		// Event details
 		event_id = null
@@ -57,10 +53,6 @@
 		bankruptcies = 0
 
 /datum/crisis_type
-	/**
-	 * crisis_type
-	 * Template for crisis event types
-	 */
 	var
 		name = "Generic Crisis"
 		base_severity = 0.5

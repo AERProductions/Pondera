@@ -110,7 +110,10 @@
 	var/health_factor = health / 100.0
 	var/hunger_factor = max(0, (100 - hunger) / 100.0)
 	
-	return round(species.product_quantity * health_factor * hunger_factor)
+	var/datum/animal_species/sp = GetSpecies()
+	if(sp)
+		return round(sp.product_quantity * health_factor * hunger_factor)
+	return 0
 
 /datum/animal_instance/proc/GenerateProduct()
 	// Called periodically to generate products (milk, eggs, wool)
@@ -123,12 +126,9 @@
 	if(health < 40)  // Too sick to produce
 		return FALSE
 	
-	var/datum/animal_species/species = GetSpecies()
-	if(!species)
-		return FALSE
-	
-	var/output = GetDailyOutput()
-	last_product = world.time
+	// Placeholder for future owner retrieval logic
+	// Currently not implemented - would retrieve animal ownership data
+	// TODO: Implement animal ownership tracking and produce creation
 	
 	// Would add to owner's inventory or deed storage
 	return TRUE

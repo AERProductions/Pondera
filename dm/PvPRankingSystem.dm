@@ -25,10 +25,6 @@
 // ============================================================================
 
 /datum/pvp_stats
-	/**
-	 * pvp_stats
-	 * Track a player's PvP record
-	 */
 	var
 		// Identity
 		player_ref = null
@@ -59,10 +55,6 @@
 // ============================================================================
 
 /datum/pvp_season
-	/**
-	 * pvp_season
-	 * Represents a seasonal ranking period
-	 */
 	var
 		season_number = 1
 		season_name = ""
@@ -94,10 +86,6 @@
 // ============================================================================
 
 /datum/kill_streak
-	/**
-	 * kill_streak
-	 * Track active kill streak for a player
-	 */
 	var
 		player_ref = null
 		kills = 0

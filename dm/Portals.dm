@@ -216,6 +216,9 @@
 // LOCATING CONTINENTS - Utility for saving/loading
 // ============================================================================
 
+// NOTE: GetContinentSpawnPoint moved to ContinentSpawnZones.dm (Phase 2 modern system)
+// Legacy version below commented out
+/*
 /proc/GetContinentSpawnPoint(continent_id)
 	// Returns a position list for continent spawn
 	var/datum/continent/cont = GetContinent(continent_id)
@@ -232,6 +235,7 @@
 	pos["z"] = cont.port_z
 	pos["dir"] = SOUTH
 	return pos
+*/
 
 /proc/GetContinentPortLocation(continent_id)
 	// Get the port town coordinates for a continent

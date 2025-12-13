@@ -81,10 +81,6 @@
 // ============================================================================
 
 /datum/treasury_ui_manager
-	/**
-	 * treasury_ui_manager
-	 * Manages treasury UI for a specific kingdom
-	 */
 	var
 		kingdom_name = ""
 		mob/players/owner = null

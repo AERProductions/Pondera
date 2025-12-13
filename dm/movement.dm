@@ -29,7 +29,9 @@ mob/proc/SprintCancel()
 mob/proc/GetMovementSpeed()
 	var/MovementDelay=src.MovementSpeed
 	return	max(1,MovementDelay)
-
+// Stub: overridden in mob/players for procedural chunk boundary detection
+mob/proc/CheckChunkBoundary()
+	return
 // Clear all directional inputs and cancel sprint.
 mob/proc/CancelMovement()
 	src.MN=0;src.MS=0;src.MW=0;src.ME=0
@@ -75,6 +77,8 @@ mob/proc/MovementLoop()
 		else	if(src.MW || src.QueW)	step(src,WEST)
 		src.QueN=0;src.QueS=0;src.QueE=0;src.QueW=0
 		InvalidateDeedPermissionCache(src)  // Player moved - invalidate deed permission cache
+		if(istype(src, /mob/players))
+			src.CheckChunkBoundary()  // Trigger chunk boundary detection for on-demand loading
 		if(FirstStep)	{sleep(1);FirstStep=0}
 		sleep(src.GetMovementSpeed())
 	src.Moving=0

@@ -240,6 +240,8 @@ proc/ProcessAllDeedMaintenance()
 			if(owner)
 				// Owner is online; call their ProcessMaintenance()
 				dz.ProcessMaintenance(owner)
+				// Notify deed change to invalidate cache
+				NotifyDeedChange(owner)
 			else
 				// Owner offline; attempt direct deduction
 				// Note: This is a simplified approach; full implementation would need
@@ -251,4 +253,6 @@ proc/ProcessAllDeedMaintenance()
 				else if(world.timeofday > dz.grace_period_end)
 					// Grace period expired; trigger deed expiration
 					dz.OnMaintenanceFailure()
+					// Notify global cache invalidation for offline owner
+					InvalidateDeedPermissionCacheGlobal()
 

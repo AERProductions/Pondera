@@ -43,19 +43,22 @@
 // Rank System Constants
 #define RANK_BUILDING "brank"
 #define RANK_SMITHING "smirank"
+#define RANK_SMELTING "smerank"           // Smelting rank
 #define RANK_FISHING "frank"
 #define RANK_MINING "mrank"
 #define RANK_COOKING "crank"
 #define RANK_CRAFTING "crafting_rank"
 #define RANK_GARDENING "garden_rank"
 #define RANK_FARMING "farming_rank"
-#define RANK_WOODCUTTING "wrank"
+#define RANK_WOODWORKING "woodworking_rank"
+#define RANK_WOODCUTTING "woodworking_rank"  // Legacy alias for RANK_WOODWORKING
 #define RANK_DIGGING "drank"
 #define RANK_CARVING "carank"
-#define RANK_SPROUTING "sprank"
-#define RANK_SMELTING "melting_rank"
-#define RANK_POLE "prank"
-#define RANK_SPROUT_CUTTING "sprout_cutting_rank"
+#define RANK_BOTANY "botany_rank"
+#define RANK_SPROUTING "botany_rank"        // Legacy alias for RANK_BOTANY (sprout harvesting)
+#define RANK_SPROUT_CUTTING "botany_rank"   // Legacy alias for RANK_BOTANY
+#define RANK_WHITTLING "whittling_rank"
+#define RANK_POLE "whittling_rank"           // Legacy alias for RANK_WHITTLING (pole carving)
 #define MAX_RANK_LEVEL 5
 
 // Temperature Constants
@@ -79,8 +82,3 @@
 #define SEASON_SUMMER "Summer"
 #define SEASON_AUTUMN "Autumn"
 #define SEASON_WINTER "Winter"
-
-// Soil & Compost Status
-#define SOIL_DEPLETED 0
-#define SOIL_BASIC 1
-#define SOIL_RICH 2

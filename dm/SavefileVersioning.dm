@@ -9,7 +9,7 @@
  * - If incompatible, player notified with recovery options
  */
 
-#define SAVEFILE_VERSION 2  // Increment when schema changes
+#define SAVEFILE_VERSION 3  // Increment when schema changes (3: botany_rank, whittling_rank, quanta_balance added)
 #define SAVEFILE_VERSION_MIN 1  // Minimum compatible version
 
 // Global version tracking
