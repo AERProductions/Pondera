@@ -1063,7 +1063,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			else
 				//if(get_dist(src,M)>1&&get_dir(M,src)==M.dir)		//Makes sure the person is right beside the tree and facing it.
 				if(src in range(1, usr))
-					if(M.mrank<src.mreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+					if(M.GetRankLevel(RANK_MINING)<src.mreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 						M<<"<FONT COLOR=RED>You must have a mining acuity of at least [mreq] to mine [OreType] rocks.</FONT>"
 						return
 					if(Mining==1)		//This is saying if usr is already cuttin a tree...
@@ -1146,14 +1146,13 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 					M.stamina -= 5	//Depletes one stamina
 					M.updateST()
 					sleep(5)
-					if(prob(Rarity+M.mrank))		//Takes the rarity of the tree and your woodcutting lvl
+					if(prob(Rarity+M.GetRankLevel(RANK_MINING)))		//Takes the rarity of the tree and your woodcutting lvl
 						Miner<<"You Finish working the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> [OreType] rocks and receive [OreType] Ore!"		//You get "tree being cut" Logs!
 						M.overlays -= image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
 						new ore(M)		//Remember ore=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 						if(prob(1))
 							new gempick(M)
-						M.character.UpdateRankExp(RANK_MINING, GiveXP)				//  Add The exp from tree to you.
-						Miner.MNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+						M.character.UpdateRankExp(RANK_MINING, GiveXP)				//  Add The exp from tree to you.//Calls the WCLvl() Proc to see if person got lvl...
 						Mining=0							// Mining is set to 0 so you are free to move and cut some more.
 						//OreAmount--							//Depletes one log from the Amount.
 						if(src.OreAmount>=1)
@@ -1649,7 +1648,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 			var/stone=/obj/items/Ore/stone
 			M = Miner		//Makes the usr become Miner... Not really neccesary.
 			var/mr = "[src.mreq]"
-			if(M.mrank<mreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
+			if(M.GetRankLevel(RANK_MINING)<mreq)			//If usrs woodcutting lvl isnt greater than or equal to lvl req return
 				M<<"<FONT COLOR=RED>You must have a \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='PickAxe'> mining acuity of at least [mr] to mine [OreType] rocks.</FONT>"
 				return
 			/*if(OreAmount==0)		//Does the tree have logs???
@@ -1682,14 +1681,13 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 					M.stamina -= 5	//Depletes one stamina
 					M.updateST()
 					sleep(5)
-					if(prob(Rarity+M.mrank))		//Takes the rarity of the tree and your woodcutting lvl
+					if(prob(Rarity+M.GetRankLevel(RANK_MINING)))		//Takes the rarity of the tree and your woodcutting lvl
 						Miner<<"You Finish working the \  <IMG CLASS=icon SRC=\ref[src.icon] ICONSTATE='[src.icon_state]'> [OreType] rocks and receive [OreType] Ore!"		//You get "tree being cut" Logs!
 						M.overlays -= image('dmi/64/PXoy.dmi',icon_state="[get_dir(M,src)]")
 						new ore(M)		//Remember ore=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 						if(prob(1))
 							new gempick(M)
-						M.character.UpdateRankExp(RANK_MINING, GiveXP)				//  Add The exp from tree to you.
-						Miner.MNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
+						M.character.UpdateRankExp(RANK_MINING, GiveXP)				//  Add The exp from tree to you.//Calls the WCLvl() Proc to see if person got lvl...
 						Mining=0							// Mining is set to 0 so you are free to move and cut some more.
 						//OreAmount--							//Depletes one log from the Amount.
 						if(src.OreAmount>=1)
@@ -1772,3 +1770,4 @@ obj/Rocks/
 		spawntime=1420
 		OreType= "copper"
 		mreq=1*/
+

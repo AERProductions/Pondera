@@ -212,113 +212,11 @@ proc/InitializeLandscapingRegistry()
 		null
 	)
 	
-	// WATER (Rank 9+)
-	LANDSCAPING_REGISTRY["Water"] = list(
-		"simple",
-		null,
-		list(/obj/Landscaping/Water, 20, 5)
-	)
+	// WATER (Rank 9+) - Placeholder, implement in future
+	// LANDSCAPING_REGISTRY["Water"] = list(...)
 	
-	// LAVA (Rank 10)
-	LANDSCAPING_REGISTRY["Lava"] = list(
-		"simple",
-		null,
-		list(/obj/Landscaping/Lava, 50, 15)
-	)
-
-// ==================== CLIMBING SYSTEM ====================
-
-proc/AttemptClimb(mob/players/M, target_elevation)
-	//
-	// AttemptClimb(M, target_elevation) -> success (0-1)
-	// Attempts to traverse a climbable wall (ditch entry/exit, hill)
-	// 
-	// Climbing success formula:
-	// - Base success: 70%
-	// - Modifier: +5% per climbing rank
-	// - Risk: Failure = short fall damage
-	// 
-	// Returns:
-	// 1 = successful climb to target_elevation
-	// 0 = failed climb, took fall damage
-	//
-	
-	if(!M || !M.character) return 0
-	
-	var/climb_rank = M.character.GetRankLevel(RANK_CLIMBING)
-	var/climb_rank_bonus = climb_rank * 5  // 5% per rank
-	
-	// Base success chance scales with rank
-	var/success_chance = 70 + climb_rank_bonus  // 70% base + rank bonus
-	success_chance = min(success_chance, 95)  // Cap at 95% (never guaranteed)
-	
-	if(prob(success_chance))
-		// Success: Change elevation
-		M.elevel = target_elevation
-		M.layer = FindLayer(M.elevel)
-		M.invisibility = FindInvis(M.elevel)
-		M << "<green><b>You climb successfully!</b>"
-		
-		// Award small XP for successful climb (grows with rank)
-		var/climb_xp = 5 + (climb_rank * 2)  // 5-15 XP per climb based on rank
-		M.character.UpdateRankExp(RANK_CLIMBING, climb_xp)
-		M.updateDXP()  // Updates climbing rank display
-		
-		return 1
-	else
-		// Failure: Fall and take damage
-		M << "<red><b>You lose your grip and fall!</b>"
-		var/fall_damage = 10 + (5 - climb_rank)  // More damage for lower rank
-		fall_damage = max(fall_damage, 5)  // Minimum 5 damage
-		M.HP -= fall_damage
-		M.updateHP()
-		
-		// Even failed attempts award tiny XP (learning from failure)
-		M.character.UpdateRankExp(RANK_CLIMBING, 1)
-		
-		return 0
-
-proc/IsClimbableWall(obj/wall_obj)
-	//
-	// IsClimbableWall(wall_obj) -> 1 if climbable, 0 if not
-	// Determines if an object is a valid climbable wall
-	// Climbable: Hills, ditches, trenches
-	// NOT climbable: Fort walls, castle walls, regular walls
-	//
-	
-	if(!wall_obj) return 0
-	
-	// Climbable types
-	if(istype(wall_obj, /elevation/hill)) return 1
-	if(istype(wall_obj, /elevation/ditch)) return 1
-	if(istype(wall_obj, /elevation/trench)) return 1
-	
-	// Non-climbable fortress walls
-	if(istype(wall_obj, /obj/Buildable/Walls)) return 0
-	if(istype(wall_obj, /obj/Buildable/Doors)) return 0
-	if(istype(wall_obj, /obj/fortress_wall)) return 0
-	
-	return 0
-
-// ==================== CLIMBING INTEGRATION WITH MOVEMENT ====================
-
-proc/HandleClimbAttempt(mob/players/M, obj/target_wall, target_elevation)
-	//
-	// HandleClimbAttempt(M, target_wall, target_elevation)
-	// Triggered when player tries to move into/out of a ditch or hill
-	// 
-	// Replaces the current broken ditch system where players get trapped
-	// Now automatically attempts climbing based on rank
-	//
-	
-	if(!IsClimbableWall(target_wall))
-		return 0
-	
-	// Climbing attempt
-	if(AttemptClimb(M, target_elevation))
-		return 1  // Successfully climbed, allow movement
-	else
-		return 0  // Failed climb, block movement
+	// LAVA (Rank 10) - Placeholder, implement in future
+	// LANDSCAPING_REGISTRY["Lava"] = list(...)
 
 // ==================== DIGGING VERB (MODERNIZED) ====================
 

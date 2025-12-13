@@ -51,6 +51,16 @@ elevation
 	// Track contents when mob/obj actually enters/exits.
 	Entered(atom/movable/A)
 		elecontents += A
+		
+		// Climbing integration: if player enters elevation, attempt climb
+		if(istype(A, /mob/players))
+			var/mob/players/P = A
+			if(elevel != P.elevel)
+				// Player is at different elevation - attempt climbing
+				if(!P.AttemptClimbTraversal(elevel))
+					// Climbing failed - return to previous elevation
+					step_to(P, loc, 0)
+		
 		..()
 
 	Exited(atom/movable/A)

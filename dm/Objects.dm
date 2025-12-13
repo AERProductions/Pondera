@@ -5144,7 +5144,6 @@ obj
 						//M.UEB = 1
 						if("Cancel")
 							M<<"You Cancel Selection..."
-							Busy = 0
 							M.UEB = 0
 							M.SMIopen=0
 							return
@@ -5153,7 +5152,7 @@ obj
 							switch(input("What would you like to make?","Miscellaneous Smithing") in L6)
 								if("Cancel")
 									M<<"You Cancel Selection..."
-									Busy = 0
+									M.UEB = 0
 									M.UEB = 0
 									M.SMIopen=0
 									return
@@ -5266,7 +5265,7 @@ obj
 							switch(input("What Weapon would you like to make?","Tool Smithing") in L0)
 								if("Cancel")
 									M<<"You Cancel Selection..."
-									Busy = 0
+									M.UEB = 0
 									M.UEB = 0
 									M.SMIopen=0
 									return
@@ -5906,7 +5905,7 @@ obj
 								switch(input("What Weapon would you like to make?","Weapon Smithing") in L)// in list("Broad Sword"))
 									if("Cancel")
 										M<<"You Cancel Selection..."
-										Busy = 0
+										M.UEB = 0
 										M.UEB = 0
 										M.SMIopen=0
 										return
@@ -6307,7 +6306,7 @@ obj
 								switch(input("What Type of armor would you like to smith?","Smithing Armor Type") in list("Evasive","Defensive","Offensive","Cancel","Back"))
 									if("Cancel")
 										M<<"You Cancel Selection..."
-										Busy = 0
+										M.UEB = 0
 										M.UEB = 0
 										return
 									if("Back") goto ARMOR
@@ -6315,7 +6314,7 @@ obj
 										switch(input("What Armor would you like to make?","Evasive Armor Smithing") in L2)//in list())
 											if("Cancel")
 												M<<"You Cancel Selection..."
-												Busy = 0
+												M.UEB = 0
 												M.UEB = 0
 												M.SMIopen=0
 												return
@@ -7401,7 +7400,7 @@ obj
 										switch(input("What Armor would you like to make?","Defensive Armor Smithing") in L4)//in list())
 											if("Cancel")
 												M<<"You Cancel Selection..."
-												Busy = 0
+												M.UEB = 0
 												M.UEB = 0
 												M.SMIopen=0
 												return
@@ -7780,7 +7779,7 @@ obj
 										switch(input("What Armor would you like to make?","Offensive Armor Smithing") in L5)//in list())
 											if("Cancel")
 												M<<"You Cancel Selection..."
-												Busy = 0
+												M.UEB = 0
 												M.UEB = 0
 												M.SMIopen=0
 												return
@@ -8160,7 +8159,7 @@ obj
 								//switch(L)
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UEB = 0
 											M.UEB = 0
 											M.SMIopen=0
 											return
@@ -11454,3 +11453,5 @@ turf
 							return*/
 				else if(M.FPequipped==0)
 					usr << "Need to hold the Fishing Pole to use it."
+
+
