@@ -64,6 +64,9 @@
 #include "dm\RoleBasedAdminSystem.dm"
 #include "dm\SearchingSystemModern.dm"
 #include "dm\ServerDifficultyUI.dm"
+#include "dm\SmithingRecipes.dm"  // Recipe database (65+ recipes)
+#include "dm\SmithingMenuSystem.dm"  // Menu UI with rank gating
+#include "dm\SmithingCraftingHandler.dm"  // Crafting logic & XP rewards
 #include "dm\SmithingModernE-Key.dm"  // Smithing E-key handlers (verb refactor Phase 2)
 //#include "dm\SmeltingSystemModern.dm"  // Smelting already integrated in Objects.dm with modern rank system
 //#include "dm\SmithingMacroIntegration.dm"  // TODO: Implement smithing E-key macros
