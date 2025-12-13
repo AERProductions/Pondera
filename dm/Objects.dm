@@ -5025,7 +5025,7 @@ obj
 				M.seexp=0 //resets user mining experience to 0
 				M.seexpneeded+=30 //add 30 to users max mining experience
 				M << "\green<b> You gain Searching Acuity..."
-		//M.smeexp += 5 //name of proc
+		//M.character.UpdateRankExp(RANK_SMELTING, 5) //name of proc
 		//	var/mob/players/M = usr
 		//	if(M.smexp >= M.smexpneeded) //if users mining experience is or gos past users max ming experience
 		//		M.smeltinglevel+=1 //users mining gos up by 1
@@ -5046,7 +5046,7 @@ obj
 				M.mexp=0 //resets user mining experience to 0
 				M.mexpneeded+=30 //add 30 to users max mining experience
 				world << "\green<b>[M]'s Mining Levelup!!"*/
-		//M.smiexp += 15 //name of proc
+		//M.character.UpdateRankExp(RANK_SMITHING, 15) //name of proc
 		//	var/mob/players/M = usr
 		//	if(M.sexp >= M.sexpneeded) //if users mining experience is or gos past users max ming experience
 		//		M.smithinglevel+=1 //users mining gos up by 1
@@ -5535,7 +5535,7 @@ obj
 											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new IN(M)
@@ -5555,7 +5555,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												new SCI(M)
@@ -5587,7 +5587,7 @@ obj
 											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new IR(M)
@@ -5607,7 +5607,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												new SCI(M)
@@ -5647,7 +5647,7 @@ obj
 											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new CKB(M)
@@ -5666,7 +5666,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -5695,7 +5695,7 @@ obj
 											IB.RemoveFromStack(3)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new SHD(M)
@@ -5714,7 +5714,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -5747,7 +5747,7 @@ obj
 											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new AHD(M)
@@ -5766,7 +5766,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -5796,7 +5796,7 @@ obj
 											IB.RemoveFromStack(3)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new PHD(M)
@@ -5815,7 +5815,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -5848,7 +5848,7 @@ obj
 											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new HHD(M)
@@ -5867,7 +5867,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -5900,7 +5900,7 @@ obj
 											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new HBD(M)
@@ -5919,7 +5919,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -5952,7 +5952,7 @@ obj
 											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new SBD(M)
@@ -5971,7 +5971,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -6004,7 +6004,7 @@ obj
 											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new CHBD(M)
@@ -6023,7 +6023,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -6059,7 +6059,7 @@ obj
 											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 
@@ -6091,7 +6091,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -6124,7 +6124,7 @@ obj
 											IB.RemoveFromStack(2)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new SWBD(M)
@@ -6143,7 +6143,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -6177,7 +6177,7 @@ obj
 											SB.RemoveFromStack(3)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new TWBD(M)
@@ -6196,7 +6196,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -6229,7 +6229,7 @@ obj
 											IB.RemoveFromStack(1)
 											src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 											sleep(30) //Delay 3 seconds
-											M.smiexp += 15 //go to proc miningcheck
+											M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 											M.stamina -= 5
 											M.updateST()
 											new IR(M)
@@ -6248,7 +6248,7 @@ obj
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
 												 //user mining skill gos up by 15
-												M.smiexp += 15 //....
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 												M.stamina -= 5
 												M.updateST()
 												usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -6287,7 +6287,7 @@ obj
 												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
-												M.smiexp += 15 //go to proc miningcheck
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 												M.stamina -= 5
 												M.updateST()
 												new BSB(locate(x,y,z))
@@ -6306,7 +6306,7 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
-													M.smiexp += 15 //....
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 													M.stamina -= 5
 													M.updateST()
 													usr << "The materials fail to react well together..." //message to user saying he/she didn't mine anything
@@ -6343,7 +6343,7 @@ obj
 												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
-												M.smiexp += 15 //go to proc miningcheck
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 												M.stamina -= 5
 												M.updateST()
 												new WSWB(locate(x,y,z))
@@ -6362,7 +6362,7 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
-													M.smiexp += 15 //....
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 													M.stamina -= 5
 													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -6399,7 +6399,7 @@ obj
 												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
-												M.smiexp += 15 //go to proc miningcheck
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 												M.stamina -= 5
 												M.updateST()
 												new BSWB(locate(x,y,z))
@@ -6418,7 +6418,7 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
-													M.smiexp += 15 //....
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 													M.stamina -= 5
 													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -6455,7 +6455,7 @@ obj
 												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
-												M.smiexp += 15 //go to proc miningcheck
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 												M.stamina -= 5
 												M.updateST()
 												new BSWB(locate(x,y,z))
@@ -6474,7 +6474,7 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
-													M.smiexp += 15 //....
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 													M.stamina -= 5
 													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -6511,7 +6511,7 @@ obj
 												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
-												M.smiexp += 15 //go to proc miningcheck
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 												M.stamina -= 5
 												M.updateST()
 												new BHS(locate(x,y,z))
@@ -6530,7 +6530,7 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
-													M.smiexp += 15 //....
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 													M.stamina -= 5
 													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -6567,7 +6567,7 @@ obj
 												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
-												M.smiexp += 15 //go to proc miningcheck
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 												M.stamina -= 5
 												M.updateST()
 												new WSB(locate(x,y,z))
@@ -6586,7 +6586,7 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
-													M.smiexp += 15 //....
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 													M.stamina -= 5
 													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -6623,7 +6623,7 @@ obj
 												IB.RemoveFromStack(3)
 												src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 												sleep(30) //Delay 3 seconds
-												M.smiexp += 15 //go to proc miningcheck
+												M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 												M.stamina -= 5
 												M.updateST()
 												new BSCB(locate(x,y,z))
@@ -6642,7 +6642,7 @@ obj
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
 													 //user mining skill gos up by 15
-													M.smiexp += 15 //....
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 													M.stamina -= 5
 													M.updateST()
 													usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -6701,7 +6701,7 @@ obj
 														GH0.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -6721,7 +6721,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -6759,7 +6759,7 @@ obj
 														GS1.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -6779,7 +6779,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -6819,7 +6819,7 @@ obj
 														GS2.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -6840,7 +6840,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -6878,7 +6878,7 @@ obj
 														GH3.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -6898,7 +6898,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -6936,7 +6936,7 @@ obj
 														GS4.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -6956,7 +6956,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -6994,7 +6994,7 @@ obj
 														GS5.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7014,7 +7014,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7055,7 +7055,7 @@ obj
 														GH0.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7076,7 +7076,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7116,7 +7116,7 @@ obj
 														//GS1.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7137,7 +7137,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7177,7 +7177,7 @@ obj
 														GS2.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7198,7 +7198,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7236,7 +7236,7 @@ obj
 														GH3.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7256,7 +7256,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7294,7 +7294,7 @@ obj
 														GH4.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7314,7 +7314,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7354,7 +7354,7 @@ obj
 														GH5.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7375,7 +7375,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7416,7 +7416,7 @@ obj
 														GH0.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7437,7 +7437,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7477,7 +7477,7 @@ obj
 														GH1.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7498,7 +7498,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7538,7 +7538,7 @@ obj
 														GH2.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7559,7 +7559,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7599,7 +7599,7 @@ obj
 														GH3.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7620,7 +7620,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7660,7 +7660,7 @@ obj
 														GH4.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7681,7 +7681,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7721,7 +7721,7 @@ obj
 														GH5.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7742,7 +7742,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7792,7 +7792,7 @@ obj
 														GH0.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7813,7 +7813,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7853,7 +7853,7 @@ obj
 														GH1.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7874,7 +7874,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7914,7 +7914,7 @@ obj
 														GH2.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7935,7 +7935,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -7975,7 +7975,7 @@ obj
 														GH3.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -7996,7 +7996,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8036,7 +8036,7 @@ obj
 														GH4.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -8057,7 +8057,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8097,7 +8097,7 @@ obj
 														GH5.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -8118,7 +8118,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8168,7 +8168,7 @@ obj
 														GH0.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -8189,7 +8189,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8229,7 +8229,7 @@ obj
 														GH1.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -8250,7 +8250,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8290,7 +8290,7 @@ obj
 														GH2.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -8311,7 +8311,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8353,7 +8353,7 @@ obj
 														GH3.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -8375,7 +8375,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8415,7 +8415,7 @@ obj
 														GH4.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -8436,7 +8436,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8476,7 +8476,7 @@ obj
 														GH5.RemoveFromStack(1)
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
-														M.smiexp += 15 //go to proc miningcheck
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 														M.stamina -= 5
 														M.updateST()
 														new AV(M)//(locate(x,y,z))
@@ -8497,7 +8497,7 @@ obj
 															src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 															sleep(30) //Delay 3 seconds
 															 //user mining skill gos up by 15
-															M.smiexp += 15 //....
+															M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 															M.stamina -= 5
 															M.updateST()
 															usr << "The materials fail to react well together and become unusable..." //message to user saying he/she didn't mine anything
@@ -8544,7 +8544,7 @@ obj
 													IB.RemoveFromStack(4)
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
-													M.smiexp += 15 //go to proc miningcheck
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 													M.stamina -= 5
 													M.updateST()
 													new ILH(locate(x,y,z))
@@ -8563,7 +8563,7 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
-														M.smiexp += 15 //....
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 														M.stamina -= 5
 														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -8599,7 +8599,7 @@ obj
 													CB.RemoveFromStack(4)
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
-													M.smiexp += 15 //go to proc miningcheck
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 													M.stamina -= 5
 													M.updateST()
 													new CLH(locate(x,y,z))
@@ -8618,7 +8618,7 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
-														M.smiexp += 15 //....
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 														M.stamina -= 5
 														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -8654,7 +8654,7 @@ obj
 													BRB.RemoveFromStack(4)
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
-													M.smiexp += 15 //go to proc miningcheck
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 													M.stamina -= 5
 													M.updateST()
 													new BRLH(locate(x,y,z))
@@ -8673,7 +8673,7 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
-														M.smiexp += 15 //....
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 														M.stamina -= 5
 														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -8709,7 +8709,7 @@ obj
 													BB.RemoveFromStack(4)
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
-													M.smiexp += 15 //go to proc miningcheck
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 													M.stamina -= 5
 													M.updateST()
 													new BLH(locate(x,y,z))
@@ -8728,7 +8728,7 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
-														M.smiexp += 15 //....
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 														M.stamina -= 5
 														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -8764,7 +8764,7 @@ obj
 													STB.RemoveFromStack(4)
 													src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 													sleep(30) //Delay 3 seconds
-													M.smiexp += 15 //go to proc miningcheck
+													M.character.UpdateRankExp(RANK_SMITHING, 15) //go to proc miningcheck
 													M.stamina -= 5
 													M.updateST()
 													new STLH(locate(x,y,z))
@@ -8783,7 +8783,7 @@ obj
 														src.overlays += image('dmi/64/creation.dmi',icon_state="anvilL")
 														sleep(30) //Delay 3 seconds
 														 //user mining skill gos up by 15
-														M.smiexp += 15 //....
+														M.character.UpdateRankExp(RANK_SMITHING, 15) //....
 														M.stamina -= 5
 														M.updateST()
 														usr << "The materials fail to react well..." //message to user saying he/she didn't mine anything
@@ -8854,7 +8854,7 @@ obj
 							I.RemoveFromStack(15)
 							sleep(30) //Delay 3 seconds
 								//user gets 25 mining experience
-							M.smeexp += 5 //go to proc miningcheck
+							M.character.UpdateRankExp(RANK_SMELTING, 5) //go to proc miningcheck
 							M.stamina -= 5
 							M.updateST()
 								//IB:Tname="Hot"
@@ -8886,7 +8886,7 @@ obj
 							I.RemoveFromStack(3)
 							sleep(30) //Delay 3 seconds
 								//user gets 25 mining experience
-							M.smeexp += 5 //go to proc miningcheck
+							M.character.UpdateRankExp(RANK_SMELTING, 5) //go to proc miningcheck
 							M.stamina -= 5
 							M.updateST()
 								//IB:Tname="Hot"
@@ -8917,7 +8917,7 @@ obj
 								LE.RemoveFromStack(3)
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
-								M.smeexp += 5 //go to proc miningcheck
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //go to proc miningcheck
 								M.stamina -= 5
 								M.updateST()
 								new LB(locate(x,y,z))
@@ -8942,7 +8942,7 @@ obj
 								LE.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
-								M.smeexp += 5 //....
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //....
 								M.stamina -= 5
 								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap lead!" //message to user saying he/she didn't mine anything
@@ -8971,7 +8971,7 @@ obj
 								Z.RemoveFromStack(2)
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
-								M.smeexp += 5 //go to proc miningcheck
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //go to proc miningcheck
 								M.stamina -= 5
 								M.updateST()
 								new ZB(locate(x,y,z))
@@ -8994,7 +8994,7 @@ obj
 								Z.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
-								M.smeexp += 5 //....
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //....
 								M.stamina -= 5
 								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap zinc!" //message to user saying he/she didn't mine anything
@@ -9022,7 +9022,7 @@ obj
 								C.RemoveFromStack(2)
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
-								M.smeexp += 5 //go to proc miningcheck
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //go to proc miningcheck
 								M.stamina -= 5
 								M.updateST()
 								//M.copperbar += 1
@@ -9046,7 +9046,7 @@ obj
 								C.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
-								M.smeexp += 5 //....
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //....
 								M.stamina -= 5
 								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap copper!" //message to user saying he/she didn't mine anything
@@ -9076,7 +9076,7 @@ obj
 								LB.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
-								M.smeexp += 5 //go to proc miningcheck
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //go to proc miningcheck
 								M.stamina -= 5
 								M.updateST()
 									//M.copperbar += 1
@@ -9101,7 +9101,7 @@ obj
 								LB.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
-								M.smeexp += 5 //....
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //....
 								M.stamina -= 5
 								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap bronze!" //message to user saying he/she didn't mine anything
@@ -9131,7 +9131,7 @@ obj
 								ZB.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
-								M.smeexp += 5 //go to proc miningcheck
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //go to proc miningcheck
 								M.stamina -= 5
 								M.updateST()
 								//M.copperbar += 1
@@ -9156,7 +9156,7 @@ obj
 								ZB.RemoveFromStack(1)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
-								M.smeexp += 5 //....
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //....
 								M.stamina -= 5
 								M.updateST()
 								M << "The material used was too pitted to smelt properly and produced scrap brass!" //message to user saying he/she didn't mine anything
@@ -9187,7 +9187,7 @@ obj
 								AC.RemoveFromStack(2)
 								sleep(30) //Delay 3 seconds
 							//user gets 25 mining experience
-								M.smeexp += 5 //go to proc miningcheck
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //go to proc miningcheck
 								M.stamina -= 5
 								M.updateST()
 									//M.copperbar += 1
@@ -9212,7 +9212,7 @@ obj
 								AC.RemoveFromStack(2)
 								sleep(30) //Delay 3 seconds
 							//user mining skill gos up by 15
-								M.smeexp += 5 //....
+								M.character.UpdateRankExp(RANK_SMELTING, 5) //....
 								M.stamina -= 5
 								M.updateST()
 								M << "The material used was too pitted to smelt properly and was lost in the process!" //message to user saying he/she didn't mine anything

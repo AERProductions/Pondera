@@ -1675,7 +1675,7 @@ obj
 								else if(S.Sown==1&&month=="Shevat")
 									new S.plantbs(usr.loc)//plant that choice
 									//call(/obj/Plants/Grow)()
-									M.grankEXP += S.gxpg
+									M.character.UpdateRankExp(RANK_GARDENING, S.gxpg)
 									S.RemoveFromStack(1)//remove from stack
 									Sowed = 1//mark soil and sown
 									M.stamina -= 8//remove stamina
@@ -1769,7 +1769,7 @@ obj
 								else if(S.Sown==1&&month=="Shevat")
 									new S.plantbs(usr.loc)//plant that choice
 									//call(/obj/Plants/Grow)()
-									M.grankEXP += S.gxpg
+									M.character.UpdateRankExp(RANK_GARDENING, S.gxpg)
 									S.RemoveFromStack(1)//remove from stack
 									Sowed = 1//mark soil and sown
 									M.stamina -= 8//remove stamina

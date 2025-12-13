@@ -1172,7 +1172,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						new ore(M)		//Remember ore=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 						if(prob(1))
 							new gempick(M)
-						M.mrankEXP+=GiveXP				//  Add The exp from tree to you.
+						M.character.UpdateRankExp(RANK_MINING, GiveXP)				//  Add The exp from tree to you.
 						Miner.MNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 						Mining=0							// Mining is set to 0 so you are free to move and cut some more.
 						//OreAmount--							//Depletes one log from the Amount.
@@ -1708,7 +1708,7 @@ obj/Rocks							//Simple right??? Just defining objects, Trees!
 						new ore(M)		//Remember ore=obj/items/Logs/Oak???  Heres where this creates a log into invetory
 						if(prob(1))
 							new gempick(M)
-						M.mrankEXP+=GiveXP				//  Add The exp from tree to you.
+						M.character.UpdateRankExp(RANK_MINING, GiveXP)				//  Add The exp from tree to you.
 						Miner.MNLvl()						//Calls the WCLvl() Proc to see if person got lvl...
 						Mining=0							// Mining is set to 0 so you are free to move and cut some more.
 						//OreAmount--							//Depletes one log from the Amount.
