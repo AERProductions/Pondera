@@ -61,6 +61,9 @@ proc
 		InitializeRankDefinitions()  // Register all rank types for fast O(1) lookup
 		RegisterInitComplete("ranks")
 		
+		LogInit("SYSTEM: Searchable Items Registry (3 ticks)", 3)
+		spawn(3)  InitializeSearchables()  // Initialize discoverable items for searching skill
+		
 		// ────────────────────────────────────────────────────────────────────
 		// PHASE 1: TIME SYSTEM (0 ticks)
 		// Critical: Must be first, required by day/night and maintenance
