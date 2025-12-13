@@ -43,6 +43,7 @@
 #include "dm\EquipmentVisualizationWorkaround.dm"
 #include "dm\FullWeek2IntegrationTests.dm"
 #include "dm\KingdomTreasurySystem.dm"
+#include "dm\LandscapingSystem.dm"
 #include "dm\LivesSystemIntegration.dm"
 #include "dm\MarketBoardPersistenceSystem.dm"
 #include "dm\ModernizedNPCExamples.dm"

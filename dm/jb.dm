@@ -8,7 +8,7 @@ obj
 		//if(M.canbuild=1)
 			//return ..()
 
-var/Busy = 0
+var/M.UED = 0
 var
 	//smelt[1]
 	build[1]	//build selection menu
@@ -42,7 +42,7 @@ mob/players
 			var/mob/players/M
 			var/obj/DeedToken/dt
 			M = usr
-			//var/Busy = 0
+			//var/M.UED = 0
 			//var/L[1]
 			//var/X = /obj/permit
 			//L = dig
@@ -62,7 +62,7 @@ mob/players
 				if(M.stamina==0)		//Is your stamina to low???
 					M<<"You're too tired to do anything! Drink some \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='FilledJar'>Water."
 					return
-				if(Busy == 1)
+				if(M.UED == 1)
 					M<<"You're too busy to do anything else!"
 					return
 
@@ -78,7 +78,7 @@ mob/players
 						return
 					else
 						if(M.SHequipped==1)
-							//Busy = 1
+							//M.UED = 1
 							//usr << "test2"
 							var/a
 							M.UED = 1
@@ -86,16 +86,16 @@ mob/players
 							switch(input("Dig?","Dig") as anything in dig) // in list("Dirt Road","Dirt Road Corner","Water")
 								if("Cancel")
 									M<<"You Cancel Selection..."
-									Busy = 0
+									M.UED = 0
 									M.UED = 0
 									return
 								if("Dirt Road")
-									//Busy=1
+									//M.UED = 1
 									//DIRTROAD
 									switch(input("Which direction?","Dirt Road")in list("North/South","East/West","3-way North","Cancel","Back"))//,"3-way North"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -104,42 +104,39 @@ mob/players
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/DirtRoad/NSRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("East/West")
 											////var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/DirtRoad/EWRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("3-way North")
 											////var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/DirtRoad/R3WNRoad(usr.loc)  //Need to add more of these?
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 								if("Dirt Road Corner")
 									switch(input("Which direction?","Dirt Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -148,56 +145,51 @@ mob/players
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/DirtRoad/NWCRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("NorthEast Corner")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/DirtRoad/NECRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("SouthWest Corner")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/DirtRoad/SWCRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("SouthEast Corner")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/DirtRoad/SECRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
-								//call(/proc/diglevel)(M)
-								if("Wood Road")
-									//Busy=1
+												M.UED = 0
+								//								if("Wood Road")
+									//M.UED = 1
 									switch(input("Which direction?","Dirt Road")in list("North/South","East/West","3-way North","Cancel","Back"))//,"3-way North"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -206,42 +198,39 @@ mob/players
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/WoodRoad/WRNSRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("East/West")
 											////var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/WoodRoad/WREWRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("3-way North")
 											////var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/WoodRoad/WR3WNRoad(usr.loc)  //Need to add more of these?
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 								if("Wood Road Corner")
 									switch(input("Which direction?","Dirt Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -250,54 +239,50 @@ mob/players
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/WoodRoad/WRNWCRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("NorthEast Corner")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/WoodRoad/WRNECRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("SouthWest Corner")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/WoodRoad/WRSWCRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("SouthEast Corner")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												a = new/obj/Landscaping/Road/WoodRoad/WRSECRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 								if("Brick Road")
 									switch(input("Which direction?","Brick Road")in list("North/South","East/West","Cancel","Back"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -307,32 +292,29 @@ mob/players
 												for(S in M.contents) S.RemoveFromStack(6)
 												a = new/obj/Landscaping/Road/StoneRoad/SNSRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("East/West")
 											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
 											if(M.SHequipped==1)
 												for(S in M.contents) S.RemoveFromStack(6)
 												a = new/obj/Landscaping/Road/StoneRoad/SEWRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
-								//call(/proc/diglevel)(M)
-								if("Brick Road Corner")
+												M.UED = 0
+								//								if("Brick Road Corner")
 									switch(input("Which direction?","Brick Road")in list("NorthWest Corner","NorthEast Corner","SouthWest Corner","SouthEast Corner","Cancel","Back"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -342,58 +324,53 @@ mob/players
 												for(S in M.contents) S.RemoveFromStack(6)
 												a = new/obj/Landscaping/Road/StoneRoad/SNWCRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("NorthEast Corner")
 											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
 											if(M.SHequipped==1)
 												for(S in M.contents) S.RemoveFromStack(6)
 												a = new/obj/Landscaping/Road/StoneRoad/SNECRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("SouthWest Corner")
 											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
 											if(M.SHequipped==1)
 												for(S in M.contents) S.RemoveFromStack(6)
 												a = new/obj/Landscaping/Road/StoneRoad/SSWCRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("SouthEast Corner")
 											var/obj/items/Crafting/Created/Bricks/S = locate() in M.contents
 											if(M.SHequipped==1)
 												for(S in M.contents) S.RemoveFromStack(6)
 												a = new/obj/Landscaping/Road/StoneRoad/SSECRoad(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 15
+												M.character.UpdateRankExp(RANK_DIGGING, 15)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
-								//call(/proc/diglevel)(M)
-								if("Ditch")
+												M.UED = 0
+								//								if("Ditch")
 									switch(input("Which direction?","Ditch")in list("Slope(NORTH)","Slope(SOUTH)","Slope(EAST)","Slope(WEST)","Corner(NORTHEAST)","Corner(NORTHWEST)","Corner(SOUTHEAST)","Corner(SOUTHWEST)","Exit Slope(NORTH)","Exit Slope(SOUTH)","Exit Slope(EAST)","Exit Slope(WEST)","Ditch(NORTH/SOUTH)","Ditch(EAST/WEST)","Cancel","Back"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -406,13 +383,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												//a:dir = NORTH
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope(SOUTH)")
 											////var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -422,13 +398,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = SOUTH
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope(EAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -437,13 +412,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = EAST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope(WEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -452,13 +426,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = WEST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Corner(NORTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -467,13 +440,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = NORTHEAST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Corner(NORTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -482,13 +454,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = SOUTH
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Corner(SOUTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -497,13 +468,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = EAST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Corner(SOUTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -512,13 +482,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = WEST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Turn(NORTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -527,13 +496,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = NORTHEAST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Turn(NORTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -542,13 +510,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = SOUTH
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Turn(SOUTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -557,13 +524,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = EAST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Turn(SOUTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -572,13 +538,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = WEST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Exit Slope(NORTH)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -587,13 +552,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = NORTH
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Exit Slope(SOUTH)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -602,13 +566,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												//a:dir = SOUTH
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Exit Slope(EAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -617,13 +580,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = EAST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Exit Slope(WEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -632,13 +594,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.5
 												a:dir = WEST
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Ditch(NORTH/SOUTH)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -647,13 +608,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.0
 												a:dir = null
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Ditch(EAST/WEST)")
 											////var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -663,19 +623,17 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 0.0
 												a:dir = null
-												M.digexp += 20
+												M.character.UpdateRankExp(RANK_DIGGING, 20)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
-								//call(/proc/diglevel)(M)
-								if("Hill")
+												M.UED = 0
+								//								if("Hill")
 									switch(input("Which direction?","Hill")in list("Cancel","Slope(NORTH)","Slope(SOUTH)","Slope(EAST)","Slope(WEST)","Slope Corner(NORTHEAST)","Slope Corner(NORTHWEST)","Slope Corner(SOUTHEAST)","Slope Corner(SOUTHWEST)","Cliff(NORTH)","Cliff(SOUTH)","Cliff(EAST)","Cliff(WEST)","Cliff Corner(NORTHEAST)","Cliff Corner(NORTHWEST)","Cliff Corner(SOUTHEAST)","Cliff Corner(SOUTHWEST)","Hill-Top(CENTER)","Hill-Top(NORTH)","Hill-Top(SOUTH)","Hill-Top(EAST)","Hill-Top(WEST)","Hill-Top Corner(NORTHEAST)","Hill-Top Corner(NORTHWEST)","Hill-Top Corner(SOUTHEAST)","Hill-Top Corner(SOUTHWEST)","Hill-Top Turn(NORTHEAST)","Hill-Top Turn(NORTHWEST)","Hill-Top Turn(SOUTHEAST)","Hill-Top Turn(SOUTHWEST)"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -687,13 +645,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 1.5
 												a:dir = NORTH
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope(SOUTH)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -702,13 +659,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 1.5
 												a:dir = SOUTH
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope(EAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -717,13 +673,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 1.5
 												a:dir = EAST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope(WEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -732,13 +687,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 1.5
 												a:dir = WEST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope Corner(NORTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -747,13 +701,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 1.5
 												a:dir = NORTHEAST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope Corner(NORTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -762,13 +715,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 1.5
 												a:dir = SOUTH
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope Corner(SOUTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -777,13 +729,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 1.5
 												a:dir = EAST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Slope Corner(SOUTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -792,13 +743,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 1.5
 												a:dir = WEST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Cliff(NORTH)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -807,13 +757,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = NORTH
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Cliff(SOUTH)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -822,13 +771,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = SOUTH
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Cliff(EAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -837,13 +785,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = EAST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Cliff(WEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -852,13 +799,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = WEST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Cliff Corner(NORTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -867,13 +813,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = NORTHEAST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Cliff Corner(NORTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -882,13 +827,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = SOUTH
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Cliff Corner(SOUTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -897,13 +841,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = EAST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Cliff Corner(SOUTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -912,13 +855,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = WEST
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 25
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top(CENTER)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -927,13 +869,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top(NORTH)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -942,13 +883,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top(SOUTH)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -957,13 +897,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top(EAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -972,13 +911,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top(WEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -987,13 +925,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top Corner(NORTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -1002,13 +939,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top Corner(NORTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -1017,13 +953,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top Corner(SOUTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -1032,13 +967,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top Corner(SOUTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -1047,13 +981,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top Turn(NORTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -1062,13 +995,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top Turn(NORTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -1077,13 +1009,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top Turn(SOUTHEAST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -1092,13 +1023,12 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Hill-Top Turn(SOUTHWEST)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
@@ -1107,19 +1037,17 @@ mob/players
 												a:buildingowner = ckeyEx("[usr.key]")
 												a:elevel = 2.0
 												a:dir = null
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 10
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
-								//call(/proc/diglevel)(M)
-								if("Water")
+												M.UED = 0
+								//								if("Water")
 									switch(input("Which direction?","Water")in list("Single Tile(Borders)","Single Tile(No Borders)","Central 4-way","North","South","East","West","Cancel","Back"))
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UED = 0
 											return
 										if("Back") goto DIG
@@ -1135,159 +1063,148 @@ mob/players
 												//	M<<"Need to have a Filled Jar to continue."
 												a = new/turf/Ground/water2B(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 5
 												M.updateST()
 												M.updateDXP()
 
 												a = new/turf/Water(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
+												M.UED = 0
 											*/
 											//M<<"You use the water in the jar to fill the hole in the ground."
 											//a = new/turf/water2B(usr.loc)
 											//a:buildingowner = ckeyEx("[usr.key]")
-											//M.digexp += 25
+											//M.character.UpdateRankExp(RANK_DIGGING, 25)
 										if("Border (West)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												//for(S in M.contents) S.RemoveFromStack(6)
 												a = new/turf/pbords/pbord1(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Border (North)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												//for(S in M.contents) S.RemoveFromStack(6)
 												a = new/turf/pbords/pbord2(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Border (East)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												//for(S in M.contents) S.RemoveFromStack(6)
 												a = new/turf/pbords/pbord3(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Border (South)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												//for(S in M.contents) S.RemoveFromStack(6)
 												a = new/turf/pbords/pbord4(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Border Corner (South West)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												//for(S in M.contents) S.RemoveFromStack(6)
 												a = new/turf/pbords/pbord5(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Border Corner (North West)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												//for(S in M.contents) S.RemoveFromStack(6)
 												a = new/turf/pbords/pbord6(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Border Corner (North East)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												//for(S in M.contents) S.RemoveFromStack(6)
 												a = new/turf/pbords/pbord7(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 										if("Border Corner (South East)")
 											//var/obj/items/tools/Shovel/S = locate() in M.contents
 											if(M.SHequipped==1)
 												//for(S in M.contents) S.RemoveFromStack(6)
 												a = new/turf/pbords/pbord8(usr.loc)
 												a:buildingowner = ckeyEx("[usr.key]")
-												M.digexp += 25
+												M.character.UpdateRankExp(RANK_DIGGING, 25)
 												M.stamina -= 15
 												M.updateST()
 												M.updateDXP()
-												Busy = 0
 												M.UED = 0
-												return call(/proc/diglevel)(M)
+												M.UED = 0
 								if("Dirt")
-									M.digexp += 5
+									M.character.UpdateRankExp(RANK_DIGGING, 5)
 									a = new/obj/Landscaping/Dirt(usr.loc)
 									a:buildingowner = ckeyEx("[usr.key]")
 									//WTOSL += a
 									M.stamina -= 5
 									M.updateST()
 									M.updateDXP()
-									Busy = 0
+									M.UED = 0
 									//diglevel(M)
 									M.UED = 0
-									return call(/proc/diglevel)(M)
 								if("Grass")
-									M.digexp += 10
+									M.character.UpdateRankExp(RANK_DIGGING, 10)
 									a = new/turf/Grass(usr.loc)
 									a:buildingowner = ckeyEx("[usr.key]")
 									M.stamina -= 10
 									M.updateST()
 									M.updateDXP()
-									Busy = 0
 									M.UED = 0
-									return call(/proc/diglevel)(M)
+									M.UED = 0
 								if("Lava")
-									M.digexp += 50
+									M.character.UpdateRankExp(RANK_DIGGING, 50)
 									a = new/turf/lava(usr.loc)
 									a:buildingowner = ckeyEx("[usr.key]")
 									M.stamina -= 50
 									M.updateST()
 									M.updateDXP()
-									Busy = 0
 									M.UED = 0
-									return call(/proc/diglevel)(M)
+									M.UED = 0
 								/*if("Water")
 									M.character.UpdateRankExp(RANK_BUILDING, 5)
 									a = new/turf/Ground/water2(usr.loc)
@@ -1295,9 +1212,7 @@ mob/players
 									M.stamina -= 5
 									M.updateST()
 									M.updateDXP()*/
-									//call(/proc/diglevel)(M)
-							//call(/proc/diglevel)(M)
-							return
+									//							//							return
 
 
 /*proc
@@ -1403,7 +1318,7 @@ mob/players
 								switch(input("Select your creation","Building") as anything in build)//"Fort","House","Furnishings","Miscellaneous") build=build selection L0=fort material type L1=wood fort wall type L2 = stone fort wall type L3 =house material type L4 = miscellaneous L5=furnishings L6=woodhouse build selection type Fort
 									if("Cancel")
 										M<<"You Cancel Selection..."
-										Busy = 0
+										M.UED = 0
 										M.UEB = 0
 										return
 									if("Fire")
@@ -1436,7 +1351,7 @@ mob/players
 									if("Furnishings") switch(input("Select Furnishing","Furnishings") as anything in L5) //L5
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UEB = 0
 											return
 										if("Back") goto BUILD
@@ -2184,7 +2099,7 @@ mob/players
 									if("Miscellaneous") switch(input("Select Miscellaneous","Miscellaneous") as anything in L4) //L4
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UEB = 0
 											return
 										if("Back") goto BUILD
@@ -2353,14 +2268,14 @@ mob/players
 									if("House") switch(input("Select Material Type","House Materials") as anything in L3) //L3
 										if("Cancel")
 											M<<"You Cancel Selection..."
-											Busy = 0
+											M.UED = 0
 											M.UEB = 0
 											return
 										if("Back") goto BUILD
 										if("Wood") switch(input("Select Section Type","Wooden House") as anything in L6)//list("Exterior Wall","Door"),"Interior Wall") L6
 											if("Cancel")
 												M<<"You Cancel Selection..."
-												Busy = 0
+												M.UED = 0
 												M.UEB = 0
 												return
 											if("Foundation")
@@ -2871,7 +2786,7 @@ mob/players
 										if("Stone") switch(input("Select Section Type","Stone House Walls") as anything in L7)//list("Exterior Wall","Door"),"Interior Wall") L7HouseWalls/sh8HouseWalls/sh1HouseWalls/sh7HouseWalls/sh8
 											if("Cancel")
 												M<<"You Cancel Selection..."
-												Busy = 0
+												M.UED = 0
 												M.UEB = 0
 												M.UETW = 0
 												return
@@ -3453,7 +3368,7 @@ mob/players
 										switch(input("Select Material Type","Fort Materials") as anything in L0)//in list("Wood"),"Stone") L0wood build material selection
 											if("Cancel")
 												M<<"You Cancel Selection..."
-												Busy = 0
+												M.UED = 0
 												M.UEB = 0
 												return
 											if("Back") goto BUILD
@@ -3462,14 +3377,14 @@ mob/players
 												switch(input("Select Section Type","Wooden Fort Walls") as anything in L1)//list("Exterior Wall","Door"),"Interior Wall") L1
 													if("Cancel")
 														M<<"You Cancel Selection..."
-														Busy = 0
+														M.UED = 0
 														M.UEB = 0
 														return
 													if("Back") goto FORT
 												if("Interior") switch(input("Select Interior Section Type","Wooden Fort Interior Walls")in L8)//list("Wooden Fort North 3-Way Wall","Wooden Fort South 3-Way Wall","Wooden Fort Central 4-Way Wall","Wooden Fort North-South Mid-Section Wall","Wooden Fort East-West Mid-Section Wall"))
 													if("Cancel")
 														M<<"You Cancel Selection..."
-														Busy = 0
+														M.UED = 0
 														M.UEB = 0
 														return
 													if("Back") goto WOODFORT
@@ -3755,7 +3670,7 @@ mob/players
 													//if(bfww == "")
 													if("Cancel")
 														M<<"You Cancel Selection..."
-														Busy = 0
+														M.UED = 0
 														M.UEB = 0
 														return
 														//wood fort wall selection
@@ -3936,7 +3851,7 @@ mob/players
 											//Stone fort exterior wall build selection list
 												if("Cancel")
 													M<<"You Cancel Selection..."
-													Busy = 0
+													M.UED = 0
 													M.UEB = 0
 													M.UETW = 0
 													return
@@ -3944,7 +3859,7 @@ mob/players
 												if("Exterior") switch(input("Select Section Type: Wall or Corner","Stone Fort Exterior Walls")in list("Stone Fort Wall","Stone Fort Corner"))//"Wooden Fort North Wall","Wooden Fort South Wall","Wooden Fort East Wall","Wooden Fort West Wall","Wooden Fort NW Corner","Wooden Fort NE Corner","Wooden Fort SW Corner","Wooden Fort SE Corner")
 													if("Cancel")
 														M<<"You Cancel Selection..."
-														Busy = 0
+														M.UED = 0
 														M.UEB = 0
 														M.UETW = 0
 														return
@@ -4167,7 +4082,7 @@ mob/players
 												if("Interior") switch(input("Select Interior Section Type","Stone Fort Interior Walls")in L9)//list("Wooden Fort North 3-Way Wall","Wooden Fort South 3-Way Wall","Wooden Fort Central 4-Way Wall","Wooden Fort North-South Mid-Section Wall","Wooden Fort East-West Mid-Section Wall"))
 													if("Cancel")
 														M<<"You Cancel Selection..."
-														Busy = 0
+														M.UED = 0
 														M.UEB = 0
 														M.UETW = 0
 														return

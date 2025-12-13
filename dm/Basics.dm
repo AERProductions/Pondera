@@ -2180,6 +2180,37 @@ mob/players
 		..()
 
 mob/players/proc
+	updateHP()
+		/**
+		 * updateHP() - Updates health display in UI
+		 * Called whenever health changes (damage, healing)
+		 */
+		if(!src || !src.client) return
+		winset(src, "hp_bar", "value=[src.HP]")
+		winset(src, "hp_text", "text='HP: [src.HP]/[src.MAXHP]'")
+	
+	updateST()
+		/**
+		 * updateST() - Updates stamina display in UI
+		 * Called whenever stamina changes (exertion, rest, consumption)
+		 */
+		if(!src || !src.client) return
+		winset(src, "st_bar", "value=[src.stamina]")
+		winset(src, "st_text", "text='Stamina: [src.stamina]/[src.MAXstamina]'")
+	
+	updateDXP()
+		/**
+		 * updateDXP() - Updates digging rank XP display in UI
+		 * Shows current digging rank and XP progress
+		 * Replaces broken M.updateDXP() calls scattered throughout jb.dm
+		 */
+		if(!src || !src.client || !src.character) return
+		var/dig_rank = src.character.GetRankLevel(RANK_DIGGING)
+		var/dig_xp = src.character.GetRankExp(RANK_DIGGING)
+		var/dig_maxexp = src.character.GetRankMaxExp(RANK_DIGGING)
+		winset(src, "dig_rank", "text='Dig Rank: [dig_rank]'")
+		winset(src, "dig_xp", "text='[dig_xp]/[dig_maxexp]'")
+	
 	browsersc()
 		var/dusksets = 'imgs/dusksets.gif'
 		var/dawnrising = 'imgs/dawnrising.gif'
