@@ -475,20 +475,20 @@ obj
 
 mob/players/proc
 	GNLvl()
-		if(grank>=5)				//Seeing if usr is maxlvl
-			MAXgrankLVL=1
-			grank=5
-			grankMAXEXP = grankEXP					//grank Lvl Proc		for when you gain lvls.
-		if(MAXgrankLVL==1)	//If your woodcutting lvl is max... Return, cant gain anymore lvls greedy bastard!
+		// MODERNIZED: Uses UnifiedRankSystem for gardening progression
+		// Legacy: grank system → Modern: character.gardening_rank via UpdateRankExp()
+		if(!src.character)
+			return  // Character data not initialized yet
+		
+		var/current_rank = src.GetRankLevel(RANK_GARDENING)
+		if(current_rank >= 5)
+			// Max rank reached - no further progression
 			return
-		else					//Else!!!
-			if(grankEXP>=grankMAXEXP)		//Does the usr have the req exp for the next lvl?/?
-				grankMAXEXP+=exp2lvl(grank)	//If he did then here it adds the next MaxExp to his maxexp for the next lvl gain
-				grank++							//grank lvl +1
-				src<<"You gain \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hoe'>gardening Acuity!"
-
-				GNLvl()			//Calls the WCLvl() proc again to see if the usr gained two lvls in on one tree or not...
-				return
+		
+		// Rank progression is now handled by UpdateRankExp() in UnifiedRankSystem
+		// XP thresholds automatically trigger rank-up checks
+		src<<"You gain \  <IMG CLASS=icon SRC=\ref'dmi/64/creation.dmi' ICONSTATE='hoe'>gardening Acuity!"
+		return
 
 
 
