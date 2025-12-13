@@ -375,3 +375,34 @@ turf/water/c3
 turf/water/c4
 	// Inherits UseObject from turf/water
 
+// ==================== GARDEN PLANTS E-KEY SUPPORT ====================
+/**
+ * Garden plant objects - Vegetables, Grains, and Bushes
+ * Harvesting via E-key macro or DblClick
+ * Triggers existing DblClick() harvesting mechanics
+ */
+
+obj/Plants/Vegetables
+	UseObject(mob/user)
+		if(user in range(1, src))
+			set waitfor = 0
+			user.DblClick(src)
+			return 1
+		return 0
+
+obj/Plants/Grain
+	UseObject(mob/user)
+		if(user in range(1, src))
+			set waitfor = 0
+			user.DblClick(src)
+			return 1
+		return 0
+
+obj/Plants/Bush
+	UseObject(mob/user)
+		if(user in range(1, src))
+			set waitfor = 0
+			user.DblClick(src)
+			return 1
+		return 0
+

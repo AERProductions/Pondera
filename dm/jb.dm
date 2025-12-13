@@ -8,8 +8,8 @@ obj
 		//if(M.canbuild=1)
 			//return ..()
 
-var/M.UED = 0
 var
+	// M_UED tracking moved to character datum (modern system)
 	//smelt[1]
 	build[1]	//build selection menu
 	L

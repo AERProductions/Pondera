@@ -8500,7 +8500,7 @@ obj
 							M.Doing = 0
 							M.UESME = 0
 							M.SMEopen=0
-							return call(/proc/smeltinglevel)(M)
+							return
 						else
 							M<<"You need 15 Hot Iron Ingots and a Lit Forge to smelt Iron Anvil Head."
 							M.Doing = 0
@@ -8532,7 +8532,7 @@ obj
 							M.Doing = 0
 							M.UESME = 0
 							M.SMEopen=0
-							return call(/proc/smeltinglevel)(M)
+							return
 						else
 							M<<"You need 3 Iron Ore and a Lit Forge to smelt an ingot."
 							M.Doing = 0
@@ -8562,13 +8562,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 3 Lead ore and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 						else
 							if((LE in M.contents)&&(LE.stack_amount>=3))
 								//src.overlays += image('dmi/64/creation.dmi',icon_state="forgeL")
@@ -8587,13 +8587,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 3 Lead ore and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 					if("Zinc")
 						var/SCZ = /obj/items/Ingots/Scraps/scrapzinc
 						var/ZB = /obj/items/Ingots/zincbar
@@ -8615,13 +8615,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 2 Zinc ore and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 						else
 							if((Z in M.contents)&&(Z.stack_amount>=2))
 								usr << "You begin to smelt Zinc ore..."
@@ -8638,13 +8638,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 2 Zinc ore and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 					if("Copper")
 						var/SCC = /obj/items/Ingots/Scraps/scrapcopper
 						var/CB = /obj/items/Ingots/copperbar
@@ -8667,13 +8667,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 2 Copper ore and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 						else
 							if((C in M.contents)&&(C.stack_amount>=2))
 								usr << "You begin to smelt Copper ore..."
@@ -8690,13 +8690,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 2 Copper ore and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 					if("Bronze")
 						var/SCBR = /obj/items/Ingots/Scraps/scrapbronze
 						var/BRB = /obj/items/Ingots/bronzebar
@@ -8721,13 +8721,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 1 Copper Ingot, 1 Lead Ingot and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 						else
 							if((CB in M.contents)&&(CB.stack_amount>=1)&&(LB in M.contents)&&(LB.stack_amount>=1))
 								usr << "You begin to smelt Bronze..."
@@ -8745,13 +8745,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 1 Copper Ingot, 1 Lead Ingot and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 					if("Brass")
 						var/SCB = /obj/items/Ingots/Scraps/scrapbrass
 						var/BB = /obj/items/Ingots/brassbar
@@ -8776,13 +8776,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 1 Copper Ingot, 1 Zinc Ingot and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 						else
 							if((CB in M.contents)&&(CB.stack_amount>=1)&&(ZB in M.contents)&&(ZB.stack_amount>=1))
 								usr << "You begin to smelt Brass..."
@@ -8800,13 +8800,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 1 Copper Ingot, 1 Zinc Ingot and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 
 					if("Steel")
 						//var/SCST = /obj/items/Ingots/Scraps/scrapst
@@ -8832,13 +8832,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 3 Iron Ingot, 2 Activated Carbon and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 						else
 							if((IB in M.contents)&&(IB.stack_amount>=3)&&(AC in M.contents)&&(AC.stack_amount>=2))
 								usr << "You begin to smelt Steel..."
@@ -8856,13 +8856,13 @@ obj
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 							else
 								usr << "You need 3 Iron Ingot, 2 Activated Carbon and a Lit Forge to smelt an ingot."
 								M.Doing = 0
 								M.UESME = 0
 								M.SMEopen=0
-								return call(/proc/smeltinglevel)(M)
+								return
 				//call(/proc/smeltinglevel)(M)
 			else //else contrasting the if at the top
 				usr << "You need to use Gloves to hold the hot materials to be produced from a Lit Forge! Status:[src.name]" //message to user saying that they need a pick axe to mine
@@ -10642,120 +10642,6 @@ obj/npcs
 		msmiexp = 100
 		msmeexp = 100*/
 proc
-	smeltingunlock()
-
-		set background = 1
-		var/mob/players/M
-		M = usr
-		if(M.smerank == 1)
-			//M.drank += 1
-			//M << "<b><font color=silver>You know how to smelt iron!"
-			//usr << "<b><font color=silver>Your Build Rank went up!"
-			smelt = list("Iron","Cancel","Back")
-			return
-		else
-			if(M.smerank == 2)
-				//M.smerank += 1
-				//M.msmeexp = 10
-				//usr << "<b><font color=silver>Your Smelting Rank went up!"
-				smelt = list("Iron","Lead","Cancel","Back")
-				return
-			else
-				if(M.smerank == 3)
-					//M.smerank += 1
-					//M.msmeexp = 50
-					//usr << "<b><font color=silver>Your Smelting Rank went up!"
-					smelt = list("Iron","Lead","Zinc","Cancel","Back")
-					return
-				else
-					if(M.smerank == 4)
-						//M.smerank += 1
-						//M.msmeexp = 100
-						//usr << "<b><font color=silver>Your Smelting Rank went up!"
-						smelt = list("Iron","Lead","Zinc","Copper","Cancel","Back")
-						return
-					else
-						if(M.smerank == 5)
-							//M.smerank += 1
-							//M.msmeexp = 1000
-							//usr << "<b><font color=silver>Your Smelting Rank went up!"
-							smelt = list("Iron","Lead","Zinc","Copper","Bronze","Cancel","Back")
-							return
-						else
-							if(M.smerank == 6)
-								//M.smerank += 1
-								//M.msmeexp = 5000
-								//usr << "<b><font color=silver>Your Smelting Rank went up!"
-								smelt = list("Iron","Lead","Zinc","Copper","Bronze","Brass","Cancel","Back")
-								return
-							else
-								if(M.smerank == 7)
-									//M.smerank += 1
-									//M.msmeexp = 5000
-									//usr << "<b><font color=silver>Your Smelting Rank went up!"
-									smelt = list("Iron","Lead","Zinc","Copper","Bronze","Brass","Steel","Cancel","Back")
-									return
-								else
-									if (M.smerank>=7)
-										//M << "<b><font color=silver>You've reached Max Build Rank!"
-										M.smerank = 7
-										return
-		//..()
-proc
-	smeltinglevel()
-		set background = 1
-		var/mob/players/M
-		M = usr
-		//if((M.smerank >= 0)&&(M.smeexp >= 0))
-			//M.drank += 1
-			//M << "<b><font color=silver>Your Smithing Rank went up!"
-			//usr << "<b><font color=silver>Your Build Rank went up!"
-			//M.smelt.Add("Iron")
-		if((M.smerank == 1)&&(M.smeexp >= 5))
-			M.smerank += 1
-			M.msmeexp = 15
-			usr << "<b><font color=silver>You learn about smelting!"
-			//M.smelt.Add("Lead")
-		if((M.smerank == 1)&&(M.smeexp >= 20))
-			M.smerank += 1
-			M.msmeexp = 20
-			usr << "<b><font color=silver>You gain more smelting knowledge!"
-		if((M.smerank == 2)&&(M.smeexp >= 40))
-			M.smerank += 1
-			M.msmeexp = 50
-			usr << "<b><font color=silver>You gain more smelting knowledge!"
-			//M.smelt.Add("Zinc")
-		if((M.smerank == 3)&&(M.smeexp >= 90))
-			M.smerank += 1
-			M.msmeexp = 100
-			usr << "<b><font color=silver>You gain more smelting knowledge!"
-			//M.smelt.Add("Copper")
-		if((M.smerank == 4)&&(M.smeexp >= 190))
-			M.smerank += 1
-			M.msmeexp = 200
-			usr << "<b><font color=silver>You gain more smelting knowledge!"
-			//M.smelt.Add("Brass")
-		if((M.smerank == 5)&&(M.smeexp >= 390))
-			M.smerank += 1
-			M.msmeexp = 780
-			usr << "<b><font color=silver>You gain more smelting knowledge!"
-			//M.smelt.Add("Bronze")
-		if((M.smerank == 6)&&(M.smeexp >= 780))
-			M.smerank += 1
-			M.msmeexp = 1560
-			usr << "<b><font color=silver>You gain more smelting knowledge!"
-		if((M.smerank == 7)&&(M.smeexp >= 1560))
-			//M.smerank += 1
-			//M.msmeexp = 5000
-			M.msmeexp = M.smeexp
-			usr << "<b><font color=silver>You know all there is to know about smelting!"
-			//M.smelt.Add("Bronze")
-		else
-			if(M.smerank >= 7)
-				//M << "<b><font color=silver>You begin to wonder what more is there to build... (Building Acuity: [M.brank])"
-				M.smerank = 7
-
-proc
 	smithingunlock()
 		set background = 1
 		var/mob/players/M
@@ -11453,5 +11339,6 @@ turf
 							return*/
 				else if(M.FPequipped==0)
 					usr << "Need to hold the Fishing Pole to use it."
+
 
 

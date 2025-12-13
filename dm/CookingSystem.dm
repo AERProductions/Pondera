@@ -298,6 +298,15 @@ obj/Oven
 		var/mob/players/M = usr
 		TryLightFire(M)
 
+	UseObject(mob/user)
+		// E-key handler for cooking interaction
+		if(user in range(1, src))
+			set waitfor = 0
+			// Show cooking menu when E-key pressed
+			ShowCookingMenu(user, src)
+			return 1
+		return 0
+
 	proc/spawn_heating_loop()
 		set waitfor = 0
 		set background = 1
