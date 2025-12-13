@@ -37,6 +37,7 @@
 #include "dm\AdminCommandsExpanded.dm"
 #include "dm\AnimalOwnershipIntegration.dm"
 #include "dm\BlankAvatarSystem.dm"
+#include "dm\BuildSystemEKeyIntegration.dm"
 #include "dm\ClimbingMacroIntegration.dm"
 #include "dm\ClimbingSystem.dm"
 #include "dm\ContinentSpawnZones.dm"
