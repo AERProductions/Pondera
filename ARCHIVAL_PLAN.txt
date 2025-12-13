@@ -1,0 +1,68 @@
+# Documentation Archival Plan
+
+## Analysis Summary
+
+### Root Directory MD Files to Move (65 files)
+All MD files from root should be moved to docs/ folder.
+
+**Active/Current Files** (Keep in docs/):
+- AUDIT_COMPLETE_EXECUTIVE_SUMMARY_12_12_25.md (Latest audit - ACTIVE)
+- AUDIT_DOCUMENTATION_INDEX_12_12_25.md (Latest index - ACTIVE)
+- CODEBASE_AUDIT_AND_DEVELOPMENT_ROADMAP_12_12_25.md (Latest roadmap - ACTIVE)
+- IMPLEMENTATION_CHECKLIST_LOGIN_GATEWAY.md (Quick Win #1 - ACTIVE)
+- LOGIN_GATEWAY_IMPLEMENTATION_COMPLETE.md (Quick Win #1 - ACTIVE)
+- LOGIN_GATEWAY_QUICK_REFERENCE.md (Quick Win #1 - ACTIVE)
+- NEXT_STEPS_DEVELOPMENT_PLAN_12_12_25.md (Current plan - ACTIVE)
+- QUICK_WIN_1_LOGIN_GATEWAY_SUMMARY.md (Quick Win #1 - ACTIVE)
+- QUICK_WIN_IMPLEMENTATION_GUIDE_12_12_25.md (Quick Win guide - ACTIVE)
+- SESSION_COMPLETION_REPORT_12_12_25.md (Latest session - ACTIVE)
+- SYSTEM_INTEGRATION_STATUS_MATRIX_12_12_25.md (Status matrix - ACTIVE)
+- UPDATE_KINGDOM_PVP_MODE_ADDED.md (Latest update - ACTIVE)
+- README.md (Keep - project root documentation)
+
+**Archive Candidates** (Move to docs/archive/):
+- All files with dates before 12_12_25 (superseded by newer audits/summaries)
+- Session completion reports before the latest one
+- Phase completion reports (phases are historical)
+- Multiple competing strategies (keep only latest roadmap)
+- Duplicate documentation indices
+- Obsolete system audits
+
+## Files to Archive from docs/ folder:
+
+**Phase Completions** (~60 files) - Historical phase reports
+**Session Reports** (~40 files) - Older session summaries  
+**System Audits** (~20 files) - Superseded by 12_12_25 audit
+**Legacy Docs** (~30 files) - Older strategy/planning docs
+
+**Recommended Archive**: 150-170 files from docs/ folder
+
+## Organization Strategy
+
+```
+Pondera/
+├── docs/
+│   ├── README.md
+│   ├── archive/
+│   │   ├── phases/ (Phase 1-48 completions)
+│   │   ├── sessions/ (Old session summaries)
+│   │   ├── audits/ (Pre-12_12_25 audits)
+│   │   ├── strategies/ (Old roadmaps/plans)
+│   │   ├── systems/ (Legacy system docs)
+│   │   └── legacy/ (Miscellaneous old files)
+│   ├── ACTIVE_DOCUMENTATION/ (Current active files)
+│   │   ├── AUDIT_COMPLETE_EXECUTIVE_SUMMARY_12_12_25.md
+│   │   ├── AUDIT_DOCUMENTATION_INDEX_12_12_25.md
+│   │   ├── CODEBASE_AUDIT_AND_DEVELOPMENT_ROADMAP_12_12_25.md
+│   │   ├── LOGIN_GATEWAY_*.md (3 files)
+│   │   ├── NEXT_STEPS_DEVELOPMENT_PLAN_12_12_25.md
+│   │   ├── QUICK_WIN_*.md (2 files)
+│   │   ├── SESSION_COMPLETION_REPORT_12_12_25.md
+│   │   ├── SYSTEM_INTEGRATION_STATUS_MATRIX_12_12_25.md
+│   │   └── UPDATE_KINGDOM_PVP_MODE_ADDED.md
+```
+
+**Total Files**:
+- Root MD to move: ~65 files
+- Docs to archive: ~150+ files
+- Final active docs: ~13 files + existing system guides

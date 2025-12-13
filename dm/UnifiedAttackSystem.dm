@@ -67,6 +67,7 @@ proc/LowLevelResolveAttack(mob/players/attacker, mob/defender, attack_type = "ph
 	if(!prob(hit_chance))
 		// Miss! Still costs stamina
 		attacker.stamina = max(0, attacker.stamina - 5)
+		PlayDodgeSound(defender)  // AUDIO: Play dodge sound
 		return FALSE
 	
 	// Calculate final damage with armor
@@ -86,6 +87,10 @@ proc/LowLevelResolveAttack(mob/players/attacker, mob/defender, attack_type = "ph
 	else if(istype(defender, /mob/enemies))
 		var/mob/enemies/ED = defender
 		ED.HP = max(0, ED.HP - final_damage)
+	
+	// AUDIO: Play combat hit sound
+	var/is_crit = (final_damage >= base_damage * 1.5)  // Rough critical check
+	PlayCombatHitSound(attacker, final_damage, is_crit)
 	
 	// Display damage feedback
 	DisplayDamage(attacker, defender, final_damage)
@@ -236,6 +241,9 @@ proc/ResolveDefenderDeath(mob/players/attacker, mob/defender)
 		return
 	
 	world << "<font color='red'><b>[defender.name] was defeated by [attacker.name]!</b>"
+	
+	// AUDIO: Play death sound
+	PlayDeathSound(defender)
 	
 	// Award attacker
 	attacker.pvpkills++

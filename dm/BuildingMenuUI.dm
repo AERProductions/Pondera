@@ -218,6 +218,9 @@ var/global/list/BUILDING_RECIPES = list()
 	if(!player || !istype(player, /mob/players))
 		return
 	
+	// AUDIO: Play menu open sound
+	PlayInventoryOpenSound(player.client)
+	
 	if(!world_initialization_complete)
 		player << "Building system not yet ready (world initializing)."
 		return
@@ -455,6 +458,9 @@ var/global/list/BUILDING_RECIPES = list()
 		building.dir = rotation
 		player << "<span style='color: #00FF00'>You build a [recipe.display_name]!</span>"
 		world << "[player] has built a [recipe.display_name] at ([build_turf])."
+		
+		// AUDIO: Play UI success sound
+		PlayRecipeDiscoverSound(player)
 		
 		// Attach environmental sounds (Phase C.1 Audio Integration)
 		switch(recipe.recipe_name)

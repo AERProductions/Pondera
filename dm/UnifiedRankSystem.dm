@@ -210,6 +210,9 @@ proc/InitializeRankDefinitions()
 	// Notify player
 	var/rank_name = GetRankDisplayName(rank_type)
 	src << "<font color=gold>You have advanced in [rank_name]! (Level [next_level])</font>"
+	
+	// AUDIO: Play level up sound
+	PlayLevelUpSound(src, rank_type)
 
 /mob/players/proc/CheckRankRequirement(rank_type, required_level)
 	/**

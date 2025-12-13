@@ -145,6 +145,9 @@
 			item.RemoveFromStack(remaining)
 			remaining = 0
 	
+	// AUDIO: Play item drop sound
+	PlayItemDropSound(player, null)
+	
 	return 1
 
 /proc/AddItemsToInventory(mob/players/player, item_type, amount)
@@ -172,6 +175,9 @@
 		new_item.stack_amount = to_add
 		new_item.UpdateStack()
 		remaining -= to_add
+	
+	// AUDIO: Play item pickup sound
+	PlayItemPickupSound(player, null)
 	
 	return 1
 
