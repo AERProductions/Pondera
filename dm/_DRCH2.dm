@@ -229,6 +229,9 @@ mob
 		// Call the default Read() behavior for mobs.
 		..()
 		return*/
+/*
+	// DEPRECATED: This /mob/Login() has been consolidated into /mob/players/Login() in Basics.dm
+	// Keeping for reference only - DO NOT USE
 mob
 	Login()//character login
 		client.draw_lighting_plane()
@@ -258,6 +261,39 @@ mob
 		//src.updateST()
 			//sleep(5)
 			//goto S
+*/
+
+mob
+	Login()//character login (DEPRECATED - see Basics.dm /mob/players/Login())
+		client.draw_lighting_plane()
+			//S
+		draw_spotlight(0, 0, "#FFFFFF", 1.3, 255)
+		remove_spotlight()
+		winset(src, "R", "parent=macros;name=Run;command=Run")
+		winset(src, "NORTH", "parent=macros;name=NORTH+REP;command=")
+		winset(src, "SOUTH", "parent=macros;name=SOUTH+REP;command=")
+		winset(src, "EAST", "parent=macros;name=EAST+REP;command=")
+		winset(src, "WEST", "parent=macros;name=WEST+REP;command=")
+		winset(src, "NORTH", "parent=macros;name=NORTH;command=MoveNorth")
+		winset(src, "SOUTH", "parent=macros;name=SOUTH;command=MoveSouth")
+		winset(src, "EAST", "parent=macros;name=EAST;command=MoveEast")
+		winset(src, "WEST", "parent=macros;name=WEST;command=MoveWest")
+		winset(src, "W", "parent=macros;name=W+REP;command=")
+		winset(src, "S", "parent=macros;name=S+REP;command=")
+		winset(src, "D", "parent=macros;name=D+REP;command=")
+		winset(src, "A", "parent=macros;name=A+REP;command=")
+		winset(src, "W", "parent=macros;name=W;command=MoveNorth")
+		winset(src, "S", "parent=macros;name=S;command=MoveSouth")
+		winset(src, "D", "parent=macros;name=D;command=MoveEast")
+		winset(src, "A", "parent=macros;name=A;command=MoveWest")
+		src.move=1
+		src.Moving=0
+		//src.updateHP()
+		//src.updateST()
+			//sleep(5)
+			//goto S
+		return ..()  // CRITICAL: Call parent to continue chain to /mob/players/Login()
+
 
 mob/BaseCamp
 	base_save_allowed = 0			// BaseCamp mobs are for admin only.

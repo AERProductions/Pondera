@@ -25,38 +25,48 @@ mob/players/proc/update_hud()
 		sb.refresh()
 
 mob/players/Login()
+	world.log << "\[LOGIN\] mob/players/Login() called for [src.name] at ([src.x],[src.y],[src.z])"
+	
+	// Set appearance FIRST
+	if(!icon)
+		src.icon = 'dmi/64/char.dmi'
+	if(!icon_state)
+		src.icon_state = "Ffriar"
+	
+	// HIDE BYOND INTERFACE COMPLETELY
+	if(client)
+		client.statpanel = ""  // Hide stat panel completely
+		client.statpanel = 0   // Disable all stat panels
+		client.eye = src       // Focus camera on player
+		client.dir = 2         // Disable input for interface
+	
 	// CRITICAL: Validate world initialization before allowing player login
 	if(!CanPlayersLogin())
-		world.log << "\[LOGIN\] Player [usr] rejected - initialization incomplete"
-		usr << "⚠️ Server is initializing systems. Please reconnect in a moment."
+		world.log << "\[LOGIN\] Player [src.name] rejected - initialization incomplete"
+		src << "⚠️ Server is initializing systems. Please reconnect in a moment."
 		del(src)
 		return
 	
 	// CRASH RECOVERY: Mark player as online for session tracking
 	MarkPlayerOnline(src)
+	world.log << "\[LOGIN\] Player marked as online"
 	
-	..()
+	// Initialize HUD systems
 	init_hud()
-	InitializeHungerThirstSystem()  // Initialize metabolic simulation
-	IntegrateMarketBoardOnLogin(src)  // Process offline payments and load market history
+	world.log << "\[LOGIN\] HUD initialized"
 	
-	// MODERN LOGIN: Show class selection for new characters (if not already selected)
-	spawn(10)  // Wait for client to fully render HUD (50ms)
-		if(src && client)
-			if(!src.character)
-				world.log << "\[LOGIN_CLASS\] [src.name]: No character data"
-				return
-			
-			if(!src.character.selected_class)
-				world.log << "\[LOGIN_CLASS\] [src.name]: Showing class selection dialog"
-				src.login_ui = new /datum/login_ui(src)
-				src.login_ui.ShowClassPrompt()
-			else
-				world.log << "\[LOGIN_CLASS\] [src.name]: Already has class: [src.character.selected_class]"
+	// Call parent Login() - IMPORTANT for standard login hooks
+	..()
+	world.log << "\[LOGIN\] Parent Login() called"
 	
-	spawn(0)
-		while(src && client)
-			update_hud()
-			sleep(4)
+	// Initialize hunger/thirst
+	InitializeHungerThirstSystem()
+	IntegrateMarketBoardOnLogin(src)
+	world.log << "\[LOGIN\] Systems initialized"
+	
+	// Show character creation GUI immediately (player already on map at this point)
+	world.log << "\[LOGIN\] Calling ShowCharacterCreationGUI(src)"
+	ShowCharacterCreationGUI(src)
+	world.log << "\[LOGIN\] GUI shown - returning from Login()"
 
 

@@ -26,6 +26,8 @@ mob/players
 	var // player variables
 		tmp/list/_listening_soundmobs = null
 		tmp/list/_channels_taken = null
+		list/chargen_data = list()  // Character creation data
+		mob/players/target_player = null  // Self-reference for GUI interactions
 		speed = 3
 		walk = 0
 		run = 0
@@ -42,6 +44,9 @@ mob/players
 		MAXHP
 		stamina
 		MAXstamina
+		nutrition = 500      // Food/energy level
+		hydration = 500      // Water/thirst level
+		health = 100         // Current health/HP tracking for consumables
 		exp = 0 // yep
 		expneeded = 0 // yep yep
 		expgive = 0 // pvpexp?
@@ -150,6 +155,8 @@ mob/players
 		datum/equipment_state/equipment_state
 		// Vital State Datum - tracks HP, stamina, status
 		datum/vital_state/vital_state
+		// Toolbelt Hotbar System - 9-slot tool hotbar with mode activation
+		datum/toolbelt/toolbelt
 		
 		// Multi-World Continental System
 		current_continent = CONT_STORY       // Which continent player is on
@@ -214,6 +221,8 @@ mob/players
 		UED = 0
 		UESME = 0
 		UETW = 0
+		// Equipment flags - additional needed flags (others defined elsewhere)
+		FRequipped = 0       // Fishing rod equipped
 		tutopen = 0
 		deedopen = 0
 		canbuild = 0
@@ -253,6 +262,15 @@ mob/players
 		obj/hud/cooldown_indicator/hud_cooldown_ranged = null
 		obj/hud/cooldown_indicator/hud_cooldown_defend = null
 		last_combat_event_time = 0
+		
+		// Comprehensive HUD System (using HudGroups library)
+		PonderaHUD/main_hud = null  // Master HUD container
+		
+		// Continent System (ContinentTeleportationSystem)
+		can_attack_other_players = FALSE  // PvP enabled flag (continent-specific)
+		can_steal_items = FALSE  // Stealing allowed flag (continent-specific)
+		allow_building = TRUE  // Building allowed flag (continent-specific)
+		hunger_enabled = TRUE  // Hunger/thirst system enabled flag (continent-specific)
 	/*proc/hungercheck()
 		set waitfor=0
 		var/randomvalue = rand(1200,2000)
@@ -1904,6 +1922,7 @@ mob/players
 		set waitfor = 0
 		..()
 		var/mob/players/M = usr
+		if(!character) return  // Guard against null character during login
 		//if your rate limit is between 5 and 10, you can't talk, if it is over 0, you decrement it in time
 		//this controls the spamming.
 		/*if(ratelimit>0)
@@ -2004,8 +2023,9 @@ mob/players
 		stat("|<font color = #f4a460>Harvesting</font>","Acuity: [character.hrank] | XP: [character.hrankEXP] / [character.hrankMAXEXP] | TNL: [(character.hrankMAXEXP-character.hrankEXP)]")
 		stat("|<font color = #00bfff>Fishing</font>","Acuity: [character.frank] | XP: [character.frankEXP] / [character.frankMAXEXP] | TNL: [(character.frankMAXEXP-character.frankEXP)]")
 		//stat("|<font color = #adff2f>Searching</font>","Acuity: [searchinglevel] | XP: [seexp] / [seexpneeded] | TNL: [(seexpneeded-seexp)]") // TODO: Integrate with unified rank system
-		if(M.char_class=="Smithy")
-			//stat("|<font color = #660000>Destroy</font>","Acuity: [destroylevel] | XP: [dexp] / [dexpneeded] | TNL: [(dexpneeded-dexp)]") // TODO: Integrate with unified rank system
+		// TODO: Restore if statement when M.char_class checking is needed
+		//if(M.char_class=="Smithy")
+		//	stat("|<font color = #660000>Destroy</font>","Acuity: [destroylevel] | XP: [dexp] / [dexpneeded] | TNL: [(dexpneeded-dexp)]") // TODO: Integrate with unified rank system
 		//stat("<font size = 1><font color = #ffd700>=~�<font color = #87ceed>Resistance / Weakness</font>�~=</font>")
 		//stat("�<font color = #87ceed>Element Resistance / Weakness</font>�")
 		/*stat("<font color = #ff4500>Fire</font>","<center>[fireres]% / <right>[firewk]%")
@@ -2173,11 +2193,63 @@ mob/players
 		// Create vital state datum if not already set
 		if(!vital_state)
 			vital_state = new /datum/vital_state()
+		// Initialize toolbelt hotbar system
+		if(!toolbelt)
+			InitializeToolbelt(src)
 
 	Login()
-		// INTEGRATION: Check if player is admin and set up role/permissions (Phase 3)
-		spawn(0) ToggleAdminMode(src)  // Check roles and show/hide admin verbs
-		..()
+		/**
+		 * UNIFIED LOGIN HANDLER
+		 * Player appears on map with basic setup
+		 */
+		
+		// APPEARANCE: Set up player icon
+		src.icon = 'dmi/64/char.dmi'
+		src.icon_state = "friar"
+		
+		// UI SETUP: Configure interface and lighting
+		client.draw_lighting_plane()
+		draw_spotlight(0, 0, "#FFFFFF", 1.3, 255)
+		remove_spotlight()
+		
+		// MOVEMENT CONTROLS: Configure macro keys
+		winset(src, "R", "parent=macros;name=Run;command=Run")
+		winset(src, "NORTH", "parent=macros;name=NORTH;command=MoveNorth")
+		winset(src, "SOUTH", "parent=macros;name=SOUTH;command=MoveSouth")
+		winset(src, "EAST", "parent=macros;name=EAST;command=MoveEast")
+		winset(src, "WEST", "parent=macros;name=WEST;command=MoveWest")
+		winset(src, "W", "parent=macros;name=W;command=MoveNorth")
+		winset(src, "S", "parent=macros;name=S;command=MoveSouth")
+		winset(src, "D", "parent=macros;name=D;command=MoveEast")
+		winset(src, "A", "parent=macros;name=A;command=MoveWest")
+		
+		// MOVEMENT STATE: Initialize movement tracking
+		src.move = 1
+		src.Moving = 0
+		
+		// PLAYER STATE: Mark as online
+		src.online = TRUE
+		
+		// HUD INITIALIZATION: Create comprehensive HUD using HudGroups
+		spawn(3)
+			var/PonderaHUD/main_hud = new(src)
+			src.main_hud = main_hud
+			main_hud.show_all()
+			main_hud.update_all()
+			src << "\green [src.name], welcome to Pondera. Your HUD is ready."
+			
+			// Initialize toolbelt HUD display (must happen after main HUD is created)
+			spawn(1)
+				InitializeToolbeltHUD(src)
+		
+		// ADMIN CHECK: Check if player is admin and set up permissions
+		spawn(1) ToggleAdminMode(src)
+		
+		// TOOL DURABILITY: Restore tool durability from savefiles
+		spawn(2) RestoreToolDurability(src)
+		
+		// PARENT CALL: Continue standard login chain
+		return ..()
 
 mob/players/proc
 	updateHP()
