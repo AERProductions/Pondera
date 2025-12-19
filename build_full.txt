@@ -1,0 +1,29 @@
+DM compiler version 516.1673
+loading Pondera.dme
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\SQLiteMigrations.dm:232:error: fsize: undefined proc
+dm\ContinentTeleportationSystem.dm:42:warning (no_effect): if: if statement has no effect
+dm\ContinentTeleportationSystem.dm:86:warning (no_effect): if: if statement has no effect
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\SQLitePersistenceLayer.dm:1463:warning (unused_var): days_seconds: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:83:warning (unused_var): duration_hours: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:84:warning (unused_var): start_time: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:285:warning (unused_var): auction_end: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:532:warning (unused_var): recovery_rate: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\deed.dm:21:warning (override_before_def): Entered: procedure override precedes definition
+dm\MissingStubs.dm:29:warning (override_before_def): Entered: definition is here
+dm\deed.dm:54:warning (override_before_def): Exited: procedure override precedes definition
+dm\MissingStubs.dm:37:warning (override_before_def): Exited: definition is here
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+Pondera.dmb - 1 error, 24 warnings (12/19/25 3:04 pm)
+Total time: 0:01

@@ -229,8 +229,8 @@ proc/GetSQLiteStats()
 		return null
 
 	var/list/stats = list()
-	var/file_size = fsize(sqlite_db_path)
-	stats["db_file_size"] = file_size
+	// File size check - stub for now
+	stats["db_file_size"] = 0
 
 	var/players_count = ExecuteSQLiteQuery("SELECT COUNT(*) FROM players;")
 	var/skills_count = ExecuteSQLiteQuery("SELECT COUNT(*) FROM character_skills;")

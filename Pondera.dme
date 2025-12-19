@@ -317,6 +317,20 @@
 #include "dm\WorldSelection.dm"
 #include "dm\WorldSystem.dm"
 #include "dm\Zoom.dm"
+// ============================================================================
+// DATABASE & PERSISTENCE LAYER (SQLite Integration) - PHASE 13 FOUNDATION
+// ============================================================================
+#include "dm\SQLiteUtils.dm"
+#include "dm\SQLiteIntegration.dm"
+#include "dm\SQLitePersistenceLayer.dm"
+#include "dm\SQLiteMigrations.dm"
+// ============================================================================
+// PHASE 13 - DYNAMIC ECONOMY SYSTEMS (Depend on SQLite)
+// ============================================================================
+#include "dm\Phase13A_WorldEventsAndAuctions.dm"
+#include "dm\Phase13B_NPCMigrationsAndSupplyChains.dm"
+#include "dm\Phase13C_EconomicCycles.dm"
+// ============================================================================
 #include "lib\forum_account\hudgroups\fonts.dm"
 #include "lib\forum_account\hudgroups\hud-groups.dm"
 #include "libs\Compas.dm"
