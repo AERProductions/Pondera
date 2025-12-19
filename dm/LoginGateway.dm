@@ -217,6 +217,11 @@
 	if(!new_mob.character)
 		new_mob.character = new /datum/character_data()
 	
+	// CRITICAL: Load or create persistent character data from SQLite
+	// This restores all skills, currency, positions from database if they exist
+	if(!new_mob.OnLogin())
+		world.log << "\[Character Creation\] Warning: SQLite OnLogin failed for [new_mob.key]"
+	
 	// Save initial character state
 	new_mob.base_save_allowed = 1
 	
