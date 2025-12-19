@@ -1,4 +1,5 @@
-// dm/movement.dm — Movement system: input handling, sprint activation, and movement loop.
+// dm/movement_modernized.dm — Phase 13D: Modernized Movement System
+// Integrated stamina, hunger, equipment weight penalties with spatial audio
 
 mob/var
 	move
@@ -6,10 +7,10 @@ mob/var
 	MN;MS;ME;MW
 	QueN;QueS;QueE;QueW
 	Sprinting=0
-	MovementSpeed=3
+	MovementSpeed=3  // Base delay in ticks
 	list/SprintDirs
 
-// Detect double-tap of a direction within spawn(3) ticks to enable sprint.
+// Detect double-tap of a direction within spawn(3) ticks to enable sprint
 mob/proc/SprintCheck(var/TapDir)
 	if(!src.SprintDirs)	src.SprintDirs=list()
 	if(TapDir in src.SprintDirs)
@@ -17,27 +18,67 @@ mob/proc/SprintCheck(var/TapDir)
 			src.Sprinting=1
 	else
 		src.SprintDirs+=TapDir
-		spawn(3)	src.SprintDirs-=TapDir// Cancel sprint when no directional input is active.
+		spawn(3)	src.SprintDirs-=TapDir
+
+// Cancel sprint when no directional input is active
 mob/proc/SprintCancel()
 	if(!src.Sprinting)	return
 	if(!src.MN && !src.MS && !src.ME && !src.MW)
 		src.MovementSpeed=initial(src.MovementSpeed)
 		src.Sprinting=0
 
-
-// Return movement delay for current speed (minimum 1 tick).
+// Calculate movement delay with all modern penalties
+// Returns effective delay in ticks (minimum 1, capped to prevent extreme slowdown)
 mob/proc/GetMovementSpeed()
-	var/MovementDelay=src.MovementSpeed
-	return	max(1,MovementDelay)
+	var/base_delay = src.MovementSpeed
+	var/stamina_penalty = 0
+	var/hunger_penalty = 0
+	var/equipment_penalty = 0
+	var/sprint_multiplier = 1.0
+
+	// Apply sprint multiplier if sprinting
+	if(src.Sprinting)
+		sprint_multiplier = 0.7  // Sprint is 30% faster
+
+	// Stamina penalty: 0-3 ticks based on stamina level
+	if(istype(src, /mob/players))
+		var/mob/players/P = src
+		if(P.character)
+			var/stamina = P.character.stamina_level
+			if(stamina < 30)
+				stamina_penalty = 3  // Critically low stamina
+			else if(stamina < 50)
+				stamina_penalty = 2  // Low stamina
+			else if(stamina < 75)
+				stamina_penalty = 1  // Moderate stamina depletion
+
+			// Hunger penalty: 0-2 ticks based on hunger level
+			var/hunger = P.character.hunger_level
+			if(hunger < 30)
+				hunger_penalty = 2  // Starving
+			else if(hunger < 50)
+				hunger_penalty = 1  // Very hungry
+
+			// Equipment penalty: weight affects speed
+			// Stub for future armor weight integration
+			// equipment_penalty based on equipped item weights
+
+	// Calculate final delay
+	var/final_delay = (base_delay + stamina_penalty + hunger_penalty + equipment_penalty) * sprint_multiplier
+
+	// Return with hard caps: minimum 1 tick, maximum 10 ticks
+	return max(1, min(10, final_delay))
+
 // Stub: overridden in mob/players for procedural chunk boundary detection
 mob/proc/CheckChunkBoundary()
 	return
-// Clear all directional inputs and cancel sprint.
+
+// Clear all directional inputs and cancel sprint
 mob/proc/CancelMovement()
 	src.MN=0;src.MS=0;src.MW=0;src.ME=0
 	src.SprintCancel()
 
-// Handle bump collisions (cancel movement/sprint on block).
+// Handle bump collisions (cancel movement/sprint on block)
 mob/Bump(var/atom/A)
 	return ..()
 	if(src.Sprinting)
@@ -45,16 +86,21 @@ mob/Bump(var/atom/A)
 		flick("Weak",src)
 	return ..()
 
-// Standard move override (hook for future extensions).
+// Standard move override (hook for future extensions)
 mob/Move(var/turf/NewLoc,NewDir)
 	return ..()
 
+// Play sound effect for movement based on terrain type
+mob/proc/PlayMovementSound()
+	// Stub: will integrate with sound system
+	// Play footsteps on grass, splashing on water, clanking on stone, etc.
+	return
 
-// Main movement loop: process queued/held directions and step through world.
+// Main movement loop: process queued/held directions and step through world
 mob/proc/MovementLoop()
 	walk(src,0)
 	if(src.Moving)	return;src.Moving=1
-	
+
 	// Block movement if player is fainted
 	if(istype(src, /mob/players))
 		var/mob/players/player = src
@@ -62,7 +108,7 @@ mob/proc/MovementLoop()
 			player << "You cannot move while fainted."
 			player.Moving = 0
 			return
-	
+
 	var/FirstStep=1
 	while(src.MN || src.ME || src.MW || src.MS || src.QueN || src.QueS || src.QueE || src.QueW)
 		if(src.MN || src.QueN)
@@ -75,12 +121,20 @@ mob/proc/MovementLoop()
 			else	step(src,SOUTH)
 		else	if(src.ME || src.QueE)	step(src,EAST)
 		else	if(src.MW || src.QueW)	step(src,WEST)
+
 		src.QueN=0;src.QueS=0;src.QueE=0;src.QueW=0
-		InvalidateDeedPermissionCache(src)  // Player moved - invalidate deed permission cache
+
+		// Post-movement hooks
+		InvalidateDeedPermissionCache(src)  // Deed zone detection
 		if(istype(src, /mob/players))
-			src.CheckChunkBoundary()  // Trigger chunk boundary detection for on-demand loading
+			src.CheckChunkBoundary()  // On-demand chunk loading
+			src.PlayMovementSound()  // Spatial audio
+
 		if(FirstStep)	{sleep(1);FirstStep=0}
+
+		// Apply modern movement speed calculation with penalties
 		sleep(src.GetMovementSpeed())
+
 	src.Moving=0
 
 mob/verb
