@@ -16,7 +16,7 @@ atom/movable
 	cone
 		plane 			= LIGHTING_PLANE
 		blend_mode 		= BLEND_ADD
-		icon 			= 'l256.dmi'
+		icon 			= 'dmi/l256.dmi'
 		icon_state 		= "1"
 		pixel_x 		= 0
 		pixel_y 		= 0
@@ -28,7 +28,7 @@ atom/movable
 	spotlight
 		plane 			= LIGHTING_PLANE
 		blend_mode 		= BLEND_ADD
-		icon 			= 'l256.dmi'
+		icon 			= 'dmi/l256.dmi'
 		icon_state 		= "0"
 		pixel_x 		= 0
 		pixel_y 		= 0
@@ -99,7 +99,7 @@ obj/lighting_plane
 obj/cone
 	plane 			= LIGHTING_PLANE
 	blend_mode 		= BLEND_ADD
-	icon 			= 'l256.dmi'
+	icon 			= 'dmi/l256.dmi'
 	icon_state 		= "1"
 	pixel_x 		= -32
 	pixel_y 		= 0
@@ -111,7 +111,7 @@ obj/cone
 obj/spotlight
 	plane 			= LIGHTING_PLANE
 	blend_mode 		= BLEND_ADD
-	icon 			= 'l256.dmi'
+	icon 			= 'dmi/l256.dmi'
 	icon_state 		= "0"
 	pixel_x 		= 0
 	pixel_y 		= 0

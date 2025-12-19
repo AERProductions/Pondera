@@ -19,7 +19,7 @@ client
 obj
 	screen_fx
 		day_night
-			icon				= 'daynight.dmi'
+			icon				= 'dmi/daynight.dmi'
 			icon_state			= "daynight"
 			screen_loc			= "NORTHWEST to SOUTHEAST"
 			mouse_opacity		= 0
@@ -60,7 +60,7 @@ obj
 area
 	screen_fx
 		day_night
-			icon				= 'daynight.dmi'
+			icon				= 'dmi/daynight.dmi'
 			icon_state			= "daynight"
 			//screen_loc			= "NORTHWEST to SOUTHEAST"
 			mouse_opacity		= 0

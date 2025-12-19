@@ -144,7 +144,7 @@ obj/directional_cone
 					icon_state = "cone_omni"
 			
 			// Create image with properties
-			cone_image = image(icon='l256.dmi', icon_state=icon_state)
+			cone_image = image(icon='dmi/l256.dmi', icon_state=icon_state)
 			cone_image.color = light_color
 			cone_image.alpha = round(intensity * 255)
 			cone_image.transform = matrix() * radius

@@ -8,7 +8,7 @@
 /obj/portal
 	name = "Portal"
 	desc = "A shimmering gateway to another realm. Click to enter."
-	icon = 'cli.dmi'
+	icon = 'dmi/cli.dmi'
 	icon_state = "default"
 	density = 0
 	opacity = 0
