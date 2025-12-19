@@ -1,2 +1,0 @@
-Deadron.BaseCamp version=23
-Dantom.htmllib version=8
