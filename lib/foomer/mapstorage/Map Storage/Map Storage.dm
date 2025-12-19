@@ -1,0 +1,488 @@
+
+/*************************************************************************
+ATOM ADDITIONS
+**************************************************************************/
+
+atom
+	var
+		// This is a list of variables that will be saved along with the object's type
+		// definition. If you want to save things such as icon_state or trigger settings,
+		// you'll need to list them here for each item.
+		// NOTE: Only variables listed here which actually differ from the object's
+		// original values for that variable will be saved, to conserve space.
+		map_storage_saved_vars = null
+
+
+
+
+/*************************************************************************
+MAP STORAGE DATUM
+**************************************************************************/
+
+map_storage
+
+	var
+		// These are atom types for the map saver to ignore. Objects of these type will
+		// not be saved with everything else.
+		list/ignore_types = list(/mob)
+
+		// If a text string is specified here, then you will be able to use this as a
+		// backdoor password which will let you access any maps. This is primary for
+		// developers who need to be able to access maps created by other people for
+		// debugging purposes.
+		backdoor_password = null
+
+		// This text string is tacked onto all saved passwords so that their md5 values
+		// will be different than what the password's hash would normally be, providing
+		// a bit of extra protection against md5 hash directories.
+		game_id = "MyGame"
+
+
+
+
+		// INTERNAL VARIABLES - SHOULD NOT BE ALTERED BY USERS
+
+		// List of object types. This will be converted to params and encrypted when saved.
+		list/object_reference = list()
+
+
+
+	New(game_id, backdoor, ignore)
+		..()
+		if(game_id)
+			src.game_id = game_id
+		if(backdoor)
+			src.backdoor_password = backdoor
+		if(ignore)
+			src.ignore_types = ignore
+		return
+
+
+
+
+
+
+// This checks the object reference build and, if the object type is not listed there,
+// it adds it to the list and returns its position in the list. If it is already in the
+// list, then it just returns its position in the list.
+	proc/ObjectReference(T)
+
+		// If this type is an ignored type, then return null.
+		if(src.ignore_types)
+			if(src.ignore_types.Find(T))
+				return null
+
+		// If this type is already in the list, return its position in the list.
+		var/ref_num = src.object_reference.Find(T)
+		if(ref_num)
+			return ref_num
+
+		// If its not in the list, add it to the list and return its position.
+		src.object_reference += T
+		return src.object_reference.len
+
+
+
+	// Loops through the object's saved vars list and finds any that have been modified.
+	// Then it combines the modified variables into a new list associated with their current
+	// values, and then returns that new list in params format.
+	proc/BuildSavedVarsData(atom/A)
+
+		// If this object has no variables to save, skip it.
+		if(!A.map_storage_saved_vars)
+			return null
+
+		// Add any variables changed and their associated values to a list called changed_vars.
+		var/list/changed_vars = list()
+		for(var/v in params2list(A.map_storage_saved_vars))
+			if(A.vars.Find(v))
+				if(A.vars[v] != initial(A.vars[v]))
+					changed_vars[v] = A.vars[v]
+
+		// If there are any changed vars, convert them to params and return them.
+		if(changed_vars.len)
+			return list2params(changed_vars)
+		else
+			return null
+
+
+
+// Returns true if the value is purely numeric, return false if there are non-numeric
+// characters contained within the text string.
+	proc/IsNumeric(text)
+		if(isnum(text))
+			return 1
+		for(var/n in 1 to length(text))
+			var/ascii = text2ascii(text, n)
+			if(ascii < 45 || ascii > 57)
+				return 0
+			if(ascii == 47)
+				return 0
+		return 1
+
+
+
+// If the value is numeric, convert it to a number and return the number value. If
+// the value is text, then return it as it is.
+	proc/Numeric(text)
+		if(IsNumeric(text))
+			return text2num(text)
+		else
+			return text
+
+
+
+// This function will return true if the file is password protected.
+	proc/PasswordLocked(savefile/savefile)
+		if(!savefile)
+			return 0
+		savefile.cd = "/data"
+		if(savefile["password"])
+			return 1
+		else
+			return 0
+
+
+// This checks to see if, first of all, this is even a valid map storage file, and
+// if it is a map storage file, then does it have the same game_id as what is
+// currently being used? Otherwise it is not compatable.
+	proc/IsValid(savefile/savefile)
+		if(!savefile)
+			return 0
+
+		// Make sure that this file has the appropriate subdirectories.
+		savefile.cd = "/"
+		if(!savefile.dir.Find("data"))
+			return 0
+		if(!savefile.dir.Find("map"))
+			return 0
+
+		// Find out if this file isn't compatable because the game_ids don't match.
+		savefile.cd = "/data"
+		if(savefile["game_id"] != md5(src.game_id))
+			return 0
+		return 1
+
+
+// This generates a verification code for the file. If the verification code
+// generated by the file does not match the verification code stored in the file
+// (which is not included in this check), then the file has been modified.
+	proc/Verification(savefile/savefile)
+		savefile.cd = "/"
+		var/verification_text = ""
+		var/list/dirs = list("map", "data", "extra")
+		for(var/dir in dirs)
+			if(savefile.dir.Find(dir))
+				verification_text += savefile.ExportText("/[dir]")
+		return md5(verification_text)
+
+
+// Returns 1 if the savefile has not been modified since it was saved.
+	proc/Verify(savefile/savefile)
+		savefile.cd = "/"
+		if(src.Verification(savefile) == savefile["verify"])
+			return 1
+		else
+			return 0
+
+
+// Returns the value of an extra variable saved within the file.
+	proc/GetExtra(savefile/savefile, value)
+		if(!savefile)
+			return
+
+		savefile.cd = "/extra"
+
+		// If a specific value is requested, it will return the
+		// associated value for the extra variable specified.
+		if(value)
+			return savefile[value]
+
+		// If no specific variable is asked about, it will return a
+		// list of all the extra variables and their associated values.
+		else
+			var/list/extra = list()
+			for(var/dir in savefile.dir)
+				extra[dir] = Numeric(savefile[dir])
+			return extra
+
+
+
+/*************************************************************************
+PRIMARY SAVING AND LOADING FUNCTIONS
+**************************************************************************/
+
+map_storage
+
+// Saves all of the turfs and objects within turfs to their own directories withn
+// the specifeid savefile name. If objects or turfs have variables to keep track
+// of, it will check to see if those variables have been modified and record the
+// new values of any modified variables along with the object. It uses an object
+// reference, which records each object type as a position in a list so that it
+// can be references using a number instead of a fully written out type class.
+// You can also specify a name and password for the map, along with any extra
+// variables (in params format) that you want saved along with the map file.
+	proc/Save(savefile/savefile, password, extra)
+
+		// Abort if no filename specified.
+		if(!savefile)
+			return 0
+
+		// Clear the object reference.
+		src.object_reference = list()
+
+		// Find out how many objects we have to work with here, so that we'll know
+		// how much progress we've made so far and we can display it to the output.
+		var/object_total = world.contents.len
+		var/object_progress = 0
+		var/objects_stored = 0
+		var/last_percent = 0
+
+		// ***** MAP SECTION *****
+		for(var/z in 1 to world.maxz)
+			for(var/y in 1 to world.maxy)
+				for(var/x in 1 to world.maxx)
+					var/list/tile_contents = list()
+
+
+					// Save the turf found at this location.
+					var/turf/turf = locate(x, y, z)
+					var/turf_ref = ObjectReference(turf.type)
+					object_progress++
+
+					// If this turf is not an ignored type, then save it.
+					if(turf_ref)
+						objects_stored++
+
+						// If there are changed variables to save, add those too.
+						var/params = BuildSavedVarsData(turf)
+						if(params)
+							tile_contents["[turf_ref]"] = params
+						else
+							tile_contents += "[turf_ref]"
+
+					// Look for objects in this turf to save as well.
+					for(var/atom/movable/movable in turf)
+						var/ref = ObjectReference(movable.type)
+						object_progress++
+
+						// If this object isn't ignored, save it.
+						if(ref)
+							objects_stored++
+
+							// If there are changed variables to save, add those too.
+							var/params = BuildSavedVarsData(movable)
+							if(params)
+								tile_contents["[ref]"] += params
+							else
+								tile_contents += "[ref]"
+
+					// If there is anything to save in this tile, then add the
+					// contents of the tile to the savefile.
+					if(tile_contents.len)
+						savefile.cd = "/map/[z]/[y]/[x]"
+						if(tile_contents.len > 1)
+							savefile << list2params(tile_contents)
+						else
+							savefile << tile_contents[1]
+
+					// Send the percentage done to the output.
+					var/percent = 100 / object_total * object_progress
+					if(percent > last_percent+1)
+						last_percent = percent
+						src.SaveOutput(round(percent))
+
+
+		// ***** EXTRA SECTION *****
+
+		// If any extra values to be saved are included in the function, then
+		// it will add those to the savefile. Those extras can be in either list or
+		// params format, and will be read accordingly.
+		if(extra)
+			savefile.cd = "/extra"
+
+			if(!istype(extra, /list))
+				extra = params2list(extra)
+			for(var/dat in extra)
+				var/value = extra[dat]
+				savefile["[dat]"] = value
+
+		// ***** DATA SECTION *****
+		savefile.cd = "/data"
+
+		// Record the dimensions of the map so we'll know what numbers
+		// to loop through when the map is loaded.
+		savefile["x"] = world.maxx
+		savefile["y"] = world.maxy
+		savefile["z"] = world.maxz
+
+		// If the map is password protected, record the md5 hash for the password,
+		// plus it'll add a little game_id for protection against md5 directories.
+		if(password)
+			var/hash = md5(password + src.game_id)
+			savefile["password"] = hash
+		else
+			savefile["password"] = 0
+
+		// Record how many objects are stored in the map.
+		savefile["objects"] = objects_stored
+
+		// The object reference is now turned into params and stored for future reference.
+		var/object_params = list2params(src.object_reference)
+		savefile["object_reference"] = object_params
+
+		savefile["game_id"] = md5(src.game_id)
+
+		// Create a verification code based on the contents of this file.
+		savefile["verify"] = src.Verification(savefile)
+
+		src.SaveOutput(100)
+
+		// TEMPORARY - display savefile to the world log.
+		//return savefile.ExportText("/")
+
+		// The function will return an uncompressed text output if desired.
+		return 1
+
+
+
+// Loading a file is pretty straightforward - you specify the savefile to load from
+// (make sure its an actual savefile, not just a file name), and if necessary you
+// include the savefile's password as an argument. This will automatically check to
+// make sure that the file provided is a valid map file, that the password matches,
+// and that the verification values are what they're supposed to be (meaning the
+// file has not been tampered with). Once everything is checked, it will resize the
+// world map to fit the saved map, then unload all saved objects. Finally, any extra
+// values that you included in the savefile will be returned by this function as
+// an associative list.
+	proc/Load(savefile/savefile, password)
+
+		// Make sure a map file is provided.
+		if(!savefile)
+			return
+
+		// Make sure we have a valid map file.
+		if(!src.IsValid(savefile))
+			world.log << "Invalid map format ([savefile])."
+			return
+
+		// Explore the data directory.
+		savefile.cd = "/data"
+
+		// If the map is password locked. ask the player for a password and compare it
+		// with the map's hash to see if the password is correct.
+		var/password_hash = savefile["password"]
+		if(password_hash)
+			if(!password)
+				return
+
+			// If the provided password's hash does not match the map file's hash, and the
+			// password does not match this saving system's backdoor password, then it fails.
+			if("[md5(password + src.game_id)]" != password_hash && password != src.backdoor_password)
+				return
+
+		// Clear the old object reference and load the stored one.
+		var/stored_object_reference = savefile["object_reference"]
+
+		// Clear the object reference and replace it with the stored reference.
+		src.object_reference = params2list(stored_object_reference)
+
+		// Remove all turfs and objects from the world. Make sure you move anything
+		// that you don't want to get deleted to null before hand!!!
+		src.ClearMap()
+
+		// Set the world dimensions to match those specified in the savefile.
+		world.maxx = savefile["x"]
+		world.maxy = savefile["y"]
+		world.maxz = savefile["z"]
+
+		// These are used to keep track of how many objects have been loaded so
+		// far out of all the objects that need to be loaded.
+		var/object_total = savefile["objects"]
+		var/object_progress = 0
+		var/last_percent = 0
+
+		// Compile the list of extras to return at the end of the function.
+		savefile.cd = "/extra"
+		var/list/extra = list()
+		for(var/dir in savefile.dir)
+			extra[dir] = Numeric(savefile[dir])
+
+		// Load the saved contents of each tile.
+		savefile.cd = "/map"
+
+		for(var/z in savefile.dir)
+			savefile.cd = "/map/[z]"
+
+			for(var/y in savefile.dir)
+				savefile.cd = "/map/[z]/[y]"
+
+				for(var/x in savefile.dir)
+					var/list/references = params2list(savefile[x])
+
+					for(var/ref in references)
+
+						// Locate the object type in the object reference.
+						var/object_type = src.object_reference[text2num(ref)]
+						if(!object_type)
+							continue
+
+						// Create the loaded object or turf.
+						var/turf/newloc = locate(text2num(x), text2num(y), text2num(z))
+						var/atom/object = new object_type (newloc)
+
+						// If the reference has any parameters attached, assign them to the new object.
+						var/params = references[ref]
+						if(params)
+							var/list/paramlist = params2list(params)
+							for(var/v in paramlist)
+								object.vars[v] = Numeric(paramlist[v])
+
+						object_progress++
+
+						// Send the percentage done to the output.
+						var/percent = 100 / object_total * object_progress
+						if(percent > last_percent+1)
+							last_percent = percent
+							src.LoadOutput(round(percent))
+
+		src.LoadOutput(100)
+
+		return extra
+
+
+
+/*************************************************************************
+SUPPLEMENTARY FUNCTIONS
+**************************************************************************/
+
+map_storage
+
+	// These is called routinely as the load and save functions make progress.
+	// If you want to display how much of the map has been saved or loaded
+	// somewhere, you can use this function to do it.
+
+	proc/SaveOutput(percent)
+		return
+
+	proc/LoadOutput(percent)
+		return
+
+	// This is called when loading a map after all the verification and
+	// password stuff is completed so that the map can have a fresh template
+	// to work with.
+	proc/ClearMap()
+		for(var/turf/T in world)
+			for(var/atom/movable/A in T)
+				if(ismob(A))
+					var/mob/M = A
+					if(M.client)
+						M.loc = null
+						continue
+				del(A)
+			del(T)
+		return
+
+
+
+

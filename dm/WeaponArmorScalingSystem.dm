@@ -73,6 +73,7 @@
 		current_damage = 0
 		current_armor = 0
 		current_durability = 100
+		max_durability = 100        // Added for tool durability systems
 		durability_threshold = 25
 		
 		// Equipment binding

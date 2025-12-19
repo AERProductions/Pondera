@@ -1,0 +1,43 @@
+"a" = (/turf/stone,/area/camera/_1_2)
+"b" = (/turf/stone,/area/camera/_2_2)
+"c" = (/turf/tree,/area/camera/_3_2)
+"d" = (/turf/grass,/area/camera/_1_2)
+"e" = (/turf/grass,/area/camera/_2_2)
+"f" = (/turf/grass,/area/camera/_3_2)
+"g" = (/mob/enemy/octorok,/turf/grass,/area/camera/_1_2)
+"h" = (/turf/water,/area/camera/_2_2)
+"i" = (/turf/water,/area/camera/_1_2)
+"j" = (/turf/tree,/area/camera/_2_2)
+"k" = (/turf/stone,/area/camera/_1_1)
+"l" = (/turf/grass,/area/camera/_1_1)
+"m" = (/turf/water,/area/camera/_1_1)
+"n" = (/turf/stone,/area/camera/_2_1)
+"o" = (/turf/grass,/area/camera/_2_1)
+"p" = (/turf/tree,/area/camera/_3_1)
+"q" = (/turf/grass,/area/camera/_3_1)
+"r" = (/mob/enemy/octorok,/turf/grass,/area/camera/_2_1)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbcccccccccccccccc
+addddddddddddddabeeeeeeeeeeeeeebccfffffffffffffc
+addddddddddddddabeeeeeeeeeeeeeebccfffffffffffffc
+addddddgdddddddabeeeeeeeeeeeeeebccfffffffffffffc
+addddddddddddddabeeehhhhhheeeeeefffffffffffffffc
+adddddddddddddddeeeehhhhhheeeeeefffffffffffffffc
+addddddiiiiiiiiihhhhhhhhhheeeeeefffffffffffffffc
+adgddddiiiiiiiiihhhhhhhhhheeeejjccccfffffffffffc
+addddddiiddddddabeeeeeeeeeeeeejjccccfffffffffffc
+addddddiiddddddabeeeeeeeeeeeeejjccccfffffffffffc
+bbbbbbdiidaaaaaabbbbbbeeeebbbbbbccccccffffcccccc
+kkkkkklmmlkkkkkknnnnnnoooonnnnnnppppppqqqqpppppp
+kllllllmmllllllknnnnnnoooonnnnnnpqqqqqqqqqqqqqqp
+kllllllmmllllllknnnooooooonnnnnnpqqqqqqqqqqqqqqp
+kllllllmmllllllknnooooooooonnnnnpqqpqqpqqpqqpqqp
+kllllllmmlllllllooooooooooooooooqqqqqqqqqqqqqqqp
+kllllllmmlllllllooooooooooooooooqqqqqqqqqqqqqqqp
+kllllllmmlllllllooooooonnoooooooqqqqqqqqqqqqqqqp
+kllllllllllllllknooooonnnnooooonpqqpqqpqqpqqpqqp
+kllllllllllllllknnooonnnnnnoroonpqqqqqqqqqqqqqqp
+kllllllllllllllknnnnnnnnnnnnoonnpqqqqqqqqqqqqqqp
+kkkkkkkkkkkkkkkknnnnnnnnnnnnnnnnpppppppppppppppp
+"}

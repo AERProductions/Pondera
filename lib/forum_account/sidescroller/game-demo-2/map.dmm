@@ -1,0 +1,91 @@
+"a" = (/turf/wall,/area)
+"b" = (/turf,/area)
+"c" = (/turf,/area/warp/door_02)
+"d" = (/turf/ladder,/area)
+"e" = (/mob/enemy/enemy_1,/turf,/area)
+"f" = (/turf,/area/warp/door_01)
+"g" = (/turf,/area/warp/door_03)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaa
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbcbbbbbbbba
+abbbbbbbbabbbdbbbba
+abbbaabbbbbbbdabbba
+abbbbbbbbbbbbdbbbba
+abbbbbbbbbbbbdbbbba
+abbbbbbbebbbbbbbbba
+abbbbbbbaaabbbbbbba
+abbbaabbbdbbbbbbbba
+abbbaabbbdbfbaabbba
+aaaaaaaaadaaaaaaaaa
+abbbbbbbbdbbbbbbbba
+abbbbbbbbdbbbbbbbba
+abbbbbbbbdbbbbbbbba
+abbbebbbbabbbbbbbba
+aaaaaabbaabbbbbaaaa
+aaaaabbbbbbbbbaaaaa
+aaaaabbbbbbbbaaaaaa
+aaaaaaaaaaaaaaaaaaa
+"}
+
+(1,1,2) = {"
+aaaaaaaaaaaaaaaaaaa
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbebbbbbgbbba
+aaaabbbaaabbbaaaaaa
+abbbbbaabbbbbbbbbba
+abbbbaabbbbbbbbbbba
+abbbaabbbbbbcbbbbba
+aaaaabbbbbaaaaaaaaa
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbfbbbbbbbbbbbba
+aaaaaaaaaaaaaaaaaaa
+"}
+
+(1,1,3) = {"
+bbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbb
+aaaaaaaaaaaaaaaaaaa
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbebbbba
+abbdaaabababaaabbba
+abbdbabbabababbbbba
+abbdbabbaaabaaabbba
+abbdbabbabababbbbba
+abbdbabbababaaabbba
+abbdebbbbbbbbbbbbba
+abbaaababbabaabdbba
+abbabbbaabababadbba
+abbaaabaaaababadbba
+abbabbbabaababadbba
+abbaaababbabaabdbba
+abbbbbbbbbbbbbbdbba
+abbbbgbbbbbbbbbdbba
+aaaaaaaaaaaaaaaaaaa
+"}

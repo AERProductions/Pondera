@@ -1,0 +1,43 @@
+"a" = (/turf,/area)
+"b" = (/turf/water,/area)
+"c" = (/turf/trees,/area)
+"d" = (/item/armor/three,/turf,/area)
+"e" = (/item/boots/one,/turf,/area)
+"f" = (/item/armor/one,/turf,/area)
+"g" = (/item/boots/three,/turf,/area)
+"h" = (/turf/rock,/area)
+"i" = (/item/armor/two,/turf,/area)
+"j" = (/item/boots/two,/turf,/area)
+
+(1,1,1) = {"
+aaaaabbbbbaaaaaaaaaaaaaaaaaaaa
+aaaaaabbbbaaaaaaaaaaaaaaaaaaaa
+aaaaaabbbbbaaaaaaaaaaaaaaaaaaa
+aaaaaaabbbbaaaaaaaaaaaaaaaaaaa
+aaaaaaabbbbaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaabbbaaaaaaaaaaaaaaaaaa
+aaaaaaaaabbbbaaaaaaaaaaaaaaaaa
+aaaaaaaaaabbbaaaaaaaaaaaaaaaaa
+aaaaaaaaaabbbaaaaaaaaaaaaaaaaa
+aaacaaaaaabbbbaaaaaaaaaaaaaaaa
+aacccaaadaabbbbaaaaaaaaaaaaaaa
+aaccaaaaaaabbbbbbaaaaaaaaaaaaa
+aaaaaaaaaaaabbbbbbaaaaaaaaaaaa
+aaaaaaaaaaaaaaabbbbaaaaaaaaaaa
+aaaaaaaaaaeaaaabbbbaaaaaaaaaaa
+aaaaaaaaaaaaaaaabbbbaaaaaaaaaa
+aaaaaaccccaaaaaaabbbaafaaaaaaa
+agaaaccccccaaaaaabbbaaaaaaaaaa
+aaaahhccccccaaaaabbbaaaaaaaaaa
+aaahhhhcccccaaaaaaaaaaaaaaaaaa
+aaahhhhcccccaaaaaaaaaaaaaaaaaa
+aahhhhhaaaaaaaaabbbbaiaaaaaaaa
+aahhhhaaaaaaaaabbbbbaaaaaaaaaa
+aaahhhaaaaaaaabbbbbbbbaaaaaaaa
+aaaaaaaaajaaaabbbbbbbbaaaaaaaa
+aaaaaaaaaaabbbbbbbbbbbaaaaaaaa
+aaaaaaaaaabbbbbbbbbbbbbaaaaaaa
+aaaaaaaabbbbbbbbbbbbbbbaaaaaaa
+"}

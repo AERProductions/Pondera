@@ -1,0 +1,135 @@
+/*
+Version 3.15
+
+Created: Andrew Sielen (Drumersl/Asielen)
+
+This system could not have been created if it wasn't for
+Garthor's quasiturf, which gave me a general idea which I
+then expanded on greatly, and Lummox JR for publishing the
+softcode to the Move proc.
+
+This demo is mainly to show how a system can work, if you
+want to use this in your game, it should not be to hard to
+implement, however, it will not be as easy as cutting and
+pasting. I tried to comment everything, however, if you
+feel I need to better explain something, write about it in
+the Floors, forum:
+	http://members.byond.com/Drumersl/forum?forum=2
+
+As a note, this would probably be best implemented in a game
+with a small single map. Think Bomberman with multiple levels
+as opposed to a full rpg. This is due to how much overhead is
+required to implement this.
+
+
+::IMPORTANT::
+Seeing as this completely rewrites the movement procs, there
+are some restrictions that with a little bit of work can
+be worked around with a bit of work.
+To use this system:
+
+Limits
+	--The number of levels is only restricted by the invisibility variable
+	so you can technically have around 80 levels, although that would become
+	extremely unwieldy.
+
+Objects
+
+	--Objects you wish a mob to interact with and pick cannot be
+	defined just under obj/(The system uses obj/item for these
+	objects but this can be changed)
+		This is because the elevation type is defined indirectly
+		as an object (obj/elevation) having a get/drop verb defined
+		for all objects you allow for the possibility of picking up
+		elevations
+		*See Demo
+
+	--Any time an object is picked up from, a check using src.Fl_Get(mob/m)
+	must be called.
+		it should be called as such
+			if src.Fl_Get(mob/m)
+				//pick up code
+			src = the item
+			m = the mob picking it up
+		*See Fl_ObjectSystem & _Demo
+
+	--Any time an object is dropped, src.Fl_Drop(mob/m) must be called to
+	ensure that an object is dropped on thr proper level.
+		This should be called the same way a Fl_Get()
+		*See Fl_ObjectSystem & _Demo
+
+Invisibility
+	*See Fl_MobSystem
+
+	 --The invisibility variable can now be used
+	 	HOWEVER, invisibility has to be set at 90 or above and currently there
+	 	is no way to see_invisibile, it is just possible to make invisible
+
+		To set use the mInvisible(n) proc, where n is a number between 90 and 101
+		-In addition, set invisibleimage to the image you wish to be seen when 
+			invisibility is set
+
+	 --The see invisible variable can not be used
+
+Elevations
+
+	 --When creating turfs/elevations the elevation level, (elevel), must be
+	 defined if you want to use the elevation effect, or else it will default to 1.
+	 	*See Demo
+
+	 --The ability to Enter or Exit a turf/elevation is checked by the procs
+	 Chk_Enter() and Chk_Exit(). These procs check for situations that the built
+	 in procs do not account for such as the elevel and directional blocking.
+
+	 --The 'hide' variable now allows you to choose which elevations cause the
+	 see_invisible proc to change and which don't
+	 	hide = 1 : default value, see_invisible does change (see floors in demo)
+	 	hide = 0 : see_invisible does not change (see bridges in demo)
+
+Movement
+
+	 --As the demo is, the main move proc and most of the other related procs are not
+	 good candidates for modification. It should be good for most needs seeing as it
+	 not only does elevations, but it also allows for directional blocking and control
+	 over corner cutting. None of the procs in this demo call the parent proc. This could
+	 cause problems if you have overwritten them in your own system. If you need to modify
+	 the move system, I suggest you don't modify the code to much, and just write your own
+	 proc and have it called by the proc you want to change, instead of modifying the proc
+	 directly.
+
+
+
+
+Updates:
+
+Version 3.15 - 12/15/2010
+-Added invisibility image which at least allows you to see yourself when invisible
+	This added a variable to mob named invisibleimage, just set this to whatever you want
+		and that image will be displayed when invisibility is set
+Version 3.10 - 12/14/2010
+-Now allows for invisibility
+	HOWEVER, invisibility has to be set at 90 or above and currently there is no way to
+		see_invisibile, it is just possible to make invisible
+	To do use the mInvisible() proc
+	-This reduces the number of possible layers to around 80, although such a high number
+		would still be hard to work with
+
+Version 3.01 - 12/13/2010
+-Added text file instead of Fl_Notes.dm
+Version 3.00 - 12/13/2010
+-Fixed Typos in Notes
+-Changed it so bridges do not affect see_invisible
+	hide variable 	when set to 1 will affect see_invisible (floors)
+					when set to 0 it will not (bridges)
+-Added macros for get and drop (g and d)
+-Updated Map file to new format
+-Updated Map to showcase new features (old map is still included as the second z level of Demo.dmm)
+
+Version 2 - 3/13/2007
+-Fixed Exit Not being Called
+-Made Get/Drop easier to Deal With
+-Added more documentation
+
+Version 1 - 11/1/2006
+-Original Release
+*/

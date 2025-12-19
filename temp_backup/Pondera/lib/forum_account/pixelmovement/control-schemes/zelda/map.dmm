@@ -1,0 +1,26 @@
+"a" = (/turf/stone,/area)
+"b" = (/turf/grass,/area)
+"c" = (/turf/tree,/area)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaaa
+abbbbbcccbbbbbbbbbba
+abbbbbcccbbbbbbbbbba
+abbbbbbbbbbbbbbbbbba
+acccbbcbbbbbcbcbcbba
+acccbbbbbbbbbbbbbbba
+acccbbcbbbbbcbcbcbba
+acccbbbbbbbbbbbbbbba
+abbbbbbbaabbcbcbcbba
+abbbbbbaaaabbbbbbbba
+acbbbbaaaaaabbbbccca
+abbbbaaaaaaaabbbccca
+abbbbaaaaaaaaccbccca
+abbcbbaaaaaaaccbccca
+abbbbbbbbaaabbbbccca
+abbbbbbbbbbbbccbccca
+abbbbbbbbbbbbccbccca
+abbbbbbbbbbbbbbbccca
+abbbbbccbbbbbccbccca
+aaaaaaaaaaaaaaaaaaaa
+"}

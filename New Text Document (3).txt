@@ -1,0 +1,39 @@
+loading Pondera.dme
+loading Pondera-Recoded/Interface.dmf
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\InitializationManager.dm:56:error: InitializeLoadingScreen: undefined proc
+dm\InitializationManager.dm:448:error: HideLoadingScreen: undefined proc
+libs\Fl_LightingCore.dm:169:warning (unused_label): pass: unused label
+dm\LoginSystem_Complete.dm:29:error: ShowLoadingScreenForClient: undefined proc
+dm\movement.dm:200:warning (unused_var): chunk_x: variable defined but not used
+dm\movement.dm:201:warning (unused_var): chunk_y: variable defined but not used
+dm\ContinentTeleportationSystem.dm:42:warning (no_effect): if: if statement has no effect
+dm\ContinentTeleportationSystem.dm:86:warning (no_effect): if: if statement has no effect
+dm\GameHUDSystem.dm:324:warning (unused_var): toolbelt_layout: variable defined but not used
+dm\GameHUDSystem.dm:326:warning (unused_var): inventory_visible: variable defined but not used
+dm\GameHUDSystem.dm:327:warning (unused_var): stats_visible: variable defined but not used
+dm\GameHUDSystem.dm:328:warning (unused_var): currency_visible: variable defined but not used
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\InitializationManager.dm:636:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\InitializationManager.dm:637:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\InitializationManager.dm:671:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\InitializationManager.dm:672:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\InitializationManager.dm:754:warning (unused_var): cols: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:83:warning (unused_var): duration_hours: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:84:warning (unused_var): start_time: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:285:warning (unused_var): auction_end: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:532:warning (unused_var): recovery_rate: variable defined but not used
+dm\SQLitePersistenceLayer.dm:1463:warning (unused_var): days_seconds: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+libs\Fl_LightingCore.dm:113:warning (unused_label): pass: unused label
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+Pondera.dmb - 3 errors, 33 warnings (12/19/25 1:15 pm)

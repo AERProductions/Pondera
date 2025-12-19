@@ -1,0 +1,32 @@
+"a" = (/turf/wall_16,/area)
+"b" = (/turf,/area)
+"c" = (/turf/wall_32,/area)
+"d" = (/obj/bridge_1,/turf,/area)
+"e" = (/turf/wall_8,/area)
+"f" = (/obj/bridge_1,/turf/wall_32,/area)
+"g" = (/turf/ramp_1_raised,/area)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaaaaa
+abbbccbbbbbbbbbbbbbbba
+abbbccbbbbbbbbbbbbbbba
+abbbccbbbbbbbbbbbbbbba
+abbbccbbbbbbcdddaabbba
+abbbccbbbbbbcdddaabbba
+abbbccbbbbbbdbbbeebbba
+abbbccbbbbbbdbbbbbbbba
+abbbccbbbbbbdbbbbbbbba
+abbbccbbbbbbdbbbbbbbba
+abbbccbbbbbbdbbbbbbbba
+abbbccccccddfdddccebba
+abbbccccccddfdddccebba
+abbbaaaaaabbbbbbccebba
+abbbaaaebbbbbbbbccebba
+abbbaaaebbbbbbbbggebba
+abbbaaaebbbbbeaaaaebba
+abbbeeeebbbbbeaaaaebba
+abbbbbbbbbbbbeeeeeebba
+abbbbbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbbbbba
+aaaaaaaaaaaaaaaaaaaaaa
+"}

@@ -1,0 +1,72 @@
+DM compiler version 516.1673
+loading Pondera.dme
+dm\FishingPoleMinigameSystem.dm:25:error: /obj/items/equipment/tool/Fishing_Pole: undefined type path
+dm\RangedCombatIntegration.dm:48:error: RANK_ARCHERY: undefined var
+dm\RangedCombatIntegration.dm:49:error: RANK_CROSSBOW: undefined var
+dm\RangedCombatIntegration.dm:50:error: RANK_THROWING: undefined var
+dm\RangedCombatIntegration.dm:177:error: RANK_ARCHERY: undefined var
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\CharacterCreationGUI.dm:125:error: InitializePlayerHUD: undefined proc
+dm\ToolbeltHotbarSystem.dm:1036:error: /obj/Dirt_Road: undefined type path
+dm\ToolbeltHotbarSystem.dm:1038:error: /obj/Stone_Road: undefined type path
+dm\ToolbeltHotbarSystem.dm:1040:error: /obj/Brick_Road: undefined type path
+dm\tools.dm:10686:error: /proc/smeltingunlock: undefined type path
+dm\tools.dm:10687:error: /proc/smeltinglevel: undefined type path
+dm\Objects.dm:8871:error: /proc/smeltinglevel: undefined type path
+dm\DayNight.dm:22:error (bad_cache_file): 'daynight.dmi': file found only in .rsc
+dm\deed.dm:460:error: Review_Name: undefined proc
+dm\DirectionalLighting.dm:147:error (bad_cache_file): 'l256.dmi': file found only in .rsc
+dm\Lighting.dm:102:error (bad_cache_file): 'l256.dmi': file found only in .rsc
+dm\Portals.dm:11:error (bad_cache_file): 'cli.dmi': file found only in .rsc
+dm\CarvingKnifeSystem.dm:28:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:58:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:68:error: knife.AttemptUse: undefined proc
+dm\CarvingKnifeSystem.dm:73:error: knife.IsFragile: undefined proc
+dm\CarvingKnifeSystem.dm:74:error: knife.GetDurabilityPercent: undefined proc
+dm\FishingPoleMinigameSystem.dm:30:error: pole.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:25:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:38:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:39:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:44:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:45:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:61:error: item.GetDurabilityPercent: undefined proc
+dm\ToolDurabilityPersistence.dm:64:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:66:error: item.IsFragile: undefined proc
+dm\movement.dm:47:error: P.character.stamina_level: undefined var
+dm\movement.dm:56:error: P.character.hunger_level: undefined var
+dm\AnvilCraftingSystem.dm:202:error: hammer_item.AttemptUse: undefined proc
+dm\AnvilCraftingSystem.dm:205:error: hammer_item.IsFragile: undefined proc
+dm\AnvilCraftingSystem.dm:206:error: hammer_item.GetDurabilityPercent: undefined proc
+dm\ContinentTeleportationSystem.dm:42:warning (no_effect): if: if statement has no effect
+dm\ContinentTeleportationSystem.dm:86:warning (no_effect): if: if statement has no effect
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\ImprovedDeedSystem.dm:515:error: R.name: undefined var
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\ToolRepairSystem.dm:212:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:212:error: item.IsBroken: undefined proc
+dm\FishingPoleMinigameSystem.dm:101:error: pole.AttemptUse: undefined proc
+dm\FishingPoleMinigameSystem.dm:106:error: pole.IsFragile: undefined proc
+dm\FishingPoleMinigameSystem.dm:107:error: pole.GetDurabilityPercent: undefined proc
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+dm\ToolRepairSystem.dm:119:error: item.IsBroken: undefined proc
+dm\ToolRepairSystem.dm:188:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:191:error: item.max_durability: undefined var
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\deed.dm:21:error: Entered: undefined proc
+dm\deed.dm:54:error: Exited: undefined proc
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+Pondera.dmb - 53 errors, 15 warnings (12/19/25 2:40 pm)
+Total time: 0:01

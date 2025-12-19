@@ -1,0 +1,119 @@
+DM compiler version 516.1673
+loading Pondera.dme
+loading Pondera-Recoded/Interface.dmf
+dm\AdminCommandsExpanded.dm:138:error: world_initialization_complete: undefined var
+dm\AdminCommandsExpanded.dm:160:error: world_initialization_complete: undefined var
+dm\AdminCommandsExpanded.dm:164:error: world_initialization_complete: undefined var
+dm\TechTreeUI.dm:14:error: world_initialization_complete: undefined var
+dm\HUDManager.dm:33:error: CanPlayersLogin: undefined proc
+dm\AdminCombatVerbs.dm:352:error: RegisterInitComplete: undefined proc
+dm\AdvancedEconomySystem.dm:19:error: RegisterInitComplete: undefined proc
+dm\AdvancedQuestChainSystem.dm:17:error: RegisterInitComplete: undefined proc
+dm\AnimalHusbandrySystem.dm:440:error: world_initialization_complete: undefined var
+dm\AnimalHusbandrySystem.dm:455:error: RegisterInitComplete: undefined proc
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\BuildingMenuUI.dm:224:error: world_initialization_complete: undefined var
+dm\CombatUIPolish.dm:180:error: RegisterInitComplete: undefined proc
+dm\ContinentTeleportationSystem.dm:29:error: world_initialization_complete: undefined var
+dm\ContinentTeleportationSystem.dm:62:error: world_initialization_complete: undefined var
+dm\DeedDataManager.dm:650:error: world_initialization_complete: undefined var
+dm\DeedDataManager.dm:651:error: RegisterInitComplete: undefined proc
+dm\EconomyCombatIntegrationSystem.dm:176:error: world_initialization_complete: undefined var
+dm\EconomyCombatIntegrationSystem.dm:316:error: world_initialization_complete: undefined var
+dm\EliteOfficersSystem.dm:534:error: world_initialization_complete: undefined var
+dm\EliteOfficersSystem.dm:552:error: world_initialization_complete: undefined var
+dm\EliteOfficersSystem.dm:577:error: world_initialization_complete: undefined var
+dm\EnemyAICombatAnimationSystem.dm:222:error: RegisterInitComplete: undefined proc
+dm\EnvironmentalCombatIntegration.dm:291:error: RegisterInitComplete: undefined proc
+dm\FullWeek2IntegrationTests.dm:215:error: world_initialization_complete: undefined var
+dm\GuildSystem.dm:373:error: world_initialization_complete: undefined var
+dm\HerbalismAlchemyExpansion.dm:420:error: world_initialization_complete: undefined var
+dm\HerbalismAlchemyExpansion.dm:431:error: RegisterInitComplete: undefined proc
+dm\KingdomTreasurySystem.dm:14:error: RegisterInitComplete: undefined proc
+dm\LivesSystemIntegration.dm:41:error: RegisterInitComplete: undefined proc
+dm\MarketBoardPersistenceSystem.dm:408:error: world_initialization_complete: undefined var
+dm\movement.dm:153:warning (unused_var): equipped_weight: variable defined but not used
+dm\movement.dm:154:warning (unused_var): durability_penalty: variable defined but not used
+dm\NPCDynamicDialogue.dm:382:error: world_initialization_complete: undefined var
+dm\NPCDynamicDialogue.dm:390:error: RegisterInitComplete: undefined proc
+dm\NPCFoodSupplySystem.dm:153:error: RegisterInitComplete: undefined proc
+dm\NPCGarrisonSystem.dm:257:error: world_initialization_complete: undefined var
+dm\NPCGarrisonSystem.dm:398:error: world_initialization_complete: undefined var
+dm\NPCGarrisonSystem.dm:543:error: world_initialization_complete: undefined var
+dm\NPCKnowledgeTree.dm:301:error: RegisterInitComplete: undefined proc
+dm\NPCPathfindingSystem.dm:14:error: RegisterInitComplete: undefined proc
+dm\NPCReputationIntegration.dm:177:error: RegisterInitComplete: undefined proc
+dm\NPCReputationSystem.dm:259:error: RegisterInitComplete: undefined proc
+dm\OfficerAbilitiesSystem.dm:204:error: RegisterInitComplete: undefined proc
+dm\OfficerGarrisonVisualizationUI.dm:469:error: RegisterInitComplete: undefined proc
+dm\OfficerLoyaltySystem.dm:41:error: RegisterInitComplete: undefined proc
+dm\PrestigeSystem.dm:15:error: RegisterInitComplete: undefined proc
+dm\PvPZoneWarfareSystem.dm:361:error: world_initialization_complete: undefined var
+dm\PvPZoneWarfareSystem.dm:376:error: RegisterInitComplete: undefined proc
+dm\RecipeExperimentationSystem.dm:379:error: LogInit: undefined proc
+dm\RegionalConflictSystem.dm:243:error: world_initialization_complete: undefined var
+dm\RegionalConflictSystem.dm:513:error: world_initialization_complete: undefined var
+dm\SeasonalTerritoryEventsSystem.dm:277:error: world_initialization_complete: undefined var
+dm\SeasonalTerritoryEventsSystem.dm:373:error: world_initialization_complete: undefined var
+dm\SeasonalTerritoryEventsSystem.dm:409:error: world_initialization_complete: undefined var
+dm\SiegeEquipmentSystem.dm:451:error: world_initialization_complete: undefined var
+dm\SiegeEquipmentSystem.dm:473:error: world_initialization_complete: undefined var
+dm\SiegeEventsSystem.dm:256:error: world_initialization_complete: undefined var
+dm\SiegeEventsSystem.dm:276:error: world_initialization_complete: undefined var
+dm\SQLiteIntegration.dm:170:error: RegisterInitComplete: undefined proc
+dm\TerritoryClaimSystem.dm:279:error: world_initialization_complete: undefined var
+dm\TerritoryClaimSystem.dm:330:error: world_initialization_complete: undefined var
+dm\TerritoryDefenseSystem.dm:450:error: world_initialization_complete: undefined var
+dm\TerritoryDefenseSystem.dm:501:error: world_initialization_complete: undefined var
+dm\TerritoryWarsSystem.dm:280:error: world_initialization_complete: undefined var
+dm\TerritoryWarsSystem.dm:309:error: world_initialization_complete: undefined var
+dm\TimeAdvancementSystem.dm:353:error: RegisterInitComplete: undefined proc
+dm\UIEventBusSystem.dm:131:error: RegisterInitComplete: undefined proc
+dm\UnifiedAttackSystemHUDIntegration.dm:76:error: RegisterInitComplete: undefined proc
+dm\WeaponAnimationSystem.dm:414:error: RegisterInitComplete: undefined proc
+dm\WeatherSeasonalIntegration.dm:234:error: RegisterInitComplete: undefined proc
+dm\_debugtimer.dm:16:error: InitializeWorld: undefined proc
+dm\PerformanceMonitoringSystem.dm:210:error: RegisterInitComplete: undefined proc
+dm\SavingChars.dm:35:error: world_initialization_complete: undefined var
+dm\SavingChars.dm:36:error: GetInitializationStatus: undefined proc
+dm\DeathPenaltySystem.dm:30:error: RegisterInitComplete: undefined proc
+dm\NPCFoodSupplySystem.dm:42:error: world_initialization_complete: undefined var
+dm\NPCRoutineSystem.dm:66:error: RegisterInitComplete: undefined proc
+dm\RoleBasedAdminSystem.dm:53:error: RegisterInitComplete: undefined proc
+dm\FootstepSoundSystem.dm:111:warning (unused_var): audio_range: variable defined but not used
+dm\FootstepSoundSystem.dm:112:warning (unused_var): sound_desc: variable defined but not used
+dm\movement.dm:188:warning (unused_var): chunk_x: variable defined but not used
+dm\movement.dm:189:warning (unused_var): chunk_y: variable defined but not used
+dm\ContinentLobbyHub.dm:36:warning (unused_var): p1: variable defined but not used
+dm\ContinentLobbyHub.dm:43:warning (unused_var): p2: variable defined but not used
+dm\ContinentLobbyHub.dm:50:warning (unused_var): p3: variable defined but not used
+dm\ContinentTeleportationSystem.dm:42:warning (no_effect): if: if statement has no effect
+dm\ContinentTeleportationSystem.dm:86:warning (no_effect): if: if statement has no effect
+dm\GameHUDSystem.dm:310:warning (unused_var): toolbelt_layout: variable defined but not used
+dm\GameHUDSystem.dm:312:warning (unused_var): inventory_visible: variable defined but not used
+dm\GameHUDSystem.dm:313:warning (unused_var): stats_visible: variable defined but not used
+dm\GameHUDSystem.dm:314:warning (unused_var): currency_visible: variable defined but not used
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\SQLitePersistenceLayer.dm:1377:warning (unused_var): days_in_seconds: variable defined but not used
+dm\SQLitePersistenceLayer.dm:1442:warning (unused_var): days_seconds: variable defined but not used
+dm\SQLitePersistenceLayer.dm:2163:warning (unused_var): spec_result: variable defined but not used
+dm\SQLitePersistenceLayer.dm:2166:warning (unused_var): discovery_result: variable defined but not used
+dm\SQLitePersistenceLayer.dm:2169:warning (unused_var): achievements_result: variable defined but not used
+dm\SQLitePersistenceLayer.dm:2197:warning (unused_var): recipe_name: variable defined but not used
+dm\SQLitePersistenceLayer.dm:2199:warning (unused_var): ingredients: variable defined but not used
+dm\SQLitePersistenceLayer.dm:2229:warning (unused_var): base_price: variable defined but not used
+dm\SQLitePersistenceLayer.dm:2425:warning (unused_var): stats: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+dm\PonderaHUDSystem.dm:190:error: world_initialization_complete: undefined var
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+Pondera.dmb - 77 errors, 37 warnings (12/18/25 8:05 pm)
+Total time: 0:01

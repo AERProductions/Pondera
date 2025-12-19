@@ -1,0 +1,37 @@
+"a" = (/turf,/area)
+"b" = (/turf/water,/area)
+"c" = (/turf/trees,/area)
+"d" = (/turf/rock,/area)
+
+(1,1,1) = {"
+aaaaabbbbbaaaaaaaaaaaaaaaaaaaa
+aaaaaabbbbaaaaaaaaaaaaaaaaaaaa
+aaaaaabbbbbaaaaaaaaaaaaaaaaaaa
+aaaaaaabbbbaaaaaaaaaaaaaaaaaaa
+aaaaaaabbbbaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaabbbaaaaaaaaaaaaaaaaaa
+aaaaaaaaabbbbaaaaaaaaaaaaaaaaa
+aaaaaaaaaabbbaaaaaaaaaaaaaaaaa
+aaaaaaaaaabbbaaaaaaaaaaaaaaaaa
+aaacaaaaaabbbbaaaaaaaaaaaaaaaa
+aacccaaaaaabbbbaaaaaaaaaaaaaaa
+aaccaaaaaaabbbbbbaaaaaaaaaaaaa
+aaaaaaaaaaaabbbbbbaaaaaaaaaaaa
+aaaaaaaaaaaaaaabbbbaaaaaaaaaaa
+aaaaaaaaaaaaaaabbbbaaaaaaaaaaa
+aaaaaaaaaaaaaaaabbbbaaaaaaaaaa
+aaaaaaccccaaaaaaabbbaaaaaaaaaa
+aaaaaccccccaaaaaabbbaaaaaaaaaa
+aaaaddccccccaaaaabbbaaaaaaaaaa
+aaaddddcccccaaaaaaaaaaaaaaaaaa
+aaaddddcccccaaaaaaaaaaaaaaaaaa
+aadddddaaaaaaaaabbbbaaaaaaaaaa
+aaddddaaaaaaaaabbbbbaaaaaaaaaa
+aaadddaaaaaaaabbbbbbbbaaaaaaaa
+aaaaaaaaaaaaaabbbbbbbbaaaaaaaa
+aaaaaaaaaaabbbbbbbbbbbaaaaaaaa
+aaaaaaaaaabbbbbbbbbbbbbaaaaaaa
+aaaaaaaabbbbbbbbbbbbbbbaaaaaaa
+"}

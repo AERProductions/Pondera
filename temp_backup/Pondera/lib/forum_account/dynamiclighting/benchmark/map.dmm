@@ -1,0 +1,38 @@
+"a" = (/turf/black,/area)
+"b" = (/turf/grass,/area)
+"c" = (/turf/sidewalk,/area)
+"d" = (/turf/pavement,/area)
+"e" = (/turf/brick,/area)
+"f" = (/turf/floor,/area)
+"g" = (/obj/lamp,/turf/floor,/area)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+bbbbbbbbbbbbbbbbbbbbbbbbcdddceeeeeeeeeea
+bbbbbbbbbbbbbbbbbbbbbbbbcdddcebbbbbbbbea
+bbbbbbbbbbbbbbbbbbbbbbbbcdddcebbbbbbbbea
+bbbbbbbbbbbbbbbbbbbbbbbbcdddcbbbbbbbbbea
+bbbbbbbbbbbbbbbbbbbbbbbbcdddcbbbbbbbbbea
+eeeeeffeeeeeebbbbbbbbbbbcdddcebbbbbbbbea
+efffffffffffebbbbbbbbbbbcdddcebbbbbbbbea
+efffffffffffebbbbbbbbbbbcdddcebbbbbbbbea
+effffffffeffeebbbbbbbbbbcdddcebbbbbbbbea
+effffffffeffffbbbbbbbbbbcdddcebbeefeeeea
+efgffffffeffffbbbbbeeeeecdddcebbefffffea
+eeeeffeeeeffeebbbbbeeeeecdddcebbefffffea
+aaeffffffeffebbbbbbeeeeecdddcebbefffffea
+aaeffffffeffebbbbbbeeeeecdddceeeeeefeeea
+aaegfffffecccccccccccccccdddcccceffffeaa
+aaeffffffecdddddddddddddddddccccfffffeaa
+aaeffffffecdddddddddddddddddccccffgffeaa
+aaeeefeeeecdddddddddddddddddccccfffffeaa
+aaaeffffebcdddcccccccccccccccccceffffeaa
+aaaeffffebcdddceeeeeeeeeeeeeeeeeeffffeaa
+aaaegfffebcdddcefffffffffffffffffffffeaa
+aaaeffffebcdddcefffffffffffffffffffffeaa
+aaaeffffebcdddcffffffffffffffffffffffeaa
+aaaeffffeecdddcffgfeeeeeeeeeeeeeeeeeeeaa
+aaaeffffffcdddcefffeaaaaaaaaaaaaaaaaaaaa
+aaaegfffffcdddcefffeaaaaaaaaaaaaaaaaaaaa
+aaaeeeeeeecdddceeeeeaaaaaaaaaaaaaaaaaaaa
+"}

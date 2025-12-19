@@ -1,0 +1,46 @@
+"a" = (/turf,/area)
+"b" = (/turf/cloud/top_left,/area)
+"c" = (/turf/cloud/top_middle,/area)
+"d" = (/turf/cloud/top_right,/area)
+"e" = (/turf/cloud/bottom_left,/area)
+"f" = (/turf/cloud/bottom_middle,/area)
+"g" = (/turf/cloud/bottom_right,/area)
+"h" = (/turf/red_block,/area)
+"i" = (/mob/enemy/goomba,/turf,/area)
+"j" = (/turf/red_brick,/area)
+"k" = (/turf/coin_block,/area)
+"l" = (/turf/pipe_top_left,/area)
+"m" = (/turf/pipe_top_right,/area)
+"n" = (/turf/pipe_left,/area)
+"o" = (/turf/pipe_right,/area)
+"p" = (/turf/hill/top,/area)
+"q" = (/turf/bush/left,/area)
+"r" = (/turf/bush/middle,/area)
+"s" = (/turf/bush/right,/area)
+"t" = (/turf/hill/left,/area)
+"u" = (/turf/hill/middle,/area)
+"v" = (/turf/hill/right,/area)
+"w" = (/turf/red_stone,/area)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaabcdaaaaaaaaaaaaaaaaaaaaaaaabcdaaaaaaaaaaaaaaaa
+aaaaaaabdaaaaaaaaaefgaaaaaaaaaaaaaaabdaaaaaaaefgaaaaaaaaaaaaaaaa
+aaaaaaaegaaaaaaaaaaaaaaaaaaaaaaaaaaaegaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah
+haaaaaaaaaaaiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah
+haaaaaaaaaaajkkjaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaajjjjaaaaaaaaah
+haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah
+haaaaaaaaaiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalmaaaaaaaaaaaaaaaah
+haaaaaaaajjkjaaaaaaaaaaaaahaahaaaaaaaalmaaaaanoaaajjjjaaaaaaaaah
+haaaaaapaaaaaaaaaalmaaaaahhaahhaaaaaaanoaaaaanoaaaaaaaaaapaaaaah
+haaqrstuvaaaaaqsaanoaaaahhhaahhhaqrrsanoaaaianoaaaaaaaaatuvaaaah
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+"}

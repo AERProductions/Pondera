@@ -1,0 +1,40 @@
+"a" = (/turf/wall,/area)
+"b" = (/turf,/area)
+"c" = (/turf/ladder,/area)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaabbbbbbbbbbbb
+acbbbbbbbbbbbbbbbbabbbbbbbbbbbb
+acbbbbbbbbbbbbbbbbaaaaaaaaaaaaa
+acbbbbbbbbbbbbbbbbabbcbbbbbbbba
+acabbabbabbbbabbbbabbcbbbbbbbba
+acaaaaaaaaaaaabbaaabbcbbbbbbbba
+acbbbbbbbbcbbabbbcaaacaaabbbbba
+acbbbaaaaacaaabbbcabbcbbabbbbba
+acbbbabbbbcbbaabbcabbcbbaaaabba
+acbbbabbbbbbbaaaacabbcbbabbbbba
+acbbbabbbbbbbaccccabbcbbabbbbba
+acbbbabbabbbcabbbbabbcbbabbbbaa
+acaaaabbaabacabbbbabbcbbabbbbba
+acbbbbbbbbbbcabaaaabbcbbabbbbba
+acbababbabbbcabbbbbbbcbbabbbbba
+acaaaaaaaaaaaaaaaaaaaaaaaaaaaba
+acbbbbbbbbbbbbbbbcabbbbbbbbbbba
+acbbbbbbbbbbbbbbbcabaaaaaaaaaaa
+acbbbbbbbbbbbbbbbcabacbbbbbbbba
+acaaaaabbabbbabbacabacaaaaaabba
+acbbbbabbbbbbbbbbcabacbbbbbabba
+acaaababbbbbbbbbbcabacbbbbbabba
+acbbabbbbbbbbbbbbcabacbbbbbaaaa
+acbbaaaaaaabbbbbbcababbbbbbbbba
+acbcabbbbbabbbbbbcababbbbbbbbba
+acbcabbbbcabbbbbbcababbabbbbbca
+acbcababbcaaaaaaaaababbaabbaaca
+acbbababbcbbbacbbbbbabbbbbbbbca
+acbbbbabbcbbbacaaaaaabbbbbbbbca
+acbaabaabcbbbacbcbbbabbbbbbbbca
+acbbbbbbbabbbacbbbbbabbbbbaaaaa
+acbbbbbbbaabbacbbbababbbbaaaaaa
+acbabbbbbbbbbbcbbbbbbbbbaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+"}

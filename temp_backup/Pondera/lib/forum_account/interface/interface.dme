@@ -1,0 +1,25 @@
+// DM Environment file for interface.dme.
+// All manual changes should be made outside the BEGIN_ and END_ blocks.
+// New source code should be placed in .dm files: choose File/New --> Code File.
+
+// BEGIN_INTERNALS
+// END_INTERNALS
+
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+#define FILE_DIR "browser-demo"
+// END_FILE_DIR
+
+// BEGIN_PREFERENCES
+// END_PREFERENCES
+
+// BEGIN_INCLUDE
+#include <forum_account\text\text.dme>
+#include "base.dm"
+#include "controls-customization.dm"
+#include "controls.dm"
+#include "javascript.dm"
+#include "list-parsing.dm"
+#include "procs.dm"
+// END_INCLUDE
+

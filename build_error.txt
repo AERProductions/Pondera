@@ -1,0 +1,129 @@
+DM compiler version 516.1673
+loading Pondera.dme
+loading Pondera-Recoded/Interface.dmf
+dm\LoginSystem_Complete.dm:323:error: init_hud: duplicate definition
+dm\HUDManager.dm:5:error: init_hud: previous definition
+dm\LoginSystem_Complete.dm:327:error: update_hud: duplicate definition
+dm\HUDManager.dm:18:error: update_hud: previous definition
+dm\RangedCombatIntegration.dm:48:error: RANK_ARCHERY: undefined var
+dm\RangedCombatIntegration.dm:49:error: RANK_CROSSBOW: undefined var
+dm\RangedCombatIntegration.dm:50:error: RANK_THROWING: undefined var
+dm\RangedCombatIntegration.dm:177:error: RANK_ARCHERY: undefined var
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\ContinentTeleportationSystem.dm:42:error: player.main_hud: undefined type: /PonderaHUD
+dm\ContinentTeleportationSystem.dm:86:error: player.main_hud: undefined type: /PonderaHUD
+dm\InitializationManager.dm:257:error: InitializePlayerEconomicEngagement_STUB: undefined proc
+dm\LoginSystem_Complete.dm:291:error: player.main_hud: undefined type: /PonderaHUD
+dm\LoginSystem_Complete.dm:292:error: player.main_hud: undefined type: /PonderaHUD
+dm\LoginSystem_Complete.dm:292:error: /datum/PonderaHUD: undefined type path
+dm\ToolbeltHUDIntegration.dm:13:error: player.main_hud: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:16:error: player.main_hud.update_toolbelt_display: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:17:error: player.main_hud.update_toolbelt_mode: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:21:error: player.main_hud.add_system_message: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:29:error: player.main_hud: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:32:error: player.main_hud.update_toolbelt_display: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:33:error: player.main_hud.update_toolbelt_mode: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:36:error: player.main_hud.add_system_message: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:44:error: player.main_hud: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:47:error: player.main_hud.update_toolbelt_display: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:55:error: player.main_hud: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:58:error: player.main_hud.extended_hud.toolbelt_hud.update_stamina_warning: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:66:error: player.main_hud: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:69:error: player.main_hud.update_toolbelt_display: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:70:error: player.main_hud.add_system_message: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:78:error: player.main_hud: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:82:error: player.main_hud: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:82:error: player.main_hud.extended_hud: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:83:error: player.main_hud.extended_hud.toolbelt_hud.update_hotbar_display: undefined type: /PonderaHUD
+dm\ToolbeltHUDIntegration.dm:84:error: player.main_hud.add_system_message: undefined type: /PonderaHUD
+libs\Fl_LightingCore.dm:169:warning (unused_label): pass: unused label
+libs\Fl_LightingCore.dm:339:error: LIGHT_TYPE_SPELL: undefined var
+libs\Fl_LightingCore.dm:341:error: LIGHT_TYPE_WEATHER: undefined var
+libs\Fl_LightingCore.dm:343:error: LIGHT_TYPE_OBJECT: undefined var
+libs\Fl_LightingCore.dm:41:error: LIGHT_TYPE_POINT: undefined var
+libs\Fl_LightingCore.dm:41:error: =: expected a constant expression
+libs\Fl_LightingCore.dm:70:error: LIGHT_TYPE_POINT: undefined var
+libs\Fl_LightingCore.dm:94:error: PI: undefined var
+libs\Fl_LightingCore.dm:110:error: LIGHT_TYPE_DIRECTIONAL: undefined var
+libs\Fl_LightingCore.dm:110:error: LIGHT_TYPE_CONE: undefined var
+libs\Fl_LightingCore.dm:118:error: LIGHT_TYPE_CONE: undefined var
+libs\Fl_LightingCore.dm:120:error: LIGHT_TYPE_OMNIDIRECTIONAL: undefined var
+libs\Fl_LightingCore.dm:122:error: LIGHT_TYPE_POINT: undefined var
+dm\TerrainStubs.dm:56:error: weight: undefined var
+dm\DayNight.dm:22:error (bad_cache_file): 'daynight.dmi': file found only in .rsc
+dm\DirectionalLighting.dm:147:error (bad_cache_file): 'l256.dmi': file found only in .rsc
+dm\Lighting.dm:102:error (bad_cache_file): 'l256.dmi': file found only in .rsc
+dm\Portals.dm:11:error (bad_cache_file): 'cli.dmi': file found only in .rsc
+dm\CarvingKnifeSystem.dm:28:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:58:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:68:error: knife.AttemptUse: undefined proc
+dm\CarvingKnifeSystem.dm:73:error: knife.IsFragile: undefined proc
+dm\CarvingKnifeSystem.dm:74:error: knife.GetDurabilityPercent: undefined proc
+dm\FishingPoleMinigameSystem.dm:30:error: pole.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:25:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:38:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:39:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:44:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:45:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:61:error: item.GetDurabilityPercent: undefined proc
+dm\ToolDurabilityPersistence.dm:64:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:66:error: item.IsFragile: undefined proc
+dm\CharacterCreationIntegration.dm:13:error: client.start_character_creation: undefined proc
+dm\AnvilCraftingSystem.dm:202:error: hammer_item.AttemptUse: undefined proc
+dm\AnvilCraftingSystem.dm:205:error: hammer_item.IsFragile: undefined proc
+dm\AnvilCraftingSystem.dm:206:error: hammer_item.GetDurabilityPercent: undefined proc
+dm\ContinentTeleportationSystem.dm:42:warning (no_effect): if: if statement has no effect
+dm\ContinentTeleportationSystem.dm:86:warning (no_effect): if: if statement has no effect
+dm\GameHUDSystem.dm:324:warning (unused_var): toolbelt_layout: variable defined but not used
+dm\GameHUDSystem.dm:326:warning (unused_var): inventory_visible: variable defined but not used
+dm\GameHUDSystem.dm:327:warning (unused_var): stats_visible: variable defined but not used
+dm\GameHUDSystem.dm:328:warning (unused_var): currency_visible: variable defined but not used
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\InitializationManager.dm:630:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\InitializationManager.dm:631:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\InitializationManager.dm:665:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\InitializationManager.dm:666:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\InitializationManager.dm:748:warning (unused_var): cols: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:83:warning (unused_var): duration_hours: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:84:warning (unused_var): start_time: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:285:warning (unused_var): auction_end: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:532:warning (unused_var): recovery_rate: variable defined but not used
+dm\SQLitePersistenceLayer.dm:1463:warning (unused_var): days_seconds: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\ToolRepairSystem.dm:212:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:212:error: item.IsBroken: undefined proc
+libs\Fl_LightingCore.dm:262:error: T.lighting_color: undefined var
+libs\Fl_LightingCore.dm:263:error: T.lighting_intensity: undefined var
+libs\Fl_LightingCore.dm:267:error: T.lighting_color: undefined var
+libs\Fl_LightingCore.dm:268:error: T.lighting_intensity: undefined var
+libs\Fl_LightingCore.dm:272:error: T.lighting_color: undefined var
+libs\Fl_LightingCore.dm:273:error: T.lighting_intensity: undefined var
+libs\Fl_LightingCore.dm:277:error: T.lighting_color: undefined var
+libs\Fl_LightingCore.dm:278:error: T.lighting_intensity: undefined var
+libs\Fl_LightingCore.dm:282:error: T.lighting_color: undefined var
+libs\Fl_LightingCore.dm:283:error: T.lighting_intensity: undefined var
+dm\FishingPoleMinigameSystem.dm:101:error: pole.AttemptUse: undefined proc
+dm\FishingPoleMinigameSystem.dm:106:error: pole.IsFragile: undefined proc
+dm\FishingPoleMinigameSystem.dm:107:error: pole.GetDurabilityPercent: undefined proc
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+dm\ToolRepairSystem.dm:119:error: item.IsBroken: undefined proc
+dm\ToolRepairSystem.dm:188:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:191:error: item.max_durability: undefined var
+libs\Fl_LightingCore.dm:113:warning (unused_label): pass: unused label
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+Pondera.dmb - 93 errors, 31 warnings (12/19/25 2:09 pm)
+Total time: 0:02

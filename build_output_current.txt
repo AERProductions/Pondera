@@ -1,0 +1,311 @@
+DM compiler version 516.1673
+loading Pondera.dme
+dm\jb.dm:4881:error: T: undefined type: /turf/temperate
+dm\jb.dm:4881:error: /turf/temperate: undefined type path
+dm\jb.dm:4882:error: T: undefined type: /turf/temperate
+dm\jb.dm:4883:error: T: undefined type: /turf/temperate
+dm\FishingPoleMinigameSystem.dm:25:error: /obj/items/equipment/tool/Fishing_Pole: undefined type path
+dm\RangedCombatIntegration.dm:48:error: RANK_ARCHERY: undefined var
+dm\RangedCombatIntegration.dm:49:error: RANK_CROSSBOW: undefined var
+dm\RangedCombatIntegration.dm:50:error: RANK_THROWING: undefined var
+dm\RangedCombatIntegration.dm:177:error: RANK_ARCHERY: undefined var
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\CharacterCreationGUI.dm:125:error: InitializePlayerHUD: undefined proc
+dm\EdgeDetectionAndExpansion.dm:19:error: get_cardinal: undefined proc
+dm\EdgeDetectionAndExpansion.dm:39:error: get_cardinal: undefined proc
+dm\InitializationManager.dm:112:error: GenerateMap: undefined proc
+dm\SafeSpawnPlacement.dm:38:error: get_cardinal: undefined proc
+dm\ToolbeltHotbarSystem.dm:1036:error: /obj/Dirt_Road: undefined type path
+dm\ToolbeltHotbarSystem.dm:1038:error: /obj/Stone_Road: undefined type path
+dm\ToolbeltHotbarSystem.dm:1040:error: /obj/Brick_Road: undefined type path
+dm\SavingChars.dm:321:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:322:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:331:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:332:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:332:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:333:error: A.name: undefined type: /turf/temperate
+dm\SavingChars.dm:367:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:369:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:370:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:372:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:373:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:375:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:376:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:378:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:379:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:381:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:382:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:384:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:385:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:387:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:391:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:392:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:392:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:393:error: A.name: undefined type: /turf/temperate
+dm\SavingChars.dm:418:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:419:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:427:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:429:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:430:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:432:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:433:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:435:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:436:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:438:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:439:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:441:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:442:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:444:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:445:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:447:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:450:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:451:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:451:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:452:error: A.name: undefined type: /turf/temperate
+dm\SavingChars.dm:473:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:474:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:503:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:504:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:504:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:505:error: A.name: undefined type: /turf/temperate
+dm\SavingChars.dm:522:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:523:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:559:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:560:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:560:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:561:error: A.name: undefined type: /turf/temperate
+dm\SavingChars.dm:578:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:579:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:615:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:616:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:616:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:617:error: A.name: undefined type: /turf/temperate
+dm\SavingChars.dm:634:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:635:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:671:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:672:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:672:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:673:error: A.name: undefined type: /turf/temperate
+dm\SavingChars.dm:690:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:691:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:729:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:730:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:748:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:750:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:751:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:753:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:754:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:756:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:762:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:763:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:780:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:782:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:783:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:785:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:786:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:788:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:793:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:794:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:807:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:809:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:810:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:812:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:813:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:815:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:820:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:821:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:835:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:837:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:838:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:840:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:841:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:843:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:846:error: A: undefined type: /turf/temperate
+dm\SavingChars.dm:847:error: A.name: undefined type: /turf/temperate
+dm\SavingChars.dm:848:error: A.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:851:error: W: undefined type: /obj/border/water
+dm\SavingChars.dm:852:error: W.SetBSeason: undefined type: /obj/border/water
+dm\SavingChars.dm:896:error: G: undefined type: /turf/temperate
+dm\SavingChars.dm:898:error: G.overlays: undefined type: /turf/temperate
+dm\SavingChars.dm:96:error: /turf/temperate: undefined type path
+dm\tools.dm:10686:error: /proc/smeltingunlock: undefined type path
+dm\tools.dm:10687:error: /proc/smeltinglevel: undefined type path
+dm\Objects.dm:8871:error: /proc/smeltinglevel: undefined type path
+dm\DayNight.dm:22:error (bad_cache_file): 'daynight.dmi': file found only in .rsc
+dm\deed.dm:462:error: Review_Name: undefined proc
+dm\DirectionalLighting.dm:147:error (bad_cache_file): 'l256.dmi': file found only in .rsc
+dm\Lighting.dm:102:error (bad_cache_file): 'l256.dmi': file found only in .rsc
+dm\Portals.dm:11:error (bad_cache_file): 'cli.dmi': file found only in .rsc
+dm\Basics.dm:2304:error: form_window: undefined var
+dm\Basics.dm:2306:error: Initialize: undefined proc
+dm\Basics.dm:2315:error: HtmlLayout: undefined proc
+dm\SavingChars.dm:1128:error: form_window: undefined var
+dm\SavingChars.dm:1154:error: Initialize: undefined proc
+dm\SavingChars.dm:1255:error: submit: undefined var
+dm\SavingChars.dm:1172:error: HtmlLayout: undefined proc
+dm\SavingChars.dm:1415:error: form_window: undefined var
+dm\SavingChars.dm:1566:error: submit: undefined var
+dm\SavingChars.dm:1465:error: HtmlLayout: undefined proc
+dm\SavingChars.dm:1589:error: PreDisplayForm: undefined proc
+dm\SavingChars.dm:1590:error: DisplayForm: undefined proc
+dm\SavingChars.dm:1885:error: form_window: undefined var
+dm\SavingChars.dm:2036:error: submit: undefined var
+dm\SavingChars.dm:1935:error: HtmlLayout: undefined proc
+dm\SavingChars.dm:2059:error: PreDisplayForm: undefined proc
+dm\SavingChars.dm:2060:error: DisplayForm: undefined proc
+dm\SavingChars.dm:2354:error: form_window: undefined var
+dm\SavingChars.dm:2506:error: submit: undefined var
+dm\SavingChars.dm:2405:error: HtmlLayout: undefined proc
+dm\SavingChars.dm:2529:error: PreDisplayForm: undefined proc
+dm\SavingChars.dm:2530:error: DisplayForm: undefined proc
+dm\SavingChars.dm:2888:error: form_window: undefined var
+dm\SavingChars.dm:3039:error: submit: undefined var
+dm\SavingChars.dm:2938:error: HtmlLayout: undefined proc
+dm\SavingChars.dm:3062:error: PreDisplayForm: undefined proc
+dm\SavingChars.dm:3063:error: DisplayForm: undefined proc
+dm\deed.dm:7:error: saveable: undefined var
+dm\deed.dm:9:error: name: undefined var
+dm\DynamicZoneManager.dm:344:error: t:water_type: undefined var
+dm\DynamicZoneManager.dm:356:error: t.SpawnResource: undefined proc
+dm\CarvingKnifeSystem.dm:28:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:58:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:68:error: knife.AttemptUse: undefined proc
+dm\CarvingKnifeSystem.dm:73:error: knife.IsFragile: undefined proc
+dm\CarvingKnifeSystem.dm:74:error: knife.GetDurabilityPercent: undefined proc
+dm\FishingPoleMinigameSystem.dm:30:error: pole.IsBroken: undefined proc
+dm\SafeSpawnPlacement.dm:57:error: adj.elevation: undefined var
+dm\SafeSpawnPlacement.dm:57:error: adj.elevation: undefined var
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:25:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:38:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:39:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:44:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:45:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:61:error: item.GetDurabilityPercent: undefined proc
+dm\ToolDurabilityPersistence.dm:64:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:66:error: item.IsFragile: undefined proc
+dm\_DRCH2.dm:485:error: src.mode_form.DisplayForm: undefined proc
+dm\_DRCH2.dm:514:error: src.SBchar_form.DisplayForm: undefined proc
+dm\_DRCH2.dm:517:error: src.SMchar_form.DisplayForm: undefined proc
+dm\_DRCH2.dm:520:error: src.MPSBchar_form.DisplayForm: undefined proc
+dm\_DRCH2.dm:523:error: src.MPSMchar_form.DisplayForm: undefined proc
+dm\CharacterCreationIntegration.dm:21:error: src.mode_form.DisplayForm: undefined proc
+dm\AnvilCraftingSystem.dm:202:error: hammer_item.AttemptUse: undefined proc
+dm\AnvilCraftingSystem.dm:205:error: hammer_item.IsFragile: undefined proc
+dm\AnvilCraftingSystem.dm:206:error: hammer_item.GetDurabilityPercent: undefined proc
+dm\ContinentTeleportationSystem.dm:42:warning (no_effect): if: if statement has no effect
+dm\ContinentTeleportationSystem.dm:86:warning (no_effect): if: if statement has no effect
+dm\EdgeDetectionAndExpansion.dm:23:error: adj.elevation: undefined var
+dm\EdgeDetectionAndExpansion.dm:23:error: t.elevation: undefined var
+dm\EdgeDetectionAndExpansion.dm:25:error: adj.elevation: undefined var
+dm\EdgeDetectionAndExpansion.dm:25:error: t.elevation: undefined var
+dm\EdgeDetectionAndExpansion.dm:26:error: t.elevation: undefined var
+dm\EdgeDetectionAndExpansion.dm:27:error: adj.elevation: undefined var
+dm\EdgeDetectionAndExpansion.dm:40:error: adj.elevation: undefined var
+dm\EdgeDetectionAndExpansion.dm:40:error: t.elevation: undefined var
+dm\EdgeDetectionAndExpansion.dm:45:error: t.elevation: undefined var
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\ImprovedDeedSystem.dm:515:error: R.name: undefined var
+dm\SafeSpawnPlacement.dm:39:error: adj.elevation: undefined var
+dm\SafeSpawnPlacement.dm:39:error: t.elevation: undefined var
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\ToolRepairSystem.dm:212:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:212:error: item.IsBroken: undefined proc
+dm\SavingChars.dm:320:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:417:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:472:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:521:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:577:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:633:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:689:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:728:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:761:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:792:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:819:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:850:error: W.SetWSeason: undefined proc
+dm\SavingChars.dm:321:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:331:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:367:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:370:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:373:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:376:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:379:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:382:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:385:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:391:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:418:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:427:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:430:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:433:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:436:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:439:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:442:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:445:warning (unused_var): G: variable defined but not used
+dm\SavingChars.dm:450:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:473:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:503:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:522:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:559:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:578:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:615:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:634:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:671:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:690:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:729:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:748:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:751:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:754:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:762:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:780:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:783:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:786:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:793:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:807:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:810:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:813:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:820:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:835:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:838:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:841:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:846:warning (unused_var): A: variable defined but not used
+dm\SavingChars.dm:851:warning (unused_var): W: variable defined but not used
+dm\SavingChars.dm:896:warning (unused_var): G: variable defined but not used
+dm\FishingPoleMinigameSystem.dm:101:error: pole.AttemptUse: undefined proc
+dm\FishingPoleMinigameSystem.dm:106:error: pole.IsFragile: undefined proc
+dm\FishingPoleMinigameSystem.dm:107:error: pole.GetDurabilityPercent: undefined proc
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+dm\ToolRepairSystem.dm:119:error: item.IsBroken: undefined proc
+dm\ToolRepairSystem.dm:188:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:191:error: item.max_durability: undefined var
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\FishingSystem.dm:274:error: fishing_location:water_type: undefined var
+dm\SavingChars.dm:1352:error: mob/mob.SBchar_form.DisplayForm: undefined proc
+dm\SavingChars.dm:1357:error: mob/mob.SMchar_form.DisplayForm: undefined proc
+dm\SavingChars.dm:1361:error: mob/mob.MPSBchar_form.DisplayForm: undefined proc
+dm\SavingChars.dm:1365:error: mob/mob.MPSMchar_form.DisplayForm: undefined proc
+dm\SavingChars.dm:1258:error: ProcessForm: undefined proc
+dm\SavingChars.dm:1442:error: Initialize: undefined proc
+dm\SavingChars.dm:1573:error: ProcessForm: undefined proc
+dm\SavingChars.dm:1912:error: Initialize: undefined proc
+dm\SavingChars.dm:2043:error: ProcessForm: undefined proc
+dm\SavingChars.dm:2381:error: Initialize: undefined proc
+dm\SavingChars.dm:2513:error: ProcessForm: undefined proc
+dm\SavingChars.dm:2915:error: Initialize: undefined proc
+dm\SavingChars.dm:3046:error: ProcessForm: undefined proc
+dm\deed.dm:23:error: Entered: undefined proc
+dm\deed.dm:56:error: Exited: undefined proc
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+Pondera.dmb - 245 errors, 62 warnings (12/19/25 2:26 pm)
+Total time: 0:01

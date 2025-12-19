@@ -1,0 +1,41 @@
+{
+  "// Comment": "Cappy AI Coding Companion Configuration - Pondera Project",
+  
+  "// Primary": "Ollama (Local, no API key needed)",
+  "cappy.provider": "ollama",
+  "cappy.ollamaUrl": "http://localhost:11434",
+  "cappy.model": "devstral-small-2",
+  "// Note": "devstral-small-2 optimized for codebase exploration and multi-file editing",
+  
+  "// Backup": "Anthropic Claude (uncomment to use, requires API key from https://console.anthropic.com)",
+  "// cappy.provider": "anthropic",
+  "// cappy.anthropicApiKey": "sk-ant-YOUR_API_KEY_HERE",
+  "// cappy.model": "claude-3-sonnet-20240229",
+  
+  "// Indexing": "Model and indexing configuration",
+  "cappy.chunkSize": 1000,
+  "cappy.chunkOverlap": 200,
+  
+  "// Exclusions": "Files and directories to skip during indexing",
+  "cappy.excludePatterns": [
+    "node_modules",
+    "dist",
+    ".git",
+    ".cappy",
+    "MapSaves",
+    "*.dmb",
+    "*.dmi"
+  ],
+  
+  "// Graph": "Knowledge graph configuration",
+  "cappy.graphDepth": 3,
+  
+  "// Pondera-specific": "DM codebase optimization",
+  "cappy.indexPatterns": [
+    "dm/**/*.dm",
+    "libs/**/*.dm",
+    "mapgen/**/*.dm",
+    "db/schema.sql",
+    "docs/**/*.md"
+  ]
+}

@@ -1,0 +1,46 @@
+DM compiler version 516.1673
+loading Pondera.dme
+dm\InitializationManager.dm:51:error: bad embedded expression [INIT STARTING]
+dm\InitializationManager.dm:64:error: bad argument definition
+dm\InitializationManager.dm:64:error: bad argument definition
+dm\InitializationManager.dm:67:error: bad argument definition
+dm\InitializationManager.dm:68:error: bad argument definition
+dm\InitializationManager.dm:68:error: bad argument definition
+dm\InitializationManager.dm:76:error: bad argument definition
+dm\InitializationManager.dm:76:error: bad argument definition
+dm\InitializationManager.dm:86:error: bad argument definition
+dm\InitializationManager.dm:93:error: bad argument definition
+dm\InitializationManager.dm:93:error: bad argument definition
+dm\InitializationManager.dm:101:error: bad argument definition
+dm\InitializationManager.dm:102:error: bad argument definition
+dm\InitializationManager.dm:102:error: bad argument definition
+dm\InitializationManager.dm:112:error: bad argument definition
+dm\InitializationManager.dm:113:error: bad argument definition
+dm\InitializationManager.dm:113:error: bad argument definition
+dm\InitializationManager.dm:121:error: bad argument definition
+dm\InitializationManager.dm:123:error: bad argument definition
+dm\InitializationManager.dm:123:error: bad argument definition
+dm\InitializationManager.dm:133:error: bad argument definition
+dm\InitializationManager.dm:133:error: bad argument definition
+dm\InitializationManager.dm:147:error: bad argument definition
+dm\InitializationManager.dm:149:error: bad argument definition
+dm\InitializationManager.dm:149:error: bad argument definition
+dm\InitializationManager.dm:164:error: bad argument definition
+dm\InitializationManager.dm:170:error: bad argument definition
+dm\InitializationManager.dm:170:error: bad argument definition
+dm\InitializationManager.dm:177:error: bad argument definition
+dm\InitializationManager.dm:179:error: bad argument definition
+dm\InitializationManager.dm:179:error: bad argument definition
+dm\InitializationManager.dm:197:error: bad argument definition
+dm\InitializationManager.dm:201:error: bad argument definition
+dm\InitializationManager.dm:201:error: bad argument definition
+dm\InitializationManager.dm:218:error: bad argument definition
+dm\InitializationManager.dm:220:error: bad argument definition
+dm\InitializationManager.dm:220:error: bad argument definition
+dm\InitializationManager.dm:272:error: bad argument definition
+dm\InitializationManager.dm:274:error: bad argument definition
+dm\InitializationManager.dm:274:error: bad argument definition
+dm\InitializationManager.dm:285:error: bad argument definition
+dm\InitializationManager.dm:319:error: bad embedded expression [INIT COMPLETE]
+Pondera.dmb - 42 errors, 0 warnings (12/16/25 9:30 pm)
+Total time: 0:01

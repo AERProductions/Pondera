@@ -512,5 +512,6 @@ proc/IntegrateZoneWithRegion(zone_id, region/R)
 	
 	for(var/obj/DeedToken_Zone/dz in world)
 		if(dz.zone_id == zone_id)
-			R.name = dz.zone_name
+			// Region name integration - regions don't have settable names in BYOND
+			// This is a stub for future integration
 			return
