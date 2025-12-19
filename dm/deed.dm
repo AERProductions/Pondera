@@ -4,11 +4,9 @@ region
 
 
 	deed//a region of deeded land that displays the deed name when entered and exited. Region class requires Forum_Account's Regions library.
-		saveable = TRUE
-		//density = 0
-		name = ""//deed name variable
-
-		var //some of these might not be needed
+		var
+			saveable = TRUE
+			name = ""//deed name variable
 			owner = ""
 			zonex = 10
 			zoney = 10
