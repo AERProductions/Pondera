@@ -2197,60 +2197,6 @@ mob/players
 		if(!toolbelt)
 			InitializeToolbelt(src)
 
-	Login()
-		/**
-		 * UNIFIED LOGIN HANDLER
-		 * Player appears on map with basic setup
-		 */
-		
-		// APPEARANCE: Set up player icon
-		src.icon = 'dmi/64/char.dmi'
-		src.icon_state = "friar"
-		
-		// UI SETUP: Configure interface and lighting
-		client.draw_lighting_plane()
-		draw_spotlight(0, 0, "#FFFFFF", 1.3, 255)
-		remove_spotlight()
-		
-		// MOVEMENT CONTROLS: Configure macro keys
-		winset(src, "R", "parent=macros;name=Run;command=Run")
-		winset(src, "NORTH", "parent=macros;name=NORTH;command=MoveNorth")
-		winset(src, "SOUTH", "parent=macros;name=SOUTH;command=MoveSouth")
-		winset(src, "EAST", "parent=macros;name=EAST;command=MoveEast")
-		winset(src, "WEST", "parent=macros;name=WEST;command=MoveWest")
-		winset(src, "W", "parent=macros;name=W;command=MoveNorth")
-		winset(src, "S", "parent=macros;name=S;command=MoveSouth")
-		winset(src, "D", "parent=macros;name=D;command=MoveEast")
-		winset(src, "A", "parent=macros;name=A;command=MoveWest")
-		
-		// MOVEMENT STATE: Initialize movement tracking
-		src.move = 1
-		src.Moving = 0
-		
-		// PLAYER STATE: Mark as online
-		src.online = TRUE
-		
-		// HUD INITIALIZATION: Create comprehensive HUD using HudGroups
-		spawn(3)
-			var/PonderaHUD/main_hud = new(src)
-			src.main_hud = main_hud
-			main_hud.show_all()
-			main_hud.update_all()
-			src << "\green [src.name], welcome to Pondera. Your HUD is ready."
-			
-			// Initialize toolbelt HUD display (must happen after main HUD is created)
-			spawn(1)
-				InitializeToolbeltHUD(src)
-		
-		// ADMIN CHECK: Check if player is admin and set up permissions
-		spawn(1) ToggleAdminMode(src)
-		
-		// TOOL DURABILITY: Restore tool durability from savefiles
-		spawn(2) RestoreToolDurability(src)
-		
-		// PARENT CALL: Continue standard login chain
-		return ..()
-
 mob/players/proc
 	updateHP()
 		/**
