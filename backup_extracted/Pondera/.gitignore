@@ -1,0 +1,10 @@
+*.dmb
+*.rsc
+*.int
+*.lk
+*.zip
+# Cappy data files (databases, indexes)
+.cappy/data/
+./Pondera-Recoded/
+./lib/
+.flowbaby/

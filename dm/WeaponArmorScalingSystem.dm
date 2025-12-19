@@ -89,6 +89,9 @@
 		// Lifecycle
 		crafted_time = 0
 		crafted_by = ""
+		
+		// Weight & encumbrance
+		weight = 0
 
 /obj/items/equipment/New()
 	..()
@@ -107,6 +110,44 @@
 		Unequip(usr)
 	else
 		Equip(usr)
+
+/obj/items/equipment/proc/IsBroken()
+	/**
+	 * IsBroken()
+	 * Check if tool/equipment is broken (durability at 0).
+	 */
+	if(!istype(src, /obj/items/equipment)) return FALSE
+	return (src.current_durability <= 0)
+
+/obj/items/equipment/proc/IsFragile()
+	/**
+	 * IsFragile()
+	 * Check if tool/equipment is close to breaking (durability <20%).
+	 */
+	if(!istype(src, /obj/items/equipment)) return FALSE
+	if(!src.max_durability || src.max_durability == 0) return FALSE
+	return (src.current_durability < src.max_durability * 0.2)
+
+/obj/items/equipment/proc/GetDurabilityPercent()
+	/**
+	 * GetDurabilityPercent()
+	 * Get durability as percentage (0-100).
+	 */
+	if(!istype(src, /obj/items/equipment)) return 0
+	if(!src.max_durability || src.max_durability == 0) return 100
+	return (src.current_durability / src.max_durability) * 100
+
+/obj/items/equipment/proc/AttemptUse()
+	/**
+	 * AttemptUse()
+	 * Attempt to use the tool/equipment.
+	 * Returns TRUE if successful, FALSE if broken.
+	 */
+	if(IsBroken()) return FALSE
+	// Degrade durability on use
+	if(src.current_durability > 0)
+		src.current_durability--
+	return TRUE
 
 /proc/Equip(mob/player, obj/items/equipment/item)
 	/**

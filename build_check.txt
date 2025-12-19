@@ -1,0 +1,1141 @@
+DM compiler version 516.1673
+loading Pondera.dme
+dm\timeRH.dm:223:warning (accidental_assign): assignment in condition, may have intended == operator instead
+dm\ToolbeltComplete.dm:521:error: screen: undefined var
+dm\ToolbeltComplete.dm:533:error: screen: undefined var
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\BootSequenceManager.dm:156:error: /proc/_day_night_cycle_loop: undefined type path
+dm\AutoHotbarPickup.dm:46:error: GetToolType: undefined proc
+dm\AutoHotbarPickup.dm:51:error: DoesPlayerHaveToolType: undefined proc
+dm\SmithingMenuSystem.dm:19:error: M.character.GetRankLevel: undefined var
+dm\SmithingMenuSystem.dm:138:warning (unused_var): amount_needed: variable defined but not used
+dm\SmithingMenuSystem.dm:147:error: RemoveIngredients: duplicate definition
+dm\CookingSystem.dm:507:error: RemoveIngredients: previous definition
+dm\SmithingMenuSystem.dm:169:error: M.character.GetRankLevel: undefined var
+dm\SmithingCraftingHandler.dm:22:error: M.character.GetRankLevel: undefined var
+dm\SmithingCraftingHandler.dm:28:error: M.stamina: undefined var
+dm\SmithingCraftingHandler.dm:40:error: M.Doing: undefined var
+dm\SmithingCraftingHandler.dm:53:error: M.stamina: undefined var
+dm\SmithingCraftingHandler.dm:54:error: M.updateST: undefined proc
+dm\SmithingCraftingHandler.dm:74:error: M.Doing: undefined var
+dm\SmithingCraftingHandler.dm:141:error: M.character.GetRankLevel: undefined var
+dm\SmithingCraftingHandler.dm:160:error: M.character.UpdateRankExp: undefined var
+dm\SystemIntegrationPolish.dm:134:error: GetTierProgressionSystem: undefined proc
+dm\SystemIntegrationPolish.dm:305:error: InitializeTierProgression: undefined proc
+dm\TerrainStubs.dm:86:error: smeltingunlock: duplicate definition
+dm\MissingStubs.dm:64:error: smeltingunlock: previous definition
+dm\TerrainStubs.dm:94:error: smeltinglevel: duplicate definition
+dm\MissingStubs.dm:74:error: smeltinglevel: previous definition
+dm\ToolbeltVisualUI.dm:152:error: substr: undefined proc
+dm\ToolbeltVisualUI.dm:129:warning (unused_var): max_display: variable defined but not used
+dm\TerrainStubs.dm:56:error: weight: undefined var
+dm\ToolbeltDragDrop.dm:31:error: GetToolType: undefined proc
+dm\ToolbeltDragDrop.dm:51:error: GetToolType: undefined proc
+dm\ToolbeltDragDrop.dm:61:error: DoesPlayerHaveToolType: undefined proc
+dm\PLANT_SOIL_QUALITY_INTEGRATION.dm:25:error: Rarity: undefined var
+dm\PLANT_SOIL_QUALITY_INTEGRATION.dm:26:error: VegeType: undefined var
+dm\PLANT_SOIL_QUALITY_INTEGRATION.dm:32:error: /obj/food/vegetable: undefined type path
+dm\PLANT_SOIL_QUALITY_INTEGRATION.dm:56:error: Rarity: undefined var
+dm\PLANT_SOIL_QUALITY_INTEGRATION.dm:57:error: GrainType: undefined var
+dm\PLANT_SOIL_QUALITY_INTEGRATION.dm:63:error: /obj/food/grain: undefined type path
+dm\ToolbeltComplete.dm:44:error: owner.screen: undefined var
+dm\ToolbeltComplete.dm:45:error: slot_buttons.Clear: undefined proc
+dm\ToolbeltComplete.dm:51:error: owner.screen: undefined var
+dm\ToolbeltComplete.dm:85:error: 'dmi/64/64.dmi': cannot find file
+dm\ToolbeltComplete.dm:88:error: mouse_opaque: undefined var
+dm\ToolbeltComplete.dm:95:error: list: numbers are not allowed as associative list keys except in alist()
+dm\ToolbeltComplete.dm:132:error: cut_overlay: undefined proc
+dm\ToolbeltComplete.dm:136:error: cut_overlay: undefined proc
+dm\ToolbeltComplete.dm:140:error: cut_overlay: undefined proc
+dm\ToolbeltComplete.dm:149:error: cut_overlay: undefined proc
+dm\time24h.dm:483:error: '64/rain.dmi': cannot find file
+dm\timeRH.dm:506:error: '64/rain.dmi': cannot find file
+dm\time24h.dm:486:error: '64/snow.dmi': cannot find file
+dm\timeRH.dm:509:error: '64/snow.dmi': cannot find file
+dm\time24h.dm:489:error: '64/sand.dmi': cannot find file
+dm\timeRH.dm:512:error: '64/sand.dmi': cannot find file
+dm\time24h.dm:466:error: '64/castl.dmi': cannot find file
+dm\timeRH.dm:489:error: '64/castl.dmi': cannot find file
+dm\DayNight.dm:5:error: time_of_day: duplicate definition
+dm\time24h.dm:12:error: time_of_day: previous definition
+dm\time24h.dm:60:error: lit: duplicate definition
+dm\timeRH.dm:60:error: lit: previous definition
+dm\time24h.dm:61:error: Weather: duplicate definition
+dm\timeRH.dm:61:error: Weather: previous definition
+dm\time24h.dm:160:error: '64/plants.dmi': cannot find file
+dm\time24h.dm:242:error: lighting.ambient: undefined var
+dm\time24h.dm:249:error: lighting.ambient: undefined var
+dm\time24h.dm:255:error: lighting.ambient: undefined var
+dm\time24h.dm:261:error: lighting.ambient: undefined var
+dm\time24h.dm:267:error: J.light.off: undefined var
+dm\time24h.dm:269:error: '64/build.dmi': cannot find file
+dm\time24h.dm:272:error: J1.light.off: undefined var
+dm\time24h.dm:274:error: '64/fire.dmi': cannot find file
+dm\time24h.dm:277:error: J2.light.off: undefined var
+dm\time24h.dm:282:error: J3.light.off: undefined var
+dm\time24h.dm:287:error: J4.light.off: undefined var
+dm\time24h.dm:290:error: J5a: undefined type: /obj/castlwll5a
+dm\time24h.dm:291:error: J5a.Lit: undefined type: /obj/castlwll5a
+dm\time24h.dm:292:error: J5a.light.off: undefined type: /obj/castlwll5a
+dm\time24h.dm:293:error: J5a.Lit: undefined type: /obj/castlwll5a
+dm\time24h.dm:294:error: J5a.overlays: undefined type: /obj/castlwll5a
+dm\time24h.dm:295:error: J6a: undefined type: /obj/btmwll1a
+dm\time24h.dm:296:error: J6a.Lit: undefined type: /obj/btmwll1a
+dm\time24h.dm:297:error: J6a.light.off: undefined type: /obj/btmwll1a
+dm\time24h.dm:298:error: J6a.Lit: undefined type: /obj/btmwll1a
+dm\time24h.dm:299:error: J6a.overlays: undefined type: /obj/btmwll1a
+dm\time24h.dm:317:error: lighting.ambient: undefined var
+dm\time24h.dm:330:error: lighting.ambient: undefined var
+dm\time24h.dm:337:error: J.light.on: undefined var
+dm\time24h.dm:342:error: J1.light.on: undefined var
+dm\time24h.dm:347:error: J2.light.on: undefined var
+dm\time24h.dm:352:error: J3.light.on: undefined var
+dm\time24h.dm:357:error: J4.light.on: undefined var
+dm\time24h.dm:360:error: J5a: undefined type: /obj/castlwll5a
+dm\time24h.dm:361:error: J5a.Lit: undefined type: /obj/castlwll5a
+dm\time24h.dm:362:error: J5a.light.on: undefined type: /obj/castlwll5a
+dm\time24h.dm:363:error: J5a.Lit: undefined type: /obj/castlwll5a
+dm\time24h.dm:364:error: J5a.overlays: undefined type: /obj/castlwll5a
+dm\time24h.dm:365:error: J6a: undefined type: /obj/btmwll1a
+dm\time24h.dm:366:error: J6a.Lit: undefined type: /obj/btmwll1a
+dm\time24h.dm:367:error: J6a.light.on: undefined type: /obj/btmwll1a
+dm\time24h.dm:368:error: J6a.Lit: undefined type: /obj/btmwll1a
+dm\time24h.dm:369:error: J6a.overlays: undefined type: /obj/btmwll1a
+dm\time24h.dm:375:error: lighting.ambient: undefined var
+dm\timeRH.dm:198:error: '64/plants.dmi': cannot find file
+dm\timeRH.dm:263:error: lighting.ambient: undefined var
+dm\timeRH.dm:270:error: lighting.ambient: undefined var
+dm\timeRH.dm:276:error: lighting.ambient: undefined var
+dm\timeRH.dm:282:error: lighting.ambient: undefined var
+dm\timeRH.dm:288:error: J.light.off: undefined var
+dm\timeRH.dm:290:error: '64/build.dmi': cannot find file
+dm\timeRH.dm:293:error: J1.light.off: undefined var
+dm\timeRH.dm:295:error: '64/fire.dmi': cannot find file
+dm\timeRH.dm:298:error: J2.light.off: undefined var
+dm\timeRH.dm:303:error: J3.light.off: undefined var
+dm\timeRH.dm:308:error: J4.light.off: undefined var
+dm\timeRH.dm:311:error: J5a: undefined type: /obj/castlwll5a
+dm\timeRH.dm:312:error: J5a.Lit: undefined type: /obj/castlwll5a
+dm\timeRH.dm:313:error: J5a.light.off: undefined type: /obj/castlwll5a
+dm\timeRH.dm:314:error: J5a.Lit: undefined type: /obj/castlwll5a
+dm\timeRH.dm:315:error: J5a.overlays: undefined type: /obj/castlwll5a
+dm\timeRH.dm:316:error: J6a: undefined type: /obj/btmwll1a
+dm\timeRH.dm:317:error: J6a.Lit: undefined type: /obj/btmwll1a
+dm\timeRH.dm:318:error: J6a.light.off: undefined type: /obj/btmwll1a
+dm\timeRH.dm:319:error: J6a.Lit: undefined type: /obj/btmwll1a
+dm\timeRH.dm:320:error: J6a.overlays: undefined type: /obj/btmwll1a
+dm\timeRH.dm:338:error: lighting.ambient: undefined var
+dm\timeRH.dm:351:error: lighting.ambient: undefined var
+dm\timeRH.dm:358:error: J.light.on: undefined var
+dm\timeRH.dm:363:error: J1.light.on: undefined var
+dm\timeRH.dm:368:error: J2.light.on: undefined var
+dm\timeRH.dm:373:error: J3.light.on: undefined var
+dm\timeRH.dm:378:error: J4.light.on: undefined var
+dm\timeRH.dm:381:error: J5a: undefined type: /obj/castlwll5a
+dm\timeRH.dm:382:error: J5a.Lit: undefined type: /obj/castlwll5a
+dm\timeRH.dm:383:error: J5a.light.on: undefined type: /obj/castlwll5a
+dm\timeRH.dm:384:error: J5a.Lit: undefined type: /obj/castlwll5a
+dm\timeRH.dm:385:error: J5a.overlays: undefined type: /obj/castlwll5a
+dm\timeRH.dm:386:error: J6a: undefined type: /obj/btmwll1a
+dm\timeRH.dm:387:error: J6a.Lit: undefined type: /obj/btmwll1a
+dm\timeRH.dm:388:error: J6a.light.on: undefined type: /obj/btmwll1a
+dm\timeRH.dm:389:error: J6a.Lit: undefined type: /obj/btmwll1a
+dm\timeRH.dm:390:error: J6a.overlays: undefined type: /obj/btmwll1a
+dm\timeRH.dm:396:error: lighting.ambient: undefined var
+dm\SteelToolsEquip.dm:6:error: typi: duplicate definition
+dm\SteelToolsEquip.dm:6:error: "SHH": duplicate definition
+dm\SteelToolsEquip.dm:6:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:6:error: : duplicate definition
+dm\SteelToolsEquip.dm:6:error: twohanded: duplicate definition
+dm\SteelToolsEquip.dm:6:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:6:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:6:error: : duplicate definition
+dm\SteelToolsEquip.dm:6:error: &&: instruction not allowed here
+dm\SteelToolsEquip.dm:6:error: : duplicate definition
+dm\SteelToolsEquip.dm:46:error: typi: duplicate definition
+dm\SteelToolsEquip.dm:46:error: "SSH": duplicate definition
+dm\SteelToolsEquip.dm:46:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:46:error: : duplicate definition
+dm\SteelToolsEquip.dm:46:error: twohanded: duplicate definition
+dm\SteelToolsEquip.dm:46:error: 1: duplicate definition
+dm\SteelToolsEquip.dm:46:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:46:error: : duplicate definition
+dm\SteelToolsEquip.dm:46:error: &&: instruction not allowed here
+dm\SteelToolsEquip.dm:46:error: : duplicate definition
+dm\SteelToolsEquip.dm:86:error: typi: duplicate definition
+dm\SteelToolsEquip.dm:86:error: "SHO": duplicate definition
+dm\SteelToolsEquip.dm:86:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:86:error: : duplicate definition
+dm\SteelToolsEquip.dm:86:error: twohanded: duplicate definition
+dm\SteelToolsEquip.dm:86:error: 1: duplicate definition
+dm\SteelToolsEquip.dm:86:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:86:error: : duplicate definition
+dm\SteelToolsEquip.dm:86:error: &&: instruction not allowed here
+dm\SteelToolsEquip.dm:86:error: : duplicate definition
+dm\SteelToolsEquip.dm:126:error: typi: duplicate definition
+dm\SteelToolsEquip.dm:126:error: "SSH2": duplicate definition
+dm\SteelToolsEquip.dm:126:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:126:error: : duplicate definition
+dm\SteelToolsEquip.dm:126:error: twohanded: duplicate definition
+dm\SteelToolsEquip.dm:126:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:126:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:126:error: : duplicate definition
+dm\SteelToolsEquip.dm:126:error: &&: instruction not allowed here
+dm\SteelToolsEquip.dm:126:error: : duplicate definition
+dm\SteelToolsEquip.dm:166:error: typi: duplicate definition
+dm\SteelToolsEquip.dm:166:error: "SCH": duplicate definition
+dm\SteelToolsEquip.dm:166:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:166:error: : duplicate definition
+dm\SteelToolsEquip.dm:166:error: twohanded: duplicate definition
+dm\SteelToolsEquip.dm:166:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:166:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:166:error: : duplicate definition
+dm\SteelToolsEquip.dm:166:error: &&: instruction not allowed here
+dm\SteelToolsEquip.dm:166:error: : duplicate definition
+dm\SteelToolsEquip.dm:206:error: typi: duplicate definition
+dm\SteelToolsEquip.dm:206:error: "SFI": duplicate definition
+dm\SteelToolsEquip.dm:206:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:206:error: : duplicate definition
+dm\SteelToolsEquip.dm:206:error: twohanded: duplicate definition
+dm\SteelToolsEquip.dm:206:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:206:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:206:error: : duplicate definition
+dm\SteelToolsEquip.dm:206:error: &&: instruction not allowed here
+dm\SteelToolsEquip.dm:206:error: : duplicate definition
+dm\SteelToolsUnequip.dm:3:error: typi: duplicate definition
+dm\SteelToolsUnequip.dm:3:error: "SPX": duplicate definition
+dm\SteelToolsUnequip.dm:3:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:3:error: : duplicate definition
+dm\SteelToolsUnequip.dm:3:error: twohanded: duplicate definition
+dm\SteelToolsUnequip.dm:3:error: 1: duplicate definition
+dm\SteelToolsUnequip.dm:3:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:3:error: : duplicate definition
+dm\SteelToolsUnequip.dm:3:error: &&: instruction not allowed here
+dm\SteelToolsUnequip.dm:3:error: : duplicate definition
+dm\SteelToolsUnequip.dm:41:error: typi: duplicate definition
+dm\SteelToolsUnequip.dm:41:error: "SHH": duplicate definition
+dm\SteelToolsUnequip.dm:41:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:41:error: : duplicate definition
+dm\SteelToolsUnequip.dm:41:error: twohanded: duplicate definition
+dm\SteelToolsUnequip.dm:41:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:41:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:41:error: : duplicate definition
+dm\SteelToolsUnequip.dm:41:error: &&: instruction not allowed here
+dm\SteelToolsUnequip.dm:41:error: : duplicate definition
+dm\SteelToolsUnequip.dm:80:error: typi: duplicate definition
+dm\SteelToolsUnequip.dm:80:error: "SSH": duplicate definition
+dm\SteelToolsUnequip.dm:80:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:80:error: : duplicate definition
+dm\SteelToolsUnequip.dm:80:error: twohanded: duplicate definition
+dm\SteelToolsUnequip.dm:80:error: 1: duplicate definition
+dm\SteelToolsUnequip.dm:80:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:80:error: : duplicate definition
+dm\SteelToolsUnequip.dm:80:error: &&: instruction not allowed here
+dm\SteelToolsUnequip.dm:80:error: : duplicate definition
+dm\SteelToolsUnequip.dm:119:error: typi: duplicate definition
+dm\SteelToolsUnequip.dm:119:error: "SHO": duplicate definition
+dm\SteelToolsUnequip.dm:119:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:119:error: : duplicate definition
+dm\SteelToolsUnequip.dm:119:error: twohanded: duplicate definition
+dm\SteelToolsUnequip.dm:119:error: 1: duplicate definition
+dm\SteelToolsUnequip.dm:119:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:119:error: : duplicate definition
+dm\SteelToolsUnequip.dm:119:error: &&: instruction not allowed here
+dm\SteelToolsUnequip.dm:119:error: : duplicate definition
+dm\SteelToolsUnequip.dm:158:error: typi: duplicate definition
+dm\SteelToolsUnequip.dm:158:error: "SSH2": duplicate definition
+dm\SteelToolsUnequip.dm:158:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:158:error: : duplicate definition
+dm\SteelToolsUnequip.dm:158:error: twohanded: duplicate definition
+dm\SteelToolsUnequip.dm:158:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:158:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:158:error: : duplicate definition
+dm\SteelToolsUnequip.dm:158:error: &&: instruction not allowed here
+dm\SteelToolsUnequip.dm:158:error: : duplicate definition
+dm\SteelToolsUnequip.dm:197:error: typi: duplicate definition
+dm\SteelToolsUnequip.dm:197:error: "SCH": duplicate definition
+dm\SteelToolsUnequip.dm:197:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:197:error: : duplicate definition
+dm\SteelToolsUnequip.dm:197:error: twohanded: duplicate definition
+dm\SteelToolsUnequip.dm:197:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:197:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:197:error: : duplicate definition
+dm\SteelToolsUnequip.dm:197:error: &&: instruction not allowed here
+dm\SteelToolsUnequip.dm:197:error: : duplicate definition
+dm\SteelToolsUnequip.dm:236:error: typi: duplicate definition
+dm\SteelToolsUnequip.dm:236:error: "SFI": duplicate definition
+dm\SteelToolsUnequip.dm:236:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:236:error: : duplicate definition
+dm\SteelToolsUnequip.dm:236:error: twohanded: duplicate definition
+dm\SteelToolsUnequip.dm:236:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:236:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:236:error: : duplicate definition
+dm\SteelToolsUnequip.dm:236:error: &&: instruction not allowed here
+dm\SteelToolsUnequip.dm:236:error: : duplicate definition
+dm\SteelToolsEquip.dm:7:error: usr.tempstr: duplicate definition
+dm\SteelToolsEquip.dm:7:error: src.strreq: duplicate definition
+dm\SteelToolsEquip.dm:7:error: >=: instruction not allowed here
+dm\SteelToolsEquip.dm:7:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:8:error: usr.SHHequipped: duplicate definition
+dm\SteelToolsEquip.dm:8:error: 2: duplicate definition
+dm\SteelToolsEquip.dm:8:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:8:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:9:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:9:error: "Unable to use right now.": duplicate definition
+dm\SteelToolsEquip.dm:9:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:10:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:9:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:11:error: usr.SHHequipped: duplicate definition
+dm\SteelToolsEquip.dm:11:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:11:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:11:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:12:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:12:error: "You wield the Steel Hammer.": duplicate definition
+dm\SteelToolsEquip.dm:12:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:13:error: src.suffix: undefined var
+dm\SteelToolsEquip.dm:14:error: usr.Wequipped: undefined var
+dm\SteelToolsEquip.dm:15:error: usr.Sequipped: undefined var
+dm\SteelToolsEquip.dm:16:error: usr.LSequipped: undefined var
+dm\SteelToolsEquip.dm:17:error: usr.AXequipped: undefined var
+dm\SteelToolsEquip.dm:18:error: usr.WHequipped: undefined var
+dm\SteelToolsEquip.dm:19:error: usr.JRequipped: undefined var
+dm\SteelToolsEquip.dm:20:error: usr.FPequipped: undefined var
+dm\SteelToolsEquip.dm:21:error: usr.PXequipped: undefined var
+dm\SteelToolsEquip.dm:22:error: usr.SPXequipped: undefined var
+dm\SteelToolsEquip.dm:23:error: usr.SHequipped: undefined var
+dm\SteelToolsEquip.dm:24:error: usr.HMequipped: undefined var
+dm\SteelToolsEquip.dm:25:error: usr.SKequipped: undefined var
+dm\SteelToolsEquip.dm:26:error: usr.HOequipped: undefined var
+dm\SteelToolsEquip.dm:27:error: usr.CKequipped: undefined var
+dm\SteelToolsEquip.dm:28:error: usr.FLequipped: undefined var
+dm\SteelToolsEquip.dm:29:error: usr.PYequipped: undefined var
+dm\SteelToolsEquip.dm:30:error: usr.OKequipped: undefined var
+dm\SteelToolsEquip.dm:31:error: usr.SHMequipped: undefined var
+dm\SteelToolsEquip.dm:32:error: usr.UPKequipped: undefined var
+dm\SteelToolsEquip.dm:33:error: usr.CHequipped: undefined var
+dm\SteelToolsEquip.dm:34:error: usr.TWequipped: undefined var
+dm\SteelToolsEquip.dm:35:error: usr.FIequipped: undefined var
+dm\SteelToolsEquip.dm:36:error: usr.SWequipped: undefined var
+dm\SteelToolsEquip.dm:37:error: usr.WSequipped: undefined var
+dm\SteelToolsEquip.dm:38:error: usr.SHHequipped: undefined var
+dm\SteelToolsEquip.dm:39:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsEquip.dm:39:error: src.DamageMin: duplicate definition
+dm\SteelToolsEquip.dm:39:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:40:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsEquip.dm:40:error: src.DamageMax: duplicate definition
+dm\SteelToolsEquip.dm:40:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:41:error: usr: undefined var
+dm\SteelToolsEquip.dm:41:error: =: expected a constant expression
+dm\SteelToolsEquip.dm:42:error: M.attackspeed: duplicate definition
+dm\SteelToolsEquip.dm:42:error: src.wpnspd: duplicate definition
+dm\SteelToolsEquip.dm:42:error: -=: instruction not allowed here
+dm\SteelToolsEquip.dm:43:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:12:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:8:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:7:error: : duplicate definition
+dm\SteelToolsEquip.dm:47:error: usr.tempstr: duplicate definition
+dm\SteelToolsEquip.dm:47:error: src.strreq: duplicate definition
+dm\SteelToolsEquip.dm:47:error: >=: instruction not allowed here
+dm\SteelToolsEquip.dm:47:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:48:error: usr.SSHequipped: duplicate definition
+dm\SteelToolsEquip.dm:48:error: 2: duplicate definition
+dm\SteelToolsEquip.dm:48:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:48:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:49:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:49:error: "Unable to use right now.": duplicate definition
+dm\SteelToolsEquip.dm:49:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:50:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:49:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:51:error: usr.SSHequipped: duplicate definition
+dm\SteelToolsEquip.dm:51:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:51:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:51:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:52:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:52:error: "You wield the Steel Shovel.": duplicate definition
+dm\SteelToolsEquip.dm:52:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:53:error: src.suffix: undefined var
+dm\SteelToolsEquip.dm:54:error: usr.Wequipped: undefined var
+dm\SteelToolsEquip.dm:55:error: usr.Sequipped: undefined var
+dm\SteelToolsEquip.dm:56:error: usr.LSequipped: undefined var
+dm\SteelToolsEquip.dm:57:error: usr.AXequipped: undefined var
+dm\SteelToolsEquip.dm:58:error: usr.WHequipped: undefined var
+dm\SteelToolsEquip.dm:59:error: usr.JRequipped: undefined var
+dm\SteelToolsEquip.dm:60:error: usr.FPequipped: undefined var
+dm\SteelToolsEquip.dm:61:error: usr.PXequipped: undefined var
+dm\SteelToolsEquip.dm:62:error: usr.SPXequipped: undefined var
+dm\SteelToolsEquip.dm:63:error: usr.SHequipped: undefined var
+dm\SteelToolsEquip.dm:64:error: usr.HMequipped: undefined var
+dm\SteelToolsEquip.dm:65:error: usr.SKequipped: undefined var
+dm\SteelToolsEquip.dm:66:error: usr.HOequipped: undefined var
+dm\SteelToolsEquip.dm:67:error: usr.CKequipped: undefined var
+dm\SteelToolsEquip.dm:68:error: usr.FLequipped: undefined var
+dm\SteelToolsEquip.dm:69:error: usr.PYequipped: undefined var
+dm\SteelToolsEquip.dm:70:error: usr.OKequipped: undefined var
+dm\SteelToolsEquip.dm:71:error: usr.SHMequipped: undefined var
+dm\SteelToolsEquip.dm:72:error: usr.UPKequipped: undefined var
+dm\SteelToolsEquip.dm:73:error: usr.CHequipped: undefined var
+dm\SteelToolsEquip.dm:74:error: usr.TWequipped: undefined var
+dm\SteelToolsEquip.dm:75:error: usr.FIequipped: undefined var
+dm\SteelToolsEquip.dm:76:error: usr.SWequipped: undefined var
+dm\SteelToolsEquip.dm:77:error: usr.WSequipped: undefined var
+dm\SteelToolsEquip.dm:78:error: usr.SSHequipped: undefined var
+dm\SteelToolsEquip.dm:79:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsEquip.dm:79:error: src.DamageMin: duplicate definition
+dm\SteelToolsEquip.dm:79:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:80:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsEquip.dm:80:error: src.DamageMax: duplicate definition
+dm\SteelToolsEquip.dm:80:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:81:error: usr: undefined var
+dm\SteelToolsEquip.dm:81:error: =: expected a constant expression
+dm\SteelToolsEquip.dm:82:error: M.attackspeed: duplicate definition
+dm\SteelToolsEquip.dm:82:error: src.wpnspd: duplicate definition
+dm\SteelToolsEquip.dm:82:error: -=: instruction not allowed here
+dm\SteelToolsEquip.dm:83:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:52:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:48:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:47:error: : duplicate definition
+dm\SteelToolsEquip.dm:87:error: usr.tempstr: duplicate definition
+dm\SteelToolsEquip.dm:87:error: src.strreq: duplicate definition
+dm\SteelToolsEquip.dm:87:error: >=: instruction not allowed here
+dm\SteelToolsEquip.dm:87:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:88:error: usr.SHOequipped: duplicate definition
+dm\SteelToolsEquip.dm:88:error: 2: duplicate definition
+dm\SteelToolsEquip.dm:88:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:88:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:89:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:89:error: "Unable to use right now.": duplicate definition
+dm\SteelToolsEquip.dm:89:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:90:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:89:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:91:error: usr.SHOequipped: duplicate definition
+dm\SteelToolsEquip.dm:91:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:91:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:91:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:92:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:92:error: "You wield the Steel Hoe.": duplicate definition
+dm\SteelToolsEquip.dm:92:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:93:error: src.suffix: undefined var
+dm\SteelToolsEquip.dm:94:error: usr.Wequipped: undefined var
+dm\SteelToolsEquip.dm:95:error: usr.Sequipped: undefined var
+dm\SteelToolsEquip.dm:96:error: usr.LSequipped: undefined var
+dm\SteelToolsEquip.dm:97:error: usr.AXequipped: undefined var
+dm\SteelToolsEquip.dm:98:error: usr.WHequipped: undefined var
+dm\SteelToolsEquip.dm:99:error: usr.JRequipped: undefined var
+dm\SteelToolsEquip.dm:100:error: usr.FPequipped: undefined var
+dm\SteelToolsEquip.dm:101:error: usr.PXequipped: undefined var
+dm\SteelToolsEquip.dm:102:error: usr.SPXequipped: undefined var
+dm\SteelToolsEquip.dm:103:error: usr.SHequipped: undefined var
+dm\SteelToolsEquip.dm:104:error: usr.HMequipped: undefined var
+dm\SteelToolsEquip.dm:105:error: usr.SKequipped: undefined var
+dm\SteelToolsEquip.dm:106:error: usr.HOequipped: undefined var
+dm\SteelToolsEquip.dm:107:error: usr.CKequipped: undefined var
+dm\SteelToolsEquip.dm:108:error: usr.FLequipped: undefined var
+dm\SteelToolsEquip.dm:109:error: usr.PYequipped: undefined var
+dm\SteelToolsEquip.dm:110:error: usr.OKequipped: undefined var
+dm\SteelToolsEquip.dm:111:error: usr.SHMequipped: undefined var
+dm\SteelToolsEquip.dm:112:error: usr.UPKequipped: undefined var
+dm\SteelToolsEquip.dm:113:error: usr.CHequipped: undefined var
+dm\SteelToolsEquip.dm:114:error: usr.TWequipped: undefined var
+dm\SteelToolsEquip.dm:115:error: usr.FIequipped: undefined var
+dm\SteelToolsEquip.dm:116:error: usr.SWequipped: undefined var
+dm\SteelToolsEquip.dm:117:error: usr.WSequipped: undefined var
+dm\SteelToolsEquip.dm:118:error: usr.SHOequipped: undefined var
+dm\SteelToolsEquip.dm:119:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsEquip.dm:119:error: src.DamageMin: duplicate definition
+dm\SteelToolsEquip.dm:119:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:120:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsEquip.dm:120:error: src.DamageMax: duplicate definition
+dm\SteelToolsEquip.dm:120:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:121:error: usr: undefined var
+dm\SteelToolsEquip.dm:121:error: =: expected a constant expression
+dm\SteelToolsEquip.dm:122:error: M.attackspeed: duplicate definition
+dm\SteelToolsEquip.dm:122:error: src.wpnspd: duplicate definition
+dm\SteelToolsEquip.dm:122:error: -=: instruction not allowed here
+dm\SteelToolsEquip.dm:123:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:92:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:88:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:87:error: : duplicate definition
+dm\SteelToolsEquip.dm:127:error: usr.tempstr: duplicate definition
+dm\SteelToolsEquip.dm:127:error: src.strreq: duplicate definition
+dm\SteelToolsEquip.dm:127:error: >=: instruction not allowed here
+dm\SteelToolsEquip.dm:127:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:128:error: usr.SSH2equipped: duplicate definition
+dm\SteelToolsEquip.dm:128:error: 2: duplicate definition
+dm\SteelToolsEquip.dm:128:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:128:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:129:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:129:error: "Unable to use right now.": duplicate definition
+dm\SteelToolsEquip.dm:129:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:130:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:129:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:131:error: usr.SSH2equipped: duplicate definition
+dm\SteelToolsEquip.dm:131:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:131:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:131:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:132:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:132:error: "You wield the Steel Sickle.": duplicate definition
+dm\SteelToolsEquip.dm:132:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:133:error: src.suffix: undefined var
+dm\SteelToolsEquip.dm:134:error: usr.Wequipped: undefined var
+dm\SteelToolsEquip.dm:135:error: usr.Sequipped: undefined var
+dm\SteelToolsEquip.dm:136:error: usr.LSequipped: undefined var
+dm\SteelToolsEquip.dm:137:error: usr.AXequipped: undefined var
+dm\SteelToolsEquip.dm:138:error: usr.WHequipped: undefined var
+dm\SteelToolsEquip.dm:139:error: usr.JRequipped: undefined var
+dm\SteelToolsEquip.dm:140:error: usr.FPequipped: undefined var
+dm\SteelToolsEquip.dm:141:error: usr.PXequipped: undefined var
+dm\SteelToolsEquip.dm:142:error: usr.SPXequipped: undefined var
+dm\SteelToolsEquip.dm:143:error: usr.SHequipped: undefined var
+dm\SteelToolsEquip.dm:144:error: usr.HMequipped: undefined var
+dm\SteelToolsEquip.dm:145:error: usr.SKequipped: undefined var
+dm\SteelToolsEquip.dm:146:error: usr.HOequipped: undefined var
+dm\SteelToolsEquip.dm:147:error: usr.CKequipped: undefined var
+dm\SteelToolsEquip.dm:148:error: usr.FLequipped: undefined var
+dm\SteelToolsEquip.dm:149:error: usr.PYequipped: undefined var
+dm\SteelToolsEquip.dm:150:error: usr.OKequipped: undefined var
+dm\SteelToolsEquip.dm:151:error: usr.SHMequipped: undefined var
+dm\SteelToolsEquip.dm:152:error: usr.UPKequipped: undefined var
+dm\SteelToolsEquip.dm:153:error: usr.CHequipped: undefined var
+dm\SteelToolsEquip.dm:154:error: usr.TWequipped: undefined var
+dm\SteelToolsEquip.dm:155:error: usr.FIequipped: undefined var
+dm\SteelToolsEquip.dm:156:error: usr.SWequipped: undefined var
+dm\SteelToolsEquip.dm:157:error: usr.WSequipped: undefined var
+dm\SteelToolsEquip.dm:158:error: usr.SSH2equipped: undefined var
+dm\SteelToolsEquip.dm:159:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsEquip.dm:159:error: src.DamageMin: duplicate definition
+dm\SteelToolsEquip.dm:159:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:160:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsEquip.dm:160:error: src.DamageMax: duplicate definition
+dm\SteelToolsEquip.dm:160:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:161:error: usr: undefined var
+dm\SteelToolsEquip.dm:161:error: =: expected a constant expression
+dm\SteelToolsEquip.dm:162:error: M.attackspeed: duplicate definition
+dm\SteelToolsEquip.dm:162:error: src.wpnspd: duplicate definition
+dm\SteelToolsEquip.dm:162:error: -=: instruction not allowed here
+dm\SteelToolsEquip.dm:163:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:132:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:128:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:127:error: : duplicate definition
+dm\SteelToolsEquip.dm:167:error: usr.tempstr: duplicate definition
+dm\SteelToolsEquip.dm:167:error: src.strreq: duplicate definition
+dm\SteelToolsEquip.dm:167:error: >=: instruction not allowed here
+dm\SteelToolsEquip.dm:167:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:168:error: usr.SCHequipped: duplicate definition
+dm\SteelToolsEquip.dm:168:error: 2: duplicate definition
+dm\SteelToolsEquip.dm:168:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:168:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:169:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:169:error: "Unable to use right now.": duplicate definition
+dm\SteelToolsEquip.dm:169:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:170:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:169:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:171:error: usr.SCHequipped: duplicate definition
+dm\SteelToolsEquip.dm:171:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:171:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:171:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:172:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:172:error: "You wield the Steel Chisel.": duplicate definition
+dm\SteelToolsEquip.dm:172:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:173:error: src.suffix: undefined var
+dm\SteelToolsEquip.dm:174:error: usr.Wequipped: undefined var
+dm\SteelToolsEquip.dm:175:error: usr.Sequipped: undefined var
+dm\SteelToolsEquip.dm:176:error: usr.LSequipped: undefined var
+dm\SteelToolsEquip.dm:177:error: usr.AXequipped: undefined var
+dm\SteelToolsEquip.dm:178:error: usr.WHequipped: undefined var
+dm\SteelToolsEquip.dm:179:error: usr.JRequipped: undefined var
+dm\SteelToolsEquip.dm:180:error: usr.FPequipped: undefined var
+dm\SteelToolsEquip.dm:181:error: usr.PXequipped: undefined var
+dm\SteelToolsEquip.dm:182:error: usr.SPXequipped: undefined var
+dm\SteelToolsEquip.dm:183:error: usr.SHequipped: undefined var
+dm\SteelToolsEquip.dm:184:error: usr.HMequipped: undefined var
+dm\SteelToolsEquip.dm:185:error: usr.SKequipped: undefined var
+dm\SteelToolsEquip.dm:186:error: usr.HOequipped: undefined var
+dm\SteelToolsEquip.dm:187:error: usr.CKequipped: undefined var
+dm\SteelToolsEquip.dm:188:error: usr.FLequipped: undefined var
+dm\SteelToolsEquip.dm:189:error: usr.PYequipped: undefined var
+dm\SteelToolsEquip.dm:190:error: usr.OKequipped: undefined var
+dm\SteelToolsEquip.dm:191:error: usr.SHMequipped: undefined var
+dm\SteelToolsEquip.dm:192:error: usr.UPKequipped: undefined var
+dm\SteelToolsEquip.dm:193:error: usr.CHequipped: undefined var
+dm\SteelToolsEquip.dm:194:error: usr.TWequipped: undefined var
+dm\SteelToolsEquip.dm:195:error: usr.FIequipped: undefined var
+dm\SteelToolsEquip.dm:196:error: usr.SWequipped: undefined var
+dm\SteelToolsEquip.dm:197:error: usr.WSequipped: undefined var
+dm\SteelToolsEquip.dm:198:error: usr.SCHequipped: undefined var
+dm\SteelToolsEquip.dm:199:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsEquip.dm:199:error: src.DamageMin: duplicate definition
+dm\SteelToolsEquip.dm:199:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:200:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsEquip.dm:200:error: src.DamageMax: duplicate definition
+dm\SteelToolsEquip.dm:200:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:201:error: usr: undefined var
+dm\SteelToolsEquip.dm:201:error: =: expected a constant expression
+dm\SteelToolsEquip.dm:202:error: M.attackspeed: duplicate definition
+dm\SteelToolsEquip.dm:202:error: src.wpnspd: duplicate definition
+dm\SteelToolsEquip.dm:202:error: -=: instruction not allowed here
+dm\SteelToolsEquip.dm:203:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:172:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:168:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:167:error: : duplicate definition
+dm\SteelToolsEquip.dm:207:error: usr.tempstr: duplicate definition
+dm\SteelToolsEquip.dm:207:error: src.strreq: duplicate definition
+dm\SteelToolsEquip.dm:207:error: >=: instruction not allowed here
+dm\SteelToolsEquip.dm:207:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:208:error: usr.SFIequipped: duplicate definition
+dm\SteelToolsEquip.dm:208:error: 2: duplicate definition
+dm\SteelToolsEquip.dm:208:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:208:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:209:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:209:error: "Unable to use right now.": duplicate definition
+dm\SteelToolsEquip.dm:209:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:210:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:209:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:211:error: usr.SFIequipped: duplicate definition
+dm\SteelToolsEquip.dm:211:error: 0: duplicate definition
+dm\SteelToolsEquip.dm:211:error: ==: instruction not allowed here
+dm\SteelToolsEquip.dm:211:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:212:error: usr: duplicate definition
+dm\SteelToolsEquip.dm:212:error: "You wield the Steel File.": duplicate definition
+dm\SteelToolsEquip.dm:212:error: <<: instruction not allowed here
+dm\SteelToolsEquip.dm:213:error: src.suffix: undefined var
+dm\SteelToolsEquip.dm:214:error: usr.Wequipped: undefined var
+dm\SteelToolsEquip.dm:215:error: usr.Sequipped: undefined var
+dm\SteelToolsEquip.dm:216:error: usr.LSequipped: undefined var
+dm\SteelToolsEquip.dm:217:error: usr.AXequipped: undefined var
+dm\SteelToolsEquip.dm:218:error: usr.WHequipped: undefined var
+dm\SteelToolsEquip.dm:219:error: usr.JRequipped: undefined var
+dm\SteelToolsEquip.dm:220:error: usr.FPequipped: undefined var
+dm\SteelToolsEquip.dm:221:error: usr.PXequipped: undefined var
+dm\SteelToolsEquip.dm:222:error: usr.SPXequipped: undefined var
+dm\SteelToolsEquip.dm:223:error: usr.SHequipped: undefined var
+dm\SteelToolsEquip.dm:224:error: usr.HMequipped: undefined var
+dm\SteelToolsEquip.dm:225:error: usr.SKequipped: undefined var
+dm\SteelToolsEquip.dm:226:error: usr.HOequipped: undefined var
+dm\SteelToolsEquip.dm:227:error: usr.CKequipped: undefined var
+dm\SteelToolsEquip.dm:228:error: usr.FLequipped: undefined var
+dm\SteelToolsEquip.dm:229:error: usr.PYequipped: undefined var
+dm\SteelToolsEquip.dm:230:error: usr.OKequipped: undefined var
+dm\SteelToolsEquip.dm:231:error: usr.SHMequipped: undefined var
+dm\SteelToolsEquip.dm:232:error: usr.UPKequipped: undefined var
+dm\SteelToolsEquip.dm:233:error: usr.CHequipped: undefined var
+dm\SteelToolsEquip.dm:234:error: usr.TWequipped: undefined var
+dm\SteelToolsEquip.dm:235:error: usr.FIequipped: undefined var
+dm\SteelToolsEquip.dm:236:error: usr.SWequipped: undefined var
+dm\SteelToolsEquip.dm:237:error: usr.WSequipped: undefined var
+dm\SteelToolsEquip.dm:238:error: usr.SFIequipped: undefined var
+dm\SteelToolsEquip.dm:239:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsEquip.dm:239:error: src.DamageMin: duplicate definition
+dm\SteelToolsEquip.dm:239:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:240:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsEquip.dm:240:error: src.DamageMax: duplicate definition
+dm\SteelToolsEquip.dm:240:error: +=: duplicate definition
+dm\SteelToolsEquip.dm:241:error: usr: undefined var
+dm\SteelToolsEquip.dm:241:error: =: expected a constant expression
+dm\SteelToolsEquip.dm:242:error: M.attackspeed: duplicate definition
+dm\SteelToolsEquip.dm:242:error: src.wpnspd: duplicate definition
+dm\SteelToolsEquip.dm:242:error: -=: instruction not allowed here
+dm\SteelToolsEquip.dm:243:error: return: instruction not allowed here
+dm\SteelToolsEquip.dm:212:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:208:error: : empty type name (indentation error?)
+dm\SteelToolsEquip.dm:207:error: : duplicate definition
+dm\SteelToolsUnequip.dm:4:error: usr.SPXequipped: duplicate definition
+dm\SteelToolsUnequip.dm:4:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:4:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:4:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:5:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:5:error: src.name: value not allowed here
+dm\SteelToolsUnequip.dm:5:error: text"<font color = teal>You don't have [] equipped!": value not allowed here
+dm\SteelToolsUnequip.dm:6:error: : duplicate definition
+dm\SteelToolsUnequip.dm:5:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:5:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:6:error: usr.SPXequipped: duplicate definition
+dm\SteelToolsUnequip.dm:6:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:6:error: !=: instruction not allowed here
+dm\SteelToolsUnequip.dm:6:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:7:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:7:error: "You holster the steel pickaxe.": duplicate definition
+dm\SteelToolsUnequip.dm:7:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:8:error: src.suffix: undefined var
+dm\SteelToolsUnequip.dm:9:error: usr.Wequipped: undefined var
+dm\SteelToolsUnequip.dm:10:error: usr.Sequipped: undefined var
+dm\SteelToolsUnequip.dm:11:error: usr.LSequipped: undefined var
+dm\SteelToolsUnequip.dm:12:error: usr.AXequipped: undefined var
+dm\SteelToolsUnequip.dm:13:error: usr.WHequipped: undefined var
+dm\SteelToolsUnequip.dm:14:error: usr.JRequipped: undefined var
+dm\SteelToolsUnequip.dm:15:error: usr.FPequipped: undefined var
+dm\SteelToolsUnequip.dm:16:error: usr.PXequipped: undefined var
+dm\SteelToolsUnequip.dm:17:error: usr.SPXequipped: undefined var
+dm\SteelToolsUnequip.dm:18:error: usr.SHequipped: undefined var
+dm\SteelToolsUnequip.dm:19:error: usr.HMequipped: undefined var
+dm\SteelToolsUnequip.dm:20:error: usr.SKequipped: undefined var
+dm\SteelToolsUnequip.dm:21:error: usr.HOequipped: undefined var
+dm\SteelToolsUnequip.dm:22:error: usr.CKequipped: undefined var
+dm\SteelToolsUnequip.dm:23:error: usr.FLequipped: undefined var
+dm\SteelToolsUnequip.dm:24:error: usr.PYequipped: undefined var
+dm\SteelToolsUnequip.dm:25:error: usr.OKequipped: undefined var
+dm\SteelToolsUnequip.dm:26:error: usr.SHMequipped: undefined var
+dm\SteelToolsUnequip.dm:27:error: usr.UPKequipped: undefined var
+dm\SteelToolsUnequip.dm:28:error: usr.CHequipped: undefined var
+dm\SteelToolsUnequip.dm:29:error: usr.TWequipped: undefined var
+dm\SteelToolsUnequip.dm:30:error: usr.FIequipped: undefined var
+dm\SteelToolsUnequip.dm:31:error: usr.SWequipped: undefined var
+dm\SteelToolsUnequip.dm:32:error: usr.WSequipped: undefined var
+dm\SteelToolsUnequip.dm:33:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsUnequip.dm:33:error: src.DamageMin: duplicate definition
+dm\SteelToolsUnequip.dm:33:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:34:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsUnequip.dm:34:error: src.DamageMax: duplicate definition
+dm\SteelToolsUnequip.dm:34:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:35:error: usr: undefined var
+dm\SteelToolsUnequip.dm:35:error: =: expected a constant expression
+dm\SteelToolsUnequip.dm:36:error: M.char_class: duplicate definition
+dm\SteelToolsUnequip.dm:36:error: "Smithy": duplicate definition
+dm\SteelToolsUnequip.dm:36:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:36:error: : empty type name (indentation error?)
+BUG: Unexpected condition in IsForwardReference(.283/else.1.30/=.0)
+dm\SteelToolsUnequip.dm:37:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:38:error: return: instruction not allowed here
+dm\SteelToolsUnequip.dm:7:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:4:error: : duplicate definition
+dm\SteelToolsUnequip.dm:42:error: usr.SHHequipped: duplicate definition
+dm\SteelToolsUnequip.dm:42:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:42:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:42:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:43:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:43:error: src.name: value not allowed here
+dm\SteelToolsUnequip.dm:43:error: text"<font color = teal>You don't have [] equipped!": value not allowed here
+dm\SteelToolsUnequip.dm:44:error: : duplicate definition
+dm\SteelToolsUnequip.dm:43:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:43:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:44:error: usr.SHHequipped: duplicate definition
+dm\SteelToolsUnequip.dm:44:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:44:error: !=: instruction not allowed here
+dm\SteelToolsUnequip.dm:44:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:45:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:45:error: "You stow the steel hammer.": duplicate definition
+dm\SteelToolsUnequip.dm:45:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:46:error: src.suffix: undefined var
+dm\SteelToolsUnequip.dm:47:error: usr.Wequipped: undefined var
+dm\SteelToolsUnequip.dm:48:error: usr.Sequipped: undefined var
+dm\SteelToolsUnequip.dm:49:error: usr.LSequipped: undefined var
+dm\SteelToolsUnequip.dm:50:error: usr.AXequipped: undefined var
+dm\SteelToolsUnequip.dm:51:error: usr.WHequipped: undefined var
+dm\SteelToolsUnequip.dm:52:error: usr.JRequipped: undefined var
+dm\SteelToolsUnequip.dm:53:error: usr.FPequipped: undefined var
+dm\SteelToolsUnequip.dm:54:error: usr.PXequipped: undefined var
+dm\SteelToolsUnequip.dm:55:error: usr.SPXequipped: undefined var
+dm\SteelToolsUnequip.dm:56:error: usr.SHequipped: undefined var
+dm\SteelToolsUnequip.dm:57:error: usr.HMequipped: undefined var
+dm\SteelToolsUnequip.dm:58:error: usr.SKequipped: undefined var
+dm\SteelToolsUnequip.dm:59:error: usr.HOequipped: undefined var
+dm\SteelToolsUnequip.dm:60:error: usr.CKequipped: undefined var
+dm\SteelToolsUnequip.dm:61:error: usr.FLequipped: undefined var
+dm\SteelToolsUnequip.dm:62:error: usr.PYequipped: undefined var
+dm\SteelToolsUnequip.dm:63:error: usr.OKequipped: undefined var
+dm\SteelToolsUnequip.dm:64:error: usr.SHMequipped: undefined var
+dm\SteelToolsUnequip.dm:65:error: usr.UPKequipped: undefined var
+dm\SteelToolsUnequip.dm:66:error: usr.CHequipped: undefined var
+dm\SteelToolsUnequip.dm:67:error: usr.TWequipped: undefined var
+dm\SteelToolsUnequip.dm:68:error: usr.FIequipped: undefined var
+dm\SteelToolsUnequip.dm:69:error: usr.SWequipped: undefined var
+dm\SteelToolsUnequip.dm:70:error: usr.WSequipped: undefined var
+dm\SteelToolsUnequip.dm:71:error: usr.SHHequipped: undefined var
+dm\SteelToolsUnequip.dm:72:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsUnequip.dm:72:error: src.DamageMin: duplicate definition
+dm\SteelToolsUnequip.dm:72:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:73:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsUnequip.dm:73:error: src.DamageMax: duplicate definition
+dm\SteelToolsUnequip.dm:73:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:74:error: usr: undefined var
+dm\SteelToolsUnequip.dm:74:error: =: expected a constant expression
+dm\SteelToolsUnequip.dm:75:error: M.char_class: duplicate definition
+dm\SteelToolsUnequip.dm:75:error: "Smithy": duplicate definition
+dm\SteelToolsUnequip.dm:75:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:75:error: : empty type name (indentation error?)
+BUG: Unexpected condition in IsForwardReference(.284/else.1.31/=.0)
+dm\SteelToolsUnequip.dm:76:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:77:error: return: instruction not allowed here
+dm\SteelToolsUnequip.dm:45:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:42:error: : duplicate definition
+dm\SteelToolsUnequip.dm:81:error: usr.SSHequipped: duplicate definition
+dm\SteelToolsUnequip.dm:81:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:81:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:81:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:82:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:82:error: src.name: value not allowed here
+dm\SteelToolsUnequip.dm:82:error: text"<font color = teal>You don't have [] equipped!": value not allowed here
+dm\SteelToolsUnequip.dm:83:error: : duplicate definition
+dm\SteelToolsUnequip.dm:82:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:82:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:83:error: usr.SSHequipped: duplicate definition
+dm\SteelToolsUnequip.dm:83:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:83:error: !=: instruction not allowed here
+dm\SteelToolsUnequip.dm:83:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:84:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:84:error: "You holster the steel shovel.": duplicate definition
+dm\SteelToolsUnequip.dm:84:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:85:error: src.suffix: undefined var
+dm\SteelToolsUnequip.dm:86:error: usr.Wequipped: undefined var
+dm\SteelToolsUnequip.dm:87:error: usr.Sequipped: undefined var
+dm\SteelToolsUnequip.dm:88:error: usr.LSequipped: undefined var
+dm\SteelToolsUnequip.dm:89:error: usr.AXequipped: undefined var
+dm\SteelToolsUnequip.dm:90:error: usr.WHequipped: undefined var
+dm\SteelToolsUnequip.dm:91:error: usr.JRequipped: undefined var
+dm\SteelToolsUnequip.dm:92:error: usr.FPequipped: undefined var
+dm\SteelToolsUnequip.dm:93:error: usr.PXequipped: undefined var
+dm\SteelToolsUnequip.dm:94:error: usr.SPXequipped: undefined var
+dm\SteelToolsUnequip.dm:95:error: usr.SHequipped: undefined var
+dm\SteelToolsUnequip.dm:96:error: usr.HMequipped: undefined var
+dm\SteelToolsUnequip.dm:97:error: usr.SKequipped: undefined var
+dm\SteelToolsUnequip.dm:98:error: usr.HOequipped: undefined var
+dm\SteelToolsUnequip.dm:99:error: usr.CKequipped: undefined var
+dm\SteelToolsUnequip.dm:100:error: usr.FLequipped: undefined var
+dm\SteelToolsUnequip.dm:101:error: usr.PYequipped: undefined var
+dm\SteelToolsUnequip.dm:102:error: usr.OKequipped: undefined var
+dm\SteelToolsUnequip.dm:103:error: usr.SHMequipped: undefined var
+dm\SteelToolsUnequip.dm:104:error: usr.UPKequipped: undefined var
+dm\SteelToolsUnequip.dm:105:error: usr.CHequipped: undefined var
+dm\SteelToolsUnequip.dm:106:error: usr.TWequipped: undefined var
+dm\SteelToolsUnequip.dm:107:error: usr.FIequipped: undefined var
+dm\SteelToolsUnequip.dm:108:error: usr.SWequipped: undefined var
+dm\SteelToolsUnequip.dm:109:error: usr.WSequipped: undefined var
+dm\SteelToolsUnequip.dm:110:error: usr.SSHequipped: undefined var
+dm\SteelToolsUnequip.dm:111:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsUnequip.dm:111:error: src.DamageMin: duplicate definition
+dm\SteelToolsUnequip.dm:111:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:112:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsUnequip.dm:112:error: src.DamageMax: duplicate definition
+dm\SteelToolsUnequip.dm:112:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:113:error: usr: undefined var
+dm\SteelToolsUnequip.dm:113:error: =: expected a constant expression
+dm\SteelToolsUnequip.dm:114:error: M.char_class: duplicate definition
+dm\SteelToolsUnequip.dm:114:error: "Smithy": duplicate definition
+dm\SteelToolsUnequip.dm:114:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:114:error: : empty type name (indentation error?)
+BUG: Unexpected condition in IsForwardReference(.285/else.1.31/=.0)
+dm\SteelToolsUnequip.dm:115:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:116:error: return: instruction not allowed here
+dm\SteelToolsUnequip.dm:84:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:81:error: : duplicate definition
+dm\SteelToolsUnequip.dm:120:error: usr.SHOequipped: duplicate definition
+dm\SteelToolsUnequip.dm:120:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:120:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:120:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:121:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:121:error: src.name: value not allowed here
+dm\SteelToolsUnequip.dm:121:error: text"<font color = teal>You don't have [] equipped!": value not allowed here
+dm\SteelToolsUnequip.dm:122:error: : duplicate definition
+dm\SteelToolsUnequip.dm:121:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:121:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:122:error: usr.SHOequipped: duplicate definition
+dm\SteelToolsUnequip.dm:122:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:122:error: !=: instruction not allowed here
+dm\SteelToolsUnequip.dm:122:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:123:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:123:error: "You holster the steel hoe.": duplicate definition
+dm\SteelToolsUnequip.dm:123:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:124:error: src.suffix: undefined var
+dm\SteelToolsUnequip.dm:125:error: usr.Wequipped: undefined var
+dm\SteelToolsUnequip.dm:126:error: usr.Sequipped: undefined var
+dm\SteelToolsUnequip.dm:127:error: usr.LSequipped: undefined var
+dm\SteelToolsUnequip.dm:128:error: usr.AXequipped: undefined var
+dm\SteelToolsUnequip.dm:129:error: usr.WHequipped: undefined var
+dm\SteelToolsUnequip.dm:130:error: usr.JRequipped: undefined var
+dm\SteelToolsUnequip.dm:131:error: usr.FPequipped: undefined var
+dm\SteelToolsUnequip.dm:132:error: usr.PXequipped: undefined var
+dm\SteelToolsUnequip.dm:133:error: usr.SPXequipped: undefined var
+dm\SteelToolsUnequip.dm:134:error: usr.SHequipped: undefined var
+dm\SteelToolsUnequip.dm:135:error: usr.HMequipped: undefined var
+dm\SteelToolsUnequip.dm:136:error: usr.SKequipped: undefined var
+dm\SteelToolsUnequip.dm:137:error: usr.HOequipped: undefined var
+dm\SteelToolsUnequip.dm:138:error: usr.CKequipped: undefined var
+dm\SteelToolsUnequip.dm:139:error: usr.FLequipped: undefined var
+dm\SteelToolsUnequip.dm:140:error: usr.PYequipped: undefined var
+dm\SteelToolsUnequip.dm:141:error: usr.OKequipped: undefined var
+dm\SteelToolsUnequip.dm:142:error: usr.SHMequipped: undefined var
+dm\SteelToolsUnequip.dm:143:error: usr.UPKequipped: undefined var
+dm\SteelToolsUnequip.dm:144:error: usr.CHequipped: undefined var
+dm\SteelToolsUnequip.dm:145:error: usr.TWequipped: undefined var
+dm\SteelToolsUnequip.dm:146:error: usr.FIequipped: undefined var
+dm\SteelToolsUnequip.dm:147:error: usr.SWequipped: undefined var
+dm\SteelToolsUnequip.dm:148:error: usr.WSequipped: undefined var
+dm\SteelToolsUnequip.dm:149:error: usr.SHOequipped: undefined var
+dm\SteelToolsUnequip.dm:150:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsUnequip.dm:150:error: src.DamageMin: duplicate definition
+dm\SteelToolsUnequip.dm:150:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:151:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsUnequip.dm:151:error: src.DamageMax: duplicate definition
+dm\SteelToolsUnequip.dm:151:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:152:error: usr: undefined var
+dm\SteelToolsUnequip.dm:152:error: =: expected a constant expression
+dm\SteelToolsUnequip.dm:153:error: M.char_class: duplicate definition
+dm\SteelToolsUnequip.dm:153:error: "Smithy": duplicate definition
+dm\SteelToolsUnequip.dm:153:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:153:error: : empty type name (indentation error?)
+BUG: Unexpected condition in IsForwardReference(.286/else.1.31/=.0)
+dm\SteelToolsUnequip.dm:154:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:155:error: return: instruction not allowed here
+dm\SteelToolsUnequip.dm:123:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:120:error: : duplicate definition
+dm\SteelToolsUnequip.dm:159:error: usr.SSH2equipped: duplicate definition
+dm\SteelToolsUnequip.dm:159:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:159:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:159:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:160:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:160:error: src.name: value not allowed here
+dm\SteelToolsUnequip.dm:160:error: text"<font color = teal>You don't have [] equipped!": value not allowed here
+dm\SteelToolsUnequip.dm:161:error: : duplicate definition
+dm\SteelToolsUnequip.dm:160:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:160:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:161:error: usr.SSH2equipped: duplicate definition
+dm\SteelToolsUnequip.dm:161:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:161:error: !=: instruction not allowed here
+dm\SteelToolsUnequip.dm:161:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:162:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:162:error: "You stow the steel sickle.": duplicate definition
+dm\SteelToolsUnequip.dm:162:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:163:error: src.suffix: undefined var
+dm\SteelToolsUnequip.dm:164:error: usr.Wequipped: undefined var
+dm\SteelToolsUnequip.dm:165:error: usr.Sequipped: undefined var
+dm\SteelToolsUnequip.dm:166:error: usr.LSequipped: undefined var
+dm\SteelToolsUnequip.dm:167:error: usr.AXequipped: undefined var
+dm\SteelToolsUnequip.dm:168:error: usr.WHequipped: undefined var
+dm\SteelToolsUnequip.dm:169:error: usr.JRequipped: undefined var
+dm\SteelToolsUnequip.dm:170:error: usr.FPequipped: undefined var
+dm\SteelToolsUnequip.dm:171:error: usr.PXequipped: undefined var
+dm\SteelToolsUnequip.dm:172:error: usr.SPXequipped: undefined var
+dm\SteelToolsUnequip.dm:173:error: usr.SHequipped: undefined var
+dm\SteelToolsUnequip.dm:174:error: usr.HMequipped: undefined var
+dm\SteelToolsUnequip.dm:175:error: usr.SKequipped: undefined var
+dm\SteelToolsUnequip.dm:176:error: usr.HOequipped: undefined var
+dm\SteelToolsUnequip.dm:177:error: usr.CKequipped: undefined var
+dm\SteelToolsUnequip.dm:178:error: usr.FLequipped: undefined var
+dm\SteelToolsUnequip.dm:179:error: usr.PYequipped: undefined var
+dm\SteelToolsUnequip.dm:180:error: usr.OKequipped: undefined var
+dm\SteelToolsUnequip.dm:181:error: usr.SHMequipped: undefined var
+dm\SteelToolsUnequip.dm:182:error: usr.UPKequipped: undefined var
+dm\SteelToolsUnequip.dm:183:error: usr.CHequipped: undefined var
+dm\SteelToolsUnequip.dm:184:error: usr.TWequipped: undefined var
+dm\SteelToolsUnequip.dm:185:error: usr.FIequipped: undefined var
+dm\SteelToolsUnequip.dm:186:error: usr.SWequipped: undefined var
+dm\SteelToolsUnequip.dm:187:error: usr.WSequipped: undefined var
+dm\SteelToolsUnequip.dm:188:error: usr.SSH2equipped: undefined var
+dm\SteelToolsUnequip.dm:189:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsUnequip.dm:189:error: src.DamageMin: duplicate definition
+dm\SteelToolsUnequip.dm:189:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:190:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsUnequip.dm:190:error: src.DamageMax: duplicate definition
+dm\SteelToolsUnequip.dm:190:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:191:error: usr: undefined var
+dm\SteelToolsUnequip.dm:191:error: =: expected a constant expression
+dm\SteelToolsUnequip.dm:192:error: M.char_class: duplicate definition
+dm\SteelToolsUnequip.dm:192:error: "Smithy": duplicate definition
+dm\SteelToolsUnequip.dm:192:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:192:error: : empty type name (indentation error?)
+BUG: Unexpected condition in IsForwardReference(.287/else.1.31/=.0)
+dm\SteelToolsUnequip.dm:193:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:194:error: return: instruction not allowed here
+dm\SteelToolsUnequip.dm:162:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:159:error: : duplicate definition
+dm\SteelToolsUnequip.dm:198:error: usr.SCHequipped: duplicate definition
+dm\SteelToolsUnequip.dm:198:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:198:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:198:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:199:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:199:error: src.name: value not allowed here
+dm\SteelToolsUnequip.dm:199:error: text"<font color = teal>You don't have [] equipped!": value not allowed here
+dm\SteelToolsUnequip.dm:200:error: : duplicate definition
+dm\SteelToolsUnequip.dm:199:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:199:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:200:error: usr.SCHequipped: duplicate definition
+dm\SteelToolsUnequip.dm:200:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:200:error: !=: instruction not allowed here
+dm\SteelToolsUnequip.dm:200:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:201:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:201:error: "You stow the steel chisel.": duplicate definition
+dm\SteelToolsUnequip.dm:201:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:202:error: src.suffix: undefined var
+dm\SteelToolsUnequip.dm:203:error: usr.Wequipped: undefined var
+dm\SteelToolsUnequip.dm:204:error: usr.Sequipped: undefined var
+dm\SteelToolsUnequip.dm:205:error: usr.LSequipped: undefined var
+dm\SteelToolsUnequip.dm:206:error: usr.AXequipped: undefined var
+dm\SteelToolsUnequip.dm:207:error: usr.WHequipped: undefined var
+dm\SteelToolsUnequip.dm:208:error: usr.JRequipped: undefined var
+dm\SteelToolsUnequip.dm:209:error: usr.FPequipped: undefined var
+dm\SteelToolsUnequip.dm:210:error: usr.PXequipped: undefined var
+dm\SteelToolsUnequip.dm:211:error: usr.SPXequipped: undefined var
+dm\SteelToolsUnequip.dm:212:error: usr.SHequipped: undefined var
+dm\SteelToolsUnequip.dm:213:error: usr.HMequipped: undefined var
+dm\SteelToolsUnequip.dm:214:error: usr.SKequipped: undefined var
+dm\SteelToolsUnequip.dm:215:error: usr.HOequipped: undefined var
+dm\SteelToolsUnequip.dm:216:error: usr.CKequipped: undefined var
+dm\SteelToolsUnequip.dm:217:error: usr.FLequipped: undefined var
+dm\SteelToolsUnequip.dm:218:error: usr.PYequipped: undefined var
+dm\SteelToolsUnequip.dm:219:error: usr.OKequipped: undefined var
+dm\SteelToolsUnequip.dm:220:error: usr.SHMequipped: undefined var
+dm\SteelToolsUnequip.dm:221:error: usr.UPKequipped: undefined var
+dm\SteelToolsUnequip.dm:222:error: usr.CHequipped: undefined var
+dm\SteelToolsUnequip.dm:223:error: usr.TWequipped: undefined var
+dm\SteelToolsUnequip.dm:224:error: usr.FIequipped: undefined var
+dm\SteelToolsUnequip.dm:225:error: usr.SWequipped: undefined var
+dm\SteelToolsUnequip.dm:226:error: usr.WSequipped: undefined var
+dm\SteelToolsUnequip.dm:227:error: usr.SCHequipped: undefined var
+dm\SteelToolsUnequip.dm:228:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsUnequip.dm:228:error: src.DamageMin: duplicate definition
+dm\SteelToolsUnequip.dm:228:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:229:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsUnequip.dm:229:error: src.DamageMax: duplicate definition
+dm\SteelToolsUnequip.dm:229:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:230:error: usr: undefined var
+dm\SteelToolsUnequip.dm:230:error: =: expected a constant expression
+dm\SteelToolsUnequip.dm:231:error: M.char_class: duplicate definition
+dm\SteelToolsUnequip.dm:231:error: "Smithy": duplicate definition
+dm\SteelToolsUnequip.dm:231:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:231:error: : empty type name (indentation error?)
+BUG: Unexpected condition in IsForwardReference(.288/else.1.31/=.0)
+dm\SteelToolsUnequip.dm:232:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:233:error: return: instruction not allowed here
+dm\SteelToolsUnequip.dm:201:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:198:error: : duplicate definition
+dm\SteelToolsUnequip.dm:237:error: usr.SFIequipped: duplicate definition
+dm\SteelToolsUnequip.dm:237:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:237:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:237:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:238:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:238:error: src.name: value not allowed here
+dm\SteelToolsUnequip.dm:238:error: text"<font color = teal>You don't have [] equipped!": value not allowed here
+dm\SteelToolsUnequip.dm:239:error: : duplicate definition
+dm\SteelToolsUnequip.dm:238:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:238:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:239:error: usr.SFIequipped: duplicate definition
+dm\SteelToolsUnequip.dm:239:error: 0: duplicate definition
+dm\SteelToolsUnequip.dm:239:error: !=: instruction not allowed here
+dm\SteelToolsUnequip.dm:239:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:240:error: usr: duplicate definition
+dm\SteelToolsUnequip.dm:240:error: "You stow the steel file.": duplicate definition
+dm\SteelToolsUnequip.dm:240:error: <<: instruction not allowed here
+dm\SteelToolsUnequip.dm:241:error: src.suffix: undefined var
+dm\SteelToolsUnequip.dm:242:error: usr.Wequipped: undefined var
+dm\SteelToolsUnequip.dm:243:error: usr.Sequipped: undefined var
+dm\SteelToolsUnequip.dm:244:error: usr.LSequipped: undefined var
+dm\SteelToolsUnequip.dm:245:error: usr.AXequipped: undefined var
+dm\SteelToolsUnequip.dm:246:error: usr.WHequipped: undefined var
+dm\SteelToolsUnequip.dm:247:error: usr.JRequipped: undefined var
+dm\SteelToolsUnequip.dm:248:error: usr.FPequipped: undefined var
+dm\SteelToolsUnequip.dm:249:error: usr.PXequipped: undefined var
+dm\SteelToolsUnequip.dm:250:error: usr.SPXequipped: undefined var
+dm\SteelToolsUnequip.dm:251:error: usr.SHequipped: undefined var
+dm\SteelToolsUnequip.dm:252:error: usr.HMequipped: undefined var
+dm\SteelToolsUnequip.dm:253:error: usr.SKequipped: undefined var
+dm\SteelToolsUnequip.dm:254:error: usr.HOequipped: undefined var
+dm\SteelToolsUnequip.dm:255:error: usr.CKequipped: undefined var
+dm\SteelToolsUnequip.dm:256:error: usr.FLequipped: undefined var
+dm\SteelToolsUnequip.dm:257:error: usr.PYequipped: undefined var
+dm\SteelToolsUnequip.dm:258:error: usr.OKequipped: undefined var
+dm\SteelToolsUnequip.dm:259:error: usr.SHMequipped: undefined var
+dm\SteelToolsUnequip.dm:260:error: usr.UPKequipped: undefined var
+dm\SteelToolsUnequip.dm:261:error: usr.CHequipped: undefined var
+dm\SteelToolsUnequip.dm:262:error: usr.TWequipped: undefined var
+dm\SteelToolsUnequip.dm:263:error: usr.FIequipped: undefined var
+dm\SteelToolsUnequip.dm:264:error: usr.SWequipped: undefined var
+dm\SteelToolsUnequip.dm:265:error: usr.WSequipped: undefined var
+dm\SteelToolsUnequip.dm:266:error: usr.SFIequipped: undefined var
+dm\SteelToolsUnequip.dm:267:error: usr.tempdamagemin: duplicate definition
+dm\SteelToolsUnequip.dm:267:error: src.DamageMin: duplicate definition
+dm\SteelToolsUnequip.dm:267:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:268:error: usr.tempdamagemax: duplicate definition
+dm\SteelToolsUnequip.dm:268:error: src.DamageMax: duplicate definition
+dm\SteelToolsUnequip.dm:268:error: -=: duplicate definition
+dm\SteelToolsUnequip.dm:269:error: usr: undefined var
+dm\SteelToolsUnequip.dm:269:error: =: expected a constant expression
+dm\SteelToolsUnequip.dm:270:error: M.char_class: duplicate definition
+dm\SteelToolsUnequip.dm:270:error: "Smithy": duplicate definition
+dm\SteelToolsUnequip.dm:270:error: ==: instruction not allowed here
+dm\SteelToolsUnequip.dm:270:error: : empty type name (indentation error?)
+BUG: Unexpected condition in IsForwardReference(.289/else.1.31/=.0)
+dm\SteelToolsUnequip.dm:271:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:272:error: return: instruction not allowed here
+dm\SteelToolsUnequip.dm:240:error: : empty type name (indentation error?)
+dm\SteelToolsUnequip.dm:237:error: : duplicate definition
+dm\time.dm:12:error: hour: duplicate definition
+dm\time24h.dm:13:error: hour: previous definition
+dm\time.dm:13:error: ampm: duplicate definition
+dm\time24h.dm:14:error: ampm: previous definition
+dm\time.dm:16:error: day: duplicate definition
+dm\time24h.dm:18:error: day: previous definition
+dm\time.dm:17:error: month: duplicate definition
+dm\time24h.dm:19:error: month: previous definition
+dm\time.dm:19:error: year: duplicate definition
+dm\time24h.dm:20:error: year: previous definition
+dm\time.dm:22:error: wo: duplicate definition
+dm\time24h.dm:22:error: wo: previous definition
+dm\time24h.dm:17:error: minute: duplicate definition
+dm\timeRH.dm:17:error: minute: previous definition
+dm\timeRH.dm:12:error: time_of_day: duplicate definition
+dm\timeRH.dm:13:error: hour: duplicate definition
+dm\timeRH.dm:14:error: ampm: duplicate definition
+dm\timeRH.dm:18:error: day: duplicate definition
+dm\timeRH.dm:19:error: month: duplicate definition
+dm\timeRH.dm:20:error: year: duplicate definition
+dm\timeRH.dm:22:error: wo: duplicate definition
+dm\ToolbeltComplete.dm:563:error: Toolbelt_Status: duplicate definition
+dm\ToolbeltMacroIntegration.dm:156:error: Toolbelt_Status: previous definition
+dm\ToolbeltComplete.dm:564:error: =: conflicts with previous definition
+dm\ToolbeltComplete.dm:583:error: src.toolbelt.CreateSlotButtons: undefined proc
+dm\ToolbeltComplete.dm:524:error: UpdateToolbeltDisplay: duplicate definition
+dm\ToolbeltHotbarSystem.dm:990:error: UpdateToolbeltDisplay: previous definition
+dm\ContinentTeleportationSystem.dm:42:warning (no_effect): if: if statement has no effect
+dm\ContinentTeleportationSystem.dm:86:warning (no_effect): if: if statement has no effect
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\SmithingMenuSystem.dm:152:warning (unused_var): amount_needed: variable defined but not used
+dm\SmithingCraftingHandler.dm:102:error: item.stack_amount: undefined var
+dm\SmithingCraftingHandler.dm:126:error: item.stack_amount: undefined var
+dm\SmithingCraftingHandler.dm:127:error: item.stack_amount: undefined var
+dm\SmithingCraftingHandler.dm:128:error: item.RemoveFromStack: undefined proc
+dm\SmithingCraftingHandler.dm:167:warning (unused_var): output_type: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\SQLitePersistenceLayer.dm:1463:warning (unused_var): days_seconds: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:83:warning (unused_var): duration_hours: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:84:warning (unused_var): start_time: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:285:warning (unused_var): auction_end: variable defined but not used
+dm\Phase13A_WorldEventsAndAuctions.dm:532:warning (unused_var): recovery_rate: variable defined but not used
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+dm\ToolbeltComplete.dm:364:error: cache_mode_options.len: undefined var
+dm\ToolbeltComplete.dm:355:error: GetModeOptions: duplicate definition
+dm\ToolbeltHotbarSystem.dm:523:error: GetModeOptions: previous definition
+dm\ToolbeltComplete.dm:434:error: cache_mode_options.Clear: undefined proc
+dm\ToolbeltComplete.dm:474:error: current_tool.name: undefined var
+dm\ToolbeltComplete.dm:229:error: owner.toolbelt.ui.UpdateDisplay: undefined proc
+dm\ToolbeltComplete.dm:283:error: owner.toolbelt.ui.UpdateDisplay: undefined proc
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\PLANT_SOIL_QUALITY_INTEGRATION.dm:28:error: src.loc.soil_type: undefined var
+dm\PLANT_SOIL_QUALITY_INTEGRATION.dm:59:error: src.loc.soil_type: undefined var
+dm\time24h.dm:225:error: : invalid expression
+dm\time24h.dm:290:warning (unused_var): J5a: variable defined but not used
+dm\time24h.dm:295:warning (unused_var): J6a: variable defined but not used
+dm\time24h.dm:360:warning (unused_var): J5a: variable defined but not used
+dm\time24h.dm:365:warning (unused_var): J6a: variable defined but not used
+dm\timeRH.dm:64:error: weather: duplicate definition
+dm\time24h.dm:64:error: weather: previous definition
+dm\timeRH.dm:118:error: time: duplicate definition
+dm\time24h.dm:118:error: time: previous definition
+dm\timeRH.dm:223:error: : invalid expression (1382)
+dm\timeRH.dm:246:error: : invalid expression
+dm\timeRH.dm:311:warning (unused_var): J5a: variable defined but not used
+dm\timeRH.dm:316:warning (unused_var): J6a: variable defined but not used
+dm\timeRH.dm:381:warning (unused_var): J5a: variable defined but not used
+dm\timeRH.dm:386:warning (unused_var): J6a: variable defined but not used
+dm\deed.dm:21:warning (override_before_def): Entered: procedure override precedes definition
+dm\MissingStubs.dm:29:warning (override_before_def): Entered: definition is here
+dm\deed.dm:54:warning (override_before_def): Exited: procedure override precedes definition
+dm\MissingStubs.dm:37:warning (override_before_def): Exited: definition is here
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+Pondera.dmb - 1093 errors, 37 warnings (12/19/25 3:09 pm)
+Total time: 0:01

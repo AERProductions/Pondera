@@ -2,19 +2,15 @@
 
 ## Done
 
-- Created Fl_LightingCore.dm - unified lighting system with registries, terrain integration, and time-of-day cycling
-- Integrated light_emitter datum with pulsing, falloff, expiration, and dynamic intensity calculations
-- Implemented biome-specific lighting (temperate, arctic, desert, swamp, volcanic)
-- Added time-of-day lighting integration for day/night cycles
-- Resolved compilation errors (% operator syntax, duplicate definitions)
-- Successfully integrated with existing Fl_LightEmitters.dm without conflicts
+- Phase 13 + SQLite systems restored (0 errors)
+- 47 additional systems identified that need integration
 
 ## Doing
 
-
+- Restoring lost systems to Pondera.dme
 
 ## Next
 
-- Integrate lighting system with actual time system for dynamic day/night
-- Test lighting visibility at different elevals (elevation system)
-- Add dynamic light updates based on weather system changes
+- Determine which of the 47 systems are critical vs optional
+- Systematically add and fix each system
+- Achieve production build with all essential systems

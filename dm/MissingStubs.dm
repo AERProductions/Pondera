@@ -114,46 +114,53 @@
 
 
 // ============================================================================
-// TOOL INTERFACE PROCS
+// TOOL INTERFACE PROCS - GENERIC /obj/items FALLBACK
 // ============================================================================
+// NOTE: These are fallbacks for items that don't inherit from /obj/items/equipment
+// Most modern items should use the procs in WeaponArmorScalingSystem.dm on /obj/items/equipment
 
 /obj/items/proc/IsBroken()
 	/*
 		Check if tool is broken (durability at 0).
+		Fallback version for non-equipment items.
 	*/
 	if(!istype(src, /obj/items)) return FALSE
-	var/max_dur = src.vars["max_durability"]
-	var/cur_dur = src.vars["current_durability"]
-	if(!max_dur) return FALSE
-	return (cur_dur <= 0)
+	// Try to use max_durability/current_durability if present
+	if(src.vars["max_durability"] && src.vars["current_durability"])
+		return (src.vars["current_durability"] <= 0)
+	// If durability vars not present, assume not broken
+	return FALSE
 
 /obj/items/proc/IsFragile()
 	/*
 		Check if tool is close to breaking.
+		Fallback version for non-equipment items.
 	*/
 	if(!istype(src, /obj/items)) return FALSE
 	var/max_dur = src.vars["max_durability"]
 	var/cur_dur = src.vars["current_durability"]
-	if(!max_dur) return FALSE
+	if(!max_dur || max_dur == 0) return FALSE
 	return (cur_dur < max_dur * 0.2) // Fragile if <20%
 
 /obj/items/proc/GetDurabilityPercent()
 	/*
 		Get durability as percentage (0-100).
+		Fallback version for non-equipment items.
 	*/
 	if(!istype(src, /obj/items)) return 0
 	var/max_dur = src.vars["max_durability"]
 	var/cur_dur = src.vars["current_durability"]
-	if(!max_dur) return 100
+	if(!max_dur || max_dur == 0) return 100
 	return (cur_dur / max_dur) * 100
 
 /obj/items/proc/AttemptUse()
 	/*
 		Attempt to use the tool.
 		Returns TRUE if successful, FALSE if broken.
+		Fallback version for non-equipment items.
 	*/
 	if(IsBroken()) return FALSE
-	// Degrade durability on use
+	// Degrade durability on use if vars present
 	if(src.vars["current_durability"])
 		src.vars["current_durability"]--
 	return TRUE
@@ -185,3 +192,15 @@
 /mob/players/proc/SetHungerLevel(amount)
 	if(character) character.hunger_level = amount
 	return amount
+
+// ============================================================================
+// TOOL DURABILITY PROCS ALREADY DEFINED ABOVE
+// ============================================================================
+// NOTE: IsBroken(), IsFragile(), GetDurabilityPercent(), AttemptUse()
+// are defined on /obj/items/proc above (lines ~138-151)
+
+// ============================================================================
+// TERRAIN WEIGHT VAR
+// ============================================================================
+
+/turf/var/weight = 0  // For movement/pathfinding cost

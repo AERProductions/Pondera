@@ -1,0 +1,25 @@
+"a" = (/turf/wall,/area)
+"b" = (/turf,/area)
+"c" = (/turf/wall/short_wall,/area)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaa
+abbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbba
+abbbbbbbaaaaaaaaaba
+abbbbbbbbbbbbbbbaba
+aaaaabbaabbbbbbbaba
+abbbbbbbaabbbbbbbba
+abbbbbbbaaabbaabbba
+abbbbbbbbbbbbbaabba
+abbbbbbbbbbbbbbbbaa
+abbbbaaaaabbaaaaaaa
+abbbaabbbbbbabbbbba
+abbaabbbbcbbbbbbbba
+aabbbbbbbbbbbbbbbba
+aaabbbbbbcbbaabbbba
+abbbbbbbbbbbaaabbba
+abbbbbbbbbbbaaaabba
+abbbbbbbbabbbbbbbaa
+aaaaaaaaaaaaaaaaaaa
+"}

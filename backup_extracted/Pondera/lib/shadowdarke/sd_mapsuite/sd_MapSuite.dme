@@ -1,0 +1,42 @@
+// DM Environment file for sd_MapSuite.dme.
+// All manual changes should be made outside the BEGIN_ and END_ blocks.
+// New source code should be placed in .dm files: choose File/New --> Code File.
+
+// BEGIN_INTERNALS
+// END_INTERNALS
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+// END_FILE_DIR
+
+// BEGIN_PREFERENCES
+// END_PREFERENCES
+
+#define sd_MAP_WALL 0
+#define sd_MAP_EMPTY 1
+#define sd_MAP_PASSAGE 2
+
+// BEGIN_INCLUDE
+#include "files.dm"
+#include "sd_MapMaker.dm"
+#include "sd_MapMatrix.dm"
+#include "sd_MapProcs.dm"
+#include "sd_MapRoom.dm"
+#include "sd_MapSuite.dm"
+#include "MapTypes\ClassicRogue.dm"
+#include "MapTypes\FullMaze.dm"
+#include "MapTypes\Multipath.dm"
+#include "RoomTypes\Diamond.dm"
+#include "RoomTypes\IsoTriangle.dm"
+#include "RoomTypes\MazeRoom.dm"
+#include "RoomTypes\Oval.dm"
+#include "RoomTypes\Rectangle.dm"
+#include "RoomTypes\RoundedRect.dm"
+#include "RoomTypes\Star.dm"
+#ifdef __MAIN__ // BEGIN_DEMO
+#include "demo\demoforms.dm"
+#include "demo\demopresets.dm"
+#include "demo\mapdemo.dm"
+#include "demo\mapdisplaydemo.dm"
+#endif          // END_DEMO
+// END_INCLUDE
+

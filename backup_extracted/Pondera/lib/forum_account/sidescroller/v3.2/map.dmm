@@ -1,0 +1,26 @@
+"a" = (/turf/wall,/area)
+"b" = (/turf,/area)
+"c" = (/turf,/area/pathing)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+abbbbbbbbbbbbbbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbbbbbbbbbbbbbba
+abbbbbbbbbbbbbbbbcccccbcbbbbbba
+abbbbbbbbbbbbbbbcaaaaabacbbbbba
+abbbbbbbbbbbbbbcaabbbbbaacbbbba
+abbbbbbbbbbbbccaabbbcbbbaacbbba
+abbbbbbbbbbbcaaabbcbacbbaaabbca
+abbbbbbbbbbcaaccccacaacbbbbbcaa
+abbcccbbccbaaaaaaaaaaaabbbbbaaa
+acbaaabbaabbbbbbbbbbbbbbbbcbbba
+aacbbbbbbaccccbcccbcccbccbacbba
+aaacbbbbbaaaaabaaabaaabaabaabca
+aaaacbcbbbbbbabbbbbbbbbbbbbbcaa
+aaaaabacbbbbbccccccbbbbbbbbcaaa
+abbbbbbabcbbbaaaaaabcbbbbbcaaaa
+abbbcbbbbacbbabbbbbcabcbbcaaaaa
+abbcabcbbaabcabbbbcaacaccaaaaaa
+accaacacccccaaccccaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+"}

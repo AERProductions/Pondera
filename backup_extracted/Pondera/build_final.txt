@@ -1,0 +1,118 @@
+DM compiler version 516.1673
+loading Pondera.dme
+loading Pondera-Recoded/Interface.dmf
+dm\FishingPoleMinigameSystem.dm:25:error: /obj/items/equipment/tool/Fishing_Pole: undefined type path
+dm\HUDManager.dm:16:error: hud_system.update_all: undefined proc
+dm\ToolbeltUpgrades.dm:197:error: toolbelt.max_slots: undefined var
+dm\ToolbeltUpgrades.dm:198:error: toolbelt.CheckForUpgradedToolbelts: undefined proc
+dm\ToolbeltUpgrades.dm:199:error: toolbelt.max_slots: undefined var
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\ConsumableHotbarSystem.dm:244:error: M.toolbelt.GetSlot: undefined proc
+dm\ContinentTeleportationSystem.dm:42:error: player.main_hud: undefined var
+dm\ContinentTeleportationSystem.dm:44:error: player.main_hud: undefined var
+dm\ContinentTeleportationSystem.dm:86:error: player.main_hud: undefined var
+dm\ContinentTeleportationSystem.dm:88:error: player.main_hud: undefined var
+dm\SQLitePersistenceLayer.dm:181:error: F: undefined type: /file
+dm\SQLitePersistenceLayer.dm:182:error: F.close: undefined type: /file
+dm\SQLitePersistenceLayer.dm:209:error: F: undefined type: /file
+dm\SQLitePersistenceLayer.dm:210:error: F: undefined type: /file
+dm\SQLitePersistenceLayer.dm:211:error: F.close: undefined type: /file
+dm\SQLitePersistenceLayer.dm:293:error: split: undefined proc
+dm\SQLitePersistenceLayer.dm:507:error: worldtime: undefined var
+dm\ToolbeltHotbarSystem.dm:737:error: M.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltHotbarSystem.dm:1036:error: /obj/Dirt_Road: undefined type path
+dm\ToolbeltHotbarSystem.dm:1038:error: /obj/Stone_Road: undefined type path
+dm\ToolbeltHotbarSystem.dm:1040:error: /obj/Brick_Road: undefined type path
+dm\ToolbeltHUDIntegration.dm:13:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:29:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:44:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:55:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:66:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:78:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:82:error: player.main_hud: undefined var
+dm\HotbarItemBinding.dm:55:error: owner.toolbelt.max_slots: undefined var
+dm\HotbarItemBinding.dm:64:error: owner.toolbelt.SetSlot: undefined proc
+dm\HotbarItemBinding.dm:97:error: owner.toolbelt.ClearSlot: undefined proc
+dm\tools.dm:10686:error: /proc/smeltingunlock: undefined type path
+dm\tools.dm:10687:error: /proc/smeltinglevel: undefined type path
+dm\Objects.dm:8871:error: /proc/smeltinglevel: undefined type path
+dm\DayNight.dm:22:error: 'daynight.dmi': cannot find file
+dm\DirectionalLighting.dm:147:error: 'l256.dmi': cannot find file
+dm\Lighting.dm:102:error: 'l256.dmi': cannot find file
+dm\Portals.dm:11:error: 'cli.dmi': cannot find file
+dm\HotbarItemBinding.dm:157:error: src.toolbelt.ShowHotbarStatus: undefined proc
+dm\ToolbeltMacroIntegration.dm:26:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:37:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:48:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:59:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:70:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:81:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:92:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:103:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:114:error: src.toolbelt.ActivateTool: undefined proc
+dm\ToolbeltMacroIntegration.dm:127:error: src.toolbelt.NavigateSelection: undefined proc
+dm\ToolbeltMacroIntegration.dm:138:error: src.toolbelt.NavigateSelection: undefined proc
+dm\ToolbeltMacroIntegration.dm:151:error: src.toolbelt.ConfirmSelection: undefined proc
+dm\ToolbeltMacroIntegration.dm:169:error: src.toolbelt.GetSlot: undefined proc
+dm\ToolbeltMacroIntegration.dm:171:error: src.toolbelt.current_slot: undefined var
+dm\ToolbeltMacroIntegration.dm:176:error: src.toolbelt.active_mode: undefined var
+dm\ToolbeltMacroIntegration.dm:177:error: src.toolbelt.active_mode: undefined var
+dm\CarvingKnifeSystem.dm:28:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:58:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:68:error: knife.AttemptUse: undefined proc
+dm\CarvingKnifeSystem.dm:73:error: knife.IsFragile: undefined proc
+dm\CarvingKnifeSystem.dm:74:error: knife.GetDurabilityPercent: undefined proc
+dm\FishingPoleMinigameSystem.dm:30:error: pole.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:25:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:38:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:39:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:44:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:45:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:61:error: item.GetDurabilityPercent: undefined proc
+dm\ToolDurabilityPersistence.dm:64:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:66:error: item.IsFragile: undefined proc
+dm\Basics.dm:2021:warning (no_effect): if: if statement has no effect
+dm\AnvilCraftingSystem.dm:202:error: hammer_item.AttemptUse: undefined proc
+dm\AnvilCraftingSystem.dm:205:error: hammer_item.IsFragile: undefined proc
+dm\AnvilCraftingSystem.dm:206:error: hammer_item.GetDurabilityPercent: undefined proc
+dm\ContinentLobbyHub.dm:36:warning (unused_var): p1: variable defined but not used
+dm\ContinentLobbyHub.dm:43:warning (unused_var): p2: variable defined but not used
+dm\ContinentLobbyHub.dm:50:warning (unused_var): p3: variable defined but not used
+dm\ContinentTeleportationSystem.dm:48:error: : invalid expression
+dm\ContinentTeleportationSystem.dm:92:error: : invalid expression
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\SQLitePersistenceLayer.dm:178:warning (unused_var): F: variable defined but not used
+dm\SQLitePersistenceLayer.dm:206:warning (unused_var): F: variable defined but not used
+dm\SQLitePersistenceLayer.dm:511:warning (no_effect): : statement has no effect
+dm\SQLitePersistenceLayer.dm:511:warning (unused_label): to: unused label
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\ToolRepairSystem.dm:212:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:212:error: item.IsBroken: undefined proc
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\FishingPoleMinigameSystem.dm:101:error: pole.AttemptUse: undefined proc
+dm\FishingPoleMinigameSystem.dm:106:error: pole.IsFragile: undefined proc
+dm\FishingPoleMinigameSystem.dm:107:error: pole.GetDurabilityPercent: undefined proc
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+dm\ToolRepairSystem.dm:119:error: item.IsBroken: undefined proc
+dm\ToolRepairSystem.dm:188:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:191:error: item.max_durability: undefined var
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\Lighting.dm:114:error: 'l256.dmi': invalid expression
+dm\Lighting.dm:19:error: 'l256.dmi': invalid expression
+dm\Lighting.dm:31:error: 'l256.dmi': invalid expression
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+dm\DayNight.dm:63:error: 'daynight.dmi': invalid expression
+Pondera.dmb - 92 errors, 21 warnings (12/16/25 2:38 pm)
+Total time: 0:01

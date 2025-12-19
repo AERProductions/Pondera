@@ -98,6 +98,10 @@
 		// === DEATH PENALTY SYSTEM ===
 		// Two-death system: First death = fainted, Second death = permanent
 		death_count = 0                      // Counter: 0 = alive, 1 = first death (fainted), 2+ = permanent
+		
+		// === SURVIVAL STATS ===
+		stamina_level = 100                  // Stamina (0-100)
+		hunger_level = 100                   // Hunger (0-100)
 		is_fainted = 0                       // Flag: 0 = alive, 1 = fainted, 2 = permanently dead
 		death_marks = list()                 // Per-continent death marks: death_marks["story"] = 1, etc
 		home_point = null                    // Turf reference for respawn location (set via compass or NPC)

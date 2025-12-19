@@ -1,0 +1,851 @@
+macro "macros"
+	elem 
+		name = "Return"
+		command = ".output input1 *Type here to chat"
+	elem 
+		name = "Space"
+		command = "Jump"
+	elem "west"
+		name = "West+UP"
+		command = "UPWEST"
+	elem "west"
+		name = "West+REP"
+		command = "DOWNWEST\n.west"
+	elem 
+		name = "North+UP"
+		command = "UPNORTH"
+	elem "north"
+		name = "North+REP"
+		command = "DOWNNORTH\n.north"
+	elem "east"
+		name = "East+UP"
+		command = "UPEAST"
+	elem "east"
+		name = "East+REP"
+		command = "DOWNEAST\n.east"
+	elem 
+		name = "South+UP"
+		command = "UPSOUTH"
+	elem "south"
+		name = "South+REP"
+		command = "DOWNSOUTH\n.south"
+	elem 
+		name = "A+REP"
+		command = ".west"
+	elem 
+		name = "C"
+		command = "Stance-Strafe-Mode"
+	elem 
+		name = "D+REP"
+		command = ".east"
+	elem 
+		name = "CTRL+E"
+		command = "Unequip"
+	elem 
+		name = "CTRL+G"
+		command = "Get"
+	elem "south"
+		name = "S+REP"
+		command = ".south"
+	elem 
+		name = "V"
+		command = "Stance-Sprint-Mode"
+	elem 
+		name = "W+REP"
+		command = ".north"
+	elem 
+		name = "X"
+		command = "Stance-Hold-Position"
+	elem 
+		name = "SHIFT"
+		command = "Run"
+
+
+menu "menu"
+	elem 
+		name = "File"
+		command = ""
+		saved-params = "is-checked"
+	elem 
+		name = "Save"
+		command = "save"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Options and Messages"
+		command = ".options"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Reboot"
+		command = ".reboot"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Quit"
+		command = ".quit"
+		category = "File"
+		saved-params = "is-checked"
+	elem "host"
+		name = "Host"
+		command = ".host"
+		category = "File"
+		is-disabled = true
+		saved-params = "is-checked"
+	elem 
+		name = "Fullscreen"
+		command = ".maximize"
+		category = "File"
+		saved-params = "is-checked"
+	elem 
+		name = "Window mode"
+		command = ".normal"
+		category = "File"
+		saved-params = "is-checked"
+
+
+window "default"
+	elem "default"
+		type = MAIN
+		pos = 281,0
+		size = 1336x768
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = #203e29
+		is-visible = false
+		is-default = true
+		saved-params = "size;is-maximized"
+		statusbar = false
+		icon = 'imgs\\cbico.gif'
+		image = 'imgs\\bck2.jpg'
+		transparent-color = #ff00ff
+		macro = "macros"
+		menu = "menu"
+		on-close = "Save"
+	elem "button3"
+		type = BUTTON
+		pos = 1064,680
+		size = 80x56
+		anchor1 = 80,89
+		anchor2 = 86,96
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		is-transparent = true
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\tech.gif'
+		command = "ShowTech"
+		is-flat = true
+	elem "button13"
+		type = BUTTON
+		pos = 968,616
+		size = 56x48
+		anchor1 = 72,80
+		anchor2 = 77,86
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\journ.gif'
+		command = "Write-in-Journal"
+		is-flat = true
+	elem "button15"
+		type = BUTTON
+		pos = 1080,616
+		size = 56x48
+		anchor1 = 81,80
+		anchor2 = 85,86
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\tossj.gif'
+		command = "Toss-Journal"
+		is-flat = true
+	elem "button14"
+		type = BUTTON
+		pos = 1024,616
+		size = 56x48
+		anchor1 = 77,80
+		anchor2 = 81,86
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\readj.gif'
+		command = "Read-Journal"
+		is-flat = true
+	elem "Sow"
+		type = BUTTON
+		pos = 1144,712
+		size = 100x40
+		anchor1 = 86,93
+		anchor2 = 93,98
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\sow2.gif'
+		command = "Sow"
+		is-flat = true
+	elem "Smith"
+		type = BUTTON
+		pos = 1144,573
+		size = 100x40
+		anchor1 = 86,75
+		anchor2 = 93,80
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\smith2.gif'
+		command = "Smith"
+		is-flat = true
+	elem "Smelt"
+		type = BUTTON
+		pos = 1144,618
+		size = 100x40
+		anchor1 = 86,80
+		anchor2 = 93,86
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\smelt2.gif'
+		command = "Smelt"
+		is-flat = true
+	elem "Dig"
+		type = BUTTON
+		pos = 1144,664
+		size = 100x40
+		anchor1 = 86,86
+		anchor2 = 93,92
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\dig2.gif'
+		command = "Dig"
+		is-flat = true
+	elem "Build"
+		type = BUTTON
+		pos = 1144,528
+		size = 100x40
+		anchor1 = 86,69
+		anchor2 = 93,74
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\build1.gif'
+		command = "Build"
+		is-flat = true
+	elem "bar3"
+		type = BAR
+		pos = 287,9
+		size = 680x16
+		anchor1 = 21,1
+		anchor2 = 72,3
+		background-color = #003737
+		is-visible = false
+		saved-params = ""
+		bar-color = #00bbbb
+		is-slider = false
+		dir = east
+	elem "bar1"
+		type = BAR
+		pos = 8,516
+		size = 477x11
+		anchor1 = 1,67
+		anchor2 = 36,69
+		background-color = #000000
+		saved-params = ""
+		bar-color = #56a771
+		is-slider = false
+		dir = east
+		value = 100
+	elem "bar2"
+		type = BAR
+		pos = 491,516
+		size = 477x11
+		anchor1 = 37,67
+		anchor2 = 72,69
+		background-color = #000000
+		saved-params = ""
+		bar-color = #6f89e3
+		is-slider = false
+		dir = east
+		value = 100
+	elem "button12"
+		type = BUTTON
+		pos = 968,571
+		size = 100x40
+		anchor1 = 72,74
+		anchor2 = 80,80
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #d3dd22
+		background-color = #dcdce1
+		is-transparent = true
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\use.gif'
+		command = "Use"
+		is-flat = true
+	elem "button11"
+		type = BUTTON
+		pos = 1256,720
+		size = 64x31
+		anchor1 = 94,94
+		anchor2 = 99,98
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #336443
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\quit.gif'
+		command = ".quit"
+		is-flat = true
+	elem "Save"
+		type = BUTTON
+		pos = 1256,688
+		size = 64x31
+		anchor1 = 94,90
+		anchor2 = 99,94
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #919100
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\save.gif'
+		command = "save"
+		is-flat = true
+	elem "map1"
+		type = MAP
+		pos = 8,13
+		size = 960x502
+		anchor1 = 1,2
+		anchor2 = 72,67
+		text-color = #000000
+		is-default = true
+		drop-zone = false
+		saved-params = "icon-size"
+		letterbox = false
+	elem "input1"
+		type = INPUT
+		pos = 8,696
+		size = 960x56
+		anchor1 = 1,91
+		anchor2 = 72,98
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold"
+		text-color = #dcdce1
+		background-color = #767689
+		is-default = true
+		border = sunken
+		saved-params = ""
+		command = "wsay"
+	elem "whisper"
+		type = BUTTON
+		pos = 968,664
+		size = 96x40
+		anchor1 = 72,86
+		anchor2 = 80,92
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		is-transparent = true
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\whis.gif'
+		command = "Whisper"
+		is-flat = true
+	elem "givebutton"
+		type = BUTTON
+		pos = 1248,656
+		size = 80x24
+		anchor1 = 93,85
+		anchor2 = 99,89
+		font-family = "Book Antiqua"
+		font-size = 9
+		font-style = "bold underline"
+		text-color = #d5d500
+		background-color = #dcdce1
+		is-transparent = true
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\glucre.gif'
+		command = "GiveGold"
+		is-flat = true
+	elem "prtylbutton"
+		type = BUTTON
+		pos = 1248,560
+		size = 80x31
+		anchor1 = 93,73
+		anchor2 = 99,77
+		font-family = "Book Antiqua"
+		font-size = 9
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\party.gif'
+		command = "Party"
+		is-flat = true
+	elem "button2"
+		type = BUTTON
+		pos = 1264,529
+		size = 48x23
+		anchor1 = 95,69
+		anchor2 = 98,72
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\afk.gif'
+		command = "Away"
+		is-flat = true
+	elem "say"
+		type = BUTTON
+		pos = 968,704
+		size = 96x48
+		anchor1 = 72,92
+		anchor2 = 80,98
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		is-transparent = true
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\say.gif'
+		command = "say"
+		is-flat = true
+	elem "output1"
+		type = OUTPUT
+		pos = 8,527
+		size = 960x168
+		anchor1 = 1,69
+		anchor2 = 72,90
+		font-family = "Bodoni MT"
+		font-size = 11
+		font-style = "bold"
+		text-color = #dcdce1
+		background-color = #767689
+		is-default = true
+		border = line
+		saved-params = "max-lines"
+		link-color = #0061c1
+		visited-color = #d7ffd7
+		max-lines = 49
+	elem "info1"
+		type = INFO
+		pos = 975,13
+		size = 351x515
+		anchor1 = 73,2
+		anchor2 = 99,69
+		font-family = "Book Antiqua"
+		font-size = 9
+		font-style = "bold"
+		text-color = #dcdce1
+		background-color = #767689
+		is-default = true
+		drop-zone = false
+		saved-params = ""
+		highlight-color = #9acbaa
+		tab-text-color = #767689
+		tab-background-color = #dcdce1
+		tab-font-family = "Book Antiqua"
+		tab-font-size = 8
+		tab-font-style = "bold underline"
+	elem "button6"
+		type = BUTTON
+		pos = 1248,632
+		size = 80x24
+		anchor1 = 93,82
+		anchor2 = 99,85
+		font-family = "Book Antiqua"
+		font-size = 9
+		font-style = "bold underline"
+		text-color = #d3dd22
+		background-color = #dcdce1
+		is-transparent = true
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\give.gif'
+		command = "GiveItem"
+		is-flat = true
+	elem "button7"
+		type = BUTTON
+		pos = 1248,592
+		size = 80x32
+		anchor1 = 93,77
+		anchor2 = 99,81
+		font-family = "Book Antiqua"
+		font-size = 9
+		font-style = "bold underline"
+		text-color = #b9ffb9
+		background-color = #dcdce1
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\lparty.gif'
+		command = "LeaveParty"
+		is-flat = true
+	elem "button8"
+		type = BUTTON
+		pos = 968,528
+		size = 100x40
+		anchor1 = 72,69
+		anchor2 = 80,74
+		font-family = "Book Antiqua"
+		font-size = 10
+		font-style = "bold underline"
+		text-color = #d3dd22
+		background-color = #dcdce1
+		is-transparent = true
+		saved-params = "is-checked;on-size"
+		text = ""
+		image = 'imgs\\get.gif'
+		command = "Get"
+		is-flat = true
+
+window "loadscrn"
+	elem "loadscrn"
+		type = MAIN
+		pos = 281,0
+		size = 1024x768
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		is-visible = false
+		border = sunken
+		saved-params = "pos;size;is-minimized;is-maximized"
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		image = 'imgs\\splash.jpg'
+		image-mode = center
+
+window "login"
+	elem "login"
+		type = MAIN
+		pos = 281,0
+		size = 400x398
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = #c0c0c0
+		is-visible = false
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Login"
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		image-mode = center
+	elem "Error"
+		type = LABEL
+		pos = 113,237
+		size = 200x34
+		anchor1 = 28,60
+		anchor2 = 78,68
+		text-color = #20b728
+		background-color = #4782da
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "submit"
+		type = BUTTON
+		pos = 115,285
+		size = 200x26
+		anchor1 = 33,66
+		anchor2 = 83,73
+		text-color = #ffffff
+		background-color = #0080ff
+		is-visible = false
+		saved-params = "is-checked"
+		text = "Login"
+		command = "LI"
+		is-flat = true
+	elem "label2"
+		type = LABEL
+		pos = 16,192
+		size = 80x20
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		text-color = #ffffff
+		is-visible = false
+		is-transparent = true
+		saved-params = ""
+		text = "Password:"
+	elem "Password"
+		type = INPUT
+		pos = 113,195
+		size = 200x18
+		anchor1 = 28,49
+		anchor2 = 78,54
+		text-color = #20b728
+		background-color = #4782da
+		saved-params = ""
+		is-password = true
+		no-command = true
+	elem "label1"
+		type = LABEL
+		pos = 16,120
+		size = 80x20
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		text-color = #ffffff
+		is-visible = false
+		is-transparent = true
+		saved-params = ""
+		text = "Username:"
+	elem "Username"
+		type = INPUT
+		pos = 113,119
+		size = 200x19
+		anchor1 = 28,30
+		anchor2 = 78,35
+		text-color = #20b728
+		background-color = #4782da
+		saved-params = ""
+		no-command = true
+
+window "spells"
+	elem "spells"
+		type = MAIN
+		pos = 281,0
+		size = 420x680
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		is-visible = false
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Ancient Tomes"
+		statusbar = false
+		can-minimize = false
+		can-resize = false
+		icon = 'imgs\\spells.png'
+		image = 'imgs\\anctomes.jpg'
+		image-mode = center
+	elem "SpellLabel15"
+		type = LABEL
+		pos = 48,640
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel14"
+		type = LABEL
+		pos = 48,592
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel13"
+		type = LABEL
+		pos = 48,552
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel12"
+		type = LABEL
+		pos = 48,512
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel11"
+		type = LABEL
+		pos = 48,472
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel10"
+		type = LABEL
+		pos = 48,424
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel9"
+		type = LABEL
+		pos = 48,384
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel8"
+		type = LABEL
+		pos = 48,344
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel7"
+		type = LABEL
+		pos = 48,304
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel6"
+		type = LABEL
+		pos = 48,256
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel5"
+		type = LABEL
+		pos = 48,216
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel4"
+		type = LABEL
+		pos = 48,176
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel3"
+		type = LABEL
+		pos = 48,128
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel2"
+		type = LABEL
+		pos = 48,88
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+	elem "SpellLabel1"
+		type = LABEL
+		pos = 48,48
+		size = 368x24
+		anchor1 = 2,4
+		anchor2 = 99,99
+		text-color = #37aa2b
+		is-transparent = true
+		saved-params = ""
+		text = ""
+		text-wrap = true
+
+window "techtree"
+	elem "techtree"
+		type = MAIN
+		pos = 281,0
+		size = 800x1041
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		is-visible = false
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Tech Tree"
+		statusbar = false
+		is-pane = true
+		can-scroll = vertical
+		icon = 'imgs\\tech.gif'
+		image = 'imgs\\tech.jpg'
+		image-mode = tile
+

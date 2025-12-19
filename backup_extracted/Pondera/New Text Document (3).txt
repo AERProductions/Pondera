@@ -1,0 +1,1211 @@
+loading Pondera.dme
+loading Pondera-Recoded/Interface.dmf
+dm\FishingPoleMinigameSystem.dm:25:error: /obj/items/equipment/tool/Fishing_Pole: undefined type path
+dm\HotbarVisualIntegration.dm:27:error: toolbelt: undefined var
+dm\HUDManager.dm:15:error: hud_system: undefined var
+dm\HUDManager.dm:16:error: hud_system.update_all: undefined var
+dm\RangedCombatIntegration.dm:48:error: RANK_ARCHERY: undefined var
+dm\RangedCombatIntegration.dm:49:error: RANK_CROSSBOW: undefined var
+dm\RangedCombatIntegration.dm:50:error: RANK_THROWING: undefined var
+dm\ToolbeltHotbarSystem.dm:1001:error: toolbelt: undefined var
+dm\ToolbeltUpgrades.dm:190:error: toolbelt: undefined var
+dm\ToolbeltUpgrades.dm:197:error: toolbelt.max_slots: undefined var
+dm\ToolbeltUpgrades.dm:198:error: toolbelt.CheckForUpgradedToolbelts: undefined var
+dm\ToolbeltUpgrades.dm:199:error: toolbelt.max_slots: undefined var
+dm\RangedCombatIntegration.dm:177:error: RANK_ARCHERY: undefined var
+dm\BuildingMenuSystem.dm:170:warning (unused_var): amount_needed: variable defined but not used
+dm\CharacterCreationGUI.dm:78:error: player.chargen_data: undefined var
+dm\CharacterCreationGUI.dm:85:error: /ChargenHud/ClassLandscaper: undefined type path
+dm\CharacterCreationGUI.dm:86:error: /ChargenHud/ClassSmithly: undefined type path
+dm\CharacterCreationGUI.dm:92:error: /ChargenHud/GenderMale: undefined type path
+dm\CharacterCreationGUI.dm:93:error: /ChargenHud/GenderFemale: undefined type path
+dm\CharacterCreationGUI.dm:99:error: /ChargenHud/ConfirmCharacter: undefined type path
+dm\CharacterCreationGUI.dm:103:error: obj: undefined type: /ChargenHud
+dm\CharacterCreationGUI.dm:104:error: obj: undefined type: /ChargenHud
+dm\CharacterCreationGUI.dm:105:error: obj: undefined type: /ChargenHud
+dm\ConsumableHotbarSystem.dm:156:error: M.nutrition: undefined var
+dm\ConsumableHotbarSystem.dm:156:error: M.nutrition: undefined var
+dm\ConsumableHotbarSystem.dm:159:error: M.hydration: undefined var
+dm\ConsumableHotbarSystem.dm:159:error: M.hydration: undefined var
+dm\ConsumableHotbarSystem.dm:165:error: M.health: undefined var
+dm\ConsumableHotbarSystem.dm:165:error: M.health: undefined var
+dm\ConsumableHotbarSystem.dm:241:error: M.toolbelt: undefined var
+dm\ConsumableHotbarSystem.dm:244:error: M.toolbelt.GetSlot: undefined var
+dm\ContinentTeleportationSystem.dm:42:error: player.main_hud: undefined var
+dm\ContinentTeleportationSystem.dm:44:error: player.main_hud: undefined var
+dm\ContinentTeleportationSystem.dm:45:error: player.main_hud.update_all: undefined var
+dm\ContinentTeleportationSystem.dm:85:error: player.main_hud: undefined var
+dm\ContinentTeleportationSystem.dm:87:error: player.main_hud: undefined var
+dm\ContinentTeleportationSystem.dm:88:error: player.main_hud.update_all: undefined var
+dm\FishingMinigameSystem.dm:14:error: M.FRequipped: undefined var
+dm\FishingMinigameSystem.dm:55:error: M.FRequipped: undefined var
+dm\FishingMinigameSystem.dm:78:error: M.FRequipped: undefined var
+dm\FishingMinigameSystem.dm:150:error: M.FRequipped: undefined var
+dm\FishingMinigameSystem.dm:183:error: M.FRequipped: undefined var
+dm\FishingMinigameSystem.dm:198:error: M.FRequipped: undefined var
+dm\SQLitePersistenceLayer.dm:181:error: F: undefined type: /file
+dm\SQLitePersistenceLayer.dm:182:error: F.close: undefined type: /file
+dm\SQLitePersistenceLayer.dm:209:error: F: undefined type: /file
+dm\SQLitePersistenceLayer.dm:210:error: F: undefined type: /file
+dm\SQLitePersistenceLayer.dm:211:error: F.close: undefined type: /file
+dm\SQLitePersistenceLayer.dm:293:error: split: undefined proc
+dm\SQLitePersistenceLayer.dm:507:error: worldtime: undefined var
+dm\ToolbeltHotbarSystem.dm:734:error: M.toolbelt: undefined var
+dm\ToolbeltHotbarSystem.dm:737:error: M.toolbelt.ActivateTool: undefined var
+dm\ToolbeltHotbarSystem.dm:749:error: M.toolbelt: undefined var
+dm\ToolbeltHotbarSystem.dm:752:error: M.toolbelt: undefined var
+dm\ToolbeltHUDIntegration.dm:13:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:16:error: player.main_hud.update_toolbelt_display: undefined var
+dm\ToolbeltHUDIntegration.dm:17:error: player.main_hud.update_toolbelt_mode: undefined var
+dm\ToolbeltHUDIntegration.dm:21:error: player.main_hud.add_system_message: undefined var
+dm\ToolbeltHUDIntegration.dm:29:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:32:error: player.main_hud.update_toolbelt_display: undefined var
+dm\ToolbeltHUDIntegration.dm:33:error: player.main_hud.update_toolbelt_mode: undefined var
+dm\ToolbeltHUDIntegration.dm:36:error: player.main_hud.add_system_message: undefined var
+dm\ToolbeltHUDIntegration.dm:44:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:47:error: player.main_hud.update_toolbelt_display: undefined var
+dm\ToolbeltHUDIntegration.dm:55:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:58:error: player.main_hud.extended_hud.toolbelt_hud.update_stamina_warning: undefined var
+dm\ToolbeltHUDIntegration.dm:66:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:69:error: player.main_hud.update_toolbelt_display: undefined var
+dm\ToolbeltHUDIntegration.dm:70:error: player.main_hud.add_system_message: undefined var
+dm\ToolbeltHUDIntegration.dm:78:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:78:error: player.toolbelt: undefined var
+dm\ToolbeltHUDIntegration.dm:82:error: player.main_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:82:error: player.main_hud.extended_hud: undefined var
+dm\ToolbeltHUDIntegration.dm:83:error: player.main_hud.extended_hud.toolbelt_hud.update_hotbar_display: undefined var
+dm\ToolbeltHUDIntegration.dm:84:error: player.toolbelt.max_slots: undefined var
+dm\ToolbeltHUDIntegration.dm:84:error: player.main_hud.add_system_message: undefined var
+dm\ExtendedHUDSubsystems.dm:383:error: inventory: undefined var
+dm\ExtendedHUDSubsystems.dm:384:error: inventory.owner: undefined var
+dm\ExtendedHUDSubsystems.dm:386:error: customization: undefined var
+dm\ExtendedHUDSubsystems.dm:387:error: customization.owner: undefined var
+dm\ExtendedHUDSubsystems.dm:389:error: skills: undefined var
+dm\ExtendedHUDSubsystems.dm:390:error: skills.owner: undefined var
+dm\ExtendedHUDSubsystems.dm:392:error: deeds: undefined var
+dm\ExtendedHUDSubsystems.dm:393:error: deeds.owner: undefined var
+dm\ExtendedHUDSubsystems.dm:395:error: market: undefined var
+dm\ExtendedHUDSubsystems.dm:396:error: market.owner: undefined var
+dm\ExtendedHUDSubsystems.dm:399:error: toolbelt_hud: undefined var
+dm\ExtendedHUDSubsystems.dm:400:error: toolbelt_hud.owner: undefined var
+dm\ExtendedHUDSubsystems.dm:401:error: toolbelt_hud.pos: undefined var
+dm\ExtendedHUDSubsystems.dm:402:error: toolbelt_hud.show_toolbelt: undefined var
+dm\ExtendedHUDSubsystems.dm:406:error: inventory: undefined var
+dm\ExtendedHUDSubsystems.dm:406:error: inventory.show_inventory: undefined var
+dm\ExtendedHUDSubsystems.dm:409:error: customization: undefined var
+dm\ExtendedHUDSubsystems.dm:409:error: customization.show_customization: undefined var
+dm\ExtendedHUDSubsystems.dm:412:error: skills: undefined var
+dm\ExtendedHUDSubsystems.dm:412:error: skills.show_skills: undefined var
+dm\ExtendedHUDSubsystems.dm:415:error: deeds: undefined var
+dm\ExtendedHUDSubsystems.dm:415:error: deeds.show_deeds: undefined var
+dm\ExtendedHUDSubsystems.dm:418:error: market: undefined var
+dm\ExtendedHUDSubsystems.dm:418:error: market.show_market: undefined var
+dm\ExtendedHUDSubsystems.dm:421:error: inventory: undefined var
+dm\ExtendedHUDSubsystems.dm:421:error: inventory.update_inventory_display: undefined var
+dm\ExtendedHUDSubsystems.dm:422:error: skills: undefined var
+dm\ExtendedHUDSubsystems.dm:422:error: skills.update_skills_display: undefined var
+dm\ExtendedHUDSubsystems.dm:423:error: deeds: undefined var
+dm\ExtendedHUDSubsystems.dm:423:error: deeds.update_deeds_display: undefined var
+dm\ExtendedHUDSubsystems.dm:424:error: toolbelt_hud: undefined var
+dm\ExtendedHUDSubsystems.dm:424:error: toolbelt_hud.update_hotbar_display: undefined var
+dm\ExtendedHUDSubsystems.dm:425:error: toolbelt_hud: undefined var
+dm\ExtendedHUDSubsystems.dm:425:error: toolbelt_hud.update_stamina_warning: undefined var
+dm\ExtendedHUDSubsystems.dm:428:error: toolbelt_hud: undefined var
+dm\ExtendedHUDSubsystems.dm:429:error: toolbelt_hud.update_hotbar_display: undefined var
+dm\ExtendedHUDSubsystems.dm:432:error: toolbelt_hud: undefined var
+dm\ExtendedHUDSubsystems.dm:433:error: toolbelt_hud.update_mode_display: undefined var
+dm\ExtendedHUDSubsystems.dm:436:error: inventory: undefined var
+dm\ExtendedHUDSubsystems.dm:436:error: inventory.hide_inventory: undefined var
+dm\ExtendedHUDSubsystems.dm:437:error: customization: undefined var
+dm\ExtendedHUDSubsystems.dm:437:error: customization.hide_customization: undefined var
+dm\ExtendedHUDSubsystems.dm:438:error: skills: undefined var
+dm\ExtendedHUDSubsystems.dm:438:error: skills.hide_skills: undefined var
+dm\ExtendedHUDSubsystems.dm:439:error: deeds: undefined var
+dm\ExtendedHUDSubsystems.dm:439:error: deeds.hide_deeds: undefined var
+dm\ExtendedHUDSubsystems.dm:440:error: market: undefined var
+dm\ExtendedHUDSubsystems.dm:440:error: market.hide_market: undefined var
+dm\ToolbeltHotbarSystem.dm:538:error: GetTerrainMenuOptions: undefined proc
+dm\ToolbeltHotbarSystem.dm:582:error: CreateTerrainObject: undefined proc
+dm\PonderaHUDSystem.dm:418:error: status_bars: undefined var
+dm\PonderaHUDSystem.dm:419:error: status_bars.pos: undefined var
+dm\PonderaHUDSystem.dm:421:error: char_panel: undefined var
+dm\PonderaHUDSystem.dm:422:error: char_panel.pos: undefined var
+dm\PonderaHUDSystem.dm:424:error: continent_selector: undefined var
+dm\PonderaHUDSystem.dm:425:error: continent_selector.pos: undefined var
+dm\PonderaHUDSystem.dm:427:error: equipment_display: undefined var
+dm\PonderaHUDSystem.dm:428:error: equipment_display.pos: undefined var
+dm\PonderaHUDSystem.dm:430:error: quick_menu: undefined var
+dm\PonderaHUDSystem.dm:431:error: quick_menu.pos: undefined var
+dm\PonderaHUDSystem.dm:433:error: system_messages: undefined var
+dm\PonderaHUDSystem.dm:434:error: system_messages.pos: undefined var
+dm\PonderaHUDSystem.dm:437:error: extended_hud: undefined var
+dm\PonderaHUDSystem.dm:449:error: status_bars.update_health: undefined var
+dm\PonderaHUDSystem.dm:450:error: status_bars.update_stamina: undefined var
+dm\PonderaHUDSystem.dm:451:error: status_bars.update_hunger: undefined var
+dm\PonderaHUDSystem.dm:453:error: char_panel.update_character_info: undefined var
+dm\PonderaHUDSystem.dm:454:error: equipment_display.update_equipment_display: undefined var
+dm\PonderaHUDSystem.dm:457:error: extended_hud: undefined var
+dm\PonderaHUDSystem.dm:458:error: extended_hud.update_all: undefined var
+dm\PonderaHUDSystem.dm:461:error: system_messages.add_message: undefined var
+dm\PonderaHUDSystem.dm:464:error: extended_hud: undefined var
+dm\PonderaHUDSystem.dm:465:error: extended_hud.update_toolbelt_display: undefined var
+dm\PonderaHUDSystem.dm:468:error: extended_hud: undefined var
+dm\PonderaHUDSystem.dm:469:error: extended_hud.update_toolbelt_mode: undefined var
+dm\PonderaHUDSystem.dm:472:error: status_bars.show: undefined var
+dm\PonderaHUDSystem.dm:473:error: char_panel.show: undefined var
+dm\PonderaHUDSystem.dm:474:error: continent_selector.show: undefined var
+dm\PonderaHUDSystem.dm:475:error: equipment_display.show: undefined var
+dm\PonderaHUDSystem.dm:476:error: quick_menu.show: undefined var
+dm\PonderaHUDSystem.dm:477:error: system_messages.show: undefined var
+dm\PonderaHUDSystem.dm:481:error: status_bars.hide: undefined var
+dm\PonderaHUDSystem.dm:482:error: char_panel.hide: undefined var
+dm\PonderaHUDSystem.dm:483:error: continent_selector.hide: undefined var
+dm\PonderaHUDSystem.dm:484:error: equipment_display.hide: undefined var
+dm\PonderaHUDSystem.dm:485:error: quick_menu.hide: undefined var
+dm\PonderaHUDSystem.dm:486:error: system_messages.hide: undefined var
+dm\HotbarItemBinding.dm:51:error: owner.toolbelt: undefined var
+dm\HotbarItemBinding.dm:55:error: owner.toolbelt.max_slots: undefined var
+dm\HotbarItemBinding.dm:64:error: owner.toolbelt.SetSlot: undefined var
+dm\HotbarItemBinding.dm:89:error: owner.toolbelt: undefined var
+dm\HotbarItemBinding.dm:97:error: owner.toolbelt.ClearSlot: undefined var
+dm\tools.dm:10686:error: /proc/smeltingunlock: undefined type path
+dm\tools.dm:10687:error: /proc/smeltinglevel: undefined type path
+dm\CharacterCreationGUI.dm:20:error: player.chargen_data: undefined var
+dm\CharacterCreationGUI.dm:33:error: player.chargen_data: undefined var
+dm\CharacterCreationGUI.dm:46:error: player.chargen_data: undefined var
+dm\CharacterCreationGUI.dm:59:error: player.chargen_data: undefined var
+dm\CharacterCreationGUI.dm:72:error: player.chargen_data: undefined var
+dm\CharacterCreationGUI.dm:72:error: player.chargen_data: undefined var
+dm\CharacterCreationGUI.dm:73:error: player.chargen_data: undefined var
+dm\Objects.dm:8871:error: /proc/smeltinglevel: undefined type path
+dm\DayNight.dm:22:error: 'daynight.dmi': cannot find file
+dm\DirectionalLighting.dm:147:error: 'l256.dmi': cannot find file
+dm\Lighting.dm:102:error: 'l256.dmi': cannot find file
+dm\Portals.dm:11:error: 'cli.dmi': cannot find file
+dm\HotbarItemBinding.dm:153:error: src.toolbelt: undefined var
+dm\HotbarItemBinding.dm:157:error: src.toolbelt.ShowHotbarStatus: undefined var
+dm\ToolbeltMacroIntegration.dm:23:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:26:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:34:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:37:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:45:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:48:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:56:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:59:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:67:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:70:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:78:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:81:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:89:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:92:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:100:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:103:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:111:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:114:error: src.toolbelt.ActivateTool: undefined var
+dm\ToolbeltMacroIntegration.dm:124:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:127:error: src.toolbelt.NavigateSelection: undefined var
+dm\ToolbeltMacroIntegration.dm:135:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:138:error: src.toolbelt.NavigateSelection: undefined var
+dm\ToolbeltMacroIntegration.dm:148:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:151:error: src.toolbelt.ConfirmSelection: undefined var
+dm\ToolbeltMacroIntegration.dm:160:error: src.toolbelt: undefined var
+dm\ToolbeltMacroIntegration.dm:169:error: src.toolbelt.GetSlot: undefined var
+dm\ToolbeltMacroIntegration.dm:171:error: src.toolbelt.current_slot: undefined var
+dm\ToolbeltMacroIntegration.dm:176:error: src.toolbelt.active_mode: undefined var
+dm\ToolbeltMacroIntegration.dm:177:error: src.toolbelt.active_mode: undefined var
+dm\CarvingKnifeSystem.dm:28:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:58:error: knife.IsBroken: undefined proc
+dm\CarvingKnifeSystem.dm:68:error: knife.AttemptUse: undefined proc
+dm\CarvingKnifeSystem.dm:73:error: knife.IsFragile: undefined proc
+dm\CarvingKnifeSystem.dm:74:error: knife.GetDurabilityPercent: undefined proc
+dm\FishingPoleMinigameSystem.dm:30:error: pole.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:21:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:25:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:34:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:38:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:39:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:44:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:45:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:57:error: item.max_durability: undefined var
+dm\ToolDurabilityPersistence.dm:61:error: item.GetDurabilityPercent: undefined proc
+dm\ToolDurabilityPersistence.dm:64:error: item.IsBroken: undefined proc
+dm\ToolDurabilityPersistence.dm:66:error: item.IsFragile: undefined proc
+dm\Basics.dm:2007:warning (no_effect): if: if statement has no effect
+dm\AnvilCraftingSystem.dm:202:error: hammer_item.AttemptUse: undefined proc
+dm\AnvilCraftingSystem.dm:205:error: hammer_item.IsFragile: undefined proc
+dm\AnvilCraftingSystem.dm:206:error: hammer_item.GetDurabilityPercent: undefined proc
+dm\CharacterCreationGUI.dm:103:warning (unused_var): obj: variable defined but not used
+dm\ContinentLobbyHub.dm:36:warning (unused_var): p1: variable defined but not used
+dm\ContinentLobbyHub.dm:43:warning (unused_var): p2: variable defined but not used
+dm\ContinentLobbyHub.dm:50:warning (unused_var): p3: variable defined but not used
+dm\GatheringToolActivation.dm:253:warning (unused_var): secondary_type: variable defined but not used
+dm\SQLitePersistenceLayer.dm:178:warning (unused_var): F: variable defined but not used
+dm\SQLitePersistenceLayer.dm:206:warning (unused_var): F: variable defined but not used
+dm\SQLitePersistenceLayer.dm:511:warning (no_effect): : statement has no effect
+dm\SQLitePersistenceLayer.dm:511:warning (unused_label): to: unused label
+dm\ToolbeltHotbarSystem.dm:758:warning (unused_label): pass: unused label
+dm\ToolRepairSystem.dm:212:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:212:error: item.IsBroken: undefined proc
+dm\ExtendedHUDSubsystems.dm:208:warning (unused_var): rank_var: variable defined but not used
+dm\ExtendedHUDSubsystems.dm:469:error: owner:toolbelt: undefined var
+dm\ExtendedHUDSubsystems.dm:470:error: owner:toolbelt:max_slots: undefined var
+dm\ExtendedHUDSubsystems.dm:501:error: owner:toolbelt: undefined var
+dm\ExtendedHUDSubsystems.dm:555:error: owner:toolbelt: undefined var
+dm\FishingPoleMinigameSystem.dm:101:error: pole.AttemptUse: undefined proc
+dm\FishingPoleMinigameSystem.dm:106:error: pole.IsFragile: undefined proc
+dm\FishingPoleMinigameSystem.dm:107:error: pole.GetDurabilityPercent: undefined proc
+dm\ToolbeltHotbarSystem.dm:903:warning (unused_var): empty: variable defined but not used
+dm\ToolRepairSystem.dm:119:error: item.IsBroken: undefined proc
+dm\ToolRepairSystem.dm:188:error: item.max_durability: undefined var
+dm\ToolRepairSystem.dm:191:error: item.max_durability: undefined var
+dm\BuildSystemEKeyIntegration.dm:50:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:62:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:73:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:90:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\BuildSystemEKeyIntegration.dm:141:warning (set_at_top): =: assignment of procedural properties takes place at compile-time; move this to the top of the procedure to avoid this warning
+dm\Lighting.dm:114:error: 'l256.dmi': invalid expression
+dm\Lighting.dm:19:error: 'l256.dmi': invalid expression
+dm\Lighting.dm:31:error: 'l256.dmi': invalid expression
+dm\ClimbingMacroIntegration.dm:130:warning (unused_var): rank: variable defined but not used
+dm\ClimbingMacroIntegration.dm:132:warning (unused_var): color: variable defined but not used
+dm\AdvancedTerrainFeatures.dm:58:warning (unused_var): difficulty_mod: variable defined but not used
+dm\DayNight.dm:63:error: 'daynight.dmi': invalid expression
+Pondera.dmb - 251 errors, 22 warnings (12/16/25 2:25 pm)
+*** Begin Log: Tue Dec 16 23:00:28 2025 ***
+Tue Dec 16 23:00:31 2025
+Dream Daemon FAILED to open port 9999!
+
+*** End Log: Tue Dec 16 23:00:44 2025 ***
+
+*** Begin Log: Tue Dec 16 23:04:15 2025 ***
+Tue Dec 16 23:04:18 2025
+Dream Daemon FAILED to open port 9999!
+Dream Daemon FAILED to open port 9999!
+World opened on network port 9999.
+Welcome BYOND! (5.0 Public Version 516.1673)
+[AUDIO] AudioManager initialized - ready for playback
+New debug Debugger!
+═══════════════════════════════════════════════════════════════
+[INIT] World Initialization Starting
+═══════════════════════════════════════════════════════════════
+[INIT] SYSTEM: Rank System Registry (T+0)
+[INIT] ✓ ranks complete (elapsed: 0 ticks)
+[INIT] SYSTEM: Searchable Items Registry (3 ticks) (T+3)
+[INIT] PHASE 1: Time System (T+0)
+[INIT] TimeLoad: Restored state from legacy timesave.sav
+[INIT] ✓ time complete (elapsed: 0 ticks)
+[INIT] SYSTEM: SQLite Persistence Database (2 ticks) (T+0)
+[INIT] PHASE 1B: Crash Recovery (5 ticks) (T+0)
+[INIT] SYSTEM: Server Difficulty Configuration (10 ticks) (T+10)
+[INIT] PHASE 2: Core Infrastructure (50 ticks) (T+0)
+[INIT] PHASE 2B: Audio System & Deed Registry (10 ticks - conditional) (T+45)
+[INIT] PHASE 3: Day/Night & Lighting Cycle (50 ticks) (T+50)
+[INIT] PHASE 4: Special World Systems (100 ticks) (T+50)
+[INIT] PHASE 5: NPC & Recipe Systems (100 ticks) (T+300)
+[INIT] PHASE 6: Economic Systems (15 ticks) (T+375)
+[INIT] PHASE 7: Quality of Life Systems (11 ticks) (T+384)
+Fishing System initialized with 10 fish species
+Lightning System initialized
+Map Save Debug: DEBUG_MAPSAVE is turned off.  No debugging information will be logged
+Sound Manager initialized
+[INIT] ✓ time_advancement complete (elapsed: 0 ticks)
+[INIT] ✓ seasonal_weather complete (elapsed: 1 ticks)
+[SQLite] ==========================================
+[SQLite] Initializing SQLite Database
+[SQLite] ==========================================
+[SQLite] Detecting SQLite architecture...
+[SQLite] ✓ Detected 64-bit (x64) SQLite
+[SQLite] Using architecture: x64 at db/lib/sqlite3_x64.exe
+[SQLite] ✓ Found sqlite3 (x64)
+[SQLite] ✓ Database already exists at: db/pondera.db
+[SQLite] Database not ready - skipping query
+[SQLite WARNING] Missing table: players
+[SQLite WARNING] Schema verification failed - database may be corrupted
+[SQLite] ==========================================
+[SQLite] Database initialization complete ✓
+[SQLite] Ready for character persistence
+[SQLite] ==========================================
+[SUCCESS] SQLite database ready for character persistence
+[INIT] ✓ sqlite complete (elapsed: 3 ticks)
+[CRASH_RECOVERY] Scanning for players needing recovery...
+[INIT] ✓ crash_recovery complete (elapsed: 10 ticks)
+[INIT] ✓ server_difficulty_config complete (elapsed: 10 ticks)
+Server configuration loaded from savefile
+Server difficulty system booted (config loaded from savefile)
+[INIT] ✓ server_difficulty_config complete (elapsed: 10 ticks)
+[INIT] ✓ server_difficulty complete (elapsed: 11 ticks)
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (13,1,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (13,1,1) (/turf/temperate))
+BiomeSpawnResource(Grass (13,1,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (48,3,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (48,3,1) (/turf/temperate))
+BiomeSpawnResource(Grass (48,3,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (74,4,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (74,4,1) (/turf/temperate))
+BiomeSpawnResource(Grass (74,4,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (41,5,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (41,5,1) (/turf/temperate))
+BiomeSpawnResource(Grass (41,5,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (72,5,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (72,5,1) (/turf/temperate))
+BiomeSpawnResource(Grass (72,5,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (97,9,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (97,9,1) (/turf/temperate))
+BiomeSpawnResource(Grass (97,9,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (6,11,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (6,11,1) (/turf/temperate))
+BiomeSpawnResource(Grass (6,11,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (95,13,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (95,13,1) (/turf/temperate))
+BiomeSpawnResource(Grass (95,13,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (34,14,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (34,14,1) (/turf/temperate))
+BiomeSpawnResource(Grass (34,14,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (93,21,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (93,21,1) (/turf/temperate))
+BiomeSpawnResource(Grass (93,21,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (70,22,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (70,22,1) (/turf/temperate))
+BiomeSpawnResource(Grass (70,22,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (38,27,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (38,27,1) (/turf/temperate))
+BiomeSpawnResource(Grass (38,27,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (40,31,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (40,31,1) (/turf/temperate))
+BiomeSpawnResource(Grass (40,31,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (39,32,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (39,32,1) (/turf/temperate))
+BiomeSpawnResource(Grass (39,32,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (64,33,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (64,33,1) (/turf/temperate))
+BiomeSpawnResource(Grass (64,33,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (67,33,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (67,33,1) (/turf/temperate))
+BiomeSpawnResource(Grass (67,33,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (20,34,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (20,34,1) (/turf/temperate))
+BiomeSpawnResource(Grass (20,34,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (27,37,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (27,37,1) (/turf/temperate))
+BiomeSpawnResource(Grass (27,37,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+  usr: null
+  src: Temperate (/datum/biome_definition)
+  call stack:
+Temperate (/datum/biome_definition): SpawnFloralAtTurf(Grass (72,37,1) (/turf/temperate))
+Temperate (/datum/biome_definition): SpawnResourcesOnTurf(Grass (72,37,1) (/turf/temperate))
+BiomeSpawnResource(Grass (72,37,1) (/turf/temperate), "story")
+GenerateMap(15, 15, "story")
+InitializeWorld()
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnDepositsAtTurf (/datum/biome_definition/proc/SpawnDepositsAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,123
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+runtime error: new() called with an object of type /datum/resource_spawn_entry instead of the type path itself
+proc name: SpawnFloralAtTurf (/datum/biome_definition/proc/SpawnFloralAtTurf)
+  source file: mapgen/BiomeRegistrySystem.dm,115
+Fire System Initialized
+[INIT] ✓ infrastructure complete (elapsed: 50 ticks)
+[INIT] DeedDataManager: Checking for existing deeds...
+[INIT] DeedDataManager: No deeds found - lazy initialization deferred
+[INIT] DeedDataManager: Registry will initialize on first deed creation
+[INIT] ✓ lighting complete (elapsed: 50 ticks)
+Town data loaded (24 towns, 329 buildings)
+Verifying town data...
+Town verification complete
+[INIT] ✓ audio_deed complete (elapsed: 55 ticks)
+=== INITIALIZING STORY WORLD ===
+Story world: 5 hubs, 0 ports, 24 total towns
+WARNING: Less than 2 port towns for inter-world travel
+Placing story progression gates...
+Initializing NPC recipe discovery...
+Setting up environmental storytelling...
+Story world initialization complete
+SANDBOX Initializing Sandbox continent...
+SANDBOX Terrain generation configured
+SANDBOX Market stall system initialized
+runtime error: type mismatch: "SANDBOX Sandbox port configure..." + 128
+proc name: SetupSandboxPort (/proc/SetupSandboxPort)
+  source file: dm/SandboxSystem.dm,57
+SANDBOX Sandbox system initialized successfully
+[ASCENSION] Mode initialized - Peaceful realm unlocked for creative players
+runtime error: illegal use of list2args() or named parameters
+proc name: InitializeAscensionModeKnowledge (/proc/InitializeAscensionModeKnowledge)
+  source file: dm/AscensionModeSystem.dm,408
+[INIT] ✓ death_penalty_system complete (elapsed: 280 ticks)
+[INIT] ✓ special_worlds complete (elapsed: 300 ticks)
+runtime error: illegal use of list2args() or named parameters
+proc name: InitializeKnowledgeBase (/proc/InitializeKnowledgeBase)
+  source file: dm/KnowledgeBase.dm,138
+[SANDBOX RECIPE CHAIN] Initialized 10 recipe chains
+[SANDBOX RECIPE CHAIN] Fire gating enabled: 1
+[SANDBOX RECIPE CHAIN] Chains: fire_tools, alloys, refinement, shelter, masonry, infrastructure, damascus, brass, lead, logistics
+[INIT] ✓ food_supply complete (elapsed: 365 ticks)
+Currency Display UI initialized
+Dual Currency System initialized
+Currencies: Lucre (Story), Stone/Metal/Timber (PvP/Kingdom)
+Tradable materials enable kingdom-to-kingdom commerce
+INSPECTION_SYSTEM: Item-recipe mappings built (dynamic population)
+INSPECTION_SYSTEM: Item inspection system initialized
+[INIT] ✓ npc_recipes complete (elapsed: 380 ticks)
+MARKET_ENGINE: Initialized 36 base commodities
+MARKET_ENGINE: Dynamic pricing system initialized
+MARKET_ENHANCED: Dynamic pricing system enhanced with history tracking, elasticity, and seasonal modifiers
+MARKET_ENHANCED: Elasticity tuning complete
+TREASURY_UI: Treasury UI system initialized
+EQUIPMENT_VIS: Visualization system initialized
+MARKET_BOARD: System initialized
+MARKET_BOARD: Listings savefile empty or corrupted
+MARKET_BOARD: Persistence system initialized
+Recipe Discovery Rate Balancing System initialized
+Base skill rate: 1
+NPC discovery rate: 0.8
+Market discovery rate: 0.5
+Daily discovery limit: 10
+[INIT] ✓ ui_event_bus complete (elapsed: 385 ticks)
+Inventory Management Extensions initialized
+[INIT] DeedEconomySystem: Initializing deed transfer and rental systems...
+[INIT] DeedEconomySystem: Ready for Phase 3 economy features
+TERRITORY_SYSTEM: Created 4 default territories
+TERRITORY_SYSTEM: Resource impact system initialized
+SUPPLY_DEMAND: Created 13 default curves
+SUPPLY_DEMAND: System initialized
+TRADING_POST: Created default NPC stalls
+TRADING_POST: UI system initialized
+CRISIS_EVENTS: System initialized
+MARKET_INTEGRATION: System initialized
+PLAYER_ENGAGEMENT: System initialized
+INVEST: Contract check completed
+LEADER: Wealth rankings updated
+GOVERNANCE: Economic governance systems initialized
+[INIT] ✓ quality_of_life complete (elapsed: 395 ticks)
+MATERIALS: Initializing material registries for all continents
+MATERIALS: Sandbox registry initialized (9 materials)
+MATERIALS: Story registry initialized (6 materials, level-gated)
+MATERIALS: PvP registry initialized (4 materials, territory-dependent)
+MATERIALS: Material registries initialized
+MATERIALS: Material registry system initialized
+CRAFTING: Location-gated crafting system initialized
+SCALING: Weapon/armor scaling system initialized
+COMBAT: Special attacks system initialized (7 attacks registered)
+RANKING: PvP ranking system initialized (Season 1)
+═══════════════════════════════════════════════════════════════
+[INIT] World Initialization Complete
+runtime error: type mismatch: "\[INIT] Total startup time: " + 400
+proc name: FinalizeInitialization (/proc/FinalizeInitialization)
+  source file: dm/InitializationManager.dm,315
+[INIT] ✓ AdminCombatVerbs complete (elapsed: 400 ticks)
+[INIT] ✓ CombatHUDSystem complete (elapsed: 400 ticks)
+[INIT] ✓ EnemyAICombatAnimationSystem complete (elapsed: 400 ticks)
+[INIT] ✓ EnvironmentalCombatIntegration complete (elapsed: 400 ticks)
+[INIT] ✓ UnifiedAttackSystemIntegration complete (elapsed: 400 ticks)
+[INIT] ✓ AnimationSystem complete (elapsed: 400 ticks)
+PROGRESSION: Combat progression loop initialized
+runtime error: undefined variable /mob/insects/PLRButterfly/var/anim_is_playing
+proc name: AnimationManager (/proc/AnimationManager)
+  source file: dm/WeaponAnimationSystem.dm,79
+EconomyCombatIntegrationSystem initialized
+Territory created: Kingdom Capital (tier 2, 2500 turfs)
+Territory created: Northern Frontier (tier 1, 1500 turfs)
+Territory created: Creative North (tier 1, 1000 turfs)
+Territory created: Creative South (tier 1, 1000 turfs)
+Territory created: Creative East (tier 1, 1000 turfs)
+Territory created: Creative West (tier 1, 1000 turfs)
+Territory created: Steel Mining Region (tier 1, 800 turfs)
+Territory created: Copper Grove (tier 1, 800 turfs)
+Territory created: Timber Forest (tier 1, 800 turfs)
+Territory created: Crystal Caverns (tier 1, 800 turfs)
+Territory registry initialized: 10 territories
+Territory System initialized: 10 territories
+Territory Defense System initialized
+Territory Wars System initialized
+Guild System initialized
+Seasonal Territory Events System initialized
+Regional Conflict System initialized
+Siege Equipment System initialized
+NPC Garrison System initialized
+[INIT] ✓ OfficerAbilitiesSystem complete (elapsed: 431 ticks)
+[INIT] ✓ officer_loyalty complete (elapsed: 433 ticks)
+[INIT] ✓ ogv_ui complete (elapsed: 434 ticks)
+[INIT] ✓ economy complete (elapsed: 435 ticks)
+MARKET_PRICE: Iron Pickaxe changed 33.3333% (old: 15, new: 10)
+MARKET_PRICE: Steel Sword changed 44.4444% (old: 18, new: 10)
+MARKET_PRICE: Iron Sword changed 50% (old: 20, new: 10)
+MARKET_PRICE: Bronze Sword changed 44.4444% (old: 18, new: 10)
+MARKET_PRICE: Steel Lamp Head changed 33.3333% (old: 15, new: 10)
+MARKET_PRICE: Battle Axe changed 60% (old: 25, new: 10)
+MARKET_PRICE: War Hammer changed 64.2857% (old: 28, new: 10)
+MARKET_PRICE: Long Sword changed 71.4286% (old: 35, new: 10)
+MARKET_PRICE: War Axe changed 75% (old: 40, new: 10)
+MARKET_PRICE: War Maul changed 77.7778% (old: 45, new: 10)
+MARKET_PRICE: Battle Scythe changed 76.1905% (old: 42, new: 10)
+MARKET_PRICE: Iron Armor changed 66.6667% (old: 30, new: 10)
+MARKET_PRICE: Steel Armor changed 77.7778% (old: 45, new: 10)
+MARKET_PRICE: War Armor changed 83.3333% (old: 60, new: 10)
+[DEED] No deeds to save - skipping persistent storage
+Stopped server.
+
+*** End Log: Tue Dec 16 23:05:40 2025 ***
+
+*** Begin Log: Tue Dec 16 23:17:35 2025 ***
+Tue Dec 16 23:17:36 2025
+World opened on network port 9999.
+Welcome BYOND! (5.0 Public Version 516.1673)
+[AUDIO] AudioManager initialized - ready for playback
+New debug Debugger!
+═══════════════════════════════════════════════════════════════
+[INIT] World Initialization Starting
+═══════════════════════════════════════════════════════════════
+[INIT] SYSTEM: Rank System Registry (T+0)
+[INIT] ✓ ranks complete (elapsed: 0 ticks)
+[INIT] SYSTEM: Searchable Items Registry (3 ticks) (T+3)
+[INIT] PHASE 1: Time System (T+0)
+[INIT] TimeLoad: Restored state from legacy timesave.sav
+[INIT] ✓ time complete (elapsed: 0 ticks)
+[INIT] SYSTEM: SQLite Persistence Database (2 ticks) (T+0)
+[INIT] PHASE 1B: Crash Recovery (5 ticks) (T+0)
+[INIT] SYSTEM: Server Difficulty Configuration (10 ticks) (T+10)
+[INIT] PHASE 2: Core Infrastructure (50 ticks) (T+0)
+[INIT] PHASE 2B: Audio System & Deed Registry (10 ticks - conditional) (T+45)
+[INIT] PHASE 3: Day/Night & Lighting Cycle (50 ticks) (T+50)
+[INIT] PHASE 4: Special World Systems (100 ticks) (T+50)
+[INIT] PHASE 5: NPC & Recipe Systems (100 ticks) (T+300)
+[INIT] PHASE 6: Economic Systems (15 ticks) (T+375)
+[INIT] PHASE 7: Quality of Life Systems (11 ticks) (T+384)
+Fishing System initialized with 10 fish species
+Lightning System initialized
+Map Save Debug: DEBUG_MAPSAVE is turned off.  No debugging information will be logged
+Sound Manager initialized
+[INIT] ✓ time_advancement complete (elapsed: 0 ticks)
+[INIT] ✓ seasonal_weather complete (elapsed: 1 ticks)
+[SQLite] ==========================================
+[SQLite] Initializing SQLite Database
+[SQLite] ==========================================
+[SQLite] Detecting SQLite architecture...
+[SQLite] ✓ Detected 64-bit (x64) SQLite
+[SQLite] Using architecture: x64 at db/lib/sqlite3_x64.exe
+[SQLite] ✓ Found sqlite3 (x64)
+[SQLite] ✓ Database already exists at: db/pondera.db
+[SQLite] Database not ready - skipping query
+[SQLite WARNING] Missing table: players
+[SQLite WARNING] Schema verification failed - database may be corrupted
+[SQLite] ==========================================
+[SQLite] Database initialization complete ✓
+[SQLite] Ready for character persistence
+[SQLite] ==========================================
+[SUCCESS] SQLite database ready for character persistence
+[INIT] ✓ sqlite complete (elapsed: 3 ticks)
+[CRASH_RECOVERY] Scanning for players needing recovery...
+[INIT] ✓ crash_recovery complete (elapsed: 10 ticks)
+[INIT] ✓ server_difficulty_config complete (elapsed: 10 ticks)
+Server configuration loaded from savefile
+Server difficulty system booted (config loaded from savefile)
+[INIT] ✓ server_difficulty_config complete (elapsed: 10 ticks)
+[INIT] ✓ server_difficulty complete (elapsed: 11 ticks)
+Fire System Initialized
+[INIT] ✓ infrastructure complete (elapsed: 50 ticks)
+[INIT] DeedDataManager: Checking for existing deeds...
+[INIT] DeedDataManager: No deeds found - lazy initialization deferred
+[INIT] DeedDataManager: Registry will initialize on first deed creation
+[INIT] ✓ lighting complete (elapsed: 50 ticks)
+Town data loaded (24 towns, 329 buildings)
+Verifying town data...
+Town verification complete
+[INIT] ✓ audio_deed complete (elapsed: 55 ticks)
+=== INITIALIZING STORY WORLD ===
+Story world: 5 hubs, 0 ports, 24 total towns
+WARNING: Less than 2 port towns for inter-world travel
+Placing story progression gates...
+Initializing NPC recipe discovery...
+Setting up environmental storytelling...
+Story world initialization complete
+SANDBOX Initializing Sandbox continent...
+SANDBOX Terrain generation configured
+SANDBOX Market stall system initialized
+SANDBOX Sandbox port configured at 128,128
+SANDBOX Sandbox system initialized successfully
+[ASCENSION] Mode initialized - Peaceful realm unlocked for creative players
+[INIT] ✓ death_penalty_system complete (elapsed: 280 ticks)
+[INIT] ✓ special_worlds complete (elapsed: 300 ticks)
+/list Knowledge base initialization disabled - recipe entry system needs BYOND-compliant syntax
+[SANDBOX RECIPE CHAIN] Initialized 10 recipe chains
+[SANDBOX RECIPE CHAIN] Fire gating enabled: 1
+[SANDBOX RECIPE CHAIN] Chains: fire_tools, alloys, refinement, shelter, masonry, infrastructure, damascus, brass, lead, logistics
+[INIT] ✓ food_supply complete (elapsed: 365 ticks)
+Currency Display UI initialized
+Dual Currency System initialized
+Currencies: Lucre (Story), Stone/Metal/Timber (PvP/Kingdom)
+Tradable materials enable kingdom-to-kingdom commerce
+INSPECTION_SYSTEM: Item-recipe mappings built (dynamic population)
+INSPECTION_SYSTEM: Item inspection system initialized
+[INIT] ✓ npc_recipes complete (elapsed: 380 ticks)
+MARKET_ENGINE: Initialized 36 base commodities
+MARKET_ENGINE: Dynamic pricing system initialized
+MARKET_ENHANCED: Dynamic pricing system enhanced with history tracking, elasticity, and seasonal modifiers
+MARKET_ENHANCED: Elasticity tuning complete
+TREASURY_UI: Treasury UI system initialized
+EQUIPMENT_VIS: Visualization system initialized
+MARKET_BOARD: System initialized
+MARKET_BOARD: Listings savefile empty or corrupted
+MARKET_BOARD: Persistence system initialized
+Recipe Discovery Rate Balancing System initialized
+Base skill rate: 1
+NPC discovery rate: 0.8
+Market discovery rate: 0.5
+Daily discovery limit: 10
+[INIT] ✓ ui_event_bus complete (elapsed: 385 ticks)
+Inventory Management Extensions initialized
+[INIT] DeedEconomySystem: Initializing deed transfer and rental systems...
+[INIT] DeedEconomySystem: Ready for Phase 3 economy features
+TERRITORY_SYSTEM: Created 4 default territories
+TERRITORY_SYSTEM: Resource impact system initialized
+SUPPLY_DEMAND: Created 13 default curves
+SUPPLY_DEMAND: System initialized
+TRADING_POST: Created default NPC stalls
+TRADING_POST: UI system initialized
+CRISIS_EVENTS: System initialized
+MARKET_INTEGRATION: System initialized
+PLAYER_ENGAGEMENT: System initialized
+INVEST: Contract check completed
+LEADER: Wealth rankings updated
+GOVERNANCE: Economic governance systems initialized
+[INIT] ✓ quality_of_life complete (elapsed: 395 ticks)
+MATERIALS: Initializing material registries for all continents
+MATERIALS: Sandbox registry initialized (9 materials)
+MATERIALS: Story registry initialized (6 materials, level-gated)
+MATERIALS: PvP registry initialized (4 materials, territory-dependent)
+MATERIALS: Material registries initialized
+MATERIALS: Material registry system initialized
+CRAFTING: Location-gated crafting system initialized
+SCALING: Weapon/armor scaling system initialized
+COMBAT: Special attacks system initialized (7 attacks registered)
+RANKING: PvP ranking system initialized (Season 1)
+═══════════════════════════════════════════════════════════════
+[INIT] World Initialization Complete
+[INIT] Total startup time: 400 ticks
+[INIT] Systems initialized: 18
+═══════════════════════════════════════════════════════════════
+⚠️  WARNING: Phase 'deed_system' did not complete initialization!
+⚠️  WARNING: Phase 'economy' did not complete initialization!
+[INIT] ✓ Found 1 spawn points
+═══════════════════════════════════════════════════════════════
+✅ All critical systems verified
+✅ World is READY for players
+═══════════════════════════════════════════════════════════════
+[INIT] ✓ AdminCombatVerbs complete (elapsed: 400 ticks)
+[INIT] ✓ CombatHUDSystem complete (elapsed: 400 ticks)
+[INIT] ✓ EnemyAICombatAnimationSystem complete (elapsed: 400 ticks)
+[INIT] ✓ EnvironmentalCombatIntegration complete (elapsed: 400 ticks)
+[INIT] ✓ UnifiedAttackSystemIntegration complete (elapsed: 400 ticks)
+[INIT] ✓ AnimationSystem complete (elapsed: 400 ticks)
+PROGRESSION: Combat progression loop initialized
+runtime error: undefined variable /mob/insects/PLRButterfly/var/anim_is_playing
+proc name: AnimationManager (/proc/AnimationManager)
+  source file: dm/WeaponAnimationSystem.dm,79
+  usr: (src)
+  src: null
+  call stack:
+AnimationManager()
+EconomyCombatIntegrationSystem initialized
+Territory created: Kingdom Capital (tier 2, 2500 turfs)
+Territory created: Northern Frontier (tier 1, 1500 turfs)
+Territory created: Creative North (tier 1, 1000 turfs)
+Territory created: Creative South (tier 1, 1000 turfs)
+Territory created: Creative East (tier 1, 1000 turfs)
+Territory created: Creative West (tier 1, 1000 turfs)
+Territory created: Steel Mining Region (tier 1, 800 turfs)
+Territory created: Copper Grove (tier 1, 800 turfs)
+Territory created: Timber Forest (tier 1, 800 turfs)
+Territory created: Crystal Caverns (tier 1, 800 turfs)
+Territory registry initialized: 10 territories
+Territory System initialized: 10 territories
+Territory Defense System initialized
+Territory Wars System initialized
+Guild System initialized
+Seasonal Territory Events System initialized
+Regional Conflict System initialized
+Siege Equipment System initialized
+NPC Garrison System initialized
+[INIT] ✓ OfficerAbilitiesSystem complete (elapsed: 431 ticks)
+[INIT] ✓ officer_loyalty complete (elapsed: 433 ticks)
+[INIT] ✓ ogv_ui complete (elapsed: 434 ticks)
+[INIT] ✓ economy complete (elapsed: 435 ticks)
+MARKET_PRICE: Iron Pickaxe changed 33.3333% (old: 15, new: 10)
+MARKET_PRICE: Steel Sword changed 44.4444% (old: 18, new: 10)
+MARKET_PRICE: Iron Sword changed 50% (old: 20, new: 10)
+MARKET_PRICE: Bronze Sword changed 44.4444% (old: 18, new: 10)
+MARKET_PRICE: Steel Lamp Head changed 33.3333% (old: 15, new: 10)
+MARKET_PRICE: Battle Axe changed 60% (old: 25, new: 10)
+MARKET_PRICE: War Hammer changed 64.2857% (old: 28, new: 10)
+MARKET_PRICE: Long Sword changed 71.4286% (old: 35, new: 10)
+MARKET_PRICE: War Axe changed 75% (old: 40, new: 10)
+MARKET_PRICE: War Maul changed 77.7778% (old: 45, new: 10)
+MARKET_PRICE: Battle Scythe changed 76.1905% (old: 42, new: 10)
+MARKET_PRICE: Iron Armor changed 66.6667% (old: 30, new: 10)
+MARKET_PRICE: Steel Armor changed 77.7778% (old: 45, new: 10)
+MARKET_PRICE: War Armor changed 83.3333% (old: 60, new: 10)
+Town data saved (24 towns, 329 buildings)
+Town data saved (24 towns, 329 buildings)
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+Town data saved (24 towns, 329 buildings)
+Town data saved (24 towns, 329 buildings)
+Town data saved (24 towns, 329 buildings)
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+  usr: (src)
+  src: null
+  call stack:
+GetTerritoryStructures(/datum/territory_claim (/datum/territory_claim))
+ProcessNaturalDecay()
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+runtime error: undefined variable /datum/territory_claim/var/structures
+proc name: GetTerritoryStructures (/proc/GetTerritoryStructures)
+  source file: dm/TerritoryDefenseSystem.dm,169
+Town data saved (24 towns, 329 buildings)
+Town data saved (24 towns, 329 buildings)
+Town data saved (24 towns, 329 buildings)
+[INIT] TimeLoad: Restored state from legacy timesave.sav
+[LOGIN] mob/players/Login() called for test at (0,0,0)
+[CRASH_RECOVERY] Marked aerproductions as online
+[LOGIN] Player marked as online
+[LOGIN] HUD initialized
+[LOGIN] Parent Login() called
+[LOGIN] Systems initialized
+[LOGIN] Calling ShowCharacterCreationGUI(src)
+[LOGIN] GUI shown - returning from Login()
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+runtime error: Cannot read null.drank
+proc name: Stat (/mob/players/Stat)
+  source file: dm/Basics.dm,2010
+[SAVE] Wrote savefile version 3
+[SAVE] Saved character test for AERProductions
+[LOGOUT] Starting cleanup for test (aerproductions)
+[LOGOUT] ✓ Browser UI closed
+[LOGOUT] WARNING: Sound system lists not cleared
+[CRASH_RECOVERY] Marked aerproductions as offline
+[LOGOUT] ⚠️  WARNING: test had errors during cleanup - check log above
+[DEED] No deeds to save - skipping persistent storage
+Stopped server.
+
+*** End Log: Tue Dec 16 23:59:23 2025 ***
+

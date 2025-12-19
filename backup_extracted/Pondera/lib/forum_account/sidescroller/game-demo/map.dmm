@@ -1,0 +1,50 @@
+"a" = (/turf/wall,/area)
+"b" = (/turf,/area)
+"c" = (/turf/ladder,/area)
+"d" = (/mob/platform,/turf,/area)
+"e" = (/turf/wall/ramp_1,/area)
+"f" = (/turf/spikes,/area)
+"g" = (/obj/checkpoint,/turf,/area)
+"h" = (/obj/short_floor,/turf,/area)
+"i" = (/turf/shooter/right,/area)
+"j" = (/turf/shooter,/area)
+"k" = (/turf/wall/ramp_4,/area)
+"l" = (/obj/checkpoint,/turf/finish,/area)
+"m" = (/turf/wall/ramp_3,/area)
+
+(1,1,1) = {"
+aaaaaaaaaaaaaaaaaaabbbbbbbbbbbb
+acbbbbbbbbbbbbbbbbabbbbbbbbbbbb
+acbbbbdbbbbbbbbbbbaaaaaaaaaaaaa
+acbbbbbbebbbbbbbbbabbcbbbbbbbba
+acaffaffaffffadbffabbcbbbbbbbba
+acaaaaaaaaaaaabbaaabbcbgbbbbbba
+acbbbbbbbgbbcabbbcaaacaaahbbbba
+acbbbaaaaaaacafbbcabbcbbafffbba
+abbbbabbbbbbcaabfcaibcbbaaaabba
+adbbbabbbbbbbaaaacabbcbbabbbbba
+abbbbabbbdbbbaccccabbcbjabbbbfa
+affffadbbbbbcabbbbabbcbbabbbbaa
+aaaaaabbabjacabfffaibcbbabbbbba
+abbbbbbbbbbbcabaaaabbcbbadbbbba
+acbafaffakbbcagbbbbbbcbbaffffba
+acaaaaaaaaaaaaaaaaaaaaaaaaaaaba
+acbbbbbbbbbbbbbbbcabbbbbbbbbbba
+acbbbbbbbbbbbbbbbcabaaaaaaaaaaa
+acbbbgbbbbbbbbbbbcabacbbbbbbbba
+aaaaaaabdbbbdbbbacabacaaaaaabba
+acbbbbabbbjaibbbbcabacbbbbbabba
+acaaababbbbbbbbbbcabacbbbbbabla
+acbbagbbbbbbbbbbbcabacbbbbjaaaa
+acbbaaaaaaabbbbbbcababbbbbbbbba
+abbcabbbbbabdbbbbcababbdbbbbbba
+abbcabbbbcafffffbcabadbbbbbbbca
+acbcababbcaaaaaaaaababbdbbbaaca
+acbbababbcbbbacbbbbgabbbbbbbbca
+acbbbbabbcbbbacaaaaaaibbbbbbbca
+aabaabaabcbbbacbcbbbabbbbbbbbca
+abbbbbbbbakbbacbbbbbabbbbmaaaaa
+abbbbbbbbaabbacbbbababbbmaaaaaa
+abbaffbbbbbbaacfffabbbbmaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+"}

@@ -1,0 +1,7 @@
+macro
+	g return "Get"
+	d return "Drop"
+	i return "ToggleInvisibility"
+	l return "ToggleLevelInvis"
+
+//Defined to make using the demo easier

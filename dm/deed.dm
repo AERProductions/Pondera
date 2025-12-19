@@ -5,8 +5,9 @@ region
 
 	deed//a region of deeded land that displays the deed name when entered and exited. Region class requires Forum_Account's Regions library.
 		var
-			saveable = TRUE
-			name = ""//deed name variable
+			//saveable = TRUE  // Already defined in /atom via MPSBWorldSave
+			//name = ""  // Built-in var, use desc or custom var instead
+			deed_name = "" // Deed display name
 			owner = ""
 			zonex = 10
 			zoney = 10

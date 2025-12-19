@@ -1,0 +1,13 @@
+// BEGIN_INTERNALS
+// END_INTERNALS
+// BEGIN_FILE_DIR
+#define FILE_DIR .
+#define FILE_DIR "demo"
+// END_FILE_DIR
+// BEGIN_PREFERENCES
+// END_PREFERENCES
+// BEGIN_INCLUDE
+#include "dmm_suite.dm"
+#include "reader.dm"
+#include "writer.dm"
+// END_INCLUDE
