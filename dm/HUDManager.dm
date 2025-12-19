@@ -27,27 +27,25 @@ mob/players/proc/update_hud()
 mob/players/Login()
 	world.log << "\[LOGIN\] mob/players/Login() called for [src.name] at ([src.x],[src.y],[src.z])"
 	
-	// Set appearance FIRST
+	// Set appearance
 	if(!icon)
 		src.icon = 'dmi/64/char.dmi'
 	if(!icon_state)
 		src.icon_state = "Ffriar"
 	
-	// HIDE BYOND INTERFACE COMPLETELY
+	// Hide stat panel
 	if(client)
-		client.statpanel = ""  // Hide stat panel completely
-		client.statpanel = 0   // Disable all stat panels
-		client.eye = src       // Focus camera on player
-		client.dir = 2         // Disable input for interface
+		client.statpanel = ""
+		client.eye = src
 	
-	// CRITICAL: Validate world initialization before allowing player login
+	// Validate world initialization
 	if(!CanPlayersLogin())
 		world.log << "\[LOGIN\] Player [src.name] rejected - initialization incomplete"
 		src << "⚠️ Server is initializing systems. Please reconnect in a moment."
 		del(src)
 		return
 	
-	// CRASH RECOVERY: Mark player as online for session tracking
+	// Mark player as online
 	MarkPlayerOnline(src)
 	world.log << "\[LOGIN\] Player marked as online"
 	
@@ -55,18 +53,13 @@ mob/players/Login()
 	init_hud()
 	world.log << "\[LOGIN\] HUD initialized"
 	
-	// Call parent Login() - IMPORTANT for standard login hooks
+	// Call parent Login() - standard login hooks
 	..()
 	world.log << "\[LOGIN\] Parent Login() called"
 	
-	// Initialize hunger/thirst
+	// Initialize survival systems
 	InitializeHungerThirstSystem()
 	IntegrateMarketBoardOnLogin(src)
-	world.log << "\[LOGIN\] Systems initialized"
-	
-	// Show character creation GUI immediately (player already on map at this point)
-	world.log << "\[LOGIN\] Calling ShowCharacterCreationGUI(src)"
-	ShowCharacterCreationGUI(src)
-	world.log << "\[LOGIN\] GUI shown - returning from Login()"
+	world.log << "\[LOGIN\] Systems initialized - player ready on map"
 
 
